@@ -1,0 +1,10 @@
+{
+    "^utilisateur/": {
+        "routes": {
+            "utilisateur/login$": {"route": "utilisateurs/utilisateur/login"}, 
+            "utilisateur/logout$": {"route": "utilisateurs/utilisateur/logout"}, 
+            "utilisateur/menu$": {"route": "utilisateurs/utilisateur/menu"}, 
+            "utilisateur/profil$": {"route": "utilisateurs/utilisateur/profil"}
+        }
+    }
+}

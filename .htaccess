@@ -1,0 +1,13 @@
+<Files *.key>
+    Order deny,allow
+    Deny from all
+</Files>
+
+RewriteEngine on
+
+# Si le fichier auquel on tente d'accéder existe (si on veut accéder à une image par exemple)
+# Alors on ne réécrit pas l'URL
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php?args=$1 [QSA,L]
+
+#RewriteRule ^(.*)$ index.php?args=$1

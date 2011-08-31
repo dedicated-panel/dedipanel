@@ -1,0 +1,51 @@
+User:
+  tableName: users
+  columns:
+    id: {type: integer, primary: true, autoincrement: true}
+    pseudo: {type: string(15), notnull: true}
+    email: {type: string(40), email: true, notnull: true}
+    mdp: {type: string(40), notnull: true}
+    lang: {type: string(6), notnull: true, default: fr}
+  relations:
+    Groups: {class: Group, local: id, foreign: id, refClass: GroupUser }
+    
+Group:
+  tableName: groups
+  columns:
+    id: {type: integer, primary: true, autoincrement: true}
+    nom: {type: string(15), notnull: true}
+  relations:
+    GroupRights: { type: many, class: GroupRight, local: id, foreign: group_id }
+    GroupMachines: { type: many, class: GroupMachine, local: id, foreign: group_id }
+
+GroupMachines:
+  tableName: groupmachines
+  columns:
+    group_id: {type: integer, notnull: true}
+    machine_id: {type: integer, notnull: true}
+
+GroupRight:
+  tableName: grouprights
+  columns:
+    id: {type: integer, primary: true, autoincrement: true}
+    group_id: {type: integer, notnull: true}
+    route: string(255)
+    value: {type: bool, default: 1, notnull: true}
+  relations:
+    
+GroupUser:
+  columns:
+    group_id: {type: integer, primary: true}
+    user_id: {type: integer, primary: true}
+  relations:
+    Group: { foreignAlias: GroupUsers, local: group_id, foreign: id }
+    User:  { foreignAlias: GroupUsers, local: user_id, foreign: id  }
+
+#Machine:
+#  tableName: machines
+#  columns:
+#    id: {type: integer, primary: true, autoincrement: true}
+#    ip: {type: integer(15), ip: true, notnull: true}
+#    port: {type: int(5), notnull: true}
+#    user: {type: string(16), notnull: true}
+#    keyfile: {type: string(23), notnull: true}
