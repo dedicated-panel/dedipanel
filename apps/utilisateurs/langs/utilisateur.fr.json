@@ -7,5 +7,7 @@
     "errIdents": "Mauvais pseudo/mot de passe.", 
     
     "Pseudo": "Pseudo", 
-    "Mdp": "Mot de passe"
+    "Mdp": "Mot de passe", 
+    
+    "ConfMdp": "Confirmer votre mot de passe"
 }

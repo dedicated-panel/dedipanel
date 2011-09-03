@@ -174,8 +174,15 @@ class Form {
         $erreurs = self::getErrors($filtres);
         $erreurs = (!empty($erreurs)) ? $erreurs : false;
         
+        // On supprimes les variables qui ont posés problèmes
+        if ($erreurs != false) {
+            foreach ($erreurs AS $err => $val) {
+                unset($filtres[$err]);
+            }
+        }
+        
         // On renvoie un array contenant 2 valeures : le nb d'erreurs & les données filtrés
-        return array($erreurs, $filtres);
+        return array(($erreurs == false ? array() : $erreurs), $filtres);
     }
     
     public static function getErrors($vars) {
