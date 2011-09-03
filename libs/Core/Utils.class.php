@@ -197,7 +197,7 @@ class Form {
 
 // Cette classe permet de gérer et accéder facilement aux variables d'une session
 class Session {
-    public function __construct($name, $lifeTime = 10) {
+    public function __construct($name, $lifeTime = 1800) {
         $this->name = $name;
         $this->lifeTime = $lifeTime;
         
