@@ -67,7 +67,7 @@ class Page extends ApplicationComponent {
             $url .= $vars . '/';
         }
         
-        echo '<a href="' , $baseUrl , $url , '">' , $text , '</a>';
+        echo '<a href="' , $baseUrl , $url , '">' , L::eT($text) , '</a>';
     }
 
     // Renvoie une instance de la classe "Lang"
