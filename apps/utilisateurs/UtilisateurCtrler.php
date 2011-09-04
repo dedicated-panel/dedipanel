@@ -37,11 +37,9 @@ class UtilisateurCtrler extends BaseCtrler {
                     
                     $this->app()->httpResponse()->redirect('utilisateur/menu');
                 }
-                else $erreurs['idents'] = true;
+                else $erreurs[] = 'idents';
             }
         }
-        
-        var_dump($erreurs);
         
         // On affiche le template en transmettant l'array 
         // Contenant les éventuelles erreurs rencontrés
@@ -90,12 +88,15 @@ class UtilisateurCtrler extends BaseCtrler {
             // Si aucun des deux mdp n'est défini c'est que
             // L'utilisateur ne souhaite pas modifier son mdp et donc il n'y a pas d'erreurs
             if (empty($form['mdp']) && empty($form['mdp2'])) {
-                unset($erreurs['mdp'], $erreurs['mdp2']);
+                $mdpErr  = array_search('mdp', $erreurs);
+                $mdp2Err = array_search('mdp2', $erreurs);
+                
+                unset($erreurs[$mdpErr], $erreurs[$mdp2Err]);
                 $form['mdp'] = null;
-            }
+            } 
             // On vérifie que les deux mots de passes correspondent
             elseif ($form['mdp'] != $form['mdp2']) {
-                $erreurs['conf'] = true;
+                $erreurs[] = 'conf';
             }
             
             if (!$erreurs) {

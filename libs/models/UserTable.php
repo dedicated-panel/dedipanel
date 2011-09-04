@@ -34,6 +34,7 @@ class UserTable extends Doctrine_Table
             ->where('id = ?', $uid);
         
         // On modifie le mdp si nécessaire
+        if ($mdp != null) $q->set('mdp', 'SHA1(?)', $mdp);
         
         return $q->execute();
     }
