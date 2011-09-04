@@ -6,6 +6,7 @@ class UtilisateurCtrler extends BaseCtrler {
         // On charge le fichier de traduction commun du module
         $this->lang->loadTraductionFile('apps/utilisateurs/langs/utilisateur');
     }
+    
     // Permet à un utilisateur de se connecter
     protected function runLogin() {
         // On redirige l'utilisateur s'il est déjà connecté
@@ -32,12 +33,15 @@ class UtilisateurCtrler extends BaseCtrler {
                     $this->session->uid = $user['id'];
                     $this->session->pseudo = $user['pseudo'];
                     $this->session->email = $user['email'];
+                    $this->session->lang = $user['lang'];
                     
                     $this->app()->httpResponse()->redirect('utilisateur/menu');
                 }
                 else $erreurs['idents'] = true;
             }
         }
+        
+        var_dump($erreurs);
         
         // On affiche le template en transmettant l'array 
         // Contenant les éventuelles erreurs rencontrés
@@ -72,9 +76,39 @@ class UtilisateurCtrler extends BaseCtrler {
             $this->app()->httpResponse()->redirect('utilisateur/login');
         }
         
-        $erreurs = array();
+        $erreurs = array(); $modif = false;
+        $form = array('pseudo' => $this->session->pseudo, 'email' => $this->session->email);
         
-        $this->page->addTpl('utilisateur/profil', array('erreurs' => $erreurs));
+        if (Form::hasSend()) {
+            list($erreurs, $form) = Form::verifyData(array(
+                'pseudo' => FIELD_TEXT, 
+                'mdp' => FIELD_MDP, 
+                'mdp2' => FIELD_MDP, 
+                "email" => FIELD_EMAIL
+            ));
+            
+            // Si aucun des deux mdp n'est défini c'est que
+            // L'utilisateur ne souhaite pas modifier son mdp et donc il n'y a pas d'erreurs
+            if (empty($form['mdp']) && empty($form['mdp2'])) {
+                unset($erreurs['mdp'], $erreurs['mdp2']);
+                $form['mdp'] = null;
+            }
+            // On vérifie que les deux mots de passes correspondent
+            elseif ($form['mdp'] != $form['mdp2']) {
+                $erreurs['conf'] = true;
+            }
+            
+            if (!$erreurs) {
+                $modif = Doctrine_Core::getTable('User')->modifyUser(
+                    $this->session->uid, $form['pseudo'], $form['email'], $form['mdp']);
+                
+                $this->session->pseudo = $form['pseudo'];
+                $this->session->email = $form['email'];
+            }
+        }
+        
+        $this->page->addTpl('utilisateur/profil', 
+            array('erreurs' => $erreurs, 'form' => $form, 'modif' => $modif));
     }
 }
 ?>

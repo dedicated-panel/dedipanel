@@ -190,7 +190,7 @@ class Form {
 
         foreach ($vars AS $varname => $var) {
             if ($var === false || empty($var)) {
-                $errors[$varname] = true;
+                $errors[] = $varname;
             }
         }
 

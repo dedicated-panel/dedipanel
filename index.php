@@ -2,7 +2,7 @@
 //ini_set('xdebug.profiler_enable', 'on');
 //session_start();
 
-define('BASE_URL', 'http://localhost/dp_b4');
+define('BASE_URL', 'http://localhost/dedipanel');
 define('ROOT_DIR', dirname(__FILE__));
 
 define('APPS_DIR', ROOT_DIR . '/apps/');

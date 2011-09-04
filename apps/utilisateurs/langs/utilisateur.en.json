@@ -1,5 +1,6 @@
 {
     "Profil": "Profile", 
+    "Utilisateurs": "Users", 
     "Déconnexion": "Logout", 
     
     "errPseudo": "You need to set your nickname.", 

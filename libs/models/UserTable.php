@@ -18,13 +18,23 @@ class UserTable extends Doctrine_Table
     }
     
     public function isValidIdents($pseudo, $mdp) {
-        $q = Doctrine_Query::create()
-            ->from('User')
-            ->where('pseudo = ?')
-            ->andWhere('mdp = ?');
+        $q = Doctrine_Query::create()->select('id, pseudo, email, lang')->from('User')
+            ->where('pseudo = ?')->andWhere('mdp = ?');
         $user = $q->fetchOne(array($pseudo, $mdp), Doctrine_Core::HYDRATE_ARRAY);
         $q->free();
         
         return $user;
+    }
+    
+    public function modifyUser($uid, $pseudo, $email, $mdp = null) {
+        $q = Doctrine_Query::create()
+            ->update('User')
+            ->set('pseudo', '?', $pseudo)
+            ->set('email', '?', $email)
+            ->where('id = ?', $uid);
+        
+        // On modifie le mdp si nécessaire
+        
+        return $q->execute();
     }
 }
