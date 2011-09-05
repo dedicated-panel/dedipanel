@@ -15,7 +15,10 @@ class JSON {
     }
 
     // Cette méthode n'a besoin de son argument que si elle est appelé statiquement
-    public static function loadCfg($filename = null) {		
+    public static function loadCfg($filename = null) {
+        // On vérifie que le fichier demandé existe
+        if (!file_exists($filename)) return false;
+        
         // On instancie la classe si la méthode pas été appelé statiquementsn
         $file = file_get_contents($filename);
         

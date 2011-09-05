@@ -12,6 +12,7 @@ define('CFG_DIR', ROOT_DIR . '/configs/');
 define('HTML_DIR', ROOT_DIR . '/assets/html/');
 define('CSS_DIR', ROOT_DIR . '/assets/css/');
 define('JS_DIR', ROOT_DIR . '/assets/js/');
+define('LANG_DIR', ROOT_DIR . '/assets/langs/');
 
 define('IMG_URL', BASE_URL . 'assets/images');
 

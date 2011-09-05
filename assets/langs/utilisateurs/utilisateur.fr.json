@@ -1,0 +1,17 @@
+{
+    "Profil": "Profil", 
+    "Utilisateurs": "Utilisateurs", 
+    "Déconnexion": "Déconnexion", 
+    
+    "errPseudo": "Veuillez indiquer votre pseudo.", 
+    "errMdp": "Veuillez indiquer votre mot de passe.", 
+    "errIdents": "Mauvais pseudo/mot de passe.", 
+    "errMdp2": "Veuillez confirmer votre mot de passe.", 
+    "errEmail": "Veuillez indiquer votre adresse email.", 
+    "errConf": "La confirmation ne correspond pas.", 
+    
+    "Pseudo": "Pseudo", 
+    "Mdp": "Mot de passe", 
+    
+    "ConfMdp": "Confirmer votre mot de passe"
+}

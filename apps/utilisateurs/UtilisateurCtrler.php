@@ -4,7 +4,7 @@ class UtilisateurCtrler extends BaseCtrler {
         parent::init();
         
         // On charge le fichier de traduction commun du module
-        $this->lang->loadTraductionFile('apps/utilisateurs/langs/utilisateur');
+        $this->lang->loadTradFile('utilisateurs/utilisateur');
     }
     
     // Permet à un utilisateur de se connecter
