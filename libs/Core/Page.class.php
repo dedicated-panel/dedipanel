@@ -83,10 +83,18 @@ class Page extends ApplicationComponent {
 
 class Lang extends ApplicationComponent {
     protected function init($args) {
+        $this->langs = explode(',', $args['langs']);
+        
+        // On vérifie que la langue usuelle soit correcte sinon on émet une erreur
+        // (à moins qu'elle soit nulle)
+        if (!empty($args['lang']) && !$this->isValidLang($args['lang'])) {
+            throw new RuntimeException('Langue usuelle non valide.');
+        }
         $this->lang = $args['lang'];
         
-        // On ajoute une langue par défaut (si nécessaire)
-        if (!empty($args['defaultLang']) && $args['defaultLang'] != $this->lang) {
+        // On ajoute une langue par défaut (si nécessaire et si elle est valide)
+        if (!empty($args['defaultLang']) && $args['defaultLang'] != $this->lang
+            && $this->isValidLang($args['defaultLang'])) {
             $this->defaultLang = $args['defaultLang'];
         }
         
@@ -210,13 +218,29 @@ class Lang extends ApplicationComponent {
         else return false;
     }
     
+    // Cette méthode permet de vérifier si la langue $lang est disponible
+    public function isValidLang($lang) {
+        return in_array($lang, $this->langs);
+    }
+    // Cette méthode renvoie un array contenant les langues valides
+    public function getValidLangs() {
+        return $this->langs;
+    }
+    
+    // Contient la langue par défaut à utilisé
+    // Et la langue usuelle de l'utilisateur
     private $defaultLang = null;
     private $lang;
     
+    // Arrays contenant les différentes traductions
+    // Ainsi que les différents fichiers utilisés
     private $trads = array();
     private $files = array();
     
+    // Fichier de traduction prioritaire lors de la recherche d'une traduction
     private $currentFile;
+    
+    private $langs; // Array des langues disponible
     
     const USER_LANG    = 0x0;
     const DEFAULT_LANG = 0x1;

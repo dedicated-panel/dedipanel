@@ -6,5 +6,6 @@
 
     "debug": true, 
     "defaultRoute": "utilisateur/login", 
-    "defaultLang": "fr"
+    "defaultLang": "fr", 
+    "langs": "fr,en"
 }

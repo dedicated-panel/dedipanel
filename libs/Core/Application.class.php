@@ -168,7 +168,8 @@ abstract class BaseCtrler extends ApplicationComponent {
         // On récupère la langue par défaut et la langue de l'utilisateur
         $pageArgs = array(
             'defaultLang' => $this->app()->defaultLang, 
-            'lang' => $this->session->lang);
+            'lang' => $this->session->lang, 
+            'langs' => $this->app()->langs);
         
         // On instancie notre objet Page qui permet d'afficher des templates
         // Et contient le layout

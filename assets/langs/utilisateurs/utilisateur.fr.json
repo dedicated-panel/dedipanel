@@ -13,5 +13,6 @@
     "Pseudo": "Pseudo", 
     "Mdp": "Mot de passe", 
     
-    "ConfMdp": "Confirmer votre mot de passe"
+    "ConfMdp": "Confirmer votre mot de passe", 
+    "Modif Profil": "Modifier son profil", 
 }

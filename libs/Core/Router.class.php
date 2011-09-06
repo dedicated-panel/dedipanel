@@ -62,7 +62,7 @@
                     }
                 }
             }
-
+            
             // On arrête le tour de boucle si le pattern ne correspond pas
             if (!preg_match("#$url#", $this->routingArgs, $matches)) continue;
 
@@ -80,30 +80,24 @@
                 $this->vars = $retVars;
             }
             
-            // Si l'array $infos est vide, c'est qu'on est sur une route finale sans argument
-            if (empty($infos)) {
-                $route = explode('/', $this->routingArgs);
-                
-                $this->route['app'] = $route[0];
-                $this->route['module'] = $route[1];
-                $this->route['action'] = (isset($route[2]) ? $route[2] : 'show');
-            }
-            elseif (isset($infos['routes'])) {
-                $ret = $this->analyzeRoute($infos['routes']);
-            }
-            elseif (isset($infos['route'])) {
+            // S'il y a une route d'indiqué, on la sauvegarde
+            // Elle sera utilisé par défaut s'il n'y en a pas d'autre de trouvé
+            // Dans les routes filles
+            if (isset($infos['route'])) {
                 $route = explode('/', $infos['route']);
                 
                 $this->route['app'] = $route[0];
                 $this->route['module'] = $route[1];
                 $this->route['action'] = (isset($route[2]) ? $route[2] : 'show');
             }
+            // Si des routes filles existes, on les analyses
+            if (isset($infos['routes'])) {
+                $this->analyzeRoute($infos['routes']);
+            }
 
             // On a trouvé notre route, on sort de la boucle
             break;
         }
-
-        return $ret;
     }
     
     public function getVars() {
