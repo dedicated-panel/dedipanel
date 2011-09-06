@@ -1,3 +1,4 @@
+<p><?php Page::a('Retour', 'utilisateurs/'); ?></p>
 <form action="" method="post">
     <ul class="erreurs">
         <?php foreach ($erreurs AS $err): ?>
@@ -15,8 +16,16 @@
         <label for="mdp2"><?php L::eT('ConfMdp'); ?> :</label>
         <input type="password" name="mdp2" id="mdp2" value="" /><br />
         
-        <label for="email"><?php L::eT('Mail'); ?> :</label>
+        <label for="email"><?php L::eT('Email'); ?> :</label>
         <input type="email" name="email" id="email" value="<?php echo $form['email']; ?>" /><br />
         
-        <input type="submit" name="envoi" value="<?php L::eT('Modif Profil'); ?>" />
+        <label for="lang"><?php L::eT('Langue'); ?> :</label>
+        <select id="lang" name="lang"><?php foreach($langs AS $l): ?>
+            <option <?php 
+                echo 'value="' , $l , (($lang == $l) ? '" selected' : '"'); ?>>
+                <?php L::eT($l); ?>
+            </option>
+        <?php endforeach; ?></select>
+        
+        <input type="submit" name="envoi" value="<?php L::eT('Ajouter'); ?>" />
 </p></form>

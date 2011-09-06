@@ -6,5 +6,16 @@
             "utilisateur/menu$": {"route": "utilisateurs/utilisateur/menu"}, 
             "utilisateur/profil$": {"route": "utilisateurs/utilisateur/profil"}
         }
+    }, 
+    
+    "^utilisateurs": {
+        "route": "utilisateurs/utilisateurs/show", 
+        
+        "routes": {
+            "utilisateurs/add$": {"route": "utilisateurs/utilisateurs/add"}, 
+            "utilisateurs/del/$$uid$": {
+                "route": "utilisateurs/utilisateurs/del", "vars": {"uid": "[0-9]+"}
+            }
+        }
     }
 }

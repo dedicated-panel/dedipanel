@@ -1,0 +1,22 @@
+{
+    "Retour": "Back", 
+    
+    "Pseudo": "Nickname", 
+    "Email": "Email", 
+    "Mdp": "Password", 
+    "ConfMdp": "Confirm", 
+    "Actions": "Actions", 
+    
+    "Ajouter": "Add", 
+    "Modifier": "Edit", 
+    "Supprimer": "Delete", 
+    
+    "errPseudo": "You need to set a nickname.", 
+    "errMdp": "You need to set a password.", 
+    "errMdp2": "You need to confirm the password.", 
+    "errEmail": "You need to set an email", 
+    
+    "Langue": "Lang", 
+    "fr": "French", 
+    "en": "English"
+}

@@ -1,0 +1,20 @@
+{
+    "Pseudo": "Pseudo", 
+    "Email": "Email", 
+    "Actions": "Actions", 
+    
+    "Ajouter": "Ajouter", 
+    "Modifier": "Modifier", 
+    "Supprimer": "Supprimer", 
+    
+    "errPseudo": "Veuillez indiquer un pseudo.", 
+    "errMdp": "Veuillez indiquer un mot de passe.", 
+    "errMdp2": "Veuillez confirmer le mot de passe.", 
+    "errEmail": "Veuillez indiquer une adresse email.", 
+    "errConf": "La confirmation ne correspond pas.", 
+    
+    "Langue": "Langue", 
+    
+    "fr": "Francais", 
+    "en": "Anglais"
+}

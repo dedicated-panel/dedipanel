@@ -1,0 +1,20 @@
+<p><?php Page::a('Ajouter', 'utilisateurs/add'); ?></p>
+<table>
+    <tr>
+        <th>#</th>
+        <th><?php L::eT('Pseudo'); ?></th>
+        <th><?php L::eT('Email'); ?></th>
+        <th><?php L::eT('Actions'); ?></th>
+    </tr>
+    
+    <?php foreach ($users AS $user): ?>
+        <tr><td><?php echo $user['id']; ?></td>
+            <td><?php echo $user['pseudo']; ?></td>
+            <td><?php echo $user['email']; ?></td>
+            <td>
+                <?php Page::a('Modifier', 'utilisateurs/edit', $user['id']); ?> - 
+                <?php Page::a('Supprimer', 'utilisateurs/del', $user['id']); ?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>

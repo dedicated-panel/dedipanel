@@ -6,7 +6,13 @@
     "errPseudo": "You need to set your nickname.", 
     "errMdp": "You need to set your password.", 
     "errIdents": "Wrong nickname/password.", 
+    "errMdp2": "You need to confirm your password.", 
+    "errEmail": "You need to set your email", 
+    "errConf": "", 
     
     "Pseudo": "Nickname", 
-    "Mdp": "Password"
+    "Mdp": "Password", 
+    
+    "ConfMdp": "Confirm your password", 
+    "Modif Profil": "Edit your profile"
 }
