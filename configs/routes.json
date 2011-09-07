@@ -12,10 +12,24 @@
         "route": "utilisateurs/utilisateurs/show", 
         
         "routes": {
+            "utilisateurs/groups": {
+                "route": "utilisateurs/groups/show", 
+                "routes": {
+                    "utilisateurs/groups/add": {"route": "utilisateurs/groups/add"}
+                }
+            }, 
+            
             "utilisateurs/add$": {"route": "utilisateurs/utilisateurs/add"}, 
             "utilisateurs/del/$$uid$": {
                 "route": "utilisateurs/utilisateurs/del", "vars": {"uid": "[0-9]+"}
             }
         }
-    }
+    }, 
+    
+    "^groups": {
+        "route": "utilisateurs/groups/show", 
+        "routes": {
+            "groups/add": {"route": "utilisateurs/groups/add"}
+        }
+    } 
 }

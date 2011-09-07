@@ -1,0 +1,18 @@
+<p>
+    <?php Page::a('Retour', 'utilisateurs'); ?> - 
+    <?php Page::a('AddGroup', 'groups/add'); ?>
+</p>
+
+<table>
+    <tr>
+        <th>#</th>
+        <th><?php L::eT('Nom'); ?></th>
+        <th><?php L::eT('Actions'); ?></th>
+    </tr>
+    
+    <?php foreach ($groups AS $group): ?><tr>
+        <td><?php echo $group['id']; ?></td>
+        <td><?php echo $group['nom']; ?></td>
+        <td><?php Page::a('Del', 'groups/del', $group['id']); ?></td>
+    </tr><?php endforeach; ?>
+</table>

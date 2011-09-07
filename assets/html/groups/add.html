@@ -1,0 +1,15 @@
+<p><?php Page::a('Retour', 'groups/'); ?></p>
+<form action="" method="post">
+    <ul class="erreurs">
+        <?php foreach ($erreurs AS $err): ?>
+            <li><?php L::eT('err' . ucfirst($err)); ?></li>
+        <?php endforeach; ?>
+    </ul>
+    
+    <p>
+        <label for="nom"><?php L::eT('Nom'); ?> :</label> 
+        <input type="text" name="nom" id="nom" value="<?php echo $form['nom']; ?>" required /><br />
+        
+        <input type="submit" name="envoi" value="<?php L::eT('AddGroup'); ?>" />
+    </p>
+</form>
