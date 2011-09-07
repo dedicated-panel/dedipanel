@@ -13,7 +13,7 @@ class JSON {
     public function __construct($filename = '') {
         $this->filename = $filename;
     }
-
+    
     // Cette méthode n'a besoin de son argument que si elle est appelé statiquement
     public static function loadCfg($filename = null) {
         // On vérifie que le fichier demandé existe
@@ -45,7 +45,7 @@ class JSON {
         // Ainsi que la représentation de 
     }
 
-    public static function lastError() {
+    public static function lastError($filename = null) {
         $erreur = null;
 
         switch (json_last_error()) {
@@ -71,6 +71,9 @@ class JSON {
                 $erreur = 'Erreur inconnue.';
                 break;
         }
+        
+        // On inclut le nom du fichier (si spécifié)
+        if ($filename != null) $erreur .= 'Fichier: ' . $filename;
 
         return $erreur;
     }
@@ -79,6 +82,7 @@ class JSON {
 
     private $filename;
     private $content;
+    private $instance;
 }
 
 class Form {

@@ -1,6 +1,10 @@
 {
+    "Retour": "Retour", 
+    
     "Pseudo": "Pseudo", 
     "Email": "Email", 
+    "Mdp": "Mot de passe", 
+    "ConfMdp": "Confirmation", 
     "Actions": "Actions", 
     
     "Ajouter": "Ajouter", 
@@ -12,9 +16,5 @@
     "errMdp2": "Veuillez confirmer le mot de passe.", 
     "errEmail": "Veuillez indiquer une adresse email.", 
     "errConf": "La confirmation ne correspond pas.", 
-    
-    "Langue": "Langue", 
-    
-    "fr": "Francais", 
-    "en": "Anglais"
+    "errExistIdents": "Ce pseudo/email est déjà utilisé."
 }

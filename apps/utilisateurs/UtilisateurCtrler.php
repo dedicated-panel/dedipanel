@@ -82,12 +82,14 @@ class UtilisateurCtrler extends BaseCtrler {
                 'pseudo' => FIELD_TEXT, 
                 'mdp' => FIELD_MDP, 
                 'mdp2' => FIELD_MDP, 
-                "email" => FIELD_EMAIL
+                "email" => FIELD_EMAIL, 
+                'lang' => FIELD_TEXT
             ));
             
             // Si aucun des deux mdp n'est défini c'est que
             // L'utilisateur ne souhaite pas modifier son mdp et donc il n'y a pas d'erreurs
             if (empty($form['mdp']) && empty($form['mdp2'])) {
+                // On cherche la clé des deux erreurs pour les supprimés
                 $mdpErr  = array_search('mdp', $erreurs);
                 $mdp2Err = array_search('mdp2', $erreurs);
                 
@@ -99,17 +101,32 @@ class UtilisateurCtrler extends BaseCtrler {
                 $erreurs[] = 'conf';
             }
             
+            // On vérifie également que la langue soit correcte
+            if (!$this->lang->isValidLang($form['lang'])) {
+                $erreurs[] = 'lang';
+            }
+            
+            // Ainsi que l'utilisation du pseudo/email
+            $table = Doctrine_Core::getTable('User'); $uid = $this->session->uid;
+            $idIdents = $table->existIdents($form['pseudo'], $form['email']);
+            if ($idIdents != $uid) {
+                $erreurs[] = 'existIdents';
+            }
+            
             if (!$erreurs) {
-                $modif = Doctrine_Core::getTable('User')->modifyUser(
-                    $this->session->uid, $form['pseudo'], $form['email'], $form['mdp']);
+                $modif = $table->modifyUser($uid, $form['pseudo'], 
+                    $form['email'], $form['lang'], $form['mdp']);
                 
                 $this->session->pseudo = $form['pseudo'];
                 $this->session->email = $form['email'];
+                $this->session->lang = $form['lang'];
             }
         }
         
+        $this->lang->loadTradFile('common/langs');
         $this->page->addTpl('utilisateur/profil', 
-            array('erreurs' => $erreurs, 'form' => $form, 'modif' => $modif));
+            array('erreurs' => $erreurs, 'form' => $form, 'modif' => $modif, 
+              'langs' => $this->lang->getValidLangs(), 'lang' => $this->session->lang));
     }
 }
 ?>

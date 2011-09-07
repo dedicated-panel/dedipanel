@@ -26,11 +26,22 @@ class UserTable extends Doctrine_Table
         return $user;
     }
     
-    public function modifyUser($uid, $pseudo, $email, $mdp = null) {
+    // Vérifie l'utilisation d'un pseudo/mail
+    public function existIdents($pseudo, $email) {
+        $q = Doctrine_Query::create()->select('id')->from('User')
+            ->where('pseudo = ?')->orWhere('email = ?');
+        $exist = $q->fetchOne(array($pseudo, $email), Doctrine_Core::HYDRATE_ARRAY);
+        $q->free();
+        
+        return $exist['id'];
+    }
+    
+    public function modifyUser($uid, $pseudo, $email, $lang, $mdp = null) {
         $q = Doctrine_Query::create()
             ->update('User')
             ->set('pseudo', '?', $pseudo)
             ->set('email', '?', $email)
+            ->set('lang', '?', $lang)
             ->where('id = ?', $uid);
         
         // On modifie le mdp si nécessaire

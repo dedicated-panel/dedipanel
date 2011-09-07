@@ -18,5 +18,14 @@
         <label for="email"><?php L::eT('Mail'); ?> :</label>
         <input type="email" name="email" id="email" value="<?php echo $form['email']; ?>" /><br />
         
+        <?php L::sCF('common/langs'); ?>
+        <label for="lang"><?php L::eT('Langue'); ?> :</label>
+        <select id="lang" name="lang"><?php foreach($langs AS $l): ?>
+            <option <?php 
+                echo 'value="' , $l , (($lang == $l) ? '" selected' : '"'); ?>>
+                <?php L::eT($l); ?>
+            </option>
+        <?php endforeach; L::sCF('utilisateurs/utilisateur'); ?></select><br />
+        
         <input type="submit" name="envoi" value="<?php L::eT('Modif Profil'); ?>" />
 </p></form>

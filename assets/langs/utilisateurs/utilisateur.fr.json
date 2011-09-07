@@ -9,10 +9,11 @@
     "errMdp2": "Veuillez confirmer votre mot de passe.", 
     "errEmail": "Veuillez indiquer votre adresse email.", 
     "errConf": "La confirmation ne correspond pas.", 
+    "errExistIdents": "/!\\Ce pseudo/email est déjà utilisé./!\\", 
     
     "Pseudo": "Pseudo", 
     "Mdp": "Mot de passe", 
     
     "ConfMdp": "Confirmer votre mot de passe", 
-    "Modif Profil": "Modifier son profil", 
+    "Modif Profil": "Modifier son profil"
 }

@@ -42,20 +42,38 @@ class UtilisateursCtrler extends BaseCtrler {
                 $erreurs[] = 'lang';
             }
             
+            // On récupère une instance de la table
+            // Afin de faire des vérifs supplémentaires 
+            // Sur l'utillisation des identss
+            $table = Doctrine_Core::getTable('User');
+            if ($table->existIdents($form['pseudo'], $form['email']) != false) {
+                $erreurs[] = 'existIdents';
+            }
+            
             if (!$erreurs) {
                 // On créer un utilisateur, on ajoute les données du formulaire
                 // Et on sauvegarde dans la bdd
                 $user = new User();
                 $user->pseudo = $form['pseudo'];
                 $user->email = $form['email'];
-                $user->mdp = $form['mdp'];
+                $user->mdp = sha1($form['mdp']);
                 $user->lang = $form['lang'];
-                $user->save();
-                
-                var_dump($user);
+
+                // Si Doctrine renvoie false, c'est que notre validateur email
+                // Ne passe pas, le domaine indiqué est donc invalide
+                // Soit on sauvegarde les données et on redirige l'utilisateur
+                // Soit on ajoute un message d'erreur
+                if ($user->isValid()) {
+                    $user->save();
+                    $this->app()->httpResponse()->redirect('utilisateurs');
+                }
+                else {
+                    $erreurs[] = 'nddEmail';
+                }
             }
         }
         
+        $this->lang->loadTradFile('common/langs');
         $this->page->addTpl('utilisateurs/add', 
             array('langs' => $this->lang->getValidLangs(), 'form' => $form, 
                 'erreurs' => $erreurs));

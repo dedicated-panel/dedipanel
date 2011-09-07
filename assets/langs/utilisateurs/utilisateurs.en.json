@@ -15,8 +15,6 @@
     "errMdp": "You need to set a password.", 
     "errMdp2": "You need to confirm the password.", 
     "errEmail": "You need to set an email", 
-    
-    "Langue": "Lang", 
-    "fr": "French", 
-    "en": "English"
+    "errConf": "/!\\La confirmation ne correspond pas./!\\", 
+    "errExistIdents": "/!\\Ce pseudo/email est déjà utilisé./!\\"
 }

@@ -9,6 +9,7 @@
     "errMdp2": "You need to confirm your password.", 
     "errEmail": "You need to set your email", 
     "errConf": "", 
+    "errExistIdents": "/!\\Ce pseudo/email est déjà utilisé./!\\", 
     
     "Pseudo": "Nickname", 
     "Mdp": "Password", 
