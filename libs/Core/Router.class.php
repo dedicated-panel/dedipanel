@@ -88,7 +88,11 @@
                 
                 $this->route['app'] = $route[0];
                 $this->route['module'] = $route[1];
-                $this->route['action'] = (isset($route[2]) ? $route[2] : 'show');
+                $this->route['action'] = (isset($route[2]) ? $route[2] : '');
+            }
+            // Si une action est précisé, on modifie celle sauvegardé
+            if (isset($infos['action'])) {
+                $this->route['action'] = $infos['action'];
             }
             // Si des routes filles existes, on les analyses
             if (isset($infos['routes'])) {
