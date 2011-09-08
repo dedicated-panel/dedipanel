@@ -10,7 +10,6 @@
  * @property string $email
  * @property string $mdp
  * @property string $lang
- * @property Doctrine_Collection $Groups
  * @property Doctrine_Collection $GroupUsers
  * 
  * @package    ##PACKAGE##
@@ -55,11 +54,6 @@ abstract class BaseUser extends Doctrine_Record
     public function setUp()
     {
         parent::setUp();
-        $this->hasMany('Group as Groups', array(
-             'refClass' => 'GroupUser',
-             'local' => 'id',
-             'foreign' => 'id'));
-
         $this->hasMany('GroupUser as GroupUsers', array(
              'local' => 'id',
              'foreign' => 'user_id'));

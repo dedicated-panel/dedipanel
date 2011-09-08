@@ -21,12 +21,12 @@
         
         <?php L::sCF('common/langs'); ?>
         <label for="lang"><?php L::eT('Langue'); ?> :</label>
-        <select id="lang" name="lang"><?php foreach($langs AS $l): ?>
+        <select id="lang" name="lang"><?php foreach($langs AS $lang): ?>
             <option <?php 
-                echo 'value="' , $l , (($lang == $l) ? '" selected' : '"'); ?>>
-                <?php L::eT($l); ?>
+                echo 'value="' , $lang , (($lang == $form['lang']) ? '" selected' : '"'); ?>>
+                <?php L::eT($lang); ?>
             </option>
         <?php endforeach; L::sCF('utilisateurs/utilisateurs'); ?></select><br />
         
-        <input type="submit" name="envoi" value="<?php L::eT('Ajouter'); ?>" />
+        <input type="submit" name="envoi" value="<?php L::eT(ucfirst($action)); ?>" />
 </p></form>

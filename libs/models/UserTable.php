@@ -49,4 +49,18 @@ class UserTable extends Doctrine_Table
         
         return $q->execute();
     }
+    
+    public function delete($uid) {
+        $q = Doctrine_Query::create()->delete('User')->where('id = ?', $uid);
+        return $q->execute();
+    }
+
+    public function getUser($uid) {
+        $q = Doctrine_Query::create()->select('pseudo, email, lang')->from('User')
+            ->where('id = ?', $uid);
+        $res = $q->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+        $q->free();
+        
+        return $res[0];
+    }
 }
