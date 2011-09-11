@@ -23,6 +23,8 @@ class UtilisateursCtrler extends BaseCtrler {
     // Cette action permet d'ajouter un utilisateur
     protected function runAdd() {
         $form = array(); $erreurs = array();
+        $groups = Doctrine_Core::getTable('Group')->getGroups();
+//        $form['groups'] = array();
         
         if (Form::hasSend()) {
             list($erreurs, $form) = Form::verifyData(array(
@@ -65,7 +67,18 @@ class UtilisateursCtrler extends BaseCtrler {
                 // Soit on ajoute un message d'erreur
                 if ($user->isValid()) {
                     $user->save();
-                    $this->app()->httpResponse()->redirect('utilisateurs');
+                    $uid = $user->id;
+                    
+                    // On ajoute les groupes voulues
+                    if (isset($_POST['groups'])) {
+                        foreach ($_POST['groups'] AS $group) {
+                            $access = new UserGroup();
+                            $access->user_id = $uid;
+                            $access->group_id = $group;
+                            $access->save();
+                        }
+                    }
+//                    $this->app()->httpResponse()->redirect('utilisateurs');
                 }
                 else {
                     $erreurs[] = 'nddEmail';
@@ -76,21 +89,22 @@ class UtilisateursCtrler extends BaseCtrler {
         $this->lang->loadTradFile('common/langs');
         $this->page->addTpl('utilisateurs/add', 
             array('langs' => $this->lang->getValidLangs(), 'form' => $form, 
-                'erreurs' => $erreurs, 'action' => 'add'));
+                'groups' => $groups, 'erreurs' => $erreurs, 'action' => 'add'));
     }
     
     // Cette action permet de modifier un utilisateur
     protected function runEdit($args) {
         $uid = $args['uid'];
         $table = Doctrine_Core::getTable('User');
-        $erreurs = array(); $form = $table->getUser($uid);
+        $erreurs = array(); $form = $table->getHydrateUser($uid);
+        $groups = Doctrine_Core::getTable('Group')->getGroups();
         
         if (Form::hasSend()) {
             list($erreurs, $form) = Form::verifyData(array(
                 'pseudo' => FIELD_TEXT, 
                 'mdp' => FIELD_MDP, 
                 'mdp2' => FIELD_MDP, 
-                "email" => FIELD_EMAIL, 
+                'email' => FIELD_EMAIL, 
                 'lang' => FIELD_TEXT
             ));
             
@@ -121,8 +135,8 @@ class UtilisateursCtrler extends BaseCtrler {
             }
             if (!$erreurs) {
                 // On modifie l'utilisateur et on redirige
-                $table->modifyUser(
-                    $uid, $form['pseudo'], $form['email'], $form['lang'], $form['mdp']);
+                $table->modifyUser($uid, $form['pseudo'], $form['email'], 
+                    $form['lang'], $form['mdp'], $_POST['groups']);
                 
                 $this->app()->httpResponse()->redirect('utilisateurs');
             }
@@ -131,7 +145,7 @@ class UtilisateursCtrler extends BaseCtrler {
         // On utilise le même template que pour l'ajout d'un utilisateur
         $this->lang->loadTradFile('common/langs');
         $this->page->addTpl('utilisateurs/add', 
-            array('langs' => $this->lang->getValidLangs(), 
+            array('langs' => $this->lang->getValidLangs(), 'groups' => $groups, 
                 'form' => $form, 'erreurs' => $erreurs, 'action' => 'edit'));
     }
     

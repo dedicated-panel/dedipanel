@@ -34,11 +34,14 @@ class GroupsCtrler extends BaseCtrler {
                         $accessCase = $vm['id'] . '_1'; $access = false;
                         $adminCase = $vm['id'] . '_2'; $admin = false;
 
-                        if (isset($_POST[$accessCase])) $access = true;
-                        if (isset($_POST[$adminCase])) $admin = true;
+                        // On regarde si les cases sont cochés
+                        if (isset($_POST[$accessCase])) {
+                            $access = true;
+                            if (isset($_POST[$adminCase])) $admin = true;
+                        }
 
-                        // On créer une ligne dans la bdd si nécessaire
-                        if ($access || $admin) {
+                        // On créer une ligne dans la bdd (si nécessaire)
+                        if ($access) {
                             $droits = new GroupVm();
                             $droits->group_id = $gid;
                             $droits->vm_id = $vm['id'];
@@ -91,13 +94,14 @@ class GroupsCtrler extends BaseCtrler {
                         $accessCase = $vm['id'] . '_1'; $access = false;
                         $adminCase = $vm['id'] . '_2'; $admin = false;
 
+                        // On regarde si les cases sont cochés
                         if (isset($_POST[$accessCase])) {
                             $access = true;
                             if (isset($_POST[$adminCase])) $admin = true;
                         }
 
-                        // On créer une ligne dans la bdd si nécessaire
-                        if ($access || $admin) {
+                        // On créer une ligne dans la bdd (si nécessaire)
+                        if ($access) {
                             $droits = new GroupVm();
                             $droits->group_id = $gid;
                             $droits->vm_id = $vm['id'];

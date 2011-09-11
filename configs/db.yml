@@ -7,10 +7,11 @@ User:
     mdp: {type: string(40), notnull: true}
     lang: {type: string(6), notnull: true, default: fr}
     
-GroupUser:
+UserGroup:
+  tableName: usersgroups
   columns:
-    group_id: {type: integer, primary: true}
-    user_id: {type: integer, primary: true}
+    user_id: {type: integer}
+    group_id: {type: integer}
   relations:
     Group: { foreignAlias: GroupUsers, local: group_id, foreign: id }
     User:  { foreignAlias: GroupUsers, local: user_id, foreign: id  }

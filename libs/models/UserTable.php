@@ -36,7 +36,7 @@ class UserTable extends Doctrine_Table
         return $exist['id'];
     }
     
-    public function modifyUser($uid, $pseudo, $email, $lang, $mdp = null) {
+    public function modifyUser($uid, $pseudo, $email, $lang, $mdp = null, $groups = null) {
         $q = Doctrine_Query::create()
             ->update('User')
             ->set('pseudo', '?', $pseudo)
@@ -46,8 +46,21 @@ class UserTable extends Doctrine_Table
         
         // On modifie le mdp si nécessaire
         if ($mdp != null) $q->set('mdp', 'SHA1(?)', $mdp);
+        $q->execute();
         
-        return $q->execute();
+        // Si on souhaite modifier les groupes de l'utilisateur
+        // On les supprimes puis on les recréer
+        if (isset($groups)) {
+            $del = Doctrine_Query::create()->delete('UserGroup')->where('user_id = ?', $uid);
+            $del->execute(); $del->free();
+            
+            foreach ($groups AS $group) {
+                $access = new UserGroup();
+                $access->user_id = $uid;
+                $access->group_id = $group;
+                $access->save();
+            }
+        }
     }
     
     public function delete($uid) {
@@ -55,12 +68,25 @@ class UserTable extends Doctrine_Table
         return $q->execute();
     }
 
-    public function getUser($uid) {
+    public function getHydrateUser($uid) {
         $q = Doctrine_Query::create()->select('pseudo, email, lang')->from('User')
             ->where('id = ?', $uid);
-        $res = $q->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+        $res = $q->fetchOne(array(), Doctrine_Core::HYDRATE_ARRAY);
         $q->free();
         
-        return $res[0];
+        // On récupère les groupes de l'utilisateur
+        $qGroups = Doctrine_Query::create()->select('group_id')->from('UserGroup')
+            ->where('user_id = ?', $uid);
+        $groups = $qGroups->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+        $qGroups->free();
+        
+        $newGroups = array();
+        foreach ($groups AS $group) {
+            $newGroups[$group['group_id']] = true;
+        }
+        
+        $res['groups'] = $newGroups;
+        
+        return $res;
     }
 }

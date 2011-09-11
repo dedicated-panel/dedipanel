@@ -12,6 +12,7 @@
     "GestGroup": "Gestion des groupes", 
     "Modifier": "Modifier", 
     "Supprimer": "Supprimer", 
+    "Groups": "Choisissez les groupes", 
     
     "errPseudo": "Veuillez indiquer un pseudo.", 
     "errMdp": "Veuillez indiquer un mot de passe.", 

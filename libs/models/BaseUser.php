@@ -54,7 +54,7 @@ abstract class BaseUser extends Doctrine_Record
     public function setUp()
     {
         parent::setUp();
-        $this->hasMany('GroupUser as GroupUsers', array(
+        $this->hasMany('UserGroup as GroupUsers', array(
              'local' => 'id',
              'foreign' => 'user_id'));
     }

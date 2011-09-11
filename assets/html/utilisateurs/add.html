@@ -28,5 +28,20 @@
             </option>
         <?php endforeach; L::sCF('utilisateurs/utilisateurs'); ?></select><br />
         
+        <label for="groups"><?php L::eT('Groups'); ?> :</label>
+        <select id="groups" name="groups[]" multiple="multiple">
+            <?php foreach ($groups AS $group) {
+                $gid = $group['id']; $selected = '';
+                
+                if (isset($form['groups'][$gid]) && $form['groups'][$gid]) {
+                    $selected = 'selected';
+                }
+                
+                echo '<option value="' , $gid , '" ' , $selected , '>'
+                        , $group['nom'] , 
+                    '</option>';
+            } ?>
+        </select><br />
+        
         <input type="submit" name="envoi" value="<?php L::eT(ucfirst($action)); ?>" />
 </p></form>

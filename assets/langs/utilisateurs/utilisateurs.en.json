@@ -12,6 +12,7 @@
     "GestGroup": "Groups", 
     "Modifier": "Edit", 
     "Supprimer": "Delete", 
+    "Groups": "Select groups", 
     
     "errPseudo": "You need to set a nickname.", 
     "errMdp": "You need to set a password.", 
