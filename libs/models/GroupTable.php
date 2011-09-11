@@ -12,8 +12,54 @@ class GroupTable extends Doctrine_Table
      *
      * @return object GroupTable
      */
-    public static function getInstance()
-    {
+    public static function getInstance() {
         return Doctrine_Core::getTable('Group');
+    }
+    
+    // Cette méthode renvoie la liste des groupes enregistrés dans la bdd
+    // Sous forme d'array
+    public function getGroups() {
+        $q = Doctrine_Query::create()->select('nom')->from('Group');
+        $res = $q->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+        $q->free();
+        
+        return $res;
+    }
+    
+    // Renvoie le nom d'un groupe ainsi que ses droits
+    public function getGroup($gid) {
+        $qNom = Doctrine_Query::create()->select('nom')->from('Group')->where('id = ?', $gid);
+        $nom = $qNom->fetchOne(array(), Doctrine_Core::HYDRATE_ARRAY);
+        
+        $qDroits = Doctrine_Query::create()->select('vm_id, access, admin')
+            ->from('GroupVm')->where('group_id = ?', $gid);
+        $droits = $qDroits->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+        
+        // On modifie l'index de l'enregistrement par l'id de la vm auquel correspond le droit
+        $newDroits = array();
+        foreach ($droits AS $droit) {
+            $newDroits[$droit['vm_id']] = $droit;
+        }
+        unset($droits);
+        
+        return array('nom' => $nom['nom'], 'droits' => $newDroits);
+    }
+    
+    // Vérifie si le nom $name n'est pas déjà utilisé
+    // Renvoie true ou l'id du groupe utilisant le même nom
+    public function usedName($name) {
+        $q = Doctrine_Query::create()->select('id')->from('Group')->where('nom = ?', $name);
+        $exist = $q->fetchOne(array(), Doctrine_Core::HYDRATE_ARRAY);
+        $q->free();
+        
+        return $exist['id'];
+    }
+    
+    public function delete($gid) {
+        $delG   = Doctrine_Query::create()->delete('Group')->where('id = ?', $gid);
+        $delGVm = Doctrine_Query::create()->delete('GroupVm')->where('group_id = ?', $gid);
+        
+        // On supprime le groupe puis ses droits s'il en a
+        return $delG->execute() && $delGVm->execute();
     }
 }

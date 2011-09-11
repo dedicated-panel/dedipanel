@@ -120,6 +120,9 @@ class UtilisateurCtrler extends BaseCtrler {
                 $this->session->pseudo = $form['pseudo'];
                 $this->session->email = $form['email'];
                 $this->session->lang = $form['lang'];
+                
+                // On redirige l'utilisateur pour que l'interface soit traduite diretement
+                $this->app()->httpResponse()->redirect('utilisateur/profil');
             }
         }
         

@@ -8,8 +8,32 @@
     
     <p>
         <label for="nom"><?php L::eT('Nom'); ?> :</label> 
-        <input type="text" name="nom" id="nom" value="<?php echo $form['nom']; ?>" required /><br />
-        
-        <input type="submit" name="envoi" value="<?php L::eT('AddGroup'); ?>" />
+        <input type="text" name="nom" id="nom" 
+           value="<?php echo $form['nom']; ?>" required="required" /><br />
     </p>
+        
+    <table>
+        <tr><th><?php L::eT('VMs'); ?></th>
+            <th><?php L::eT('Access?'); ?></th>
+            <th><?php L::eT('Admin?'); ?></th>
+        </tr>
+        
+        <?php foreach ($VMs AS $VM): 
+            $vmId = $VM['id'];
+            $checkedAccess = ''; $checkedAdmin = '';
+            if (isset($form['droits'][$vmId]) && $form['droits'][$vmId]['access'] == 1) {
+                $checkedAccess = 'checked="checked"';
+                
+                if ($form['droits'][$vmId]['admin'] == 1) {
+                    $checkedAdmin = 'checked="checked"';
+                }
+            }
+        ?><tr>
+            <td><?php echo $VM['user'] . '@' . $VM['ip'] . ':' . $VM['port']; ?></td>
+            <td><input type="checkbox" name="<?php echo $vmId . '_1" ' . $checkedAccess; ?> /></td>
+            <td><input type="checkbox" name="<?php echo $vmId . '_2" ' . $checkedAdmin; ?> /></td>
+        </tr><?php endforeach; ?>
+    </table>
+        
+    <p><input type="submit" name="envoi" value="<?php L::eT($action . 'Group'); ?>" /></p>
 </form>

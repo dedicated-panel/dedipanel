@@ -1,0 +1,26 @@
+<p><?php Page::a('Back', 'vm'); ?></p>
+
+<form action="" method="post">
+    <ul class="erreurs">
+        <?php foreach ($erreurs AS $err): ?>
+            <li><?php L::eT('err' . ucfirst($err)); ?></li>
+        <?php endforeach; ?>
+    </ul>
+    
+    <p><label for="ip"><?php L::eT('IP'); ?> :</label> 
+    <input type="text" name="ip" id="ip" value="<?php echo $form['ip']; ?>"
+       pattern="([0-9]{1,3}.){3}[0-9]{1,3}" required="required" /><br />
+    
+    <label for="port"><?php L::eT('Port'); ?> :</label>
+    <input type="number" name="port" id="port" value="<?php echo $form['port']; ?>" 
+       min="0" max="65536" required="required" /><br />
+
+    <label for="user"><?php L::eT('User'); ?> :</label> 
+    <input type="text" name="user" id="user" value="<?php echo $form['user']; ?>" 
+       required="required" /><br />
+
+    <label for="mdp"><?php L::eT('Mdp'); ?> :</label>
+    <input type="password" name="mdp" id="mdp" required="required" /><br />
+
+    <input type="submit" name="envoi" value="<?php L::eT('AddVm'); ?>" /></p>
+</form>

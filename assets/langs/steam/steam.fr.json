@@ -1,0 +1,12 @@
+{
+    "Retour": "Retour", 
+    "AddServ": "Ajouter un serveur", 
+    "Refresh": "Rafraîchir", 
+    
+    "IP": "Adresse IP", 
+    "Port": "Port", 
+    "Jeu": "Jeu", 
+    "Dir": "Répertoire", 
+    "Status": "Etat", 
+    "Actions": "Actions"
+}

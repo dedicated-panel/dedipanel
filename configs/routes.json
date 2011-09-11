@@ -1,35 +1,53 @@
 {
-    "^utilisateur/": {
-        "routes": {
-            "utilisateur/login$": {"route": "utilisateurs/utilisateur/login"}, 
-            "utilisateur/logout$": {"route": "utilisateurs/utilisateur/logout"}, 
-            "utilisateur/menu$": {"route": "utilisateurs/utilisateur/menu"}, 
-            "utilisateur/profil$": {"route": "utilisateurs/utilisateur/profil"}
-        }
-    }, 
-    
     "^utilisateurs": {
-        "route": "utilisateurs/utilisateurs/show", 
-        
+        "route": "utilisateurs/utilisateurs/show",
         "routes": {
             "utilisateurs/groups": {
                 "route": "utilisateurs/groups/show", 
                 "routes": {
-                    "utilisateurs/groups/add": {"route": "utilisateurs/groups/add"}
+                    "utilisateurs/groups/add": {"action": "add"}
                 }
             }, 
-            
-            "utilisateurs/add$": {"route": "utilisateurs/utilisateurs/add"}, 
+            "utilisateurs/add$": {"action": "add"}, 
+            "utilisateurs/edit/$$uid$": {"action": "edit", "vars": {"uid": "[0-9]+"}}, 
             "utilisateurs/del/$$uid$": {
-                "route": "utilisateurs/utilisateurs/del", "vars": {"uid": "[0-9]+"}
-            }
+                "action": "del", "vars": {"uid": "[0-9]+"}
+            } 
+        }
+    }, 
+    
+    "^utilisateur": {
+        "route": "utilisateurs/utilisateur/login", 
+        "routes": {
+            "utilisateur/login$": {}, 
+            "utilisateur/logout$": {"action": "logout"}, 
+            "utilisateur/menu$": {"action": "menu"}, 
+            "utilisateur/profil$": {"action": "profil"}
         }
     }, 
     
     "^groups": {
         "route": "utilisateurs/groups/show", 
         "routes": {
-            "groups/add": {"route": "utilisateurs/groups/add"}
+            "groups/add": {"action": "add"}, 
+            "groups/edit/$$gid$": {"action": "edit", "vars": {"gid": "[0-9]+"}}, 
+            "groups/del/$$gid$": {"action": "del", "vars": {"gid": "[0-9]+"}}
         }
+    },
+    
+    "^vm": {
+        "route": "vm/vm/show", 
+        
+        "routes": {
+            "vm/add$": {"action": "add"},
+            "vm/edit/$$id$": {"action": "edit", "vars": {"id": "[0-9]+"}},
+            "vm/del/$$id$": {"action": "del", "vars": {"id": "[0-9]+"}},
+            "vm/test/$$id$": {"action": "testConnexion", "vars": {"id": "[0-9]+"}
+            }
+        }
+    }, 
+
+    "^steam": {
+        "route": "steam/steam/show"
     } 
 }

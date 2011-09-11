@@ -1,0 +1,17 @@
+{
+    "Back": "Back", 
+    "AddVm": "Add a VM", 
+    
+    "IP": "IP Address", 
+    "Port": "Port", 
+    "User": "Username", 
+    "Mdp": "Password", 
+    "Keyfile": "Private key", 
+    "Actions": "Actions", 
+    
+    "ConnectTest": "Connection test", 
+    "Edit": "Edit", 
+    "Del": "Delete", 
+    
+    "errIdents": "Username or password seems to be wrong."
+}

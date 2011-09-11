@@ -13,6 +13,7 @@
     <?php foreach ($groups AS $group): ?><tr>
         <td><?php echo $group['id']; ?></td>
         <td><?php echo $group['nom']; ?></td>
-        <td><?php Page::a('Del', 'groups/del', $group['id']); ?></td>
+        <td><?php Page::a('Edit', 'groups/edit', $group['id']); ?> - 
+            <?php Page::a('Del', 'groups/del', $group['id']); ?></td>
     </tr><?php endforeach; ?>
 </table>

@@ -1,0 +1,18 @@
+{
+    "Back": "Retour", 
+    "AddVm": "Ajouter une VM", 
+    
+    "IP": "Adresse IP", 
+    "Port": "Port", 
+    "User": "Utilisateur", 
+    "Mdp": "Mot de passe", 
+    "Keyfile": "Clé privée", 
+    "Actions": "Actions", 
+    
+    "ConnectTest": "Test de connexion", 
+    "Edit": "Modifier", 
+    "Del": "Supprimer", 
+    
+    "errExists": "", 
+    "errIdents": "L'utilisateur ou le mot de passe semblent érronés."
+}

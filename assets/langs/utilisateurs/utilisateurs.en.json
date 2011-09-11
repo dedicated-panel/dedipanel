@@ -7,7 +7,8 @@
     "ConfMdp": "Confirm", 
     "Actions": "Actions", 
     
-    "Ajouter": "Add", 
+    "Add": "Add", 
+    "Edit": "Edit", 
     "GestGroup": "Groups", 
     "Modifier": "Edit", 
     "Supprimer": "Delete", 

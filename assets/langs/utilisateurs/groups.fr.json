@@ -1,9 +1,16 @@
 {
     "Retour": "Retour", 
     "AddGroup": "Ajouter un groupe", 
+    "EditGroup": "Modifier ce groupe", 
     
     "Nom": "Nom",
     "Actions": "Actions", 
     
-    "Del": "Supprimer"
+    "Edit": "Modifier", 
+    "Del": "Supprimer", 
+    
+    "Access?": "Peux Accéder ?", 
+    "Admin?": "Peux Administrer ?", 
+    
+    "errUsedName": "Ce nom est déjà utilisé."
 }

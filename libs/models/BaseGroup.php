@@ -7,9 +7,8 @@
  * 
  * @property integer $id
  * @property string $nom
- * @property Doctrine_Collection $GroupRights
- * @property Doctrine_Collection $User
  * @property Doctrine_Collection $GroupUsers
+ * @property Doctrine_Collection $GroupVms
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -36,16 +35,11 @@ abstract class BaseGroup extends Doctrine_Record
     public function setUp()
     {
         parent::setUp();
-        $this->hasMany('GroupRight as GroupRights', array(
+        $this->hasMany('GroupUser as GroupUsers', array(
              'local' => 'id',
              'foreign' => 'group_id'));
 
-        $this->hasMany('User', array(
-             'refClass' => 'GroupUser',
-             'local' => 'id',
-             'foreign' => 'id'));
-
-        $this->hasMany('GroupUser as GroupUsers', array(
+        $this->hasMany('GroupVm as GroupVms', array(
              'local' => 'id',
              'foreign' => 'group_id'));
     }

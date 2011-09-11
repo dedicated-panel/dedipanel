@@ -5,6 +5,7 @@ define('FIELD_TEXT',  0xF0);
 define('FIELD_MDP',   0xF1);
 define('FIELD_EMAIL', 0xF2);
 define('FIELD_PORT',  0xF3);
+define('FIELD_IP', 0xF4);
 
 define('BUTTON_SEND',  0xB1);
 define('BUTTON_RESET', 0xB2);
@@ -135,7 +136,8 @@ class Form {
         
         $filters = array(
             FIELD_TEXT => $filter_text, FIELD_MDP => $filter_text, 
-            FIELD_EMAIL => FILTER_VALIDATE_EMAIL, FIELD_PORT => $filter_port);
+            FIELD_EMAIL => FILTER_VALIDATE_EMAIL, FIELD_PORT => $filter_port, 
+            FIELD_IP => FILTER_VALIDATE_IP);
         
         $filterOptions = array();
         $rewrite = array();
