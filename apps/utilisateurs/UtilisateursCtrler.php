@@ -153,7 +153,11 @@ class UtilisateursCtrler extends BaseCtrler {
     protected function runDel($args) {
         $uid = $args['uid'];
         
-        // On supprime l'utilisateur voulu et on redirige l'admin
+        // On supprime les droits de l'utilisateur sélectionné
+        $delGroupsAccess = Doctrine_Query::create()
+            ->delete('UserGroup')->where('user_id = ?', $uid)->execute();
+        
+        // Puis on le supprime et on redirige l'utilisateur exécutant l'action
         Doctrine_Core::getTable('User')->delete($uid);
         $this->app()->httpResponse()->redirect('utilisateurs');
     }
