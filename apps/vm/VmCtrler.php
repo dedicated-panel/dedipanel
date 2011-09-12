@@ -94,9 +94,9 @@ class VmCtrler extends BaseCtrler {
     // Cette méthode permet de supprimer une vm
     protected function runDel($args) {
         // On extrait les variables retourné par le routeur
-        extract($args);
+        $vmId = $args['id'];
 
-        if ($vm = Doctrine_Core::getTable('Vm')->find($id)) {
+        if ($vm = Doctrine_Core::getTable('Vm')->find($vmId)) {
             // On supprime la clé privée
             $ssh = SSH::get($vm->ip, $vm->port, $vm->user, $vm->keyfile);
             $ssh->deleteKeyPair();
@@ -109,15 +109,14 @@ class VmCtrler extends BaseCtrler {
     }
 
     // Permet de texter le fonctionnement de la connexion ssh
-    protected function runTestConnexion($vars) {
-        // On extrait les variables retourné par le routeur
-        extract($vars);
+    protected function runTestConnexion($args) {
+        $vmId = $args['id'];
 
         // On vérifie que le vm existe et soit accessible par l'utilisateur
         // Si ce n'est pas le cas, on redirige l'utilisateur
-        if ($vm = Doctrine_Core::getTable('Vm')->find($id)) {
+        if ($vm = Doctrine_Core::getTable('Vm')->getHydrateVM($vmId)) {
             // On créer une connexion SSH avec la clé afin de vérifier la connexion
-            $ssh = SSH::get($vm->ip, $vm->port, $vm->user, $vm->keyfile);
+            $ssh = SSH::get($vm['ip'], $vm['port'], $vm['user'], $vm['keyfile']);
             $this->page->addTpl('vm/test', array('test' => $ssh->testConnexion()));
         }
         else $this->app()->httpResponse()->redirect('vm/show');
