@@ -28,6 +28,20 @@
             </option>
         <?php endforeach; L::sCF('utilisateurs/utilisateurs'); ?></select><br />
         
+        <?php
+            if (isset($form['su']) && $form['su'] == 1) {
+                $su0 = ''; $su1 = 'checked="checked"';
+            }
+            else {
+                $su0 = 'checked="checked"'; $su1 = '';
+            }
+        ?>
+        <label for="superuser"><?php L::eT('SuperUser'); ?> :</label>
+        <input type="radio" name="su" value="1" id="su1" <?php echo $su1; ?> /> 
+           <label for="su1">Oui</label>
+        <input type="radio" name="su" value="0" id="su0" <?php echo $su0; ?> /> 
+           <label for="su0">Non</label><br />
+        
         <label for="groups"><?php L::eT('Groups'); ?> :</label>
         <select id="groups" name="groups[]" multiple="multiple">
             <?php foreach ($groups AS $group) {

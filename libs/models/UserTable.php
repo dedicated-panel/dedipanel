@@ -36,12 +36,43 @@ class UserTable extends Doctrine_Table
         return $exist['id'];
     }
     
-    public function modifyUser($uid, $pseudo, $email, $lang, $mdp = null, $groups = null) {
+    public function addUser($pseudo, $mdp, $email, $lang, $su, $groups) {
+        // On créer un utilisateu et, on ajoute les données
+        $user = new User();
+        $user->pseudo = $pseudo;
+        $user->email = $email;
+        $user->mdp = sha1($mdp);
+        $user->lang = $lang;
+        $user->su = $su;
+
+        // On vérifie si le ndd de l'email ezt bon via le filtre doctrine
+        // On renvoie false s'il n'est pas bon
+        if ($user->isValid()) {
+            $user->save();
+            $uid = $user->id;
+
+            // On ajoute les groupes voulues
+            if (isset($groups)) {
+                foreach ($groups AS $group) {
+                    $access = new UserGroup();
+                    $access->user_id = $uid;
+                    $access->group_id = $group;
+                    $access->save();
+                }
+            }
+            
+            return true;
+        }
+        else return false;
+    }
+    
+    public function modifyUser($uid, $pseudo, $email, $lang, $su, $mdp = null, $groups = null) {
         $q = Doctrine_Query::create()
             ->update('User')
             ->set('pseudo', '?', $pseudo)
             ->set('email', '?', $email)
             ->set('lang', '?', $lang)
+            ->set('su', '?', $su)
             ->where('id = ?', $uid);
         
         // On modifie le mdp si nécessaire
@@ -69,7 +100,7 @@ class UserTable extends Doctrine_Table
     }
 
     public function getHydrateUser($uid) {
-        $q = Doctrine_Query::create()->select('pseudo, email, lang')->from('User')
+        $q = Doctrine_Query::create()->select('pseudo, email, lang, su')->from('User')
             ->where('id = ?', $uid);
         $res = $q->fetchOne(array(), Doctrine_Core::HYDRATE_ARRAY);
         $q->free();

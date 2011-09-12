@@ -13,11 +13,13 @@
     "Modifier": "Modifier", 
     "Supprimer": "Supprimer", 
     "Groups": "Choisissez les groupes", 
+    "SuperUser": "Super Utilisateur", 
     
     "errPseudo": "Veuillez indiquer un pseudo.", 
     "errMdp": "Veuillez indiquer un mot de passe.", 
     "errMdp2": "Veuillez confirmer le mot de passe.", 
     "errEmail": "Veuillez indiquer une adresse email.", 
+    "errNddEmail": "Veuillez indiquer une adresse email valide.", 
     "errConf": "La confirmation ne correspond pas.", 
     "errExistIdents": "Ce pseudo/email est déjà utilisé."
 }

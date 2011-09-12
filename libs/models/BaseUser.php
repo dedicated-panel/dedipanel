@@ -10,6 +10,7 @@
  * @property string $email
  * @property string $mdp
  * @property string $lang
+ * @property bool $su
  * @property Doctrine_Collection $GroupUsers
  * 
  * @package    ##PACKAGE##
@@ -48,6 +49,11 @@ abstract class BaseUser extends Doctrine_Record
              'notnull' => true,
              'default' => 'fr',
              'length' => '6',
+             ));
+        $this->hasColumn('su', 'bool', null, array(
+             'type' => 'bool',
+             'default' => 0,
+             'notnull' => true,
              ));
     }
 

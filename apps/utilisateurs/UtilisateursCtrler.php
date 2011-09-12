@@ -24,15 +24,15 @@ class UtilisateursCtrler extends BaseCtrler {
     protected function runAdd() {
         $form = array(); $erreurs = array();
         $groups = Doctrine_Core::getTable('Group')->getGroups();
-//        $form['groups'] = array();
         
         if (Form::hasSend()) {
             list($erreurs, $form) = Form::verifyData(array(
                 'pseudo' => FIELD_TEXT, 
                 'mdp' => FIELD_MDP, 
                 'mdp2' => FIELD_MDP, 
-                "email" => FIELD_EMAIL, 
-                'lang' => FIELD_TEXT
+                'email' => FIELD_EMAIL, 
+                'lang' => FIELD_TEXT, 
+                'su' => FIELD_BOOL
             ));
             
             // On vérifie que les deux mots de passes correspondent
@@ -53,36 +53,16 @@ class UtilisateursCtrler extends BaseCtrler {
             }
             
             if (!$erreurs) {
-                // On créer un utilisateur, on ajoute les données du formulaire
-                // Et on sauvegarde dans la bdd
-                $user = new User();
-                $user->pseudo = $form['pseudo'];
-                $user->email = $form['email'];
-                $user->mdp = sha1($form['mdp']);
-                $user->lang = $form['lang'];
-
-                // Si Doctrine renvoie false, c'est que notre validateur email
-                // Ne passe pas, le domaine indiqué est donc invalide
-                // Soit on sauvegarde les données et on redirige l'utilisateur
-                // Soit on ajoute un message d'erreur
-                if ($user->isValid()) {
-                    $user->save();
-                    $uid = $user->id;
-                    
-                    // On ajoute les groupes voulues
-                    if (isset($_POST['groups'])) {
-                        foreach ($_POST['groups'] AS $group) {
-                            $access = new UserGroup();
-                            $access->user_id = $uid;
-                            $access->group_id = $group;
-                            $access->save();
-                        }
-                    }
-//                    $this->app()->httpResponse()->redirect('utilisateurs');
+                // On ajoute un utilisateur
+                $groups = (isset($_POST['groups']) ? $_POST['groups'] : null);
+                $add = $table->addUser($form['pseudo'], $form['mdp'], 
+                    $form['email'], $form['lang'], $form['su'], $groups);
+                
+                // Si l'ajout a échoué c'est que le filtre doctrine email n'est pas bon
+                if ($add) {
+                    $this->app()->httpResponse()->redirect('utilisateurs');
                 }
-                else {
-                    $erreurs[] = 'nddEmail';
-                }
+                else $erreurs[] = 'nddEmail';
             }
         }
         
@@ -105,7 +85,8 @@ class UtilisateursCtrler extends BaseCtrler {
                 'mdp' => FIELD_MDP, 
                 'mdp2' => FIELD_MDP, 
                 'email' => FIELD_EMAIL, 
-                'lang' => FIELD_TEXT
+                'lang' => FIELD_TEXT, 
+                'su' => FIELD_BOOL
             ));
             
             // On commence par vérifier si l'utilisateur souhaite modifier le mdp
@@ -134,9 +115,10 @@ class UtilisateursCtrler extends BaseCtrler {
                 $erreurs[] = 'existIdents';
             }
             if (!$erreurs) {
+                $groups = (isset($_POST['groups']) ? $_POST['groups'] : null);
                 // On modifie l'utilisateur et on redirige
                 $table->modifyUser($uid, $form['pseudo'], $form['email'], 
-                    $form['lang'], $form['mdp'], $_POST['groups']);
+                    $form['lang'], $form['su'], $form['mdp'], $groups);
                 
                 $this->app()->httpResponse()->redirect('utilisateurs');
             }

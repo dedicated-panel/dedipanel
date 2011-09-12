@@ -6,6 +6,7 @@ User:
     email: {type: string(40), email: true, notnull: true}
     mdp: {type: string(40), notnull: true}
     lang: {type: string(6), notnull: true, default: fr}
+    su: {type: bool, default: 0, notnull: true}
     
 UserGroup:
   tableName: usersgroups
