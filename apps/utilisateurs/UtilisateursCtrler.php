@@ -111,20 +111,18 @@ class UtilisateursCtrler extends BaseCtrler {
             
             // On vérifie que le pseudo et l'email
             // Ne sont pas utilisé par un autre utilisateur
-            var_dump($form['pseudo']);
             $existsIdents = $table->existsIdents($form['pseudo'], $form['email']);
-            var_dump('test', $existsIdents, $uid);
-            if ($existsIdents != $uid) {
+            if ($existsIdents != false && $existsIdents != $uid) {
                 $erreurs[] = 'existsIdents';
             }
             
             if (!$erreurs) {
                 $groups = (isset($_POST['groups']) ? $_POST['groups'] : null);
                 // On modifie l'utilisateur et on redirige
-//                $table->modifyUser($uid, $form['pseudo'], $form['email'], 
-//                    $form['lang'], $form['mdp'], $form['su'], $groups);
+                $table->modifyUser($uid, $form['pseudo'], $form['email'], 
+                    $form['lang'], $form['mdp'], $form['su'], $groups);
                 
-//                $this->app()->httpResponse()->redirect('utilisateurs');
+                $this->app()->httpResponse()->redirect('utilisateurs');
             }
         }
         

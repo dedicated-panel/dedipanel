@@ -30,10 +30,10 @@ class UserTable extends Doctrine_Table
     public function existsIdents($pseudo, $email) {
         $q = Doctrine_Query::create()->select('id')->from('User')
             ->where('pseudo = ?')->orWhere('email = ?');
-        $exist = $q->fetchOne(array($pseudo, $email), Doctrine_Core::HYDRATE_ARRAY);
+        $exists = $q->fetchOne(array($pseudo, $email), Doctrine_Core::HYDRATE_ARRAY);
         $q->free();
         
-        return $exist['id'];
+        return $exists['id'];
     }
     
     public function addUser($pseudo, $mdp, $email, $lang, $su, $groups) {
@@ -75,8 +75,8 @@ class UserTable extends Doctrine_Table
             ->where('id = ?', $uid);
         
         // On modifie le mdp et la valeur de su (si nécessaire)
-        if ($mdp != null) $q->set('mdp', 'SHA1(?)', $mdp);
-        if ($su != null) $q->set('su', '?', $su);
+        if ($mdp !== null) $q->set('mdp', 'SHA1(?)', $mdp);
+        if ($su !== null) $q->set('su', '?', $su);
         $q->execute();
         
         // Si on souhaite modifier les groupes de l'utilisateur
