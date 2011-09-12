@@ -13,6 +13,6 @@
     "Edit": "Modifier", 
     "Del": "Supprimer", 
     
-    "errExists": "", 
+    "errExists": "Cette VM est déjà prise en charge.", 
     "errIdents": "L'utilisateur ou le mot de passe semblent érronés."
 }

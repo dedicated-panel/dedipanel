@@ -13,5 +13,6 @@
     "Edit": "Edit", 
     "Del": "Delete", 
     
-    "errIdents": "Username or password seems to be wrong."
+    "errIdents": "Username or password seems to be wrong.", 
+    "errExists": "This VM is already supported."
 }

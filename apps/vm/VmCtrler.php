@@ -33,32 +33,17 @@ class VmCtrler extends BaseCtrler {
                 'mdp' => FIELD_TEXT));
 
             if (!$erreurs) {
-                // On vérifie que cette VM et cet user ne soit pas déjà pris en charge
+                // On vérifie que cette VM et ce user ne soit pas déjà pris en charge
                 $table = Doctrine_Core::getTable('Vm');
                 $exists = $table->exists($form['ip'], $form['port'], $form['user']);
 
-                // On vérifie ensuite que les identifiants ssh fournies soient corrects
+                
                 if ($exists == false) {
-                    extract($form);
-                    $ssh = SSH::isValidIdents($ip, $port, $user, $mdp);
+                    $add = $table->addUser($form['ip'], $form['port'], 
+                        $form['user'], $form['mdp']);
                     
-                    if ($ssh != false) {
-                        // On génère un identifiant unique de 23 caractères
-                        $priv_keyfile = uniqid('', true);
-                        
-                        // On génère la paire de clé et on upload la clé publique
-                        $ssh->createKeyPair($priv_keyfile);
-
-                        // On enregistre les données dans la bdd
-                        $vm = new Vm();
-                        $vm->ip = $ip;
-                        $vm->port = $port;
-                        $vm->user = $user;
-                        $vm->keyfile = $priv_keyfile;
-                        $vm->save();
-
-                        // On termine par afficher l'action "show"
-                        $this->app()->httpResponse()->redirect('vm/show');
+                    if ($add) {
+                        $this->app()->httpResponse()->redirect('vm');
                     }
                     else $erreurs[] = 'idents';
                 }
@@ -71,10 +56,12 @@ class VmCtrler extends BaseCtrler {
 
     // Permet de modifier une VM
     protected function runEdit($args) {
-        $vmId = $vars['id'];
-        $form = Doctrine_Core::getTable('Vm')->find($vmId); $erreurs = array();
-
-        if (!$form) $this->app()->httpResponse()->redirect('vm');
+        $vmId = $args['id']; $erreurs = array();
+        $table = Doctrine_Core::getTable('Vm');
+        $vm = $table->getHydrateVM($vmId);
+        
+        // On vérifie que la VM sélectionné existe réellement
+        if (!$vm) $this->app()->httpResponse()->redirect('vm');
         
         // On traite le formulaire si celui-ci a été transmis
         if (Form::hasSend()) {
@@ -84,31 +71,24 @@ class VmCtrler extends BaseCtrler {
                 'mdp' => FIELD_TEXT));
 
             if (!$erreurs) {
-                extract($infos);
-                $ssh = SSH::isValidIdents($vm->ip, $port, $user, $mdp);
-
-                if ($ssh != false) {
-                    // On génère un identifiant unique de 23 caractères
-                    $priv_keyfile = uniqid('', true);
-
-                    // On supprime l'ancienne paire de clés et on en régénère une nouvelle
-                    $ssh->deleteKeyPair($vm->keyfile);
-                    $ssh->createKeyPair($priv_keyfile);
-
-                    // On enregistre les données dans la bdd
-                    $vm->port = $port;
-                    $vm->user = $user;
-                    $vm->keyfile = $priv_keyfile;
-                    $vm->save();
-
-                    // On termine par afficher l'action "show"
-                    $this->app()->httpResponse()->redirect('vm/show');
+                // On vérifie que la VM ne soit pas déjà pris en charge
+                $exists = $table->exists($vm['ip'], $form['port'], $form['user']);
+                
+                if ($exists == false || $exists == $vmId) {
+                    // On édite la VM. La fonction renvoie false si les idents sont faux
+                    $edit = $table->editVM($vmId, $vm['ip'], $form['port'], $form['user'], 
+                        $form['mdp'], $vm['keyfile']);
+                    
+                    if ($edit) {
+                        $this->app()->httpResponse()->redirect('vm');
+                    }
+                    else $erreurs[] = 'idents';
                 }
-                else $this->page->setTplVars('vm/add', array('idents' => true));
+                else $erreurs[] = 'exists';
             }
         }
 
-        $this->page->addTplVars('vm/edit', array('vm' => $vm));
+        $this->page->addTpl('vm/add', array('form' => $vm, 'erreurs' => $erreurs));
     }
 
     // Cette méthode permet de supprimer une vm
