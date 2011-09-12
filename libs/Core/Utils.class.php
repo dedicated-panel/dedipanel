@@ -6,6 +6,7 @@ define('FIELD_MDP',   0xF1);
 define('FIELD_EMAIL', 0xF2);
 define('FIELD_PORT',  0xF3);
 define('FIELD_IP', 0xF4);
+define('FIELD_BOOL', 0xF5);
 
 define('BUTTON_SEND',  0xB1);
 define('BUTTON_RESET', 0xB2);
@@ -133,11 +134,13 @@ class Form {
     public static function verifyData($fields) {        
         $filter_text = array('filter' => FILTER_SANITIZE_STRING, 'flags' => FILTER_FLAG_NO_ENCODE_QUOTES);
         $filter_port = array('filter' => FILTER_VALIDATE_INT, 'options' => array('min_range' => 0, 'max_range' => 65536));
+        $filter_bool = array('filter' => FILTER_VALIDATE_INT, 'options' => array('min_range' => 0, 'max_range' => 1));
         
         $filters = array(
             FIELD_TEXT => $filter_text, FIELD_MDP => $filter_text, 
             FIELD_EMAIL => FILTER_VALIDATE_EMAIL, FIELD_PORT => $filter_port, 
-            FIELD_IP => FILTER_VALIDATE_IP);
+            FIELD_IP => FILTER_VALIDATE_IP, 
+            FIELD_BOOL => $filter_bool);
         
         $filterOptions = array();
         $rewrite = array();
@@ -198,7 +201,7 @@ class Form {
         $errors = array();
 
         foreach ($vars AS $varname => $var) {
-            if ($var === false || empty($var)) {
+            if ($var === false || $var === null) {
                 $errors[] = $varname;
             }
         }
