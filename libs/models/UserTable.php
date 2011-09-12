@@ -27,7 +27,7 @@ class UserTable extends Doctrine_Table
     }
     
     // Vérifie l'utilisation d'un pseudo/mail
-    public function existIdents($pseudo, $email) {
+    public function existsIdents($pseudo, $email) {
         $q = Doctrine_Query::create()->select('id')->from('User')
             ->where('pseudo = ?')->orWhere('email = ?');
         $exist = $q->fetchOne(array($pseudo, $email), Doctrine_Core::HYDRATE_ARRAY);
@@ -66,17 +66,17 @@ class UserTable extends Doctrine_Table
         else return false;
     }
     
-    public function modifyUser($uid, $pseudo, $email, $lang, $su, $mdp = null, $groups = null) {
+    public function modifyUser($uid, $pseudo, $email, $lang, $mdp = null, $su = null, $groups = null) {
         $q = Doctrine_Query::create()
             ->update('User')
             ->set('pseudo', '?', $pseudo)
             ->set('email', '?', $email)
             ->set('lang', '?', $lang)
-            ->set('su', '?', $su)
             ->where('id = ?', $uid);
         
-        // On modifie le mdp si nécessaire
+        // On modifie le mdp et la valeur de su (si nécessaire)
         if ($mdp != null) $q->set('mdp', 'SHA1(?)', $mdp);
+        if ($su != null) $q->set('su', '?', $su);
         $q->execute();
         
         // Si on souhaite modifier les groupes de l'utilisateur

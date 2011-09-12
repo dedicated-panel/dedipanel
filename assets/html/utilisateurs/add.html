@@ -29,6 +29,7 @@
         <?php endforeach; L::sCF('utilisateurs/utilisateurs'); ?></select><br />
         
         <?php
+            // On définit l'option par défaut pour la champ "SuperUser"
             if (isset($form['su']) && $form['su'] == 1) {
                 $su0 = ''; $su1 = 'checked="checked"';
             }

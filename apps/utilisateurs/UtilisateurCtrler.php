@@ -82,7 +82,7 @@ class UtilisateurCtrler extends BaseCtrler {
                 'pseudo' => FIELD_TEXT, 
                 'mdp' => FIELD_MDP, 
                 'mdp2' => FIELD_MDP, 
-                "email" => FIELD_EMAIL, 
+                'email' => FIELD_EMAIL, 
                 'lang' => FIELD_TEXT
             ));
             
@@ -108,9 +108,9 @@ class UtilisateurCtrler extends BaseCtrler {
             
             // Ainsi que l'utilisation du pseudo/email
             $table = Doctrine_Core::getTable('User'); $uid = $this->session->uid;
-            $idIdents = $table->existIdents($form['pseudo'], $form['email']);
+            $idIdents = $table->existsIdents($form['pseudo'], $form['email']);
             if ($idIdents != $uid) {
-                $erreurs[] = 'existIdents';
+                $erreurs[] = 'existsIdents';
             }
             
             if (!$erreurs) {

@@ -48,8 +48,8 @@ class UtilisateursCtrler extends BaseCtrler {
             // Afin de faire des vérifs supplémentaires 
             // Sur l'utillisation des identss
             $table = Doctrine_Core::getTable('User');
-            if ($table->existIdents($form['pseudo'], $form['email']) != false) {
-                $erreurs[] = 'existIdents';
+            if ($table->existsIdents($form['pseudo'], $form['email']) != false) {
+                $erreurs[] = 'existsIdents';
             }
             
             if (!$erreurs) {
@@ -111,16 +111,20 @@ class UtilisateursCtrler extends BaseCtrler {
             
             // On vérifie que le pseudo et l'email
             // Ne sont pas utilisé par un autre utilisateur
-            if ($table->existIdents($form['pseudo'], $form['email']) != $uid) {
-                $erreurs[] = 'existIdents';
+            var_dump($form['pseudo']);
+            $existsIdents = $table->existsIdents($form['pseudo'], $form['email']);
+            var_dump('test', $existsIdents, $uid);
+            if ($existsIdents != $uid) {
+                $erreurs[] = 'existsIdents';
             }
+            
             if (!$erreurs) {
                 $groups = (isset($_POST['groups']) ? $_POST['groups'] : null);
                 // On modifie l'utilisateur et on redirige
-                $table->modifyUser($uid, $form['pseudo'], $form['email'], 
-                    $form['lang'], $form['su'], $form['mdp'], $groups);
+//                $table->modifyUser($uid, $form['pseudo'], $form['email'], 
+//                    $form['lang'], $form['mdp'], $form['su'], $groups);
                 
-                $this->app()->httpResponse()->redirect('utilisateurs');
+//                $this->app()->httpResponse()->redirect('utilisateurs');
             }
         }
         

@@ -70,7 +70,7 @@ class VmCtrler extends BaseCtrler {
     }
 
     // Permet de modifier une VM
-    protected function runEdit($vars) {
+    protected function runEdit($args) {
         $vmId = $vars['id'];
         $form = Doctrine_Core::getTable('Vm')->find($vmId); $erreurs = array();
 

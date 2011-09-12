@@ -12,7 +12,7 @@
     "errEmail": "Veuillez indiquer votre adresse email.", 
     "errConf": "La confirmation ne correspond pas.", 
     "errNddEmail": "Veuillez indiquer une adresse email valide.", 
-    "errExistIdents": "Ce pseudo/email est déjà utilisé.", 
+    "errExistsIdents": "Ce pseudo/email est déjà utilisé.", 
     
     "Pseudo": "Pseudo", 
     "Mdp": "Mot de passe", 

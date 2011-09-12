@@ -12,7 +12,7 @@
     "errEmail": "You need to set your email.", 
     "errConf": "Confirmation not matching.", 
     "errNddEmail": "You need to set a valid email.", 
-    "errExistIdents": "This nickname/email is already used.", 
+    "errExistsIdents": "This nickname/email is already used.", 
     
     "Pseudo": "Nickname", 
     "Mdp": "Password", 

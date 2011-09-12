@@ -79,8 +79,8 @@ class GroupsCtrler extends BaseCtrler {
             if (!$erreurs) {
                 // On vérifie que le nom du groupe ne soit pas déjà utilisé
                 // Ou que l'id corresponde à celui du group modifié
-                $nameUsed = Doctrine_Core::getTable('Group')->usedName($form['nom']);
-                if ($nameUsed == $gid || $nameUsed == false) {
+                $usedName = Doctrine_Core::getTable('Group')->usedName($form['nom']);
+                if ($usedName == $gid || $usedName == false) {
                     // On sauvegarde le nom
                     $group = Doctrine_Core::getTable('Group')->find($gid);
                     $group->nom = $form['nom'];
