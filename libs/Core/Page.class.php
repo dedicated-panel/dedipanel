@@ -25,6 +25,13 @@ class Page extends ApplicationComponent {
         if (!isset($tplVars)) $tplVars = $vars;
         else $tplVars = array_merge($tplVars, $vars);
     }
+	
+    public function addCSS($css) {
+        $this->cssFiles[] = $css;
+    }
+    public function getCSSFiles() {
+        return $this->cssFiles;
+    }
 
     private function getPath($tplName) {
         return HTML_DIR . $tplName . '.html';
@@ -50,7 +57,7 @@ class Page extends ApplicationComponent {
     }
 
     // Permet d'afficher un lien interne (ou externe) dans un template
-    public static function a($text, $url, $vars = false, $baseUrl = BASE_URL) {
+    public static function a($text, $url, $vars = false, $trad = true, $baseUrl = BASE_URL) {
         // On supprime les slashs en trop et on en rajoute un manuellement à la fin
         // Cette procédure permet de garantir la présence des / nécessaires
         $baseUrl = rtrim($baseUrl, '/') . '/';
@@ -67,9 +74,19 @@ class Page extends ApplicationComponent {
             $url .= $vars . '/';
         }
         
-        echo '<a href="' , $baseUrl , $url , '">' , L::eT($text) , '</a>';
+        if ($trad) $text = L::gT($text);
+        echo '<a href="' , $baseUrl , $url , '">' , $text , '</a>';
     }
-
+    
+    // Permet d'afficher une image
+    public static function getImg($src, $title = '', $tradTitle = true, $baseUrl = IMG_URL) {
+        // On supprime les slashs en trop
+        $baseUrl = rtrim($baseUrl, '/') . '/';
+        
+        if ($title != '' && $tradTitle) $title = L::eT($title);
+        return '<img src="' . $baseUrl . $src . '" title="' . $title . '" />';
+    }
+    
     // Renvoie une instance de la classe "Lang"
     public function getLang() {
         return $this->lang;
@@ -79,6 +96,7 @@ class Page extends ApplicationComponent {
     private $vars;
     private $layout;
     private $lang;
+    private $cssFiles;
 }
 
 class Lang extends ApplicationComponent {
@@ -186,9 +204,8 @@ class Lang extends ApplicationComponent {
             if ($trad != false) return $trad;
         }
         
-        // Finallement on retourne null 
-        // (sauf si qql chose à été trouvé entre temps)
-        return null;
+        // On retourne la clé si rien n'a été trouvé
+        return $key;
     }
     
     // Cette méthode permet de récupérer une traduction précise
@@ -283,14 +300,13 @@ class L {
         if (self::getInstance() != null) {
             return self::getInstance()->getTraduction($key);
         }
-        else return null;
+        else return $key;
     }
     static public function gT($key) {
         return self::getTraduction($key);
     }
     static public function eT($key) {
-        $trad = self::getTraduction($key);
-        echo ($trad != null) ? $trad : $key;
+        echo self::getTraduction($key);
     }
     
     static $instance = null;
