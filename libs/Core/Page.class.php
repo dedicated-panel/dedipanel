@@ -4,6 +4,7 @@ class Page extends ApplicationComponent {
         // On créer une instance de la classe langue afin d'avoir du multi-langue
         // Ayant une intégration facilité dans les templates
         $this->lang = new Lang($this->app(), $args);
+        P::setInstance($this);
     }
     
     public function addTpl($tplName, $vars = array()) {
@@ -97,6 +98,35 @@ class Page extends ApplicationComponent {
     private $layout;
     private $lang;
     private $cssFiles;
+}
+
+class P {
+    private function __construct() {}
+    
+    // Permet de récupérer/modifier l'instance de la langue 
+    // getInstance() renvoie null si l'instance n'est pas déclaré
+    static public function getInstance() {
+        return self::$instance;
+        
+    }
+    static public function setInstance($instance) {
+        self::$instance = $instance;
+    }
+
+    static public function a($text, $url, $vars = false, $trad = true, $baseUrl = BASE_URL) {
+        if ($inst = self::getInstance()) {
+            return $inst->a($text, $url, $vars, $trad, $baseUrl);
+        }
+        else return null;
+    }
+    static public function getImg($src, $title = '', $tradTitle = true, $baseUrl = IMG_URL) {
+        if ($inst = self::getInstance()) {
+            return $inst->getImg($src, $title, $tradTitle, $baseUrl);
+        }
+        else return null;
+    }
+    
+    static $instance = null;
 }
 
 class Lang extends ApplicationComponent {
