@@ -1,10 +1,4 @@
-{
-    "GestSteam": "Gestion des serveurs steam", 
-    "GestVm": "Gestion des VM", 
-    "Profil": "Profil", 
-    "Utilisateurs": "Utilisateurs", 
-    "Déconnexion": "Déconnexion", 
-    
+{    
     "errPseudo": "Veuillez indiquer votre pseudo.", 
     "errMdp": "Veuillez indiquer votre mot de passe.", 
     "errIdents": "Mauvais pseudo/mot de passe.", 

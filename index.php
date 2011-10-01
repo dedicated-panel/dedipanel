@@ -2,7 +2,7 @@
 //ini_set('xdebug.profiler_enable', 'on');
 //session_start();
 
-define('BASE_URL', 'http://localhost/dedipanel');
+define('BASE_URL', 'http://localhost/dp_design/dedipanel');
 define('ROOT_DIR', dirname(__FILE__));
 
 define('APPS_DIR', ROOT_DIR . '/apps/');
@@ -10,11 +10,11 @@ define('LIBS_DIR', ROOT_DIR . '/libs/');
 define('CFG_DIR', ROOT_DIR . '/configs/');
 
 define('HTML_DIR', ROOT_DIR . '/assets/html/');
-define('CSS_DIR', ROOT_DIR . '/assets/css/');
-define('JS_DIR', ROOT_DIR . '/assets/js/');
 define('LANG_DIR', ROOT_DIR . '/assets/langs/');
 
-define('IMG_URL', BASE_URL . 'assets/images');
+define('CSS_URL', BASE_URL . '/assets/css/');
+define('JS_URL', BASE_URL . '/assets/js/');
+define('IMG_URL', BASE_URL . '/assets/images');
 
 include_once LIBS_DIR . 'Core/Application.class.php';
 

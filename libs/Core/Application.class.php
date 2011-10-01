@@ -179,8 +179,23 @@ abstract class BaseCtrler extends ApplicationComponent {
     public function run($action, $vars) {
         $method = 'run' . ucfirst($action);
         
-        $this->page->addTpl('header');  // On inclut le template contenant l'header
+        $this->page->addTpl('header', array(
+            'connected' => $this->session->connected, 
+            'pseudo' => $this->session->pseudo, 
+            'isSU' => true, 
+            'dpVer' => '0.4_design', 
+            'lastDpVer' => '0.4', 
+        ));  // On inclut le template contenant l'header
+        // Ainsi que le fichier de traduction qui lui est associé
+        $this->lang->loadTradFile('common/header');
 
+        if ($this->session->connected) {
+                $this->page->addCSS('main');
+        }
+        else {
+                $this->page->addCSS('login');
+        }
+		
         // On exécute la méthode correspondant à l'action demandée
         if (empty($vars)) {
             $this->$method();
@@ -189,7 +204,8 @@ abstract class BaseCtrler extends ApplicationComponent {
             $this->$method($vars);
         }
 
-        $this->page->addTpl('footer');  // De même pour le footer
+        $this->page->addTpl('footer', array(
+            'connected' => $this->session->connected));  // De même pour le footer
         return $this->page;
     }
 

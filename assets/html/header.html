@@ -5,6 +5,97 @@
         <title>Dedicated-Panel</title>
 
         <link rel="icon" type="image/png" href="<?php echo IMG_URL; ?>/favicon.png" />
+        <?php 
+            $cssFiles = $this->getCSSFiles();
+            foreach ($cssFiles AS $css) {
+                echo '<link rel="stylesheet" type="text/css" href="' , CSS_URL , $css , '.css" />';
+            }
+        ?>
     </head>
 
     <body>
+        <?php if ($connected === true) { ?>
+        <!--  Header -->
+        <div id="header">
+            <div id="header_content">
+                <div id="logo"><?php P::a('', ''); ?></div>
+                <div id="speedbar">
+                    <ul>
+                        <li><a href="index.php" class="home"></a></li>
+                        <li><a href="http://www.dedicated-panel.net" class="website"></a></li>
+                        <li><a href="http://www.dedicated-panel.net" class="help"></a></li>
+                        <li><a href="http://www.dedicated-panel.net" class="bug"></a></li>
+                    </ul>
+                </div>
+                <div id="profil">
+                    <div id="img"><?php P::a('', 'utilisateur/profil'); ?></div>
+                    <div id="top">
+                        <?php P::a($pseudo, 'utilisateur/profil'); ?> - 
+                        <?php P::a('Déconnexion', 'utilisateur/logout'); ?>
+                    </div>
+                    <div id="bottom"><?php if ($isSU) { ?>
+                        <?php P::a('Utilisateurs', 'utilisateurs'); ?>
+                    <?php } ?></div>
+                </div>
+            </div>
+        </div>
+        <!--  End Header -->
+
+        <!-- Body -->
+        <div id="body">
+            <div id="tbody"></div>
+                <div id="corps">
+
+                    <!--  Menu  -->
+                    <div id="m_left">
+                        <!-- <div class="postit"><div class="content">
+                            <h3>Bienvenue sur votre panel</h3>
+                            <p>Cet espace vous permet de diriger votre machine le plus simple possible.
+                            Oubliez scripts et lignes de commandes, ici vous gèrez tous vos serveurs de jeux en
+                            quelques clics seulement.</p>
+                        </div></div> -->
+                        <?php if ($isSU) { ?>
+                        <div class="postit"><div class="content">
+                            <p>
+                                <?php echo L::eT('installDirExists'); ?><br />
+                                <?php echo L::eT('upgradeDirExists'); ?><br />
+                                
+                                <br />
+                                
+                                <?php echo L::eT('installedVer') , ' : ' , $dpVer; ?><br />
+                                <?php echo L::eT('lastDpVer') , ' : ' , $lastDpVer; ?><br />
+                                <!-- <?php if (DP_VERSION != $derniere_version_dp) { ?>
+                                    Importance de la MAJ : <a href="http://www.dedicated-panel.net"><?php
+                                    if ($importance_maj_dp == 1) echo 'Importante';
+                                    elseif ($importance_maj_dp == 2) echo 'Moyenne';
+                                    elseif ($importance_maj_dp == 3) echo 'Minime';
+                                    ?></a><br />
+                                <?php } ?> -->
+                            </p>
+                        </div></div>
+                        <div class="plugin">
+                            <?php P::a(P::getImg('other/steam.gif') . L::gT('GestSteam'), 'steam', false, false); ?>
+                        </div>
+
+                        <?php if ($isSU) { ?>
+                            <div class="plugin">
+                                <?php P::a(P::getImg('other/utilisateurs.gif') . L::gT('Utilisateurs'), 'utilisateurs', false, false); ?>
+                            </div>
+                            <div class="plugin">
+                                <?php P::a(P::getImg('other/options.gif') . L::gT('Options'), 'utilisateur/profil', false, false); ?>
+                            </div>
+                        <?php } } ?>
+                    </div>
+
+                    <!--  End Menu  -->
+                    <div id="content">
+            <?php } else { ?>
+                <div id="header">
+                    <div id="h_content">
+                        <div id="logo"></div>
+                        <div id="web">
+                            <a href="http://www.dedicated-panel.net" title="<?php L::eT('WebSite'); ?>"></a>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>

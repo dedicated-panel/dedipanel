@@ -1,0 +1,15 @@
+{
+    "installDirExists": "The install folder is still existing !", 
+    "upgradeDirExists": "The upgrade folder is still existing !", 
+    
+    "installedVer": "Installed version", 
+    "lastDpVer": "Last downloadable version", 
+    
+    "GestSteam": "Steam Servers", 
+    "GestVm": "VM management", 
+    "Profil": "Profile", 
+    "Utilisateurs": "Users", 
+    "Déconnexion": "Logout", 
+    
+    "WebSite": "Web Site"
+}

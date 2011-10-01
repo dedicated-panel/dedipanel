@@ -1,13 +1,14 @@
-<form action="" method="post">
-    <ul class="erreurs">
-        <?php foreach ($erreurs AS $err): ?>
-            <li><?php L::eT('err' . ucfirst($err)); ?></li>
-        <?php endforeach; ?>
-    </ul>
-    
-    <p><input type="text" name="pseudo" placeholder="<?php L::eT('Pseudo'); ?>" />
-    <input type="password" name="mdp" placeholder="<?php L::eT('Mdp'); ?>" />
-    <br />
+<div id="body"><div id="logbox">
+    <form action="" method="post">
+        <ul class="erreurs">
+            <?php foreach ($erreurs AS $err): ?>
+                <li><?php L::eT('err' . ucfirst($err)); ?></li>
+            <?php endforeach; ?>
+        </ul>
 
-    <input type="submit" name="envoi" value="Se connecter" /></p>
-</form>
+        <div id="login"><input type="text" name="pseudo" placeholder="<?php L::eT('Pseudo'); ?>" /></div>
+        <div id="mdp"><input type="password" name="mdp" placeholder="<?php L::eT('Mdp'); ?>" /></div>
+
+        <div id="submit"><input type="submit" name="envoi" value="" /></div>
+    </form>
+</div></div>

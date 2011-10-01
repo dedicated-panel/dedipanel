@@ -1,10 +1,4 @@
-{
-    "GestSteam": "Steam Servers management", 
-    "GestVm": "VM management", 
-    "Profil": "Profile", 
-    "Utilisateurs": "Users", 
-    "Déconnexion": "Logout", 
-    
+{    
     "errPseudo": "You need to set your nickname.", 
     "errMdp": "You need to set your password.", 
     "errIdents": "Wrong nickname/password.", 
