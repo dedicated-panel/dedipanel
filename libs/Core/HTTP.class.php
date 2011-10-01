@@ -60,7 +60,5 @@ class HTTPResponse extends ApplicationComponent {
             ob_end_flush();
         }
     }
-
-    private $page;
 }
 ?>
