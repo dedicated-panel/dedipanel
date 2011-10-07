@@ -159,8 +159,6 @@ class Form {
                     unset($type['type']);
                 }
                 
-                $options += $filters[$type['type']];
-                
                 // On vérifie s'il y a un champ fieldName dans l'array $type
                 // Si c'est le cas on doit réécrire l'array donné par le filtrage
                 if (isset($type['fieldName'])) {

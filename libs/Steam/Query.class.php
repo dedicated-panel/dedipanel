@@ -17,7 +17,7 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-require_once(DIR_QUERY . '/Socket.class.php');
+require_once(SOCK_DIR . 'Socket.class.php');
 
 abstract class Query extends SocketUDP {
 	// Cette méthode est implémenté séparement dans les classes filles GoldSrcQuery et SourceQuery puisque les réponses à la requête de ping est différente

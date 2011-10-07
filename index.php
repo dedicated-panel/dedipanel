@@ -1,8 +1,7 @@
 <?php
 //ini_set('xdebug.profiler_enable', 'on');
-//session_start();
 
-define('BASE_URL', 'http://localhost/dp_design/dedipanel');
+define('BASE_URL', 'http://localhost/dp_steam/');
 define('ROOT_DIR', dirname(__FILE__));
 
 define('APPS_DIR', ROOT_DIR . '/apps/');
@@ -11,6 +10,9 @@ define('CFG_DIR', ROOT_DIR . '/configs/');
 
 define('HTML_DIR', ROOT_DIR . '/assets/html/');
 define('LANG_DIR', ROOT_DIR . '/assets/langs/');
+
+define('SOCK_DIR', LIBS_DIR . 'Socket/');
+define('QUERY_DIR', LIBS_DIR . 'Steam/');
 
 define('CSS_URL', BASE_URL . '/assets/css/');
 define('JS_URL', BASE_URL . '/assets/js/');

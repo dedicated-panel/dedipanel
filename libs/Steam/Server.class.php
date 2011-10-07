@@ -19,8 +19,8 @@
 
 define('DIR_QUERY', dirname(__FILE__));
 
-require_once(DIR_QUERY . '/Rcon.class.php');
-require_once(DIR_QUERY . '/Query.class.php');
+require_once(QUERY_DIR . 'Rcon.class.php');
+require_once(QUERY_DIR . 'Query.class.php');
 
 class Server {
     public static function getServer($type = self::STYPE_GOLDSRC, $ip = '127.0.0.1', $port = 27015) {

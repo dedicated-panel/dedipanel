@@ -17,7 +17,7 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-require_once(DIR_QUERY . '/Packet.class.php');
+require_once(SOCK_DIR . 'Packet.class.php');
 
 function error_handler($no, $str, $file, $lne) {
     if ($no == E_USER_ERROR) {

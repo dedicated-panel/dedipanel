@@ -20,7 +20,7 @@
 // MTU Steam
 define('MTU', 4096);
 
-require_once(DIR_QUERY . '/Socket.class.php');
+require_once(SOCK_DIR . 'Socket.class.php');
 
 class GoldSrcRcon extends SocketUDP {
     public function __construct($ip, $port, $mdp, $ip6 = false) {
