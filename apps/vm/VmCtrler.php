@@ -39,7 +39,7 @@ class VmCtrler extends BaseCtrler {
 
                 
                 if ($exists == false) {
-                    $add = $table->addUser($form['ip'], $form['port'], 
+                    $add = $table->addVM($form['ip'], $form['port'], 
                         $form['user'], $form['mdp']);
                     
                     if ($add) {
