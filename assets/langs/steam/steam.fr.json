@@ -1,12 +1,36 @@
 {
     "Retour": "Retour", 
     "AddServ": "Ajouter un serveur", 
-    "Refresh": "Rafraîchir", 
     
     "IP": "Adresse IP", 
     "Port": "Port", 
     "Jeu": "Jeu", 
     "Dir": "Répertoire", 
     "Status": "Etat", 
-    "Actions": "Actions"
+    "Actions": "Actions", 
+    
+    "errSelectVM": "Impossible de sélectionner cette VM.", 
+    "errPort": "Port choisi non valide.", 
+    "errJeu": "Jeu indisponible.", 
+    "errDir": "Impossible d'utiliser ce dossier.", 
+    "errSlots": "Nombre de slots invalide.", 
+    "errExists": "Port déjà pris en charge sur cette VM.", 
+    
+    "VM": "Machine", 
+    "Port": "Port", 
+    "Jeu": "Jeu", 
+    "InstallDir": "Répertoire d'installation", 
+    "Slots": "Nombre de slots", 
+    
+    "Open": "Allumé", 
+    "Close": "Eteint", 
+    "Edit": "Modifier", 
+    "SoftDel": "Suppression partielle", 
+    "HardDel": "Suppression totale", 
+    "Shutdown": "Arrêter", 
+    "Restart": "Redémarrer", 
+    "SwitchOn": "Allumer", 
+    "RegenSh": "Régénérer la config. du panel", 
+    "EditCfg": "Modifier CFG"
+    
 }

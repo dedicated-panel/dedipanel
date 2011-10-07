@@ -1,5 +1,6 @@
 <?php
-
+include_once QUERY_DIR . 'Server.class.php';
+include_once LIBS_DIR . 'SSH.class.php';
 /**
  * Steam
  * 
@@ -12,5 +13,79 @@
  */
 class Steam extends BaseSteam
 {
+    public function getQuery() {
+        if (!isset($this->query)) {
+            $ip = $this->Vm->ip;
+            $port = $this->port;
+            $type = Server::getTypeServ($this->Jeu->bin);
+            $this->query = Server::getServer($type, $ip, $port)->getQuery();
+        }
+        
+        return $this->query;
+    }
 
+    public function getServDir($dir = '') {
+        $dir = ($dir != '') ? $dir : $this->dir;
+        return '/home/' . $this->Vm->user . '/' . $dir . '/';
+    }
+
+    public function getBinDir() {
+        return $this->getServDir() . (($this->Jeu->orangebox) ? 'orangebox/' : '');
+    }
+
+    public function getGameDir() {
+        return $this->getBinDir() . $this->Jeu->launchName . '/';
+    }
+
+    public function putHldsScript() {
+        $binDir = $this->getBinDir();
+        $scriptFile = $binDir . 'hlds.sh';
+
+        // On définit le nom qu'aura le screen de notre serv
+        // Ainsi que le répertoire dans lequel se trouve l'hlds_run/srcds_run
+        $screenName = $this->Vm->user . '-' . $this->dir;
+
+        // On génère le screen qui va permettre de lancer le serveur
+        $screen  = 'screen -dmS ' . $screenName . ' ' . $binDir . $this->Jeu->bin;
+        $screen .= ' -game ' . $this->Jeu->launchName . ' +ip ' . $this->Vm->ip . ' -port ' . $this->port;
+        $screen .= ' +maxplayers ' . $this->maxplayers . ' +map ' . $this->Jeu->map . ' -autoupdate';
+
+        // On fait les remplacement nécessaire dans le contenu du fichier
+        $hlds_sh = file_get_contents(CFG_DIR . 'sh/hlds.sh');
+        $hlds_sh = str_replace('$$SCREEN_NAME', $screenName, $hlds_sh);
+        $hlds_sh = str_replace('$$SCREEN', $screen, $hlds_sh);
+
+        // On termine par uploader le script shell et lui donner les droits
+        $ssh = SSH::get($this->Vm->ip, $this->Vm->port, $this->Vm->user, $this->Vm->keyfile);
+        $put = $ssh->putData($hlds_sh, $scriptFile);
+        $exec = $ssh->exec('chmod +x ' . $scriptFile);
+        
+        var_dump('put', $put, $exec);
+        return $put && $exec;
+    }
+
+    public function installServer() {
+        // TODO: Ajout not end screen
+        $vm = $this->Vm;
+        $installName = $this->Jeu->installName;
+        $ssh = SSH::get($vm->ip, $vm->port, $vm->user, $vm->keyfile, true);
+
+        $installDir = $this->getServDir();
+        $scriptPath = $installDir . 'install.sh';
+        $logPath = $installDir . 'install.log';
+
+        $mkdir  = 'if [ ! -e ' . $installDir . ' ]; then mkdir ' . $installDir . '; fi';
+        $screen  = 'cd ' . $installDir . ' && screen -dm ' . $scriptPath . ' "' . $installName . '"';
+//        $screen .= ' > ' . $logPath . ' 2>&1 &';
+
+        // On créer le dossier qui va contenir le serveur (s'il n'existe pas déjà)
+        $ssh->exec($mkdir);
+        // On y upload le script d'installation
+        $ssh->putFile(CFG_DIR . 'sh/install.sh', $scriptPath);
+        // Puis on lui donne les droits d'accès et on termine par l'exécuter
+        $ssh->exec('chmod +x ' . $scriptPath);
+        $ssh->exec($screen);
+    }
+
+    private $query;
 }

@@ -1,0 +1,36 @@
+<p> <?php P::a('Retour', 'steam/show'); ?></p>
+
+<form action="" method="post">
+    <p class="erreurs"><?php if (isset($erreurs)) {        
+        foreach ($erreurs AS $erreur => $val) {
+            echo L::eT('err' . ucfirst($erreur), false) . '<br />';
+        }
+    } ?></p>
+
+    <p>
+        <label for="vm"><?php L::eT('VM'); ?> :</label>
+        <select name="vm" id="vm" required><?php foreach ($VMs AS $vm) { ?>
+            <option value="<?php echo $vm->id; ?>">
+                <?php echo $vm->ip , ' (' , $vm->user , ')'; ?>
+            </option>
+        <?php } ?></select><br />
+
+        <label for="port"><?php L::eT('Port'); ?> :</label> 
+        <input type="number" name="port" id="port" min="0" max="65536" required="required" /><br />
+
+        <label for="jeu"><?php L::eT('Jeu'); ?> :</label>
+        <select name="jeu" id="jeu" required="required"><?php foreach ($jeux AS $jeu) { ?>
+            <option value="<?php echo $jeu->id; ?>"><?php echo $jeu->nomJeu; ?></option>
+        <?php } ?></select><br />
+
+        <label for="dir">
+             <?php L::eT('InstallDir'); ?> (<i size="8">/home/user/</i>) :
+        </label> <input type="text" name="dir" id="dir" required="required" value="" /><br />
+
+        <label for="slots"><?php L::eT('Slots'); ?> :</label>
+        <input type="number" id="slots" name="maxplayers" min="1" max="99" value="" required="required" />
+        <br />
+
+        <input type="submit" name="envoi" value="Ajouter" />
+    </p>
+</form>

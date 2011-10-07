@@ -14,7 +14,7 @@ class SteamCtrler extends BaseCtrler {
     }
 
     protected function runShow() {
-        $serveurs = array();
+        $serveurs = Doctrine_Core::getTable('Steam')->findAll();
         
         $this->page->addtpl('steam/show', array('serveurs' => $serveurs));
     }
@@ -28,34 +28,36 @@ class SteamCtrler extends BaseCtrler {
         
         if (Form::hasSend()) {
             list($erreurs, $form) = Form::verifyData(array(
-                'idVm' => array('nom' => 'vm', 'filter' => 'int'),
-                'port' => 'port', 
-                'jeu' => 'int',
-                'dir' => 'string',
-                'maxplayers' => array('filter' => 'int',
-                    'options' => array('min_range' => 1, 'max_range' => 99))
-            ));
+                'idVm' => array('fieldName' => 'vm', 'type' => FILTER_VALIDATE_INT),
+                'port' => FIELD_PORT, 
+                'jeu' => array('type' => FILTER_VALIDATE_INT),
+                'dir' => FIELD_TEXT,
+                'maxplayers' => array(
+                    'type' => FILTER_VALIDATE_INT, 
+                    'options' => array('min_range' => 1, 'max_range' => 99)
+                ))
+            );
 
             if (!$erreurs) {
                 $table = Doctrine_Core::getTable('Steam');
-                $exists = $table->exists($form['idVm'], $form['port']);
+                $exists = $table->exists($form['idVm'], $form['port'], $form['dir']);
 
                 $serv = new Steam();
                 $serv->uid = $this->session->uid;
                 $serv->fromArray($form);
-                $valid = $serv->isValid();
 
                 // On vérifie que les infos passés à Doctrine soit correct
                 // Si c'est le cas, on installe le serveur & on enregistre la ligne
                 // Sinon, une message d'erreur s'affiche (via addTplVars ci-dessus)
-                if ($valid && !$exists) {
+                if (!$exists) {
                     // On installe le serveur & on envoie le script shell du panel
                     $serv->installServer();
-                    $serv->putHldsScript();
+//                    $serv->putHldsScript();
 
                     $serv->save();
-                    $this->app()->httpResponse()->redirect('steam');
+//                    $this->app()->httpResponse()->redirect('steam');
                 }
+                else $erreurs['exists'] = true;
             }
         }
         
@@ -63,7 +65,8 @@ class SteamCtrler extends BaseCtrler {
         $jeux = Doctrine_Core::getTable('Jeu')->findAll();
 
         $this->page->addTplVars('steam/add', array(
-            'VMs' => $vms, 'jeux' => $jeux, 'valid' => $valid, 'exists' => $exists));
+            'form' => $form, 'erreurs' => $erreurs, 
+            'VMs' => $vms, 'jeux' => $jeux));
     }
 
     // Cette méthode permet de modifier un serveur
@@ -138,25 +141,29 @@ class SteamCtrler extends BaseCtrler {
     }
 
     // Celle-ci permet de supprimer le serveur désigné
+    // On le supprime également de la machine
     protected function runDel($vars) {
         $id = $vars['id']; $uid = $this->session->uid;
-
-        // TODO: Activer commandes shell suppression
-        if ($serv = Doctrine_Core::getTable('Steam')->findByIdAndUid($id, $uid))  {
+        // On fait une suppression "soft" par défaut, "hard" si précisé tel quel
+        $mode = ($vars['mode'] == 'hard') ? 'hard' : 'soft';
+        
+        if ($serv = Doctrine_Core::getTable('Steam')->findById($id))  {
             $serv = $serv[0];
-            $vm = $serv->Vm;
-
-            // On supprime le serveur du vm
-            // On instancie pour ça une connexion ssh.
-            // On arrête le serveur et on supprime le dossier
-            $ssh = SSH::get($vm->ip, $vm->port, $vm->user, $vm->keyfile);
-            $cmd  = 'cd ' . $serv->getBinDir() . ' && ./hlds.sh stop';
-            $cmd .= ' && rm -R ' . $serv->getServDir();
-            /*$ssh->exec('~/' . $serv->dir . '/hlds.sh stop');
-            $ssh->exec('rm -R ~/' . $serv->dir);*/
-
             // On supprime le serveur de la bdd
             $serv->delete();
+            
+            // On le supprime également de la VM (si hard del)
+            if ($mode == 'hard') {
+                $vm = $serv->Vm;
+
+                // On instancie une connexion ssh
+                // On arrête le serveur et on supprime le dossier
+                $ssh = SSH::get($vm->ip, $vm->port, $vm->user, $vm->keyfile, true);
+                
+                $binPath = $serv->getBinDir() . 'hlds.sh';
+                $ssh->exec('if [ -e ' . $binPath . ' ]; ' . $binPath . ' stop; fi');
+                $ssh->exec('rm -Rf ' . $serv->getServDir());
+            }
         }
 
         $this->app()->httpResponse()->redirect('steam/show');
@@ -182,13 +189,13 @@ class SteamCtrler extends BaseCtrler {
     protected function runRegenConfig($vars) {
         $id = $vars['id'];
         $uid = $this->session->uid;
+        $regen = false;
 
-        $this->page->addTpl('steam/regenConfig', array('regen' => false));
-
-        if ($serv = Doctrine_Core::getTable('Steam')->findByIdAndUid($id, $uid)) {
+        if ($serv = Doctrine_Core::getTable('Steam')->findById($id)) {
             $regen = $serv[0]->putHldsScript();
-            $this->page->setTplVars('steam/regenConfig', array('regen' => $regen));
         }
+        
+        $this->page->addTpl('steam/regenConfig', array('regen' => $regen));
     }
 }
 ?>

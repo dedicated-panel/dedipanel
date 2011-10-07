@@ -1,12 +1,22 @@
 {
     "Retour": "Back", 
     "AddServ": "Add a server", 
-    "Refresh": "Refresh", 
     
     "IP": "IP Address", 
     "Port": "Port", 
     "Jeu": "Game", 
-    "Dir": "Dir.", 
+    "Dir": "Directory", 
     "Status": "Status", 
-    "Actions": "Actions"
+    "Actions": "Actions", 
+    
+    "errSelectVM": "Unable to select this VM.", 
+    "errPort": "Port choose his not valid.", 
+    "errJeu": "Game unavailable.", 
+    "errDir": "Can not use this dir.", 
+    "errSlots": "Invalid number of slots.", 
+    "errExists": "Port already supported on this VM.", 
+    
+    "VM": "VM", 
+    "InstallDir": "Installation directory", 
+    "Slots": "Number of slots"
 }

@@ -48,6 +48,45 @@
     }, 
 
     "^steam": {
-        "route": "steam/steam/show"
+        "route": "steam/steam/show", 
+
+        "routes": {
+            "steam/add": {"action": "add"},
+            "steam/del/$$mode/$$id$": {"action": "del", "vars": {"mode": "soft|hard", "id": "[0-9]+"}},
+            "steam/edit/$$id$": {"action": "edit", "vars": {"id": "[0-9]+"}},
+            "steam/regen/$$id$": {"action": "regenConfig", "vars": {"id": "[0-9]+"}}, 
+            "steam/$$state/$$id$": {
+                "action": "state",
+                "vars": {
+                    "state": "start|stop|restart",
+                    "id": "[0-9]+"
+                }
+            },
+            "steam/plugins/$$plugin/$$id$": {
+                "route": "steam/plugins/install", 
+                "vars": {"plugin": "mm|amx|amxx|mmsrc|srcm|es", "id": "[0-9]+"}
+            },
+            
+            "steam/cfg/$$id": {
+                "route": "steam/cfg/show", 
+                "vars": {"id": "[0-9]+"},
+                
+                "routes": {
+                    "steam/cfg/$$id/$$dir/?$": {"vars": {"id": "[0-9]+", "dir": ".+"}}
+                }
+            },
+            "steam/cfg/add/$$id/$$dir/?$": {
+                "route": "steam/cfg/add",
+                "vars": {"id": "[0-9]+", "dir": ".*"}
+            },
+            "steam/cfg/edit/$$id/$$file/?$": {
+                "route": "steam/cfg/edit",
+                "vars": {"id": "[0-9]+", "file": ".+"}
+            },
+            "steam/cfg/del/$$id/$$file/?$": {
+                "route": "steam/cfg/del",
+                "vars": {"id": "[0-9]+", "file": ".+"}
+            }
+        }
     } 
 }

@@ -16,4 +16,15 @@ class SteamTable extends Doctrine_Table
     {
         return Doctrine_Core::getTable('Steam');
     }
+
+    // TODO: Verif ($vm && $port) || ($vm && $dir)
+    public function exists($vm, $port, $dir) {
+        $q = Doctrine_Query::create()
+            ->from('Steam')
+            ->where('idVm = ?', $vm)
+            ->andWhere('port = ?', $port)
+            ->fetchOne();
+
+        return ($q == false) ? false : true;
+    }
 }
