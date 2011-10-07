@@ -152,9 +152,14 @@ class Form {
             
             // Si $type est un array, on le traite pour récupérer toutes les infos
             if (is_array($type)) {
-                // On convertit le type de champ 
+                // On convertit le type de champ (si celui-ci existe)
+                $internFilterType = @$fiters[$type['type']];
+                if (isset($internFilterType)) {
+                    $options += $internFilterType;
+                    unset($type['type']);
+                }
+                
                 $options += $filters[$type['type']];
-                unset($type['type']);
                 
                 // On vérifie s'il y a un champ fieldName dans l'array $type
                 // Si c'est le cas on doit réécrire l'array donné par le filtrage
