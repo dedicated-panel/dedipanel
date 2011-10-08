@@ -212,6 +212,11 @@ class Form {
         return $errors;
     }
 
+    public static function radioIsChecked($field) {
+        $radio = filter_input(INPUT_POST, $field, FILTER_VALIDATE_INT);
+        return ($radio == 1) ? true : false;
+    }
+    
     private $fields;
     private $buttons;
     
