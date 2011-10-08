@@ -18,5 +18,16 @@
     
     "VM": "VM", 
     "InstallDir": "Installation directory", 
-    "Slots": "Number of slots"
+    "Slots": "Number of slots", 
+    
+    "On": "On", 
+    "Off": "Off", 
+    "Edit": "Edit", 
+    "SoftDel": "Soft delete", 
+    "HardDel": "Hard delete", 
+    "Shutdown": "Shutdown", 
+    "Restart": "Restart", 
+    "SwitchOn": "Switch on", 
+    "RegenSh": "Regen panel config", 
+    "EditCfg": "Edit CFG"
 }

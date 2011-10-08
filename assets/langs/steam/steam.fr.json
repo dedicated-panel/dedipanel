@@ -17,13 +17,11 @@
     "errExists": "Port déjà pris en charge sur cette VM.", 
     
     "VM": "Machine", 
-    "Port": "Port", 
-    "Jeu": "Jeu", 
     "InstallDir": "Répertoire d'installation", 
     "Slots": "Nombre de slots", 
     
-    "Open": "Allumé", 
-    "Close": "Eteint", 
+    "On": "Allumé", 
+    "Off": "Eteint", 
     "Edit": "Modifier", 
     "SoftDel": "Suppression partielle", 
     "HardDel": "Suppression totale", 
