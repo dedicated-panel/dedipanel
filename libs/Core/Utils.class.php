@@ -212,9 +212,9 @@ class Form {
         return $errors;
     }
 
-    public static function radioIsChecked($field) {
+    public static function radioIsChecked($field, $val = 1) {
         $radio = filter_input(INPUT_POST, $field, FILTER_VALIDATE_INT);
-        return ($radio == 1) ? true : false;
+        return ($radio == $val) ? true : false;
     }
     
     private $fields;
