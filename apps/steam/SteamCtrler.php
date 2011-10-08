@@ -14,15 +14,14 @@ class SteamCtrler extends BaseCtrler {
     }
 
     protected function runShow() {
+        require_once(LIBS_DIR . 'Steam/Server.class.php');
         $serveurs = Doctrine_Core::getTable('Steam')->findAll();
         
-        $this->page->addtpl('steam/show', array('serveurs' => $serveurs));
+        $this->page->addTpl('steam/show', array('serveurs' => $serveurs));
     }
 
     // Cette méthode permet d'ajouter un serveur
-    protected function runAdd() {
-        $this->page->addTpl('steam/add');
-        
+    protected function runAdd() {        
         $erreurs = array(); $form = array();
         $valid = null; $exist = null;
         
@@ -43,19 +42,19 @@ class SteamCtrler extends BaseCtrler {
                 $table = Doctrine_Core::getTable('Steam');
                 $exists = $table->exists($form['idVm'], $form['port'], $form['dir']);
 
-                $serv = new Steam();
-                $serv->fromArray($form);
-
                 // On vérifie que les infos passés à Doctrine soit correct
                 // Si c'est le cas, on installe le serveur & on enregistre la ligne
                 // Sinon, une message d'erreur s'affiche (via addTplVars ci-dessus)
                 if (!$exists) {
+                    $serv = new Steam();
+                    $serv->fromArray($form);
+                    $serv->save();
+                    
                     // On lance l'installation (si nécessaire)
                     // Et on upload les scripts du panel
                     if (!$alreadyInstalled) $serv->installServer();
                     $serv->putHldsScript();
-
-                    $serv->save();
+                    
                     $this->app()->httpResponse()->redirect('steam');
                 }
                 else $erreurs['exists'] = true;
@@ -65,7 +64,7 @@ class SteamCtrler extends BaseCtrler {
         $vms = Doctrine_Core::getTable('Vm')->findAll();
         $jeux = Doctrine_Core::getTable('Jeu')->findAll();
 
-        $this->page->addTplVars('steam/add', array(
+        $this->page->addTpl('steam/add', array(
             'form' => $form, 'erreurs' => $erreurs, 
             'VMs' => $vms, 'jeux' => $jeux));
     }
@@ -73,7 +72,6 @@ class SteamCtrler extends BaseCtrler {
     // Cette méthode permet de modifier un serveur
     protected function runEdit($vars) {
         $id = $vars['id'];
-        $uid = $this->session->uid;
 
         if ($serv = Doctrine_Core::getTable('Steam')->findById($id)) {
             $serv = $serv[0];
@@ -81,10 +79,10 @@ class SteamCtrler extends BaseCtrler {
             
             if (Form::hasSend()) {
                 list($erreurs, $form) = Form::verifyData(array(
-                    'port' => 'port',
-                    'jeu' => 'int',
-                    'dir' => 'string',
-                    'maxplayers' => array('filter' => 'int',
+                    'port' => FIELD_PORT,
+                    'jeu' => FILTER_VALIDATE_INT,
+                    'dir' => FILTER_TEXT,
+                    'maxplayers' => array('type' => FILTER_VALIDATE_INT,
                         'options' => array('min_range' => 1, 'max_range' => 99))
                 ));
 
@@ -130,15 +128,14 @@ class SteamCtrler extends BaseCtrler {
 //                        $this->app()->httpResponse()->redirect('steam');
                     }
                 }
-                else $this->page->addTplVars('steam/add', array('erreurs' => $erreurs));
+                else $this->page->addTplVars('steam/edit', array('erreurs' => $erreurs));
             }
             else {
                 $jeux = Doctrine_Core::getTable('Jeu')->findAll(Doctrine_Core::HYDRATE_ARRAY);
                 $this->page->addTplVars('steam/edit', array('jeux' => $jeux));
             }
         }
-        else $this->app()->httpResponse()->redirect('steam/show');
-        
+        else $this->app()->httpResponse()->redirect('steam/show');    
     }
 
     // Celle-ci permet de supprimer le serveur désigné
@@ -173,9 +170,8 @@ class SteamCtrler extends BaseCtrler {
     // Cettet méthode permet de démarrer/arrêter/redémarrer un serveur
     protected function runState($vars) {
         $id = $vars['id'];
-        $uid = $this->session->uid;
 
-        if ($serv = Doctrine_Core::getTable('Steam')->findByIdAndUid($id, $uid)) {
+        if ($serv = Doctrine_Core::getTable('Steam')->findById($id)) {
             $serv = $serv[0]; $vm = $serv->Vm;
 
             // On démarre une connexion ssh et on exécute la commande
@@ -189,7 +185,6 @@ class SteamCtrler extends BaseCtrler {
     // Permet de régénérer le script shell utilisé par le panel
     protected function runRegenConfig($vars) {
         $id = $vars['id'];
-        $uid = $this->session->uid;
         $regen = false;
 
         if ($serv = Doctrine_Core::getTable('Steam')->findById($id)) {
