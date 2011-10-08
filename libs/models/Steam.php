@@ -1,6 +1,4 @@
 <?php
-include_once QUERY_DIR . 'Server.class.php';
-include_once LIBS_DIR . 'SSH.class.php';
 /**
  * Steam
  * 
