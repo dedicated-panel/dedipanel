@@ -1,5 +1,4 @@
 {
-    "Retour": "Retour", 
     "AddServ": "Ajouter un serveur", 
     
     "IP": "Adresse IP", 
@@ -29,6 +28,9 @@
     "Restart": "Redémarrer", 
     "SwitchOn": "Allumer", 
     "RegenSh": "Régénérer la config. du panel", 
-    "EditCfg": "Modifier CFG"
+    "EditCfg": "Modifier CFG", 
+    "AlreadyExists?": "Serveur déjà installé", 
     
+    "Yes": "Oui", 
+    "No": "Non"
 }

@@ -55,7 +55,6 @@ Steam:
       type: integer
       primary: true
       autoincrement: true
-    uid: {type: integer, notnull: true}
     idVm: {type: integer, notnull: true}
     port: {type: int(5), notnull: true}
     jeu: {type: integer, notnull: true}

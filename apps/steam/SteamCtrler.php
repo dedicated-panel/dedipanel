@@ -37,25 +37,26 @@ class SteamCtrler extends BaseCtrler {
                     'options' => array('min_range' => 1, 'max_range' => 99)
                 ))
             );
+            $alreadyInstalled = Form::radioIsChecked('exists');
 
             if (!$erreurs) {
                 $table = Doctrine_Core::getTable('Steam');
                 $exists = $table->exists($form['idVm'], $form['port'], $form['dir']);
 
                 $serv = new Steam();
-                $serv->uid = $this->session->uid;
                 $serv->fromArray($form);
 
                 // On vérifie que les infos passés à Doctrine soit correct
                 // Si c'est le cas, on installe le serveur & on enregistre la ligne
                 // Sinon, une message d'erreur s'affiche (via addTplVars ci-dessus)
                 if (!$exists) {
-                    // On installe le serveur & on envoie le script shell du panel
-                    $serv->installServer();
-//                    $serv->putHldsScript();
+                    // On lance l'installation (si nécessaire)
+                    // Et on upload les scripts du panel
+                    if (!$alreadyInstalled) $serv->installServer();
+                    $serv->putHldsScript();
 
                     $serv->save();
-//                    $this->app()->httpResponse()->redirect('steam');
+                    $this->app()->httpResponse()->redirect('steam');
                 }
                 else $erreurs['exists'] = true;
             }
@@ -74,7 +75,7 @@ class SteamCtrler extends BaseCtrler {
         $id = $vars['id'];
         $uid = $this->session->uid;
 
-        if ($serv = Doctrine_Core::getTable('Steam')->findByIdAndUid($id, $uid)) {
+        if ($serv = Doctrine_Core::getTable('Steam')->findById($id)) {
             $serv = $serv[0];
             $this->page->addTpl('steam/edit', array('serv' => $serv));
             
@@ -132,7 +133,7 @@ class SteamCtrler extends BaseCtrler {
                 else $this->page->addTplVars('steam/add', array('erreurs' => $erreurs));
             }
             else {
-                $jeux = Doctrine_Core::getTable('Jeu')->findAll();
+                $jeux = Doctrine_Core::getTable('Jeu')->findAll(Doctrine_Core::HYDRATE_ARRAY);
                 $this->page->addTplVars('steam/edit', array('jeux' => $jeux));
             }
         }

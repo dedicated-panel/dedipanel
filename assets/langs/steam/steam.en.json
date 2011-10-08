@@ -1,5 +1,4 @@
 {
-    "Retour": "Back", 
     "AddServ": "Add a server", 
     
     "IP": "IP Address", 
@@ -29,5 +28,9 @@
     "Restart": "Restart", 
     "SwitchOn": "Switch on", 
     "RegenSh": "Regen panel config", 
-    "EditCfg": "Edit CFG"
+    "EditCfg": "Edit CFG", 
+    "AlreadyExists?": "Server already installed ?", 
+    
+    "Yes": "Yes", 
+    "No": "No"
 }

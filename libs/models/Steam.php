@@ -56,7 +56,9 @@ class Steam extends BaseSteam
         $hlds_sh = str_replace('$$SCREEN', $screen, $hlds_sh);
 
         // On termine par uploader le script shell et lui donner les droits
+        // On créer auparavant le dossier $binDir si celui n'existe pas encore (arrive qd install en cours)
         $ssh = SSH::get($this->Vm->ip, $this->Vm->port, $this->Vm->user, $this->Vm->keyfile);
+        $ssh->exec('if [ ! -e ' . $binDir . ' ]; then mkdir -p ' . $binDir . '; fi');
         $put = $ssh->putData($hlds_sh, $scriptFile);
         $exec = $ssh->exec('chmod +x ' . $scriptFile);
         
