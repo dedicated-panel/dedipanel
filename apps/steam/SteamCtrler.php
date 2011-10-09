@@ -180,13 +180,14 @@ class SteamCtrler extends BaseCtrler {
     // Cettet méthode permet de démarrer/arrêter/redémarrer un serveur
     protected function runState($vars) {
         $id = $vars['id'];
-
-        if ($serv = Doctrine_Core::getTable('Steam')->findById($id)) {
-            $serv = $serv[0]; $vm = $serv->Vm;
+        $action = $vars['state'];
+        
+        if ($serv = Doctrine_Core::getTable('Steam')->find($id)) {
+            $vm = $serv->Vm;
 
             // On démarre une connexion ssh et on exécute la commande
             $ssh = SSH::get($vm->ip, $vm->port, $vm->user, $vm->keyfile, true);
-            $ssh->exec('cd ' . $serv->getBinDir() . ' && ./hlds.sh ' . $vars['state']);
+            $ssh->exec('cd ' . $serv->getBinDir() . ' && ./hlds.sh ' . $action);
         }
 
 //        $this->app()->httpResponse()->redirect('steam/show');
@@ -197,8 +198,8 @@ class SteamCtrler extends BaseCtrler {
         $id = $vars['id'];
         $regen = false;
 
-        if ($serv = Doctrine_Core::getTable('Steam')->findById($id)) {
-            $regen = $serv[0]->putHldsScript();
+        if ($serv = Doctrine_Core::getTable('Steam')->find($id)) {
+            $regen = $serv->putHldsScript();
         }
         
         $this->page->addTpl('steam/regenConfig', array('regen' => $regen));

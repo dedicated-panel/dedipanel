@@ -18,20 +18,17 @@ define('CSS_URL', BASE_URL . '/assets/css/');
 define('JS_URL', BASE_URL . '/assets/js/');
 define('IMG_URL', BASE_URL . '/assets/images');
 
+include_once LIBS_DIR . 'Core/Doctrine.compiled.php';
 include_once LIBS_DIR . 'Core/Application.class.php';
 
 // On ajoute un autoloader pour les classes du projet
 spl_autoload_register(function ($classname) {
-    $files = array('SSH' => 'SSH', 'Server' => 'Steam/Server');
+    $files = array(
+        'SSH' => 'SSH', 'Server' => 'Steam/Server');
     if (array_key_exists($classname, $files)) {
         require_once LIBS_DIR . $files[$classname] . '.class.php';
     }
 });
-
-// On utilise les deux autoloaders de Doctrine.
-// Le premier sert à charger Doctrine lui même, le second sert a charger nos modèles
-spl_autoload_register(array('Doctrine_Core', 'autoload'));
-spl_autoload_register(array('Doctrine_Core', 'modelsAutoload'));
 
 $app = new Application();
 $app->execute();

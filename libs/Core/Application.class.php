@@ -3,9 +3,6 @@ include_once LIBS_DIR . 'Core/HTTP.class.php';
 include_once LIBS_DIR . 'Core/Page.class.php';
 include_once LIBS_DIR . 'Core/Router.class.php';
 include_once LIBS_DIR . 'Core/Utils.class.php';
-include_once LIBS_DIR . 'Core/Doctrine.compiled.php';
-
-//include_once LIBS_DIR . 'SSH.class.php';
 
 // TODO: If No App => redirect 404
 class Application {
@@ -95,6 +92,11 @@ class Application {
         return $this->db;
     }
     private function initDB() {
+        // On utilise les deux autoloaders de Doctrine.
+        // Le premier sert à charger Doctrine lui même, le second sert a charger nos modèles
+        spl_autoload_register(array('Doctrine_Core', 'autoload'));
+        spl_autoload_register(array('Doctrine_Core', 'modelsAutoload'));
+
         $infosDB = $this->config['db'];
         $mgr = Doctrine_Manager::getInstance();
 
