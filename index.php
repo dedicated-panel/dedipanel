@@ -34,4 +34,5 @@ spl_autoload_register(array('Doctrine_Core', 'autoload'));
 spl_autoload_register(array('Doctrine_Core', 'modelsAutoload'));
 
 $app = new Application();
+$app->execute();
 ?>

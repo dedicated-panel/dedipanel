@@ -11,7 +11,7 @@ include_once LIBS_DIR . 'Core/Doctrine.compiled.php';
 class Application {
     public function  __construct() {
         // On sauvegarde le timestamp actuel afin de calculer le temps d'exec de l'app
-        $start_timestamp = microtime(true);
+        $this->startTime = microtime(true);
 
         $this->httpRequest = new HTTPRequest($this);
         $this->httpResponse = new HTTPResponse($this);
@@ -19,7 +19,7 @@ class Application {
         // On récupère la config du projet
         $this->config = JSON::loadCfg(CFG_DIR . 'config.json');
 
-        // On créer une connexion avec la bdd
+        // On initialise une connexion avec la bdd
         $this->initDB();
 		
         // On instance le routeur afin de connaitre le nom des différents éléments
@@ -28,6 +28,9 @@ class Application {
             'defaultRoute' => $this->config['defaultRoute'], 
             'routesFile' => CFG_DIR . 'routes.json');
         $this->router = new Router($this, $routerArgs);
+    }
+    
+    public function execute() {
         $route = $this->router->getRoute(); // var_dump($route);
         
         if ($route == null) $this->httpResponse->redirect404();
@@ -49,7 +52,7 @@ class Application {
 
         // Si le mode debug est activé, on transmet le temps d'exécution
         if ($this->config['debug']) {
-            $execTime = microtime(true) - $start_timestamp;
+            $execTime = microtime(true) - $this->startTime;
             $page->setTplVars('footer', array('execTime' => $execTime));
         }
 
@@ -107,7 +110,9 @@ class Application {
             Doctrine_Core::MODEL_LOADING_CONSERVATIVE);
 
         $this->db = Doctrine_Manager::connection($infosDB['dsn']);
-    } // TODO: Del config['db']['dsn'] ?
+        // On supprime la variable de config contenant le DSN
+        unset($this->config['db']['dsn']);
+    }
 
     public function getLang() {
         return $this->lang;
@@ -136,6 +141,8 @@ class Application {
     private $lang;
 
     private $config;
+    
+    private $startTime; // Timestamp (avec ms) à laquelle a été instancié la classe
 }
 
 // TODO: Recomment
