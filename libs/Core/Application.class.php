@@ -3,7 +3,7 @@ include_once LIBS_DIR . 'Core/HTTP.class.php';
 include_once LIBS_DIR . 'Core/Page.class.php';
 include_once LIBS_DIR . 'Core/Router.class.php';
 include_once LIBS_DIR . 'Core/Utils.class.php';
-include_once LIBS_DIR . 'Doctrine/Core.php';
+include_once LIBS_DIR . 'Core/Doctrine.compiled.php';
 
 //include_once LIBS_DIR . 'SSH.class.php';
 
