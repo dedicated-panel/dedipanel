@@ -2,22 +2,45 @@
 class CFGCtrler extends BaseCtrler {
     // On réécrit la fonction lancant les méthodes correspondant à l'action
     // Afin de s'assurer que ce controller n'est appelé qu'avec les droits nécessaires
-    public function run($action, $vars) {
+    protected function init() {
+        parent::init();
+        
         if (!$this->session->connected) {
             $this->app()->httpResponse()->redirect('utilisateur/login');
         }
-
-        // On vérifie que le serveur appartient à l'utilisateur
-        $uid = $this->session->uid;
-        $serv = Doctrine_Core::getTable('Steam')->findByIdAndUid($vars['id'], $uid);
-        $serv = $serv->getFirst();
-
+        
+        /*$serv = Doctrine_Core::getTable('Steam')->find($vars['id']);
         if (!$serv) $this->app()->httpResponse()->redirect('steam/show');
-        $vars['serv'] = $serv;
+        $vars['serv'] = $serv;*/
 
-        return parent::run($action, $vars);
+//        return parent::run($action, $vars);
     }
 
+    
+    // Cette méthode permet d'afficher la racine du serveur
+    protected function runShow($vars) {
+        $sid = $vars['id'];
+        $serv = Doctrine_Core::getTable('Steam')->find($sid);
+        $vm = $serv->Vm->toArray();
+        $gameDir = $serv->getGameDir();
+        $dir = $gameDir;
+
+        // On récupère le répertoire indiqué s'il y en a un
+        if (isset($vars['dir'])) {
+            $dir = $gameDir . $vars['dir'] . '/';
+            var_dump($dir);
+        }
+
+        // On créer une connexion ssh à partir de laquelle
+        // On va récupérer la liste des fichiers & dossiers présents dans ledit dossier
+        $ssh = SSH::get($vm['ip'], $vm['port'], $vm['user'], $vm['keyfile']);
+        $dirList = $ssh->getDirList($dir);
+
+        $this->page->addTpl('steam/cfg/show', array(
+            'sid' => $vars['id'], 'dirList' => $dirList,
+            'selectedDir' => $dir, 'gameDir' => $gameDir));
+    }
+    
     protected function runAdd($vars) {
         $serv = $vars['serv']; $vm = $serv->Vm;
         $gameDir = $serv->getGameDir(); $dir = $gameDir;
@@ -67,28 +90,6 @@ class CFGCtrler extends BaseCtrler {
 
         $this->app()->httpResponse()->redirect(
             'steam/cfg/' . $vars['id'] . '/' . $filename . '/..');
-    }
-
-    // Cette méthode permet d'afficher la racine du serveur
-    protected function runShow($vars) {
-        $serv = $vars['serv']; $vm = $serv->Vm;
-        $gameDir = $serv->getGameDir();
-        $dir = $gameDir;
-
-        // On récupère le répertoire indiqué s'il y en a un
-        if (isset($vars['dir'])) {
-            $dir = $gameDir . $vars['dir'] . '/';
-            var_dump($dir);
-        }
-
-        // On créer une connexion ssh à partir de laquelle
-        // On va récupérer la liste des fichiers & dossiers présents dans ledit dossier
-        $ssh = SSH::get($vm->ip, $vm->port, $vm->user, $vm->keyfile);
-        $dirList = $ssh->getDirList($dir);
-
-        $this->page->addTpl('steam/cfg/show', array(
-            'sid' => $vars['id'], 'dirList' => $dirList,
-            'selectedDir' => $dir, 'gameDir' => $gameDir));
     }
 }
 ?>
