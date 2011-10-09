@@ -16,4 +16,12 @@ class JeuTable extends Doctrine_Table
     {
         return Doctrine_Core::getTable('Jeu');
     }
+    
+    public function getAvailableGames() {
+        $q = Doctrine_Query::create()->select('id, nomJeu')->from('Jeu')->where('available = 1');
+        $res = $q->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+        $q->free();
+        
+        return $res;
+    }
 }

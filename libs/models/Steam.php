@@ -11,6 +11,7 @@
  */
 class Steam extends BaseSteam
 {
+    
     public function getQuery() {
         if (!isset($this->query)) {
             $ip = $this->Vm->ip;
@@ -64,7 +65,7 @@ class Steam extends BaseSteam
         return $put && $exec;
     }
 
-    public function installServer() {
+    public function installServer() {        
         // TODO: Ajout not end screen
         $vm = $this->Vm;
         $installName = $this->Jeu->installName;
@@ -85,6 +86,11 @@ class Steam extends BaseSteam
         // Puis on lui donne les droits d'accès et on termine par l'exécuter
         $ssh->exec('chmod +x ' . $scriptPath);
         $ssh->exec($screen);
+    }
+    
+    public function delete() {
+        $q = Doctrine_Query::create()->delete('Steam')->where('id = ?', $this->id);
+        return $q->execute();
     }
 
     private $query;

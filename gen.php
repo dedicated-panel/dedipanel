@@ -3,6 +3,8 @@ define('ROOT_DIR', dirname(__FILE__));
 define('LIBS_DIR', ROOT_DIR . '/libs/');
 define('MDLS_DIR', LIBS_DIR . 'models/');
 define('CFG_DIR', ROOT_DIR . '/configs/');
+define('SOCK_DIR', LIBS_DIR . 'Socket/');
+define('QUERY_DIR', LIBS_DIR . 'Steam/');
 
 include_once LIBS_DIR . 'Core/Utils.class.php';
 include_once LIBS_DIR . 'Doctrine/Core.php';
@@ -42,11 +44,13 @@ $conn->execute('
     ("test", SHA1("test"), "test@free.fr", "fr", 0);');
 echo 'Insertion de 2 utilisateurs de test.<br />';
 
-$conn->execute('
-    INSERT INTO dp_vm (ip, port, user, keyfile) VALUES 
-    ("87.98.165.155", "9787", "dp-css", "4e6806032c0488.07560869"), 
-    ("87.98.165.155", "9787", "dp-cs", "4e6d11ed147e19.61514669"), 
-    ("87.98.165.155", "9787", "dp-cz", "4e6d20a9558b25.80527680"), 
-    ("87.98.165.155", "9787", "voip", "4e6d21db0a0735.67553080");');
-echo 'Insertion de 4 VMs de test.<br />';
+$conn->execute("
+    INSERT INTO dp_jeux (nomjeu, installname, launchname, bin, source, orangebox, map) VALUES
+    ('Counter Strike 1.6', 'cstrike', 'cstrike', 'hlds_run', 0, 0, 'de_dust2'),
+    ('Counter Strike : Condition Zero', 'czero', 'czero', 'hlds_run', 0, 0, 'de_dust2_cz'),
+    ('Deathmatch Classic', 'dmc', 'dmc', 'hlds_run', 0, 0, 'dmc_dm2'),
+    ('Day of Defeat', 'dod', 'dod', 'hlds_run', 0, 0, 'dod_anzio'),
+    ('Gearbox', 'gearbox', 'gearbox', 'hlds_run', 0, 0, 'of0a0'),
+    ('Ricochet', 'ricochet', 'ricochet', 'hlds_run', 0, 0, 'Rc_deathmatch');");
+echo 'Insertion de 6 Jeux de test.<br />';
 ?>

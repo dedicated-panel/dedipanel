@@ -61,8 +61,8 @@ class SteamCtrler extends BaseCtrler {
             }
         }
         
-        $vms = Doctrine_Core::getTable('Vm')->findAll();
-        $jeux = Doctrine_Core::getTable('Jeu')->findAll();
+        $vms = Doctrine_Core::getTable('Vm')->getVMs();
+        $jeux = Doctrine_Core::getTable('Jeu')->getAvailableGames();
 
         $this->page->addTpl('steam/add', array(
             'form' => $form, 'erreurs' => $erreurs, 
@@ -72,46 +72,50 @@ class SteamCtrler extends BaseCtrler {
     // Cette méthode permet de modifier un serveur
     protected function runEdit($vars) {
         $id = $vars['id'];
+        $steamTable = Doctrine_Core::getTable('Steam');
 
-        if ($serv = Doctrine_Core::getTable('Steam')->findById($id)) {
-            $serv = $serv[0];
-            $this->page->addTpl('steam/edit', array('serv' => $serv));
+        if ($serv = $steamTable->find($id, Doctrine_Core::HYDRATE_ARRAY)) {
+            $vm = Doctrine_Core::getTable('Vm')->find($serv['idVm'], Doctrine_Core::HYDRATE_ARRAY);
+            $this->page->addTpl('steam/edit', array('serv' => $serv, 'vm' => $vm));
             
             if (Form::hasSend()) {
                 list($erreurs, $form) = Form::verifyData(array(
-                    'port' => FIELD_PORT,
-                    'jeu' => FILTER_VALIDATE_INT,
-                    'dir' => FILTER_TEXT,
-                    'maxplayers' => array('type' => FILTER_VALIDATE_INT,
+                    'port' => FIELD_PORT, 
+                    'jeu' => array('type' => FILTER_VALIDATE_INT),
+                    'dir' => FIELD_TEXT,
+                    'maxplayers' => array(
+                        'type' => FILTER_VALIDATE_INT, 
                         'options' => array('min_range' => 1, 'max_range' => 99))
                 ));
 
                 if (!$erreurs) {
                     $regenScript = false; $install = false; $move = false;
                     // On vérifie quelles données ont changés pour faire le nécessaire sur le serv
-                    if ($form['port'] != $serv->port ||
-                        $form['maxplayers'] != $serv->maxplayers) {
+                    if ($form['port'] != $serv['port'] ||
+                        $form['maxplayers'] != $serv['maxplayers']) {
                         $regenScript = true;
                     }
-                    elseif ($form['jeu'] != $serv->jeu) $install = true;
-                    elseif ($form['dir'] != $serv->dir) $move = $serv->dir;
-
+                    elseif ($form['jeu'] != $serv['jeu']) {
+                        $install = true;
+                        $regenScript = true;
+                    }
+                    elseif ($form['dir'] != $serv['dir']) {
+                        $move = $serv['dir'];
+                        $regenScript = true;
+                    }
+                    
                     // On modifie les données selon le formulaire
-                    // Et on revérifie qu'elles soient corrects
+                    // Et on vérifie qu'elles sont acceptés par Doctrine
+                    $serv = Doctrine_Core::getTable('Steam')->find($id);
                     $serv->fromArray($form);
                     $valid = $serv->isValid();
 
                     $this->page->addTplVars('steam/edit', array('valid' => $valid));
-
-                    // On vérifie que les infos passés à Doctrine sont corrects
+                    
                     if ($valid) {
-                        $serv->save();
-                        var_dump($regenScript, $install, $move);
-
                         // On modifie le serveur en conséquence
                         if ($install) {
                             $serv->installServer();
-                            $serv->putHldsScript();
                         }
                         if ($move != false) {
                             $oldDir = $serv->getServDir($move);
@@ -119,21 +123,28 @@ class SteamCtrler extends BaseCtrler {
 
                             $ssh = SSH::get($serv->Vm->ip, $serv->Vm->port,
                                 $serv->Vm->user, $serv->Vm->keyfile);
-                           $ret = $ssh->exec('mv ' . $oldDir . ' ' . $newDir);
+                            $ret = $ssh->exec('mv ' . $oldDir . ' ' . $newDir);
                         }
+                        
                         if ($regenScript) {
                             $serv->putHldsScript();
                         }
-
+                        
+                        // On sauvegarde les changements dans la bdd et on redirige
+                        $serv->save();
 //                        $this->app()->httpResponse()->redirect('steam');
                     }
+                    else $erreurs['valid'] = true;
                 }
-                else $this->page->addTplVars('steam/edit', array('erreurs' => $erreurs));
+                
+                // On ajoute la liste d'erreurs au template
+                $this->page->addTplVars('steam/edit', array('erreurs' => $erreurs));
             }
-            else {
-                $jeux = Doctrine_Core::getTable('Jeu')->findAll(Doctrine_Core::HYDRATE_ARRAY);
-                $this->page->addTplVars('steam/edit', array('jeux' => $jeux));
-            }
+            
+            // On récupère la liste des jeux disponibles
+            // Et on l'ajoute au template
+            $jeux = Doctrine_Core::getTable('Jeu')->getAvailableGames();
+            $this->page->addTplVars('steam/edit', array('jeux' => $jeux));
         }
         else $this->app()->httpResponse()->redirect('steam/show');    
     }
@@ -142,15 +153,15 @@ class SteamCtrler extends BaseCtrler {
     // On le supprime également de la machine
     protected function runDel($vars) {
         $id = $vars['id']; $uid = $this->session->uid;
+        $steamTable = Doctrine_Core::getTable('Steam');
         // On fait une suppression "soft" par défaut, "hard" si précisé tel quel
         $mode = ($vars['mode'] == 'hard') ? 'hard' : 'soft';
         
-        if ($serv = Doctrine_Core::getTable('Steam')->findById($id))  {
-            $serv = $serv[0];
+        if ($serv = $steamTable->find($id))  {
             // On supprime le serveur de la bdd
             $serv->delete();
             
-            // On le supprime également de la VM (si hard del)
+            // On le supprime également de la VM (si hard del souhaité)
             if ($mode == 'hard') {
                 $vm = $serv->Vm;
 

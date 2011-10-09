@@ -13,6 +13,7 @@
  * @property bool $source
  * @property bool $orangebox
  * @property string $map
+ * @property bool $available
  * @property Doctrine_Collection $Steam
  * 
  * @package    ##PACKAGE##
@@ -69,6 +70,11 @@ abstract class BaseJeu extends Doctrine_Record
              'type' => 'string',
              'notnull' => true,
              'length' => '20',
+             ));
+        $this->hasColumn('available', 'bool', null, array(
+             'type' => 'bool',
+             'default' => 1,
+             'notnull' => true,
              ));
     }
 

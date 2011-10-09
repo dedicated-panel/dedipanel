@@ -11,8 +11,8 @@
     <p>
         <label for="vm"><?php L::eT('VM'); ?> :</label>
         <select name="vm" id="vm" required><?php foreach ($VMs AS $vm) { ?>
-            <option value="<?php echo $vm->id; ?>">
-                <?php echo $vm->ip , ' (' , $vm->user , ')'; ?>
+            <option value="<?php echo $vm['id']; ?>">
+                <?php echo $vm['ip'] , ' (' , $vm['user'] , ')'; ?>
             </option>
         <?php } ?></select><br />
 
@@ -21,7 +21,7 @@
 
         <label for="jeu"><?php L::eT('Jeu'); ?> :</label>
         <select name="jeu" id="jeu" required="required"><?php foreach ($jeux AS $jeu) { ?>
-            <option value="<?php echo $jeu->id; ?>"><?php echo $jeu->nomJeu; ?></option>
+            <option value="<?php echo $jeu['id']; ?>"><?php echo $jeu['nomJeu']; ?></option>
         <?php } ?></select><br />
 
         <label for="dir">

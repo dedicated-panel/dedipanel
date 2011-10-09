@@ -1,38 +1,34 @@
-<p> <?php P::a('Back', 'steam/show'); ?></p>
+<?php L::setCurrentFile('steam/steam'); ?>
+<p><?php P::a('Back', 'steam/show'); ?></p>
 
-<form action="" method="post">
-    <p class="erreurs"><?php if (isset($erreurs)) {
-        if ($erreurs['vm'])         echo 'Impossible de sélectionner cette VM.<br />';
-        elseif ($erreurs['port'])   echo 'Port choisi non valide.<br />';
-        elseif ($erreurs['jeu'])    echo 'Ce jeu n\'est pas disponible.<br />';
-        elseif ($erreurs['dir'])    echo 'Le dossier indiqué n\'est pas valide.<br />';
-        elseif ($erreurs['slots'])  echo 'Nombre de slots invalide.<br />';
-    }
-    if (isset($valid) && !$valid) echo 'Les données utilisées ne sont pas corrects.<br />'; ?></p>
+<form action="" method="post">    
+    <p class="erreurs"><?php if (isset($erreurs)) {        
+        foreach ($erreurs AS $erreur => $val) {
+            echo L::eT('err' . ucfirst($erreur), false) . '<br />';
+        }
+    } ?></p>
 
     <p>
-        <label for="vm">Machine :</label>
-        <input type="text" id="vm" disabled
-           value="<?php echo $serv->Vm->user , '@' , $serv->Vm->ip; ?>" /><br />
+        <label for="vm"><?php L::eT('VM'); ?> :</label>
+        <input type="text" id="vm" disabled="disabled"
+           value="<?php echo $vm['user'] , '@' , $vm['ip']; ?>" /><br />
 
-        <label for="port">Port :</label>
-        <input type="number" name="port" id="port" min="0" max="65536" required
-           value="<?php echo $serv->port; ?>" /><br />
+        <label for="port"><?php L::eT('Port'); ?> :</label>
+        <input type="number" name="port" id="port" min="0" max="65536" required="required"
+           value="<?php echo $serv['port']; ?>" /><br />
 
-        <label for="jeu">Jeu :</label>
-        <select name="jeu" id="jeu" required><?php foreach ($jeux AS $jeu) { 
-            $selected = ($jeu->id == $serv->Jeu->id) ? 'selected' : ''; 
-            echo '<option value="' , $jeu->id , '" ' , $selected , '>' , $jeu->nomJeu , '</option>';
+        <label for="jeu"><?php L::eT('Jeu'); ?> :</label>
+        <select name="jeu" id="jeu" required="required"><?php foreach ($jeux AS $jeu) { 
+            $selected = ($jeu['id'] == $serv['Jeu']) ? 'selected' : ''; 
+            echo '<option value="' , $jeu['id'] , '" ' , $selected , '>' , $jeu['nomJeu'] , '</option>';
         } ?></select><br />
 
-        <label for="dir">
-            Répertoire d'installation (<i size="8">/home/user/) :</i>
-        </label> <input type="text" name="dir" id="dir" required
-           value="<?php echo $serv->dir; ?>" /><br />
+        <label for="dir"><?php L::eT('InstallDir'); ?> (<i size="8">/home/user/</i>) :</label> 
+        <input type="text" name="dir" id="dir" required="required" value="<?php echo $serv['dir']; ?>" /><br />
 
-        <label for="slots">Nombre de slots :</label>
-        <input type="number" id="slots" name="maxplayers" min="1" max="99" required
-            value="<?php echo $serv->maxplayers; ?>" /><br />
+        <label for="slots"><?php L::eT('Slots'); ?> :</label>
+        <input type="number" id="slots" name="maxplayers" min="1" max="99" required="required"
+            value="<?php echo $serv['maxplayers']; ?>" /><br />
 
         <input type="submit" name="envoi" value="Modifier" />
     </p>
