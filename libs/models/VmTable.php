@@ -25,6 +25,14 @@ class VmTable extends Doctrine_Table
         return $res;
     }
     
+    public function getVm() {
+        $q = Doctrine_Query::create()->select('ip, port, user')->from('Vm');
+        $res = $q->fetchOne(array(), Doctrine_Core::HYDRATE_ARRAY);
+        $q->free();
+        
+        return $res;
+    }
+    
     // Vérifie si une vm est déjà prise en charge selon son ip, port et user
     public function exists($ip, $port, $user) {
         $q = Doctrine_Query::create()->select('id')->from('Vm')

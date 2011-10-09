@@ -55,7 +55,7 @@ class SteamCtrler extends BaseCtrler {
                     if (!$alreadyInstalled) $serv->installServer();
                     $serv->putHldsScript();
                     
-                    $this->app()->httpResponse()->redirect('steam');
+//                    $this->app()->httpResponse()->redirect('steam');
                 }
                 else $erreurs['exists'] = true;
             }
@@ -72,10 +72,9 @@ class SteamCtrler extends BaseCtrler {
     // Cette méthode permet de modifier un serveur
     protected function runEdit($vars) {
         $id = $vars['id'];
-        $steamTable = Doctrine_Core::getTable('Steam');
 
-        if ($serv = $steamTable->find($id, Doctrine_Core::HYDRATE_ARRAY)) {
-            $vm = Doctrine_Core::getTable('Vm')->find($serv['idVm'], Doctrine_Core::HYDRATE_ARRAY);
+        if ($serv = Doctrine_Core::getTable('Steam')->getServer($id)) {
+            $vm = Doctrine_Core::getTable('Vm')->getVm($serv['idVm']);
             $this->page->addTpl('steam/edit', array('serv' => $serv, 'vm' => $vm));
             
             if (Form::hasSend()) {
@@ -132,7 +131,7 @@ class SteamCtrler extends BaseCtrler {
                         
                         // On sauvegarde les changements dans la bdd et on redirige
                         $serv->save();
-//                        $this->app()->httpResponse()->redirect('steam');
+                        $this->app()->httpResponse()->redirect('steam');
                     }
                     else $erreurs['valid'] = true;
                 }
@@ -190,7 +189,7 @@ class SteamCtrler extends BaseCtrler {
             $ssh->exec('cd ' . $serv->getBinDir() . ' && ./hlds.sh ' . $vars['state']);
         }
 
-        $this->app()->httpResponse()->redirect('steam/show');
+//        $this->app()->httpResponse()->redirect('steam/show');
     }
 
     // Permet de régénérer le script shell utilisé par le panel

@@ -27,4 +27,13 @@ class SteamTable extends Doctrine_Table
 
         return ($q == false) ? false : true;
     }
+    
+    public function getServer($sid) {
+        $q = Doctrine_Query::create()
+            ->from('Steam')
+            ->where('id = ?', $sid);
+        $res = $q->fetchOne();
+        $q->free();
+        return $res;
+    }
 }
