@@ -61,7 +61,6 @@ class Page extends ApplicationComponent {
     public static function a($text, $url, $vars = false, $trad = true, $baseUrl = BASE_URL) {
         // On supprime les slashs en trop et on en rajoute un manuellement à la fin
         // Cette procédure permet de garantir la présence des / nécessaires
-        $baseUrl = rtrim($baseUrl, '/') . '/';
         $url = trim($url, '/') . '/';
 
         // Si $vars est un array on les ajoutes les uns à la suite des autres avec des "/"
@@ -150,43 +149,16 @@ class Lang extends ApplicationComponent {
         L::setInstance($this);
     }
     
-    // $traductions doit être un array comprenant les clé de traductions ainsi que leur valeur
-    public function loadTradFile($filename) {        
-        // On charge le fichier de traduction correspondant à la langue de l'utilisateur
-        // Et on les ajoute à celles prises en charges (à moins que le fichier n'existe pas)
-        if (!empty($this->lang)) $this->addTradFile($filename, $this->lang);
-        
-        // On fait de même pour la langue par défaut
-        // Sauf si c'est la même que la langue déjà chargé ou que le fichier n'existe pas
-        if (!empty($this->defaultLang) && $this->lang != $this->defaultLang) {
-            $this->addTradFile($filename, $this->defaultLang, Lang::DEFAULT_LANG);
-        }
-        
-        // Si aucun fichier n'est actuellement préselectionné, on indique celui-ci
-        if (empty($this->currentFile)) {
-            $this->currentFile = $filename;
-        }
+    // Cette méthode permet de vérifier si la langue $lang est disponible
+    public function isValidLang($lang) {
+        return in_array($lang, $this->langs);
     }
-    
-    // On ajoute les traductions d'un fichier donné 
-    // Pour une langue et un type de traduction particulier
-    private function addTradFile($filename, $lang, $type = Lang::USER_LANG) {
-        $trads = JSON::loadCfg($this->getTradFilePath($filename, $lang));
-        
-        if ($trads != false) {
-            $this->trads[$filename][$type] = $trads;
-            $this->files[] = $filename;
-            return true;
-        }
-        else return false;
-    }
-    
-    // Cette méthode renvoie le chemin d'un fichier de traduction
-    public static function getTradFilePath($filename, $lang) {
-        return LANG_DIR . $filename . '.' . $lang . '.json';
-    }
-    
+    // Cette méthode renvoie un array contenant les langues valides
+    public function getValidLangs() {
+        return $this->langs;
+    }  
     // Récupère la langue actuelle
+    
     public function getLang() { 
         return $this->lang;
     }  
@@ -198,45 +170,73 @@ class Lang extends ApplicationComponent {
         
         // On recharge toutes les traductions si nécessaire
         if ($reloadAllFiles != false && $oldLang != $lang) {
-            foreach ($this->trads[Lang::USER_LANG] AS $file => &$cont) {
-                // On charge le fichier de traduction correspondant à la nouvelle langue
-                // Puis on supprime celui correspondant à l'ancienne langue
-                $this->addTradFile($file, $lang, Lang::USER_LANG);
-                
-                // On récupère le nom de l'ancien fichier
-                $oldFilename = $this->getTradFilePath($file, $oldLang);
-                unset($oldFilename);
-            }
+            $this->loadTraductions();
         }
     }
     
-    // Permet de modifier le fichier de traduction à inspecter en priorité
-    public function setCurrentFile($file) {
-        $this->currentFile = $file;
+    // Permet d'ajouter le fichier de traduction $filename
+    public function addTradFile($filename) {
+        // On ajoute le fichier à la liste
+        $this->files[] = $filename;
+    }
+    public function loadTradFile($filename) {
+        // On ajoute le fichier à la liste
+        $this->files[] = $filename;
+    }
+    
+    // Cette méthode renvoie le chemin d'un fichier de traduction
+    public static function getTradFilePath($filename, $lang) {
+        return LANG_DIR . $filename . '.' . $lang . '.json';
+    }
+    // Cette méthode charge l'ensemble des fichiers de traductions
+    private function loadTraductions() {
+        $globalTrads = array();
+        $files = $this->files;
+        $defaultLang = $this->defaultLang; $userLang = $this->lang;
+        
+        foreach ($files AS $file) {
+            $trads = array();
+            
+            if (!empty($defaultLang)) {
+                $defaultLangTrads = JSON::loadCfg($this->getTradFilePath($file, $defaultLang));
+                if ($defaultLangTrads != false) {
+                    $trads = $defaultLangTrads;
+                }
+            }
+            if (!empty($userLang)) {
+                $userLangTrads = JSON::loadCfg($this->getTradFilePath($file, $userLang));
+                if ($userLangTrads != false) {
+//                    var_dump($trads, $userLangTrads);
+                    $trads = array_merge($trads, $userLangTrads);
+//                    var_dump($trads);
+                }
+            }
+            
+            $globalTrads = array_merge($globalTrads, $trads);
+        }
+        
+        $this->trads = $globalTrads;
     }
     
     // Permet de récupérer une traduction selon la clé fourni
     public function getTraduction($key) {
-        // On vérifie qu'il y ait bien des traductions de sélectionnés
+        // On vérifie qu'il y ai bien des traductions en mémoire
+        // Si ce n'est pas le cas et qu'il y a des fichiers à charger, on charge les trads
+        // S'il n'y a aucun fichier à charger on affiche un message d'erreur
         if (empty($this->trads)) {
-            return 'Aucun fichier de traduction n\'est désigné.';
+            if (empty($this->files)) {
+                throw new RuntimeException('Aucun fichier de traduction n\'a été indiqué.');
+            }
+            else $this->loadTraductions();
         }
         
-        // On vérifie les traductions disponibles dans le fichier "prioritaire"
-        if (isset($this->currentFile)) {
-            $trad = $this->getSpecificTrad($key, $this->currentFile);
-            if ($trad != false) return $trad;
+        if (array_key_exists($key, $this->trads)) {
+            return $this->trads[$key];
         }
-        
-        // Puis on vérifie tous les fichiers actuellement chargé
-        foreach ($this->files AS $file) {
-            $trad = $this->getSpecificTrad($key, $file);
-            if ($trad != false) return $trad;
-        }
-        
-        // On retourne la clé si rien n'a été trouvé
-        return $key;
+        else return $key;
     }
+    
+    public function setCurrentFile() { return true; }
     
     // Cette méthode permet de récupérer une traduction précise
     // Dans le fichier et selon le type précisé
@@ -265,27 +265,15 @@ class Lang extends ApplicationComponent {
         else return false;
     }
     
-    // Cette méthode permet de vérifier si la langue $lang est disponible
-    public function isValidLang($lang) {
-        return in_array($lang, $this->langs);
-    }
-    // Cette méthode renvoie un array contenant les langues valides
-    public function getValidLangs() {
-        return $this->langs;
-    }
-    
     // Contient la langue par défaut à utilisé
     // Et la langue usuelle de l'utilisateur
     private $defaultLang = null;
-    private $lang;
+    private $lang = null;
     
     // Arrays contenant les différentes traductions
     // Ainsi que les différents fichiers utilisés
     private $trads = array();
     private $files = array();
-    
-    // Fichier de traduction prioritaire lors de la recherche d'une traduction
-    private $currentFile;
     
     private $langs; // Array des langues disponible
     
@@ -333,7 +321,8 @@ class L {
         else return $key;
     }
     static public function gT($key) {
-        return self::getTraduction($key);
+        $trad = self::getTraduction($key);
+        return $trad;
     }
     static public function eT($key) {
         echo self::getTraduction($key);
