@@ -32,5 +32,9 @@
     "AlreadyExists?": "Serveur déjà installé", 
     
     "Yes": "Oui", 
-    "No": "Non"
+    "No": "Non", 
+    
+    "Console": "Console", 
+    "Command": "Commande", 
+    "ServNotStarted": "Le serveur n'est pas lancé !"
 }

@@ -200,9 +200,33 @@ class SteamCtrler extends BaseCtrler {
 
         if ($serv = Doctrine_Core::getTable('Steam')->find($id)) {
             $regen = $serv->putHldsScript();
+            $this->page->addTpl('steam/regenConfig', array('regen' => $regen));
         }
+        else $this->app()->httpResponse()->redirect('steam/show');
+    }
+    
+    // Permet d'avoir un accès console au serveur
+    protected function runConsole($vars) {
+        $id = $vars['id'];
+        $send = null; $console = null;
         
-        $this->page->addTpl('steam/regenConfig', array('regen' => $regen));
+        if ($serv = Doctrine_Core::getTable('Steam')->find($id)) {
+            // On regarde si le formulaire a été envoyé
+            // Pour lancer l'éventuelle commande passé
+            if (Form::hasSend()) {
+                list($erreurs, $form) = Form::verifyData(array('command' => FIELD_TEXT));
+                
+                if (!$erreurs) {
+                    $send = $serv->sendConsoleCommand($form['command']);
+                    if ($send == false) $console = false;
+                }
+            }
+            
+            if ($send !== false) $console = $serv->getConsoleLogs();
+            
+            $this->page->addTpl('steam/console', array('con' => $console));
+        }
+        else $this->app()->httpResponse()->redirect('steam/show');
     }
 }
 ?>

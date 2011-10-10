@@ -88,6 +88,39 @@ class Steam extends BaseSteam
         $ssh->exec($screen);
     }
     
+    // Cette méthode peremt de récupérer le contenu du screen du serveur
+    public function getConsoleLogs() {
+        $vm = $this->Vm->toArray();
+        $screenName = $vm['user'] . '-' . $this->dir;
+        $tmpFile = '/tmp/' . $screenName . '.' . uniqid();
+        
+        $cmd  = 'screen -S ' . $screenName . ' -X hardcopy ' . $tmpFile . '; sleep 1s; ';
+        $cmd .= 'if [ -e ' . $tmpFile . ' ]; then cat ' . $tmpFile . '; rm -f ' . $tmpFile . '; fi';
+        
+        $ssh = SSH::get($vm['ip'], $vm['port'], $vm['user'], $vm['keyfile']);
+        $screenContent = $ssh->exec($cmd);
+        
+        if ($screenContent == 'No screen session found.') return false;
+        else return $screenContent;
+    }
+    
+    // Cette méthode permet d'envoyer la commande $command
+    // Au screen du serveur
+    public function sendConsoleCommand($command) {
+        $vm = $this->Vm->toArray();
+        $screenName = $vm['user'] . '-' . $this->dir;
+        
+        $cmd = 'screen -S ' . $screenName . ' -X eval "stuff \'' . $command . '\'^m"';
+        
+        $ssh = SSH::get($vm['ip'], $vm['port'], $vm['user'], $vm['keyfile']);
+        $ret = $ssh->exec($cmd);
+        
+        // On renvoie false si le screen n'existe pas
+        // Sinon on renvoie true
+        if ($ret == 'No screen session found.') return false;
+        else return true;
+    }
+    
     public function delete() {
         $q = Doctrine_Query::create()->delete('Steam')->where('id = ?', $this->id);
         return $q->execute();

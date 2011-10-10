@@ -26,8 +26,9 @@
                 P::a('HardDel', 'steam/del/hard', $sid); echo '<br />';
 
                 if ($etat) {
-                    P::a('Shutdown', 'steam/stop', $serveur->id); echo ' - ';
+                    P::a('Shutdown', 'steam/stop', $sid); echo ' - ';
                     P::a('Restart', 'steam/restart', $sid); echo '<br />';
+                    P::a('Console', 'steam/console', $sid); echo '<br />';
                 } else {
                     P::a('SwitchOn', 'steam/start', $sid); echo '<br />';
                 }

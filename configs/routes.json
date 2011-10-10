@@ -55,13 +55,14 @@
             "steam/del/$$mode/$$id$": {"action": "del", "vars": {"mode": "soft|hard", "id": "[0-9]+"}},
             "steam/edit/$$id$": {"action": "edit", "vars": {"id": "[0-9]+"}},
             "steam/regen/$$id$": {"action": "regenConfig", "vars": {"id": "[0-9]+"}}, 
+            "steam/console/$$id$": {"action": "console", "vars": {"id": "[0-9]+"}}, 
             "steam/$$state/$$id$": {
                 "action": "state",
                 "vars": {
                     "state": "start|stop|restart",
                     "id": "[0-9]+"
                 }
-            },
+            }, 
             "steam/plugins/$$plugin/$$id$": {
                 "route": "steam/plugins/install", 
                 "vars": {"plugin": "mm|amx|amxx|mmsrc|srcm|es", "id": "[0-9]+"}, 
