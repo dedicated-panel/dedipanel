@@ -3,21 +3,21 @@ class HTTPRequest extends ApplicationComponent {
 	// Cette méthode permet de récupérer des données get (INPUT_GET) ou POST (INPUT_POST) 
     public static function getData($type) {
         // On vérifie le type de donnée qu'on souhaite récupérer
-		// Si ce n'est pas un type valide, la méthode renvoie null
+        // Si ce n'est pas un type valide, la méthode renvoie null
         $type = ($type == INPUT_GET || $type == INPUT_POST) ? $type : null;
-		if ($type == null) return null;
+        if ($type == null) return null;
 		
         // Si les arguments souhaités on déjà été récupéré, on les renvoie
         if (self::$inputArgs[$type] != null) return self::$inputArgs[$type];
 
-		// On récupère les données 
-		$data = '';
-		if 		($type == INPUT_POST) 	$data = $_POST;
-		elseif 	($type == INPUT_GET && isset($_GET['args'])) $data = $_GET['args'];
+        // On récupère les données 
+        $data = '';
+        if 		($type == INPUT_POST) 	$data = $_POST;
+        elseif 	($type == INPUT_GET && isset($_GET['args'])) $data = $_GET['args'];
 
         // On les sauvegarde pour y accéder plus facilement la prochaine fois
-		self::$inputArgs[$type] = $data;
-		// Et on fini par renvoyer les dites données
+        self::$inputArgs[$type] = $data;
+        // Et on fini par renvoyer les dites données
         return $data;
     }
 
@@ -35,8 +35,6 @@ class HTTPResponse extends ApplicationComponent {
     }
 
     public function redirect($route, $baseUrl = BASE_URL) {
-        if ($baseUrl == BASE_URL) $baseUrl .= '/';
-
         $this->setHeader('location', $baseUrl . $route);
         exit();
     }

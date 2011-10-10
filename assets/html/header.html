@@ -19,7 +19,7 @@
         <!--  Header -->
         <div id="header">
             <div id="header_content">
-                <div id="logo"><?php P::a('', ''); ?></div>
+                <div id="logo"><?php P::a('', '', false, false); ?></div>
                 <div id="speedbar">
                     <ul>
                         <li><a href="index.php" class="home"></a></li>
@@ -31,7 +31,7 @@
                 <div id="profil">
                     <div id="img"><?php P::a('', 'utilisateur/profil'); ?></div>
                     <div id="top">
-                        <?php P::a($pseudo, 'utilisateur/profil'); ?> - 
+                        <?php P::a($pseudo, 'utilisateur/profil', false, false); ?> - 
                         <?php P::a('Déconnexion', 'utilisateur/logout'); ?>
                     </div>
                     <div id="bottom"><?php if ($isSU) { ?>
