@@ -1,9 +1,0 @@
-<p>
-    <?php P::a('Back', 'steam/show'); ?><br />
-    <?php P::a('Del', 'steam/cfg/del', array($sid, $filePath)); ?>
-</p>
-<form action="" method="post"><p>
-    Filename : <?php echo $filename; ?><br />
-    <textarea cols="60" rows="30" name="file"><?php echo $content; ?></textarea><br />
-    <input type="submit" name="envoi" value="Modifier" />
-</p></form>
