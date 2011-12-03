@@ -1,0 +1,27 @@
+user_menu:
+    pattern: /
+    defaults: { _controller: DPUserBundle:User:Menu }
+
+# contient la route pour le /login, important
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+    # les routes pour l'inscription (inscription, confirmation email, etc.)
+fos_user_register:
+    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+    prefix: /register
+    
+# les routes pour redéfinir son mot de passe (envoi du mail, etc.)
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /resetting
+    
+# les routes pour les profils utilisateurs (voir et éditer un profil)
+# fos_user_profile:
+    # resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+    # prefix: /profile
+
+# une route pour changer de mot de passe
+# fos_user_change_password:
+    # resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    # prefix: /change-password

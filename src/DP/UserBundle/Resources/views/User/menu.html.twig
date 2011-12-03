@@ -1,0 +1,9 @@
+{% extends "::layout.html.twig" %}
+
+{% block content %}
+	{% import "::layout.html.twig" as layout %}
+	{% set navItems = [{'name': 'menu.logout', 'route': 'fos_user_security_logout', 'img': 'aze'}] %}
+	<ul>{% for item in navItems %}				
+		{{ layout.navItem(item['name'], item['route'], item['img']) }}
+	{% endfor %}</ul>
+{% endblock %}

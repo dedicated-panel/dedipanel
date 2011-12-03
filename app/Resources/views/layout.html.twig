@@ -1,0 +1,43 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" type="text/css" media="screen" href="{{ asset('css/main.css') }}" />
+{% endblock %}
+
+{% block body %}
+	<div id="tbody"></div>
+	
+	<div id="corps">	
+		<!--  Menu  -->
+		<div id="m_left">
+			<!-- <div class="postit"><div class="content">
+					<h3>Bienvenue sur votre panel</h3>
+					<p>Cet espace vous permet de diriger votre machine le plus simple possible.
+					Oubliez scripts et lignes de commandes, ici vous gèrez tous vos serveurs de jeux en
+					quelques clics seulement.</p>
+				</div></div> -->
+			
+			<div class="postit"><div class="content">
+				Todo
+			</div></div>
+			
+			{% macro navItem(name, route, img) %}
+				<li><a href="{{ path(route) }}"><img src="{{ asset(img) }}" alt="{{ name|trans() }}" /></li>
+			{% endmacro %}
+			
+			{% set navItems = [{'name': 'menu.logout', 'route': 'fos_user_security_logout', 'img': 'aze'}] %}
+			{# {% set navItems = [{'name': 'Logout', 'route': '/logout', 'img': 'aze'}, {'name': 'Test', 'route': '/logout', 'img': 'aze'}, {'name': 'Test21	', 'route': '/logout', 'img': 'aze'}] %} #}
+			
+			<nav><ul>{% for item in navItems %}				
+				{{ _self.navItem(item['name'], item['route'], item['img']) }}
+			{% endfor %}</ul></nav>
+		</div>
+		<!-- End menu -->
+		
+		<div id="content">{% block content %}{% endblock %}</div>
+	</div>
+	
+	<div id="fbody"></div>
+	</div>{# <= correspond à <div id="body"> #}
+	<div id="footer"> {# Le prochain </div sera pour le footer #}
+{% endblock %}

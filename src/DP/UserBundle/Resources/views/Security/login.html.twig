@@ -1,0 +1,17 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+{% if error %}
+    <div>{{ error }}</div>
+{% endif %}
+
+<form action="{{ path("fos_user_security_check") }}" method="post">
+    <div id="login">
+		<input type="text" id="username" name="_username" value="{{ last_username }}" />
+	</div>
+
+    <div id="mdp"><input type="password" id="password" name="_password" /></div>
+
+    <input type="submit" id="_submit" name="_submit" value="" />
+</form>
+{% endblock fos_user_content %}
