@@ -1,0 +1,7 @@
+parameters:
+#    dp_machine.example.class: DP\MachineBundle\Example
+
+services:
+#    dp_machine.example:
+#        class: %dp_machine.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

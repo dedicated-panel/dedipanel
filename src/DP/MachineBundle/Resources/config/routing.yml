@@ -1,0 +1,30 @@
+machine:
+    pattern:  /
+    defaults: { _controller: "DPMachineBundle:Machine:index" }
+
+machine_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "DPMachineBundle:Machine:show" }
+
+machine_new:
+    pattern:  /new
+    defaults: { _controller: "DPMachineBundle:Machine:new" }
+
+machine_create:
+    pattern:  /create
+    defaults: { _controller: "DPMachineBundle:Machine:create" }
+    requirements: { _method: post }
+
+machine_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "DPMachineBundle:Machine:edit" }
+
+machine_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "DPMachineBundle:Machine:update" }
+    requirements: { _method: post }
+
+machine_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "DPMachineBundle:Machine:delete" }
+    requirements: { _method: post }

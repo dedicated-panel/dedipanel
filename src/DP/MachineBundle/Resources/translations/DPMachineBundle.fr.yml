@@ -1,0 +1,11 @@
+machine.new: Ajouter une machine
+machine.show: Voir
+machine.edit: Modifier
+
+machine.id: ID
+machine.privateIp: IP Privée
+machine.publicIp: IP Public
+machine.port: Port
+machine.user: Utilisateur
+machine.pubkeyHash: Hash de la clé publique
+machine.actions: Actions

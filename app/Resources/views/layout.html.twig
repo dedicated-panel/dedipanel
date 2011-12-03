@@ -24,13 +24,19 @@
 			{% macro navItem(name, route, img) %}
 				<li><a href="{{ path(route) }}"><img src="{{ asset(img) }}" alt="{{ name|trans() }}" /></li>
 			{% endmacro %}
+			{% macro getNavMenu(withImage) %}
+				{% set navItems = [{'name': 'menu.machine', 'route': 'machine', 'img': 'azeaze'}, 
+					{'name': 'menu.logout', 'route': 'fos_user_security_logout', 'img': 'aze'}] %}
+				<ul>{% for item in navItems %}
+					{% if withImage == 1 %}
+						{{ _self.navItem(item['name'], item['route'], item['img']) }}
+					{% else %}
+						{{ _self.navItem(item['name'], item['route']) }}
+					{% endif %}
+				{% endfor %}</ul>
+			{% endmacro %}
 			
-			{% set navItems = [{'name': 'menu.logout', 'route': 'fos_user_security_logout', 'img': 'aze'}] %}
-			{# {% set navItems = [{'name': 'Logout', 'route': '/logout', 'img': 'aze'}, {'name': 'Test', 'route': '/logout', 'img': 'aze'}, {'name': 'Test21	', 'route': '/logout', 'img': 'aze'}] %} #}
-			
-			<nav><ul>{% for item in navItems %}				
-				{{ _self.navItem(item['name'], item['route'], item['img']) }}
-			{% endfor %}</ul></nav>
+			<nav>{{ _self.getNavMenu(1) }}</nav>
 		</div>
 		<!-- End menu -->
 		

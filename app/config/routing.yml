@@ -1,8 +1,12 @@
-# Internal routing configuration to handle ESI
-#_internal:
-#   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
-#   prefix:   /_internal
+DPMachineBundle:
+    resource: "@DPMachineBundle/Resources/config/routing.yml"
+    prefix:   /machine/
 
 DPUserBundle:
     resource: "@DPUserBundle/Resources/config/routing.yml"
     prefix: /
+
+# Internal routing configuration to handle ESI
+#_internal:
+#   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
+#   prefix:   /_internal

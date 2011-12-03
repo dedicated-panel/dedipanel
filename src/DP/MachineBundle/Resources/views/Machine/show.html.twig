@@ -1,0 +1,49 @@
+<h1>Machine</h1>
+
+<table class="record_properties">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Privateip</th>
+            <td>{{ entity.privateIp }}</td>
+        </tr>
+        <tr>
+            <th>Publicip</th>
+            <td>{{ entity.publicIp }}</td>
+        </tr>
+        <tr>
+            <th>Port</th>
+            <td>{{ entity.port }}</td>
+        </tr>
+        <tr>
+            <th>User</th>
+            <td>{{ entity.user }}</td>
+        </tr>
+        <tr>
+            <th>Pubkeyhash</th>
+            <td>{{ entity.pubkeyHash }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('machine') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('machine_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('machine_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>
