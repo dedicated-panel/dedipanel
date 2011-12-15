@@ -23,7 +23,7 @@ security:
                 remember_me: true
             remember_me:
                 key: %secret%
-            anonymous: true
+            anonymous: false
             logout: true
     
     access_control:
