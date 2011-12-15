@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html>
     <head>
-		<meta charset="utf-8" />
-		<title>{% block title %}Dedicated Panel{% endblock %}</title>
-		
-		<link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" />
-		{% block stylesheets %}{% endblock %}
+        <meta charset="utf-8" />
+        <title>{% block title %}Dedicated Panel{% endblock %}</title>
+
+        <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" />
+        {% block stylesheets %}{% endblock %}
     </head>
 	
     <body>
-		<header>
-			<div id="logo"></div>
-			<div id="web">
-				<a href="http://www.dedicated-panel.net" title="{{ 'layout.webSite'|trans() }}"></a>
-			</div>
-		</header>
+        <header>
+            <div id="logo"></div>
+            <div id="web">
+                <a href="http://www.dedicated-panel.net" title="{{ 'layout.webSite'|trans }}"></a>
+            </div>
+        </header>
 		
         <div id="body">{% block body %}{% endblock %}</div>
         
-		{% block javascripts %}{% endblock %}
+        {% block javascripts %}{% endblock %}
     </body>
 </html>

@@ -1,48 +1,48 @@
 {% extends "::layout.html.twig" %}
 {% block content %}
-	<h1>Machine list</h1>
+    <h1>Machine list</h1>
 
-	<ul>
-		<li>
-			<a href="{{ path('machine_new') }}">
-				{{ 'machine.new'|trans({}, 'DPMachineBundle') }}
-			</a>
-		</li>
-	</ul>
-	
-	<table class="records_list">
-		<thead>
-			<tr>
-				<th>{{ 'machine.id'|trans({}, 'DPMachineBundle') }}</th>
-				<th>{{ 'machine.privateIp'|trans({}, 'DPMachineBundle') }}</th>
-				<th>{{ 'machine.publicIp'|trans({}, 'DPMachineBundle') }}</th>
-				<th>{{ 'machine.port'|trans({}, 'DPMachineBundle') }}</th>
-				<th>{{ 'machine.user'|trans({}, 'DPMachineBundle') }}</th>
-				<th>{{ 'machine.pubkeyHash'|trans({}, 'DPMachineBundle') }}</th>
-				<th>{{ 'machine.actions'|trans({}, 'DPMachineBundle') }}</th>
-			</tr>
-		</thead>
-		<tbody>
-		{% for entity in entities %}
-			<tr>
-				<td><a href="{{ path('machine_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-				<td>{{ entity.privateIp }}</td>
-				<td>{{ entity.publicIp }}</td>
-				<td>{{ entity.port }}</td>
-				<td>{{ entity.user }}</td>
-				<td>{{ entity.pubkeyHash }}</td>
-				<td>
-					<ul>
-						<li>
-							<a href="{{ path('machine_show', { 'id': entity.id }) }}">{{ 'machine.show'|trans({}, 'DPMachineBundle') }}</a>
-						</li>
-						<li>
-							<a href="{{ path('machine_edit', { 'id': entity.id }) }}">{{ 'machine.edit'|trans({}, 'DPMachineBundle') }}</a>
-						</li>
-					</ul>
-				</td>
-			</tr>
-		{% endfor %}
-		</tbody>
-	</table>
+    <ul>
+        <li>
+            <a href="{{ path('machine_new') }}">
+                    {{ 'machine.new'|trans }}
+            </a>
+        </li>
+    </ul>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>{{ 'machine.id'|trans }}</th>
+                <th>{{ 'machine.privateIp'|trans }}</th>
+                <th>{{ 'machine.publicIp'|trans }}</th>
+                <th>{{ 'machine.port'|trans }}</th>
+                <th>{{ 'machine.user'|trans }}</th>
+                <th>{{ 'machine.pubkeyHash'|trans }}</th>
+                <th>{{ 'machine.actions'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('machine_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.privateIp }}</td>
+                <td>{{ entity.publicIp }}</td>
+                <td>{{ entity.port }}</td>
+                <td>{{ entity.user }}</td>
+                <td>{{ entity.pubkeyHash }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('machine_show', { 'id': entity.id }) }}">{{ 'machine.show'|trans }}</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('machine_edit', { 'id': entity.id }) }}">{{ 'machine.edit'|trans }}</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

@@ -10,11 +10,11 @@ class MachineType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('privateIp')
-            ->add('publicIp')
-            ->add('port')
-            ->add('user')
-            ->add('pubkeyHash')
+            ->add('privateIp', 'text', array('label' => 'machine.privateIp'))
+            ->add('publicIp', 'text', array('label' => 'machine.publicIp', 'required' => false))
+            ->add('port', 'number', array('label' => 'machine.port'))
+            ->add('user', 'text', array('label' => 'machine.user'))
+            ->add('passwd', 'password', array('label' => 'machine.passwd'))
         ;
     }
 
