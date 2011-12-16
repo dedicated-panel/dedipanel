@@ -7,7 +7,6 @@ machine.privateIp: IP Privée
 machine.publicIp: IP Public
 machine.port: Port
 machine.user: Utilisateur
-machine.pubkeyHash: Hash de la clé publique
 machine.actions: Actions
 machine.passwd: Mot de passe
 machine.add: Ajouter

@@ -62,11 +62,18 @@ class Machine
     private $passwd;
 
     /**
-     * @var string $pubkeyHash
+     * @var string $publicKey
      *
-     * @ORM\Column(name="pubkeyHash", type="string", length=40)
+     * @ORM\Column(name="publicKey", type="string", length=255)
      */
-    private $pubkeyHash;
+    private $publicKey;
+    
+    /**
+     * @var string $home
+     * 
+     * @ORM\Column(name="home", type="string", length=255)
+     */
+    private $home;
 
 
     /**
@@ -160,23 +167,23 @@ class Machine
     }
 
     /**
-     * Set pubkeyHash
+     * Set publicKey
      *
-     * @param string $pubkeyHash
+     * @param string $publicKey
      */
-    public function setPubkeyHash($pubkeyHash)
+    public function setPublicKey($publicKey)
     {
-        $this->pubkeyHash = $pubkeyHash;
+        $this->publicKey = $publicKey;
     }
 
     /**
-     * Get pubkeyHash
+     * Get publicKey
      *
      * @return string 
      */
-    public function getPubkeyHash()
+    public function getPublicKey()
     {
-        return $this->pubkeyHash;
+        return $this->publicKey;
     }
 
     /**
@@ -194,6 +201,23 @@ class Machine
      */
     public function getPasswd() {
         return $this->passwd;
+    }
+    
+    /**
+     * Set home
+     * 
+     * @param string $home 
+     */
+    public function setHome($home) {
+        $this->home = $home;
+    }
+    /**
+     * Get home
+     * 
+     * @return string
+     */
+    public function getHome() {
+        return $this->home;
     }
 }
 ?>
