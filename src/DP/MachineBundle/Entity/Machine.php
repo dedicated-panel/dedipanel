@@ -24,16 +24,16 @@ class Machine
     /**
      * @var bigint $privateIp
      *
-     * @ORM\Column(name="privateIp", type="bigint", nullable=true)
-     * @Assert\Ip(message="message.assert.privateIp")
+     * @ORM\Column(name="privateIp", type="string", length=15, nullable=true)
+     * @Assert\Ip(message="machine.assert.privateIp")
      */
     private $privateIp;
 
     /**
      * @var bigint $publicIp
      *
-     * @ORM\Column(name="publicIp", type="bigint", nullable=true)
-     * @Assert\Ip(message="message.assert.publicIp")
+     * @ORM\Column(name="publicIp", type="string", length=15, nullable=true)
+     * @Assert\Ip(message="machine.assert.publicIp")
      */
     private $publicIp;
 
@@ -41,8 +41,8 @@ class Machine
      * @var integer $port
      *
      * @ORM\Column(name="port", type="integer")
-     * @Assert\Min(limit=1, message="message.assert.port")
-     * @Assert\Min(limit=65536, message="message.assert.port")
+     * @Assert\Min(limit=1, message="machine.assert.port")
+     * @Assert\Max(limit=65536, message="machine.assert.port")
      */
     private $port;
 
@@ -50,28 +50,35 @@ class Machine
      * @var string $user
      *
      * @ORM\Column(name="user", type="string", length=16)
-     * @Assert\NotBlank(message="message.assert.user")
+     * @Assert\NotBlank(message="machine.assert.user")
      */
     private $user;
     
     /**
      * @var string $passwd
      * 
-     * @Assert\NotBlank(message="message.assert.passwd")
+     * @Assert\NotBlank(message="machine.assert.passwd")
      */
     private $passwd;
 
+    /** 
+     * @var string $privateKey
+     * 
+     * @ORM\Column(name="privateKey", type="string", length=23)
+     */
+    private $privateKeyFilename;
+    
     /**
      * @var string $publicKey
      *
-     * @ORM\Column(name="publicKey", type="string", length=255)
+     * @ORM\Column(name="publicKey", type="string", length=255, nullable=true)
      */
     private $publicKey;
     
     /**
      * @var string $home
      * 
-     * @ORM\Column(name="home", type="string", length=255)
+     * @ORM\Column(name="home", type="string", length=255, nullable=true)
      */
     private $home;
 
@@ -166,6 +173,24 @@ class Machine
         return $this->user;
     }
 
+    /**
+     * Set filename of the private key
+     * 
+     * @param string $privateKeyFilename 
+     */
+    public function setPrivateKeyFilename($privateKeyFilename) {
+        $this->privateKeyFilename = $privateKeyFilename;
+    }
+    
+    /**
+     * Get filename of the private key
+     * 
+     * @return string 
+     */
+    public function getPrivateKeyFilename() {
+        return $this->privateKeyFilename;
+    }
+    
     /**
      * Set publicKey
      *

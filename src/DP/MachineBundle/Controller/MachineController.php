@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use DP\MachineBundle\Entity\Machine;
 use DP\MachineBundle\Form\MachineType;
 
+use DP\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
+
 /**
  * Machine controller.
  *
@@ -78,6 +80,15 @@ class MachineController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
+            $secure = PHPSeclibWrapper::getFromMachineEntity($entity);
+            $secure->setPasswd($entity->getPasswd());
+            $secure->connectionTest();
+            
+            $privkeyFilename = uniqid('', true);
+            $secure->createKeyPair($privkeyFilename);
+            $entity->setPrivateKeyFilename($privkeyFilename);
+            $entity->setHome($secure->getHome());
+            
             $em = $this->getDoctrine()->getEntityManager();
             $em->persist($entity);
             $em->flush();
