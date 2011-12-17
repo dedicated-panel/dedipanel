@@ -35,6 +35,9 @@
                             <a href="{{ path('machine_show', { 'id': entity.id }) }}">{{ 'machine.show'|trans }}</a>
                         </li>
                         <li>
+                            <a href="{{ path('machine_connectionTest', { 'id': entity.id }) }}">{{ 'machine.connectionTest'|trans }}</a>
+                        </li>
+                        <li>
                             <a href="{{ path('machine_edit', { 'id': entity.id }) }}">{{ 'machine.edit'|trans }}</a>
                         </li>
                     </ul>

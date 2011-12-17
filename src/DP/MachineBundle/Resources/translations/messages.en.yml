@@ -1,5 +1,6 @@
 machine.new: Ajouter une machine
 machine.show: Voir
+machine.connectionTest: Connection Test
 machine.edit: Modifier
 
 machine.id: ID

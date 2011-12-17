@@ -195,4 +195,20 @@ class MachineController extends Controller
             ->getForm()
         ;
     }
+    
+    public function connectionTestAction($id) {
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $entity = $em->getRepository('DPMachineBundle:Machine')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Machine entity.');
+        }
+        
+        $secure = PHPSeclibWrapper::getFromMachineEntity($entity);
+        $secure->setKeyfile($entity->getPrivateKeyFilename());
+        $secure->connectionTest();
+        
+        return $this->render('DPMachineBundle:Machine:connectionTest.html.twig');
+    }
 }

@@ -22,7 +22,7 @@
 			</div></div>
 			
 			{% macro navItem(name, route, img) %}
-				<li><a href="{{ path(route) }}"><img src="{{ asset(img) }}" alt="{{ name|trans() }}" /></li>
+				<li><a href="{{ path(route) }}"><img src="{{ asset(img) }}" alt="{{ name|trans() }}" /></a></li>
 			{% endmacro %}
 			{% macro getNavMenu(withImage) %}
 				{% set navItems = [{'name': 'menu.machine', 'route': 'machine', 'img': 'azeaze'}, 
