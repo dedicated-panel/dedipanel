@@ -1,5 +1,5 @@
 <?php
-namespace DP\MachineBundle\PHPSeclibWrapper\Exception;
+namespace PHPSeclibWrapper\Exception;
 use DP\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 
 class FileNotFoundException extends \Exception {

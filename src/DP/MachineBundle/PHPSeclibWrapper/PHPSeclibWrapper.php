@@ -7,7 +7,7 @@ require_once __DIR__ . '/Net/SSH2.php';
 use PHPSeclib;
 
 require_once __DIR__ . '/Exception.php';
-use DP\MachineBundle\PHPSeclibWrapper\Exception;
+use PHPSeclibWrapper\Exception;
 
 use DP\MachineBundle\Entity;
 
@@ -70,26 +70,14 @@ class PHPSeclibWrapper {
         // Et si le fichier existe, on charge la clé privée
         if (!is_null($keyfile)) {
             $this->keyfile = $keyfile;
-            
-            $privkeyFilepath = $this->getPrivateKeyFilepath();
-            if (!file_exists($privkeyFilepath)) {
-                throw new Exception\FileNotFoundException(
-                    'has been not found.', $this);
-            }
-            
-            $fileContent = file_get_contents($this->getPrivateKeyFilepath());
-            if (empty($fileContent)) {
-                throw new Exception\EmptyKeyfileException('is empty.', $this);
-            }
-            
-            $privKey = new PHPSeclib\Crypt\RSA();
-            $key->loadKey($fileContent);
-            $this->privateKey = $privKey;
         }
         elseif (!is_null($passwd)) {
             $this->passwd = $passwd;
         }
     }
+    /**
+     * Prevents object cloning
+     */
     private function __clone() {}
     
     private function getPrivateKeyFilepath($privateKeyFilename = null) {
@@ -115,14 +103,14 @@ class PHPSeclibWrapper {
         if (!isset($this->ssh)) {
             $ssh = new PHPSeclib\Net\SSH2($this->host, $this->port);
             
-            if ($this->privateKey != null) {
-                $ssh->login($this->user, $this->privateKey);
+            if ($this->privateKey != null || $this->keyfile != null) {
+                $ssh->login($this->user, $this->getPrivateKey());
             }
             elseif ($this->passwd != null) {
                 $ssh->login($this->user, $this->passwd);
             }
             else {
-                throw new Exception\IncompleteLoginID($this);
+                throw new Exception\IncompleteLoginIDException($this);
             }
             
             $this->ssh = $ssh;
@@ -189,7 +177,26 @@ class PHPSeclibWrapper {
         return true;
     }
     
-    
+    private function getPrivateKey() {
+        if (!isset($this->privateKey)) {
+            $privkeyFilepath = $this->getPrivateKeyFilepath();
+            if (!file_exists($privkeyFilepath)) {
+                throw new Exception\FileNotFoundException(
+                    'has been not found.', $this);
+            }
+            
+            $fileContent = file_get_contents($this->getPrivateKeyFilepath());
+            if (empty($fileContent)) {
+                throw new Exception\EmptyKeyfileException('is empty.', $this);
+            }
+            
+            $privKey = new PHPSeclib\Crypt\RSA();
+            $privKey->loadKey($fileContent);
+            $this->privateKey = $privKey;
+        }
+        
+        return $this->privateKey;
+    }
 //    public function MachineEntityValidation
     
     public function createKeyPair($privateKeyFilename) {
@@ -228,7 +235,7 @@ class PHPSeclibWrapper {
      * @param string $keyfile 
      */
     public function setKeyfile($keyfile) {
-        $this->keyfile = $keyfie;
+        $this->keyfile = $keyfile;
     }
     /**
      * Get private key filename
