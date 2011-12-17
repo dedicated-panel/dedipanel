@@ -1,7 +1,11 @@
+machine.machine: Machine
+machine.list: Liste des machines
+
 machine.new: Ajouter une machine
 machine.show: Voir
 machine.connectionTest: Test de connexion
 machine.edit: Modifier
+machine.del: Supprimer
 
 machine.id: ID
 machine.privateIp: IP Privée
@@ -11,6 +15,11 @@ machine.user: Utilisateur
 machine.actions: Actions
 machine.passwd: Mot de passe
 machine.add: Ajouter
+machine.back: Retour à la liste
+machine.home: Répertoire home
+machine.genPrivKey: Clé privée générée ?
+machine.yes: Oui
+machine.no: Non
 
 machine.assert:
   - privateIp: Vous devez indiquer une adresse IP valide.

@@ -1,11 +1,29 @@
+machine.machine: Machine
+machine.list: Machine list
+
 machine.new: Ajouter une machine
 machine.show: Voir
 machine.connectionTest: Connection Test
 machine.edit: Modifier
+machine.del: Delete
 
 machine.id: ID
-machine.privateIp: IP Privée
-machine.publicIp: IP Public
+machine.privateIp: Private IP
+machine.publicIp: Public IP
 machine.port: Port
-machine.user: Utilisateur
+machine.user: User
 machine.actions: Actions
+machine.passwd: Password
+machine.add: Add
+machine.back: Back to the list
+machine.home: Home Dir.
+machine.genPrivKey: Is generated private key ?
+machine.yes: Yes
+machine.no: No
+
+machine.assert:
+  - privateIp: You must give a valid IP address.
+  - publicIp: You must give a valid failover IP address.
+  - port: You must specify a port between 1 and 65356.
+  - user: You must specify a username.
+  - passwd: You must specify the user's password.

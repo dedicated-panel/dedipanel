@@ -1,44 +1,64 @@
-<h1>Machine</h1>
+{% extends "::layout.html.twig" %}
+{% block content %}
+    <h1>{{ 'machine.machine'|trans }}</h1>
 
-<table class="record_properties">
-    <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ entity.id }}</td>
-        </tr>
-        <tr>
-            <th>Privateip</th>
-            <td>{{ entity.privateIp }}</td>
-        </tr>
-        <tr>
-            <th>Publicip</th>
-            <td>{{ entity.publicIp }}</td>
-        </tr>
-        <tr>
-            <th>Port</th>
-            <td>{{ entity.port }}</td>
-        </tr>
-        <tr>
-            <th>User</th>
-            <td>{{ entity.user }}</td>
-    </tbody>
-</table>
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('machine_edit', { 'id': entity.id }) }}">
+                {{ 'machine.edit'|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('machine_connectionTest', { 'id': entity.id }) }}">{{ 'machine.connectionTest'|trans }}</a>
+        </li>
+        <li>
+            <form action="{{ path('machine_delete', { 'id': entity.id }) }}" method="post">
+                {{ form_widget(delete_form) }}
+                <button type="submit">{{ 'machine.del'|trans }}</button>
+            </form>
+        </li>
+        <li>
+            <a href="{{ path('machine') }}">
+                {{ 'machine.back'|trans }}
+            </a>
+        </li>
+    </ul>
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('machine') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('machine_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('machine_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>{{ 'machine.id'|trans }}</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'machine.privateIp'|trans }}</th>
+                <td>{{ entity.privateIp }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'machine.publicIp'|trans }}</th>
+                <td>{{ entity.publicIp }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'machine.port'|trans }}</th>
+                <td>{{ entity.port }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'machine.user'|trans }}</th>
+                <td>{{ entity.user }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'machine.home'|trans }}</th>
+                <td>{{ entity.home }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'machine.genPrivKey'|trans }}</th>
+                <td>{% if entity.privateKeyFilename|length > 0 %}
+                        {{ 'machine.yes'|trans }}
+                    {% else %}
+                        {{ 'machine.no'|trans }}
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

@@ -3,12 +3,12 @@
 {% form_theme form "::form.html.twig" %}
 
 {% block content %}
-    <h1>Machine creation</h1>
+    <h1>{{ 'machine.new'|trans }}</h1>
 
     <ul class="record_actions">
         <li>
             <a href="{{ path('machine') }}">
-                Back to the list
+                {{ 'machine.back'|trans }}
             </a>
         </li>
     </ul>
