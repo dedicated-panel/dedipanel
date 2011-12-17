@@ -80,21 +80,12 @@ class MachineController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $secure = PHPSeclibWrapper::getFromMachineEntity($entity);
-            $secure->setPasswd($entity->getPasswd());
-            $secure->connectionTest();
-            
-            $privkeyFilename = uniqid('', true);
-            $secure->createKeyPair($privkeyFilename);
-            $entity->setPrivateKeyFilename($privkeyFilename);
-            $entity->setHome($secure->getHome());
-            
+            $this->genKeyPair($entity);
             $em = $this->getDoctrine()->getEntityManager();
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('machine_show', array('id' => $entity->getId())));
-            
+                return $this->redirect($this->generateUrl('machine_show', array('id' => $entity->getId())));          
         }
 
         return $this->render('DPMachineBundle:Machine:new.html.twig', array(
@@ -148,11 +139,12 @@ class MachineController extends Controller
 
         $editForm->bindRequest($request);
 
-        if ($editForm->isValid()) {
+        if ($editForm->isValid()) {         
+            $this->genKeyPair($entity);
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('machine_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('machine'));
         }
 
         return $this->render('DPMachineBundle:Machine:edit.html.twig', array(
@@ -160,6 +152,22 @@ class MachineController extends Controller
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
+    }
+    
+    private function genKeyPair(Machine $entity, $delete = false) {
+        $secure = PHPSeclibWrapper::getFromMachineEntity($entity);
+        $secure->setPasswd($entity->getPasswd());
+
+        if ($delete) $secure->deleteKeyPair($entity->getPublicKey());
+        
+        $privkeyFilename = uniqid('', true);
+        $pubKey = $secure->createKeyPair($privkeyFilename);
+        
+        $entity->setPrivateKeyFilename($privkeyFilename);
+        $entity->setHome($secure->getHome());
+        $entity->setPublicKey($pubKey);
+
+        return true;
     }
 
     /**
@@ -180,6 +188,10 @@ class MachineController extends Controller
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Machine entity.');
             }
+            
+            $secure = PHPSeclibWrapper::getFromMachineEntity($entity);
+            $secure->setKeyfile($entity->getPrivateKeyFilename());
+            $secure->deleteKeyPair($entity->getPublicKey());
 
             $em->remove($entity);
             $em->flush();

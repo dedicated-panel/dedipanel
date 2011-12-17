@@ -1,10 +1,11 @@
 machine.machine: Machine
 machine.list: Machine list
+machine.editMachine: Edit a machine
 
 machine.new: Ajouter une machine
 machine.show: Voir
 machine.connectionTest: Connection Test
-machine.edit: Modifier
+machine.edit: Edit
 machine.del: Delete
 
 machine.id: ID
@@ -15,6 +16,7 @@ machine.user: User
 machine.actions: Actions
 machine.passwd: Password
 machine.add: Add
+machine.addMachine: Add a machine
 machine.back: Back to the list
 machine.home: Home Dir.
 machine.genPrivKey: Is generated private key ?

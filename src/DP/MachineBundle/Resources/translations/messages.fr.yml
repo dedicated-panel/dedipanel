@@ -1,5 +1,6 @@
 machine.machine: Machine
 machine.list: Liste des machines
+machine.editMachine: Modification d'une machine
 
 machine.new: Ajouter une machine
 machine.show: Voir

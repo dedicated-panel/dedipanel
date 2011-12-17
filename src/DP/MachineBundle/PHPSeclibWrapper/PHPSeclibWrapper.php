@@ -197,7 +197,6 @@ class PHPSeclibWrapper {
         
         return $this->privateKey;
     }
-//    public function MachineEntityValidation
     
     public function createKeyPair($privateKeyFilename) {
         // Generating key pair
@@ -217,16 +216,16 @@ class PHPSeclibWrapper {
         // Verifying if .ssh directory in user home exists
         // Create it if do not.
         // And add public key at ~/.ssh/authorized_keys file
-        $ret = $this->exec ('if [ ! -e ~/.ssh ]; then mkdir ~/.ssh; fi');
-        $ret &= $this->exec('chmod 700 ~/.ssh && 
+        $this->exec ('if [ ! -e ~/.ssh ]; then mkdir ~/.ssh; fi');
+        $this->exec('chmod 700 ~/.ssh && 
             echo "' . $keyPair['publickey'] . '" >> ~/.ssh/authorized_keys');
         
-        return $ret;
+        return $keyPair['publickey'];
     }
-    public function deleteKeyPair($pubkeyHash) {
+    public function deleteKeyPair($publicKey) {
+        $publicKey = str_replace('/', '\/', $publicKey);
+        $this->exec('cd ~/.ssh/ && sed -i "/^' . $publicKey . '/d" authorized_keys');
         unlink($this->getPrivateKeyFilepath());
-        // TODO: Refaire suppression
-        $this->exec('rm -f ~/.ssh/authorized_keys');
     }
     
     /**

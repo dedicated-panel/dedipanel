@@ -5,3 +5,4 @@
 /vendor
 /app/config/parameters.ini
 nbproject
+/src/DP/MachineBundle/Resources/config/.ssh/*
