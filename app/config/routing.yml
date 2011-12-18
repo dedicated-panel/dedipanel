@@ -1,3 +1,7 @@
+DPJeuBundle:
+    resource: "@DPJeuBundle/Resources/config/routing.yml"
+    prefix:   /jeu/
+
 DPMachineBundle:
     resource: "@DPMachineBundle/Resources/config/routing.yml"
     prefix:   /machine/

@@ -1,0 +1,30 @@
+jeu:
+    pattern:  /
+    defaults: { _controller: "DPJeuBundle:Jeu:index" }
+
+jeu_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "DPJeuBundle:Jeu:show" }
+
+jeu_new:
+    pattern:  /new
+    defaults: { _controller: "DPJeuBundle:Jeu:new" }
+
+jeu_create:
+    pattern:  /create
+    defaults: { _controller: "DPJeuBundle:Jeu:create" }
+    requirements: { _method: post }
+
+jeu_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "DPJeuBundle:Jeu:edit" }
+
+jeu_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "DPJeuBundle:Jeu:update" }
+    requirements: { _method: post }
+
+jeu_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "DPJeuBundle:Jeu:delete" }
+    requirements: { _method: post }
