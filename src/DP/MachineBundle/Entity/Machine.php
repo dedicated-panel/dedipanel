@@ -44,7 +44,7 @@ class Machine
      * @Assert\Min(limit=1, message="machine.assert.port")
      * @Assert\Max(limit=65536, message="machine.assert.port")
      */
-    private $port;
+    private $port = 22;
 
     /**
      * @var string $user

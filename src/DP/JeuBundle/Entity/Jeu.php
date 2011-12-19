@@ -3,6 +3,7 @@
 namespace DP\JeuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DP\JeuBundle\Entity\Jeu
@@ -25,6 +26,7 @@ class Jeu
      * @var string $name
      *
      * @ORM\Column(name="name", type="string", length=24)
+     * @Assert\NotBlank(message="jeu.assert.name")
      */
     private $name;
 
@@ -32,6 +34,7 @@ class Jeu
      * @var string $installName
      *
      * @ORM\Column(name="installName", type="string", length=24)
+     * @Assert\NotBlank(message="jeu.assert.installName")
      */
     private $installName;
 
@@ -39,6 +42,7 @@ class Jeu
      * @var string $launchName
      *
      * @ORM\Column(name="launchName", type="string", length=24)
+     * @Assert\NotBlank(message="jeu.assert.launchName")
      */
     private $launchName;
 
@@ -46,6 +50,7 @@ class Jeu
      * @var string $bin
      *
      * @ORM\Column(name="bin", type="string", length=24)
+     * @Assert\Choice(choices={"hlds_run", "srcds_run"}, message="jeu.assert.bin")
      */
     private $bin;
 
@@ -53,8 +58,9 @@ class Jeu
      * @var boolean $orangebox
      *
      * @ORM\Column(name="orangebox", type="boolean")
+     * @Assert\NotBlank(message="jeu.assert.orangebox")
      */
-    private $orangebox;
+    private $orangebox = false; // default value
 
     /**
      * @var string $map
@@ -67,8 +73,9 @@ class Jeu
      * @var boolean $available
      *
      * @ORM\Column(name="available", type="boolean")
+     * @Assert\NotBlank(message="jeu.assert.available")
      */
-    private $available;
+    private $available = true;
 
 
     /**

@@ -1,4 +1,5 @@
 layout.webSite: "Web Site"
 
 menu.machine: "Machines Management"
+menu.jeu: "Game management"
 menu.logout: "Logout"

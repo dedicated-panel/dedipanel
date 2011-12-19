@@ -1,4 +1,5 @@
 layout.webSite: "Site Web"
 
 menu.machine: "Gestion des Machines"
+menu.jeu: "Gestion des Jeux"
 menu.logout: "Déconnexion"
