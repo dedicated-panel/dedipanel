@@ -1,0 +1,6 @@
+machine.assert:
+  - privateIp: Vous devez indiquer une adresse IP valide.
+  - publicIp: Vous devez indiquer une adresse IP publique valide.
+  - port: Vous devez indiquer un port compris entre 1 et 65536.
+  - user: Vous devez indiquer un nom d'utilisateur
+  - passwd: Vous devez indiquer le mot de passe de cet utilisateur.

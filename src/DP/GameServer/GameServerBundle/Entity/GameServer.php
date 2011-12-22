@@ -3,7 +3,7 @@
 namespace DP\GameServer\GameServerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use DP\MachineBundle\Entity\Machine;
+use DP\Core\MachineBundle\Entity\Machine;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -62,7 +62,7 @@ class GameServer
     protected $maxplayers;
     
     /**
-     * @ORM\ManyToOne(targetEntity="DP\MachineBundle\Entity\Machine", inversedBy="gameServers")
+     * @ORM\ManyToOne(targetEntity="DP\Core\MachineBundle\Entity\Machine", inversedBy="gameServers")
      * @ORM\JoinColumn(name="machineId", referencedColumnName="id")
      * @Assert\NotNull(message="gameServer.assert.machine")
      */

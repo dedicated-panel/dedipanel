@@ -19,9 +19,9 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new FOS\UserBundle\FOSUserBundle(), 
             
+            new DP\Core\UserBundle\DPUserBundle(),
             new DP\Core\GameBundle\DPGameBundle(),
-            new DP\UserBundle\DPUserBundle(),
-            new DP\MachineBundle\DPMachineBundle(),
+            new DP\Core\MachineBundle\DPMachineBundle(),
             
             new DP\GameServer\GameServerBundle\DPGameServerBundle(),
             new DP\GameServer\SteamServerBundle\DPSteamServerBundle(),
