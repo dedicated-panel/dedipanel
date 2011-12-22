@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * DP\MachineBundle\Entity\Machine
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="DP\MachineBundle\Entity\MachineRepository")
  */
 class Machine
 {
@@ -56,8 +56,6 @@ class Machine
     
     /**
      * @var string $passwd
-     * 
-     * @Assert\NotBlank(message="machine.assert.passwd")
      */
     private $passwd;
 
@@ -81,8 +79,19 @@ class Machine
      * @ORM\Column(name="home", type="string", length=255, nullable=true)
      */
     private $home;
+    
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection() $gameServers
+     * 
+     * @ORM\OneToMany(targetEntity="DP\GameServer\GameServerBundle\Entity\GameServer", mappedBy="machine", cascade={"all"})
+     */
+    private $gameServers;
 
 
+    public function __construct() {
+        $this->gameServers = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     /**
      * Get id
      *
@@ -130,7 +139,12 @@ class Machine
      */
     public function getPublicIp()
     {
-        return $this->publicIp;
+        if (empty($this->publicIp)) {
+            return $this->privateIp;
+        }
+        else {
+            return $this->publicIp;
+        }
     }
 
     /**
@@ -216,7 +230,8 @@ class Machine
      * 
      * @param string $passwd
      */
-    public function setPasswd($passwd) {
+    public function setPasswd($passwd)
+    {
         $this->passwd = $passwd;
     }
     /**
@@ -224,7 +239,8 @@ class Machine
      * 
      * @return string
      */
-    public function getPasswd() {
+    public function getPasswd()
+    {
         return $this->passwd;
     }
     
@@ -233,7 +249,8 @@ class Machine
      * 
      * @param string $home 
      */
-    public function setHome($home) {
+    public function setHome($home)
+    {
         $this->home = $home;
     }
     /**
@@ -241,8 +258,13 @@ class Machine
      * 
      * @return string
      */
-    public function getHome() {
+    public function getHome()
+    {
         return $this->home;
+    }
+    
+    public function __toString() {
+        return $this->user . '@' . $this->privateIp . ':' . $this->port;
     }
 }
 ?>

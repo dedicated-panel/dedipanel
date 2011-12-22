@@ -1,0 +1,60 @@
+{% extends "::layout.html.twig" %}
+{% block content %}
+    <h1>{{ 'steam.list'|trans }}</h1>
+
+    <ul>
+        <li>
+            <a href="{{ path('steam_new') }}">
+                {{ 'steam.add'|trans }}
+            </a>
+        </li>
+    </ul>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>{{ 'steam.id'|trans }}</th>
+                <th>{{ 'steam.name'|trans }}</th>
+                <th>{{ 'steam.IPAddress'|trans }}</th>
+                <th>{{ 'steam.game'|trans }}</th>
+                <th>{{ 'steam.installStatus'|trans }}</th>
+                <th>{{ 'steam.maxplayers'|trans }}</th>
+                {# <th>{{ 'steam.dir'|trans }}</th>
+                <th>{{ 'steam.autoReboot'|trans }}</th>
+                <th>{{ 'steam.rcon'|trans }}</th>
+                <th>{{ 'steam.munin'|trans }}</th>
+                <th>{{ 'steam.passwd'|trans }}</th>
+                <th>{{ 'steam.core'|trans }}</th> #}
+                <th>{{ 'steam.actions'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('steam_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.name }}</td>
+                <td>{{ entity.machine.publicIp }}:{{ entity.port }}</td>
+                <td>{{ entity.game }}</td>
+                <td>{{ entity.installationStatus }}%</td>
+                <td>{{ entity.maxplayers }}</td>
+                {# <td>{{ entity.dir }}</td>
+                <td>{{ entity.autoReboot }}</td>
+                <td>{{ entity.rcon }}</td>
+                <td>{{ entity.munin }}</td>
+                <td>{{ entity.svpasswd }}</td>
+                <td>{{ entity.core }}</td> #}
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('steam_show', { 'id': entity.id }) }}">{{ 'steam.show'|trans }}</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('steam_edit', { 'id': entity.id }) }}">{{ 'steam.edit'|trans }}</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

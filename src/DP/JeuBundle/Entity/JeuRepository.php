@@ -12,4 +12,11 @@ use Doctrine\ORM\EntityRepository;
  */
 class JeuRepository extends EntityRepository
 {
+    public function getAvailableGames()
+    {
+        $qb = $this->createQueryBuilder('jeu');
+        $qb->select('jeu.id, jeu.name')->where('jeu.available = true');
+        
+        return $qb->getQuery()->getResult();
+    }
 }

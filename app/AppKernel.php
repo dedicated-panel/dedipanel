@@ -21,6 +21,8 @@ class AppKernel extends Kernel
 			new DP\UserBundle\DPUserBundle(),
             new DP\MachineBundle\DPMachineBundle(),
             new DP\JeuBundle\DPJeuBundle(),
+            new DP\GameServer\SteamServerBundle\DPSteamServerBundle(),
+            new DP\GameServer\GameServerBundle\DPGameServerBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

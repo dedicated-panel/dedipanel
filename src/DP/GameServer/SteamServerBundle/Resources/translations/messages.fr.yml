@@ -1,0 +1,25 @@
+steam.show: Voir
+steam.list: Liste des Serveurs Steam
+steam.add: Ajouter un serveur Steam
+steam.edit: Modifier
+steam.del: Supprimer
+steam.back: Retour à la liste
+
+steam.id: ID
+steam.name: Nom
+steam.port: Port
+steam.game: Jeu
+steam.installStatus: Statut de l'installation
+steam.dir: Répertoire d'installation
+steam.maxplayers: Joueurs max.
+steam.autoReboot: Reboot automatique à
+steam.rcon: Mdp RCON
+steam.munin: Graphes munin activés ?
+steam.passwd: Mot de passe du serveur
+steam.core: Lancer le serveur sur le core ?
+steam.actions: Actions
+steam.IPAddress: Adresse IP
+
+steam.selectMachine: Sélectionnez une machine
+steam.selectGame: Jeu
+steam.addButton: Ajouter

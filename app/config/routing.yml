@@ -1,3 +1,7 @@
+DPSteamServerBundle:
+    resource: "@DPSteamServerBundle/Resources/config/routing.yml"
+    prefix:   /steam/
+
 DPJeuBundle:
     resource: "@DPJeuBundle/Resources/config/routing.yml"
     prefix:   /jeu/

@@ -22,10 +22,12 @@
 			</div></div>
 			
 			{% macro navItem(name, route, img) %}
-				<li><a href="{{ path(route) }}"><img src="{{ asset(img) }}" alt="{{ name|trans() }}" /></a></li>
+				<li><a href="{{ path(route) }}"><img src="{{ asset(img) }}" alt="{{ name|trans }}" /></a></li>
 			{% endmacro %}
 			{% macro getNavMenu(withImage) %}
-				{% set navItems = [{'name': 'menu.machine', 'route': 'machine', 'img': 'azeaze'}, 
+				{% set navItems = [
+                                        {'name': 'menu.steam', 'route': 'steam', 'img': ''}, 
+                                        {'name': 'menu.machine', 'route': 'machine', 'img': 'azeaze'}, 
                                         {'name': 'menu.jeu', 'route': 'jeu', 'img': ''}, 
 					{'name': 'menu.logout', 'route': 'fos_user_security_logout', 'img': 'aze'}] %}
 				<ul>{% for item in navItems %}

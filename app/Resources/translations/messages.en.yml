@@ -1,5 +1,6 @@
 layout.webSite: "Web Site"
 
+menu.steam: "Steam Servers"
 menu.machine: "Machines Management"
 menu.jeu: "Game management"
 menu.logout: "Logout"

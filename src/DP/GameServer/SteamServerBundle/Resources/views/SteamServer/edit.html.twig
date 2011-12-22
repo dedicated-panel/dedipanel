@@ -1,0 +1,25 @@
+{% extends "::layout.html.twig" %}
+{% block content %}
+    <h1>SteamServer edit</h1>
+
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('steam') }}">
+                Back to the list
+            </a>
+        </li>
+        <li>
+            <form action="{{ path('steam_delete', { 'id': entity.id }) }}" method="post">
+                {{ form_widget(delete_form) }}
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+    </ul>
+
+    <form action="{{ path('steam_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+        {{ form_widget(edit_form) }}
+        <p>
+            <button type="submit">Edit</button>
+        </p>
+    </form>
+{% endblock %}

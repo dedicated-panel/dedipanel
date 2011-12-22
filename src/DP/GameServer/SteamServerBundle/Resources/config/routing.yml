@@ -1,0 +1,30 @@
+steam:
+    pattern:  /
+    defaults: { _controller: "DPSteamServerBundle:SteamServer:index" }
+
+steam_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "DPSteamServerBundle:SteamServer:show" }
+
+steam_new:
+    pattern:  /new
+    defaults: { _controller: "DPSteamServerBundle:SteamServer:new" }
+
+steam_create:
+    pattern:  /create
+    defaults: { _controller: "DPSteamServerBundle:SteamServer:create" }
+    requirements: { _method: post }
+
+steam_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "DPSteamServerBundle:SteamServer:edit" }
+
+steam_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "DPSteamServerBundle:SteamServer:update" }
+    requirements: { _method: post }
+
+steam_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "DPSteamServerBundle:SteamServer:delete" }
+    requirements: { _method: post }

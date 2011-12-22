@@ -58,7 +58,6 @@ class Jeu
      * @var boolean $orangebox
      *
      * @ORM\Column(name="orangebox", type="boolean")
-     * @Assert\NotBlank(message="jeu.assert.orangebox")
      */
     private $orangebox = false; // default value
 
@@ -76,8 +75,18 @@ class Jeu
      * @Assert\NotBlank(message="jeu.assert.available")
      */
     private $available = true;
+    
+    /** 
+     * @var \Doctrine\Common\Collections\ArrayCollection() $gameServers
+     * 
+     * @ORM\OneToMany(targetEntity="DP\GameServer\GameServerBundle\Entity\GameServer", mappedBy="game")
+     */
+    private $gameServers;
 
 
+    public function __construct() {
+        $this->gameServers = new \Doctrine\Common\Collections\ArrayCollection();
+    }
     /**
      * Get id
      *
@@ -226,5 +235,9 @@ class Jeu
     public function getAvailable()
     {
         return $this->available;
+    }
+    
+    public function __toString() {
+        return $this->name;
     }
 }
