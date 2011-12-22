@@ -1,50 +1,50 @@
 <?php
 
-namespace DP\JeuBundle\Controller;
+namespace DP\Core\GameBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use DP\JeuBundle\Entity\Jeu;
-use DP\JeuBundle\Form\JeuType;
+use DP\Core\GameBundle\Entity\Game;
+use DP\Core\GameBundle\Form\GameType;
 
 /**
- * Jeu controller.
+ * Game controller.
  *
  */
-class JeuController extends Controller
+class GameController extends Controller
 {
     /**
-     * Lists all Jeu entities.
+     * Lists all Game entities.
      *
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entities = $em->getRepository('DPJeuBundle:Jeu')->findAll();
+        $entities = $em->getRepository('DPGameBundle:Game')->findAll();
 
-        return $this->render('DPJeuBundle:Jeu:index.html.twig', array(
+        return $this->render('DPGameBundle:Game:index.html.twig', array(
             'entities' => $entities
         ));
     }
 
     /**
-     * Finds and displays a Jeu entity.
+     * Finds and displays a Game entity.
      *
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('DPJeuBundle:Jeu')->find($id);
+        $entity = $em->getRepository('DPGameBundle:Game')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Jeu entity.');
+            throw $this->createNotFoundException('Unable to find Game entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('DPJeuBundle:Jeu:show.html.twig', array(
+        return $this->render('DPGameBundle:Game:show.html.twig', array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
 
@@ -52,29 +52,29 @@ class JeuController extends Controller
     }
 
     /**
-     * Displays a form to create a new Jeu entity.
+     * Displays a form to create a new Game entity.
      *
      */
     public function newAction()
     {
-        $entity = new Jeu();
-        $form   = $this->createForm(new JeuType(), $entity);
+        $entity = new Game();
+        $form   = $this->createForm(new GameType(), $entity);
 
-        return $this->render('DPJeuBundle:Jeu:new.html.twig', array(
+        return $this->render('DPGameBundle:Game:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView()
         ));
     }
 
     /**
-     * Creates a new Jeu entity.
+     * Creates a new Game entity.
      *
      */
     public function createAction()
     {
-        $entity  = new Jeu();
+        $entity  = new Game();
         $request = $this->getRequest();
-        $form    = $this->createForm(new JeuType(), $entity);
+        $form    = $this->createForm(new GameType(), $entity);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
@@ -82,34 +82,34 @@ class JeuController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('jeu_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('game_show', array('id' => $entity->getId())));
             
         }
 
-        return $this->render('DPJeuBundle:Jeu:new.html.twig', array(
+        return $this->render('DPGameBundle:Game:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView()
         ));
     }
 
     /**
-     * Displays a form to edit an existing Jeu entity.
+     * Displays a form to edit an existing Game entity.
      *
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('DPJeuBundle:Jeu')->find($id);
+        $entity = $em->getRepository('DPGameBundle:Game')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Jeu entity.');
+            throw $this->createNotFoundException('Unable to find Game entity.');
         }
 
-        $editForm = $this->createForm(new JeuType(), $entity);
+        $editForm = $this->createForm(new GameType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('DPJeuBundle:Jeu:edit.html.twig', array(
+        return $this->render('DPGameBundle:Game:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -117,20 +117,20 @@ class JeuController extends Controller
     }
 
     /**
-     * Edits an existing Jeu entity.
+     * Edits an existing Game entity.
      *
      */
     public function updateAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('DPJeuBundle:Jeu')->find($id);
+        $entity = $em->getRepository('DPGameBundle:Game')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Jeu entity.');
+            throw $this->createNotFoundException('Unable to find Game entity.');
         }
 
-        $editForm   = $this->createForm(new JeuType(), $entity);
+        $editForm   = $this->createForm(new GameType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -141,10 +141,10 @@ class JeuController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('jeu_show', array('id' => $id())));
+            return $this->redirect($this->generateUrl('game_show', array('id' => $id())));
         }
 
-        return $this->render('DPJeuBundle:Jeu:edit.html.twig', array(
+        return $this->render('DPGameBundle:Game:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -152,7 +152,7 @@ class JeuController extends Controller
     }
 
     /**
-     * Deletes a Jeu entity.
+     * Deletes a Game entity.
      *
      */
     public function deleteAction($id)
@@ -164,17 +164,17 @@ class JeuController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
-            $entity = $em->getRepository('DPJeuBundle:Jeu')->find($id);
+            $entity = $em->getRepository('DPGameBundle:Game')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Jeu entity.');
+                throw $this->createNotFoundException('Unable to find Game entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('jeu'));
+        return $this->redirect($this->generateUrl('game'));
     }
 
     private function createDeleteForm($id)

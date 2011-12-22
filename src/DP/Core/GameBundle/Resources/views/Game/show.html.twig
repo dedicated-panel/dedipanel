@@ -1,22 +1,22 @@
 {% extends "::layout.html.twig" %}
 {% block content %}
-    <h1>{{ 'jeu.jeu'|trans }}</h1>
+    <h1>{{ 'game.game'|trans }}</h1>
 
     <ul class="record_actions">
         <li>
-            <a href="{{ path('jeu') }}">
-                {{ 'jeu.back'|trans }}
+            <a href="{{ path('game') }}">
+                {{ 'game.back'|trans }}
             </a>
         </li>
         <li>
-            <a href="{{ path('jeu_edit', { 'id': entity.id }) }}">
-                {{ 'jeu.edit'|trans }}
+            <a href="{{ path('game_edit', { 'id': entity.id }) }}">
+                {{ 'game.edit'|trans }}
             </a>
         </li>
         <li>
-            <form action="{{ path('jeu_delete', { 'id': entity.id }) }}" method="post">
+            <form action="{{ path('game_delete', { 'id': entity.id }) }}" method="post">
                 {{ form_widget(delete_form) }}
-                <button type="submit">{{ 'jeu.del'|trans }}</button>
+                <button type="submit">{{ 'game.del'|trans }}</button>
             </form>
         </li>
     </ul>
@@ -24,44 +24,44 @@
     <table class="record_properties">
         <tbody>
             <tr>
-                <th>{{ 'jeu.id'|trans }}</th>
+                <th>{{ 'game.id'|trans }}</th>
                 <td>{{ entity.id }}</td>
             </tr>
             <tr>
-                <th>{{ 'jeu.name'|trans }}</th>
+                <th>{{ 'game.name'|trans }}</th>
                 <td>{{ entity.name }}</td>
             </tr>
             <tr>
-                <th>{{ 'jeu.installName'|trans }}</th>
+                <th>{{ 'game.installName'|trans }}</th>
                 <td>{{ entity.installName }}</td>
             </tr>
             <tr>
-                <th>{{ 'jeu.launchName'|trans }}</th>
+                <th>{{ 'game.launchName'|trans }}</th>
                 <td>{{ entity.launchName }}</td>
             </tr>
             <tr>
-                <th>{{ 'jeu.bin'|trans }}</th>
+                <th>{{ 'game.bin'|trans }}</th>
                 <td>{{ entity.bin }}</td>
             </tr>
             <tr>
-                <th>{{ 'jeu.orangebox'|trans }}</th>
+                <th>{{ 'game.orangebox'|trans }}</th>
                 <td>{% if entity.orangebox == true %}
-                        {{ 'jeu.yes'|trans }}
+                        {{ 'game.yes'|trans }}
                     {% else %}
-                        {{ 'jeu.no'|trans }}
+                        {{ 'game.no'|trans }}
                     {% endif %}
                 </td>
             </tr>
             <tr>
-                <th>{{ 'jeu.map'|trans }}</th>
+                <th>{{ 'game.map'|trans }}</th>
                 <td>{{ entity.map }}</td>
             </tr>
             <tr>
-                <th>{{ 'jeu.available'|trans }}</th>
+                <th>{{ 'game.available'|trans }}</th>
                 <td>{% if entity.available == true %}
-                        {{ 'jeu.yes'|trans }}
+                        {{ 'game.yes'|trans }}
                     {% else %}
-                        {{ 'jeu.no'|trans }}
+                        {{ 'game.no'|trans }}
                     {% endif %}
                 </td>
             </tr>

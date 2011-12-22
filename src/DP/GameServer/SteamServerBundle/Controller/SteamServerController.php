@@ -5,8 +5,7 @@ namespace DP\GameServer\SteamServerBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use DP\GameServer\SteamServerBundle\Entity\SteamServer;
-use DP\GameServer\SteamServerBundle\Form\AddSteamServerType;
-use DP\GameServer\SteamServerBundle\Form\EditSteamServerType;
+use DP\GameServer\SteamServerBundle\Form\SteamServerType;
 
 /**
  * SteamServer controller.
@@ -58,9 +57,8 @@ class SteamServerController extends Controller
      */
     public function newAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
         $entity = new SteamServer();
-        $form   = $this->createForm(new AddSteamServerType($em), $entity);
+        $form   = $this->createForm(new SteamServerType(), $entity);
 
         return $this->render('DPSteamServerBundle:SteamServer:new.html.twig', array(
             'entity' => $entity,
@@ -74,13 +72,13 @@ class SteamServerController extends Controller
      */
     public function createAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
         $entity  = new SteamServer();
         $request = $this->getRequest();
-        $form    = $this->createForm(new AddSteamServerType($em), $entity);
+        $form    = $this->createForm(new SteamServerType(), $entity);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
+            $em = $this->getDoctrine()->getEntityManager();
             $em->persist($entity);
             $em->flush();
 
@@ -108,7 +106,7 @@ class SteamServerController extends Controller
             throw $this->createNotFoundException('Unable to find SteamServer entity.');
         }
 
-        $editForm = $this->createForm(new AddSteamServerType(), $entity);
+        $editForm = $this->createForm(new SteamServerType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('DPSteamServerBundle:SteamServer:edit.html.twig', array(
@@ -132,7 +130,7 @@ class SteamServerController extends Controller
             throw $this->createNotFoundException('Unable to find SteamServer entity.');
         }
 
-        $editForm   = $this->createForm(new EditSteamServerType(), $entity);
+        $editForm   = $this->createForm(new SteamServerType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();

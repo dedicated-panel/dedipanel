@@ -1,17 +1,17 @@
 <?php
 
-namespace DP\JeuBundle\Entity;
+namespace DP\Core\GameBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * DP\JeuBundle\Entity\Jeu
+ * DP\Core\GameBundle\Entity\Game
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="DP\JeuBundle\Entity\JeuRepository")
+ * @ORM\Entity(repositoryClass="DP\Core\GameBundle\Entity\GameRepository")
  */
-class Jeu
+class Game
 {
     /**
      * @var integer $id
@@ -26,7 +26,7 @@ class Jeu
      * @var string $name
      *
      * @ORM\Column(name="name", type="string", length=24)
-     * @Assert\NotBlank(message="jeu.assert.name")
+     * @Assert\NotBlank(message="game.assert.name")
      */
     private $name;
 
@@ -34,7 +34,7 @@ class Jeu
      * @var string $installName
      *
      * @ORM\Column(name="installName", type="string", length=24)
-     * @Assert\NotBlank(message="jeu.assert.installName")
+     * @Assert\NotBlank(message="game.assert.installName")
      */
     private $installName;
 
@@ -42,7 +42,7 @@ class Jeu
      * @var string $launchName
      *
      * @ORM\Column(name="launchName", type="string", length=24)
-     * @Assert\NotBlank(message="jeu.assert.launchName")
+     * @Assert\NotBlank(message="game.assert.launchName")
      */
     private $launchName;
 
@@ -50,7 +50,7 @@ class Jeu
      * @var string $bin
      *
      * @ORM\Column(name="bin", type="string", length=24)
-     * @Assert\Choice(choices={"hlds_run", "srcds_run"}, message="jeu.assert.bin")
+     * @Assert\Choice(choices={"hlds_run", "srcds_run"}, message="game.assert.bin")
      */
     private $bin;
 
@@ -72,7 +72,7 @@ class Jeu
      * @var boolean $available
      *
      * @ORM\Column(name="available", type="boolean")
-     * @Assert\NotBlank(message="jeu.assert.available")
+     * @Assert\NotBlank(message="game.assert.available")
      */
     private $available = true;
     

@@ -19,7 +19,7 @@ class AddSteamServerType extends AbstractType
             ->add('name', 'text', array('label' => 'steam.name'))
             ->add('port', 'number', array('label' => 'steam.port'))
             ->add('game', 'entity', array(
-                'label' => 'steam.selectGame', 'class' => 'DPJeuBundle:Jeu'))
+                'label' => 'steam.selectGame', 'class' => 'DPGameBundle:Game'))
             ->add('dir', 'text', array('label' => 'steam.dir'))
             ->add('maxplayers', 'number', array('label' => 'steam.maxplayers'))
         ;

@@ -7,7 +7,7 @@ use DP\MachineBundle\Entity\Machine;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * DP\GameServer\GameServerBundle\Entity\GameServer
+ * DP\Core\GameServer\GameServerBundle\Entity\GameServer
  * @ORM\MappedSuperclass
  */
 class GameServer
@@ -69,7 +69,7 @@ class GameServer
     protected $machine;
     
     /**
-     * @ORM\ManyToOne(targetEntity="DP\JeuBundle\Entity\Jeu", inversedBy="gameServers")
+     * @ORM\ManyToOne(targetEntity="DP\Core\GameBundle\Entity\Game", inversedBy="gameServers")
      * @ORM\JoinColumn(name="gameId", referencedColumnName="id")
      * * @Assert\NotNull(message="gameServer.assert.game")
      */
@@ -149,7 +149,7 @@ class GameServer
     /**
      * Set game
      *
-     * @param Jeu $game
+     * @param Game $game
      */
     public function setGame($game)
     {

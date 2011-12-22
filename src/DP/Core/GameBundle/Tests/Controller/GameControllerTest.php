@@ -1,10 +1,10 @@
 <?php
 
-namespace DP\JeuBundle\Tests\Controller;
+namespace DP\Core\GameBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class JeuControllerTest extends WebTestCase
+class GameControllerTest extends WebTestCase
 {
     /*
     public function testCompleteScenario()
@@ -13,13 +13,13 @@ class JeuControllerTest extends WebTestCase
         $client = static::createClient();
 
         // Create a new entry in the database
-        $crawler = $client->request('GET', '/jeu/');
+        $crawler = $client->request('GET', '/game/');
         $this->assertTrue(200 === $client->getResponse()->getStatusCode());
         $crawler = $client->click($crawler->selectLink('Create a new entry')->link());
 
         // Fill in the form and submit it
         $form = $crawler->selectButton('Create')->form(array(
-            'jeu[field_name]'  => 'Test',
+            'game[field_name]'  => 'Test',
             // ... other fields to fill
         ));
 
@@ -33,7 +33,7 @@ class JeuControllerTest extends WebTestCase
         $crawler = $client->click($crawler->selectLink('Edit')->link());
 
         $form = $crawler->selectButton('Edit')->form(array(
-            'jeu[field_name]'  => 'Foo',
+            'game[field_name]'  => 'Foo',
             // ... other fields to fill
         ));
 

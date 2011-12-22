@@ -1,0 +1,62 @@
+{% extends "::layout.html.twig" %}
+{% block content %}
+    <h1>{{ 'game.list'|trans }}</h1>
+
+    <ul>
+        <li>
+            <a href="{{ path('game_new') }}">
+                {{ 'game.add'|trans }}
+            </a>
+        </li>
+    </ul>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>{{ 'game.id'|trans }}</th>
+                <th>{{ 'game.name'|trans }}</th>
+                {# <th>{{ 'game.installName'|trans }}</th>
+                <th>{{ 'game.launchName'|trans }}</th>
+                #} <th>{{ 'game.bin'|trans }}</th> {#
+                <th>{{ 'game.orangebox'|trans }}</th> #}
+                <th>{{ 'game.map'|trans }}</th>
+                <th>{{ 'game.available'|trans }}</th>
+                <th>{{ 'game.actions'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('game_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.name }}</td>
+                {# <td>{{ entity.installName }}</td>
+                <td>{{ entity.launchName }}</td>
+                #} <td>{{ entity.bin }}</td> {#
+                <td>{% if entity.orangebox == 1 %}
+                        {{ 'game.yes'|trans }}
+                    {% else %}
+                        {{ 'game.no'|trans }}
+                    {% endif %}
+                </td> #}
+                <td>{{ entity.map }}</td>
+                <td>{% if entity.available == 1 %}
+                        {{ 'game.yes'|trans }}
+                    {% else %}
+                        {{ 'game.no'|trans }}
+                    {% endif %}
+                </td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('game_show', { 'id': entity.id }) }}">{{ 'game.show'|trans }}</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('game_edit', { 'id': entity.id }) }}">{{ 'game.edit'|trans }}</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

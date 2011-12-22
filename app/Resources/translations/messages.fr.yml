@@ -2,5 +2,5 @@ layout.webSite: "Site Web"
 
 menu.steam: "Serveurs Steam"
 menu.machine: "Gestion des Machines"
-menu.jeu: "Gestion des Jeux"
+menu.game: "Gestion des Jeux"
 menu.logout: "Déconnexion"
