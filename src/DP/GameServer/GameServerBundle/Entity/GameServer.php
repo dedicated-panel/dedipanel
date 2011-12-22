@@ -4,6 +4,7 @@ namespace DP\GameServer\GameServerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use DP\MachineBundle\Entity\Machine;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DP\GameServer\GameServerBundle\Entity\GameServer
@@ -24,6 +25,7 @@ class GameServer
      * @var string $name
      *
      * @ORM\Column(name="name", type="string", length=32)
+     * @Assert\NotBlank(message="gameServer.assert.name")
      */
     protected $name;
 
@@ -31,6 +33,8 @@ class GameServer
      * @var integer $port
      *
      * @ORM\Column(name="port", type="integer")
+     * @Assert\Min(limit="1", message="gameServer.assert.port")
+     * @Assert\Max(limit="65536", message="gameServer.assert.port")
      */
     protected $port;
 
@@ -45,6 +49,7 @@ class GameServer
      * @var string $dir
      *
      * @ORM\Column(name="dir", type="string", length=64)
+     * @Assert\NotBlank(message="gameServer.assert.dir")
      */
     protected $dir;
 
@@ -52,18 +57,21 @@ class GameServer
      * @var integer $maxplayers
      *
      * @ORM\Column(name="maxplayers", type="integer")
+     * @Assert\Min(limit="2", message="gameServer.assert.maxplayers")
      */
     protected $maxplayers;
     
     /**
      * @ORM\ManyToOne(targetEntity="DP\MachineBundle\Entity\Machine", inversedBy="gameServers")
      * @ORM\JoinColumn(name="machineId", referencedColumnName="id")
+     * @Assert\NotNull(message="gameServer.assert.machine")
      */
     protected $machine;
     
     /**
      * @ORM\ManyToOne(targetEntity="DP\JeuBundle\Entity\Jeu", inversedBy="gameServers")
      * @ORM\JoinColumn(name="gameId", referencedColumnName="id")
+     * * @Assert\NotNull(message="gameServer.assert.game")
      */
     protected $game;
 
