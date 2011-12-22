@@ -5,6 +5,9 @@ steam.edit: Modifier
 steam.del: Supprimer
 steam.back: Retour à la liste
 
+steam.showTitle: Voir un serveur Steam
+steam.editTitle: Modifier un serveur Steam
+
 steam.id: ID
 steam.name: Nom
 steam.port: Port

@@ -9,7 +9,9 @@
             </a>
         </li>
         <li>
-            <a href="{{ path('machine_connectionTest', { 'id': entity.id }) }}">{{ 'machine.connectionTest'|trans }}</a>
+            <a href="{{ path('machine_connectionTest', { 'id': entity.id }) }}">
+                {{ 'machine.connectionTest'|trans }}
+            </a>
         </li>
         <li>
             <form action="{{ path('machine_delete', { 'id': entity.id }) }}" method="post">

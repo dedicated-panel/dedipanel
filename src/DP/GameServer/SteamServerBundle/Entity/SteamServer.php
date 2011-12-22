@@ -47,10 +47,6 @@ class SteamServer extends GameServer {
      */
     private $core;
     
-    // Write default values for Steam Servers
-    protected $maxplayers = 12;
-    protected $port = 27015;
-    
     
     /**
      * Set autoReboot

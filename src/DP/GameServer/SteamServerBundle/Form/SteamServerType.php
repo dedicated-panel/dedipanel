@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormBuilder;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 
-class AddSteamServerType extends AbstractType
+class SteamServerType extends AbstractType
 {    
     public function buildForm(FormBuilder $builder, array $options)
     {
