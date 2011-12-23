@@ -13,6 +13,7 @@ class GameType extends AbstractType
             ->add('name', 'text', array('label' => 'game.name'))
             ->add('installName', 'text', array('label' => 'game.installName'))
             ->add('launchName', 'text', array('label' => 'game.launchName'))
+            ->add('binDir', 'text', array('label' => 'game.binDir', 'required' => false))
             ->add('bin', 'choice', array(
                 'choices' => array('hlds_run' => 'hlds_run', 'srcds_run' => 'srcds_run'), 
                 'label' => 'game.bin'))

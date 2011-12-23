@@ -82,9 +82,17 @@ class Game
      * @ORM\OneToMany(targetEntity="DP\GameServer\GameServerBundle\Entity\GameServer", mappedBy="game")
      */
     private $gameServers;
+    
+    /**
+     * @var string $binDir
+     * 
+     * @ORM\Column(name="binDir", type="string", length=20, nullable=true)
+     */
+    private $binDir;
 
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->gameServers = new \Doctrine\Common\Collections\ArrayCollection();
     }
     /**
@@ -237,7 +245,30 @@ class Game
         return $this->available;
     }
     
-    public function __toString() {
+    public function __toString()
+    {
         return $this->name;
+    }
+    
+    /**
+     * Set binary directory
+     * 
+     * @param string $binDir 
+     */
+    public function setBinDir($binDir)
+    {
+        $binDir = trim($binDir, '/') . '/';
+        $this->binDir = $binDir;
+    }
+    
+    /**
+     * Get binary directory
+     * 
+     * @return string
+     */
+    public function getBinDir()
+    {
+        if (empty($this->binDir)) return './';
+        else return $this->binDir;
     }
 }

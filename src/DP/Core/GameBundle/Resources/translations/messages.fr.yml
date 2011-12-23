@@ -11,6 +11,7 @@ game.name: Nom
 game.installName: Nom d'installation
 game.launchName: Nom de lancement
 game.bin: Binaire
+game.binDir: Dossier contenant les binaires
 game.orangebox: Jeu Orangebox ?
 game.map: Map de démarrage
 game.available: Disponible ?
