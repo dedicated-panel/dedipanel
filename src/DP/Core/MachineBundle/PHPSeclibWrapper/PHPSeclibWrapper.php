@@ -137,7 +137,7 @@ class PHPSeclibWrapper {
                 $ssh->login($this->user, $this->passwd);
             }
             else {
-                throw new Exception\IncompleteLoginIDException($this);
+                throw new Exception\IncompleteLoginID($this);
             }
             
             $this->ssh = $ssh;
@@ -148,15 +148,15 @@ class PHPSeclibWrapper {
     /**
      * Get a phpseclib's sftp instance
      * 
-     * @return PHPSeclib\Net\SFTP
+     * @return \PHPSeclib\Net\SFTP
      */
     public function getSFTP()
     {
         if (!isset($this->sftp)) {
             $sftp = new PHPSeclib\Net\SFTP($this->host, $this->port);
             
-            if ($this->privateKey != null) {
-                $sftp->login($this->user, $this->privateKey);
+            if ($this->privateKey != null || $this->keyfile != null) {
+                $sftp->login($this->user, $this->getPrivateKey());
             }
             elseif ($this->passwd != null) {
                 $sftp->login($this->user, $this->passwd);
@@ -281,13 +281,14 @@ class PHPSeclibWrapper {
     }
     
     /**
-     * Upload $data in $remoteFile
+     * Upload $data in $remoteFile and change his chmod for $chmod
      * If $type equal UPLOAD_FILE, $data need to be a valid local file
      * The local file is read and upload
      * 
-     * @param type $remoteFile
-     * @param type $data
-     * @param type $type
+     * @param string $remoteFile
+     * @param string $data
+     * @param octal $chmod
+     * @param const $type
      * @return type 
      */
     public function upload($remoteFile, $data, $chmod = 0750, $type = PHPSeclibWrapper::UPLOAD_DATA)
@@ -297,7 +298,8 @@ class PHPSeclibWrapper {
         }
         
         $sftp = $this->getSFTP();
-        $ret = $sftp->put($remoteFile, $data) && $sftp->chmod($chmod, $remoteFile);
+        $ret = $sftp->put($remoteFile, $data);
+        $ret = $sftp->chmod($chmod, $remoteFile);
         
         return $ret;
     }

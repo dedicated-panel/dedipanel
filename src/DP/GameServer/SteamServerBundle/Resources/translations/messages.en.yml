@@ -22,3 +22,5 @@ steam.IPAddress: IP Address
 steam.selectMachine: Select a machine
 steam.selectGame: Select a game
 steam.addButton: Add
+
+steam.ended: Ended

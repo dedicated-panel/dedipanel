@@ -186,4 +186,34 @@ class SteamServerController extends Controller
             ->getForm()
         ;
     }
+    
+    /**
+     * Recover installation status
+     * Upload HLDS Scripts
+     */
+    public function installAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
+        
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find SteamServer entity.');
+        }
+        
+        // On récupère le statut de l'installation que si celui-ci
+        // N'est pas déjà indiqué comme terminé
+        if ($entity->getInstallationStatus() !== null) {
+            $entity->setInstallationStatus($entity->getGameInstallationProgress());
+            
+            $em->persist($entity);
+            $em->flush();
+        }
+        
+        // On upload les script du panel si l'install est terminé
+        if ($entity->getInstallationStatus() === null) {
+            $entity->uploadHldsScript($this->get('twig'));
+        }
+        
+        return $this->redirect($this->generateUrl('steam'));
+    }
 }

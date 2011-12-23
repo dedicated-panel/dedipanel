@@ -28,3 +28,7 @@ steam_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "DPSteamServerBundle:SteamServer:delete" }
     requirements: { _method: post }
+
+steam_install:
+    pattern:  /{id}/install
+    defaults: { _controller: "DPSteamServerBundle:SteamServer:install" }

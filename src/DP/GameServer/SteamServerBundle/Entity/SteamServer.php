@@ -149,11 +149,33 @@ class SteamServer extends GameServer {
         return $this->core;
     }
     
-    public function getAbsoluteDir() {
+    /**
+     * Get absolute path of server installation directory
+     * 
+     * @return string
+     */
+    private function getAbsoluteDir()
+    {
         return $this->machine->getHome() . '/' . $this->dir . '/';
     }
     
-    public function installServer(\Twig_Environment $twig) {
+    /**
+     * Get absolute path of binaries directory
+     * 
+     * @return string
+     */
+    private function getAbsoluteBinDir()
+    {
+        return $this->getAbsoluteDir() . $this->game->getBinDir();
+    }
+    
+    /**
+     * Upload & launch game server installation
+     * 
+     * @param \Twig_Environment $twig Used for generate shell script
+     */
+    public function installServer(\Twig_Environment $twig)
+    {
         $installDir = $this->getAbsoluteDir();
         $scriptPath = $installDir . 'install.sh';
         $logPath = $installDir . 'install.log';
@@ -161,11 +183,10 @@ class SteamServer extends GameServer {
         $installName = $this->game->getInstallName();
         
         $mkdirCmd = 'if [ ! -e ' . $installDir . ' ]; then mkdir ' . $installDir . '; fi';
-        $screenCmd = 'screen -dmS ' . $screenName . ' ' . $scriptPath . ' "' . $installName . '"';
-//        $screenCmd .= ' > ' . $logPath . ' 2>&1';
+        $screenCmd  = 'screen -dmS ' . $screenName . ' ' . $scriptPath . ' "' . $installName . '"';
         
         $installScript = $twig->render('DPSteamServerBundle:sh:install.sh.twig', 
-            array('serv' => $this));
+            array('installDir' => $installDir));
         
         $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
         $sec->exec($mkdirCmd);
@@ -173,5 +194,72 @@ class SteamServer extends GameServer {
         $sec->exec($screenCmd);
         
         $this->installationStatus = 0;
+    }
+    
+    public function getGameInstallationProgress()
+    {
+        $logPath = $this->getAbsoluteDir() . 'install.log';
+        $screenName = 'install-' . $this->dir;
+        
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $installLog = $sec->exec('cat ' . $logPath);
+        
+        if (strpos($installLog, 'Install ended') !== false) {
+           return null;
+        }
+        elseif (strpos($installLog, 'Game install') !== false) {
+            // Si on en est rendu au téléchargement des données, 
+            // On récupère le pourcentage du dl dans le screen
+            // Pour l'afficher à l'utilisateur
+            $tmpFile = '/tmp/' . uniqid();
+            $cmd = 'screen -S install-' . $this->dir . ' -X hardcopy ' . $tmpFile . '; sleep 1s;';
+            $cmd .= 'if [ -e ' . $tmpFile . ' ]; then cat ' . $tmpFile . '; rm -f ' . $tmpFile . '; fi';
+            
+            $screenContent = $sec->exec($cmd);
+            
+            if ($screenContent == 'No screen session found.') return 0;
+            else {
+                // Si on a réussi à récupérer le contenu du screen, 
+                // On recherche dans chaque ligne en commencant par la fin
+                // Un signe "%" afin de connaître le % le plus à jour
+                $lines = array_reverse(explode("\n", $screenContent));
+                
+                foreach ($lines AS $line) {
+                    $percentPos = strpos($line, '%');
+                    if ($percentPos !== false) {
+                        return substr($screenContent, 0, $percentPos);
+                    }
+                }
+            }
+        }
+        elseif (strpos($installLog, 'Steam updating')) {
+            return 2;
+        }
+        elseif (strpos($installLog, 'DL hldsupdatetool.bin')) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+    
+    public function uploadHldsScript(\Twig_Environment $twig)
+    {
+        $game = $this->getGame();
+        $machine = $this->getMachine();
+        $screenName = $machine->getUser() . '-' . $this->getDir();
+        
+        $binDir = $this->getAbsoluteBinDir();
+        $scriptPath = $binDir . 'hlds.sh';
+        
+        $hldsScript = $twig->render('DPSteamServerBundle:sh:hlds.sh.twig', array(
+            'screenName' => $screenName, 'bin' => $game->getBin(), 
+            'launchName' => $game->getLaunchName(), 'ip' => $machine->getPublicIp(), 
+            'port' => $this->getPort(), 'maxplayers' => $this->getMaxplayers(), 
+            'startMap' => $game->getMap(), 'binDir' => $binDir, 
+        ));
+        
+        $sec = PHPSeclibWrapper::getFromMachineEntity($machine);
+        return $sec->upload($scriptPath, $hldsScript, 0640);
     }
 }

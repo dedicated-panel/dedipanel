@@ -35,7 +35,13 @@
                 <td>{{ entity.name }}</td>
                 <td>{{ entity.machine.publicIp }}:{{ entity.port }}</td>
                 <td>{{ entity.game }}</td>
-                <td>{{ entity.installationStatus }}%</td>
+                <td><a href="{{ path('steam_install', { 'id': entity.id }) }}">{% spaceless %}
+                        {% if entity.installationStatus is null %}
+                            {{ 'steam.ended'|trans }}
+                        {% else %}
+                            {{ entity.installationStatus }}%
+                        {% endif %}
+                {% endspaceless %}</a></td>
                 <td>{{ entity.maxplayers }}</td>
                 {# <td>{{ entity.dir }}</td>
                 <td>{{ entity.autoReboot }}</td>

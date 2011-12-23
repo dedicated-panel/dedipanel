@@ -41,7 +41,13 @@
             </tr>
             <tr>
                 <th>{{ 'steam.installStatus'|trans }}</th>
-                <td>{{ entity.installationStatus }}%</td>
+                <td><a href="{{ path('steam_install', { 'id': entity.id }) }}">{% spaceless %}
+                        {% if entity.installationStatus is null %}
+                            {{ 'steam.ended'|trans }}
+                        {% else %}
+                            {{ entity.installationStatus }}%
+                        {% endif %}
+                {% endspaceless %}</a></td>
             </tr>
             <tr>
                 <th>{{ 'steam.dir'|trans }}</th>
