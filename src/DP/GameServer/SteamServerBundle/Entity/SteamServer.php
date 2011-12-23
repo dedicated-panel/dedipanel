@@ -4,6 +4,7 @@ namespace DP\GameServer\SteamServerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use DP\GameServer\GameServerBundle\Entity\GameServer;
+use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 
 /**
  * DP\GameServer\SteamServerBundle\Entity\SteamServer
@@ -146,5 +147,31 @@ class SteamServer extends GameServer {
     public function getCore()
     {
         return $this->core;
+    }
+    
+    public function getAbsoluteDir() {
+        return $this->machine->getHome() . '/' . $this->dir . '/';
+    }
+    
+    public function installServer(\Twig_Environment $twig) {
+        $installDir = $this->getAbsoluteDir();
+        $scriptPath = $installDir . 'install.sh';
+        $logPath = $installDir . 'install.log';
+        $screenName = 'install-' . $this->dir;
+        $installName = $this->game->getInstallName();
+        
+        $mkdirCmd = 'if [ ! -e ' . $installDir . ' ]; then mkdir ' . $installDir . '; fi';
+        $screenCmd = 'screen -dmS ' . $screenName . ' ' . $scriptPath . ' "' . $installName . '"';
+//        $screenCmd .= ' > ' . $logPath . ' 2>&1';
+        
+        $installScript = $twig->render('DPSteamServerBundle:sh:install.sh.twig', 
+            array('serv' => $this));
+        
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $sec->exec($mkdirCmd);
+        $sec->upload($scriptPath, $installScript);
+        $sec->exec($screenCmd);
+        
+        $this->installationStatus = 0;
     }
 }

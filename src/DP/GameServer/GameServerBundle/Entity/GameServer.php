@@ -41,9 +41,9 @@ class GameServer
     /**
      * @var integer $installationStatus
      *
-     * @ORM\Column(name="installationStatus", type="integer")
+     * @ORM\Column(name="installationStatus", type="integer", nullable=true)
      */
-    protected $installationStatus = 0;
+    protected $installationStatus;
 
     /**
      * @var string $dir

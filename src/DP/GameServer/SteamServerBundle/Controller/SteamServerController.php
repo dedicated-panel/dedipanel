@@ -78,6 +78,8 @@ class SteamServerController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
+            $entity->installServer($this->get('twig'));
+            
             $em = $this->getDoctrine()->getEntityManager();
             $em->persist($entity);
             $em->flush();
