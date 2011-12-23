@@ -85,7 +85,7 @@ class MachineController extends Controller
             $em->persist($entity);
             $em->flush();
 
-                return $this->redirect($this->generateUrl('machine_show', array('id' => $entity->getId())));          
+            return $this->redirect($this->generateUrl('machine_show', array('id' => $entity->getId())));          
         }
 
         return $this->render('DPMachineBundle:Machine:new.html.twig', array(
@@ -154,7 +154,8 @@ class MachineController extends Controller
         ));
     }
     
-    private function genKeyPair(Machine $entity, $delete = false) {
+    private function genKeyPair(Machine $entity, $delete = false)
+    {
         $secure = PHPSeclibWrapper::getFromMachineEntity($entity);
         $secure->setPasswd($entity->getPasswd());
 
@@ -208,7 +209,8 @@ class MachineController extends Controller
         ;
     }
     
-    public function connectionTestAction($id) {
+    public function connectionTestAction($id)
+    {
         $em = $this->getDoctrine()->getEntityManager();
 
         $entity = $em->getRepository('DPMachineBundle:Machine')->find($id);

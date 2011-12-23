@@ -19,14 +19,30 @@ use DP\Core\MachineBundle\Entity;
 // Change namespace of wrapper
 
 /**
- * Description of PHPSeclibWrapper
- * 
  * TODO: Mise en cache keyfile ?!
  * TODO: Verif HostKey
  *
  * @author NiR
  */
-class PHPSeclibWrapper {
+class PHPSeclibWrapper {   
+    private $host;
+    private $port;
+    private $user;
+    private $home;
+    private $passwd;
+    private $keyfile;
+    private $privateKey;
+    private $debug;
+    
+    private $ssh;
+    private $sftp;
+    
+    private static $servers = array();
+    
+    const UPLOAD_DATA = 1;
+    const UPLOAD_FILE = 2;
+    
+    
     public static function getFromMachineEntity(Entity\Machine $machine) {
         $host = $machine->getPrivateIp();
         $port = $machine->getPort();
@@ -249,23 +265,21 @@ class PHPSeclibWrapper {
     
     /**
      * Upload $data in $remoteFile
-     *
-     * @param mixed $data           Contains that we want upload
-     * @param string $remoteFile    Remote filepath
-     * @return bool
-     */
-    public function putData($data, $remoteFile) {
-        return $this->getSFTP()->put($remoteFile, $data);
-    }
-    /**
-     * Upload $localFile in $remoteFile
+     * If $type equal UPLOAD_FILE, $data need to be a valid local file
+     * The local file is read and upload
      * 
-     * @param string $localFile     Local filepath
-     * @param type $remoteFile      Remote filepath
-     * @return bool
+     * @param type $remoteFile
+     * @param type $data
+     * @param type $type
+     * @return type 
      */
-    public function putFile($localFile, $remoteFile) {
-        return $this->getSFTP()->put($remoteFile, $localFile, NET_SFTP_LOCAL_FILE);
+    public function upload($remoteFile, $data, $type = PHPSeclibWrapper::UPLOAD_DATA)
+    {
+        if ($type == PHPSeclibWrapper::UPLOAD_FILE) {
+            $data = file_get_contents($data);
+        }
+        
+        return $this->getSFTP()->put($remoteFile, $data);
     }
     
     /**
@@ -389,19 +403,5 @@ class PHPSeclibWrapper {
     public function getDebug() {
         return $this->debug;
     }
-    
-    private $host;
-    private $port;
-    private $user;
-    private $home;
-    private $passwd;
-    private $keyfile;
-    private $privateKey;
-    private $debug;
-    
-    private $ssh;
-    private $sftp;
-    
-    private static $servers = array();
 }
 ?>
