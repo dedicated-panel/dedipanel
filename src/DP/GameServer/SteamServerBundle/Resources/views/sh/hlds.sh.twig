@@ -7,7 +7,7 @@ case "$1" in
         if [ `$0 status` = "Not running." ]; then
             echo "starting "
             cd {{ binDir }}
-            screen -dmS $SCREEN_NAME {{ bin }} -game {{ launchName }} +ip {{ ip }} -port {{ port }} +maxplayers {{ maxplayers }} +map {{ startMap }} -autoupdate
+            screen -dmS $SCREEN_NAME ./{{ bin }} -game {{ launchName }} +ip {{ ip }} -port {{ port }} +maxplayers {{ maxplayers }} +map {{ startMap }} -autoupdate
         fi
         
         exit ${?}

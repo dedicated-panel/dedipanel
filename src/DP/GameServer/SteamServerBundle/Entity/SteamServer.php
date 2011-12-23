@@ -205,6 +205,8 @@ class SteamServer extends GameServer {
         $installLog = $sec->exec('cat ' . $logPath);
         
         if (strpos($installLog, 'Install ended') !== false) {
+            // Si l'installation est terminé, on supprime le fichier de log
+            $sec->exec('rm -f ' . $logPath);
            return null;
         }
         elseif (strpos($installLog, 'Game install') !== false) {
@@ -260,6 +262,15 @@ class SteamServer extends GameServer {
         ));
         
         $sec = PHPSeclibWrapper::getFromMachineEntity($machine);
-        return $sec->upload($scriptPath, $hldsScript, 0640);
+        return $sec->upload($scriptPath, $hldsScript, 0750);
+    }
+    
+    public function changeStateServer($state)
+    {
+        $scriptPath = $this->getAbsoluteBinDir() . 'hlds.sh';
+        
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        
+        return $sec->exec($scriptPath . ' ' . $state);
     }
 }

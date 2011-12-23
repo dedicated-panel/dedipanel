@@ -32,3 +32,8 @@ steam_delete:
 steam_install:
     pattern:  /{id}/install
     defaults: { _controller: "DPSteamServerBundle:SteamServer:install" }
+
+steam_changeState:
+    pattern:  /{id}/{state}
+    defaults: { _controller: "DPSteamServerBundle:SteamServer:changeState" }
+    requirements: { state: "start|stop|restart" }

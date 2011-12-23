@@ -52,7 +52,24 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('steam_show', { 'id': entity.id }) }}">{{ 'steam.show'|trans }}</a>
+                            <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'start' }) }}">
+                                {{ 'steam.start'|trans }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'stop' }) }}">
+                                {{ 'steam.stop'|trans }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'restart' }) }}">
+                                {{ 'steam.restart'|trans }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('steam_show', { 'id': entity.id }) }}">
+                                {{ 'steam.show'|trans }}
+                            </a>
                         </li>
                         <li>
                             <a href="{{ path('steam_edit', { 'id': entity.id }) }}">{{ 'steam.edit'|trans }}</a>

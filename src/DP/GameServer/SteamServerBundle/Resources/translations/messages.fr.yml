@@ -28,3 +28,6 @@ steam.selectGame: Jeu
 steam.addButton: Ajouter
 
 steam.ended: Terminé
+steam.start: Démarrer
+steam.stop: Arrêter
+steam.restart: Redémarrer

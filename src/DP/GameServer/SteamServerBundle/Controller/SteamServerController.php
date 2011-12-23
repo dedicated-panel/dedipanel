@@ -216,4 +216,17 @@ class SteamServerController extends Controller
         
         return $this->redirect($this->generateUrl('steam'));
     }
+    
+    public function changeStateAction($id, $state) {
+        $em = $this->getDoctrine()->getEntityManager();
+        $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
+        
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find SteamServer entity.');
+        }
+        
+        $entity->changeStateServer($state);
+        
+        return $this->redirect($this->generateUrl('steam'));
+    }
 }
