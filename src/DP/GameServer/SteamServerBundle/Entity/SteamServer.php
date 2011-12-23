@@ -207,7 +207,7 @@ class SteamServer extends GameServer {
         if (strpos($installLog, 'Install ended') !== false) {
             // Si l'installation est terminé, on supprime le fichier de log
             $sec->exec('rm -f ' . $logPath);
-           return null;
+           return 101; // 101 == serveur installé
         }
         elseif (strpos($installLog, 'Game install') !== false) {
             // Si on en est rendu au téléchargement des données, 
@@ -219,7 +219,7 @@ class SteamServer extends GameServer {
             
             $screenContent = $sec->exec($cmd);
             
-            if ($screenContent == 'No screen session found.') return 0;
+            if ($screenContent == 'No screen session found.') return null;
             else {
                 // Si on a réussi à récupérer le contenu du screen, 
                 // On recherche dans chaque ligne en commencant par la fin
@@ -241,7 +241,7 @@ class SteamServer extends GameServer {
             return 1;
         }
         else {
-            return 0;
+            return null;
         }
     }
     

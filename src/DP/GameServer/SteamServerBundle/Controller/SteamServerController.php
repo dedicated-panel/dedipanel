@@ -200,17 +200,26 @@ class SteamServerController extends Controller
             throw $this->createNotFoundException('Unable to find SteamServer entity.');
         }
         
+        $status = $entity->getInstallationStatus();
+        
+        // On vérifie que l'installation n'est pas bloqué (ou non démarré)
+        if ($status === null) {
+            $entity->installServer($this->get('twig'));
+            
+            $em->persist($entity);
+            $em->flush();
+        }
         // On récupère le statut de l'installation que si celui-ci
         // N'est pas déjà indiqué comme terminé
-        if ($entity->getInstallationStatus() !== null) {
+        elseif ($status < 100) {
             $entity->setInstallationStatus($entity->getGameInstallationProgress());
             
             $em->persist($entity);
             $em->flush();
         }
         
-        // On upload les script du panel si l'install est terminé
-        if ($entity->getInstallationStatus() === null) {
+        // On upload le script du panel si l'install est terminé
+        if ($status > 100) {
             $entity->uploadHldsScript($this->get('twig'));
         }
         

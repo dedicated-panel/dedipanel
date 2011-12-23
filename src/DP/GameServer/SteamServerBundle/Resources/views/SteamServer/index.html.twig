@@ -37,6 +37,8 @@
                 <td>{{ entity.game }}</td>
                 <td><a href="{{ path('steam_install', { 'id': entity.id }) }}">{% spaceless %}
                         {% if entity.installationStatus is null %}
+                            Buggued
+                        {% elseif entity.installationStatus == 101 %}
                             {{ 'steam.ended'|trans }}
                         {% else %}
                             {{ entity.installationStatus }}%
