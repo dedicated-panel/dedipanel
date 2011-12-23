@@ -123,11 +123,11 @@ define('NET_SSH2_CHANNEL_EXEC', 0); // PuTTy uses 0x100
 /**
  * Returns the message numbers
  */
-// define('NET_SSH2_LOG_SIMPLE',  1);
+define('NET_SSH2_LOG_SIMPLE',  1);
 /**
  * Returns the message content
  */
-// define('NET_SSH2_LOG_COMPLEX', 2);
+ define('NET_SSH2_LOG_COMPLEX', 2);
 /**#@-*/
 
 /**

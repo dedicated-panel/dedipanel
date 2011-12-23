@@ -1,5 +1,6 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+namespace PHPSeclib\Net;
 
 /**
  * Pure-PHP implementation of SFTP.
@@ -17,7 +18,7 @@
  * <?php
  *    include('Net/SFTP.php');
  *
- *    $sftp = new Net_SFTP('www.domain.tld');
+ *    $sftp = new SFTP('www.domain.tld');
  *    if (!$sftp->login('username', 'password')) {
  *        exit('Login Failed');
  *    }
@@ -44,7 +45,7 @@
  * MA  02111-1307  USA
  *
  * @category   Net
- * @package    Net_SFTP
+ * @package    SFTP
  * @author     Jim Wigginton <terrafrost@php.net>
  * @copyright  MMIX Jim Wigginton
  * @license    http://www.gnu.org/licenses/lgpl.txt
@@ -53,13 +54,14 @@
  */
 
 /**
- * Include Net_SSH2
+ * Include Net\SSH2
  */
 require_once('Net/SSH2.php');
+use PHPSeclib\Net\SSH2;
 
 /**#@+
  * @access public
- * @see Net_SFTP::getLog()
+ * @see SFTP::getLog()
  */
 /**
  * Returns the message numbers
@@ -84,7 +86,7 @@ define('NET_SFTP_CHANNEL', 2);
 
 /**#@+
  * @access public
- * @see Net_SFTP::put()
+ * @see SFTP::put()
  */
 /**
  * Reads data from a local file.
@@ -102,13 +104,13 @@ define('NET_SFTP_STRING',  2);
  * @author  Jim Wigginton <terrafrost@php.net>
  * @version 0.1.0
  * @access  public
- * @package Net_SFTP
+ * @package SFTP
  */
-class Net_SFTP extends Net_SSH2 {
+class SFTP extends SSH2 {
     /**
      * Packet Types
      *
-     * @see Net_SFTP::Net_SFTP()
+     * @see SFTP::SFTP()
      * @var Array
      * @access private
      */
@@ -117,7 +119,7 @@ class Net_SFTP extends Net_SSH2 {
     /**
      * Status Codes
      *
-     * @see Net_SFTP::Net_SFTP()
+     * @see SFTP::SFTP()
      * @var Array
      * @access private
      */
@@ -130,7 +132,7 @@ class Net_SFTP extends Net_SSH2 {
      * concurrent actions, so it's somewhat academic, here.
      *
      * @var Integer
-     * @see Net_SFTP::_send_sftp_packet()
+     * @see SFTP::_send_sftp_packet()
      * @access private
      */
     var $request_id = false;
@@ -142,7 +144,7 @@ class Net_SFTP extends Net_SSH2 {
      * concurrent actions, so it's somewhat academic, here.
      *
      * @var Integer
-     * @see Net_SFTP::_get_sftp_packet()
+     * @see SFTP::_get_sftp_packet()
      * @access private
      */
     var $packet_type = -1;
@@ -151,7 +153,7 @@ class Net_SFTP extends Net_SSH2 {
      * Packet Buffer
      *
      * @var String
-     * @see Net_SFTP::_get_sftp_packet()
+     * @see SFTP::_get_sftp_packet()
      * @access private
      */
     var $packet_buffer = '';
@@ -160,7 +162,7 @@ class Net_SFTP extends Net_SSH2 {
      * Extensions supported by the server
      *
      * @var Array
-     * @see Net_SFTP::_initChannel()
+     * @see SFTP::_initChannel()
      * @access private
      */
     var $extensions = array();
@@ -169,7 +171,7 @@ class Net_SFTP extends Net_SSH2 {
      * Server SFTP version
      *
      * @var Integer
-     * @see Net_SFTP::_initChannel()
+     * @see SFTP::_initChannel()
      * @access private
      */
     var $version;
@@ -178,8 +180,8 @@ class Net_SFTP extends Net_SSH2 {
      * Current working directory
      *
      * @var String
-     * @see Net_SFTP::_realpath()
-     * @see Net_SFTP::chdir()
+     * @see SFTP::_realpath()
+     * @see SFTP::chdir()
      * @access private
      */
     var $pwd = false;
@@ -187,7 +189,7 @@ class Net_SFTP extends Net_SSH2 {
     /**
      * Packet Type Log
      *
-     * @see Net_SFTP::getLog()
+     * @see SFTP::getLog()
      * @var Array
      * @access private
      */
@@ -196,7 +198,7 @@ class Net_SFTP extends Net_SSH2 {
     /**
      * Packet Log
      *
-     * @see Net_SFTP::getLog()
+     * @see SFTP::getLog()
      * @var Array
      * @access private
      */
@@ -205,8 +207,8 @@ class Net_SFTP extends Net_SSH2 {
     /**
      * Error information
      *
-     * @see Net_SFTP::getSFTPErrors()
-     * @see Net_SFTP::getLastSFTPError()
+     * @see SFTP::getSFTPErrors()
+     * @see SFTP::getLastSFTPError()
      * @var String
      * @access private
      */
@@ -220,12 +222,12 @@ class Net_SFTP extends Net_SSH2 {
      * @param String $host
      * @param optional Integer $port
      * @param optional Integer $timeout
-     * @return Net_SFTP
+     * @return SFTP
      * @access public
      */
-    function Net_SFTP($host, $port = 22, $timeout = 10)
+    public function __construct($host, $port = 22, $timeout = 10)
     {
-        parent::Net_SSH2($host, $port, $timeout);
+        parent::__construct($host, $port, $timeout);
         $this->packet_types = array(
             1  => 'NET_SFTP_INIT',
             2  => 'NET_SFTP_VERSION',
@@ -273,7 +275,7 @@ class Net_SFTP extends Net_SSH2 {
             8 => 'NET_SFTP_STATUS_OP_UNSUPPORTED'
         );
         // http://tools.ietf.org/html/draft-ietf-secsh-filexfer-13#section-7.1
-        // the order, in this case, matters quite a lot - see Net_SFTP::_parseAttributes() to understand why
+        // the order, in this case, matters quite a lot - see SFTP::_parseAttributes() to understand why
         $this->attributes = array(
             0x00000001 => 'NET_SFTP_ATTR_SIZE',
             0x00000002 => 'NET_SFTP_ATTR_UIDGID', // defined in SFTPv3, removed in SFTPv4+
@@ -399,7 +401,7 @@ class Net_SFTP extends Net_SSH2 {
          So what do you do if you have a client whose initial SSH_FXP_INIT packet says it implements v3 and
          a server whose initial SSH_FXP_VERSION reply says it implements v4 and only v4?  If it only implements
          v4, the "versions" extension is likely not going to have been sent so version re-negotiation as discussed
-         in draft-ietf-secsh-filexfer-13 would be quite impossible.  As such, what Net_SFTP would do is close the
+         in draft-ietf-secsh-filexfer-13 would be quite impossible.  As such, what SFTP would do is close the
          channel and reopen it with a new and updated SSH_FXP_INIT packet.
         */
         if ($this->version != 3) {
@@ -429,7 +431,7 @@ class Net_SFTP extends Net_SSH2 {
      * the absolute (canonicalized) path.  If $mode is set to NET_SFTP_CONFIRM_DIR (as opposed to NET_SFTP_CONFIRM_NONE,
      * which is what it is set to by default), false is returned if $dir is not a valid directory.
      *
-     * @see Net_SFTP::chdir()
+     * @see SFTP::chdir()
      * @param String $dir
      * @param optional Integer $mode
      * @return Mixed
@@ -530,7 +532,7 @@ class Net_SFTP extends Net_SSH2 {
             return false;
         }
 
-        // see Net_SFTP::nlist() for a more thorough explanation of the following
+        // see SFTP::nlist() for a more thorough explanation of the following
         $response = $this->_get_sftp_packet();
         switch ($this->packet_type) {
             case NET_SFTP_HANDLE:
@@ -881,8 +883,8 @@ class Net_SFTP extends Net_SSH2 {
     /**
      * Uploads a file to the SFTP server.
      *
-     * By default, Net_SFTP::put() does not read from the local filesystem.  $data is dumped directly into $remote_file.
-     * So, for example, if you set $data to 'filename.ext' and then do Net_SFTP::get(), you will get a file, twelve bytes
+     * By default, SFTP::put() does not read from the local filesystem.  $data is dumped directly into $remote_file.
+     * So, for example, if you set $data to 'filename.ext' and then do SFTP::get(), you will get a file, twelve bytes
      * long, containing 'filename.ext' as its contents.
      *
      * Setting $mode to NET_SFTP_LOCAL_FILE will change the above behavior.  With NET_SFTP_LOCAL_FILE, $remote_file will 
@@ -897,7 +899,7 @@ class Net_SFTP extends Net_SSH2 {
      * @param optional Integer $flags
      * @return Boolean
      * @access public
-     * @internal ASCII mode for SFTPv4/5/6 can be supported by adding a new function - Net_SFTP::setMode().
+     * @internal ASCII mode for SFTPv4/5/6 can be supported by adding a new function - SFTP::setMode().
      */
     function put($remote_file, $data, $mode = NET_SFTP_STRING)
     {
@@ -1253,7 +1255,7 @@ class Net_SFTP extends Net_SSH2 {
                 case NET_SFTP_ATTR_SIZE: // 0x00000001
                     // size is represented by a 64-bit integer, so we perhaps ought to be doing the following:
                     // $attr['size'] = new Math_BigInteger($this->_string_shift($response, 8), 256);
-                    // of course, you shouldn't be using Net_SFTP to transfer files that are in excess of 4GB
+                    // of course, you shouldn't be using SFTP to transfer files that are in excess of 4GB
                     // (0xFFFFFFFF bytes), anyway.  as such, we'll just represent all file sizes that are bigger than
                     // 4GB as being 4GB.
                     extract(unpack('Nupper/Nsize', $this->_string_shift($response, 8)));
@@ -1292,7 +1294,7 @@ class Net_SFTP extends Net_SSH2 {
      *
      * @param Integer $type
      * @param String $data
-     * @see Net_SFTP::_get_sftp_packet()
+     * @see SFTP::_get_sftp_packet()
      * @see Net_SSH2::_send_channel_packet()
      * @return Boolean
      * @access private
@@ -1327,7 +1329,7 @@ class Net_SFTP extends Net_SSH2 {
      * There can be one SSH_MSG_CHANNEL_DATA messages containing two SFTP packets or there can be two SSH_MSG_CHANNEL_DATA
      * messages containing one SFTP packet.
      *
-     * @see Net_SFTP::_send_sftp_packet()
+     * @see SFTP::_send_sftp_packet()
      * @return String
      * @access private
      */

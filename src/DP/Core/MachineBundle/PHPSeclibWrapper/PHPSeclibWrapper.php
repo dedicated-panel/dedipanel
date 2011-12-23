@@ -4,6 +4,7 @@ namespace DP\Core\MachineBundle\PHPSeclibWrapper;
 set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__);
 require_once __DIR__ . '/Crypt/RSA.php';
 require_once __DIR__ . '/Net/SSH2.php';
+require_once __DIR__ . '/Net/SFTP.php';
 use PHPSeclib;
 
 require_once __DIR__ . '/Exception.php';
@@ -11,10 +12,10 @@ use PHPSeclibWrapper\Exception;
 
 use DP\Core\MachineBundle\Entity;
 
-// define('NET_SSH2_LOGGING', NET_SSH2_LOG_SIMPLE);
-// define('NET_SFTP_LOGGING', NET_SFTP_LOG_SIMPLE);
-//define('NET_SSH2_LOGGING', NET_SSH2_LOG_COMPLEX);
-//define('NET_SFTP_LOGGING', NET_SFTP_LOG_COMPLEX);
+//define('NET_SSH2_LOGGING', NET_SSH2_LOG_SIMPLE);
+//define('NET_SFTP_LOGGING', NET_SFTP_LOG_SIMPLE);
+define('NET_SSH2_LOGGING', NET_SSH2_LOG_COMPLEX);
+define('NET_SFTP_LOGGING', NET_SFTP_LOG_COMPLEX);
  
 // Change namespace of wrapper
 
@@ -43,11 +44,14 @@ class PHPSeclibWrapper {
     const UPLOAD_FILE = 2;
     
     
-    public static function getFromMachineEntity(Entity\Machine $machine) {
+    public static function getFromMachineEntity(Entity\Machine $machine, $loadKey = true) {
         $host = $machine->getPrivateIp();
         $port = $machine->getPort();
         $user = $machine->getUser();
-        return self::get($host, $port, $user);
+        $home = $machine->getHome();
+        $keyfile = $machine->getPrivateKeyFilename();
+        
+        return self::get($host, $port, $user, $home, $keyfile);
     }
     /**
      * Get a instance of this class for a server
