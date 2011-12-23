@@ -44,7 +44,8 @@ class PHPSeclibWrapper {
     const UPLOAD_FILE = 2;
     
     
-    public static function getFromMachineEntity(Entity\Machine $machine, $loadKey = true) {
+    public static function getFromMachineEntity(Entity\Machine $machine, $loadKey = true)
+    {
         $host = $machine->getPrivateIp();
         $port = $machine->getPort();
         $user = $machine->getUser();
@@ -66,7 +67,8 @@ class PHPSeclibWrapper {
      * @return PHPSeclibWrapper
      */
     public static function get($host, $port, $user, $home = null, $keyfile = null, 
-        $passwd = null, $debug = false) {
+        $passwd = null, $debug = false)
+    {
         $id = $user . '@' . $host . ':' . $port;
         
         if (!array_key_exists($id, self::$servers)) {
@@ -80,7 +82,8 @@ class PHPSeclibWrapper {
         return $serv;
     }
     private function __construct($host, $port, $user, $home = null, $keyfile = null, 
-        $passwd = null, $debug = false) {
+        $passwd = null, $debug = false)
+    {
         $this->host = $host;
         $this->port = $port;
         $this->user = $user;
@@ -102,7 +105,8 @@ class PHPSeclibWrapper {
      */
     private function __clone() {}
     
-    private function getPrivateKeyFilepath($privateKeyFilename = null) {
+    private function getPrivateKeyFilepath($privateKeyFilename = null)
+    {
         $path = __DIR__ . '/../Resources/config/.ssh/';
         
         if ($privateKeyFilename === null)
@@ -121,7 +125,8 @@ class PHPSeclibWrapper {
      * 
      * @return PHPSeclib\Net\SSH
      */
-    public function getSSH() {
+    public function getSSH()
+    {
         if (!isset($this->ssh)) {
             $ssh = new PHPSeclib\Net\SSH2($this->host, $this->port);
             
@@ -145,7 +150,8 @@ class PHPSeclibWrapper {
      * 
      * @return PHPSeclib\Net\SFTP
      */
-    public function getSFTP() {
+    public function getSFTP()
+    {
         if (!isset($this->sftp)) {
             $sftp = new PHPSeclib\Net\SFTP($this->host, $this->port);
             
@@ -171,7 +177,8 @@ class PHPSeclibWrapper {
      * @param string $cmd
      * @return string
      */
-    public function exec($cmd) {
+    public function exec($cmd)
+    {
         $ret = $this->getSSH()->exec($cmd);
         $ret = trim($ret);
         
@@ -187,7 +194,8 @@ class PHPSeclibWrapper {
      * 
      * @return bool
      */
-    public function connectionTest() {
+    public function connectionTest()
+    {
         $echo = $this->exec('echo a');
         
         $pwd = $this->exec('pwd ~');
@@ -199,7 +207,8 @@ class PHPSeclibWrapper {
         return true;
     }
     
-    private function getPrivateKey() {
+    private function getPrivateKey()
+    {
         if (!isset($this->privateKey)) {
             $privkeyFilepath = $this->getPrivateKeyFilepath();
             if (!file_exists($privkeyFilepath)) {
@@ -220,7 +229,8 @@ class PHPSeclibWrapper {
         return $this->privateKey;
     }
     
-    public function createKeyPair($privateKeyFilename) {
+    public function createKeyPair($privateKeyFilename)
+    {
         // Generating key pair
         $rsa = new PHPSeclib\Crypt\RSA();
         $rsa->setPublicKeyFormat(CRYPT_RSA_PUBLIC_FORMAT_OPENSSH);
@@ -244,7 +254,8 @@ class PHPSeclibWrapper {
         
         return $keyPair['publickey'];
     }
-    public function deleteKeyPair($publicKey) {
+    public function deleteKeyPair($publicKey)
+    {
         $publicKey = str_replace('/', '\/', $publicKey);
         $this->exec('cd ~/.ssh/ && sed -i "/^' . $publicKey . '/d" authorized_keys');
         unlink($this->getPrivateKeyFilepath());
@@ -255,7 +266,8 @@ class PHPSeclibWrapper {
      * 
      * @param string $keyfile 
      */
-    public function setKeyfile($keyfile) {
+    public function setKeyfile($keyfile)
+    {
         $this->keyfile = $keyfile;
     }
     /**
@@ -263,7 +275,8 @@ class PHPSeclibWrapper {
      * 
      * @return string
      */
-    public function getKeyfile() {
+    public function getKeyfile()
+    {
         return $this->keyfile;
     }
     
@@ -277,13 +290,16 @@ class PHPSeclibWrapper {
      * @param type $type
      * @return type 
      */
-    public function upload($remoteFile, $data, $type = PHPSeclibWrapper::UPLOAD_DATA)
+    public function upload($remoteFile, $data, $chmod = 0750, $type = PHPSeclibWrapper::UPLOAD_DATA)
     {
         if ($type == PHPSeclibWrapper::UPLOAD_FILE) {
             $data = file_get_contents($data);
         }
         
-        return $this->getSFTP()->put($remoteFile, $data);
+        $sftp = $this->getSFTP();
+        $ret = $sftp->put($remoteFile, $data) && $sftp->chmod($chmod, $remoteFile);
+        
+        return $ret;
     }
     
     /**
@@ -292,7 +308,8 @@ class PHPSeclibWrapper {
      * @param string $remoteFile    Remote filepath
      * @return bool|string          Contains of remote file
      */
-    public function getRemoteFile($remoteFile) {
+    public function getRemoteFile($remoteFile)
+    {
         return $this->getSFTP()->get($remoteFile);
     }
     
@@ -302,7 +319,8 @@ class PHPSeclibWrapper {
      * 
      * @param string $host
      */
-    public function setHost($host) {
+    public function setHost($host)
+    {
         $this->host = $host;
     }
     /**
@@ -310,7 +328,8 @@ class PHPSeclibWrapper {
      * 
      * @return string
      */
-    public function getHost() {
+    public function getHost()
+    {
         return $this->host;
     }
     
@@ -319,7 +338,8 @@ class PHPSeclibWrapper {
      * 
      * @param int $port
      */
-    public function setPort($port) {
+    public function setPort($port)
+    {
         $this->port = $port;
     }
     /**
@@ -327,7 +347,8 @@ class PHPSeclibWrapper {
      * 
      * @return int
      */
-    public function getPort() {
+    public function getPort()
+    {
         return $this->port;
     }
     
@@ -336,7 +357,8 @@ class PHPSeclibWrapper {
      * 
      * @param string $user
      */
-    public function setUser($user) {
+    public function setUser($user)
+    {
         $this->user = $user;
     }
     /**
@@ -344,7 +366,8 @@ class PHPSeclibWrapper {
      *
      * @return type 
      */
-    public function getUser() {
+    public function getUser()
+    {
         return $this->user;
     }
     
@@ -353,7 +376,8 @@ class PHPSeclibWrapper {
      * 
      * @param type $home 
      */
-    public function setHome($home) {
+    public function setHome($home)
+    {
         $this->home = $home;
     }
     /**
@@ -362,7 +386,8 @@ class PHPSeclibWrapper {
      * 
      * @return type 
      */
-    public function getHome() {
+    public function getHome()
+    {
         $pwd = $this->exec('pwd ~');
         
         if (empty($pwd)) {
@@ -379,7 +404,8 @@ class PHPSeclibWrapper {
      * 
      * @param string $passwd 
      */
-    public function setPasswd($passwd) {
+    public function setPasswd($passwd)
+    {
         $this->passwd = $passwd;
     }
     /**
@@ -387,7 +413,8 @@ class PHPSeclibWrapper {
      * 
      * @return string
      */
-    public function getPasswd() {
+    public function getPasswd()
+    {
         return $this->passwd;
     }
     
@@ -396,7 +423,8 @@ class PHPSeclibWrapper {
      * 
      * @param bool $debug
      */
-    public function setDebug($debug) {
+    public function setDebug($debug)
+    {
         $this->debug = $debug;
     }
     /**
@@ -404,7 +432,8 @@ class PHPSeclibWrapper {
      * 
      * @return bool
      */
-    public function getDebug() {
+    public function getDebug()
+    {
         return $this->debug;
     }
 }
