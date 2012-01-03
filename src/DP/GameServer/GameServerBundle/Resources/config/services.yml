@@ -1,0 +1,10 @@
+parameters:
+    socket.timeout: [2, 0]
+    
+services:
+    socket:
+        class: DP\GameServer\GameServerBundle\Service\SocketFactory
+        arguments: [ %socket.timeout% ]
+    
+    packet.factory:
+        class: DP\GameServer\GameServerBundle\Service\PacketFactory
