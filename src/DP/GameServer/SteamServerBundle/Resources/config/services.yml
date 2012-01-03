@@ -1,0 +1,7 @@
+services:
+    packet.factory.steam:
+        class: DP\GameServer\SteamServerBundle\Service\SteamPacketFactory
+    
+    query.steam:
+        class: DP\GameServer\SteamServerBundle\Service\Query
+        arguments: [ @service_container ]
