@@ -169,4 +169,24 @@ class Plugin
     {
         return $this->scriptName;
     }
+    
+    /**
+     * Set games
+     * 
+     * @param \Doctrine\Common\Collections\ArrayCollection $games
+     */
+    public function setGames($games)
+    {
+        $this->games = $games;
+    }
+    
+    /**
+     * Get games
+     * 
+     * @return \Doctrine\Common\Collections\ArrayCollection 
+     */
+    public function getGames()
+    {
+        return $this->games;
+    }
 }

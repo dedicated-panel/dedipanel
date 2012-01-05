@@ -328,4 +328,24 @@ class Game
     {
         return $this->sourceImagesMaps;
     }
+    
+    /**
+     * Set plugins
+     * 
+     * @param  $plugins \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function setPlugins($plugins)
+    {
+        $this->plugins = $plugins;
+    }
+    
+    /**
+     * Get plugins
+     * 
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getPlugins()
+    {
+        return $this->plugins;
+    }
 }
