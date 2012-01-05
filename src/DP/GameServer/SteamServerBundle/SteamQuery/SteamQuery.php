@@ -280,4 +280,12 @@ class SteamQuery
     {
         return ($this->getLatency() != false);
     }
+    
+    /**
+     * Alias of isOnline method
+     */
+    public function getIsOnline()
+    {
+        return $this->isOnline();
+    }
 }
