@@ -51,7 +51,7 @@ class SocketFactory
     {
         $key = $ip . ':' . $port . '.' . $type;
         
-        if (isset($this->conns) && array_key_exists($this->conns, $key)) {
+        if (isset($this->conns) && array_key_exists($key, $this->conns)) {
             return $this->conns[$key];
         }
         else {

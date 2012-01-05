@@ -5,3 +5,11 @@ services:
     query.steam:
         class: DP\GameServer\SteamServerBundle\Service\Query
         arguments: [ @service_container ]
+    
+    steam.listener.queryInjector:
+        class: DP\GameServer\SteamServerBundle\Listener\QueryInjector
+        arguments: [ @service_container ]
+        calls:
+            - [ setServiceContainer, [ @service_container ] ]
+        tags: 
+            - { name: doctrine.event_listener, event: postLoad, method: postLoad }

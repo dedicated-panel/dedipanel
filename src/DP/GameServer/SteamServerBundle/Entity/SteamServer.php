@@ -5,6 +5,7 @@ namespace DP\GameServer\SteamServerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use DP\GameServer\GameServerBundle\Entity\GameServer;
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
+use DP\GameServer\SteamServerBundle\SteamQuery\SteamQuery;
 
 /**
  * DP\GameServer\SteamServerBundle\Entity\SteamServer
@@ -272,5 +273,15 @@ class SteamServer extends GameServer {
         $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
         
         return $sec->exec($scriptPath . ' ' . $state);
+    }
+    
+    public function setQuery(SteamQuery $query)
+    {
+        $this->query = $query;
+    }
+    
+    public function getQuery()
+    {
+        return $this->query;
     }
 }

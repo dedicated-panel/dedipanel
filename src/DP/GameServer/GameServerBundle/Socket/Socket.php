@@ -32,6 +32,7 @@ use DP\GameServer\GameServerBundle\Socket\Exception\RecvTimeoutException;
  * @author Albin Kerouanton 
  * 
  * @todo ajout support IPv6
+ * @todo ajout callbacks pre/postSend, preRecv & del 1 callback postRecv
  */
 class Socket
 {
