@@ -1,4 +1,21 @@
 <?php
+/*
+** Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jérôme
+**
+** This program is free software; you can redistribute it and/or modify
+** it under the terms of the GNU General Public License as published by
+** the Free Software Foundation; either version 2 of the License, or
+** (at your option) any later version.
+**
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+** GNU General Public License for more details.
+**
+** You should have received a copy of the GNU General Public License along
+** with this program; if not, write to the Free Software Foundation, Inc.,
+** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+*/
 
 namespace DP\Core\GameBundle\Entity;
 
@@ -7,6 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DP\Core\GameBundle\Entity\Game
+ * @author Albin Kerouanton 
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="DP\Core\GameBundle\Entity\GameRepository")
@@ -76,13 +94,6 @@ class Game
      */
     private $available = true;
     
-    /** 
-     * @var \Doctrine\Common\Collections\ArrayCollection() $gameServers
-     * 
-     * @ORM\OneToMany(targetEntity="DP\GameServer\GameServerBundle\Entity\GameServer", mappedBy="game")
-     */
-    private $gameServers;
-    
     /**
      * @var string $binDir
      * 
@@ -94,12 +105,31 @@ class Game
      * @ORM\Column(name="sourceImagesMaps", type="string", length=255)
      * @var string
      */
-    protected $sourceImagesMaps;
+    private $sourceImagesMaps;
+    
+    /** 
+     * @var \Doctrine\Common\Collections\ArrayCollection $gameServers
+     * 
+     * @ORM\OneToMany(targetEntity="DP\GameServer\GameServerBundle\Entity\GameServer", mappedBy="game")
+     */
+    private $gameServers;
 
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection $plugins
+     * 
+     * @ORM\ManyToMany(targetEntity="Plugin", inversedBy="games")
+     * @ORM\JoinTable(name="gamePlugins", 
+     *      joinColumns={@ORM\JoinColumn(name="game_id", referencedColumnName="id")}, 
+     *      inverseJoinColumns={@ORM\JoinColumn(name="plugin_id", referencedColumnName="id")}
+     * )
+     */
+    private $plugins; 
+    
 
     public function __construct()
     {
         $this->gameServers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->plugins = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**

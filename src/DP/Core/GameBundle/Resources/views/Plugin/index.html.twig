@@ -1,0 +1,43 @@
+<h1>Plugin list</h1>
+
+<table class="records_list">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Downloadurl</th>
+            <th>Archivetype</th>
+            <th>Scriptname</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('plugin_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.name }}</td>
+            <td>{{ entity.downloadUrl }}</td>
+            <td>{{ entity.archiveType }}</td>
+            <td>{{ entity.scriptName }}</td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('plugin_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('plugin_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<ul>
+    <li>
+        <a href="{{ path('plugin_new') }}">
+            Create a new entry
+        </a>
+    </li>
+</ul>

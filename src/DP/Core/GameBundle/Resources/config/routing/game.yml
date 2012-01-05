@@ -1,0 +1,30 @@
+game:
+    pattern:  /
+    defaults: { _controller: "DPGameBundle:Game:index" }
+
+game_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "DPGameBundle:Game:show" }
+
+game_new:
+    pattern:  /new
+    defaults: { _controller: "DPGameBundle:Game:new" }
+
+game_create:
+    pattern:  /create
+    defaults: { _controller: "DPGameBundle:Game:create" }
+    requirements: { _method: post }
+
+game_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "DPGameBundle:Game:edit" }
+
+game_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "DPGameBundle:Game:update" }
+    requirements: { _method: post }
+
+game_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "DPGameBundle:Game:delete" }
+    requirements: { _method: post }

@@ -1,0 +1,45 @@
+<h1>Plugin</h1>
+
+<table class="record_properties">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td>{{ entity.name }}</td>
+        </tr>
+        <tr>
+            <th>Downloadurl</th>
+            <td>{{ entity.downloadUrl }}</td>
+        </tr>
+        <tr>
+            <th>Archivetype</th>
+            <td>{{ entity.archiveType }}</td>
+        </tr>
+        <tr>
+            <th>Scriptname</th>
+            <td>{{ entity.scriptName }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('plugin') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('plugin_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('plugin_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>

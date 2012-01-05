@@ -4,7 +4,7 @@ DPSteamServerBundle:
 
 DPGameBundle:
     resource: "@DPGameBundle/Resources/config/routing.yml"
-    prefix:   /game/
+    prefix:   /
 
 DPMachineBundle:
     resource: "@DPMachineBundle/Resources/config/routing.yml"
