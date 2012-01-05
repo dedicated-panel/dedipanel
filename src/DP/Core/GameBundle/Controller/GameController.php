@@ -141,7 +141,7 @@ class GameController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('game_show', array('id' => $id())));
+            return $this->redirect($this->generateUrl('game_show', array('id' => $id)));
         }
 
         return $this->render('DPGameBundle:Game:edit.html.twig', array(

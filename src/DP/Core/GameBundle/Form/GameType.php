@@ -22,6 +22,7 @@ class GameType extends AbstractType
             ->add('map', 'text', array('label' => 'game.map'))
             ->add('available', 'checkbox', array(
                 'label' => 'game.available', 'required' => false))
+            ->add('sourceImagesMaps', 'text', array('label' => 'game.sourceImagesMaps'))
         ;
     }
 

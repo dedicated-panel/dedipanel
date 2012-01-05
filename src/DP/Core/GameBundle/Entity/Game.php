@@ -89,12 +89,19 @@ class Game
      * @ORM\Column(name="binDir", type="string", length=20, nullable=true)
      */
     private $binDir;
+    
+    /**
+     * @ORM\Column(name="sourceImagesMaps", type="string", length=255)
+     * @var string
+     */
+    protected $sourceImagesMaps;
 
 
     public function __construct()
     {
         $this->gameServers = new \Doctrine\Common\Collections\ArrayCollection();
     }
+    
     /**
      * Get id
      *
@@ -270,5 +277,25 @@ class Game
     {
         if (empty($this->binDir)) return './';
         else return $this->binDir;
+    }
+    
+    /**
+     * Set source of images maps
+     * 
+     * @param string $sourceImagesMaps 
+     */
+    public function setSourceImagesMaps($sourceImagesMaps)
+    {
+        $this->sourceImagesMaps = $sourceImagesMaps;
+    }
+    
+    /**
+     * Get source of images maps
+     * 
+     * @return string 
+     */
+    public function getSourceImagesMaps()
+    {
+        return $this->sourceImagesMaps;
     }
 }
