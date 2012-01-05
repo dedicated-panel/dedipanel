@@ -19,6 +19,7 @@
                 <th>{{ 'steam.game'|trans }}</th>
                 <th>{{ 'steam.installStatus'|trans }}</th>
                 <th>{{ 'steam.maxplayers'|trans }}</th>
+                <th>{{ 'steam.ping'|trans }}</th>
                 {# <th>{{ 'steam.dir'|trans }}</th>
                 <th>{{ 'steam.autoReboot'|trans }}</th>
                 <th>{{ 'steam.rcon'|trans }}</th>
@@ -45,6 +46,15 @@
                         {% endif %}
                 {% endspaceless %}</a></td>
                 <td>{{ entity.maxplayers }}</td>
+                <td>
+                    {% if entity.installationStatus == 101 %}
+                        {% if entity.query.isOnline == true %}
+                            {{ entity.query.latency }}
+                        {% else %}
+                            Déconnecté
+                        {% endif %}
+                    {% endif %}
+                </td>
                 {# <td>{{ entity.dir }}</td>
                 <td>{{ entity.autoReboot }}</td>
                 <td>{{ entity.rcon }}</td>
@@ -54,21 +64,6 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'start' }) }}">
-                                {{ 'steam.start'|trans }}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'stop' }) }}">
-                                {{ 'steam.stop'|trans }}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'restart' }) }}">
-                                {{ 'steam.restart'|trans }}
-                            </a>
-                        </li>
-                        <li>
                             <a href="{{ path('steam_show', { 'id': entity.id }) }}">
                                 {{ 'steam.show'|trans }}
                             </a>
@@ -76,6 +71,31 @@
                         <li>
                             <a href="{{ path('steam_edit', { 'id': entity.id }) }}">{{ 'steam.edit'|trans }}</a>
                         </li>
+                        {% if entity.installationStatus == 101 %}                         
+                            {% if entity.query.isOnline == true %}
+                                <li>
+                                    <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'stop' }) }}">
+                                        {{ 'steam.stop'|trans }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'restart' }) }}">
+                                        {{ 'steam.restart'|trans }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('steam_query', { 'id': entity.id }) }}">
+                                        {{ 'steam.query'|trans }}
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'start' }) }}">
+                                        {{ 'steam.start'|trans }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endif %}
                     </ul>
                 </td>
             </tr>

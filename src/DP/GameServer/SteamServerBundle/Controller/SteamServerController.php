@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use DP\GameServer\SteamServerBundle\Entity\SteamServer;
 use DP\GameServer\SteamServerBundle\Form\SteamServerType;
+use DP\GameServer\SteamServerBundle\SteamQuery\Exception\ServerTimeoutException;
 
 /**
  * SteamServer controller.
@@ -22,7 +23,7 @@ class SteamServerController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
 
         $entities = $em->getRepository('DPSteamServerBundle:SteamServer')->findAll();
-
+        
         return $this->render('DPSteamServerBundle:SteamServer:index.html.twig', array(
             'entities' => $entities
         ));
@@ -226,7 +227,8 @@ class SteamServerController extends Controller
         return $this->redirect($this->generateUrl('steam'));
     }
     
-    public function changeStateAction($id, $state) {
+    public function changeStateAction($id, $state)
+    {
         $em = $this->getDoctrine()->getEntityManager();
         $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
         
@@ -237,5 +239,19 @@ class SteamServerController extends Controller
         $entity->changeStateServer($state);
         
         return $this->redirect($this->generateUrl('steam'));
+    }
+    
+    public function queryAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
+        
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find SteamServer entity.');
+        }
+        
+        return $this->render('DPSteamServerBundle:SteamServer:query.html.twig', array(
+            'entity' => $entity
+        ));
     }
 }

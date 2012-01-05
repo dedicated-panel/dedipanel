@@ -37,3 +37,7 @@ steam_changeState:
     pattern:  /{id}/{state}
     defaults: { _controller: "DPSteamServerBundle:SteamServer:changeState" }
     requirements: { state: "start|stop|restart" }
+
+steam_query:
+    pattern:  /{id}/query
+    defaults: { _controller: "DPSteamServerBundle:SteamServer:query" }
