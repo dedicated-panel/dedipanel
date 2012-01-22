@@ -22,7 +22,9 @@ class GameType extends AbstractType
             ->add('map', 'text', array('label' => 'game.map'))
             ->add('available', 'checkbox', array(
                 'label' => 'game.available', 'required' => false))
-            ->add('sourceImagesMaps', 'text', array('label' => 'game.sourceImagesMaps'))
+            ->add('sourceImagesMaps', 'text', array('label' => 'game.sourceImagesMaps', 'required' => false))
+            ->add('plugins', 'entity', array(
+                'multiple' => true, 'class' => 'DP\Core\GameBundle\Entity\Plugin', 'label' => 'game.plugins'))
         ;
     }
 

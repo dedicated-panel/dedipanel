@@ -26,9 +26,9 @@
 			{% endmacro %}
 			{% macro getNavMenu(withImage) %}
 				{% set navItems = [
-                                        {'name': 'menu.steam', 'route': 'steam', 'img': ''}, 
-                                        {'name': 'menu.machine', 'route': 'machine', 'img': 'azeaze'}, 
-                                        {'name': 'menu.game', 'route': 'game', 'img': ''}, 
+                    {'name': 'menu.steam', 'route': 'steam', 'img': ''}, 
+                    {'name': 'menu.machine', 'route': 'machine', 'img': 'azeaze'}, 
+                    {'name': 'menu.game', 'route': 'game', 'img': ''}, 
 					{'name': 'menu.logout', 'route': 'fos_user_security_logout', 'img': 'aze'}] %}
 				<ul>{% for item in navItems %}
 					{% if withImage == 1 %}

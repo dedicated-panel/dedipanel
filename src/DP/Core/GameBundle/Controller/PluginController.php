@@ -138,12 +138,13 @@ class PluginController extends Controller
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
-            $em->persist($entity);
+            $em->persist($entity);            
             $em->flush();
-
+            
+            
             return $this->redirect($this->generateUrl('plugin_edit', array('id' => $id)));
         }
-
+        
         return $this->render('DPGameBundle:Plugin:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),

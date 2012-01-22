@@ -71,6 +71,14 @@
                     <a href="{{ entity.sourceImagesMaps }}" alt="{{ 'game.sourceImagesMaps'|trans }}">{{ entity.sourceImagesMaps }}</a>
                 </td>
             </tr>
+            <tr>
+                <th>{{ 'game.associatedPlugins'|trans }}</th>
+                <td><ul>{% for plugin in entity.plugins %}
+                    <li><a href="{{ path('plugin_show', {'id': plugin.id}) }}">
+                        {{ plugin }}
+                    </a></li>
+                {% endfor %}</ul></td>
+            </tr>
         </tbody>
     </table>
 {% endblock %}

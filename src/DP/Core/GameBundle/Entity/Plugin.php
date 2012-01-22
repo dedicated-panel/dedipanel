@@ -70,11 +70,14 @@ class Plugin
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection $games
      * 
-     * @ORM\ManyToMany(targetEntity="Game", mappedBy="plugins")
+     * @ORM\ManyToMany(targetEntity="DP\Core\GameBundle\Entity\Game", mappedBy="plugins")
+     * @ORM\JoinTable(name="games_plugins", 
+     *      joinColumns={@ORM\JoinColumn(name="plugin_id", referencedColumnName="id")}, 
+     *      inverseJoinColumns={@ORM\JoinColumn(name="game_id", referencedColumnName="id")}
+     * )
      */
     private $games;
-
-
+    
     public function __construct()
     {
         $this->games = new \Doctrine\Common\Collections\ArrayCollection();
@@ -169,24 +172,29 @@ class Plugin
     {
         return $this->scriptName;
     }
-    
+
     /**
-     * Set games
-     * 
-     * @param \Doctrine\Common\Collections\ArrayCollection $games
+     * Add game
+     *
+     * @param DP\Core\GameBundle\Entity\Game $game
      */
-    public function setGames($games)
+    public function addGame(\DP\Core\GameBundle\Entity\Game $game)
     {
-        $this->games = $games;
+        $this->games[] = $game;
     }
-    
+
     /**
      * Get games
-     * 
-     * @return \Doctrine\Common\Collections\ArrayCollection 
+     *
+     * @return Doctrine\Common\Collections\Collection 
      */
     public function getGames()
     {
         return $this->games;
+    }
+    
+    public function __toString()
+    {
+        return $this->getName();
     }
 }

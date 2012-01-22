@@ -1,45 +1,64 @@
-<h1>Plugin</h1>
+{% extends "::layout.html.twig" %}
+{% block content %}
+    <h1>Plugin</h1>
 
-<table class="record_properties">
-    <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ entity.id }}</td>
-        </tr>
-        <tr>
-            <th>Name</th>
-            <td>{{ entity.name }}</td>
-        </tr>
-        <tr>
-            <th>Downloadurl</th>
-            <td>{{ entity.downloadUrl }}</td>
-        </tr>
-        <tr>
-            <th>Archivetype</th>
-            <td>{{ entity.archiveType }}</td>
-        </tr>
-        <tr>
-            <th>Scriptname</th>
-            <td>{{ entity.scriptName }}</td>
-        </tr>
-    </tbody>
-</table>
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('game') }}">
+                {{ 'plugin.back'|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('plugin') }}">
+                {{ 'game.back'|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('plugin_edit', { 'id': entity.id }) }}">
+                {{ 'game.edit'|trans }}
+            </a>
+        </li>
+        <li>
+            <form action="{{ path('plugin_delete', { 'id': entity.id }) }}" method="post">
+                {{ form_widget(delete_form) }}
+                <button type="submit">{{ 'game.del'|trans }}</button>
+            </form>
+        </li>
+    </ul>
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('plugin') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('plugin_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('plugin_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>{{ 'game.id'|trans }}</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'game.name'|trans }}</th>
+                <td>{{ entity.name }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'plugin.downloadUrl'|trans }}</th>
+                <td>{{ entity.downloadUrl }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'plugin.archiveType'|trans }}</th>
+                <td>{{ entity.archiveType }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'plugin.scriptName'|trans }}</th>
+                <td>{{ entity.scriptName }}</td>
+            </tr>
+            <tr>
+                <th rowspan="{{ entity.games|length }}">
+                    {{ 'plugin.associatedGames'|trans }}
+                </th>
+                <td><ul>{% for game in entity.games %}
+                    <li><a href="{{ path('game_show', {'id': game.id}) }}">
+                        {{ game }}
+                    </a></li>
+                {% endfor %}</ul></td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

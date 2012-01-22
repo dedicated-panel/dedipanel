@@ -23,3 +23,16 @@ game.no: Non
 game.addButton: Ajouter
 game.editGame: Modification d'un jeu
 game.sourceImagesMaps: Dossier contenant les images de cartes
+game.plugins: Plugins associés au jeu
+game.pluginManagement: Gestion des plugins
+game.associatedPlugins: Plugins associés
+
+plugin.list: Liste des plugins
+plugin.add: Ajouter un plugin
+plugin.edit: Edition d'un plugin
+
+plugin.downloadUrl: Adresse de téléchargement du plugin
+plugin.archiveType: Type d'archive
+plugin.scriptName: Script utilisé par le panel
+plugin.back: Retour à la gestion des jeux
+plugin.associatedGames: Jeux associés

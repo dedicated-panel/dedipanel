@@ -117,8 +117,8 @@ class Game
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection $plugins
      * 
-     * @ORM\ManyToMany(targetEntity="Plugin", inversedBy="games")
-     * @ORM\JoinTable(name="gamePlugins", 
+     * @ORM\ManyToMany(targetEntity="DP\Core\GameBundle\Entity\Plugin", inversedBy="games")
+     * @ORM\JoinTable(name="games_plugins", 
      *      joinColumns={@ORM\JoinColumn(name="game_id", referencedColumnName="id")}, 
      *      inverseJoinColumns={@ORM\JoinColumn(name="plugin_id", referencedColumnName="id")}
      * )
@@ -330,13 +330,14 @@ class Game
     }
     
     /**
-     * Set plugins
+     * Add plugins
      * 
-     * @param  $plugins \Doctrine\Common\Collections\ArrayCollection
+     * @param  $plugin \Doctrine\Common\Collections\ArrayCollection
      */
-    public function setPlugins($plugins)
+    public function addPlugin(\DP\Core\GameBundle\Entity\Plugin $plugin)
     {
-        $this->plugins = $plugins;
+        $plugin->addGame($this);
+        $this->plugins[] = $plugin;
     }
     
     /**
