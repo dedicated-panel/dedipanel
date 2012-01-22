@@ -24,6 +24,8 @@ use DP\GameServer\SteamServerBundle\Service\SteamPacketFactory;
 use DP\GameServer\GameServerBundle\Socket\Packet;
 use DP\GameServer\GameServerBundle\Socket\PacketCollection;
 
+use DP\GameServer\GameServerBundle\Socket\Exception\ConnectionFailedException;
+use DP\GameServer\GameServerBundle\Socket\Exception\NotConnectedException;
 use DP\GameServer\GameServerBundle\Socket\Exception\RecvTimeoutException;
 use DP\GameServer\SteamServerBundle\SteamQuery\Exception\ServerTimeoutException;
 
@@ -102,7 +104,11 @@ class SteamQuery
         $this->packetFactory = $container->get('packet.factory.steam');
         
         $this->socket = $container->get('socket')->getUDPSocket($host, $port, $callbacks);
-        $this->socket->connect();
+        
+        try {
+            $this->socket->connect();
+        }
+        catch (ConnectionFailedException $e) {}
     }
     
     /**
@@ -150,6 +156,9 @@ class SteamQuery
             }
             catch (RecvTimeoutException $e) {
                 throw new Exception\ServerTimeoutException();
+            }
+            catch (NotConnectedException $e) {
+                $this->serverInfos = array();
             }
         }
         
@@ -211,6 +220,9 @@ class SteamQuery
             catch (RecvTimeoutException $e) {
                 throw new ServerTimeoutException();
             }
+            catch (NotConnectedException $e) {
+                $this->players = array();
+            }
         }
         
         return $this->players;
@@ -244,6 +256,9 @@ class SteamQuery
             catch (RecvTimeoutException $e) {
                 throw new ServerTimeoutException();
             }
+            catch (NotConnectedException $e) {
+                $this->rules = array();
+            }
         }
         
         return $this->rules;
@@ -265,6 +280,9 @@ class SteamQuery
                 $this->latency = round((microtime(true) - $ping) * 1000);
             }
             catch (RecvTimeoutException $e) {
+                $this->latency = false;
+            }
+            catch (NotConnectedException $e) {
                 $this->latency = false;
             }
         }

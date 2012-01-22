@@ -102,14 +102,22 @@ class Socket
             throw new CreateSocketException($type, $this->getLastError());
         }
         
-        if (!socket_connect($this->socket, $this->ip, $this->port)) {
+        // On défini la socket comme étant bloquante
+        // Et on défini le timeout
+        socket_set_block($this->socket);
+        socket_set_option($this->socket, SOL_SOCKET, SO_SNDTIMEO, array('sec' => $this->timeout[0], 'usec' => $this->timeout[1]));
+        socket_set_option($this->socket, SOL_SOCKET, SO_RCVTIMEO, array('sec' => $this->timeout[0], 'usec' => $this->timeout[1]));
+        
+        $connect = socket_connect($this->socket, $this->ip, $this->port);
+        $error = $this->getLastError(); // socket_connect() renvoie true pour les connexions udp (même si port fermé)
+//        var_dump($this->getLastError());
+//        var_dump($connect, $error);
+        if (!$connect || !empty($error)) {
             throw new ConnectionFailedException($this->getLastError());
         }
         else {
+            echo 'connected !';
             $this->connected = true;
-        
-            // On défini la socket comme étant bloquante
-            socket_set_block($this->socket);
         }
     }
     

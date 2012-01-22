@@ -1,5 +1,5 @@
 parameters:
-    socket.timeout: [2, 0]
+    socket.timeout: [0, 500]
     
 services:
     socket:
