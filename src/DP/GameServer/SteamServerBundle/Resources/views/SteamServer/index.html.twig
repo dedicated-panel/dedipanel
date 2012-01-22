@@ -50,8 +50,6 @@
                     {% if entity.installationStatus == 101 %}
                         {% if entity.query.isOnline == true %}
                             {{ entity.query.latency }}
-                        {% else %}
-                            Déconnecté
                         {% endif %}
                     {% endif %}
                 </td>
@@ -96,6 +94,12 @@
                                 </li>
                             {% endif %}
                         {% endif %}
+                                
+                        <li>
+                            <a href="{{ path('steam_plugins_show', {'id': entity.id }) }}">
+                                {{ 'steam.pluginsAction'|trans }}
+                            </a>
+                        </li>
                     </ul>
                 </td>
             </tr>

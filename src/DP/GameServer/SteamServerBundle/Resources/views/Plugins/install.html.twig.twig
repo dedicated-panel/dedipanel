@@ -1,0 +1,29 @@
+{% extends "::layout.html.twig" %}
+{% block content %}
+    <h1>{{ 'steam.plugin.showTitle'|trans }}</h1>
+    
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('steam') }}">
+                {{ 'steam.back'|trans }}
+            </a>
+        </li>
+    </ul>
+    
+    <table>
+        <tr>
+            <th>Metamod</th>
+            {% if entity.plugins.metamod == true %}
+                <td>{{ 'steam.plugin.installed'|trans }}</td>
+                <td><ul>
+                    <li>{{ 'steam.plugin.uninstall'|trans }}</li>
+                </ul></td>
+            {% else %}
+                <td>{{ 'steam.plugin.notInstalled'|trans }}</td>
+                <td>
+                    <li></li>
+                </td>
+            {% endif %}
+        </tr>
+    </table>
+{% endblock %}

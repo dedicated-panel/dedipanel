@@ -71,7 +71,7 @@ class GameServer
     /**
      * @ORM\ManyToOne(targetEntity="DP\Core\GameBundle\Entity\Game", inversedBy="gameServers")
      * @ORM\JoinColumn(name="gameId", referencedColumnName="id")
-     * * @Assert\NotNull(message="gameServer.assert.game")
+     * @Assert\NotNull(message="gameServer.assert.game")
      */
     protected $game;
 

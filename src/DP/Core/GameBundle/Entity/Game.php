@@ -128,7 +128,6 @@ class Game
 
     public function __construct()
     {
-        $this->gameServers = new \Doctrine\Common\Collections\ArrayCollection();
         $this->plugins = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
@@ -347,6 +346,11 @@ class Game
      */
     public function getPlugins()
     {
-        return $this->plugins;
+        if ($this->plugins instanceof \Doctrine\ORM\PersistentCollection) {
+            return $this->plugins->getValues();
+        }
+        else {
+            return $this->plugins;
+        }
     }
 }

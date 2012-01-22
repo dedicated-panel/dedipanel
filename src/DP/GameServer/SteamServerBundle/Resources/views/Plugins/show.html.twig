@@ -1,0 +1,40 @@
+{% extends "::layout.html.twig" %}
+{% block content %}
+    <h1>{{ 'steam.plugins.showTitle'|trans }}</h1>
+    
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('steam') }}">
+                {{ 'steam.back'|trans }}
+            </a>
+        </li>
+    </ul>
+    
+    <table>
+        <tr>
+            <th>{{ 'steam.plugins.name'|trans }}</th>
+            <th>{{ 'steam.plugins.status'|trans }}</th>
+            <th>{{ 'steam.actions'|trans }}</th>
+        </tr>
+        
+        {% for plugin in entity.plugins %}
+            <tr>
+                <th>{{ plugin.name }}</th>
+                <td>{{ 'steam.plugins.installed'|trans }}</td>
+                <td><a href="{{ path('steam_plugins_uninstall', {'id': entity.id, 'plugin': plugin.id}) }}">
+                    {{ 'steam.plugins.uninstall'|trans }}
+                </a></td>
+            </tr>
+        {% endfor %}
+            
+        {% for plugin in notInstalledPlugins %}
+            <tr>
+                <th>{{ plugin.name }}</th>
+                <td>{{ 'steam.plugins.notInstalled'|trans }}</td>
+                <td><a href="{{ path('steam_plugins_install', {'id': entity.id, 'plugin': plugin.id}) }}">
+                    {{ 'steam.plugins.install'|trans }}
+                </a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

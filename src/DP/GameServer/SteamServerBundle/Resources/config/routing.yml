@@ -1,43 +1,8 @@
-steam:
-    pattern:  /
-    defaults: { _controller: "DPSteamServerBundle:SteamServer:index" }
+DPSteamServerBundle_CRUD:
+    resource: "@DPSteamServerBundle/Resources/config/routing/steamCrud.yml"
+    prefix:   /
 
-steam_show:
-    pattern:  /{id}/show
-    defaults: { _controller: "DPSteamServerBundle:SteamServer:show" }
-
-steam_new:
-    pattern:  /new
-    defaults: { _controller: "DPSteamServerBundle:SteamServer:new" }
-
-steam_create:
-    pattern:  /create
-    defaults: { _controller: "DPSteamServerBundle:SteamServer:create" }
-    requirements: { _method: post }
-
-steam_edit:
-    pattern:  /{id}/edit
-    defaults: { _controller: "DPSteamServerBundle:SteamServer:edit" }
-
-steam_update:
-    pattern:  /{id}/update
-    defaults: { _controller: "DPSteamServerBundle:SteamServer:update" }
-    requirements: { _method: post }
-
-steam_delete:
-    pattern:  /{id}/delete
-    defaults: { _controller: "DPSteamServerBundle:SteamServer:delete" }
-    requirements: { _method: post }
-
-steam_install:
-    pattern:  /{id}/install
-    defaults: { _controller: "DPSteamServerBundle:SteamServer:install" }
-
-steam_changeState:
-    pattern:  /{id}/{state}
-    defaults: { _controller: "DPSteamServerBundle:SteamServer:changeState" }
-    requirements: { state: "start|stop|restart" }
-
-steam_query:
-    pattern:  /{id}/query
-    defaults: { _controller: "DPSteamServerBundle:SteamServer:query" }
+DPSteamServerBundle_Plugins:
+    resource: "@DPSteamServerBundle/Resources/config/routing/plugins.yml"
+    prefix: /plugins/{id}
+    requirements: {id: \d+}

@@ -49,6 +49,22 @@ class SteamServer extends GameServer {
      */
     private $core;
     
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection $plugins
+     * 
+     * @ORM\ManyToMany(targetEntity="DP\Core\GameBundle\Entity\Plugin") 
+     * @ORM\JoinTable(name="steamserver_plugins",
+     *      joinColumns={@ORM\JoinColumn(name="server_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="plugin_id", referencedColumnName="id")}
+     * )
+     */
+    private $plugins;
+    
+    
+    public function __construct()
+    {
+        $this->plugins = new \Doctrine\Common\Collections\ArrayCollection();
+    }
     
     /**
      * Set autoReboot
@@ -283,5 +299,30 @@ class SteamServer extends GameServer {
     public function getQuery()
     {
         return $this->query;
+    }
+    
+    /**
+     * Add plugin
+     * 
+     * @param \DP\Core\GameBundle\Entity\Plugin $plugin 
+     */
+    public function addPlugin(\DP\Core\GameBundle\Entity\Plugin $plugin)
+    {
+        $this->plugins[] = $plugin;
+    }
+    
+    /**
+     * Get plugins recorded as "installed on the server"
+     * 
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getPlugins()
+    {
+        if ($this->plugins instanceof \Doctrine\ORM\PersistentCollection) {
+            return $this->plugins->getValues();
+        }
+        else {
+            return $this->plugins;
+        }
     }
 }
