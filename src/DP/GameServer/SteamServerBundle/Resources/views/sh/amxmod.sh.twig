@@ -1,0 +1,36 @@
+#!/bin/bash
+
+DIR='{{ gameDir }}'
+cd $DIR
+
+case "$1" in
+    install)
+        if [ $# -ne 2 ]; then
+            echo "Usage: $0 install downloadUrl"
+            exit 1
+        fi
+        
+        # On récupère l'archive, on la décompresse et on la supprime
+        wget -O amx.zip $2 && unzip -o amx.zip && rm amx.zip
+
+        `$0 activate`
+    ;;
+    
+    uninstall)
+        `$0 deactivate`
+        rm -Rf $DIR/addons/amx/
+    ;;
+    
+    activate)
+        # On active le plugin dans la config de metamod
+        echo 'linux addons/amx/dlls/amx_mm_i386.so' >> $DIR/addons/metamod/plugins.ini
+    ;;
+    
+    deactivate)
+        sed -i '/^linux addons\/amx\/dlls\/amx_mm_i386.so$/d' $DIR/addons/metamod/plugins.ini
+    ;;
+    
+    *)
+        echo "Usage: $0 {install downloadUrl}|uninstall|activate|deactivate"
+    ;;
+esac

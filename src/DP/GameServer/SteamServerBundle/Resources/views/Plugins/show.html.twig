@@ -14,25 +14,26 @@
         <tr>
             <th>{{ 'steam.plugins.name'|trans }}</th>
             <th>{{ 'steam.plugins.status'|trans }}</th>
-            <th>{{ 'steam.actions'|trans }}</th>
         </tr>
         
-        {% for plugin in entity.plugins %}
+        {% for plugin in server.installedPlugins %}
             <tr>
-                <th>{{ plugin.name }}</th>
-                <td>{{ 'steam.plugins.installed'|trans }}</td>
-                <td><a href="{{ path('steam_plugins_uninstall', {'id': entity.id, 'plugin': plugin.id}) }}">
-                    {{ 'steam.plugins.uninstall'|trans }}
+                <th><a href="{{ path('plugin_show', {'id': plugin.id }) }}">
+                        {{ plugin.name }}
+                </a></th>
+                <td><a href="{{ path('steam_plugins_uninstall', {'id': server.id, 'plugin': plugin.id}) }}">
+                    {{ 'steam.plugins.installed'|trans }}
                 </a></td>
             </tr>
         {% endfor %}
             
-        {% for plugin in notInstalledPlugins %}
+        {% for plugin in server.notInstalledPlugins %}
             <tr>
-                <th>{{ plugin.name }}</th>
-                <td>{{ 'steam.plugins.notInstalled'|trans }}</td>
-                <td><a href="{{ path('steam_plugins_install', {'id': entity.id, 'plugin': plugin.id}) }}">
-                    {{ 'steam.plugins.install'|trans }}
+                <th><a href="{{ path('plugin_show', {'id': plugin.id }) }}">
+                        {{ plugin.name }}
+                </a></th>
+                <td><a href="{{ path('steam_plugins_install', {'id': server.id, 'plugin': plugin.id}) }}">
+                    {{ 'steam.plugins.notInstalled'|trans }}
                 </a></td>
             </tr>
         {% endfor %}

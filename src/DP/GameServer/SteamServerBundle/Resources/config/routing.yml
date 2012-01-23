@@ -4,5 +4,5 @@ DPSteamServerBundle_CRUD:
 
 DPSteamServerBundle_Plugins:
     resource: "@DPSteamServerBundle/Resources/config/routing/plugins.yml"
-    prefix: /plugins/{id}
+    prefix: /{id}/plugins/
     requirements: {id: \d+}

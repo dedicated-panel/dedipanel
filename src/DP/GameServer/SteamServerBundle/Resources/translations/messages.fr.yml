@@ -41,5 +41,3 @@ steam.plugins.status: Statut
 steam.plugins.showTitle: Plugins du serveur
 steam.plugins.installed: Installé
 steam.plugins.notInstalled: Non installé
-steam.plugins.install: Installer
-steam.plugins.uninstall: Désinstaller

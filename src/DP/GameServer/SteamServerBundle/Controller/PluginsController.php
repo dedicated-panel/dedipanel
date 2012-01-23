@@ -20,56 +20,68 @@
 
 namespace DP\GameServer\SteamServerBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 use DP\GameServer\SteamServerBundle\Entity\SteamServer;
+use DP\Core\GameBundle\Entity\Plugin;
 
 class PluginsController extends Controller
 {
     public function showServerAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
+        $server = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
         
-        if (!$entity) {
+        if (!$server) {
             throw $this->createNotFoundException('Unable to find SteamServer entity.');
         }
         
-        $intersectCallback = function ($plugin1, $plugin2) {
-            return $plugin1->getId() - $plugin2->getId();
-        };
-        $plugins = $entity->getGame()->getPlugins();
-        $notInstalled = array_udiff($plugins, $entity->getPlugins(), $intersectCallback);
-        
         return $this->render('DPSteamServerBundle:Plugins:show.html.twig', array(
-            'entity' => $entity, 
-            'notInstalledPlugins' => $notInstalled
+            'server' => $server
         ));
     }
     
     public function installAction($id, $plugin)
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
+        $server = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
+        $plugin = $em->getRepository('DPGameBundle:Plugin')->find($plugin);
         
-        if (!$entity) {
+        if (!$server) {
             throw $this->createNotFoundException('Unable to find SteamServer entity.');
         }
+        if (!$plugin) {
+            throw $this->createNotFoundException('Unable to find Plugin entity.');
+        }
         
-        return $this->render('DPSteamServerBundle:Plugins:install.html.twig', array(
-            'entity' => $entity
-        ));
+        // On upload et on exécute le script du plugin
+        // Puis on supprime la liaison entre le serv et le plugin
+        $server->execPluginScript($this->get('twig'), $plugin, 'install');
+        $server->addPlugin($plugin);
+        $em->flush();
+        
+        return $this->redirect($this->generateUrl('steam_plugins_show', array('id' => $id)));
     }
     
     public function uninstallAction($id, $plugin)
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
+        $server = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
+        $plugin = $em->getRepository('DPGameBundle:Plugin')->find($plugin);
         
-        if (!$entity) {
+        if (!$server) {
             throw $this->createNotFoundException('Unable to find SteamServer entity.');
         }
+        if (!$plugin) {
+            throw $this->createNotFoundException('Unable to find Plugin entity.');
+        }
         
-        return $this->render('DPSteamServerBundle:Plugins:uninstall.html.twig', array(
-            'entity' => $entity
-        ));
+        // On upload et on exécute le script du plugin
+        // Puis on supprime la liaison entre le serv et le plugin
+        $server->execPluginScript($this->get('twig'), $plugin, 'uninstall');
+        $server->removePlugin($plugin);
+        $em->flush();
+        
+        return $this->redirect($this->generateUrl('steam_plugins_show', array('id' => $id)));
     }
 }

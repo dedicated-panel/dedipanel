@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use DP\GameServer\GameServerBundle\Entity\GameServer;
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 use DP\GameServer\SteamServerBundle\SteamQuery\SteamQuery;
+use DP\Core\GameBundle\Entity\Plugin;
 
 /**
  * DP\GameServer\SteamServerBundle\Entity\SteamServer
@@ -173,7 +174,7 @@ class SteamServer extends GameServer {
      */
     private function getAbsoluteDir()
     {
-        return $this->machine->getHome() . '/' . $this->dir . '/';
+        return $this->machine->getHome() . '/' . $this->getDir() . '/';
     }
     
     /**
@@ -187,6 +188,16 @@ class SteamServer extends GameServer {
     }
     
     /**
+     * Get absolute path of game content directory
+     * 
+     * @return string
+     */
+    private function getAbsoluteGameContentDir()
+    {
+        return $this->getAbsoluteDir() . $this->game->getInstallName() . '/';
+    }
+    
+    /**
      * Upload & launch game server installation
      * 
      * @param \Twig_Environment $twig Used for generate shell script
@@ -196,7 +207,7 @@ class SteamServer extends GameServer {
         $installDir = $this->getAbsoluteDir();
         $scriptPath = $installDir . 'install.sh';
         $logPath = $installDir . 'install.log';
-        $screenName = 'install-' . $this->dir;
+        $screenName = 'install-' . $this->getDir();
         $installName = $this->game->getInstallName();
         
         $mkdirCmd = 'if [ ! -e ' . $installDir . ' ]; then mkdir ' . $installDir . '; fi';
@@ -216,7 +227,7 @@ class SteamServer extends GameServer {
     public function getGameInstallationProgress()
     {
         $logPath = $this->getAbsoluteDir() . 'install.log';
-        $screenName = 'install-' . $this->dir;
+        $screenName = 'install-' . $this->getDir();
         
         $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
         $installLog = $sec->exec('cat ' . $logPath);
@@ -231,7 +242,7 @@ class SteamServer extends GameServer {
             // On récupère le pourcentage du dl dans le screen
             // Pour l'afficher à l'utilisateur
             $tmpFile = '/tmp/' . uniqid();
-            $cmd = 'screen -S install-' . $this->dir . ' -X hardcopy ' . $tmpFile . '; sleep 1s;';
+            $cmd = 'screen -S install-' . $this->getDir() . ' -X hardcopy ' . $tmpFile . '; sleep 1s;';
             $cmd .= 'if [ -e ' . $tmpFile . ' ]; then cat ' . $tmpFile . '; rm -f ' . $tmpFile . '; fi';
             
             $screenContent = $sec->exec($cmd);
@@ -312,6 +323,15 @@ class SteamServer extends GameServer {
     }
     
     /**
+     * Remove a server plugin
+     * @param \DP\Core\GameBundle\Entity\Plugin $plugin 
+     */
+    public function removePlugin(\DP\Core\GameBundle\Entity\Plugin $plugin)
+    {
+        $this->plugins->removeElement($plugin);
+    }
+    
+    /**
      * Get plugins recorded as "installed on the server"
      * 
      * @return \Doctrine\Common\Collections\ArrayCollection
@@ -324,5 +344,40 @@ class SteamServer extends GameServer {
         else {
             return $this->plugins;
         }
+    }
+    
+    public function getInstalledPlugins()
+    {
+        return $this->getPlugins();
+    }
+    
+    public function getNotInstalledPlugins()
+    {
+        $intersectCallback = function ($plugin1, $plugin2) {
+            return $plugin1->getId() - $plugin2->getId();
+        };
+        $plugins = $this->getGame()->getPlugins()->getValues();
+        
+        // On compare l'array contenant l'ensemble des plugins dispo pour le jeu
+        // A ceux installés sur le serveur
+        return array_udiff($plugins, $this->getPlugins(), $intersectCallback);
+    }
+    
+    public function execPluginScript(\Twig_Environment $twig, Plugin $plugin, $action)
+    {
+        $dir = $this->getAbsoluteGameContentDir();
+        $scriptName = $plugin->getScriptName();
+        $scriptPath = $dir . $scriptName . '.sh';
+        
+        $screenName = $scriptName . '-' . $this->getDir();
+        $screenCmd  = 'screen -dmS ' . $screenName . ' ' . $scriptPath . ' ' . $action;
+        if ($action == 'install') $screenCmd .= ' "' . $plugin->getDownloadUrl () . '"';
+        
+        $pluginScript = $twig->render(
+            'DPSteamServerBundle:sh:' . $scriptName . '.sh.twig', array('gameDir' => $dir));
+        
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $sec->upload($scriptPath, $pluginScript);
+        $sec->exec($screenCmd);
     }
 }

@@ -3,13 +3,11 @@ steam_plugins_show:
     defaults: { _controller: "DPSteamServerBundle:Plugins:showServer" }
 
 steam_plugins_install:
-    pattern: /install/{plugin}
+    pattern: /{plugin}/install/
     defaults: { _controller: "DPSteamServerBundle:Plugins:install" }
-#    requirements:
-#        plugin: metamod|amx|amxx|metamodSource|sourceMod|eventScripts
+    requirements: {plugin: \d+}
 
 steam_plugins_uninstall:
-    pattern: /uninstall/{plugin}
+    pattern: /{plugin}/uninstall/
     defaults: { _controller: "DPSteamServerBundle:Plugins:uninstall" }
-#    requirements:
-#        plugin: metamod|amx|amxx|metamodSource|sourceMod|eventScripts
+    requirements: {plugin: \d+}
