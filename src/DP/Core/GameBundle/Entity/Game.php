@@ -128,7 +128,7 @@ class Game
 
     public function __construct()
     {
-        $this->plugins = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->setPlugins();
     }
     
     /**
@@ -340,6 +340,16 @@ class Game
     }
     
     /**
+     * Set plugin list
+     * 
+     * @param array $plugins 
+     */
+    private function setPlugins(array $plugins = array())
+    {
+        $this->plugins = new \Doctrine\Common\Collections\ArrayCollection($plugins);
+    }
+    
+    /**
      * Get plugins
      * 
      * @return \Doctrine\Common\Collections\ArrayCollection
@@ -347,10 +357,9 @@ class Game
     public function getPlugins()
     {
         if ($this->plugins instanceof \Doctrine\ORM\PersistentCollection) {
-            return $this->plugins->getValues();
+            $this->setPlugins($this->plugins->getValues());
         }
-        else {
-            return $this->plugins;
-        }
+        
+        return $this->plugins;
     }
 }
