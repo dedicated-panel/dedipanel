@@ -1,6 +1,15 @@
 user_menu:
     pattern: /
-    defaults: { _controller: DPUserBundle:User:Menu }
+    defaults: { _controller: DPUserBundle:User:HomeMenu }
+
+game_menu:
+    pattern: /menu/game
+    defaults: { _controller: DPUserBundle:User:GameMenu }
+
+config_menu:
+    pattern: /menu/config
+    defaults: { _controller: DPUserBundle:user:ConfigMenu }
+
 
 # contient la route pour le /login, important
 fos_user_security:

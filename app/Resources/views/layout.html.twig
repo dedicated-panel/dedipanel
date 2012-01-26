@@ -9,36 +9,9 @@
 {% endblock %}
 
 {% block body %}	
-    {% macro navItem(name, route, img) %}
-        <li><a href="{{ path(route) }}"><img src="{{ asset(img) }}" alt="{{ name|trans }}" /></a></li>
-    {% endmacro %}
-    {% macro getNavMenu(withImage) %}
-        {% set navItems = [
-            {'name': 'menu.steam', 'route': 'steam', 'img': ''}, 
-            {'name': 'menu.machine', 'route': 'machine', 'img': 'azeaze'}, 
-            {'name': 'menu.game', 'route': 'game', 'img': ''}, 
-            {'name': 'menu.logout', 'route': 'fos_user_security_logout', 'img': 'aze'}] %}
-        <ul>{% for item in navItems %}
-            {% if withImage == 1 %}
-                {{ _self.navItem(item['name'], item['route'], item['img']) }}
-            {% else %}
-                {{ _self.navItem(item['name'], item['route']) }}
-            {% endif %}
-        {% endfor %}</ul>
-    {% endmacro %}
-	
-    <h1 id="title">Serveurs de Jeux</h1>
+    <h1 id="title">{% block title %}{% endblock %}</h1>
 
-    <div id="select-vm"><form method="post" action="">
-
-        <select name="vm-selection">
-            <option value="Serveur1">Serveur 1</option>
-            <option value="Serveur2">Serveur 2</option>
-            <option value="Serveur3">Serveur 3</option>
-            <option value="Serveur4">Serveur 4</option>					
-        </select>
-    </form></div>
-
+    {% block selectVm %}{% endblock %}
 
     <div id="page-content">{% block content %}{% endblock %}</div>
 {% endblock %}

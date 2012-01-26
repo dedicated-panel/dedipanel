@@ -217,7 +217,7 @@ header {
 	margin: auto;
 }
 
-#page-content, #select-vm {
+#page-content, #select-vm, #logbox {
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
@@ -225,15 +225,13 @@ header {
 	-moz-box-shadow:0px 0 50px #ccc; 
 	box-shadow:0px 0 10px #ccc;
 	margin: 20px;
+	padding: 15px 0 10px 15px;
 }
 
-#select-vm {
-	padding: 15px 0 0 15px;
-}
-
-#page-content {
-    padding-top: 5px;
-    padding-left: 15px;
+#logbox {
+    width: 400px;
+    margin: 30px auto 30px auto;
+    text-align: center;
 }
 
 #page-content h1 {
@@ -407,46 +405,48 @@ footer p {
 /* =============================================================== */
 
 a {
-	text-decoration:none
+	text-decoration: none;
 }
 label {	
-	font-size: 20px;
-	color: #666; 
+	color: #666;
+    width: 110px;
+    display: block;
+    float: left;
 }
-#user-details { 
-	float: left;
-	width: 230px; 
+
+
+input[type="checkbox"] + label {
+    width: auto;
+    float: none;
+    display: inline;
 }
+
 select, input, textarea { 		
-	padding: 8px; 
-	margin: 4px 0 20px 0; 
-	background: #fff; 
-	width: 220px; 
-	font-size: 14px; 
+	padding: 5px; 
+	/* margin: 4px 0 20px 0; */
+    margin-bottom: 10px;
+	background: #fff;
+	/* width: 200px; */
+	font-size: 14px;
 	color: #555; 
 	border: 0.5px #ddd solid;
 	cursor: pointer;
 	-webkit-box-shadow: 0px 0px 4px #aaa;
 	-moz-box-shadow: 0px 0px 4px #aaa; 
 	box-shadow: 0px 0px 4px #aaa;	
-	-webkit-transition: background 0.3s linear;							
+	-webkit-transition: background 0.3s linear;	
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;							
 }
-select{ 		
-	background: #fff; 
-	width: 220px; 
-	border: 1px #ddd solid;
-	-webkit-border-radius: 6px;
-	-moz-border-radius: 6px;
-	border-radius: 6px;	
+select {
+	min-width: 200px; 
+    borer: 1px solid #ddd;
 }
-textarea {		
-	width: 390px; 
-	height: 175px; 		 		
-}
-input:hover, textarea:hover { 
+input:hover, textarea:hover, select:hover { 
 	background: #eee; 
 }	
-input.submit { 	
+input[type="submit"] { 	
 	width: 150px; 
 	color: #eee; 
 	text-transform: uppercase; 
@@ -456,9 +456,10 @@ input.submit {
 	-webkit-transition: -webkit-box-shadow 0.3s linear;		
 	-moz-border-radius: 4px; 
 	-webkit-border-radius: 4px;
-	border-radius: 4px; 						
+	border-radius: 4px;
 	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#0077b5), to(#00507a)); 
-	background: -moz-linear-gradient(25% 75% 90deg,#0a85a8, #18a5cc);		
+	background: -moz-linear-gradient(25% 75% 90deg,#0a85a8, #18a5cc);
+    background-color: red;
 } 
 input.submit:hover { 		
 	-webkit-box-shadow: 0px 0px 20px #555;
