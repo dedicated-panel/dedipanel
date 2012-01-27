@@ -1,7 +1,20 @@
 {% extends "::layout.html.twig" %}
-{% block content %}
-    <h1>{{ 'steam.list'|trans }}</h1>
 
+{% block title %}{{ 'steam.list'|trans }}{% endblock %}
+
+{% block selectVm %}
+    {# <div id="select-vm"><form method="post" action="">
+
+        <select name="vm-selection">
+            <option value="Serveur1">Serveur 1</option>
+            <option value="Serveur2">Serveur 2</option>
+            <option value="Serveur3">Serveur 3</option>
+            <option value="Serveur4">Serveur 4</option>					
+        </select>
+    </form></div> #}
+{% endblock %}
+
+{% block content %}
     <ul>
         <li>
             <a href="{{ path('steam_new') }}">
@@ -9,6 +22,84 @@
             </a>
         </li>
     </ul>
+
+    {# <div class="steam-server clair" id="steam-15">
+        <div class="summary">
+            <div class="infos">
+                <img src="../images/serveur/viewer/css.png" />
+                <p><b>Serveur War 2</b><br />127.0.0.1:27015</p>
+            </div>
+
+
+            <div class="actions">
+                <a href="#">
+                    <img src="../images/icones/serveur/start.png" title="Démarrer"/>
+                </a>
+                <a href="#">
+                    <img src="../images/icones/serveur/stop.png" title="Arrêter"/>
+                </a>
+                <a href="#">
+                    <img src="../images/icones/serveur/stop.png" title="Redémarrer"/>
+
+                </a>
+                <a href="#">
+                    <img src="../images/icones/serveur/config.png" title="Configuration" />
+                </a>
+                <a href="#" class="slide">
+                    <img src="../images/icones/serveur/bfleche.png" title="Slide"/>
+                </a>
+                <a href="#">
+                    <img src="../images/icones/serveur/ftp.png" title="FTP" />
+
+                </a>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+
+        <div class="details">
+            <p><img src="http://psychostats.cscargo.net/img/maps/halflife/cstrike/de_dust2.jpg" alt="de_dust2" /></p>
+
+            <table class="players-list">
+                <thead>
+                    <tr>
+
+                        <th>Joueur</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>NiR</td>
+
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Von</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+
+                        <td>Copa</td>
+                        <td>100</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="actions">
+                <a href="#">
+                    <img src="../images/icones/serveur/icone-hltv.png" title="HLTV"/>
+
+                </a>
+                <a href="#">
+                    <img src="../images/icones/serveur/icone-rcon.png" title="Rcon"/>
+                </a>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+    </div> #}
 
     <table class="records_list">
         <thead>
