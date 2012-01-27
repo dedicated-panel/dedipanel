@@ -180,12 +180,21 @@ class Socket
         // C'est que des données sont arrivés.
         $select = socket_select($read, $write, $except, $this->timeout[0], $this->timeout[1]);
         
+        // select() renvoie toujours les sockets udp (puisqu'elles sont connectionless)
+        // On doit donc vérifier que l'on reçoit bien des données
         // S'il a bien des données d'arrivés, on les récupères
         // Et on exécute les 2 callbacks de post réception si nécessaire (et si possible)
         // Ceux-ci servant à traiter les cas de réception multi-packets (notamment pour l'UDP)
         if ($select == 1) {
             $packetLength = $this->getSocketBufferSize();
-            $read = new Packet(socket_read($this->socket, $packetLength, PHP_BINARY_READ));
+            $content = @socket_read($this->socket, $packetLength, PHP_BINARY_READ);
+            
+            if ($this->type == 'udp' && $content == null) {
+                $this->connected = false;
+                throw new RecvTimeoutException($this->getLastError());
+            }
+            
+            $read = new Packet($content);
             
             if ($multiPacket && is_callable($this->callbacks['isMultiResp'])) {
                 if (call_user_func($this->callbacks['isMultiResp'], $read)) {
