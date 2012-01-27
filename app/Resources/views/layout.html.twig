@@ -5,13 +5,18 @@
     
     <link type="text/css" rel="stylesheet" media="screen" href="{{ asset('css/style.css') }}" />
     <link type="text/css" rel="stylesheet" media="screen" href="{{ asset('css/jquery-ui.css') }}" />
-    <link rel="shortcut icon" href="{{ asset('images/footer/logo-min.png') }}" />
 {% endblock %}
 
-{% block body %}	
-    <h1 id="title">{% block title %}{% endblock %}</h1>
+{% block body %}
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <h1 id="title">{% block title %}{% endblock %}</h1>
 
-    {% block selectVm %}{% endblock %}
+        {% block selectVm %}{% endblock %}
 
-    <div id="page-content">{% block content %}{% endblock %}</div>
+        {% set contentId = 'page-content' %}
+    {% else %}
+        {% set contentId = 'logbox' %}
+    {% endif %}
+        
+    <div id="{{ contentId }}">{% block content %}{% endblock %}</div>
 {% endblock %}

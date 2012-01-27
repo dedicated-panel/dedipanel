@@ -1,10 +1,6 @@
 {# Layout utilisé par le bundle FOSUserBundle #}
-{% extends "::base.html.twig" %}
+{% extends "::layout.html.twig" %}
 
-{% block stylesheets %}
-	<link rel="stylesheet" type="text/css" media="screen" href="{{ asset('css/style.css') }}" />
-{% endblock %}
-
-{% block body %}
-	<div id="logbox">{% block fos_user_content %}{% endblock %}</div>
+{% block content %}
+    {% block fos_user_content %}{% endblock %}
 {% endblock %}

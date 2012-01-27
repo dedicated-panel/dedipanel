@@ -4,6 +4,7 @@
 		<meta charset="utf-8" />
 		
 		<title>DediPanel</title>
+        <link rel="shortcut icon" href="{{ asset('images/footer/logo-min.png') }}" />
         {% block stylesheets %}{% endblock %}
         
 		<script type="text/javascript" src="../js/jquery-1.7.1.min.js"></script>
@@ -20,9 +21,9 @@
                         <li>
                             <a href="/logout">{{ 'menu.logout'|trans }}</a>
                         </li>
-                        {# <li>
-                            <a href="#"> Profil</a>
-                        </li> #}
+                        <li>
+                            <a href="/profile"> Profil</a>
+                        </li>
                     </ul>
 
                     {#  <div class="profil-menu">
