@@ -98,8 +98,8 @@ header {
 }
 .main{
     font-size: 13px;
-	line-height: 0;	
-	color: #cbcbcb;	
+    line-height: 0;	
+    color: #cbcbcb;	
     -webkit-transition: all 300ms linear;
     -moz-transition: all 300ms linear;
     -o-transition: all 300ms linear;
@@ -119,28 +119,28 @@ header {
     background: #2e2e2e;
 }
 .menu li:hover .icone{
-	font-size: 80px;
-	color: #1279b0;
-	opacity: 0.4;
+    font-size: 80px;
+    color: #1279b0;
+    opacity: 0.4;
     text-shadow: 0px 0px 13px #12638e;
-	-webkit-transform: rotate(-20deg);
+    -webkit-transform: rotate(-20deg);
     -moz-transform: rotate(-20deg);
     -ms-transform: rotate(-20deg);
     transform: rotate(-20deg);
 }
 .menu li:hover .main{
-    opacity: 1;
-    color:#2676ac;
-    -webkit-animation: moveFromTop 300ms ease-in-out;
-    -moz-animation: moveFromTop 300ms ease-in-out;
-    -ms-animation: moveFromTop 300ms ease-in-out;
+        opacity: 1;
+        color:#2676ac;
+        -webkit-animation: moveFromTop 300ms ease-in-out;
+        -moz-animation: moveFromTop 300ms ease-in-out;
+        -ms-animation: moveFromTop 300ms ease-in-out;
 }
 .menu li:hover .sub{
 	color: #666;
 	opacity: 1;
-    -webkit-animation: moveFromBottom 300ms ease-in-out;
-    -moz-animation: moveFromBottom 300ms ease-in-out;
-    -ms-animation: moveFromBottom 300ms ease-in-out;
+        -webkit-animation: moveFromBottom 300ms ease-in-out;
+        -moz-animation: moveFromBottom 300ms ease-in-out;
+        -ms-animation: moveFromBottom 300ms ease-in-out;
 }
 @-webkit-keyframes moveFromBottom {
     from {
@@ -310,7 +310,7 @@ header {
 	color: #1279b0;
 	opacity: 0.8;
 	left: 5px;	
-    text-shadow: 0px 0px 13px #12638e;
+        text-shadow: 0px 0px 13px #12638e;
 	top: 10px;
 }
 
@@ -552,6 +552,22 @@ textarea {
 	width: 390px; 
 	height: 175px; 		 		
 }
+
+input[type='radio'], input[type='checkbox'] {
+        opacity: 0;
+        float: left;
+        width: 1px;
+}
+input[type='radio'] + label, input[type='checkbox'] + label {
+        margin: 0;
+        clear: none;
+        padding: 5px 0 4px 24px;
+        cursor: pointer;
+        background: url(../images/icones/form/off.png) left center no-repeat; 
+}
+input[type='radio']:checked + label, input[type='checkbox']:checked + label {
+        background-image: url(../images/icones/form/check.png);
+}	
 input:hover, textarea:hover { 
 	background: #eee; 
 }	
