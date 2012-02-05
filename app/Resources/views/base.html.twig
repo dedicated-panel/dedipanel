@@ -1,78 +1,81 @@
 <!DOCTYPE html>
 <html lang="fr">
-	<head>
-		<meta charset="utf-8" />
-		
-		<title>DediPanel</title>
+    <head>
+        <meta charset="utf-8" />
+
+        <title>DediPanel</title>
         <link rel="shortcut icon" href="{{ asset('images/footer/logo-min.png') }}" />
         {% block stylesheets %}{% endblock %}
-        
-		<script type="text/javascript" src="../js/jquery-1.7.1.min.js"></script>
-		<script type="text/javascript" src="../js/jquery-ui-1.8.17.custom.min.js"></script>
-	</head>
-    
+
+        <script type="text/javascript" src="../js/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/jquery-ui-1.8.17.custom.min.js"></script>
+    </head>
+
     <body>
-		<header>
+        <header>
             <div id="logo"></div>
-			
+
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                <div id="profil">
-                    <ul>
-                        <li>
-                            <a href="/logout">{{ 'menu.logout'|trans }}</a>
-                        </li>
-                        <li>
-                            <a href="/profile"> Profil</a>
-                        </li>
-                    </ul>
+			<div id="profil">
+				<ul id="mprofil">
+					<li><span class="iprofil">X</span><a href="/logout">{{ 'menu.logout'|trans }}</a></li>		
+					<li><span class="iprofil">U</span><a href="#">Profil</a>
+						<ul>
+							<li class="sousmenu">
+								<span class="ismprofil">S</span>
+								<a href="" id="profil-option">Options</a>
+							</li>
+							<li>
+								<span class="ismprofil">K</span>
+								<a href="" id="profil-detail">Info Compte</a>
+							</li>
+							<li>
+								<span class="ismprofil">@</span>
+								<a href="" id="profil-note">Notifications</a>
+							</li>
+							<li>
+								<span class="ismprofil">u</span>
+								<a href="" id="profil-stat">Statistiques</a> 
+							</li>
+						</ul>
+					</li>
+				</ul>
+            </div>		
+            <div class="clear"></div>
 
-                    {#  <div class="profil-menu">
-                        <div class="profil-menu-deroulant">
-                            <a href="" id="profil-option">Options</a>
-                            <div class="profil-ligne"></div>
-                            <a href="" id="profil-detail">Info Compte</a>
-                            <div class="profil-ligne"></div>
-                            <a href="" id="profil-note">Notifications</a>
-                            <div class="profil-ligne"></div>
-                            <a href="" id="profil-stat">Statistiques</a> 
-                        </div>
-                    </div> #}
-                </div>			
-                <div class="clear"></div>
-
-                <ul class="menu">
-                    <li><a href="{{ path('user_menu') }}">
-                        <span class="icon"><img src="{{ asset('images/menu/acceuil-h.png') }}" /></span>
+            <ul class="menu">
+                <li><a href="{{ path('user_menu') }}">
+                        <span class="icone"><img src="../images/menu/acceuil-h.png" /></span>
                         <div class="content"><h2 class="main">Acceuil</h2><h3 class="sub">Acceuil</h3></div>
                     </a> </li>
-                    <li><a href="{{ path('game_menu') }}">
-                        <span class="icon"><img src="{{ asset('images/menu/jeux-h.png') }}" /></span>
+                <li><a href="{{ path('game_menu') }}">
+                        <span class="icone">_</span>
                         <div class="content"><h2 class="main">Jeux</h2><h3 class="sub">Serveurs de jeux</h3></div>
                     </a> </li>
-                    {# <li><a href="#">
-                        <span class="icon"><img src="{{ asset('images/menu/mumble-h.png') }}" /></span>
+               {# <li><a href="{{ path('user_menu') }}">
+                        <span class="icone">d</span>
                         <div class="content"><h2 class="main">VoIp</h2><h3 class="sub">Serveur vocaux</h3></div>
                     </a> </li>
-                    <li><a href="#">
-                        <span class="icon"><img src="{{ asset('images/menu/user-h.png') }}" /></span>
+                <li><a href="{{ path('user_menu') }}">
+                        <span class="icone">U</span>
                         <div class="content"><h2 class="main">Utilisateurs</h2><h3 class="sub">Gérer les utilisateurs</h3></div>
                     </a> </li> #}
-                    <li><a href="{{ path('config_menu') }} ">
-                        <span class="icon"><img src="{{ asset('images/menu/config-h.png') }}" /></span>
+                <li><a href="{{ path('config_menu') }}">
+                        <span class="icone">S</span>
                         <div class="content"><h2 class="main">Configuration</h2><h3 class="sub">Options du panel</h3></div>
                     </a> </li>
-                </ul>
+            </ul>
             {% endif %}
-		</header>
-		
+        </header>
+
         <div id="page">{% block body %}{% endblock %}</div>
-        
+
         <footer><p>
-            <img src="{{ asset('images/footer/logo-min.png') }}"/> 
-            Dedicated panel - Code & Design par Von et NiR | 
-            <a href="http://www.dedicated-panel.net">www.dedicated-panel.net</a>.
-        </p></footer>
-        
+                <img src="{{ asset('images/footer/logo-min.png') }}"/> 
+                Dedicated panel - Code & Design par Von et NiR | 
+                <a href="http://www.dedicated-panel.net">www.dedicated-panel.net</a>.
+            </p></footer>
+
         {% block javascripts %}{% endblock %}
     </body>
 </html>
