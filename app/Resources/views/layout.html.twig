@@ -1,9 +1,12 @@
 {% extends "::base.html.twig" %}
 
 {% block stylesheets %}
-	{# <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('css/main.css') }}" /> #}
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('css/main.css') }}" />
+    {% else %}
+        <link type="text/css" rel="stylesheet" media="screen" href="{{ asset('css/connexion.css') }}" />
+    {% endif %}
     
-    <link type="text/css" rel="stylesheet" media="screen" href="{{ asset('css/connexion.css') }}" />
     <link type="text/css" rel="stylesheet" media="screen" href="{{ asset('css/jquery-ui.css') }}" />
 {% endblock %}
 
