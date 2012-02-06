@@ -22,23 +22,30 @@
             </a>
         </li>
     </ul>
-
-    {# <div class="steam-server clair" id="steam-15">
+    {% for entity in entities %}
+    <div class="steam-server clair" id="steam-15">
         <div class="summary">
             <div class="infos">
-                <img src="../images/serveur/viewer/css.png" />
-                <p><b>Serveur War 2</b><br />127.0.0.1:27015</p>
+                <img src="../images/serveur/viewer/{{ entity.game }}.png" />
+                <p><b>{{ entity.name }}</b><br />{{ entity.machine.publicIp }}:{{ entity.port }}</p>
+            </div>
+                
+            <div class="infomap">							
+                    <p>Serveur War 2</p>
+            </div>
+                
+            <div class="infoplayer">
+                    <p>0/{{ entity.maxplayers }}</p>
             </div>
 
-
             <div class="actions">
-                <a href="#">
+                <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'start' }) }}">
                     <img src="../images/icones/serveur/start.png" title="Démarrer"/>
                 </a>
-                <a href="#">
+                <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'stop' }) }}">
                     <img src="../images/icones/serveur/stop.png" title="Arrêter"/>
                 </a>
-                <a href="#">
+                <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'restart' }) }}">
                     <img src="../images/icones/serveur/stop.png" title="Redémarrer"/>
 
                 </a>
@@ -99,9 +106,12 @@
 
             <div class="clear"></div>
         </div>
-    </div> #}
+    </div>
 
-    <table class="records_list">
+        {% endfor %}
+{% endblock %}
+
+   {# <table class="records_list">
         <thead>
             <tr>
                 <th>{{ 'steam.id'|trans }}</th>
@@ -111,17 +121,17 @@
                 <th>{{ 'steam.installStatus'|trans }}</th>
                 <th>{{ 'steam.maxplayers'|trans }}</th>
                 <th>{{ 'steam.ping'|trans }}</th>
-                {# <th>{{ 'steam.dir'|trans }}</th>
+                <th>{{ 'steam.dir'|trans }}</th>
                 <th>{{ 'steam.autoReboot'|trans }}</th>
                 <th>{{ 'steam.rcon'|trans }}</th>
                 <th>{{ 'steam.munin'|trans }}</th>
                 <th>{{ 'steam.passwd'|trans }}</th>
-                <th>{{ 'steam.core'|trans }}</th> #}
+                <th>{{ 'steam.core'|trans }}</th> 
                 <th>{{ 'steam.actions'|trans }}</th>
             </tr>
         </thead>
         <tbody>
-        {% for entity in entities %}
+ 
             <tr>
                 <td><a href="{{ path('steam_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.name }}</td>
@@ -144,12 +154,12 @@
                         {% endif %}
                     {% endif %}
                 </td>
-                {# <td>{{ entity.dir }}</td>
+                <td>{{ entity.dir }}</td>
                 <td>{{ entity.autoReboot }}</td>
                 <td>{{ entity.rcon }}</td>
                 <td>{{ entity.munin }}</td>
                 <td>{{ entity.svpasswd }}</td>
-                <td>{{ entity.core }}</td> #}
+                <td>{{ entity.core }}</td>
                 <td>
                     <ul>
                         <li>
@@ -193,8 +203,4 @@
                         </li>
                     </ul>
                 </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-{% endblock %}
+            </tr> #}
