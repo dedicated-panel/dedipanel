@@ -21,7 +21,7 @@ header {
     background-color: #2d2d2d;
     padding-top: 10px;
     padding-bottom: 10px;
-    height: 160px
+    height: 170px
 }
 
 #logo {
@@ -203,7 +203,20 @@ header {
         -ms-transform: translateY(0%);
     }
 }
-
+.submenu{
+	left: 0;
+	padding: 0;
+	position: absolute;
+	float: left;
+	top: 37px;
+	color: #fff;
+}
+.submenu ul{
+	float: left;
+	height: auto;
+	margin: 0;
+	padding: 0;
+	}
 #mprofil {
 	margin: 0;
 	padding: 7px 6px 0;
@@ -410,7 +423,24 @@ footer p {
 .steam-server .summary .infos p {
 	float: right;
 }
-
+.steam-server .summary .infomap {
+	height: 60px;
+	float: left;
+	padding: 10px;
+	left: 350px;
+	display: block;
+	position: absolute;
+	margin-top: 11px;
+}
+.steam-server .summary .infoplayer {
+	height: 60px;
+	float: left;
+	padding: 10px;
+	left: 650px;
+	display: block;
+	position: absolute;
+	margin-top: 11px;
+}
 .steam-server .summary .actions {
 	float: right;
 	padding: 15px;
@@ -440,8 +470,9 @@ footer p {
 .steam-server .details p:nth-child(1) {
 	min-width: 160px;
 	min-height: 120px;
-	width: 25%;
+	width: 20%;
 	float: left;
+	margin-left: 33px;
 }
 
 .steam-server .details .actions a {
@@ -491,7 +522,7 @@ footer p {
 
 .steam-server .details .actions{
 	float: left;
-	width: 42%;
+	width: 5%;
 	text-align: right;
 	text-decoration: none;
 }
