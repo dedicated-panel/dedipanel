@@ -28,6 +28,9 @@ profile:
         submit: Mettre à jour
     flash:
         updated: Le profil a été mis à jour
+    link:
+        edit: Modifier son profil
+        change_password: Modifier son mot de passe
 
 # Password change
 change_password:
