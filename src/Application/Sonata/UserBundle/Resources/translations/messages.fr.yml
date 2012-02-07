@@ -1,0 +1,4 @@
+ROLE_USER: Utilisateur
+ROLE_SONATA_ADMIN: Administrateur
+ROLE_SUPER_ADMIN: Super-Admin
+ROLE_ALLOWED_TO_SWITCH: Autoriser a switcher de compte

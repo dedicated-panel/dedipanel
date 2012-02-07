@@ -18,26 +18,25 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\Core\UserBundle\Controller;
+namespace Application\Sonata\UserBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
- * @author Albin Kerouanton 
- */
+* @author Albin Kerouanton
+*/
 class UserController extends Controller {
-	public function homeMenuAction()
+public function homeMenuAction()
     {
-		return $this->render('DPUserBundle:User:home.html.twig');
-	}
+return $this->render('ApplicationSonataUserBundle:User:home.html.twig');
+}
     
     public function gameMenuAction()
     {
-        return $this->render('DPUserBundle:User:gameMenu.html.twig');
+        return $this->render('ApplicationSonataUserBundle:User:gameMenu.html.twig');
     }
     
     public function configMenuAction()
     {
-        return $this->render('DPUserBundle:User:configMenu.html.twig');
+        return $this->render('ApplicationSonataUserBundle:User:configMenu.html.twig');
     }
 }
-?>

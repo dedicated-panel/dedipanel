@@ -17,15 +17,16 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
+            
             new FOS\UserBundle\FOSUserBundle(), 
-            new Sonata\UserBundle\SonataUserBundle(), 
+            new Sonata\UserBundle\SonataUserBundle('FOSUserBundle'),
             new Sonata\AdminBundle\SonataAdminBundle(), 
             new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
             new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),         
             new Sonata\jQueryBundle\SonatajQueryBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             
-            new DP\Core\UserBundle\DPUserBundle(),
+            new Application\Sonata\UserBundle\ApplicationSonataUserBundle(), 
             new DP\Core\GameBundle\DPGameBundle(),
             new DP\Core\MachineBundle\DPMachineBundle(),
             

@@ -10,9 +10,25 @@ DPMachineBundle:
     resource: "@DPMachineBundle/Resources/config/routing.yml"
     prefix:   /machine/
 
-DPUserBundle:
-    resource: "@DPUserBundle/Resources/config/routing.yml"
+ApplicationSonataUserBundle:
+    resource: "@ApplicationSonataUserBundle/Resources/config/routing.yml"
     prefix: /
+
+admin:
+    resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
+    prefix: /admin
+
+sonata_user:
+    resource: '@SonataUserBundle/Resources/config/routing/admin_security.xml'
+    prefix: /admin
+
+_sonata_admin:
+    resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
+    type: sonata_admin
+    prefix: /admin
+
+sonata_user_impersonating:
+    pattern: /
 
 # Internal routing configuration to handle ESI
 #_internal:
