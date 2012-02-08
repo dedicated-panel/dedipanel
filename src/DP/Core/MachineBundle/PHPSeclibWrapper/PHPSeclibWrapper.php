@@ -439,4 +439,3 @@ class PHPSeclibWrapper {
         return $this->debug;
     }
 }
-?>

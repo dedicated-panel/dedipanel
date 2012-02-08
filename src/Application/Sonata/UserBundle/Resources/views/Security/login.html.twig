@@ -2,23 +2,26 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
 {% block fos_user_content %}
-    {% if error %}
-        <div>{{ error }}</div>
-    {% endif %}
-
     <form id="connexion" action="{{ path("fos_user_security_check") }}" method="post">
+        {% if error %}
+            <div>{{ error }}</div>
+        {% endif %}
+
 		<div id="content-titre">
 			  <span class="icone">w</span><p id="titre">{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}</p>
 		</div> 
 		<input type="text" name="_username" id="_username" placeholder="{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}"><br>
-		<input type="text" name="_password" id="_password" placeholder="{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}"><br>
+		<input type="password" name="_password" id="_password" placeholder="{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}"><br>
 
 
 		<div class="actions">  
 			<input type="checkbox" id="remember_me" name="_remember_me" value="on" />
 			<label for="remember_me">{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label><br>	 
-                        <input type="submit" id="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}"  class="submit"><br>					 
-                        <a href="#">{{ 'resetting.request.submit'|trans({}, 'FOSUserBundle') }}</a>
+            <input type="submit" id="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}"  class="submit"><br>					 
+            
+            <a href="{{ path('fos_user_resetting_request') }}">
+                {{ 'resetting.request.submit'|trans({}, 'FOSUserBundle') }}
+            </a>
 		</div>
     </form>
 {% endblock fos_user_content %}

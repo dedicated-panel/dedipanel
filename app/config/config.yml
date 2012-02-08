@@ -62,4 +62,28 @@ jms_security_extra:
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb'
     firewall_name: main
-    user_class: DP\Core\UserBundle\Entity\User
+    user_class: Application\Sonata\UserBundle\Entity\User
+    group:
+        group_class: Application\Sonata\UserBundle\Entity\Group
+
+sonata_user:
+    security_acl: true
+
+sonata_admin:
+    security:
+        handler: sonata.admin.security.handler.acl
+        information:
+        admin_permissions: [CREATE, LIST, DELETE, UNDELETE, OPERATOR, MASTER]
+        # permission related to the objects
+        object_permissions: [VIEW, EDIT, DELETE, UNDELETE, OPERATOR, MASTER, OWNER]
+    templates:
+        layout: ApplicationSonataUserBundle::standard_layout.html.twig
+#    dashboard_groups:
+#        sonata_user: ~
+
+#services:
+#    sonata.user.admin:
+#        class: Sonata\UserBundle\Admin\Entity\UserAdmin
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, group: sonata_user, label: user }
+#        arguments: [null, Application\Sonata\UserBundle\Entity\User, SonataAdmibBundle:CRUD]

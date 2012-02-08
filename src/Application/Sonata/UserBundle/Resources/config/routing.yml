@@ -1,14 +1,14 @@
 user_menu:
     pattern: /
-    defaults: { _controller: DPUserBundle:User:HomeMenu }
+    defaults: { _controller: ApplicationSonataUserBundle:User:HomeMenu }
 
 game_menu:
     pattern: /menu/game
-    defaults: { _controller: DPUserBundle:User:GameMenu }
+    defaults: { _controller: ApplicationSonataUserBundle:User:GameMenu }
 
 config_menu:
     pattern: /menu/config
-    defaults: { _controller: DPUserBundle:user:ConfigMenu }
+    defaults: { _controller: ApplicationSonataUserBundle:user:ConfigMenu }
 
 
 # contient la route pour le /login, important
@@ -26,11 +26,11 @@ fos_user_resetting:
     prefix: /resetting
     
 # les routes pour les profils utilisateurs (voir et éditer un profil)
-# fos_user_profile:
-    # resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
-    # prefix: /profile
+fos_user_profile:
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+    prefix: /profile
 
 # une route pour changer de mot de passe
-# fos_user_change_password:
-    # resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
-    # prefix: /change-password
+fos_user_change_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    prefix: /change-password
