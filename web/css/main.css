@@ -550,12 +550,20 @@ a:hover {
 	text-decoration: none;
 }
 label {	
+        font-family: 'Yanone Kaffeesatz', arial, sans-serif;
 	font-size: 20px;
 	color: #666; 
 }
-#user-details { 
-	float: left;
-	width: 230px; 
+fieldset { 
+    border: none; 
+}	
+#details-right { 
+        float: left;
+        width: 230px; 
+}
+#details-left { 
+        float: right;
+        width: 405px;
 }
 select, input, textarea { 		
 	padding: 8px; 
@@ -573,7 +581,7 @@ select, input, textarea {
 }
 select{ 		
 	background: #fff; 
-	width: 220px; 
+	min-width: 230px; 
 	border: 1px #ddd solid;
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;

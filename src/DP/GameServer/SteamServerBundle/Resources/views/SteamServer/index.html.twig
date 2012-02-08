@@ -107,7 +107,99 @@
             <div class="clear"></div>
         </div>
     </div>
-
+<table class="records_list">
+        <thead>
+            <tr>
+                <th>{{ 'steam.id'|trans }}</th>
+                <th>{{ 'steam.name'|trans }}</th>
+                <th>{{ 'steam.IPAddress'|trans }}</th>
+                <th>{{ 'steam.game'|trans }}</th>
+                <th>{{ 'steam.installStatus'|trans }}</th>
+                <th>{{ 'steam.maxplayers'|trans }}</th>
+                <th>{{ 'steam.ping'|trans }}</th>
+                <th>{{ 'steam.dir'|trans }}</th>
+                <th>{{ 'steam.autoReboot'|trans }}</th>
+                <th>{{ 'steam.rcon'|trans }}</th>
+                <th>{{ 'steam.munin'|trans }}</th>
+                <th>{{ 'steam.passwd'|trans }}</th>
+                <th>{{ 'steam.core'|trans }}</th> 
+                <th>{{ 'steam.actions'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+ 
+            <tr>
+                <td><a href="{{ path('steam_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.name }}</td>
+                <td>{{ entity.machine.publicIp }}:{{ entity.port }}</td>
+                <td>{{ entity.game }}</td>
+                <td><a href="{{ path('steam_install', { 'id': entity.id }) }}">{% spaceless %}
+                        {% if entity.installationStatus is null %}
+                            Buggued
+                        {% elseif entity.installationStatus == 101 %}
+                            {{ 'steam.ended'|trans }}
+                        {% else %}
+                            {{ entity.installationStatus }}%
+                        {% endif %}
+                {% endspaceless %}</a></td>
+                <td>{{ entity.maxplayers }}</td>
+                <td>
+                    {% if entity.installationStatus == 101 %}
+                        {% if entity.query.isOnline == true %}
+                            {{ entity.query.latency }}
+                        {% endif %}
+                    {% endif %}
+                </td>
+                <td>{{ entity.dir }}</td>
+                <td>{{ entity.autoReboot }}</td>
+                <td>{{ entity.rcon }}</td>
+                <td>{{ entity.munin }}</td>
+                <td>{{ entity.svpasswd }}</td>
+                <td>{{ entity.core }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('steam_show', { 'id': entity.id }) }}">
+                                {{ 'steam.show'|trans }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('steam_edit', { 'id': entity.id }) }}">{{ 'steam.edit'|trans }}</a>
+                        </li>
+                        {% if entity.installationStatus == 101 %}                         
+                            {% if entity.query.isOnline == true %}
+                                <li>
+                                    <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'stop' }) }}">
+                                        {{ 'steam.stop'|trans }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'restart' }) }}">
+                                        {{ 'steam.restart'|trans }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('steam_query', { 'id': entity.id }) }}">
+                                        {{ 'steam.query'|trans }}
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'start' }) }}">
+                                        {{ 'steam.start'|trans }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endif %}
+                                
+                        <li>
+                            <a href="{{ path('steam_plugins_show', {'id': entity.id }) }}">
+                                {{ 'steam.pluginsAction'|trans }}
+                            </a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
         {% endfor %}
 {% endblock %}
 
