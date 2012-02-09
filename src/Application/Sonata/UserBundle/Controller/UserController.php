@@ -27,8 +27,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class UserController extends Controller {
 public function homeMenuAction()
     {
-return $this->render('ApplicationSonataUserBundle:User:home.html.twig');
-}
+        return $this->render('ApplicationSonataUserBundle:User:home.html.twig');
+    }
     
     public function gameMenuAction()
     {
