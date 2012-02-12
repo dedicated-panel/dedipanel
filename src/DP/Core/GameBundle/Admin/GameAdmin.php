@@ -66,7 +66,7 @@ class GameAdmin extends Admin
             ->add('map')
             ->add('available', null, array('required' => false))
             ->add('sourceImagesMaps', null, array('required' => false))
-//            ->add('plugin')
+            ->add('plugins', 'sonata_type_model', array('required' => false))
         ;
     }
 }
