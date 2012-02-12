@@ -1,0 +1,11 @@
+Game: Jeu
+Plugin: Plugin
+
+Name: Nom
+Install Name: Nom utilisé par l'installateur
+Launch Name: Nom utilisé pour le lancement
+Bin: Binaire
+Available: Disponible ?
+Bin Dir: Répertoire contenant le binaire (depuis la racine du jeu)
+Map: Map de lancement
+Source Images Maps: URL source pour les images de map
