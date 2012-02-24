@@ -1,0 +1,19 @@
+<div id="etape">
+	{% for i in 0..count - 1 %}
+		{% if i == index %}
+            {% set class = 'sel' %}
+        {% else %}
+            {% set class = 'nsel' %}
+        {% endif %}
+        
+        <div class="etape_{{ class }}">{{ i+1 }}</div>
+        <div class="etape_{{ class }}c_gauche">{{ configurator.getStep(i).getTitle()|trans }}</div>
+        
+        {% if i != count - 1 %}
+            <div class="etape_{{ class }}c_droite">&nbsp;</div>
+        {% else %}
+            <div class="etape_{{ class }}c_fin">&nbsp;</div>
+            <div class="clear"></div>
+        {% endif %}
+    {% endfor %}
+</div>
