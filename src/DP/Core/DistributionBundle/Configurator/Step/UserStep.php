@@ -56,7 +56,7 @@ class UserStep extends Step
      */
     public function getTitle()
     {
-        return 'Root User';
+        return 'Super Admin';
     }
     
     /**
@@ -64,7 +64,7 @@ class UserStep extends Step
      */
     public function getDescription()
     {
-        return 'Create a root user for administer the panel.';
+        return 'Create an user for administer the panel.';
     }
     
     /**

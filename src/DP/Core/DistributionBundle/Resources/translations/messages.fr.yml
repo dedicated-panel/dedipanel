@@ -1,0 +1,15 @@
+install: Installation
+Driver: Pilote  
+Name: Nom
+Host: Hôte
+Port: Port
+User: Utilisateur
+Password: Mot de passe
+'Password again': Confirmer le mot de passe
+'mandatory fields': Champs obligatoires
+'Next Step': Prochaine étape
+'This field is required': Ce champ est obligatoire.
+'Database': Base de donnée
+'Mailer': Mailer
+'Global Secret': Sécurité
+Root User: Super Admin
