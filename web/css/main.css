@@ -21,7 +21,7 @@ header {
     background-color: #2d2d2d;
     padding-top: 10px;
     padding-bottom: 10px;
-    height: 160px
+    height: 170px
 }
 
 #logo {
@@ -98,8 +98,8 @@ header {
 }
 .main{
     font-size: 13px;
-    line-height: 0;	
-    color: #cbcbcb;	
+	line-height: 0;	
+	color: #cbcbcb;	
     -webkit-transition: all 300ms linear;
     -moz-transition: all 300ms linear;
     -o-transition: all 300ms linear;
@@ -119,28 +119,28 @@ header {
     background: #2e2e2e;
 }
 .menu li:hover .icone{
-    font-size: 80px;
-    color: #1279b0;
-    opacity: 0.4;
+	font-size: 80px;
+	color: #1279b0;
+	opacity: 0.4;
     text-shadow: 0px 0px 13px #12638e;
-    -webkit-transform: rotate(-20deg);
+	-webkit-transform: rotate(-20deg);
     -moz-transform: rotate(-20deg);
     -ms-transform: rotate(-20deg);
     transform: rotate(-20deg);
 }
 .menu li:hover .main{
-        opacity: 1;
-        color:#2676ac;
-        -webkit-animation: moveFromTop 300ms ease-in-out;
-        -moz-animation: moveFromTop 300ms ease-in-out;
-        -ms-animation: moveFromTop 300ms ease-in-out;
+    opacity: 1;
+    color:#2676ac;
+    -webkit-animation: moveFromTop 300ms ease-in-out;
+    -moz-animation: moveFromTop 300ms ease-in-out;
+    -ms-animation: moveFromTop 300ms ease-in-out;
 }
 .menu li:hover .sub{
 	color: #666;
 	opacity: 1;
-        -webkit-animation: moveFromBottom 300ms ease-in-out;
-        -moz-animation: moveFromBottom 300ms ease-in-out;
-        -ms-animation: moveFromBottom 300ms ease-in-out;
+    -webkit-animation: moveFromBottom 300ms ease-in-out;
+    -moz-animation: moveFromBottom 300ms ease-in-out;
+    -ms-animation: moveFromBottom 300ms ease-in-out;
 }
 @-webkit-keyframes moveFromBottom {
     from {
@@ -203,7 +203,20 @@ header {
         -ms-transform: translateY(0%);
     }
 }
-
+.submenu{
+	left: 0;
+	padding: 0;
+	position: absolute;
+	float: left;
+	top: 37px;
+	color: #fff;
+}
+.submenu ul{
+	float: left;
+	height: auto;
+	margin: 0;
+	padding: 0;
+	}
 #mprofil {
 	margin: 0;
 	padding: 7px 6px 0;
@@ -310,7 +323,7 @@ header {
 	color: #1279b0;
 	opacity: 0.8;
 	left: 5px;	
-        text-shadow: 0px 0px 13px #12638e;
+    text-shadow: 0px 0px 13px #12638e;
 	top: 10px;
 }
 
@@ -410,7 +423,24 @@ footer p {
 .steam-server .summary .infos p {
 	float: right;
 }
-
+.steam-server .summary .infomap {
+	height: 60px;
+	float: left;
+	padding: 10px;
+	left: 350px;
+	display: block;
+	position: absolute;
+	margin-top: 11px;
+}
+.steam-server .summary .infoplayer {
+	height: 60px;
+	float: left;
+	padding: 10px;
+	left: 650px;
+	display: block;
+	position: absolute;
+	margin-top: 11px;
+}
 .steam-server .summary .actions {
 	float: right;
 	padding: 15px;
@@ -440,8 +470,9 @@ footer p {
 .steam-server .details p:nth-child(1) {
 	min-width: 160px;
 	min-height: 120px;
-	width: 25%;
+	width: 20%;
 	float: left;
+	margin-left: 33px;
 }
 
 .steam-server .details .actions a {
@@ -491,7 +522,7 @@ footer p {
 
 .steam-server .details .actions{
 	float: left;
-	width: 42%;
+	width: 5%;
 	text-align: right;
 	text-decoration: none;
 }
@@ -519,12 +550,20 @@ a:hover {
 	text-decoration: none;
 }
 label {	
+        font-family: 'Yanone Kaffeesatz', arial, sans-serif;
 	font-size: 20px;
 	color: #666; 
 }
-#user-details { 
-	float: left;
-	width: 230px; 
+fieldset { 
+    border: none; 
+}	
+#details-right { 
+        float: left;
+        width: 230px; 
+}
+#details-left { 
+        float: right;
+        width: 405px;
 }
 select, input, textarea { 		
 	padding: 8px; 
@@ -542,7 +581,7 @@ select, input, textarea {
 }
 select{ 		
 	background: #fff; 
-	width: 220px; 
+	min-width: 230px; 
 	border: 1px #ddd solid;
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
@@ -552,22 +591,6 @@ textarea {
 	width: 390px; 
 	height: 175px; 		 		
 }
-
-input[type='radio'], input[type='checkbox'] {
-        opacity: 0;
-        float: left;
-        width: 1px;
-}
-input[type='radio'] + label, input[type='checkbox'] + label {
-        margin: 0;
-        clear: none;
-        padding: 5px 0 4px 24px;
-        cursor: pointer;
-        background: url(../images/icones/form/off.png) left center no-repeat; 
-}
-input[type='radio']:checked + label, input[type='checkbox']:checked + label {
-        background-image: url(../images/icones/form/check.png);
-}	
 input:hover, textarea:hover { 
 	background: #eee; 
 }	

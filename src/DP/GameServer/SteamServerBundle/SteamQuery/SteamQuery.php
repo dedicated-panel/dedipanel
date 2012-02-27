@@ -56,10 +56,10 @@ class SteamQuery
         // On ne déclare pas les 2 callbacks simultanément
         // Puisque le 2nd fait appel au 1er
         $callbacks = array('isMultiResp' => function ($packet) {
-                if (is_null($packet)) return false;
-                
-                return $packet->getLong() == -2;
-            }); 
+            if (is_null($packet)) return false;
+
+            return $packet->getLong() == -2;
+        }); 
         $callbacks['recvMultiResp'] = 
             function(Packet $packet, Socket $socket) use($container, $callbacks) {
                 $splittedPackets = new PacketCollection();

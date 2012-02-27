@@ -16,6 +16,7 @@ game.orangebox: Jeu Orangebox ?
 game.map: Map de démarrage
 game.available: Disponible ?
 game.actions: Actions
+steam.offline: Serveur déconnecté
 
 game.yes: Oui
 game.no: Non
