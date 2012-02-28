@@ -16,15 +16,15 @@
 
 user_menu:
     pattern: /
-    defaults: { _controller: ApplicationSonataUserBundle:User:HomeMenu }
+    defaults: { _controller: ApplicationSonataUserBundle:User:homeMenu }
 
 game_menu:
     pattern: /menu/game
-    defaults: { _controller: ApplicationSonataUserBundle:User:GameMenu }
+    defaults: { _controller: ApplicationSonataUserBundle:User:gameMenu }
 
 config_menu:
     pattern: /menu/config
-    defaults: { _controller: ApplicationSonataUserBundle:user:ConfigMenu }
+    defaults: { _controller: ApplicationSonataUserBundle:User:configMenu }
 
 
 # contient la route pour le /login, important
