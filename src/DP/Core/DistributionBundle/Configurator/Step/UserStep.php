@@ -77,6 +77,7 @@ class UserStep extends Step
         $user->setEmail($data->email);
         $user->setPlainPassword($data->password);
         $user->setSuperAdmin(true);
+        $user->setEnabled(true);
         $this->userManager->updateUser($user);
         
         return array();
