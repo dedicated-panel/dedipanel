@@ -16,7 +16,9 @@ use DP\Core\MachineBundle\Entity;
 //define('NET_SFTP_LOGGING', NET_SFTP_LOG_SIMPLE);
 define('NET_SSH2_LOGGING', NET_SSH2_LOG_COMPLEX);
 define('NET_SFTP_LOGGING', NET_SFTP_LOG_COMPLEX);
- 
+
+set_time_limit(0);
+
 // Change namespace of wrapper
 
 /**
