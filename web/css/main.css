@@ -357,8 +357,8 @@ header {
 }
 
 #page-content {
-	min-height: 500px;
-	padding: 8px 0 0 0;
+/*	min-height: 500px;*/
+	padding: 10px 0 8px 0;
 }
 
 /*** Footer ***/
@@ -392,8 +392,11 @@ footer p {
 /*** Serveurs Steam ***/
 .steam-server {
 	min-height: 70px;
-	border-bottom: 1px solid #e0e0e0;
 	padding: 1px 2px 5px 3px;
+}
+
+.steam-server:not(:last-child) {
+	border-bottom: 1px solid #e0e0e0;
 }
 
 .steam-server.clair {
@@ -512,10 +515,6 @@ footer p {
 	color: grey;
 }
 
-/*.steam-server .details table.players-list tr:visited {
-    color: #FFFFFF; WTF ?
-}*/
-
 .steam-server#steam-20 .details{
 	display: none;
 }
@@ -550,17 +549,21 @@ a:hover {
 	text-decoration: none;
 }
 label {	
-        font-family: 'Yanone Kaffeesatz', arial, sans-serif;
-	font-size: 20px;
+    font-family: 'Yanone Kaffeesatz', arial, sans-serif;
+	font-size: 16px;
 	color: #666; 
+    width: 150px;
+    display: block;
+    float: left;
+    text-align: center;
 }
 fieldset { 
     border: none; 
 }	
-#details-right { 
+/*#details-right { 
         float: left;
         width: 230px; 
-}
+}*/
 #details-left { 
         float: right;
         width: 405px;
@@ -598,7 +601,7 @@ input.submit {
 	width: 150px; 
 	color: #eee; 
 	text-transform: uppercase; 
-	margin-top: 10px;
+/*	margin-top: 10px;*/
 	background-color: #0077b5;
 	border: none;	
 	-webkit-transition: -webkit-box-shadow 0.3s linear;		
@@ -606,7 +609,9 @@ input.submit {
 	-webkit-border-radius: 4px;
 	border-radius: 4px; 						
 	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#0077b5), to(#00507a)); 
-	background: -moz-linear-gradient(25% 75% 90deg,#0a85a8, #18a5cc);		
+	background: -moz-linear-gradient(25% 75% 90deg,#0a85a8, #18a5cc);	
+    float: left;
+    margin-right: 15px;
 } 
 input.submit:hover { 		
 	-webkit-box-shadow: 0px 0px 20px #555;
