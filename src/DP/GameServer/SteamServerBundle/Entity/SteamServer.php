@@ -392,7 +392,7 @@ class SteamServer extends GameServer {
         if ($action == 'install') $screenCmd .= ' "' . $plugin->getDownloadUrl () . '"';
         
         $pluginScript = $twig->render(
-            'DPSteamServerBundle:sh:' . $scriptName . '.sh.twig', array('gameDir' => $dir));
+            'DPSteamServerBundle:sh:Plugins/' . $scriptName . '.sh.twig', array('gameDir' => $dir));
         
         $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
         $sec->upload($scriptPath, $pluginScript);
