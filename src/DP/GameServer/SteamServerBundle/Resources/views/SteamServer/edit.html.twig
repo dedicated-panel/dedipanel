@@ -20,15 +20,16 @@
 {% block title %}<a href="{{ path('steam') }}"><span class="titre">h</span></a>{{ 'steam.editTitle'|trans }}{% endblock %}
 {% block content %}
     <form action="{{ path('steam_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-       <fieldset id="validation">	
+       	<fieldset id="validation"> 
             {{ form_widget(edit_form) }}
-            <p>                  
-                <input type="submit" value="{{ 'steam.edit'|trans }}" name="submit" class="submit">
-            </p>           
-            <form action="{{ path('steam_delete', { 'id': entity.id }) }}" method="post">
-                    {{ form_widget(delete_form) }}
-                    <input type="submit" value="{{ 'steam.del'|trans }}" name="submit" class="delete">
-            </form>
+           
+                <input type="submit" value="{{ 'steam.edit'|trans }}" name="submit" class="submit">                
+                <span class="deletebutton">
+                    <form action="{{ path('steam_delete', { 'id': entity.id }) }}" method="post">
+                        {{ form_widget(delete_form) }}
+                        <input type="submit" value="{{ 'steam.del'|trans }}" name="submit" class="delete">
+                    </form>
+                </span>
         </fieldset>
     </form>
 {% endblock %}

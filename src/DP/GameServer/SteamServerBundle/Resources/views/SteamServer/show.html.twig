@@ -81,13 +81,13 @@
             </tbody>
         </table>
         <form action="{{ path('steam_edit', { 'id': entity.id }) }}" method="post">
-            <fieldset id="validation">	
-                <p>                  
-                    <input type="submit" value="{{ 'steam.edit'|trans }}" name="submit" class="submit">
-                </p>           
-                <form action="{{ path('steam_delete', { 'id': entity.id }) }}" method="post">
-                    <input type="submit" value="{{ 'steam.del'|trans }}" name="submit" class="delete">
-                </form>
+            <fieldset id="validation">        
+                <input type="submit" value="{{ 'steam.edit'|trans }}" name="submit" class="submit">      
+                <span class="deletebutton">
+                    <form action="{{ path('steam_delete', { 'id': entity.id }) }}" method="post">
+                        <input type="submit" value="{{ 'steam.del'|trans }}" name="submit" class="delete">
+                    </form>
+                </span>
             </fieldset>
         </form>
 
