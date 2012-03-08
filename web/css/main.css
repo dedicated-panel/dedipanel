@@ -11,7 +11,7 @@ body	{
     font-size: 0px;
     font-size:13px;
     line-height:19px;
-	margin: 0;
+    margin: 0;
     padding: 0;
 }
 
@@ -30,12 +30,12 @@ header {
     width:290px;
     height:80px;
     margin-left: 20px;	
-	float: left;
+    float: left;
 }
 
 #profil	{
     float: right;
-	margin-right: 5%;
+    margin-right: 5%;
 }
 #profil a	{
 }
@@ -55,7 +55,7 @@ header {
     width: 170px;
     height: 57px;
     overflow: hidden;
-	float: left;
+    float: left;
     position: relative;
     display: block;
     -moz-box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
@@ -80,11 +80,11 @@ header {
 .icone{
     font-family: 'WebSymbolsRegular', cursive;
     font-size: 25px;
-	color: #004a70;	
+    color: #004a70;	
     position: absolute;
     left: 21px;
     text-align: center;
-	top: 13px;
+    top: 13px;
     -webkit-transition: all 300ms linear;
     -moz-transition: all 300ms linear;
     -o-transition: all 300ms linear;
@@ -94,12 +94,12 @@ header {
 .content{
     position: absolute;
     left: 65px;
-	top: 10px
+    top: 10px
 }
 .main{
     font-size: 13px;
-	line-height: 0;	
-	color: #cbcbcb;	
+    line-height: 0;	
+    color: #cbcbcb;	
     -webkit-transition: all 300ms linear;
     -moz-transition: all 300ms linear;
     -o-transition: all 300ms linear;
@@ -119,11 +119,11 @@ header {
     background: #2e2e2e;
 }
 .menu li:hover .icone{
-	font-size: 80px;
-	color: #1279b0;
-	opacity: 0.4;
+    font-size: 80px;
+    color: #1279b0;
+    opacity: 0.4;
     text-shadow: 0px 0px 13px #12638e;
-	-webkit-transform: rotate(-20deg);
+    -webkit-transform: rotate(-20deg);
     -moz-transform: rotate(-20deg);
     -ms-transform: rotate(-20deg);
     transform: rotate(-20deg);
@@ -136,8 +136,8 @@ header {
     -ms-animation: moveFromTop 300ms ease-in-out;
 }
 .menu li:hover .sub{
-	color: #666;
-	opacity: 1;
+    color: #666;
+    opacity: 1;
     -webkit-animation: moveFromBottom 300ms ease-in-out;
     -moz-animation: moveFromBottom 300ms ease-in-out;
     -ms-animation: moveFromBottom 300ms ease-in-out;
@@ -204,127 +204,127 @@ header {
     }
 }
 .submenu{
-	left: 0;
-	padding: 0;
-	position: absolute;
-	float: left;
-	top: 37px;
-	color: #fff;
+    left: 0;
+    padding: 0;
+    position: absolute;
+    float: left;
+    top: 37px;
+    color: #fff;
 }
 .submenu ul{
-	float: left;
-	height: auto;
-	margin: 0;
-	padding: 0;
-	}
+    float: left;
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
 #mprofil {
-	margin: 0;
-	padding: 7px 6px 0;
-	line-height: 100%;
+    margin: 0;
+    padding: 7px 6px 0;
+    line-height: 100%;
 }
 #mprofil li {
-	margin: 0 5px;
-	padding: 0 0 8px;
-	position: relative;
-	list-style: none;
+    margin: 0 5px;
+    padding: 0 0 8px;
+    position: relative;
+    list-style: none;
 }
 #mprofil a {
-	font-weight: bold;
-	color: #e7e5e5;
-	text-decoration: none;
-	display: block;
-	padding:  8px 30px;
-	margin: 0;
-	-webkit-border-radius: 1.6em;
-	-moz-border-radius: 1.6em;
+    font-weight: bold;
+    color: #e7e5e5;
+    text-decoration: none;
+    display: block;
+    padding:  8px 30px;
+    margin: 0;
+    -webkit-border-radius: 1.6em;
+    -moz-border-radius: 1.6em;
 }
 #mprofil a:hover {
-	color: #fff;
+    color: #fff;
 }
 
 #mprofil ul a:hover {
-	color: #fff !important;
+    color: #fff !important;
 }
 
 #mprofil li:hover > ul {
-	display: block;
+    display: block;
 }
 
 #mprofil ul {
-	display: none;
-	background: #2d2d2d !important;
-	margin: 0;
-	padding: 0;
-	width: 185px;
-	position: absolute;
-	top: 35px;
-	left: 0;
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
-	-webkit-box-shadow: 0 1px 3px rgba(0,0,0, .3);
-	-moz-box-shadow: 0 1px 3px rgba(0,0,0, .3);
-	box-shadow: 0 1px 3px rgba(0,0,0, .3);
+    display: none;
+    background: #2d2d2d !important;
+    margin: 0;
+    padding: 0;
+    width: 185px;
+    position: absolute;
+    top: 35px;
+    left: 0;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0, .3);
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0, .3);
+    box-shadow: 0 1px 3px rgba(0,0,0, .3);
 }
 #mprofil ul li {
-	float: none;
-	margin: 0;
-	padding: 0;
+    float: none;
+    margin: 0;
+    padding: 0;
 }
 
 #mprofil ul a {
-	font-weight: normal;
-	text-shadow: 0 1px 0 #fff;
+    font-weight: normal;
+    text-shadow: 0 1px 0 #fff;
 }
 
 #mprofil ul ul {
-	left: 181px;
-	top: -3px;
+    left: 181px;
+    top: -3px;
 }
 #mprofil:after {
-	content: ".";
-	display: block;
-	clear: both;
-	visibility: hidden;
-	line-height: 0;
-	height: 0;
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
 }
 #mprofil {
-	display: inline-block;
+    display: inline-block;
 } 
 
 .iprofil{
     font-family: 'WebSymbolsRegular', cursive;
-	font-size: 12px;
-	position: absolute;
-	left: 2px;
-	text-align: center;
-	top: 10px;
+    font-size: 12px;
+    position: absolute;
+    left: 2px;
+    text-align: center;
+    top: 10px;
 }
 #mprofil li:hover .iprofil{
-	font-size: 14px;
-	color: #1279b0;
-	opacity: 0.8;
-	left: 5px;	
+    font-size: 14px;
+    color: #1279b0;
+    opacity: 0.8;
+    left: 5px;	
     text-shadow: 0px 0px 13px #12638e;
-	top: 10px;
+    top: 10px;
 }
 
 .ismprofil{
     font-family: 'WebSymbolsRegular', cursive;
-	font-size: 12px;
-	position: absolute;
-	left: 2px;
-	text-align: center;
-	top: 10px;
+    font-size: 12px;
+    position: absolute;
+    left: 2px;
+    text-align: center;
+    top: 10px;
 }
 #mprofil .sousmenu li:hover .ismprofil{
-	font-size: 14px;
-	color: #1279b0;
-	opacity: 0.8;
-	left: 5px;	
+    font-size: 14px;
+    color: #1279b0;
+    opacity: 0.8;
+    left: 5px;	
     text-shadow: 0px 0px 13px #12638e;
-	top: 10px;
+    top: 10px;
 }
 
 /*** Page (Style général) ***/
@@ -334,31 +334,36 @@ header {
     font-size: 22px;
     line-height: 24px;
     font-weight: normal;
-	margin-left: 5%;
+    margin-left: 5%;
 }
-
+.titre{
+    font-family: 'WebSymbolsRegular', cursive;
+    font-size: 17px;	
+    padding-right: 10px;
+    pointer: cursor;
+}
 #page {
-	width: 95%;
-	margin: auto;
+    width: 95%;
+    margin: auto;
 }
 
 #page-content, #select-vm {
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
-	-webkit-box-shadow:0px 0 50px #ccc;
-	-moz-box-shadow:0px 0 50px #ccc; 
-	box-shadow:0px 0 10px #ccc;
-	margin: 20px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow:0px 0 50px #ccc;
+    -moz-box-shadow:0px 0 50px #ccc; 
+    box-shadow:0px 0 10px #ccc;
+    margin: 20px;
 }
 
 #select-vm {
-	padding: 15px 0 0 15px;
+    padding: 15px 0 0 15px;
 }
 
 #page-content {
-/*	min-height: 500px;*/
-	padding: 10px 0 8px 0;
+    /*	min-height: 500px;*/
+    padding: 10px 0 8px 0;
 }
 
 /*** Footer ***/
@@ -366,7 +371,7 @@ header {
 footer {
     border-top: 1px solid #dbdbdb;
     border-bottom: 1px solid #dbdbdb;
-	margin: auto;
+    margin: auto;
 }
 
 footer a:selected, footer a:hover{
@@ -375,11 +380,11 @@ footer a:selected, footer a:hover{
 }
 
 footer {
-	padding: 3px 0px;
+    padding: 3px 0px;
 }
 
 footer p img {
-	margin-bottom: -10px;
+    margin-bottom: -10px;
 }
 
 footer p {
@@ -391,100 +396,100 @@ footer p {
 
 /*** Serveurs Steam ***/
 .steam-server {
-	min-height: 70px;
-	padding: 1px 2px 5px 3px;
+    min-height: 70px;
+    padding: 1px 2px 5px 3px;
 }
 
 .steam-server:not(:last-child) {
-	border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
 }
 
 .steam-server.clair {
-	background-color: #ffffff;
+    background-color: #ffffff;
 }
 
 .steam-server.dark {
-	background-color: #f0f0f0;
+    background-color: #f0f0f0;
 }
 
 /* Summary */
 .steam-server .summary {
-	height: 75px;
+    height: 75px;
 }
 
 .steam-server .summary .infos {
-	height: 60px;
-	float: left;
-	padding:10px
+    height: 60px;
+    float: left;
+    padding:10px
 }
 
 .steam-server .summary .infos img {
-	float: left;
-	margin-right: 10px;
+    float: left;
+    margin-right: 10px;
 }
 
 .steam-server .summary .infos p {
-	float: right;
+    float: right;
 }
 .steam-server .summary .infomap {
-	height: 60px;
-	float: left;
-	padding: 10px;
-	left: 350px;
-	display: block;
-	position: absolute;
-	margin-top: 11px;
+    height: 60px;
+    float: left;
+    padding: 10px;
+    left: 350px;
+    display: block;
+    position: absolute;
+    margin-top: 11px;
 }
 .steam-server .summary .infoplayer {
-	height: 60px;
-	float: left;
-	padding: 10px;
-	left: 650px;
-	display: block;
-	position: absolute;
-	margin-top: 11px;
+    height: 60px;
+    float: left;
+    padding: 10px;
+    left: 650px;
+    display: block;
+    position: absolute;
+    margin-top: 11px;
 }
 .steam-server .summary .actions {
-	float: right;
-	padding: 15px;
+    float: right;
+    padding: 15px;
 }
 
 .steam-server .summary .actions a {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 .steam-server .summary .pourcentage{
-	width: 60%;
-	padding: 15px;
-	float: right;
+    width: 60%;
+    padding: 15px;
+    float: right;
 }
 
 .clear {
-	clear: both;
+    clear: both;
 }
 
 /* Details */
 .steam-server .details {
-	/*border: 5px solid green;*/
-	/* display: none; */
-	margin-left: 30px;
+    /*border: 5px solid green;*/
+    /* display: none; */
+    margin-left: 30px;
 }
 
 .steam-server .details p:nth-child(1) {
-	min-width: 160px;
-	min-height: 120px;
-	width: 20%;
-	float: left;
-	margin-left: 33px;
+    min-width: 160px;
+    min-height: 120px;
+    width: 20%;
+    float: left;
+    margin-left: 33px;
 }
 
 .steam-server .details .actions a {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 .steam-server .details .players-list {
-	float: left;
-	width: 33%;
+    float: left;
+    width: 33%;
 }
 
 /* Player List (Steam Server) */
@@ -496,9 +501,9 @@ footer p {
     padding-top: 5px;
     text-align: left;
     /*height: 25px;*/
-	/*color: red;*/
-	color: #FFFFFF;
-	min-width: 100px;
+    /*color: red;*/
+    color: #FFFFFF;
+    min-width: 100px;
 }
 .steam-server .details table.players-list tbody td {
     border-bottom-color: #C7C7C7;
@@ -512,205 +517,209 @@ footer p {
 }
 .steam-server .details table.players-list tbody tr:hover {
     background-color: #1F1F1F;
-	color: grey;
+    color: grey;
 }
 
 .steam-server#steam-20 .details{
-	display: none;
+    display: none;
 }
 
 .steam-server .details .actions{
-	float: left;
-	width: 5%;
-	text-align: right;
-	text-decoration: none;
+    float: left;
+    width: 5%;
+    text-align: right;
+    text-decoration: none;
 }
 
 /*** Edit ***/
 #form-gauche { 
-	float: left;
-	width: 230px; 
+    float: left;
+    width: 230px; 
 }
 
 #form-droit { 
-	float: right;
-	width: 405px;
+    float: right;
+    width: 405px;
 }
-	
+
 
 /* =============================================================== */
 
 a {
-	color: #818181;
-	text-decoration:none
+    color: #818181;
+    text-decoration:none
 }
 a:hover {
-	color: black;
-	text-decoration: none;
+    color: black;
+    text-decoration: none;
 }
 label {	
     font-family: 'Yanone Kaffeesatz', arial, sans-serif;
-	font-size: 16px;
-	color: #666; 
+    font-size: 16px;
+    color: #666; 
     width: 150px;
     display: block;
     float: left;
     text-align: center;
 }
 fieldset { 
-    border: none; 
+    border: none;
 }	
-/*#details-right { 
-        float: left;
-        width: 230px; 
-}*/
+#details-right { 
+    float: left;
+}
 #details-left { 
-        float: right;
-        width: 405px;
+    float: right;
 }
 select, input, textarea { 		
-	padding: 8px; 
-	margin: 4px 0 20px 0; 
-	background: #fff; 
-	width: 220px; 
-	font-size: 14px; 
-	color: #555; 
-	border: 0.5px #ddd solid;
-	cursor: pointer;
-	-webkit-box-shadow: 0px 0px 4px #aaa;
-	-moz-box-shadow: 0px 0px 4px #aaa; 
-	box-shadow: 0px 0px 4px #aaa;	
-	-webkit-transition: background 0.3s linear;							
+    padding: 8px; 
+    margin: 4px 0 20px 0; 
+    background: #fff; 
+    width: 220px; 
+    font-size: 14px; 
+    color: #555; 
+    border: 0.5px #ddd solid;
+    cursor: pointer;
+    -webkit-box-shadow: 0px 0px 4px #aaa;
+    -moz-box-shadow: 0px 0px 4px #aaa; 
+    box-shadow: 0px 0px 4px #aaa;	
+    -webkit-transition: background 0.3s linear;							
 }
 select{ 		
-	background: #fff; 
-	min-width: 230px; 
-	border: 1px #ddd solid;
-	-webkit-border-radius: 6px;
-	-moz-border-radius: 6px;
-	border-radius: 6px;	
+    background: #fff; 
+    min-width: 230px; 
+    border: 1px #ddd solid;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;	
 }
 textarea {		
-	width: 390px; 
-	height: 175px; 		 		
+    width: 390px; 
+    height: 175px; 		 		
 }
 input:hover, textarea:hover { 
-	background: #eee; 
+    background: #eee; 
 }	
 input.submit { 	
-	width: 150px; 
-	color: #eee; 
-	text-transform: uppercase; 
-/*	margin-top: 10px;*/
-	background-color: #0077b5;
-	border: none;	
-	-webkit-transition: -webkit-box-shadow 0.3s linear;		
-	-moz-border-radius: 4px; 
-	-webkit-border-radius: 4px;
-	border-radius: 4px; 						
-	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#0077b5), to(#00507a)); 
-	background: -moz-linear-gradient(25% 75% 90deg,#0a85a8, #18a5cc);	
-    float: left;
-    margin-right: 15px;
+    width: 150px; 
+    color: #eee; 
+    text-transform: uppercase; 
+    margin-top: 10px;
+    background-color: #0077b5;
+    border: none;	
+    -webkit-transition: -webkit-box-shadow 0.3s linear;		
+    -moz-border-radius: 4px; 
+    -webkit-border-radius: 4px;
+    border-radius: 4px; 						
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#0077b5), to(#00507a)); 
+    background: -moz-linear-gradient(25% 75% 90deg,#0a85a8, #18a5cc);		
+}
+input.delete { 
+    width: 150px; 
+    color: #eee; 
+    text-transform: uppercase; 
+    margin-top: 10px;
+    background-color: #0077b5;
+    border: none;	
+    -webkit-transition: -webkit-box-shadow 0.3s linear;		
+    -moz-border-radius: 4px; 
+    -webkit-border-radius: 4px;
+    border-radius: 4px; 		    
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#DD2929), to(#A10D0D)); 
+    background: -moz-linear-gradient(25% 75% 90deg,#0a85a8, #18a5cc);		
 } 
-input.submit:hover { 		
-	-webkit-box-shadow: 0px 0px 20px #555;
-	-moz-box-shadow: 0px 0px 20px #aaa; 
-	box-shadow: 0px 0px 20px #555;	
-	cursor:  pointer; 
+input.submit:hover, input.delete:hover { 		
+    -webkit-box-shadow: 0px 0px 20px #555;
+    -moz-box-shadow: 0px 0px 20px #aaa; 
+    box-shadow: 0px 0px 20px #555;	
+    cursor:  pointer; 
 }
-
-fieldset {
-	border: none; 
-}
-
 @font-face {
     font-family: 'WebSymbolsRegular';
     src: url('websymbols/websymbols-regular-webfont.eot');
     src: url('websymbols/websymbols-regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('websymbols/websymbols-regular-webfont.woff') format('woff'),
-         url('websymbols/websymbols-regular-webfont.ttf') format('truetype'),
-         url('websymbols/websymbols-regular-webfont.svg#WebSymbolsRegular') format('svg');
+        url('websymbols/websymbols-regular-webfont.woff') format('woff'),
+        url('websymbols/websymbols-regular-webfont.ttf') format('truetype'),
+        url('websymbols/websymbols-regular-webfont.svg#WebSymbolsRegular') format('svg');
     font-weight: normal;
     font-style: normal;
 }
-
 /* etape */
-	
+
 #etape {
-	font-family: Tahoma;
-	height:39px;
-	margin-bottom: 20px;
+    font-family: Tahoma;
+    height:39px;
+    margin-bottom: 20px;
 }	
 .etape_sel {
-	float:left;
-	height:29px;
-	width:18px;
-	font-size: 18px;
-	line-height: 18px;
-	padding:10px 0 0 0;
-	text-align: center;
+    float:left;
+    height:29px;
+    width:18px;
+    font-size: 18px;
+    line-height: 18px;
+    padding:10px 0 0 0;
+    text-align: center;
 }
 .etape_nsel {
-	float:left;
-	height:29px;
-	width:18px;
-	font-size: 18px;
-	line-height: 18px;
-	padding:10px 0 0 0;
-	text-align: center;
-	color:#cbcbcb;
+    float:left;
+    height:29px;
+    width:18px;
+    font-size: 18px;
+    line-height: 18px;
+    padding:10px 0 0 0;
+    text-align: center;
+    color:#cbcbcb;
 }
 .etape_selc_gauche {
-	float:left;	 
-	background: url("../images/installation/gauche_gris.gif") no-repeat;
-	height:27px;
-	padding:13px 15px 0 25px;
-	font-size: 13px;
-	color:#fff;
-	font-weight: bold;
+    float:left;	 
+    background: url("../images/installation/gauche_gris.gif") no-repeat;
+    height:27px;
+    padding:13px 15px 0 25px;
+    font-size: 13px;
+    color:#fff;
+    font-weight: bold;
 }
 .etape_selc_gauche a{ 
-	font-size: 13px;
-	color:#fff;
-	font-weight: bold;
+    font-size: 13px;
+    color:#fff;
+    font-weight: bold;
 }
 .etape_selc_droite {
-	float:left;
-	width:12px;
-	background: url("../images/installation/droite_gris.gif") no-repeat;
-	height:39px;
+    float:left;
+    width:12px;
+    background: url("../images/installation/droite_gris.gif") no-repeat;
+    height:39px;
 }
 .etape_selc_fin  {
-	float:left;
-	width:8px;
-	height:39px;
-	background: url("../images/installation/fin_gris.gif") no-repeat;
+    float:left;
+    width:8px;
+    height:39px;
+    background: url("../images/installation/fin_gris.gif") no-repeat;
 }
 .etape_nselc_gauche {
-	float:left;
-	height:27px;
-	padding:13px 15px 0 25px;
-	font-size: 13px;
-	background: url("../images/installation/gauche_clair.gif") no-repeat;
-	height:39px;
-	color:#cbcbcb;
-	font-weight: bold;
+    float:left;
+    height:27px;
+    padding:13px 15px 0 25px;
+    font-size: 13px;
+    background: url("../images/installation/gauche_clair.gif") no-repeat;
+    height:39px;
+    color:#cbcbcb;
+    font-weight: bold;
 }
 .etape_nselc_gauche a{ 
-	font-size: 13px;
-	color:#cbcbcb;
-	font-weight: bold;
+    font-size: 13px;
+    color:#cbcbcb;
+    font-weight: bold;
 }
 .etape_nselc_droite {
-	float:left;
-	width:12px;
-	background: url("../images/installation/droite_clair.gif") no-repeat;
-	height:39px;
+    float:left;
+    width:12px;
+    background: url("../images/installation/droite_clair.gif") no-repeat;
+    height:39px;
 }
 .etape_nselc_fin  {
-	float:left;
-	width:8px;
-	height:39px;
-	background: url("../images/installation/fin_clair.gif") no-repeat;
+    float:left;
+    width:8px;
+    height:39px;
+    background: url("../images/installation/fin_clair.gif") no-repeat;
 }
