@@ -17,49 +17,30 @@
 #}
 
 {% extends "::layout.html.twig" %}
+{% block title %}<a href="{{ path('steam') }}"><span class="titre">h</span></a>{{ 'steam.showTitle'|trans }}{% endblock %}
+
 {% block content %}
-    <h1>{{ 'steam.showTitle'|trans }}</h1>
-
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('steam') }}">
-                {{ 'steam.back'|trans }}
-            </a>
-        </li>
-        <li>
-            <a href="{{ path('steam_edit', { 'id': entity.id }) }}">
-                {{ 'steam.edit'|trans }}
-            </a>
-        </li>
-        <li>
-            <form action="{{ path('steam_delete', { 'id': entity.id }) }}" method="post">
-                {{ form_widget(delete_form) }}
-                <button type="submit">{{ 'steam.del'|trans }}</button>
-            </form>
-        </li>
-    </ul>
-
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>{{ 'steam.id'|trans }}</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'steam.IPAddress'|trans }}</th>
-                <td>{{ entity.machine.publicIp }}:{{ entity.port }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'steam.name'|trans }}</th>
-                <td>{{ entity.name }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'steam.game'|trans }}</th>
-                <td>{{ entity.game }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'steam.installStatus'|trans }}</th>
-                <td><a href="{{ path('steam_install', { 'id': entity.id }) }}">{% spaceless %}
+<table class="record_properties">
+    <tbody>
+        <tr>
+            <th>{{ 'steam.id'|trans }}</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'steam.IPAddress'|trans }}</th>
+            <td>{{ entity.machine.publicIp }}:{{ entity.port }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'steam.name'|trans }}</th>
+            <td>{{ entity.name }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'steam.game'|trans }}</th>
+            <td>{{ entity.game }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'steam.installStatus'|trans }}</th>
+            <td><a href="{{ path('steam_install', { 'id': entity.id }) }}">{% spaceless %}
                         {% if entity.installationStatus is null %}
                             Buggued
                         {% elseif entity.installationStatus == 101 %}
@@ -68,35 +49,46 @@
                             {{ entity.installationStatus }}%
                         {% endif %}
                 {% endspaceless %}</a></td>
-            </tr>
-            <tr>
-                <th>{{ 'steam.dir'|trans }}</th>
-                <td>{{ entity.dir }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'steam.maxplayers'|trans }}</th>
-                <td>{{ entity.maxplayers }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'steam.autoReboot'|trans }}</th>
-                <td>{{ entity.autoReboot }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'steam.rcon'|trans }}</th>
-                <td>{{ entity.rcon }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'steam.munin'|trans }}</th>
-                <td>{{ entity.munin }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'steam.passwd'|trans }}</th>
-                <td>{{ entity.svpasswd }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'steam.core'|trans }}</th>
-                <td>{{ entity.core }}</td>
-            </tr>
-        </tbody>
-    </table>
+                </tr>
+                <tr>
+                    <th>{{ 'steam.dir'|trans }}</th>
+                    <td>{{ entity.dir }}</td>
+                </tr>
+                <tr>
+                    <th>{{ 'steam.maxplayers'|trans }}</th>
+                    <td>{{ entity.maxplayers }}</td>
+                </tr>
+                <tr>
+                    <th>{{ 'steam.autoReboot'|trans }}</th>
+                    <td>{{ entity.autoReboot }}</td>
+                </tr>
+                <tr>
+                    <th>{{ 'steam.rcon'|trans }}</th>
+                    <td>{{ entity.rcon }}</td>
+                </tr>
+                <tr>
+                    <th>{{ 'steam.munin'|trans }}</th>
+                    <td>{{ entity.munin }}</td>
+                </tr>
+                <tr>
+                    <th>{{ 'steam.passwd'|trans }}</th>
+                    <td>{{ entity.svpasswd }}</td>
+                </tr>
+                <tr>
+                    <th>{{ 'steam.core'|trans }}</th>
+                    <td>{{ entity.core }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <form action="{{ path('steam_edit', { 'id': entity.id }) }}" method="post">
+            <fieldset id="validation">	
+                <p>                  
+                    <input type="submit" value="{{ 'steam.edit'|trans }}" name="submit" class="submit">
+                </p>           
+                <form action="{{ path('steam_delete', { 'id': entity.id }) }}" method="post">
+                    <input type="submit" value="{{ 'steam.del'|trans }}" name="submit" class="delete">
+                </form>
+            </fieldset>
+        </form>
+
 {% endblock %}

@@ -18,7 +18,7 @@
 
 {% extends "::layout.html.twig" %}
 
-{% block title %}{{ 'steam.list'|trans }}{% endblock %}
+{% block title %}<a href="{{ path('game') }}"><span class="titre">h</span></a>{{ 'steam.list'|trans }}{% endblock %}
 
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('bundles/dpsteamserver/js/details.js') }}"></script>
@@ -54,7 +54,9 @@
                         {% set gameImg = 'css' %}
                     {% endif %}
                     
-                    <img src="/images/serveur/viewer/{{ gameImg }}.png" />
+                    <a href="{{ path('steam_show', {'id': entity.id }) }}">
+                        <img src="../images/serveur/viewer/{{ entity.game }}.png" />
+                    </a>
                     <p>
                         <b><a href="{{ path('steam_show', {id: entity.id}) }}">{{ entity.name }}</a></b><br />
                         {{ entity.machine.publicIp }}:{{ entity.port }}
@@ -75,22 +77,22 @@
                 <div class="actions">
                     {% if online %}
                         <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'stop' }) }}">
-                            <img src="/images/icones/serveur/stop.png" title="{{ 'steam.stop'|trans }}"/>
+                            <img src="../images/icones/serveur/stop.png" title="{{ 'steam.stop'|trans }}"/>
                         </a>
                         <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'restart' }) }}">
-                            <img src="/images/icones/serveur/stop.png" title="{{ 'steam.restart'|trans }}"/>
+                            <img src="../images/icones/serveur/stop.png" title="{{ 'steam.restart'|trans }}"/>
                         </a>
                     {% else %}
                         <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'start' }) }}">
-                            <img src="/images/icones/serveur/start.png" title="{{ 'steam.start'|trans }}"/>
+                            <img src="../images/icones/serveur/start.png" title="{{ 'steam.start'|trans }}"/>
                         </a>
                     {% endif %}
                     
                     <a href="{{ path('steam_edit', { 'id': entity.id }) }}">
-                        <img src="/images/icones/serveur/config.png" title="{{ 'steam.edit'|trans }}" />
+                        <img src="../images/icones/serveur/config.png" title="{{ 'steam.edit'|trans }}" />
                     </a>
                     <a href="{{ path('steam_show', {id: entity.id}) }}" class="slide" id="steam-{{ entity.id }}">
-                        <img src="/images/icones/serveur/bfleche.png" title="Slide"/>
+                        <img src="../images/icones/serveur/bfleche.png" title="Slide"/>
                     </a>
                     <a href="#">
                         <img src="/images/icones/serveur/ftp.png" title="{{ 'steam.pluginsAction'|trans }}" />
