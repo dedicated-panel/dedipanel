@@ -26,7 +26,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DP\Core\GameServer\GameServerBundle\Entity\GameServer
- * @ORM\MappedSuperclass
+ * @ORM\Entity()
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({"steam" = "DP\GameServer\SteamServerBundle\Entity\SteamServer"})
  */
 class GameServer
 {
