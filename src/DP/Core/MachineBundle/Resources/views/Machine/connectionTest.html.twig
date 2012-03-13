@@ -2,5 +2,11 @@
 {% block content %}
     <h1>{{ 'machine.connectionTest'|trans }}</h1>
     
-    <p>Test de connexion réussie.</p>
+    <p>
+        {% if result %}
+            {{ 'machine.test.successful'|trans }}
+        {% else %}
+            {{ 'machine.test.failed'|trans }}
+        {% endif %}
+    </p>
 {% endblock %}

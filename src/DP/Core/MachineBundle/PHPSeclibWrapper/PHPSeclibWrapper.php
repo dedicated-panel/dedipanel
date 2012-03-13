@@ -198,9 +198,12 @@ class PHPSeclibWrapper {
      */
     public function connectionTest()
     {
-        $echo = $this->exec('echo a');
-        
-        $pwd = $this->exec('pwd ~');
+        try {
+            $echo = $this->exec('echo a');
+        }
+        catch (\ErrorException $e) {
+            return false;
+        }
         
         if (empty($echo) || $echo != 'a') {
             throw new Exception\ConnectionErrorException($this);
@@ -257,10 +260,17 @@ class PHPSeclibWrapper {
         return $keyPair['publickey'];
     }
     public function deleteKeyPair($publicKey)
-    {
-        $publicKey = str_replace('/', '\/', $publicKey);
-        $this->exec('cd ~/.ssh/ && sed -i "/^' . $publicKey . '/d" authorized_keys');
-        unlink($this->getPrivateKeyFilepath());
+    {        
+        try {
+            $publicKey = str_replace('/', '\/', $publicKey);
+            $this->exec('cd ~/.ssh/ && sed -i "/^' . $publicKey . '/d" authorized_keys');
+            unlink($this->getPrivateKeyFilepath());
+            
+            return true;
+        }
+        catch (\ErrorException $e) {
+            return false;
+        }
     }
     
     /**
@@ -301,7 +311,7 @@ class PHPSeclibWrapper {
         
         $sftp = $this->getSFTP();
         $ret = $sftp->put($remoteFile, $data);
-        $ret = $sftp->chmod($chmod, $remoteFile);
+        $sftp->chmod($chmod, $remoteFile);
         
         return $ret;
     }

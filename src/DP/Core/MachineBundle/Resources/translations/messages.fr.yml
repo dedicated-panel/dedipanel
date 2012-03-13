@@ -22,6 +22,9 @@ machine.genPrivKey: Clé privée générée ?
 machine.yes: Oui
 machine.no: Non
 
+machine.test.successful: Test de connexion réussi.
+machine.test.failed: Test de connexion échoué.
+
 machine.assert:
   - privateIp: Vous devez indiquer une adresse IP valide.
   - publicIp: Vous devez indiquer une adresse IP publique valide.

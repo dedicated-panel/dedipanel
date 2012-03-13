@@ -190,9 +190,17 @@ class MachineController extends Controller
                 throw $this->createNotFoundException('Unable to find Machine entity.');
             }
             
-            $secure = PHPSeclibWrapper::getFromMachineEntity($entity);
-            $secure->deleteKeyPair($entity->getPublicKey());
-
+            try {
+                $secure = PHPSeclibWrapper::getFromMachineEntity($entity);
+                $secure->deleteKeyPair($entity->getPublicKey());
+            }
+            catch (\Exception $e) {}
+            
+            foreach ($entity->getGameServers() AS $srv) {
+                $entity->getGameServers()->removeElement($srv);
+                $em->remove($srv);
+            }
+            
             $em->remove($entity);
             $em->flush();
         }
@@ -218,10 +226,15 @@ class MachineController extends Controller
             throw $this->createNotFoundException('Unable to find Machine entity.');
         }
         
-        $secure = PHPSeclibWrapper::getFromMachineEntity($entity);
-        $secure->setKeyfile($entity->getPrivateKeyFilename());
-        $secure->connectionTest();
+        try {    
+            $secure = PHPSeclibWrapper::getFromMachineEntity($entity);
+            $secure->setKeyfile($entity->getPrivateKeyFilename());
+            $test = $secure->connectionTest();
+        }
+        catch (PHPSeclibWrapper\Exception\ConnectionErrorException $e) {
+            $test = false;
+        }
         
-        return $this->render('DPMachineBundle:Machine:connectionTest.html.twig');
+        return $this->render('DPMachineBundle:Machine:connectionTest.html.twig', array('result' => $test));
     }
 }

@@ -244,16 +244,16 @@ class SteamServer extends GameServer {
     
     public function getGameInstallationProgress()
     {
-        $logPath = $this->getAbsoluteDir() . 'install.log';
-        $screenName = 'install-' . $this->getDir();
+        $absDir = $this->getAbsoluteDir();
+        $logPath = $absDir . 'install.log';
         
         $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
         $installLog = $sec->exec('cat ' . $logPath);
         
         if (strpos($installLog, 'Install ended') !== false) {
-            // Si l'installation est terminé, on supprime le fichier de log
-            $sec->exec('rm -f ' . $logPath);
-           return 101; // 101 == serveur installé
+            // Si l'installation est terminé, on supprime le fichier de log et le script
+            $sec->exec('rm -f' . $absDir . 'install.log ' . $absDir . 'install.sh');
+           return 100; // 101 == serveur installé
         }
         elseif (strpos($installLog, 'Game install') !== false) {
             // Si on en est rendu au téléchargement des données, 
@@ -275,7 +275,7 @@ class SteamServer extends GameServer {
                 foreach ($lines AS $line) {
                     $percentPos = strpos($line, '%');
                     if ($percentPos !== false) {
-                        return substr($screenContent, 0, $percentPos);
+                        return substr($line, 0, $percentPos);
                     }
                 }
             }
@@ -287,12 +287,12 @@ class SteamServer extends GameServer {
             return 1;
         }
         else {
-            return null;
+            return 0;
         }
     }
     
     public function uploadHldsScript(\Twig_Environment $twig)
-    {
+    {        
         $game = $this->getGame();
         $machine = $this->getMachine();
         $screenName = $machine->getUser() . '-' . $this->getDir();
@@ -307,8 +307,12 @@ class SteamServer extends GameServer {
             'startMap' => $game->getMap(), 'binDir' => $binDir, 
         ));
         
-        $sec = PHPSeclibWrapper::getFromMachineEntity($machine);
-        return $sec->upload($scriptPath, $hldsScript, 0750);
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $upload = $sec->upload($scriptPath, $hldsScript, 0750);
+        
+        $this->installationStatus = 101;
+        
+        return $upload;
     }
     
     public function changeStateServer($state)

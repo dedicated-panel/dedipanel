@@ -35,7 +35,7 @@ if [ $# -eq 1 ]; then
     wget http://storefront.steampowered.com/download/hldsupdatetool.bin
 
     # On lui donne les droits et on l'exécute afin de récupérer l'updater steam
-    chmod 750 hldsupdatetool.bin && ./hldsupdatetool.bin <<< "yes"
+    chmod 750 ./hldsupdatetool.bin && ./hldsupdatetool.bin <<< "yes"
 
     # Il ne sert plus, on le supprime
     rm -f hldsupdatetool.bin
