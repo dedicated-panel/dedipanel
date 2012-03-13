@@ -83,13 +83,25 @@ class Machine
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection() $gameServers
      * 
-     * @ORM\OneToMany(targetEntity="DP\GameServer\GameServerBundle\Entity\GameServer", mappedBy="machine", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="DP\GameServer\GameServerBundle\Entity\GameServer", mappedBy="machine", cascade={"persist", "update"})
      */
     private $gameServers;
 
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->gameServers = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    public function addGameServer(\DP\GameServer\GameServerBundle\Entity\GameServer $srv)
+    {
+        $srv->setMachine($this);
+        $this->gameServers[] = $srv;
+    }
+    
+    public function getGameServers()
+    {
+        return $this->gameServers;
     }
     
     /**
