@@ -3,6 +3,7 @@
 /app/cache/*
 /app/logs/*
 /vendor
-app/config/parameters.ini
-nbproject
+/app/config/parameters.yml
+/app/config/parameters.ini
+/nbproject/
 /src/DP/Core/MachineBundle/Resources/config/.ssh/*
