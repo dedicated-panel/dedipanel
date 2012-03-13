@@ -30,10 +30,6 @@ ApplicationSonataUserBundle:
     resource: "@ApplicationSonataUserBundle/Resources/config/routing.yml"
     prefix: /
 
-DPDistributionBundle:
-    resource: "@DPDistributionBundle/Resources/config/routing.yml"
-    prefix:   /
-
 # Internal routing configuration to handle ESI
 #_internal:
 #   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
