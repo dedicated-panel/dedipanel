@@ -221,26 +221,25 @@ class SteamServerController extends Controller
         
         $status = $entity->getInstallationStatus();
         
-        // On vérifie que l'installation n'est pas bloqué (ou non démarré)
-        if ($status === null) {
-            $entity->installServer($this->get('twig'));
-            
-            $em->persist($entity);
-            $em->flush();
-        }
+        // On upload le script du panel si l'install est terminé
+        if ($status >= 100) {
+            $entity->uploadHldsScript($this->get('twig'));
+        }  
         // On récupère le statut de l'installation que si celui-ci
         // N'est pas déjà indiqué comme terminé
         elseif ($status < 100) {
-            $entity->setInstallationStatus($entity->getGameInstallationProgress());
+            $newStatus = $entity->getGameInstallationProgress();
+            $entity->setInstallationStatus($newStatus);
             
-            $em->persist($entity);
-            $em->flush();
+            if ($newStatus == 100) $entity->uploadHldsScript($this->get('twig'));
+        } 
+        // On vérifie que l'installation n'est pas bloqué (ou non démarré)
+        elseif ($status === null) {
+            $entity->installServer($this->get('twig'));
         }
-        
-        // On upload le script du panel si l'install est terminé
-        if ($status > 100) {
-            $entity->uploadHldsScript($this->get('twig'));
-        }
+
+        $em->persist($entity);
+        $em->flush();
         
         return $this->redirect($this->generateUrl('steam'));
     }
