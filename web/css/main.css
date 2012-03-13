@@ -58,7 +58,6 @@ header {
     float: left;
     position: relative;
     display: block;
-    -moz-box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
     margin-bottom: 4px;
     -webkit-transition: all 300ms linear;
     -moz-transition: all 300ms linear;
@@ -612,7 +611,7 @@ input.submit {
     -webkit-border-radius: 4px;
     border-radius: 4px; 						
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#0077b5), to(#00507a)); 
-    background: -moz-linear-gradient(25% 75% 90deg,#0a85a8, #18a5cc);		
+    background: -moz-linear-gradient(25% 0% -90deg,#0077b5, #00507a);		
 }
 input.delete { 
     width: 150px; 
@@ -626,11 +625,11 @@ input.delete {
     -webkit-border-radius: 4px;
     border-radius: 4px; 		    
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#DD2929), to(#A10D0D)); 
-    background: -moz-linear-gradient(25% 75% 90deg,#0a85a8, #18a5cc);		
+    background: -moz-linear-gradient(25% 0% -90deg,#DD2929, #A10D0D);		
 } 
 input.submit:hover, input.delete:hover { 		
     -webkit-box-shadow: 0px 0px 20px #555;
-    -moz-box-shadow: 0px 0px 20px #aaa; 
+    -moz-box-shadow: 0px 0px 10px #aaa; 
     box-shadow: 0px 0px 20px #555;	
     cursor:  pointer; 
 }
