@@ -17,10 +17,11 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 SCREEN_NAME="{{ screenName }}"
+STATUS=`ps aux | grep SCREEN | grep $SCREEN_NAME | wc -l`
 
 case "$1" in
     start)
-        if [ `$0 status` = "Not running." ]; then
+        if [ $STATUS -eq 0 ]; then
             echo "starting "
             cd {{ binDir }}
             screen -dmS $SCREEN_NAME ./{{ bin }} -game {{ launchName }} +ip {{ ip }} -port {{ port }} +maxplayers {{ maxplayers }} +map {{ startMap }} -autoupdate
@@ -30,7 +31,7 @@ case "$1" in
     ;;
 
     stop)
-        if [ `$0 status` = "Started." ]; then
+        if [ $STATUS -ne 0 ]; then
             echo "stop"
             PID=`ps aux | grep SCREEN | grep $SCREEN_NAME | awk '{print $2}'`
             kill $PID
@@ -47,13 +48,11 @@ case "$1" in
         exit ${?}
     ;;
 
-    status)
-        PID=`ps aux | grep SCREEN | grep $SCREEN_NAME | wc -l`
-        
-        if [ $PID -eq 1 ]; then
-            echo "Started."
-        else
+    status)        
+        if [ $STATUS -eq 0 ]; then
             echo "Not running."
+        else
+            echo "Started."
         fi
     ;;
     
