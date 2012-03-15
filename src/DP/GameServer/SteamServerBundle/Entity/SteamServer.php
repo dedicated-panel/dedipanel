@@ -270,7 +270,7 @@ class SteamServer extends GameServer {
                 // Si on a réussi à récupérer le contenu du screen, 
                 // On recherche dans chaque ligne en commencant par la fin
                 // Un signe "%" afin de connaître le % le plus à jour
-                $lines = array_reverse(explode("\n", $screenContent));
+                $lines = explode("\n", $screenContent);
                 
                 foreach ($lines AS $line) {
                     $percentPos = strpos($line, '%');
