@@ -78,7 +78,8 @@ class PHPSeclibWrapper {
             self::$servers[$id] = $serv;
         }
         else {
-            $serv = self::$servers[$id]->setDebug($debug);
+            $serv = self::$servers[$id];
+            $serv->setDebug($debug);
         }
         
         return $serv;
