@@ -36,26 +36,29 @@ namespace PHPSeclib\Crypt;
  * ?>
  * </code>
  *
- * LICENSE: This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston,
- * MA  02111-1307  USA
+ * LICENSE: Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  *
  * @category   Crypt
  * @package    RC4
  * @author     Jim Wigginton <terrafrost@php.net>
  * @copyright  MMVII Jim Wigginton
- * @license    http://www.gnu.org/licenses/lgpl.txt
+ * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version    $Id: RC4.php,v 1.8 2009/06/09 04:00:38 terrafrost Exp $
  * @link       http://phpseclib.sourceforge.net
  */
@@ -161,6 +164,15 @@ class RC4 {
     var $mode;
 
     /**
+     * Continuous Buffer status
+     *
+     * @see RC4::enableContinuousBuffer()
+     * @var Boolean
+     * @access private
+     */
+    var $continuousBuffer = false;
+
+    /**
      * Default Constructor.
      *
      * Determines whether or not the mcrypt extension should be used.
@@ -169,7 +181,8 @@ class RC4 {
      * @return RC4
      * @access public
      */
-    public function __construct() {
+    public function __construct()
+    {
         if ( !defined('CRYPT_RC4_MODE') ) {
             switch (true) {
                 case extension_loaded('mcrypt') && (defined('MCRYPT_ARCFOUR') || defined('MCRYPT_RC4')):
@@ -227,6 +240,65 @@ class RC4 {
 
         $this->encryptIndex = $this->decryptIndex = array(0, 0);
         $this->encryptStream = $this->decryptStream = $keyStream;
+    }
+
+    /**
+     * Sets the password.
+     *
+     * Depending on what $method is set to, setPassword()'s (optional) parameters are as follows:
+     *     {@link http://en.wikipedia.org/wiki/PBKDF2 pbkdf2}:
+     *         $hash, $salt, $method, $dkLen
+     *
+     * @param String $password
+     * @param optional String $method
+     * @access public
+     */
+    function setPassword($password, $method = 'pbkdf2')
+    {
+        $key = '';
+
+        switch ($method) {
+            default: // 'pbkdf2'
+                list(, , $hash, $salt, $count) = func_get_args();
+                if (!isset($hash)) {
+                    $hash = 'sha1';
+                }
+                // WPA and WPA use the SSID as the salt
+                if (!isset($salt)) {
+                    $salt = 'phpseclib';
+                }
+                // RFC2898#section-4.2 uses 1,000 iterations by default
+                // WPA and WPA2 use 4,096.
+                if (!isset($count)) {
+                    $count = 1000;
+                }
+                if (!isset($count)) {
+                    $count = 1000;
+                }
+                if (!isset($dkLen)) {
+                    $count = 1000;
+                }
+
+                if (!class_exists('Hash')) {
+                    require_once('Crypt/Hash.php');
+                }
+
+                $i = 1;
+                while (strlen($key) < $dkLen) {
+                    //$dk.= $this->_pbkdf($password, $salt, $count, $i++);
+                    $hmac = new Hash();
+                    $hmac->setHash($hash);
+                    $hmac->setKey($password);
+                    $f = $u = $hmac->hash($salt . pack('N', $i++));
+                    for ($j = 2; $j <= $count; $j++) {
+                        $u = $hmac->hash($u);
+                        $f^= $u;
+                    }
+                    $key.= $f;
+                }
+        }
+
+        $this->setKey(substr($key, 0, $dkLen));
     }
 
     /**
@@ -394,7 +466,7 @@ class RC4 {
      * outputs.  The reason is due to the fact that the initialization vector's change after every encryption /
      * decryption round when the continuous buffer is enabled.  When it's disabled, they remain constant.
      *
-     * Put another way, when the continuous buffer is enabled, the state of the Crypt_DES() object changes after each
+     * Put another way, when the continuous buffer is enabled, the state of the DES() object changes after each
      * encryption / decryption round, whereas otherwise, it'd remain constant.  For this reason, it's recommended that
      * continuous buffers not be used.  They do offer better security and are, in fact, sometimes required (SSH uses them),
      * however, they are also less intuitive and more likely to cause you problems.

@@ -397,13 +397,13 @@ class PHPSeclibWrapper {
     }
     /**
      * Get home dir of user on the server
-     * This getter not return the $home instance value
+     * This getter does not return the $home value
      * 
      * @return type 
      */
     public function getHome()
     {
-        $pwd = $this->exec('pwd ~');
+        $pwd = $this->exec('cd ~ && pwd');
         
         if (empty($pwd)) {
             throw new Exception\ConnectionErrorException($this);
