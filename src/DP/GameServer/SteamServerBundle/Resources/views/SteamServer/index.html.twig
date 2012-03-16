@@ -80,7 +80,7 @@
                             <img src="../images/icones/serveur/stop.png" title="{{ 'steam.stop'|trans }}"/>
                         </a>
                         <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'restart' }) }}">
-                            <img src="../images/icones/serveur/stop.png" title="{{ 'steam.restart'|trans }}"/>
+                            <img src="../images/icones/serveur/restart.png" title="{{ 'steam.restart'|trans }}"/>
                         </a>
                     {% else %}
                         <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'start' }) }}">
@@ -95,7 +95,7 @@
                         <img src="../images/icones/serveur/bfleche.png" title="Slide"/>
                     </a>
                     <a href="#">
-                        <img src="/images/icones/serveur/ftp.png" title="{{ 'steam.pluginsAction'|trans }}" />
+                        <img src="../images/icones/serveur/plugins.png" title="{{ 'steam.pluginsAction'|trans }}" />
                     </a>
                 </div>
 
