@@ -190,7 +190,7 @@ class SteamServer extends GameServer {
      * 
      * @return string
      */
-    private function getAbsoluteDir()
+    public function getAbsoluteDir()
     {
         return $this->machine->getHome() . '/' . $this->getDir() . '/';
     }
@@ -401,5 +401,29 @@ class SteamServer extends GameServer {
         $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
         $sec->upload($scriptPath, $pluginScript);
         $sec->exec($screenCmd);
+    }
+    
+    public function getDirContent($path = '')
+    {
+        $path = $this->getAbsoluteDir() . $path;
+        $sftp = PHPSeclibWrapper::getFromMachineEntity($this->getMachine())->getSFTP();
+        
+        $dirContent = $sftp->rawlist($path);
+        $dirs = array();
+        $files = array();
+        
+        foreach ($dirContent AS $key => $attr) {
+            $attr['name'] = $key;
+            
+            if ($attr['type'] == NET_SFTP_TYPE_DIRECTORY
+                && $key != '..' && $key != '.') {
+                $dirs[] = $attr;
+            }
+            elseif ($attr['type'] == NET_SFTP_TYPE_REGULAR) {
+                $files[] = $attr;
+            }
+        }
+        
+        return array('files' => $files, 'dirs' => $dirs);
     }
 }

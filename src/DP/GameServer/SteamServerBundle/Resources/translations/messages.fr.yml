@@ -62,3 +62,5 @@ steam.plugins.notInstalled: Non installé
 steam.isAlreadyInstalled: Serv. déjà installé ?
 steam.yes: Oui
 steam.no: Non
+
+steam.cfg.showTitle: Visualiser les CFG

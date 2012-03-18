@@ -14,16 +14,8 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-DPSteamServerBundle_CRUD:
-    resource: "@DPSteamServerBundle/Resources/config/routing/steamCrud.yml"
-    prefix:   /
-
-DPSteamServerBundle_Plugins:
-    resource: "@DPSteamServerBundle/Resources/config/routing/plugins.yml"
-    prefix: /{id}/plugins/
-    requirements: {id: \d+}
-  
-DPSteamServerBundle_Cfg:
-    resource: "@DPSteamServerBundle/Resources/config/routing/cfg.yml"
-    prefix: /{id}/cfg/
-    requirements: {id: \d+}
+steam_cfg_show:
+    pattern: /{path}
+    defaults: { _controller: "DPSteamServerBundle:Cfg:show", path: '' }
+    requirements:
+        path: .*
