@@ -88,13 +88,13 @@
                         </a>
                     {% endif %}
                     
-                    <a href="{{ path('steam_edit', { 'id': entity.id }) }}">
+                    <a href="{{ path('steam_edit', {id: entity.id }) }}">
                         <img src="../images/icones/serveur/config.png" title="{{ 'steam.edit'|trans }}" />
                     </a>
                     <a href="{{ path('steam_show', {id: entity.id}) }}" class="slide" id="steam-{{ entity.id }}">
                         <img src="../images/icones/serveur/bfleche.png" title="Slide"/>
                     </a>
-                    <a href="#">
+                    <a href="{{ path('steam_plugins_show', {id: entity.id }) }}">
                         <img src="../images/icones/serveur/plugins.png" title="{{ 'steam.pluginsAction'|trans }}" />
                     </a>
                 </div>

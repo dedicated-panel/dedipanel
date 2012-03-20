@@ -14,6 +14,12 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+steam_cfg_edit:
+    pattern: /{path}/edit
+    defaults: { _controller: "DPSteamServerBundle:Cfg:editFile" }
+    requirements:
+        path: .+
+
 steam_cfg_show:
     pattern: /{path}
     defaults: { _controller: "DPSteamServerBundle:Cfg:show", path: '' }

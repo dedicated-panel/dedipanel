@@ -298,11 +298,11 @@ class PHPSeclibWrapper {
      * If $type equal UPLOAD_FILE, $data need to be a valid local file
      * The local file is read and upload
      * 
-     * @param string $remoteFile
-     * @param string $data
-     * @param octal $chmod
-     * @param const $type
-     * @return type 
+     * @param string      $remoteFile
+     * @param string      $data
+     * @param octal|false $chmod
+     * @param const       $type
+     * @return PHPSeclib\Net\SFTP
      */
     public function upload($remoteFile, $data, $chmod = 0750, $type = PHPSeclibWrapper::UPLOAD_DATA)
     {
@@ -312,7 +312,10 @@ class PHPSeclibWrapper {
         
         $sftp = $this->getSFTP();
         $ret = $sftp->put($remoteFile, $data);
-        $sftp->chmod($chmod, $remoteFile);
+        
+        if ($chmod !== false) {
+            $sftp->chmod($chmod, $remoteFile);
+        }
         
         return $ret;
     }

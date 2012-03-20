@@ -28,30 +28,13 @@
         </li>
     </ul>
     
-    {{ currentPath }}
+    <p>{{ path }}</p>
     
-    <ul>
-        {% if currentPath is not empty %}
-            {% set path = currentPath ~ '..' %}
-            <li class="dir">
-                <a href="{{ path('steam_cfg_show', {'id': sid, 'path': path}) }}">..</a>
-            </li>
-        {% endif %}
-        {% for dir in dirContent['dirs'] %}
-            {% set path = currentPath ~ dir['name'] %}
-            <li class="dir">
-                <a href="{{ path('steam_cfg_show', {'id': sid, 'path': path }) }}">
-                    {{ dir['name'] }}
-                </a>
-            </li>
-        {% endfor %}
-        {% for file in dirContent['files'] %}
-            {% set path = currentPath ~ file['name'] %}
-            <li class="file">
-                <a href="{{ path('steam_cfg_edit', {id: sid, path: path}) }}">
-                    {{ file['name'] }}
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+    <form action="{{ path('steam_cfg_edit', {id: sid, path: path}) }}" method="post">	
+        <fieldset>
+            {{ form_widget(form) }}
+            
+            <input type="submit" value="{{ 'steam.edit'|trans }}" name="submit" class="submit"></fieldset>
+        </fieldset>
+    </form>
 {% endblock %}

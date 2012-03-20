@@ -426,4 +426,20 @@ class SteamServer extends GameServer {
         
         return array('files' => $files, 'dirs' => $dirs);
     }
+    
+    public function getFileContent($path)
+    {
+        $path = $this->getAbsoluteDir() . $path;
+        
+        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
+                ->getRemoteFile($path);
+    }
+    
+    public function uploadFile($path, $content)
+    {
+        $path = $this->getAbsoluteDir() . $path;
+        
+        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
+                ->upload($path, $content, false);
+    }
 }

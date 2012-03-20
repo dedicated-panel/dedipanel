@@ -45,4 +45,49 @@ class CfgController extends Controller
             'dirContent' => $dirContent, 
         ));
     }
+    
+    public function editFileAction($id, $path)
+    {
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getEntityManager();
+        $server = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
+        
+        if (!$server) {
+            throw $this->createNotFoundException('Unable to find SteamServer entity.');
+        }
+        
+        $filename = $this->getFilename($path);
+        $fileContent = $server->getFileContent($path);
+        
+        $default = array('filename' => $filename, 'file' => $fileContent);
+        $form = $this->createFormBuilder($default)
+                     ->add('filename', 'text', array('label' => 'steam.cfg.filename'))
+                     ->add('file', 'textarea', array('label' => 'steam.cfg.content'))
+                     ->getForm();
+        
+        if ($request->getMethod() == 'POST') {
+            $form->bindRequest($request);
+            $data = $form->getData();
+            
+            $server->uploadFile($path, $data['file']);
+        }
+        
+        return $this->render('DPSteamServerBundle:Cfg:editFile.html.twig', array(
+            'sid' => $id, 
+            'form' => $form->createView(), 
+            'path' => $path, 
+        ));
+    }
+    
+    private function getFilename($path)
+    {
+        $pos = strrpos($path, '/');
+        
+        if ($pos) {
+            $path = substr($path, $pos+1);
+        }
+        
+        
+        return $path;
+    }
 }
