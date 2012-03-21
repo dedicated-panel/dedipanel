@@ -239,7 +239,14 @@ class SteamServerController extends Controller
             $newStatus = $entity->getGameInstallationProgress();
             $entity->setInstallationStatus($newStatus);
             
-            if ($newStatus == 100) $entity->uploadHldsScript($this->get('twig'));
+            if ($newStatus == 100) {
+                $entity->uploadHldsScript($this->get('twig'));
+                $entity->removeInstallationFiles();
+                
+                if ($entity->getGame()->getName() == 'Counter-Strike Source') {
+                    $entity->touch('css/cstrike/server.cfg');
+                }
+            }
         } 
         // On vérifie que l'installation n'est pas bloqué (ou non démarré)
         elseif ($status === null) {

@@ -240,6 +240,16 @@ class SteamServer extends GameServer {
         $sec->exec($screenCmd);
         
         $this->installationStatus = 0;
+    }  
+    
+    public function removeInstallationFiles()
+    {
+        $installDir = $this->getAbsoluteDir();
+        $scriptPath = $installDir . 'install.sh';
+        $logPath = $installDir . 'install.log';
+        
+        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
+                ->exec('rm -f ' . $scriptPath . ' ' . $logPath);
     }
     
     public function getGameInstallationProgress()
@@ -297,14 +307,13 @@ class SteamServer extends GameServer {
         $machine = $this->getMachine();
         $screenName = $machine->getUser() . '-' . $this->getDir();
         
-        $binDir = $this->getAbsoluteBinDir();
-        $scriptPath = $binDir . 'hlds.sh';
+        $scriptPath = $this->getAbsoluteDir() . 'hlds.sh';
         
         $hldsScript = $twig->render('DPSteamServerBundle:sh:hlds.sh.twig', array(
             'screenName' => $screenName, 'bin' => $game->getBin(), 
             'launchName' => $game->getLaunchName(), 'ip' => $machine->getPublicIp(), 
             'port' => $this->getPort(), 'maxplayers' => $this->getMaxplayers(), 
-            'startMap' => $game->getMap(), 'binDir' => $binDir, 
+            'startMap' => $game->getMap(), 'binDir' => $this->getAbsoluteBinDir(), 
         ));
         
         $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
@@ -317,11 +326,10 @@ class SteamServer extends GameServer {
     
     public function changeStateServer($state)
     {
-        $scriptPath = $this->getAbsoluteBinDir() . 'hlds.sh';
+        $scriptPath = $this->getAbsoluteDir() . 'hlds.sh';
         
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
-        
-        return $sec->exec($scriptPath . ' ' . $state);
+        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
+                ->exec($scriptPath . ' ' . $state);
     }
     
     public function setQuery(SteamQuery $query)
@@ -441,5 +449,12 @@ class SteamServer extends GameServer {
         
         return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
                 ->upload($path, $content, false);
+    }
+    
+    public function touch($file) {
+        $path = $this->getAbsoluteDir() . $file;
+        
+        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
+                ->touch($path);
     }
 }

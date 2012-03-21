@@ -454,4 +454,9 @@ class PHPSeclibWrapper {
     {
         return $this->debug;
     }
+    
+    public function touch($file)
+    {
+        return $this->getSSH()->exec('touch ' . $file);
+    }
 }
