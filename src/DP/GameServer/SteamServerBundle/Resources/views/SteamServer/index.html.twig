@@ -47,96 +47,120 @@
     
     {% for entity in entities %}
         <div class="steam-server" id="steam-{{ entity.id }}">
-            <div class="summary">
-                <div class="infos">
-                    {% set gameImg = entity.game.installname %}
-                    {% if gameImg == 'Counter-Strike Source' %}
-                        {% set gameImg = 'css' %}
+            {% if entity.getInstallationStatus < 101 %}
+                <div class="summary">
+                    <div class="infos">
+                        {% set gameImg = entity.game.installname %}
+                        {% if gameImg == 'Counter-Strike Source' %}
+                            {% set gameImg = 'css' %}
+                        {% endif %}
+
+                        <a href="{{ path('steam_show', {'id': entity.id }) }}">
+                            <img src="../images/serveur/viewer/{{ gameImg }}.png" alt="{{ entity.game }}" />
+                        </a>
+                        <p>
+                            <b><a href="{{ path('steam_show', {id: entity.id}) }}">{{ entity.name }}</a></b><br />
+                            {{ entity.machine.publicIp }}:{{ entity.port }}
+                        </p>
+                    </div>
+                        
+                    <div id="installation-progress">
+                        <progress value="{{ entity.installationStatus }}"></progress><br />
+                        <a href="{{ path('steam_install', {id: entity.id }) }}">Mettre à jour</a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="summary">
+                    <div class="infos">
+                        {% set gameImg = entity.game.installname %}
+                        {% if gameImg == 'Counter-Strike Source' %}
+                            {% set gameImg = 'css' %}
+                        {% endif %}
+
+                        <a href="{{ path('steam_show', {'id': entity.id }) }}">
+                            <img src="../images/serveur/viewer/{{ gameImg }}.png" alt="{{ entity.game }}" />
+                        </a>
+                        <p>
+                            <b><a href="{{ path('steam_show', {id: entity.id}) }}">{{ entity.name }}</a></b><br />
+                            {{ entity.machine.publicIp }}:{{ entity.port }}
+                        </p>
+                    </div>
+
+                    {% set online = (entity.query.latency != false) %}
+                    {% if online %}
+                        <p class="infomap">{{ entity.query.serverInfos['map'] }}</p>
+                        <p class="infoplayer">
+                            {{ entity.query.serverInfos['players'] }} / 
+                            {{ entity.query.serverInfos['maxPlayers'] }}
+                        </p>
+                    {% else %}
+                        <p class="infomap">{{ 'steam.offline'|trans }}</p>
                     {% endif %}
-                    
-                    <a href="{{ path('steam_show', {'id': entity.id }) }}">
-                        <img src="../images/serveur/viewer/{{ entity.game }}.png" />
-                    </a>
+
+                    <div class="actions">
+                        {% if online %}
+                            <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'stop' }) }}">
+                                <img src="../images/icones/serveur/stop.png" title="{{ 'steam.stop'|trans }}"/>
+                            </a>
+                            <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'restart' }) }}">
+                                <img src="../images/icones/serveur/restart.png" title="{{ 'steam.restart'|trans }}"/>
+                            </a>
+                        {% else %}
+                            <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'start' }) }}">
+                                <img src="../images/icones/serveur/start.png" title="{{ 'steam.start'|trans }}"/>
+                            </a>
+                        {% endif %}
+
+                        <a href="{{ path('steam_edit', {id: entity.id }) }}">
+                            <img src="../images/icones/serveur/config.png" title="{{ 'steam.edit'|trans }}" />
+                        </a>
+                        <a href="{{ path('steam_show', {id: entity.id}) }}" class="slide" id="steam-{{ entity.id }}">
+                            <img src="../images/icones/serveur/bfleche.png" title="Slide"/>
+                        </a>
+                        <a href="{{ path('steam_plugins_show', {id: entity.id }) }}">
+                            <img src="../images/icones/serveur/plugins.png" title="{{ 'steam.pluginsAction'|trans }}" />
+                        </a>
+                    </div>
+
+                    <div class="clear"></div>
+                </div>
+
+                <div class="details" id="steam-{{ entity.id }}">
                     <p>
-                        <b><a href="{{ path('steam_show', {id: entity.id}) }}">{{ entity.name }}</a></b><br />
-                        {{ entity.machine.publicIp }}:{{ entity.port }}
+                        {% if online %}
+                            <img src="{{ entity.game.sourceImagesMaps }}{{ entity.query.serverInfos['map'] }}.jpg" alt="{{ entity.query.serverInfos['map'] }}" />
+                        {% else %}
+                        {% endif %}
                     </p>
-                </div>
 
-                {% set online = (entity.query.latency != false) %}
-                {% if online %}
-                    <p class="infomap">{{ entity.query.serverInfos['map'] }}</p>
-                    <p class="infoplayer">
-                        {{ entity.query.serverInfos['players'] }} / 
-                        {{ entity.query.serverInfos['maxPlayers'] }}
-                    </p>
-                {% else %}
-                    <p class="infomap">{{ 'steam.offline'|trans }}</p>
-                {% endif %}
+                    <table class="players-list">
+                        <thead>
+                            <tr>
+                                <th>Joueur</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
 
-                <div class="actions">
-                    {% if online %}
-                        <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'stop' }) }}">
-                            <img src="../images/icones/serveur/stop.png" title="{{ 'steam.stop'|trans }}"/>
+                        <tbody>{% for player in entity.query.players %}
+                            <tr>
+                                <td>{{ player.nom }}</td>
+                                <td>{{ player.score }}</td>
+                            </tr>
+                        {% endfor %}</tbody>
+                    </table>
+
+                    <div class="actions">
+                        <a href="#">
+                            <img src="../images/icones/serveur/icone-hltv.png" title="HLTV"/>
                         </a>
-                        <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'restart' }) }}">
-                            <img src="../images/icones/serveur/restart.png" title="{{ 'steam.restart'|trans }}"/>
+                        <a href="{{ path('steam_cfg_show', {'id': entity.id}) }}">
+                            <img src="../images/icones/serveur/icone-cfg.png" title="Cfg"/>
                         </a>
-                    {% else %}
-                        <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'start' }) }}">
-                            <img src="../images/icones/serveur/start.png" title="{{ 'steam.start'|trans }}"/>
-                        </a>
-                    {% endif %}
-                    
-                    <a href="{{ path('steam_edit', {id: entity.id }) }}">
-                        <img src="../images/icones/serveur/config.png" title="{{ 'steam.edit'|trans }}" />
-                    </a>
-                    <a href="{{ path('steam_show', {id: entity.id}) }}" class="slide" id="steam-{{ entity.id }}">
-                        <img src="../images/icones/serveur/bfleche.png" title="Slide"/>
-                    </a>
-                    <a href="{{ path('steam_plugins_show', {id: entity.id }) }}">
-                        <img src="../images/icones/serveur/plugins.png" title="{{ 'steam.pluginsAction'|trans }}" />
-                    </a>
+                    </div>
+
+                    <div class="clear"></div>
                 </div>
-
-                <div class="clear"></div>
-            </div>
-
-            <div class="details" id="steam-{{ entity.id }}">
-                <p>
-                    {% if online %}
-                        <img src="{{ entity.game.sourceImagesMaps }}{{ entity.query.serverInfos['map'] }}.jpg" alt="{{ entity.query.serverInfos['map'] }}" />
-                    {% else %}
-                    {% endif %}
-                </p>
-
-                <table class="players-list">
-                    <thead>
-                        <tr>
-                            <th>Joueur</th>
-                            <th>Score</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>{% for player in entity.query.players %}
-                        <tr>
-                            <td>{{ player.nom }}</td>
-                            <td>{{ player.score }}</td>
-                        </tr>
-                    {% endfor %}</tbody>
-                </table>
-
-                <div class="actions">
-                    <a href="#">
-                        <img src="../images/icones/serveur/icone-hltv.png" title="HLTV"/>
-                    </a>
-                    <a href="{{ path('steam_cfg_show', {'id': entity.id}) }}">
-                        <img src="../images/icones/serveur/icone-cfg.png" title="Cfg"/>
-                    </a>
-                </div>
-
-                <div class="clear"></div>
-            </div>
+            {% endif %}
         </div>
     {% endfor %}
 {% endblock %}
