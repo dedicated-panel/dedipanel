@@ -85,7 +85,7 @@
     version=origin/2.0
 
 [SonataBlockBundle]
-    git=http://github.com/sonta-project/SonataBlockBundle.git
+    git=http://github.com/sonata-project/SonataBlockBundle.git
     target=/bundles/Sonata/BlockBundle
 
 [SonataCacheBundle]
