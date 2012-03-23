@@ -356,6 +356,7 @@ class SteamServer extends GameServer {
         $uploadHltv = true;
         
         if ($game->getBin() == 'hlds_run') {
+            $screenName = $machine->getUser() . '-hltv-' . $this->getDir();
             $scriptPath = $this->getAbsoluteDir() . 'hltv.sh';
 
             $hltvScript = $twig->render('DPSteamServerBundle:sh:hltv.sh.twig', array(
