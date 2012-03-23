@@ -1,10 +1,10 @@
 [symfony]
     git=http://github.com/symfony/symfony.git
-    version=v2.0.10
+    version=v2.0.12
 
 [twig]
     git=http://github.com/fabpot/Twig.git
-    version=v1.6.0
+    version=v1.6.2
 
 [monolog]
     git=http://github.com/Seldaek/monolog.git
@@ -28,7 +28,7 @@
 
 [assetic]
     git=http://github.com/kriswallsmith/assetic.git
-    version=v1.0.2
+    version=v1.0.3
 
 [twig-extensions]
     git=http://github.com/fabpot/Twig-extensions.git
@@ -64,6 +64,7 @@
 [SonataUserBundle]
     git=http://github.com/sonata-project/SonataUserBundle.git
     target=bundles/Sonata/UserBundle
+    version=origin/2.0
 
 [SonataEasyExtendsBundle]
     git=http://github.com/sonata-project/SonataEasyExtendsBundle.git
@@ -72,10 +73,24 @@
 [SonataAdminBundle]
     git=http://github.com/sonata-project/SonataAdminBundle.git
     target=bundles/Sonata/AdminBundle
+    version=origin/2.0
 
 [SonatajQueryBundle]
     git=http://github.com/sonata-project/SonatajQueryBundle.git
     target=bundles/Sonata/jQueryBundle
+
+[SonataDoctrineORMAdminBundle]
+    git=http://github.com/sonata-project/SonataDoctrineORMAdminBundle.git
+    target=bundles/Sonata/DoctrineORMAdminBundle
+    version=origin/2.0
+
+[SonataBlockBundle]
+    git=http://github.com/sonta-project/SonataBlockBundle.git
+    target=/bundles/Sonata/BlockBundle
+
+[SonataCacheBundle]
+    git=http://github.com/sonata-project/SonataCacheBundle.git
+    target=/bundles/Sonata/CacheBundle
 
 [KnpMenuBundle]
     git=http://github.com/KnpLabs/KnpMenuBundle.git
@@ -84,10 +99,6 @@
 [KnpMenu]
     git=http://github.com/KnpLabs/KnpMenu.git
     target=knp/menu
-
-[SonataDoctrineORMAdminBundle]
-    git=http://github.com/sonata-project/SonataDoctrineORMAdminBundle.git
-    target=bundles/Sonata/DoctrineORMAdminBundle
 
 [SensioDistributionBundle]
     git=http://github.com/NiR-/SensioDistributionBundle.git
