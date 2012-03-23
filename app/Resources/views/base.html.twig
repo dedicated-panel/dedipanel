@@ -37,7 +37,11 @@
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 			<div id="profil">
 				<ul id="mprofil">
-					<li><span class="iprofil">X</span><a href="/logout">{{ 'menu.logout'|trans }}</a></li>		
+					<li><span class="iprofil">X</span>
+                        <a href="{{ path('fos_user_security_logout') }}">
+                            {{ 'menu.logout'|trans }}
+                        </a>
+                    </li>		
 					<li><span class="iprofil">U</span><a href="#">Profil</a>
 						<ul>
 							<li>
