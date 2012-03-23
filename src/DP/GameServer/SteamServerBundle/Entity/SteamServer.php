@@ -465,10 +465,20 @@ class SteamServer extends GameServer {
                 ->upload($path, $content, false);
     }
     
-    public function touch($file) {
+    public function touch($file)
+    {
         $path = $this->getAbsoluteDir() . $file;
         
         return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
                 ->touch($path);
+    }
+    
+    public function getHltvStatus()
+    {
+        $status = PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
+                ->getSSH()->exec($this->getAbsoluteBinDir() . 'hltv.sh status');
+        
+        if ($status == 'HlTV running.') return true;
+        else return false;
     }
 }

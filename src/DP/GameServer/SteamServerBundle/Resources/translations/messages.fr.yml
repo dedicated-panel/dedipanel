@@ -66,3 +66,6 @@ steam.no: Non
 steam.cfg.showTitle: Visualiser les CFG
 steam.cfg.filename: Nom du fichier
 steam.cfg.content: Contenu du fichier
+
+steam.hltv.running: HLTV démarré
+steam.hltv.stopped: HLTV arrêté
