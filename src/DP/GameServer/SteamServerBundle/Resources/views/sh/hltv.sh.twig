@@ -16,15 +16,23 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+HLTV_DIR="{{ binDir }}"
 SCREEN_NAME="{{ screenName }}"
-STATUS=`ps aux | grep SCREEN | grep $SCREEN_NAME | wc -l`
+HLTV_STATUS=`ps aux | grep SCREEN | grep $SCREEN_NAME | wc -l`
 
-case "$1" in
+case "$1" in 
     start)
-        if [ $STATUS -eq 0 ]; then
-            echo "starting "
-            cd {{ binDir }}
-            screen -dmS $SCREEN_NAME ./{{ bin }} -game {{ launchName }} +ip {{ ip }} -port {{ port }} +maxplayers {{ maxplayers }} +map {{ startMap }} -autoupdate
+        if [ $HLTV_STATUS -eq 0 ]; then
+            echo "starting"
+            
+            cd $HLTV_DIR
+            export LD_LIBRARY_PATH=$HLTV_DIR:$LD_LABRARY_PATH
+            
+            if [ $# -eq 5 ]; then
+                ./hltv -port $3 +serverpassword $4 +connect $2 +record $5
+            else
+                ./hltv -port $3 +serverpassword $4 +connect $2
+            fi
             echo "."
         fi
         
@@ -32,13 +40,15 @@ case "$1" in
     ;;
 
     stop)
-        if [ $STATUS -ne 0 ]; then
+        if [ $HLTV_STATUS -ne 0 ]; then
             echo "stopping"
-            PID=`ps aux | grep SCREEN | grep $SCREEN_NAME | awk '{print $2}'`
-            kill $PID
+            
+            HLTV_PID=`ps aux | grep SCREEN | grep $SCREEN_NAME | awk '{print $2}'`
+            kill $HLTV_PID
+            
             echo "."
         fi
-
+        
         exit ${?}
     ;;
 
@@ -46,20 +56,21 @@ case "$1" in
         $0 stop
         sleep 1
         $0 start
-
+        
         exit ${?}
     ;;
 
-    status)        
-        if [ $STATUS -eq 0 ]; then
-            echo "Not running."
+    status)
+        if [ $HLTV_STATUS -eq 0 ]; then
+            echo "HLTV not running."
         else
-            echo "Started."
+            echo "HLTV running."
         fi
-    ;;
-    
-    *)
-        echo "Usage: $0 {start|stop|restart|status}"
+        
         exit ${?}
+    ;;
+
+    *)
+        echo "Usage: $0 {start ip:port hltvPort serverPasswd [record]|stop|restart|status}"
     ;;
 esac

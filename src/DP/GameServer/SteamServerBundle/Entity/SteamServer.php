@@ -301,12 +301,14 @@ class SteamServer extends GameServer {
         }
     }
     
-    public function uploadHldsScript(\Twig_Environment $twig)
+    public function uploadShellScripts(\Twig_Environment $twig)
     {        
         $game = $this->getGame();
         $machine = $this->getMachine();
-        $screenName = $machine->getUser() . '-' . $this->getDir();
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
         
+        /** HLDS.sh **/
+        $screenName = $machine->getUser() . '-' . $this->getDir();
         $scriptPath = $this->getAbsoluteDir() . 'hlds.sh';
         
         $hldsScript = $twig->render('DPSteamServerBundle:sh:hlds.sh.twig', array(
@@ -315,13 +317,25 @@ class SteamServer extends GameServer {
             'port' => $this->getPort(), 'maxplayers' => $this->getMaxplayers(), 
             'startMap' => $game->getMap(), 'binDir' => $this->getAbsoluteBinDir(), 
         ));
+        $uploadHlds = $sec->upload($scriptPath, $hldsScript, 0750);
         
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
-        $upload = $sec->upload($scriptPath, $hldsScript, 0750);
+        /** HLTV.sh **/
+        $uploadHltv = true;
+        
+        if ($game->getBin() == 'hlds_run') {
+            $screenName = $machine->getUser() . '-hltv-' . $this->getDir();
+            $scriptPath = $this->getAbsoluteDir() . 'hltv.sh';
+
+            $hltvScript = $twig->render('DPSteamServerBundle:sh:hltv.sh.twig', array(
+                'binDir' => $this->getAbsoluteBinDir(), 
+                'screenName' => $screenName, 
+            ));
+            $uploadHltv = $sec->upload($scriptPath, $hltvScript, 0750);
+        }
         
         $this->installationStatus = 101;
         
-        return $upload;
+        return $uploadHlds && $uploadHltv;
     }
     
     public function changeStateServer($state)

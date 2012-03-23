@@ -104,7 +104,7 @@ class SteamServerController extends Controller
                 $entity->installServer($twig);
             }
             else {
-                $entity->uploadHldsScript($twig);
+                $entity->uploadShellScripts($twig);
             }
             
             $em = $this->getDoctrine()->getEntityManager();
@@ -231,7 +231,7 @@ class SteamServerController extends Controller
         
         // On upload le script du panel si l'install est terminé
         if ($status >= 100) {
-            $entity->uploadHldsScript($this->get('twig'));
+            $entity->uploadShellScripts($this->get('twig'));
         }  
         // On récupère le statut de l'installation que si celui-ci
         // N'est pas déjà indiqué comme terminé
@@ -240,7 +240,7 @@ class SteamServerController extends Controller
             $entity->setInstallationStatus($newStatus);
             
             if ($newStatus == 100) {
-                $entity->uploadHldsScript($this->get('twig'));
+                $entity->uploadShellScripts($this->get('twig'));
                 $entity->removeInstallationFiles();
                 
                 if ($entity->getGame()->getName() == 'Counter-Strike Source') {
