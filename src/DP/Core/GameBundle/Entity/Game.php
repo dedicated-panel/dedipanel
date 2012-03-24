@@ -43,7 +43,7 @@ class Game
     /**
      * @var string $name
      *
-     * @ORM\Column(name="name", type="string", length=24)
+     * @ORM\Column(name="name", type="string", length=32)
      * @Assert\NotBlank(message="game.assert.name")
      */
     private $name;
