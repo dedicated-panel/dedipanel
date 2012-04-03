@@ -202,8 +202,16 @@ class SteamServer extends GameServer {
      */
     private function getAbsoluteBinDir()
     {
-        return $this->getAbsoluteDir() . $this->game->getBinDir();
-    }
+        $binDir = $this->game->getBinDir();
+        $absDir = $this->getAbsoluteDir();
+        
+        if ($binDir == './') {
+            return $absDir;
+        }
+        else {
+            return $absDir . $binDir;
+        } 
+   }
     
     /**
      * Get absolute path of game content directory
@@ -323,12 +331,11 @@ class SteamServer extends GameServer {
         $uploadHltv = true;
         
         if ($game->getBin() == 'hlds_run') {
-            $screenName = $machine->getUser() . '-hltv-' . $this->getDir();
             $scriptPath = $this->getAbsoluteDir() . 'hltv.sh';
 
             $hltvScript = $twig->render('DPSteamServerBundle:sh:hltv.sh.twig', array(
                 'binDir' => $this->getAbsoluteBinDir(), 
-                'screenName' => $screenName, 
+                'screenName' => $this->getHltvScreenName(), 
             ));
             $uploadHltv = $sec->upload($scriptPath, $hltvScript, 0750);
         }
@@ -473,12 +480,34 @@ class SteamServer extends GameServer {
                 ->touch($path);
     }
     
+    public function getHltvScreenName()
+    {
+        return 'hltv-' . $this->getMachine()->getUser() . '-' . $this->getDir();
+    }
+    
     public function getHltvStatus()
     {
         $status = PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
                 ->getSSH()->exec($this->getAbsoluteBinDir() . 'hltv.sh status');
         
-        if ($status == 'HlTV running.') return true;
+        if (trim($status) == 'HLTV running.') return true;
         else return false;
+    }
+    
+    public function startHltv($hltvPort, $servIp, $servPort, $password = null, $record = null)
+    {
+        if ($password == null) {
+            $password = '';
+        }
+        
+        $cmd = 'screen -dmS ' . $this->getHltvScreenName() . ' ' 
+            . $this->getAbsoluteBinDir() . 'hltv.sh start ' 
+            . $servIp . ':' . $servPort . ' ' . $hltvPort . ' ' . $password . '';
+        if ($record != null) {
+            $cmd .= ' ' . $record; 
+        }
+        
+        PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
+            ->getSSH()->exec($cmd);
     }
 }

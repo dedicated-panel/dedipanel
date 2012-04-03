@@ -17,3 +17,9 @@
 steam_hltv_show:
     pattern: /show
     defaults: { _controller: "DPSteamServerBundle:Hltv:show" }
+
+steam_hltv_start:
+    pattern: /start
+    defaults: { _controller: "DPSteamServerBundle:Hltv:start" }
+    requirements:
+        _method: 'post'

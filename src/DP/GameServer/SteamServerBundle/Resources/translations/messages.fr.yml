@@ -69,3 +69,8 @@ steam.cfg.content: Contenu du fichier
 
 steam.hltv.running: HLTV démarré
 steam.hltv.stopped: HLTV arrêté
+steam.hltv.hltvIP: Adresse IP
+steam.hltv.password: Mot de passe du serveur
+steam.hltv.serverAddress: Adresse du serveur
+steam.hltv.recordName: Nom du record
+steam.hltv.connect: Connecter l'HLTV

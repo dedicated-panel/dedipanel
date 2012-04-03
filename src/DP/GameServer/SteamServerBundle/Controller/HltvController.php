@@ -36,7 +36,48 @@ class HltvController extends Controller
         
         return $this->render('DPSteamServerBundle:Hltv:show.html.twig', array(
             'id' => $id, 
-            'status' => $status
+            'status' => $status, 
+            'form' => $this->createStartForm($serv)->createView(), 
         ));
+    }
+    
+    public function startAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $serv = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
+        $request = $this->get('request');
+        
+        if (!$serv) {
+            throw $this->createNotFoundException('Unable to find SteamServer entity.');
+        }
+        
+        $request = $this->get('request');
+        $form = $this->createStartForm($serv);
+        $form->bindRequest($request);
+        $data = $form->getData();
+
+        $serv->startHltv($data['port'], $data['servIp'], 
+            $data['servPort'], $data['password'], $data['record']);
+        
+        return $this->redirect($this->generateUrl('steam_hltv_show', array('id' => $id)));
+    }
+    
+    public function createStartForm(\DP\GameServer\SteamServerBundle\Entity\SteamServer $serv)
+    {
+        $default = array(
+            'ip' => $serv->getMachine()->getPublicIp(), 
+            'servIp' => $serv->getMachine()->getPublicIp(), 
+            'servPort' => $serv->getPort());
+        $form = $this->createFormBuilder($default)
+                    ->add('ip', 'text', array('label' => 'steam.hltv.hltvIP', 'read_only' => true))
+                    ->add('port', 'integer')
+                    ->add('password', 'password', array('label' => 'steam.hltv.password', 'required' => false))
+                    ->add('servIp', 'text', array('label' => 'steam.hltv.serverAddress'))
+                    ->add('servPort', 'integer')
+                    ->add('record', 'text', array('label' => 'steam.hltv.recordName', 'required' => false))
+                    ->getForm();
+        ;
+        
+        return $form;
     }
 }
