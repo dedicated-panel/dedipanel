@@ -510,4 +510,10 @@ class SteamServer extends GameServer {
         PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
             ->getSSH()->exec($cmd);
     }
+    
+    public function stopHltv()
+    {
+        PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
+            ->getSSH()->exec($this->getAbsoluteBinDir() . 'hltv.sh stop');
+    }
 }

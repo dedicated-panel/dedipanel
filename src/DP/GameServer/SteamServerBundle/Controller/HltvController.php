@@ -62,6 +62,20 @@ class HltvController extends Controller
         return $this->redirect($this->generateUrl('steam_hltv_show', array('id' => $id)));
     }
     
+    public function stopAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $serv = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
+        
+        if (!$serv) {
+            throw $this->createNotFoundException('Unable to find SteamServer entity.');
+        }
+        
+        $serv->stopHltv();
+        
+        return $this->redirect($this->generateUrl('steam_hltv_show', array('id' => $id)));
+    }
+    
     public function createStartForm(\DP\GameServer\SteamServerBundle\Entity\SteamServer $serv)
     {
         $default = array(

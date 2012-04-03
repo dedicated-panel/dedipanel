@@ -21,7 +21,7 @@
 
 {% block content %}
     {% if status == true %}
-        <p>{{ 'steam.hltv.running'|trans }}.</p>
+        <p><a href="{{ path('steam_hltv_stop', {id: id}) }}">{{ 'steam.hltv.running'|trans }}.</a></p>
     {% else %}
         <p>{{ 'steam.hltv.stopped'|trans }}.</p>
         <form action="{{ path('steam_hltv_start', {id: id}) }}" method="post">

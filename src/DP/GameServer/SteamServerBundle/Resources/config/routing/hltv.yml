@@ -23,3 +23,7 @@ steam_hltv_start:
     defaults: { _controller: "DPSteamServerBundle:Hltv:start" }
     requirements:
         _method: 'post'
+
+steam_hltv_stop:
+    pattern: /stop
+    defaults: { _controller: "DPSteamServerBundle:Hltv:stop" }
