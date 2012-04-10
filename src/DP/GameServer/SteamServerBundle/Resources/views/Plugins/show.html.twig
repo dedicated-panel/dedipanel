@@ -36,9 +36,7 @@
         
         {% for plugin in server.installedPlugins %}
             <tr>
-                <th><a href="{{ path('plugin_show', {'id': plugin.id }) }}">
-                        {{ plugin.name }}
-                </a></th>
+                <th>{{ plugin.name }}</th>
                 <td><a href="{{ path('steam_plugins_uninstall', {'id': server.id, 'plugin': plugin.id}) }}">
                     {{ 'steam.plugins.installed'|trans }}
                 </a></td>
@@ -47,9 +45,7 @@
             
         {% for plugin in server.notInstalledPlugins %}
             <tr>
-                <th><a href="{{ path('plugin_show', {'id': plugin.id }) }}">
-                        {{ plugin.name }}
-                </a></th>
+                <th>{{ plugin.name }}</th>
                 <td><a href="{{ path('steam_plugins_install', {'id': server.id, 'plugin': plugin.id}) }}">
                     {{ 'steam.plugins.notInstalled'|trans }}
                 </a></td>

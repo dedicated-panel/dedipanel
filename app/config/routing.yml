@@ -18,10 +18,6 @@ DPSteamServerBundle:
     resource: "@DPSteamServerBundle/Resources/config/routing.yml"
     prefix:   /steam/
 
-DPGameBundle:
-    resource: "@DPGameBundle/Resources/config/routing.yml"
-    prefix:   /
-
 DPMachineBundle:
     resource: "@DPMachineBundle/Resources/config/routing.yml"
     prefix:   /machine/

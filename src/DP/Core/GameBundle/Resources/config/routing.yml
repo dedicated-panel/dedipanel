@@ -1,7 +1,0 @@
-DPGameBundle_Game:
-    resource: "@DPGameBundle/Resources/config/routing/game.yml"
-    prefix:   /game/
-    
-DPGameBundle_plugin:
-    resource: "@DPGameBundle/Resources/config/routing/plugin.yml"
-    prefix:   /plugin/
