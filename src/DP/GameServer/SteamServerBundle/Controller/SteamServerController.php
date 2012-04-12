@@ -23,7 +23,8 @@ namespace DP\GameServer\SteamServerBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use DP\GameServer\SteamServerBundle\Entity\SteamServer;
-use DP\GameServer\SteamServerBundle\Form\SteamServerType;
+use DP\GameServer\SteamServerBundle\Form\AddSteamServerType;
+use DP\GameServer\SteamServerBundle\Form\EditSteamServerType;
 use DP\GameServer\SteamServerBundle\SteamQuery\Exception\ServerTimeoutException;
 
 /**
@@ -77,7 +78,7 @@ class SteamServerController extends Controller
     public function newAction()
     {
         $entity = new SteamServer();
-        $form   = $this->createForm(new SteamServerType(), $entity);
+        $form   = $this->createForm(new AddSteamServerType(), $entity);
 
         return $this->render('DPSteamServerBundle:SteamServer:new.html.twig', array(
             'entity' => $entity,
@@ -93,7 +94,7 @@ class SteamServerController extends Controller
     {
         $entity  = new SteamServer();
         $request = $this->getRequest();
-        $form    = $this->createForm(new SteamServerType(), $entity);
+        $form    = $this->createForm(new AddSteamServerType(), $entity);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
@@ -135,7 +136,7 @@ class SteamServerController extends Controller
             throw $this->createNotFoundException('Unable to find SteamServer entity.');
         }
 
-        $editForm = $this->createForm(new SteamServerType(), $entity);
+        $editForm = $this->createForm(new EditSteamServerType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('DPSteamServerBundle:SteamServer:edit.html.twig', array(
@@ -159,7 +160,7 @@ class SteamServerController extends Controller
             throw $this->createNotFoundException('Unable to find SteamServer entity.');
         }
 
-        $editForm   = $this->createForm(new SteamServerType(), $entity);
+        $editForm   = $this->createForm(new EditSteamServerType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
