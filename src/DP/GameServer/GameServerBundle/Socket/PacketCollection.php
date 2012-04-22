@@ -150,14 +150,26 @@ class PacketCollection implements \SeekableIterator, \ArrayAccess, \Countable
      * 
      * @return \DP\GameServer\GameServerBundle\Socket\Packet 
      */
-    public function reassemble()
+    public function reassemble($callback = null)
     {
         $bigPacket = new Packet();
         
         foreach ($this->array AS $packet) {
-            $bigPacket->addContent($packet);
+            $packet->rewind();
+            
+            if (is_callable($callback)) {
+                $bigPacket = call_user_func($callback, $bigPacket, $packet);
+            }
+            else {
+                $bigPacket->addContent($packet->getContent());
+            }
         }
         
         return $bigPacket;
+    }
+    
+    public function add(Packet $packet)
+    {
+        $this->array[] = $packet;
     }
 }

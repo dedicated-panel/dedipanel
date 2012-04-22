@@ -37,8 +37,9 @@ class HltvController extends Controller
         return $this->render('DPSteamServerBundle:Hltv:show.html.twig', array(
             'id' => $id, 
             'status' => $status, 
-            'form' => $this->createStartForm($serv)->createView(), 
+            'form' => ($status ? null : $this->createStartForm($serv)->createView()), 
         ));
+        
     }
     
     public function startAction($id)

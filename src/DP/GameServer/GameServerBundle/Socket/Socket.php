@@ -44,7 +44,7 @@ class Socket
     private $socket;
     private $connected;
     
-    private $callbacks;
+    private $callback;
     
 //    const MTU = 1400;
     
@@ -58,18 +58,21 @@ class Socket
      * @param array $callbacks Array of callbacks
      */
     public function __construct(
-        $ip, $port, $type, array $timeout, array $callbacks = array())
+        $ip, $port, $type, array $timeout, $callback = null)
     {
         $this->ip = $ip;
         $this->port = $port;
         $this->type = $type;
         $this->timeout = $timeout;
         $this->connected = false;
+        $this->callback = $callback;
         
-        if (is_callable($callbacks['isMultiResp']) && 
-            is_callable($callbacks['recvMultiResp'])) {
-            $this->callbacks = $callbacks;
+        /*if (isset($callbacks['isMultiResp']) && is_callable($callbacks['isMultiResp'])) {
+            $this->callbacks['isMultiResp'] = $callbacks['isMultiResp'];
         }
+        if (isset($callbacks['recvMultiResp']) && is_callable($callbacks['recvMultiResp'])) {
+            $this->callbacks['recvMultiResp'] = $callbacks['recvMultiResp'];
+        }*/
     }
     
     /**
@@ -164,7 +167,7 @@ class Socket
      * @throws RecvTimeoutException
      * @throws RecvDataException 
      */
-    public function recv($multiPacket = true)
+    public function recv($multiPacket = true, $packetLength = 1400)
     {
         if (!$this->connected) {
             throw new NotConnectedException('Can\'t recv data when the socket is disconnected.');
@@ -187,7 +190,8 @@ class Socket
         // Et on exécute les 2 callbacks de post réception si nécessaire (et si possible)
         // Ceux-ci servant à traiter les cas de réception multi-packets (notamment pour l'UDP)
         if ($select == 1) {
-            $packetLength = $this->getSocketBufferSize();
+            if ($packetLength > 1400) $packetLength = 1400;
+            
             $content = @socket_read($this->socket, $packetLength, PHP_BINARY_READ);
             
             if ($this->type == 'udp' && $content == null) {
@@ -197,10 +201,8 @@ class Socket
             
             $read = new Packet($content);
             
-            if ($multiPacket && is_callable($this->callbacks['isMultiResp'])) {
-                if (call_user_func($this->callbacks['isMultiResp'], $read)) {
-                    $read = call_user_func($this->callbacks['recvMultiResp'], $read, $this);
-                }
+            if ($multiPacket && is_callable($this->callback)) {
+                $read = call_user_func($this->callback, $read, $this);
             }
             
             return $read;

@@ -81,11 +81,11 @@ class SocketFactory
      *  
      * @param string $ip
      * @param int $port
-     * @parram array $callbacks List of callbacks used after recv
+     * @parram array $callback List of callbacks used after recv
      * @return \DP\GameServer\GameServerBundle\Socket\Socket 
      */
-    public function getTCPSocket($ip, $port, array $callbacks = array())
+    public function getTCPSocket($ip, $port, $callback)
     {
-        return $this->getSocket($ip, $port, 'tcp', $callbacks);
+        return $this->getSocket($ip, $port, 'tcp', $callback);
     }
 }

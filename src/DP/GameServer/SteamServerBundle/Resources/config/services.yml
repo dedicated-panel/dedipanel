@@ -15,8 +15,10 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 services:
-    packet.factory.steam:
-        class: DP\GameServer\SteamServerBundle\Service\SteamPacketFactory
+    packet.factory.steam.query:
+        class: DP\GameServer\SteamServerBundle\Service\SteamQueryPacketFactory
+    packet.factory.steam.rcon.source:
+        class: DP\GameServer\SteamServerBundle\Service\SourceRconPacketFactory
     
     query.steam:
         class: DP\GameServer\SteamServerBundle\Service\Query

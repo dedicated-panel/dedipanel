@@ -21,6 +21,7 @@ namespace DP\GameServer\SteamServerBundle\Service;
 
 use DP\GameServer\GameServerBundle\Socket\SocketFactory;
 use DP\GameServer\SteamServerBundle\SteamQuery\SteamQuery;
+use DP\GameServer\SteamServerBundle\SteamQuery\SourceRcon;
 
 /**
  * Query Service
@@ -30,6 +31,7 @@ class Query
 {
     private $container;
     private $queries;
+    private $rcon;
     
     /**
      * Constructor
@@ -56,5 +58,16 @@ class Query
         }
         
         return $this->queries[$key];
+    }
+    
+    public function getRcon($ip, $port, $passwd)
+    {
+        $key = $ip . ':' . $port;
+        
+        if (!isset($this->rcon) || !array_key_exists($key, $this->rcon)) {
+            $this->rcon[$key] = new SourceRcon($this->container, $ip, $port, $passwd);
+        }
+        
+        return $this->rcon[$key];
     }
 }

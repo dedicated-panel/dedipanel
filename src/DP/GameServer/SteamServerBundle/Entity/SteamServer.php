@@ -43,9 +43,9 @@ class SteamServer extends GameServer {
     /**
      * @var string $rcon
      *
-     * @ORM\Column(name="rcon", type="string", length=32, nullable=true)
+     * @ORM\Column(name="rconPassword", type="string", length=32, nullable=true)
      */
-    private $rcon;
+    private $rconPassword;
 
     /**
      * @var boolean $munin
@@ -106,23 +106,23 @@ class SteamServer extends GameServer {
     }
 
     /**
-     * Set rcon
+     * Set rconPassword
      *
-     * @param string $rcon
+     * @param string $rconPassword
      */
-    public function setRcon($rcon)
+    public function setRconPassword($rconPassword)
     {
-        $this->rcon = $rcon;
+        $this->rconPassword = $rconPassword;
     }
 
     /**
-     * Get rcon
+     * Get rconPassword
      *
      * @return string 
      */
-    public function getRcon()
+    public function getRconPassword()
     {
-        return $this->rcon;
+        return $this->rconPassword;
     }
 
     /**
@@ -486,7 +486,7 @@ class SteamServer extends GameServer {
     }
     
     public function getHltvStatus()
-    {
+    {        
         $status = PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
                 ->getSSH()->exec($this->getAbsoluteBinDir() . 'hltv.sh status');
         

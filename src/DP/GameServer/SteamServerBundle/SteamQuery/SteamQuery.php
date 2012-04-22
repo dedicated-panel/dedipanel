@@ -20,7 +20,6 @@
 namespace DP\GameServer\SteamServerBundle\SteamQuery;
 
 use DP\GameServer\GameServerBundle\Socket\Socket;
-use DP\GameServer\SteamServerBundle\Service\SteamPacketFactory;
 use DP\GameServer\GameServerBundle\Socket\Packet;
 use DP\GameServer\GameServerBundle\Socket\PacketCollection;
 
@@ -61,7 +60,7 @@ class SteamQuery
             return $packet->getLong() == -2;
         }); 
         $callbacks['recvMultiResp'] = 
-            function(Packet $packet, Socket $socket) use($container, $callbacks) {
+            function(Packet $packet, Socket $socket) use($callbacks) {
                 $splittedPackets = new PacketCollection();
                 $respId = null;
 
@@ -101,7 +100,7 @@ class SteamQuery
             };
         
         $this->container = $container;
-        $this->packetFactory = $container->get('packet.factory.steam');
+        $this->packetFactory = $container->get('packet.factory.steam.query');
         
         $this->socket = $container->get('socket')->getUDPSocket($host, $port, $callbacks);
         

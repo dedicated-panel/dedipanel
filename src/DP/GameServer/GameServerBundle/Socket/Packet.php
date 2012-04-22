@@ -28,6 +28,7 @@ use DP\GameServer\GameServerBundle\Socket\Exception\EmptyPacketException;
 class Packet
 {
     private $content;
+    private $pos;
     
     /**
      * Constructor
@@ -35,6 +36,7 @@ class Packet
      */
     public function __construct($content = null)
     {
+        $this->rewind();
         $this->content = $content;
     }
     
@@ -45,7 +47,14 @@ class Packet
      */
     public function setContent($content)
     {
+        echo 'setContent';
         $this->content = $content;
+    }
+    
+    public function setContentFromPos($content)
+    {
+        $this->content = 
+            substr($this->content, 0, $this->pos) . $content . substr($this->content, $this->pos, $this->getLength());
     }
     
     /**
@@ -55,7 +64,23 @@ class Packet
      */
     public function addContent($content)
     {
-        $this->content .= $content;
+        if ($content instanceof Packet) {
+            $content = $content->getContent();
+        }
+        
+        $before = substr($this->content, 0, $this->pos);
+        $after = substr($this->content, $this->pos, $this->getLength());
+        $str = $before . $content . $after;
+        
+        $this->content = $str;
+        $this->pos += strlen($content);
+    }
+    
+    public function pushContent($content)
+    {
+        $this->content = $content . $this->content;
+        
+        return $this;
     }
     
     /**
@@ -78,6 +103,33 @@ class Packet
         return strlen($this->content);
     }
     
+    public function key()
+    {
+        return $this->pos;
+    }
+    
+    public function setPos($pos)
+    {
+        $this->pos = $pos;
+        return $this;
+    }
+    
+    public function rewind()
+    {
+        $this->pos = 0;
+        return $this;
+    }
+    
+    public function getContent()
+    {
+        if ($this->pos == 0) {
+            return $this->content;
+        }
+        else {
+            return substr($this->content, $this->pos);
+        }
+    }
+    
     /**
      * Get a byte from the packet content
      * 
@@ -87,13 +139,14 @@ class Packet
      */
     public function getByte($delByte = true)
     {
-        if (empty($this->content)) throw new EmptyPacketException();
+        $content = $this->getContent();
+        if (empty($content)) throw new EmptyPacketException();
         
         // On récupère 1 byte
-        $data = substr($this->content, 0, 1);
+        $data = substr($content, 0, 1);
         $data = unpack('cval', $data);
         
-        if ($delByte) $this->content = substr($this->content, 1);
+        if ($delByte) $this->setContentFromPos(substr($this->getContent(), 1));
         
         return $data['val'];
     }
@@ -107,13 +160,14 @@ class Packet
      */
     public function getShort($delShort = true)
     {
-        if (empty($this->content)) throw new EmptyPacketException();
+        $content = $this->getContent();
+        if (empty($content)) throw new EmptyPacketException();
         
         // On récupère les 2 bytes constituant l'entier court 
-        $data = substr($this->content, 0, 2);
+        $data = substr($content, 0, 2);
         $data = unpack('sval', $data);
         
-        if ($delShort) $this->content = substr($this->content, 2);
+        if ($delShort) $this->setContentFromPos(substr($this->content, 2));
         
         return $data['val'];
     }
@@ -127,13 +181,14 @@ class Packet
      */
     public function getLong($delLong = true)
     {
-        if (empty($this->content)) throw new EmptyPacketException();
+        $content = $this->getContent();
+        if (empty($content)) throw new EmptyPacketException();
         
         // On récupère les 4 bytes constituant l'entier long
-        $data = substr($this->content, 0, 4);
+        $data = substr($content, 0, 4);
         $data = unpack('lval', $data);
         
-        if ($delLong) $this->content = substr($this->content, 4);
+        if ($delLong) $this->setContentFromPos(substr($this->content, 4));
         
         return $data['val'];
     }
@@ -147,13 +202,14 @@ class Packet
      */
     public function getInt($delInt = true)
     {
-        if (empty($this->content)) throw new EmptyPacketException();
+        $content = $this->getContent();
+        if (empty($content)) throw new EmptyPacketException();
         
         // On récupère les 4 bytes constituant l'entier
-        $data = substr($this->content, 0, 4);
+        $data = substr($content, 0, 4);
         $data = unpack('ival', $data);
         
-        if ($delInt) $this->content = substr($this->content, 4);
+        if ($delInt) $this->setContentFromPos(substr($this->content, 4));
         
         return $data['val'];
     }
@@ -167,13 +223,14 @@ class Packet
      */
     public function getFloat($delFloat = true)
     {
-        if (empty($this->content)) throw new EmptyPacketException();
+        $content = $this->getContent();
+        if (empty($content)) throw new EmptyPacketException();
         
         // On récupère les 4 bytes constituant l'entier
-        $data = substr($this->content, 0, 4);
+        $data = substr($content, 0, 4);
         $data = unpack('fval', $data);
         
-        if ($delFloat) $this->content = substr($this->content, 4);
+        if ($delFloat) $this->setContentFromPos(substr($this->content, 4));
         
         return $data['val'];
     }
@@ -187,14 +244,15 @@ class Packet
      */
     public function getString($delString = true)
     {
-        if (empty($this->content)) throw new EmptyPacketException();
+        $content = $this->getContent();
+        if (empty($content)) throw new EmptyPacketException();
         
         // On recherche la première occurence du char 0x0 signant la fin
-        $string = strstr($this->content, "\0", true);
+        $string = strstr($content, "\0", true);
         
         if ($delString) {
-            $pos = strpos($this->content, "\0");
-            $this->content = substr($this->content, $pos+1);
+            $pos = strpos($content, "\0");
+            $this->setContentFromPos(substr($this->content, $pos+1));
         }
         
         return $string;
@@ -216,5 +274,10 @@ class Packet
         }
         
         return $return;
+    }
+    
+    public function isEmpty()
+    {
+        return empty($this->content);
     }
 }

@@ -74,3 +74,9 @@ steam.hltv.password: Mot de passe du serveur
 steam.hltv.serverAddress: Adresse du serveur
 steam.hltv.recordName: Nom du record
 steam.hltv.connect: Connecter l'HLTV
+
+steam.rcon.title: Zone RCON
+steam.rcon.timeout: Serveur déconnecté
+steam.rcon.send: Envoyer
+steam.rcon.password: Mot de passe Rcon
+steam.rcon.cmd: Commande

@@ -23,7 +23,7 @@ use DP\GameServer\GameServerBundle\Service\PacketFactory;
 /**
  * @author Albin Kerouanton
  */
-class SteamPacketFactory extends PacketFactory
+class SteamQueryPacketFactory extends PacketFactory
 {
     const HEADER = "\xFF\xFF\xFF\xFF"; //0xFFFFFFFF;
     const A2A_PING = "\x69"; //0x69;
