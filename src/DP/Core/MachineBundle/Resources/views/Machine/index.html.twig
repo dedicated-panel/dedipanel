@@ -1,49 +1,40 @@
 {% extends "::layout.html.twig" %}
+{% block title %}<a href="{{ path('steam') }}"><span class="titre">h</span></a>{{ 'machine.list'|trans }}{% endblock %}
 {% block content %}
-    <h1>{{ 'machine.list'|trans }}</h1>
 
     <ul>
         <li>
             <a href="{{ path('machine_new') }}">
-                    {{ 'machine.new'|trans }}
-            </a>
+                        {{ 'machine.new'|trans }}
+                </a>
         </li>
     </ul>
-
-    <table class="records_list">
-        <thead>
-            <tr>
-                <th>{{ 'machine.id'|trans }}</th>
-                <th>{{ 'machine.privateIp'|trans }}</th>
-                <th>{{ 'machine.publicIp'|trans }}</th>
-                <th>{{ 'machine.port'|trans }}</th>
-                <th>{{ 'machine.user'|trans }}</th>
-                <th>{{ 'machine.actions'|trans }}</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('machine_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.privateIp }}</td>
-                <td>{{ entity.publicIp }}</td>
-                <td>{{ entity.port }}</td>
-                <td>{{ entity.user }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('machine_show', { 'id': entity.id }) }}">{{ 'machine.show'|trans }}</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('machine_edit', { 'id': entity.id }) }}">{{ 'machine.edit'|trans }}</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('machine_connectionTest', { 'id': entity.id }) }}">{{ 'machine.connectionTest'|trans }}</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
+<div class=​"machine-info">​
+        <span class="machine-info-id">{{ 'machine.id'|trans }}</span>
+        <span class="machine-info-prip">{{ 'machine.privateIp'|trans }}</span>
+        <span class="machine-info-puip">{{ 'machine.publicIp'|trans }}</span>
+        <span class="machine-info-port">{{ 'machine.port'|trans }}</span>
+        <span class="machine-info-user">{{ 'machine.user'|trans }}</span>
+        <span class="machine-info-actions">{{ 'machine.actions'|trans }}</span>
+    </div>
+    <ul>​
+          {% for entity in entities %}
+            <div id="slect-machine">
+                <li>       
+                    <span class="machine-id"><a href="{{ path('machine_show', { 'id': entity.id }) }}">{{ entity.id }}</a></span>
+                    <span class="machine-prip">{{ entity.privateIp }}</span>       
+                    <span class="machine-puip">{{ entity.publicIp }}</span>      
+                    <span class="machine-port">{{ entity.port }}</span>   
+                    <span class="machine-user">{{ entity.user }}</span>   
+                    <span class="machine-actions">
+                        <div class="buttons">
+                            <a class="view" href="{{ path('machine_show', { 'id': entity.id }) }}" title="{{ 'machine.show'|trans }}"><span class="style-buttons">L</span></a>
+                            <a class="info" href="{{ path('machine_edit', { 'id': entity.id }) }}" title="{{ 'machine.edit'|trans }}"><span class="style-buttons">S</span></a>
+                            <a class="retry" href="{{ path('machine_connectionTest', { 'id': entity.id }) }}" title="{{ 'machine.connectionTest'|trans }}"><span class="style-buttons">*</span></a>
+                        </div>
+                    </span>
+                </li> 
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
+        </ul>
 {% endblock %}
