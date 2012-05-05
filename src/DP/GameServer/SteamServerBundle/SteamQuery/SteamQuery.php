@@ -27,6 +27,7 @@ use DP\GameServer\GameServerBundle\Socket\Exception\ConnectionFailedException;
 use DP\GameServer\GameServerBundle\Socket\Exception\NotConnectedException;
 use DP\GameServer\GameServerBundle\Socket\Exception\RecvTimeoutException;
 use DP\GameServer\SteamServerBundle\SteamQuery\Exception\ServerTimeoutException;
+use DP\GameServer\SteamServerBundle\SteamQuery\Exception\IPBannedException;
 
 /**
  * @author Albin Kerouanton 
@@ -39,9 +40,11 @@ class SteamQuery
 
     protected $challenge;
     protected $latency;
+    protected $serverInfosBuffer;
     protected $serverInfos;
     protected $players;
     protected $rules;
+    protected $banned = null;
     
     /**
      * Constructor
@@ -106,8 +109,11 @@ class SteamQuery
         
         try {
             $this->socket->connect();
+            $this->isBanned();
         }
         catch (ConnectionFailedException $e) {}
+        catch (IPBannedException $e) {}
+        catch (ServerTimeoutException $e) {}
     }
     
     /**
@@ -118,13 +124,21 @@ class SteamQuery
      */
     public function getServerInfos()
     {
+        if ($this->banned || $this->latency === false) {
+            return false;
+        }
+        
         if (!isset($this->serverInfos)) {
             try {
-                $this->socket->send($this->packetFactory->A2S_INFO());
-                $resp = $this->socket->recv();
-
-                $infos = $resp->extract(array('header' => 'byte',
-                    'protocol' => 'byte',
+                // serverInfosBuffer est récupéré par la méthode isBanned appelé dans le constructeur
+                $resp = $this->serverInfosBuffer;
+                if ($resp == null) {
+                    return false;
+                }
+                
+                $infos = $resp->rewind()->extract(array(
+                    'header' => 'byte',
+                    'protocol' => 'byte', 
                     'serverName' => 'string',
                     'map' => 'string',
                     'gameDir' => 'string',
@@ -304,5 +318,48 @@ class SteamQuery
     public function getIsOnline()
     {
         return $this->isOnline();
+    }
+    
+    /**
+     * Check if the IP is banned from the server
+     * This method is executed before the serverInfos
+     * @return bool
+     */
+    public function isBanned($fromTpl = false)
+    {
+        if ($this->banned === null && $this->latency === null) {
+            try {
+                $this->socket->send($this->packetFactory->A2S_INFO());
+                $resp = $this->socket->recv();
+                
+                if (strpos($resp->setPos(5)->getString(false), 
+                    'Banned by server') !== false) {
+                    $this->latency = false;
+                    $this->banned = true;
+                    $this->serverInfosBuffer = null;
+                    
+                    if ($fromTpl !== true) {
+                     throw new IPBannedException();   
+                    }
+                }
+                else {
+                    $this->serverInfosBuffer = $resp->rewind();
+                }
+            }
+            catch (RecvTimeoutException $e) {
+                $this->latency = false;
+                $this->serverInfos = array();
+                $this->serverInfosBuffer = null;
+                throw new ServerTimeoutException();
+            }
+            catch (NotConnectedException $e) {
+                $this->latency = false;
+                $this->serverInfos = array();
+                $this->serverInfosBuffer = null;
+                throw new ServerTimeoutException();
+            }
+        }
+        
+        return $this->banned;
     }
 }

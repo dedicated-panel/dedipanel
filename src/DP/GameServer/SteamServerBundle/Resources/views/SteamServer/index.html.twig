@@ -66,7 +66,7 @@
                         
                     <div id="installation-progress">
                         <progress value="{{ entity.installationStatus }}"></progress><br />
-                        <a href="{{ path('steam_install', {id: entity.id }) }}">Mettre à jour</a>
+                        <a href="{{ path('steam_install', {id: entity.id }) }}">{{ 'steam.updateStatus'|trans }}</a>
                     </div>
                 </div>
             {% else %}
@@ -86,6 +86,7 @@
                         </p>
                     </div>
 
+                    {% set banned = (entity.query.isBanned(true) == true) %}                    
                     {% set online = (entity.query.latency != false) %}
                     {% if online %}
                         <p class="infomap">{{ entity.query.serverInfos['map'] }}</p>
@@ -93,6 +94,8 @@
                             {{ entity.query.serverInfos['players'] }} / 
                             {{ entity.query.serverInfos['maxPlayers'] }}
                         </p>
+                    {% elseif banned %}
+                        <p class="infomap">{{ 'steam.banned'|trans }}</p>
                     {% else %}
                         <p class="infomap">{{ 'steam.offline'|trans }}</p>
                     {% endif %}

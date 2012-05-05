@@ -69,14 +69,20 @@ steam.cfg.content: Contenu du fichier
 
 steam.hltv.running: HLTV démarré
 steam.hltv.stopped: HLTV arrêté
-steam.hltv.hltvIP: Adresse IP
+steam.hltv.hltvIP: Adresse IP de l'HLTV
 steam.hltv.password: Mot de passe du serveur
 steam.hltv.serverAddress: Adresse du serveur
 steam.hltv.recordName: Nom du record
 steam.hltv.connect: Connecter l'HLTV
+steam.hltv.reloadMap: Redémarrer la map ?
+steam.hltv.yes: Oui
+steam.hltv.no: Non
 
 steam.rcon.title: Zone RCON
 steam.rcon.timeout: Serveur déconnecté
 steam.rcon.send: Envoyer
 steam.rcon.password: Mot de passe Rcon
 steam.rcon.cmd: Commande
+
+steam.banned: Serveur Banni
+steam.updateStatus: Mettre à jour le statut
