@@ -20,11 +20,16 @@
 {% block title %}<a href="{{ path('steam') }}"><span class="titre">h</span></a>{{ 'steam.showTitle'|trans }}{% endblock %}
 
 {% block content %}
-    {% if status == true %}
+    {% if status %}
         <p><a href="{{ path('steam_hltv_stop', {id: id}) }}">{{ 'steam.hltv.running'|trans }}.</a></p>
     {% else %}
-        <p>{{ 'steam.hltv.stopped'|trans }}.</p>
         <form action="{{ path('steam_hltv_start', {id: id}) }}" method="post">
+            {% if banned %}
+                <p>{{ 'stea.banned'|trans }}.</p>
+            {% else %}
+                <p>{{ 'steam.hltv.stopped'|trans }}.</p>
+            {% endif %}
+                
             {{ form_label(form.ip) }} {{ form_widget(form.ip) }} 
             <b>:</b> {{ form_widget(form.port) }}<br />
                 

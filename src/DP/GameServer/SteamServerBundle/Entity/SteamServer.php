@@ -79,6 +79,13 @@ class SteamServer extends GameServer {
      */
     private $plugins;
     
+    /**
+     * @var integer $hltvPort
+     * 
+     * @ORM\Column(name="hltvPort", type="integer", nullable=true)
+     */
+    private $hltvPort;
+    
     
     public function __construct()
     {
@@ -183,6 +190,26 @@ class SteamServer extends GameServer {
     public function getCore()
     {
         return $this->core;
+    }
+    
+    /**
+     * Set HLTV/SRCTV Port
+     * 
+     * @param integer $hltvPort 
+     */
+    public function setHltvPort($hltvPort)
+    {
+        $this->hltvPort = $hltvPort;
+    }
+   
+    /**
+     * Get HLTV/SRCTV Port
+     * 
+     * @return integer
+     */
+    public function getHltvPort()
+    {
+        return $this->hltvPort;
     }
     
     /**
@@ -317,7 +344,7 @@ class SteamServer extends GameServer {
         
         /** HLDS.sh **/
         $screenName = $machine->getUser() . '-' . $this->getDir();
-        $scriptPath = $this->getAbsoluteDir() . 'hlds.sh';
+        $scriptPath = $this->getAbsoluteDir() . 'hlds2.sh';
         
         $hldsScript = $twig->render('DPSteamServerBundle:sh:hlds.sh.twig', array(
             'screenName' => $screenName, 'bin' => $game->getBin(), 
@@ -326,6 +353,7 @@ class SteamServer extends GameServer {
             'startMap' => $game->getMap(), 'binDir' => $this->getAbsoluteBinDir(), 
         ));
         $uploadHlds = $sec->upload($scriptPath, $hldsScript, 0750);
+        echo'<pre>'; print_r($sec->getSFTP()->getSFTPLog()); echo'</pre>';
         
         /** HLTV.sh **/
         $uploadHltv = true;
@@ -494,7 +522,7 @@ class SteamServer extends GameServer {
         else return false;
     }
     
-    public function startHltv($hltvPort, $servIp, $servPort, $password = null, $record = null)
+    public function startHltv($servIp, $servPort, $password = null, $record = null)
     {
         if ($password == null) {
             $password = '';
@@ -502,7 +530,7 @@ class SteamServer extends GameServer {
         
         $cmd = 'screen -dmS ' . $this->getHltvScreenName() . ' ' 
             . $this->getAbsoluteBinDir() . 'hltv.sh start ' 
-            . $servIp . ':' . $servPort . ' ' . $hltvPort . ' ' . $password . '';
+            . $servIp . ':' . $servPort . ' ' . $this->hltvPort . ' "' . $password . '"';
         if ($record != null) {
             $cmd .= ' ' . $record; 
         }

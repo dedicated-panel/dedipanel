@@ -67,7 +67,6 @@ class SteamServerController extends Controller
         return $this->render('DPSteamServerBundle:SteamServer:show.html.twig', array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
-
         ));
     }
 
@@ -245,7 +244,7 @@ class SteamServerController extends Controller
                 $entity->removeInstallationFiles();
                 
                 if ($entity->getGame()->getName() == 'Counter-Strike Source') {
-                    $entity->touch('css/cstrike/server.cfg');
+                    $entity->touch('css/cstrike/cfg/server.cfg');
                 }
             }
         } 

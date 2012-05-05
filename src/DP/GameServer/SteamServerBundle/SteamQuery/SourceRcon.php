@@ -39,9 +39,9 @@ class SourceRcon
     public function __construct($container, $host, $port, $rconPassword)
     {
         $callback = function(Packet $packet, Socket $socket) {
-            if (is_null($packet)) return false;
+            if (is_null($packet) || $packet->isEmpty()) return false;
             
-            $remaining = $packet->getLong(false)+100;
+            $remaining = $packet->getLong(false);
             $packet->setPos(4);
             $id = $packet->getLong(false);
             
@@ -162,6 +162,8 @@ class SourceRcon
             
         } while ($resp != null);
         
-        return $packets->reassemble()->rewind();
+        $packet = $packets->reassemble();
+        
+        return $packet->rewind();
     }
 }
