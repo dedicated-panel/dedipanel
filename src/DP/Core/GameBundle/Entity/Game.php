@@ -78,6 +78,13 @@ class Game
      * @ORM\Column(name="orangebox", type="boolean")
      */
     private $orangebox = false; // default value
+    
+    /**
+     * @var boolean $source
+     * 
+     * @ORM\Column(name="source", type="boolean")
+     */
+    private $source = false; // default value, used for source tv
 
     /**
      * @var string $map
@@ -239,6 +246,26 @@ class Game
     public function getOrangebox()
     {
         return $this->orangebox;
+    }
+    
+    /**
+     * Set source
+     * 
+     * @param boolean $source 
+     */
+    public function setSource($source)
+    {
+        $this->source = $source;
+    }
+    
+    /**
+     * Get source
+     * 
+     * @return boolean
+     */
+    public function isSource()
+    {
+        return $this->source;
     }
 
     /**
