@@ -23,7 +23,7 @@
        	<fieldset id="validation"> 
             {{ form_widget(edit_form) }}
            
-                <input type="submit" value="{{ 'steam.edit'|trans }}" name="submit" class="submit">
+            <input type="submit" value="{{ 'steam.edit'|trans }}" name="submit" class="submit">
         </fieldset>
     </form>
     <form action="{{ path('steam_delete', { 'id': entity.id }) }}" method="post" class="deletebutton">

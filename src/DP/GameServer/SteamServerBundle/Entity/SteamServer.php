@@ -344,7 +344,7 @@ class SteamServer extends GameServer {
         
         /** HLDS.sh **/
         $screenName = $machine->getUser() . '-' . $this->getDir();
-        $scriptPath = $this->getAbsoluteDir() . 'hlds2.sh';
+        $scriptPath = $this->getAbsoluteDir() . 'hlds.sh';
         
         $hldsScript = $twig->render('DPSteamServerBundle:sh:hlds.sh.twig', array(
             'screenName' => $screenName, 'bin' => $game->getBin(), 
@@ -353,7 +353,7 @@ class SteamServer extends GameServer {
             'startMap' => $game->getMap(), 'binDir' => $this->getAbsoluteBinDir(), 
         ));
         $uploadHlds = $sec->upload($scriptPath, $hldsScript, 0750);
-        echo'<pre>'; print_r($sec->getSFTP()->getSFTPLog()); echo'</pre>';
+//        echo'<pre>'; print_r($sec->getSFTP()->getSFTPLog()); echo'</pre>';
         
         /** HLTV.sh **/
         $uploadHltv = true;
