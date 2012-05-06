@@ -26,7 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * DP\Core\GameBundle\Entity\Game
  * @author Albin Kerouanton 
  *
- * @ORM\Table()
+ * @ORM\Table(name="game")
  * @ORM\Entity(repositoryClass="DP\Core\GameBundle\Entity\GameRepository")
  */
 class Game
@@ -109,7 +109,7 @@ class Game
     private $binDir;
     
     /**
-     * @ORM\Column(name="sourceImagesMaps", type="string", length=255)
+     * @ORM\Column(name="sourceImagesMaps", type="string", length=255, nullable=true)
      * @var string
      */
     private $sourceImagesMaps;

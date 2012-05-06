@@ -26,6 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DP\Core\GameServer\GameServerBundle\Entity\GameServer
+ * @ORM\Table(name="gameserver")
  * @ORM\Entity()
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="discr", type="string")

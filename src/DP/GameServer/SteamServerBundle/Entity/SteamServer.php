@@ -29,7 +29,7 @@ use DP\Core\GameBundle\Entity\Plugin;
 /**
  * DP\GameServer\SteamServerBundle\Entity\SteamServer
  *
- * @ORM\Table()
+ * @ORM\Table(name="steamserver")
  * @ORM\Entity(repositoryClass="DP\GameServer\SteamServerBundle\Entity\SteamServerRepository")
  */
 class SteamServer extends GameServer {

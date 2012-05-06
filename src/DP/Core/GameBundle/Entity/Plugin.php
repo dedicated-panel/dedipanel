@@ -25,7 +25,7 @@ use Doctrine\ORM\Mapping as ORM;
  * DP\Core\GameBundle\Entity\Plugin
  * @author Albin Kerouanton 
  *
- * @ORM\Table()
+ * @ORM\Table(name="plugin")
  * @ORM\Entity(repositoryClass="DP\Core\GameBundle\Entity\PluginRepository")
  */
 class Plugin

@@ -6,16 +6,19 @@ case "$1" in
 		git clone http://github.com/NiR-/dedipanel.git
 		cd $2
 
-		# Ajustement des droits d'acces
-		mv app/config/parameters.ini.dist app/config/parameters.ini
+		# Modif des infos concernant la bdd
+		cp app/config/parameters.ini.dist app/config/parameters.ini
 		vim app/config/parameters.ini
-		chmod g+w app/cache
 		chown -R www-data:www-data ./
+		chmod g+w ./
 
 		# Installation des vendors et parametrage du panel
 		php bin/vendors install
 		php app/console doctrine:schema:create
+		php app/console init:acl
 		php app/console fos:user:create --super-admin
+		
+		exit ${?}
 	;;
 	
 	update)
@@ -25,6 +28,8 @@ case "$1" in
 		chown -R www-data:www-data ./
 		php bin/vendors install
 		php app/console doctrine:schema:update --force
+		
+		exit ${?}
 	;;
 	
 	*)
@@ -32,5 +37,3 @@ case "$1" in
 		exit ${?}
 	;;
 esac
-	
-;;
