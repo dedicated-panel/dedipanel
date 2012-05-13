@@ -2,20 +2,20 @@
 {% block title %}<a href="{{ path('steam') }}"><span class="titre">h</span></a>{{ 'machine.list'|trans }}{% endblock %}
 {% block content %}
 
-    <ul>
-        <li>
-            <a href="{{ path('machine_new') }}">
+<ul>
+    <li>
+        <a href="{{ path('machine_new') }}">
                         {{ 'machine.new'|trans }}
-                </a>
+            </a>
         </li>
     </ul>
-<div class=​"machine-info">​
-        <span class="machine-info-id">{{ 'machine.id'|trans }}</span>
-        <span class="machine-info-prip">{{ 'machine.privateIp'|trans }}</span>
-        <span class="machine-info-puip">{{ 'machine.publicIp'|trans }}</span>
-        <span class="machine-info-port">{{ 'machine.port'|trans }}</span>
-        <span class="machine-info-user">{{ 'machine.user'|trans }}</span>
-        <span class="machine-info-actions">{{ 'machine.actions'|trans }}</span>
+    <div class="machine-info">
+        <p>{{ 'machine.id'|trans }}
+        <p>{{ 'machine.privateIp'|trans }}</p>
+        <p>{{ 'machine.publicIp'|trans }}</p>
+        <p>{{ 'machine.port'|trans }}</p>
+        <p>{{ 'machine.user'|trans }}</p>
+        <p>{{ 'machine.actions'|trans }}</p>
     </div>
     <ul>​
           {% for entity in entities %}

@@ -1,24 +1,21 @@
 {% extends "::layout.html.twig" %}
-{% block title %}{{ 'machine.editMachine'|trans }}{% endblock %}
-{% block content %}
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('machine') }}">
-                {{ 'machine.back'|trans }}
-            </a>
-        </li>
-    </ul>
+{% block title %}<a href="{{ path('machine') }}"><span class="titre">h</span></a>{{ 'machine.editMachine'|trans }}{% endblock %}
 
-    <form action="{{ path('machine_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-        <fieldset>
-            {{ form_widget(edit_form) }}
-            <p>
-                <input type="submit" value="{{ 'machine.edit'|trans }}" name="submit" class="submit" />
-            </p>
-            <form action="{{ path('machine_delete', { 'id': entity.id }) }}" method="post">
-                {{ form_widget(delete_form) }}
-                <input type="submit" value="{{ 'machine.del'|trans }}" name="submit" class="submit" />
-            </form>
-        </fieldset>
+{% block content %}
+    <form action="{{ path('machine_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>    
+        <fieldset id="validation"> 
+        {{ form_widget(edit_form) }}
+                
+            <input type="submit" value="{{ 'machine.edit'|trans }}" name="submit" class="submit" />
+            
+        </fieldset>         
     </form>
+    <span class="deletebutton">
+        <form action="{{ path('machine_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+           
+                <input type="submit" value="{{ 'machine.del'|trans }}" name="submit" class="delete" />
+       </form>        
+    </span>       
+
 {% endblock %}
