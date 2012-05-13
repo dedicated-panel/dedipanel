@@ -165,7 +165,7 @@ class PacketCollection implements \SeekableIterator, \ArrayAccess, \Countable
             }
         }
         
-        return $bigPacket;
+        return $bigPacket->rewind();
     }
     
     public function add(Packet $packet)
