@@ -15,7 +15,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 steam_hltv_show:
-    pattern: /show
+    pattern: /
     defaults: { _controller: "DPSteamServerBundle:Hltv:show" }
 
 steam_hltv_start:
