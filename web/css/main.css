@@ -468,6 +468,13 @@ footer p {
     text-align: right;
     text-decoration: none;
 }
+.steam-server #installation-progressbar{
+    float: left;
+    margin: 0;
+}
+.steam-server #progressbar{
+    width: 500px;
+}
 
 /*** Edit ***/
 #form-gauche { 
@@ -517,23 +524,20 @@ footer p {
     text-shadow: rgba(255,255,255,0.5) 0 5px 6px, rgba(255,255,255,0.2) 1px 3px 3px;
 }
 .machine-info{
-    list-style: none;
-    position: relative;
     font-size: 13px;
     font-weight: bold;
+    text-indent: 15px;
     text-shadow: 0px -1px 0px #222;
-    color: #666;
-    height: 30px;
-    padding: 0px 15px;
+    padding: 15px 0px 15px 0px;
+    margin: 0 0 0 40px;
+    width: 900px;
+    height: 16px;
+    position: relative;
     border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 }
-.machine-id,.machine-prip,.machine-puip,
-.machine-port,.machine-user,.machine-actions{ 
-    margin-left: 40px;
-}
-.machine-info-id,.machine-info-prip,.machine-info-puip,
-.machine-info-port,.machine-info-user,.machine-info-actions{ 
-    margin-left: 40px;
+
+.machine-info p{
+    float: left;
 }
 .style-buttons{
     font-family: 'WebSymbolsRegular', cursive;
