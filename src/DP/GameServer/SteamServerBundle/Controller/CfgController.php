@@ -67,9 +67,11 @@ class CfgController extends Controller
         
         if ($request->getMethod() == 'POST') {
             $form->bindRequest($request);
-            $data = $form->getData();
             
-            $server->uploadFile($path, $data['file']);
+            if ($form->isValid()) {
+                $data = $form->getData();
+                $server->uploadFile($path, $data['file']);
+            }
         }
         
         return $this->render('DPSteamServerBundle:Cfg:editFile.html.twig', array(
@@ -79,6 +81,10 @@ class CfgController extends Controller
         ));
     }
     
+    /*
+     * Extract filename from path
+     * @return string
+     */
     private function getFilename($path)
     {
         $pos = strrpos($path, '/');
