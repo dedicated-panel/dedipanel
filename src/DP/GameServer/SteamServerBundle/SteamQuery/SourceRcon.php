@@ -34,7 +34,7 @@ class SourceRcon
     private $socket;
     private $packetFactory;
     private $rconPassword;
-    private $authenticated = false;
+    private $authenticated = null;
     
     public function __construct($container, $host, $port, $rconPassword)
     {
@@ -95,11 +95,16 @@ class SourceRcon
     
     private function auth()
     {
-        if (!$this->authenticated) {
+        if ($this->authenticated == null) {
             $id = null;
             $packet = $this->packetFactory->getAuthPacket($id, $this->rconPassword);
             $this->socket->send($packet);
             $resp = $this->socket->recv(false);
+            
+            if ($resp->isEmpty()) {
+                $this->authenticated = false;
+                return;
+            }
             
             $infos = $resp->extract(array(
                 'size' => 'long', 
@@ -120,8 +125,12 @@ class SourceRcon
                 ));
             }
             
-            if ($infos['type'] == $this->packetFactory->SERVER_AUTH_RESPONSE) {
+            if ($infos['id'] == $id && 
+                $infos['type'] == $this->packetFactory->SERVER_AUTH_RESPONSE) {
                 $this->authenticated = true;
+            }
+            else {
+                $this->authenticated = false;
             }
         }
     }
@@ -135,6 +144,10 @@ class SourceRcon
             
             $resp = $this->recv();
             
+            if ($resp == null) {
+                return false;
+            }
+            
             if ($resp->setPos(8)->getLong(false) != $this->packetFactory->SERVER_RESPONSE_VALUE 
                 || $resp->setPos(4)->getLong(false) != $id) {
                 return false;
@@ -147,6 +160,15 @@ class SourceRcon
         }
     }
     
+    /**
+     * Get mulitple packets from socket recv method
+     * Return reassemble packets if there is reponse(s)
+     * Or return null if there is a RecvTimeoutException catched 
+     * before any content has been received.
+     * 
+     * @param type $multipacket
+     * @return \DP\GameServer\GameServerBundle\Socket\Packet|null
+     */
     private function recv($multipacket = true)
     {
         $packets = new PacketCollection();
@@ -162,7 +184,12 @@ class SourceRcon
             
         } while ($resp != null);
         
-        $packet = $packets->reassemble();
+        if ($resp == null && $packets->count() == 0) {
+            return null;
+        }
+        else {
+            return $packets->reassemble();
+        }
         
         return $packet->rewind();
     }
