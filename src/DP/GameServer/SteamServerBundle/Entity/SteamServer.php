@@ -131,6 +131,11 @@ class SteamServer extends GameServer {
     {
         return $this->rconPassword;
     }
+    
+    public function isEmptyRconPassword()
+    {
+        return empty($this->rconPassword);
+    }
 
     /**
      * Set munin
@@ -228,16 +233,8 @@ class SteamServer extends GameServer {
      * @return string
      */
     private function getAbsoluteBinDir()
-    {
-        $binDir = $this->game->getBinDir();
-        $absDir = $this->getAbsoluteDir();
-        
-        if ($binDir == './') {
-            return $absDir;
-        }
-        else {
-            return $absDir . $binDir;
-        } 
+    {        
+        return $this->getAbsoluteDir() . $this->game->getBinDir(); 
    }
     
     /**
@@ -247,7 +244,7 @@ class SteamServer extends GameServer {
      */
     private function getAbsoluteGameContentDir()
     {
-        return $this->getAbsoluteDir() . $this->game->getInstallName() . '/';
+        return $this->getAbsoluteBinDir() . $this->game->getLaunchName() . '/';
     }
     
     /**
@@ -368,6 +365,12 @@ class SteamServer extends GameServer {
             $uploadHltv = $sec->upload($scriptPath, $hltvScript, 0750);
         }
         
+        // On upload un fichier server.cfg si aucun n'existe
+        if ($game->getInstallName() == 'Counter-Strike Source') {
+            $filePath = $this->getAbsoluteGameContentDir() . 'cfg/server.cfg';
+            $sec->exec('if [ ! -e ' . $filePath . ' ]; then touch ' . $filePath . '; fi');
+        }
+        
         $this->installationStatus = 101;
         
         return $uploadHlds && $uploadHltv;
@@ -462,7 +465,7 @@ class SteamServer extends GameServer {
     
     public function getDirContent($path = '')
     {
-        $path = $this->getAbsoluteDir() . $path;
+        $path = $this->getAbsoluteGameContentDir() . $path;
         $sftp = PHPSeclibWrapper::getFromMachineEntity($this->getMachine())->getSFTP();
         
         $dirContent = $sftp->rawlist($path);
@@ -486,7 +489,7 @@ class SteamServer extends GameServer {
     
     public function getFileContent($path)
     {
-        $path = $this->getAbsoluteDir() . $path;
+        $path = $this->getAbsoluteGameContentDir() . $path;
         
         return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
                 ->getRemoteFile($path);
@@ -494,7 +497,7 @@ class SteamServer extends GameServer {
     
     public function uploadFile($path, $content)
     {
-        $path = $this->getAbsoluteDir() . $path;
+        $path = $this->getAbsoluteGameContentDir() . $path;
         
         return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
                 ->upload($path, $content, false);
@@ -502,7 +505,7 @@ class SteamServer extends GameServer {
     
     public function touch($file)
     {
-        $path = $this->getAbsoluteDir() . $file;
+        $path = $this->getAbsoluteGameContentDir() . $file;
         
         return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
                 ->touch($path);
@@ -541,7 +544,12 @@ class SteamServer extends GameServer {
     
     public function stopHltv()
     {
-        PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
-            ->getSSH()->exec($this->getAbsoluteBinDir() . 'hltv.sh stop');
+        if (!$this->getGame()->isSource()) {
+            return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
+                ->getSSH()->exec($this->getAbsoluteBinDir() . 'hltv.sh stop');
+        }
+        else {
+            
+        }
     }
 }

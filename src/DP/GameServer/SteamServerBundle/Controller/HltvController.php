@@ -37,6 +37,9 @@ class HltvController extends Controller
             $serv->getHltvPort()
         );
 
+        // On vérifie le statut de l'hltv
+        // S'il n'est pas en ligne, on regarde sur le port du serv
+        // Si l'ip a été bannie
         $status = false;
         $banned = false;
         if (!$hltv->isOnline()) {
@@ -77,10 +80,12 @@ class HltvController extends Controller
             $data = $form->getData();
 
             $serv->setHltvPort($data['port']);
-            $em->persist($serv);
-            $em->flush();
 
-            if ($serv->getGame()->isSource()) {                
+            if ($serv->getGame()->isSource()) {
+                if ($serv->isEmptyRconPassword()) {
+                    $serv->setRconPassword($data['rconPasswd']);
+                }
+                
                 $rcon = $this->get('query.steam')->getRcon(
                     $serv->getMachine()->getPublicIp(), 
                     $serv->getPort(), 
@@ -89,16 +94,17 @@ class HltvController extends Controller
                 
                 $exec = $rcon->sendCmd('exec hltv.cfg');
                 
-                if ($data['reload'] == true) {
+                if ($exec !== false && $data['reload'] == true) {
                     $reload = $rcon->sendCmd('reload');
                 }
-                
-                var_dump($exec, $reload);
             }
             else {            
                 $serv->startHltv($data['servIp'], 
                     $data['servPort'], $data['password'], $data['record']);
             }
+            
+            $em->persist($serv);
+            $em->flush();
         }
         
         return $this->redirect($this->generateUrl('steam_hltv_show', array('id' => $id)));
@@ -130,8 +136,17 @@ class HltvController extends Controller
                     ->add('ip', 'text', array('label' => 'steam.hltv.hltvIP', 'read_only' => true))
                     ->add('port', 'integer');
         
+        // Ajout d'un champ "mot de passe du serveur"
+        // Pour les jeux GoldSrc, puisqu'il faut connaître le mdp du serv
+        // Pour pouvoir y connecter l'hltv
         if (!$serv->getGame()->isSource()) {
             $form->add('password', 'password', array('label' => 'steam.hltv.password', 'required' => false));
+        }
+        
+        // Ajout d'un champ "Mdp RCON" pour les jeux Source, 
+        // Afin de pouvoir envoyer les requêtes RCON nécessaires
+        if ($serv->getGame()->isSource() && $serv->isEmptyRconPassword()) {
+            $form->add('rconPasswd', 'password', array('label' => 'steam.rcon.password', 'required' => true));
         }
         
         $form->add('servIp', 'text', array('label' => 'steam.hltv.serverAddress'))
