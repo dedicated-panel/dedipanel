@@ -49,12 +49,12 @@ class Query
      * @param int $port
      * @return \DP\GameServer\SteamServerBundle\SteamQuery\SteamQuery
      */
-    public function getServerQuery($ip, $port)
+    public function getServerQuery($ip, $port, $isHltv = false)
     {
         $key = $ip . ':' . $port;
         
         if (!isset($this->queries) || !array_key_exists($key, $this->queries)) {
-            $this->queries[$key] = new SteamQuery($this->container, $ip, $port);
+            $this->queries[$key] = new SteamQuery($this->container, $ip, $port, $isHltv);
         }
         
         return $this->queries[$key];

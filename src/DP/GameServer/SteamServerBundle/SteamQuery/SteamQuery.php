@@ -28,6 +28,7 @@ use DP\GameServer\GameServerBundle\Socket\Exception\NotConnectedException;
 use DP\GameServer\GameServerBundle\Socket\Exception\RecvTimeoutException;
 use DP\GameServer\SteamServerBundle\SteamQuery\Exception\ServerTimeoutException;
 use DP\GameServer\SteamServerBundle\SteamQuery\Exception\IPBannedException;
+use DP\GameServer\SteamServerBundle\SteamQuery\Exception\UnexpectedServerTypeException;
 
 /**
  * @author Albin Kerouanton 
@@ -40,11 +41,11 @@ class SteamQuery
 
     protected $challenge;
     protected $latency;
-    protected $serverInfosBuffer;
     protected $serverInfos;
     protected $players;
     protected $rules;
     protected $banned = null;
+    protected $isHltv;
     
     /**
      * Constructor
@@ -53,54 +54,57 @@ class SteamQuery
      * @param string $host
      * @param int $port
      */
-    public function __construct($container, $host, $port)
+    public function __construct($container, $host, $port, $isHltv = false)
     {
+        $this->isHltv = $isHltv;
+        
         // On ne déclare pas les 2 callbacks simultanément
         // Puisque le 2nd fait appel au 1er
-        $callbacks = array('isMultiResp' => function ($packet) {
-            if (is_null($packet)) return false;
+        $callbacks = array(
+            function ($packet) {
+                if (is_null($packet)) return false;
 
-            return $packet->getLong() == -2;
-        }); 
-        $callbacks['recvMultiResp'] = 
-            function(Packet $packet, Socket $socket) use($callbacks) {
-                $splittedPackets = new PacketCollection();
-                $respId = null;
+                $val = $packet->getLong();
+                return $val == -2;
+            }); 
+        $callbacks[] = function(Packet $packet, Socket $socket) use($callbacks) {
+            $splittedPackets = new PacketCollection();
+            $respId = null;
 
-                do {                
-                    // On récupère l'id de la transmission
-                    // Et on vérifie que les packets récupérés aient le même ID
-                    $id = $packet->getLong();
-                    if (!$respId) {
-                        $respId = $id;
-                    }
-                    elseif ($respId != $id) {
-                        $packet = null;
-                        $packet = $socket->recv(false);
-                        continue;
-                    }
-
-                    $infosPacket = $packet->getByte();
-                    $nbrePacket = $infosPacket & 0xF;
-                    $packetId = $infosPacket >> 4;
-
-                    $splittedPackets[$packetId] = $packet;
-
-                    // On remet à zéro le packet pour ne pas avoir de boucle infinie
+            do {                
+                // On récupère l'id de la transmission
+                // Et on vérifie que les packets récupérés aient le même ID
+                $id = $packet->getLong();
+                if (!$respId) {
+                    $respId = $id;
+                }
+                elseif ($respId != $id) {
                     $packet = null;
-                    if (count($splittedPackets) < $nbrePacket) {
-                        $packet = $socket->recv(false);
-                    }
-                    $isMultiResp = call_user_func($callbacks['isMultiResp'], $packet);
-                } while (!empty($packet) && $isMultiResp == true);
-                
-                // Les réponses multi packet une fois réassemblé
-                // Comence par l'entier -1
-                $ret = $splittedPackets->reassemble();
-                $ret->getLong();
-                
-                return $ret;
-            };
+                    $packet = $socket->recv(false);
+                    continue;
+                }
+
+                $infosPacket = $packet->getByte();
+                $nbrePacket = $infosPacket & 0xF;
+                $packetId = $infosPacket >> 4;
+
+                $splittedPackets[$packetId] = $packet;
+
+                // On remet à zéro le packet pour ne pas avoir de boucle infinie
+                $packet = null;
+                if (count($splittedPackets) < $nbrePacket) {
+                    $packet = $socket->recv(false);
+                }
+                $isMultiResp = call_user_func($callbacks['isMultiResp'], $packet);
+            } while (!empty($packet) && $isMultiResp == true);
+
+            // Les réponses multi packet une fois réassemblé
+            // Comence par l'entier -1
+            $ret = $splittedPackets->reassemble();
+            $ret->getLong();
+
+            return $ret;
+        };
         
         $this->container = $container;
         $this->packetFactory = $container->get('packet.factory.steam.query');
@@ -109,11 +113,25 @@ class SteamQuery
         
         try {
             $this->socket->connect();
+            $this->getLatency();
             $this->isBanned();
+            $this->getChallenge();
         }
         catch (ConnectionFailedException $e) {}
         catch (IPBannedException $e) {}
         catch (ServerTimeoutException $e) {}
+        catch (NotConnectedException $e) {}
+    }
+    
+    public function verifyStatus()
+    {
+        $infos = $this->getServerInfos();
+        if (($this->isHltv && $infos['protocol'] != 0) || (!$this->isHltv && $infos['protocol'] == 0)) {
+            $this->latency = false;
+            throw new UnexpectedServerTypeException($this->isHltv);
+        }
+        
+        return true;
     }
     
     /**
@@ -130,11 +148,8 @@ class SteamQuery
         
         if (!isset($this->serverInfos)) {
             try {
-                // serverInfosBuffer est récupéré par la méthode isBanned appelé dans le constructeur
-                $resp = $this->serverInfosBuffer;
-                if ($resp == null) {
-                    return false;
-                }
+                $this->socket->send($this->packetFactory->A2S_INFO());
+                $resp = $this->socket->recv();
                 
                 $infos = $resp->rewind()->extract(array(
                     'header' => 'byte',
@@ -187,7 +202,8 @@ class SteamQuery
     {
         if (!isset($this->challenge)) {
             try {
-                $this->socket->send($this->packetFactory->A2S_PLAYER("\xFF\xFF\xFF\xFF"));
+                $packet = $this->packetFactory->A2S_SERVERQUERY_GETCHALLENGE();
+                $this->socket->send($packet);
                 $resp = $this->socket->recv();
 
                 $data = $resp->extract(
@@ -215,13 +231,14 @@ class SteamQuery
     {
         if (!isset($this->players)) {
             try {
-                $this->socket->send($this->packetFactory->A2S_PLAYER($this->getChallenge()));
+                $challenge = $this->getChallenge();
+                
+                $this->socket->send($this->packetFactory->A2S_PLAYER($challenge));
                 $resp = $this->socket->recv();
 
                 $players = array();
                 $header = $resp->extract(
                     array('header' => 'byte', 'nb_players' => 'byte'));
-
 
                 for ($i = 0, $max = $header['nb_players']; $i < $max; ++$i) {
                     $players[$i] = $resp->extract(array('id' => 'byte', 
@@ -284,12 +301,12 @@ class SteamQuery
     public function getLatency()
     {
         if (!isset($this->latency)) {
-            $packet = $this->packetFactory->A2S_INFO();
+            $packet = $this->packetFactory->A2A_PING();
             
             try {
                 $ping = microtime(true);
                 $this->socket->send($packet);
-                $resp = $this->socket->recv();
+                $this->socket->recv();
                 $this->latency = round((microtime(true) - $ping) * 1000);
             }
             catch (RecvTimeoutException $e) {
@@ -329,33 +346,28 @@ class SteamQuery
     {
         if ($this->banned === null && $this->latency === null) {
             try {
-                $this->socket->send($this->packetFactory->A2S_INFO());
+                $this->socket->send($this->packetFactory->A2A_PING());
                 $resp = $this->socket->recv();
                 
                 if (strpos($resp->setPos(5)->getString(false), 
                     'Banned by server') !== false) {
                     $this->latency = false;
                     $this->banned = true;
-                    $this->serverInfosBuffer = null;
                     
                     if ($fromTpl !== true) {
                      throw new IPBannedException();   
                     }
                 }
-                else {
-                    $this->serverInfosBuffer = $resp->rewind();
-                }
+                $this->banned = false;
             }
             catch (RecvTimeoutException $e) {
                 $this->latency = false;
                 $this->serverInfos = array();
-                $this->serverInfosBuffer = null;
                 throw new ServerTimeoutException();
             }
             catch (NotConnectedException $e) {
                 $this->latency = false;
                 $this->serverInfos = array();
-                $this->serverInfosBuffer = null;
                 throw new ServerTimeoutException();
             }
         }

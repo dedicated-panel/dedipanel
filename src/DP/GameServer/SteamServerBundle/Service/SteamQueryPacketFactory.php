@@ -38,7 +38,8 @@ class SteamQueryPacketFactory extends PacketFactory
      */
     public function A2A_PING()
     {
-        return $this->newPacket(self::HEADER . self::A2A_PING);
+//        return $this->newPacket(self::HEADER . self::A2A_PING);
+        return $this->A2S_INFO();
     }
     
     /**
@@ -73,5 +74,15 @@ class SteamQueryPacketFactory extends PacketFactory
         $challenge = $this->transformLong($challenge);
         
         return $this->newPacket(self::HEADER . self::A2S_RULES . $challenge);
+    }
+    
+    /**
+     * Get a challenge packet
+     * 
+     * @return Packet 
+     */
+    public function A2S_SERVERQUERY_GETCHALLENGE()
+    {
+        return $this->A2S_PLAYER(-1);
     }
 }
