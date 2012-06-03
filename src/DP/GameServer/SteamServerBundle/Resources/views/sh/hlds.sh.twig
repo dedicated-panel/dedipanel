@@ -17,7 +17,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 SCREEN_NAME="{{ screenName }}"
-STATUS=`ps aux | grep SCREEN | grep $SCREEN_NAME | wc -l`
+STATUS=`ps aux | grep SCREEN | grep "$SCREEN_NAME " | wc -l`
 
 case "$1" in
     start)
