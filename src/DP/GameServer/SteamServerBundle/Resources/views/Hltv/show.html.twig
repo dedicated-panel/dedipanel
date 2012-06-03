@@ -20,8 +20,10 @@
 {% block title %}<a href="{{ path('steam') }}"><span class="titre">h</span></a>{{ 'steam.showTitle'|trans }}{% endblock %}
 
 {% block content %}
-    {% if status %}
+    {% if status == true %}
         <p><a href="{{ path('steam_hltv_stop', {id: id}) }}">{{ 'steam.hltv.running'|trans }}.</a></p>
+    {% elseif notHltv == true %}
+        <p>{{ 'steam.hltv.portAlreadyUsed'|trans }}</p>
     {% else %}
         <form action="{{ path('steam_hltv_start', {id: id}) }}" method="post">
             {% if banned %}

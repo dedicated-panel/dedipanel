@@ -39,12 +39,18 @@ class QueryInjector
     {
         $entity = $args->getEntity();
         
-        if ($entity instanceof SteamServer) {
-            $entity->setQuery(
-                $this->getQueryService()->getServerQuery(
-                    $entity->getMachine()->getPublicIp(), $entity->getPort()
-                )
+        if ($entity instanceof SteamServer) {            
+            $query = $this->getQueryService()->getServerQuery(
+                $entity->getMachine()->getPublicIp(), 
+                $entity->getPort()
             );
+            
+            try {               
+                $query->verifyStatus();
+            }
+            catch (\Exception $e) {}
+            
+            $entity->setQuery($query);
         }
     }
     

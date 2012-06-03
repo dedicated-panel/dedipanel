@@ -21,6 +21,8 @@
 namespace DP\GameServer\SteamServerBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+use DP\GameServer\SteamServerBundle\SteamQuery\Exception\UnexpectedServerTypeException;
+
 class HltvController extends Controller
 {
     public function showAction($id)
@@ -34,29 +36,32 @@ class HltvController extends Controller
         
         $hltv = $this->get('query.steam')->getServerQuery(
             $serv->getMachine()->getPublicIp(), 
-            $serv->getHltvPort()
+            $serv->getHltvPort(), 
+            true
         );
 
         // On vérifie le statut de l'hltv
         // S'il n'est pas en ligne, on regarde sur le port du serv
         // Si l'ip a été bannie
-        $status = false;
+        $status = $hltv->isOnline();
         $banned = false;
-        if (!$hltv->isOnline()) {
-            $servQuery = $this->get('query.steam')->getServerQuery(
-                $serv->getMachine()->getPublicIp(), 
-                $serv->getPort()
-            );
-            $banned = $servQuery->isBanned();
+        if (!$status) {
+            $banned = $hltv->isBanned();
         }
-        else {
-            $status = $hltv->isOnline();
+        
+        $notHltv = true;
+        try {
+            $notHltv = !$hltv->verifyStatus();
+        }
+        catch (UnexpectedServerTypeException $e) {
+            $status = false;
         }
         
         return $this->render('DPSteamServerBundle:Hltv:show.html.twig', array(
             'id' => $id, 
             'status' => $status, 
             'banned' => $banned, 
+            'notHltv' => $notHltv, 
             'form' => ($status ? null : $this->createStartForm($serv)->createView()), 
         ));
         
@@ -75,33 +80,27 @@ class HltvController extends Controller
         $request = $this->get('request');
         $form = $this->createStartForm($serv);
         $form->bindRequest($request);
+        $data = array('servIp' => '', 'servPort' => '', 'password' => '', 'record' => '', 'reload' => '');
         
         if ($form->isValid()) {
-            $data = $form->getData();
-
-            $serv->setHltvPort($data['port']);
+            $data += $form->getData();
 
             if ($serv->getGame()->isSource()) {
                 if ($serv->isEmptyRconPassword()) {
                     $serv->setRconPassword($data['rconPasswd']);
                 }
                 
-                $rcon = $this->get('query.steam')->getRcon(
+                $serv->setRcon($this->get('query.steam')->getRcon(
                     $serv->getMachine()->getPublicIp(), 
                     $serv->getPort(), 
                     $serv->getRconPassword()
-                );
-                
-                $exec = $rcon->sendCmd('exec hltv.cfg');
-                
-                if ($exec !== false && $data['reload'] == true) {
-                    $reload = $rcon->sendCmd('reload');
-                }
+                ));
             }
-            else {            
-                $serv->startHltv($data['servIp'], 
-                    $data['servPort'], $data['password'], $data['record']);
-            }
+            
+            $serv->setHltvPort($data['port']);                
+            $serv->startHltv(
+                    $data['servIp'], $data['servPort'], 
+                    $data['password'], $data['record'], $data['reload']);
             
             $em->persist($serv);
             $em->flush();
@@ -117,6 +116,14 @@ class HltvController extends Controller
         
         if (!$serv) {
             throw $this->createNotFoundException('Unable to find SteamServer entity.');
+        }
+        
+        if ($serv->getGame()->isSource()) {
+            $serv->setRcon($this->get('query.steam')->getRcon(
+                $serv->getMachine()->getPublicIp(), 
+                $serv->getPort(), 
+                $serv->getRconPassword()
+            ));
         }
         
         $serv->stopHltv();
@@ -146,7 +153,7 @@ class HltvController extends Controller
         // Ajout d'un champ "Mdp RCON" pour les jeux Source, 
         // Afin de pouvoir envoyer les requêtes RCON nécessaires
         if ($serv->getGame()->isSource() && $serv->isEmptyRconPassword()) {
-            $form->add('rconPasswd', 'password', array('label' => 'steam.rcon.password', 'required' => true));
+            $form->add('rconPasswd', 'text', array('label' => 'steam.rcon.password', 'required' => true));
         }
         
         $form->add('servIp', 'text', array('label' => 'steam.hltv.serverAddress'))
