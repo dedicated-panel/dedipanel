@@ -77,6 +77,8 @@ steam.hltv.connect: Connecter l'HLTV
 steam.hltv.reloadMap: Redémarrer la map ?
 steam.hltv.yes: Oui
 steam.hltv.no: Non
+steam.hltv.portAlreadyUsed: Le port indiqué pour l'hltv est déjà utilisé.
+steam.hltv.port: Port de l'HLTV
 
 steam.rcon.title: Zone RCON
 steam.rcon.timeout: Serveur déconnecté

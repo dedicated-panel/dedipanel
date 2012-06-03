@@ -27,6 +27,7 @@ class EditSteamServerType extends AddSteamServerType
     {
         parent::buildForm($builder, $options);
         $builder->add('rconPassword', 'text', array('label' => 'steam.rcon.password', 'required' => false));
+        $builder->add('hltvPort', 'integer', array('label' => 'steam.hltv.port', 'required' => false));
     }
 
     public function getName()
