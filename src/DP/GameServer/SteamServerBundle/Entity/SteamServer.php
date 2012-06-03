@@ -312,12 +312,13 @@ class SteamServer extends GameServer {
                 // Si on a réussi à récupérer le contenu du screen, 
                 // On recherche dans chaque ligne en commencant par la fin
                 // Un signe "%" afin de connaître le % le plus à jour
-                $lines = explode("\n", $screenContent);
+                $lines = array_reverse(explode("\n", $screenContent));
                 
-                foreach ($lines AS $line) {
+                foreach ($lines AS $line) {                    
                     $percentPos = strpos($line, '%');
+                    
                     if ($percentPos !== false) {
-                        return substr($line, 0, $percentPos);
+                        return substr($line, $percentPos-5, 5);
                     }
                 }
             }
@@ -367,10 +368,12 @@ class SteamServer extends GameServer {
         }
         
         // On upload un fichier server.cfg si aucun n'existe
-        if ($game->getInstallName() == 'Counter-Strike Source') {
-            $filePath = $this->getAbsoluteGameContentDir() . 'cfg/server.cfg';
-            $sec->exec('if [ ! -e ' . $filePath . ' ]; then touch ' . $filePath . '; fi');
+        $cfgPath = $this->getAbsoluteGameContentDir();
+        if ($game->isSource() || $game->isOrangebox()) {
+            $cfgPath .= 'cfg/';
         }
+        $cfgPath .= 'server.cfg';
+        $sec->exec('if [ ! -e ' . $cfgPath . ' ]; then touch ' . $cfgPath . '; fi');
         
         $this->installationStatus = 101;
         
