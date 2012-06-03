@@ -131,7 +131,10 @@
                 <div class="details" id="steam-{{ entity.id }}">
                     <p>
                         {% if online %}
-                            <img src="{{ entity.game.sourceImagesMaps }}{{ entity.query.serverInfos['map'] }}.jpg" alt="{{ entity.query.serverInfos['map'] }}" />
+                            {% if entity.game.sourceImageMaps is defined %}
+                                <img src="{{ entity.game.sourceImagesMaps }}{{ entity.query.serverInfos['map'] }}.jpg" alt="{{ entity.query.serverInfos['map'] }}" />
+                            {% else %}
+                            {% endif %}
                         {% else %}
                         {% endif %}
                     </p>

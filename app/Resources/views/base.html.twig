@@ -23,11 +23,6 @@
         <title>DediPanel</title>
         <link rel="shortcut icon" href="{{ asset('images/footer/logo-min.png') }}" />
         {% block stylesheets %}{% endblock %}
-        
-		<script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-1.7.1.js') }}"></script>
-		<script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-ui-1.8.20.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-ui-i18n.js') }}"></script>
-        {% block javascripts %}{% endblock %}
 	</head>
     
     <body>
@@ -98,5 +93,10 @@
             Dedicated panel - Code & Design par Von et NiR | 
             <a href="http://www.dedicated-panel.net">www.dedicated-panel.net</a>.
         </p></footer>
+        
+        <script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-1.7.1.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-ui-1.8.17.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-ui-i18n.js') }}"></script>
+        {% block javascripts %}{% endblock %}
     </body>
 </html>
