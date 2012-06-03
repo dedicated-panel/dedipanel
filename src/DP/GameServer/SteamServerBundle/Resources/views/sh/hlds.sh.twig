@@ -34,7 +34,7 @@ case "$1" in
     stop)
         if [ $STATUS -ne 0 ]; then
             echo "stopping"
-            PID=`ps aux | grep SCREEN | grep $SCREEN_NAME | awk '{print $2}'`
+            PID=`ps aux | grep SCREEN | grep "$SCREEN_NAME " | awk '{print $2}'`
             kill $PID
             echo "."
         fi
