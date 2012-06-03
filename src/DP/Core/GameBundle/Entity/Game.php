@@ -243,7 +243,7 @@ class Game
      *
      * @return boolean 
      */
-    public function getOrangebox()
+    public function isOrangebox()
     {
         return $this->orangebox;
     }
@@ -331,8 +331,15 @@ class Game
      */
     public function getBinDir()
     {
-        if (empty($this->binDir)) return './';
-        else return $this->binDir;
+        if ($this->isOrangebox()) {
+            return 'orangebox/';
+        }
+        elseif (empty($this->binDir)) {
+            return '';
+        }
+        else {
+            return $this->binDir;
+        }
     }
     
     /**
