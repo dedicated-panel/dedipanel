@@ -54,7 +54,7 @@ class Packet
     public function setContentFromPos($content)
     {
         $this->content = 
-            substr($this->content, 0, $this->pos) . $content . substr($this->content, $this->pos, $this->getLength());
+            substr($this->content, 0, $this->pos) . $content;
     }
     
     /**

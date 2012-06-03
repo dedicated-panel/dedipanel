@@ -86,6 +86,8 @@ class SteamServer extends GameServer {
      */
     private $hltvPort;
     
+    private $rcon;
+    
     
     public function __construct()
     {
@@ -398,6 +400,16 @@ class SteamServer extends GameServer {
         return $this->query;
     }
     
+    public function setRcon($rcon)
+    {
+        $this->rcon = $rcon;
+    }
+    
+    public function getRcon()
+    {
+        return $this->rcon;
+    }
+    
     /**
      * Add plugin
      * 
@@ -529,31 +541,45 @@ class SteamServer extends GameServer {
         else return false;
     }
     
-    public function startHltv($servIp, $servPort, $password = null, $record = null)
+    public function startHltv($servIp, $servPort, $password = null, $record = null, $reload = false)
     {
         if ($password == null) {
             $password = '';
         }
         
-        $cmd = 'screen -dmS ' . $this->getHltvScreenName() . ' ' 
-            . $this->getAbsoluteBinDir() . 'hltv.sh start ' 
-            . $servIp . ':' . $servPort . ' ' . $this->hltvPort . ' "' . $password . '"';
-        if ($record != null) {
-            $cmd .= ' ' . $record; 
+        if ($this->game->isSource()) {
+            $rcon = $this->getRcon();
+
+            $exec = $rcon->sendCmd('exec hltv.cfg');
+
+            if ($exec !== false && $reload == true) {
+                return $rcon->sendCmd('reload');
+            }
+            else {
+                return $exec;
+            }
         }
-        
-        PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
-            ->getSSH()->exec($cmd);
+        else {
+            $cmd = 'screen -dmS ' . $this->getHltvScreenName() . ' ' 
+                . $this->getAbsoluteBinDir() . 'hltv.sh start ' 
+                . $servIp . ':' . $servPort . ' ' . $this->hltvPort . ' "' . $password . '"';
+            if ($record != null) {
+                $cmd .= ' ' . $record; 
+            }
+
+            return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
+                ->getSSH()->exec($cmd);
+        }
     }
     
     public function stopHltv()
     {
-        if (!$this->getGame()->isSource()) {
-            return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
-                ->getSSH()->exec($this->getAbsoluteBinDir() . 'hltv.sh stop');
+        if ($this->getGame()->isSource()) {
+            return $this->getRcon()->sendCmd('tv_enable 0; tv_stop');
         }
         else {
-            
+            return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
+                ->getSSH()->exec($this->getAbsoluteBinDir() . 'hltv.sh stop');
         }
     }
 }

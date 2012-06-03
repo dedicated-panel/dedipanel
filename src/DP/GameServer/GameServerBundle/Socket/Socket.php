@@ -201,8 +201,18 @@ class Socket
             
             $read = new Packet($content);
             
-            if ($multiPacket && is_callable($this->callback)) {
-                $read = call_user_func($this->callback, $read, $this);
+            if (is_array($this->callback)) {
+                if ($multiPacket && is_callable($this->callback[0])) {
+                    $res = call_user_func($this->callback[0], $read);
+                    if ($res) {
+                        $read = call_user_func($this->callback[1], $read, $this);
+                    }
+                }
+            }
+            elseif (!is_null($this->callback)) {
+                if ($multiPacket && is_callable($this->callback)) {
+                    $read = call_user_func($this->callback, $read, $this);
+                }
             }
             
             return $read;
