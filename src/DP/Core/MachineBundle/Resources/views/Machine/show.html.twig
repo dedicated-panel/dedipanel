@@ -40,13 +40,11 @@
         </tbody>
     </table>
 
-    <div class="buttons">
-        <a class="info" href="{{ path('machine_edit', { 'id': entity.id }) }}" title="{{ 'machine.show'|trans }}"><span class="style-buttons">L</span></a>
-        <a class="retry" href="{{ path('machine_connectionTest', { 'id': entity.id }) }}" title="{{ 'machine.edit'|trans }}"><span class="style-buttons">S</span></a>
-    </div>
-        <form action="{{ path('machine_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-                <input type="submit" value="{{ 'machine.del'|trans }}" name="submit" class="delete">
-        </form>
-    </ul>
+        <form action="{{ path('machine_edit', { 'id': entity.id }) }}" method="post">
+            <fieldset id="validation"> 
+
+                <input type="submit" value="{{ 'machine.edit'|trans }}" name="submit" class="submit">                
+
+            </fieldset> 
+        </form>  
 {% endblock %}

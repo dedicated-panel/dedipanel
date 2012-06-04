@@ -523,11 +523,26 @@ footer p {
     -webkit-background-clip: text;
     text-shadow: rgba(255,255,255,0.5) 0 5px 6px, rgba(255,255,255,0.2) 1px 3px 3px;
 }
+#slect-machine li .machine-id{
+    margin-left: 13px;
+}
+#slect-machine li .machine-prip{
+    margin-left: 72px;
+}
+#slect-machine li .machine-puip{
+    margin-left: 34px;
+}
+#slect-machine li .machine-port{
+    margin-left: 46px;
+}
+#slect-machine li .machine-user{
+    margin-left: 108px;
+}
 .machine-info{
     font-size: 13px;
     font-weight: bold;
     text-indent: 15px;
-    text-shadow: 0px -1px 0px #222;
+    text-shadow: 0px -1px 0px #DBDBDB;
     padding: 15px 0px 15px 0px;
     margin: 0 0 0 40px;
     width: 900px;
@@ -537,7 +552,9 @@ footer p {
 }
 
 .machine-info p{
+    margin-right: 90px;
     float: left;
+    color: #757575;
 }
 .style-buttons{
     font-family: 'WebSymbolsRegular', cursive;
@@ -692,6 +709,7 @@ input.delete {
     color: #eee; 
     text-transform: uppercase; 
     margin-top: 10px;
+    margin-bottom: -10px;
     background-color: #0077b5;
     border: none;	
     -webkit-transition: -webkit-box-shadow 0.3s linear;		
@@ -708,8 +726,10 @@ input.submit:hover, input.delete:hover {
     cursor:  pointer; 
 }
 .deletebutton {
-    float: left;
-    margin-right: 20px;
+    position: relative;
+    margin-bottom: -60px !important;
+    right: -190px !important;
+    top: -70px !important;
 }
 @font-face {
     font-family: 'WebSymbolsRegular';

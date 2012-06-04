@@ -1,7 +1,6 @@
 {% extends "::layout.html.twig" %}
+{% block title %}<a href="{{ path('machine') }}"><span class="titre">h</span></a>{{ 'machine.connectionTest'|trans }}{% endblock %}
 {% block content %}
-    <h1>{{ 'machine.connectionTest'|trans }}</h1>
-    
     <p>
         {% if result %}
             {{ 'machine.test.successful'|trans }}
