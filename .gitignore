@@ -9,3 +9,4 @@
 /nbproject/
 /src/DP/Core/MachineBundle/Resources/config/.ssh/*
 /DP/Core/MachineBundle/Resources/config/.ssh/
+/app/config/parameters.ini

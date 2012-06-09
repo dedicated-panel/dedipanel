@@ -105,9 +105,14 @@
     target=/bundles/Sensio/Bundle/DistributionBundle
     version=origin/dev
 
+[SonataDoctrineExtensions]
+    git=http://github.com/sonata-project/sonata-doctrine-extensions.git
+    target=/sonata-doctrine-extensions
+
 [doctrine-migrations]
     git=http://github.com/doctrine/migrations.git
 
 [DoctrineMigrationsBundle]
-    git=http://github.com/symfony/DoctrineMigrationsBundle.git
+    git=http://github.com/doctrine/DoctrineMigrationsBundle.git
     target=/bundles/Symfony/Bundle/DoctrineMigrationsBundle
+    version=origin/2.0
