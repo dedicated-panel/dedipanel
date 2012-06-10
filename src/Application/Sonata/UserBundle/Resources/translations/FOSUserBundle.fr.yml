@@ -45,8 +45,8 @@ profile:
     flash:
         updated: Le profil a été mis à jour
     link:
-        edit: Modifier son profil
-        change_password: Modifier son mot de passe
+        edit: Modifier
+        change_password: Mot de passe
 
 # Password change
 change_password:
@@ -79,7 +79,8 @@ resetting:
     request:
         invalid_username: Le nom d'utilisateur ou l'adresse e-mail "%username%" n'existe pas.
         username: "Nom d'utilisateur ou adresse e-mail :"
-        submit: Réinitialiser le mot de passe
+        titre: Réinitialiser le mot de passe
+        submit: Réinitialiser
     reset:
         submit: Modifier le mot de passe
     flash:

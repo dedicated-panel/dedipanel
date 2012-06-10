@@ -14,16 +14,18 @@
  You should have received a copy of the GNU General Public License along
  with this program; if not, write to the Free Software Foundation, Inc.,
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-#}
-
+#}    
+<form action="{{ path('fos_user_profile_edit') }}" method="post">
+    <fieldset id="validation"> 
+        <label for="name" class=" required">{{ 'profile.show.username'|trans({}, 'FOSUserBundle') }}</label>
+        <input type="text" id="name" value="{{ user.username }}" disabled="disabled"><br>
+        <label for="mail" class=" required">{{ 'profile.show.email'|trans({}, 'FOSUserBundle') }}</label>
+        <input type="text" id="mail" value="{{ user.email }}" disabled="disabled"><br>
+    </fieldset> 
+</form>       
 <ul>
     <li><a href="{{ path('fos_user_profile_edit') }}">
             {{ 'profile.link.edit'|trans({}, 'FOSUserBundle') }}</a></li>
-    <li><a href="{{ path('fos_user_change_password') }}">
+    <li class="submit"><a href="{{ path('fos_user_change_password') }}">
             {{ 'profile.link.change_password'|trans({}, 'FOSUserBundle') }}</a></li>
 </ul>
-
-<div class="fos_user_user_show">    
-    <p>{{ 'profile.show.username'|trans({}, 'FOSUserBundle') }}: {{ user.username }}</p>
-    <p>{{ 'profile.show.email'|trans({}, 'FOSUserBundle') }}: {{ user.email }}</p>
-</div>

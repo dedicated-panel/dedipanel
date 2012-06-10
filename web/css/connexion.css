@@ -165,7 +165,7 @@ input.submit {
 	-webkit-border-radius: 4px;
 	border-radius: 4px; 						
 	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#0077b5), to(#00507a)); 
-	background: -moz-linear-gradient(25% 75% 90deg,#0a85a8, #18a5cc);		
+	background: -moz-linear-gradient(25% 75% 90deg,#00507a, #0077b5);		
 } 
 input.submit:hover { 		
 	-webkit-box-shadow: 0px 0px 20px #555;
