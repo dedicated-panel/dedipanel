@@ -1,4 +1,4 @@
-# Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jérôme
+# Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jerome
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,17 +31,17 @@ config_menu:
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
-    # les routes pour l'inscription (inscription, confirmation email, etc.)
+# les routes pour l'inscription (inscription, confirmation email, etc.)
 fos_user_register:
     resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
     prefix: /register
     
-# les routes pour redéfinir son mot de passe (envoi du mail, etc.)
+# les routes pour redefinir son mot de passe (envoi du mail, etc.)
 fos_user_resetting:
     resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
     prefix: /resetting
     
-# les routes pour les profils utilisateurs (voir et éditer un profil)
+# les routes pour les profils utilisateurs (voir et editer un profil)
 fos_user_profile:
     resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
     prefix: /profile
