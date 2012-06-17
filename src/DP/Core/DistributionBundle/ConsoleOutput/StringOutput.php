@@ -18,26 +18,25 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\Core\DistributionBundle\Configurator\Form;
+namespace DP\Core\DistributionBundle\ConsoleOutput;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Console\Output\Output;
 
-class UserStepType extends AbstractType
+/**
+* StringOutput
+*
+* Collects console output into a string.
+*/
+class StringOutput extends Output
 {
-    public function buildForm(FormBuilder $builder, array $options)
+    protected $buffer = '';
+
+    public function doWrite($message, $newline)
     {
-        $builder
-            ->add('username')
-            ->add('email', 'email')
-            ->add('password', 'repeated', array(
-                    'type'          => 'password',
-                    'first_name'    => 'password',
-                    'second_name'   => 'password_again'));
+        $this->buffer .= $message . ($newline===TRUE ? PHP_EOL : '');
     }
-    
-    public function getName()
-    {
-        return 'distributionbundle_user_step';
+
+    public function getBuffer() {
+        return $this->buffer;
     }
 }

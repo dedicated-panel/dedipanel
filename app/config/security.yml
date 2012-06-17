@@ -31,7 +31,7 @@ security:
     
     firewalls:        
         configurator:
-            pattern: ^/_configurator/
+            pattern: ^/_configurator
             anonymous: true
         
         dev:
@@ -75,7 +75,7 @@ security:
             logout: true
     
     access_control:
-        - { path: ^/configurator/, role: IS_AUTHENTICATED_ANONYMOUSLY , ip: 127.0.0.1 }
+        - { path: ^/configurator, role: IS_AUTHENTICATED_ANONYMOUSLY }
         # -> custom access control for the admin area of the URL
         - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }

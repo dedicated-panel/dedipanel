@@ -14,3 +14,8 @@ Database: Base de donnée
 Mailer: Mailer
 Global Secret: Sécurité
 Root User: Super Admin
+Fixtures Installation: Préconfiguration
+configurationType: Type de configuration
+dontLoadFixtures: Ne pas préconfigurer le panel ?
+Installation: Installation
+Upgrade: Mise à jour

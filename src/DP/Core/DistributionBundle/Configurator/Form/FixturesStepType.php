@@ -23,21 +23,24 @@ namespace DP\Core\DistributionBundle\Configurator\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 
-class UserStepType extends AbstractType
+class FixturesStepType extends AbstractType
 {
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('username')
-            ->add('email', 'email')
-            ->add('password', 'repeated', array(
-                    'type'          => 'password',
-                    'first_name'    => 'password',
-                    'second_name'   => 'password_again'));
+            ->add('configurationType', 'choice', array(
+                'label' => 'configurationType', 
+                'choices' => array('install' => 'Installation', 'upgrade' => 'Upgrade'), 
+                'required' => true, 
+            ))
+            ->add('dontLoadFixtures', 'checkbox', array(
+                'label' => 'dontLoadFixtures', 
+                'required' => false, 
+            ));
     }
     
     public function getName()
     {
-        return 'distributionbundle_user_step';
+        return 'distributionbundle_fixtures_step';
     }
 }

@@ -1,7 +1,3 @@
-DPDistributionBundle:
-    resource: "@DPDistributionBundle/Resources/config/routing.yml"
-    prefix:   /
-
 _assetic:
     resource: .
     type:     assetic
