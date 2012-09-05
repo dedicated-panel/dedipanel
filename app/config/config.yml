@@ -1,6 +1,22 @@
 imports:
     - { resource: parameters.ini }
     - { resource: security.yml }
+    
+parameters:
+    sonata.user.form.type.security_roles.class: Sonata\UserBundle\Form\Type\SecurityRolesType
+
+    sonata.user.profile.form.type.class:            Sonata\UserBundle\Form\Type\ProfileType
+    sonata.user.profile.form.handler.default.class: Sonata\UserBundle\Form\Handler\ProfileFormHandler
+
+    sonata.user.admin.user.class:              Sonata\UserBundle\Admin\Entity\UserAdmin
+    sonata.user.admin.user.controller:         SonataAdminBundle:CRUD
+    sonata.user.admin.user.translation_domain: SonataUserBundle
+
+    sonata.user.admin.group.class:              Sonata\UserBundle\Admin\Entity\GroupAdmin
+    sonata.user.admin.group.controller:         SonataAdminBundle:CRUD
+    sonata.user.admin.group.translation_domain: %sonata.user.admin.user.translation_domain%
+
+    sonata.user.admin.groupname: sonata_user
 
 framework:
     #esi:             ~
@@ -67,9 +83,25 @@ fos_user:
     user_class: Application\Sonata\UserBundle\Entity\User
     group:
         group_class: Application\Sonata\UserBundle\Entity\Group
+    profile:  # Authentication Form
+      form:
+          type:               app_user_profile
+          handler:            fos_user.profile.form.handler.default
+          name:               app_user_profile
+          validation_groups:  [Authentication] # Please note : this is not the default value
 
 sonata_user:
     security_acl: true
+    class:
+        user:               Application\Sonata\UserBundle\Entity\User
+        group:              Application\Sonata\UserBundle\Entity\Group
+
+    profile:  # Profile Form (firstname, lastname, etc ...)
+        form:
+            type:               sonata_user_profile
+            handler:            sonata.user.profile.form.handler.default
+            name:               sonata_user_profile_form
+            validation_groups:  [Profile]
 
 sonata_admin:
     security:

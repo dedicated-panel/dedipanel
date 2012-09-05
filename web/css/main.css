@@ -897,3 +897,7 @@ input.submit:hover, input.delete:hover {
         -ms-transform: translateY(0%);
     }
 }
+
+.sonata-user-edit-authentication form > div:nth-child(2) > label {
+    display: none;
+}
