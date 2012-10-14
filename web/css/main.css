@@ -509,11 +509,8 @@ footer p {
     font-style: bold;
     font-size: 13em;
     color: transparent;
-    -webkit-text-stroke: 0;
     color: transparent;
-    background-color: rgba(82,96,117,0.5);
-    -webkit-background-clip: text;
-    text-shadow: rgba(255,255,255,0.5) 0 5px 6px, rgba(255,255,255,0.2) 1px 3px 3px;
+    background-color: rgb(82,96,117);
     background: #FAFaFA;
     padding: 15px 0px 15px 0px;
     margin: 0 0 10px 0;
@@ -533,11 +530,7 @@ footer p {
     list-style: none;
     font-style: bold;
     font-size: 0.12em;
-    color: transparent;
-    background-color: rgba(82,96,117,0.5);
-    -webkit-text-stroke: 0;
-    -webkit-background-clip: text;
-    text-shadow: rgba(255,255,255,0.5) 0 5px 6px, rgba(255,255,255,0.2) 1px 3px 3px;
+    background-color: rgb(82,96,117);
 }
 #slect-machine li .machine-id{
     margin-left: 13px;

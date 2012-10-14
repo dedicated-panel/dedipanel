@@ -122,11 +122,3 @@ fos_user_resetting_form_new_second: "Vérification:"
 fos_user_change_password_form_new_first:    "Nouveau mot de passe :"
 fos_user_change_password_form_new_second:   "Vérification :"
 fos_user_change_password_form_current:  "Mot de passe actuel :"
-
-
-link_edit_profile: Modifier votre profil
-link_edit_authentication: Modifier vos identifiants
-sonata_user_submit: Modifier
-title_user_account: Mon compte
-title_user_edit_authentication: Mes identifiants
-current_passowrd: Mot de passe actuel

@@ -21,4 +21,3 @@ ROLE_ALLOWED_TO_SWITCH: Autoriser a switcher de compte
 
 admin: Administration
 machine_admin: Gestion des machines
-profile.currentPasswd: Mot de passe actuel 

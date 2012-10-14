@@ -1,8 +1,10 @@
 <IfModule mod_rewrite.c>
-    Order allow,deny
-    Allow from all
-	
     RewriteEngine On
+
+    #<IfModule mod_vhost_alias.c>
+    #    RewriteBase /
+    #</IfModule>
+
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^(.*)$ app.php [QSA,L]
+    RewriteRule ^(.*)$ app_dev.php [QSA,L]
 </IfModule>
