@@ -15,6 +15,7 @@
  with this program; if not, write to the Free Software Foundation, Inc.,
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #}
+
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -23,65 +24,63 @@
         <title>DediPanel</title>
         <link rel="shortcut icon" href="{{ asset('images/footer/logo-min.png') }}" />
         {% block stylesheets %}{% endblock %}
-	</head>
-    
+    </head>
+
     <body>
         <header>
             <div id="logo"></div>
 
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-			<div id="profil">
-				<ul id="mprofil">
-					<li><span class="iprofil">X</span>
-                        <a href="{{ path('fos_user_security_logout') }}">
-                            {{ 'menu.logout'|trans }}
-                        </a>
-                    </li>		
-					<li><span class="iprofil">U</span><a href="#">Profil</a>
-						<ul>
-							<li>
-								<span class="ismprofil">K</span>
-								<a href="{{ path('sonata_user_profile_show') }}" id="profil-detail">Info Compte</a>
-							</li>
-							<li class="sousmenu">
-								<span class="ismprofil">S</span>
-								<a href="{{ path('sonata_user_profile_edit') }}" id="profil-option">Options</a>
-							</li>
-							<!-- <li>
-								<span class="ismprofil">@</span>
-								<a href="" id="profil-note">Notifications</a>
-							</li>
-							<li>
-								<span class="ismprofil">u</span>
-								<a href="" id="profil-stat">Statistiques</a> 
-							</li> -->
-						</ul>
-					</li>
-				</ul>
+            <div id="profil">
+                <div id="information"><span class="iicone">U</span><p>Bonjour: Vonclutch<br>godofking222@gmail.com</p></div>
+                <div id="notifications">
+                    <ul>
+                        <li>
+                            <a href="{{ path('fos_user_security_logout') }}">
+                                <span class="micone">U</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('fos_user_security_logout') }}">
+                                <span class="message">2</span><span class="micone">Z</span>
+                            </a>
+                        </li>                        
+                        <li>
+                            <a href="{{ path('fos_user_security_logout') }}" id="logout" ><span class="micone">X</span>Deconnexion</a>
+                        </li>
+                    </ul>                    
+                </div>
             </div>		
-            <div class="clear"></div>
-
+             <div class="clear"></div>
+             
             <ul class="menu">
-                <li><a href="{{ path('user_menu') }}">
+                <li>
+                    <a href="{{ path('user_menu') }}">
                         <span class="icone">¹</span>
-                        <div class="content"><h2 class="main">Acceuil</h2><h3 class="sub">Acceuil</h3></div>
-                    </a> </li>
-                <li><a href="{{ path('game_menu') }}">
+                        <div class="content"><h2 class="main">Acceuil</h2><h4 class="sub">Acceuil</h3></div>
+                    </a>     
+                </li>
+                <li>
+                    <a href="{{ path('steam') }}">
                         <span class="icone">_</span>
-                        <div class="content"><h2 class="main">Jeux</h2><h3 class="sub">Serveurs de jeux</h3></div>
-                    </a> </li>
-               {# <li><a href="{{ path('user_menu') }}">
+                        <div class="content"><h2 class="main">Jeux</h2><h4 class="sub">Serveurs de jeux</h3></div>
+                    </a> 
+                </li>
+             {#  <li><a href="{{ path('user_menu') }}">
                         <span class="icone">d</span>
-                        <div class="content"><h2 class="main">VoIp</h2><h3 class="sub">Serveur vocaux</h3></div>
-                    </a> </li>
-                <li><a href="{{ path('user_menu') }}">
+                        <div class="content"><h2 class="main">VoIp</h2><h4 class="sub">Serveur vocaux</h3></div>
+                    </a> </li>#}
+                <li>
+                    <a href="{{ path('sonata_admin_dashboard') }}"> 
                         <span class="icone">U</span>
-                        <div class="content"><h2 class="main">Utilisateurs</h2><h3 class="sub">Gérer les utilisateurs</h3></div>
-                    </a> </li> #}
-                <li><a href="{{ path('config_menu') }}">
+                        <div class="content"><h2 class="main">Utilisateurs</h2><h4 class="sub">Gérer les utilisateurs</h3></div>
+                    </a> </li> 
+                <li>
+                    <a href="{{ path('machine') }}">
                         <span class="icone">S</span>
-                        <div class="content"><h2 class="main">Configuration</h2><h3 class="sub">Options du panel</h3></div>
-                    </a> </li>
+                        <div class="content"><h2 class="main">Configuration</h2><h4 class="sub">Options du panel</h3></div>
+                    </a> 
+                </li>
             </ul>
             {% endif %}
         </header>
@@ -89,13 +88,13 @@
         <div id="page">{% block body %}{% endblock %}</div>
 
         <footer><p>
-            <img src="{{ asset('images/footer/logo-min.png') }}"/> 
-            Dedicated panel - Code & Design par Von et NiR | 
-            <a href="http://www.dedicated-panel.net">www.dedicated-panel.net</a>.
-        </p></footer>
+                <img src="{{ asset('images/footer/logo-min.png') }}"/> 
+                Dedicated panel - Code & Design par Von et NiR | 
+                <a href="http://www.dedicated-panel.net">www.dedicated-panel.net</a>.
+            </p></footer>
         
         <script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-1.7.1.js') }}"></script>
-		<script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-ui-1.8.17.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-ui-1.8.17.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-ui-i18n.js') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>
