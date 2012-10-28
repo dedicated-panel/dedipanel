@@ -5,7 +5,7 @@ html, body	{
 }
 
 body	{
-    background: #2d2d2d;
+    background: #2d2d2d !important;
     color: #393939;
     font-family: Arial;
     font-size: 0px;
