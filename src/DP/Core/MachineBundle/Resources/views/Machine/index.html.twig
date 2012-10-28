@@ -1,40 +1,64 @@
 {% extends "::layout.html.twig" %}
-{% block title %}<a href="{{ path('steam') }}"><span class="titre">h</span></a>{{ 'machine.list'|trans }}{% endblock %}
 {% block content %}
 
-<ul>
-    <li>
-        <a href="{{ path('machine_new') }}">
-                        {{ 'machine.new'|trans }}
-            </a>
-        </li>
-    </ul>
-    <div class="machine-info">
-        <p>{{ 'machine.id'|trans }}
-        <p>{{ 'machine.privateIp'|trans }}</p>
-        <p>{{ 'machine.publicIp'|trans }}</p>
-        <p>{{ 'machine.port'|trans }}</p>
-        <p>{{ 'machine.user'|trans }}</p>
-        <p>{{ 'machine.actions'|trans }}</p>
-    </div>
-    <ul>​
-          {% for entity in entities %}
-            <div id="slect-machine">
-                <li>       
-                    <span class="machine-id"><a href="{{ path('machine_show', { 'id': entity.id }) }}">{{ entity.id }}</a></span>
-                    <span class="machine-prip">{{ entity.privateIp }}</span>       
-                    <span class="machine-puip">{{ entity.publicIp }}</span>      
-                    <span class="machine-port">{{ entity.port }}</span>   
-                    <span class="machine-user">{{ entity.user }}</span>   
-                    <span class="machine-actions">
-                        <div class="buttons">
-                            <a class="view" href="{{ path('machine_show', { 'id': entity.id }) }}" title="{{ 'machine.show'|trans }}"><span class="style-buttons">L</span></a>
-                            <a class="info" href="{{ path('machine_edit', { 'id': entity.id }) }}" title="{{ 'machine.edit'|trans }}"><span class="style-buttons">S</span></a>
-                            <a class="retry" href="{{ path('machine_connectionTest', { 'id': entity.id }) }}" title="{{ 'machine.connectionTest'|trans }}"><span class="style-buttons">*</span></a>
-                        </div>
-                    </span>
-                </li> 
+<legend>Machine</legend>
+<form class="well machine">
+    <div class="span12">
+        <div class="row">
+            <div class="span2">
+                <label for="privateip">{{ 'machine.privateIp'|trans }}</label>
+                <input id="privateip" type="text" class="input-medium petit" placeholder="{{ 'machine.privateIp'|trans }}">
             </div>
-        {% endfor %}
-        </ul>
+            <div class="span2">
+                <label>{{ 'machine.publicIp'|trans }}</label>
+                <input id="publicip" type="text" class="input-medium petit" placeholder="{{ 'machine.publicIp'|trans }}">
+            </div>
+            <div class="span3">
+                <label>{{ 'machine.port'|trans }}</label>
+                <input id="port" type="number" class="input-medium petit" placeholder="{{ 'machine.port'|trans }}">
+            </div>
+            <div class="span2">
+                <label>{{ 'machine.user'|trans }}</label>
+                <input id="user" type="text" class="input-medium petit" placeholder="{{ 'machine.user'|trans }}">  
+            </div>
+            <div class="span2">
+                <label>{{ 'machine.passwd'|trans }}</label>
+                <input id="user" type="text" class="input-medium petit" placeholder="{{ 'machine.passwd'|trans }}">  
+            </div>               
+        </div>
+    </div>​
+    <button id="publicip" type="submit" class="btn machine">Ajouter</button>
+</form>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>{{ 'machine.id'|trans }}</th>
+            <th>{{ 'machine.privateIp'|trans }}</th>
+            <th>{{ 'machine.publicIp'|trans }}</th>
+            <th>{{ 'machine.port'|trans }}</th>
+            <th>{{ 'machine.user'|trans }}</th>
+            <th>{{ 'machine.actions'|trans }}</th>
+        </tr>
+    </thead>
+    <tbody>
+            {% for entity in entities %}
+            <tr>
+                <td>{{ entity.id }}</td>
+                <td>{{ entity.privateIp }}</td>
+                <td>{{ entity.publicIp }}</td>
+                <td>{{ entity.port }}</td>
+                <td>{{ entity.user }}</td>
+
+                <td> 
+                    <div class="btn-group">
+                        <button class="btn"> <a href="{{ path('machine_show', { 'id': entity.id }) }}">{{ 'machine.show'|trans }}</a></button>
+                        <button class="btn"><a href="{{ path('machine_edit', { 'id': entity.id }) }}">{{ 'machine.edit'|trans }}</a></button>
+                        <button class="btn"> <a href="{{ path('machine_connectionTest', { 'id': entity.id }) }}">{{ 'machine.connectionTest'|trans }}</a></button>
+                    </div>
+                </td>
+            </tr>  
+            {% endfor %}
+        </tbody>
+    </table>
+
 {% endblock %}
