@@ -1,0 +1,46 @@
+Application\Sonata\UserBundle\Form\Model\AuthenticationModel:
+    properties:
+        username:
+            - NotBlank:
+                message: fos_user.username.blank
+                groups: Authentication
+            - MinLength:
+                limit: 2
+                message: fos_user.username.short
+                groups: Authentication
+            - MaxLength:
+                limit: 255
+                message: fos_user.username.long
+                groups: Authentication
+        
+        email:
+            - NotBlank:
+                message: fos_user.email.blank
+                groups: Authentication
+            - MinLength:
+                limit: 2
+                message: fos_user.email.short
+                groups: Authentication
+            - MaxLength:
+                limit: 255
+                message: fos_user.email.long
+                groups: Authentication
+            - Email:
+                message: fos_user.email.invalid
+                checkMX: true
+                groups: Authentication
+        
+        new:
+            - NotBlank:
+                message: fos_user.new_password.blank
+                groups: Authentication
+            - MinLength:
+                limit: 2
+                message: fos_user.new_password.short
+                groups: Authentication
+          
+        
+        current_password:
+            - Symfony\Component\Security\Core\Validator\Constraint\UserPassword:
+                message: fos_user.current_password
+                groups: Authentication

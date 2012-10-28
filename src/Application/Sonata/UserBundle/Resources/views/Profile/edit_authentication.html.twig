@@ -1,0 +1,15 @@
+{% extends "::layout.html.twig" %}
+
+{% block content %}
+    <div class="sonata-user-edit-authentication">
+
+        <h2>{{ "title_user_account" | trans({}, 'SonataUserBundle')}} - {{ "title_user_edit_authentication" | trans({}, 'SonataUserBundle')}}</h2>
+
+        <form action="{{ path('sonata_user_profile_edit_authentication') }}" method="POST">
+            {{ form_rest(form) }}
+
+            <input type="submit" name="submit" value="{{ 'sonata_user_submit'|trans({}, 'SonataUserBundle') }}" />
+        </form>
+
+    </div>
+{% endblock %}

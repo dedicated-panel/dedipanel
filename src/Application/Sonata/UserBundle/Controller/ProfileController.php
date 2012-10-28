@@ -18,26 +18,20 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\Core\DistributionBundle\Configurator\Form;
+namespace Application\Sonata\UserBundle\Controller;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Sonata\UserBundle\Controller\ProfileController as BaseController;
 
-class UserStepType extends AbstractType
+class ProfileController extends BaseController
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    /**
+     * @return Response
+     *
+     * @throws AccessDeniedException
+     */
+    public function showAction()
     {
-        $builder
-            ->add('username')
-            ->add('email', 'email')
-            ->add('password', 'repeated', array(
-                    'type'          => 'password',
-                    'first_name'    => 'password',
-                    'second_name'   => 'password_again'));
-    }
-    
-    public function getName()
-    {
-        return 'distributionbundle_user_step';
+        return new RedirectResponse($this->generateUrl('user_menu'));
     }
 }

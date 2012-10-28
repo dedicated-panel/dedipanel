@@ -40,7 +40,7 @@ header {
     height: 170px
 }
 
-#logo {
+#logo a {
     background-image:url(../images/header/logo.png);
     background-repeat:no-repeat;
     width:290px;
@@ -889,8 +889,4 @@ input.submit:hover, input.delete:hover {
         opacity: 1;
         -ms-transform: translateY(0%);
     }
-}
-
-.sonata-user-edit-authentication form > div:nth-child(2) > label {
-    display: none;
 }
