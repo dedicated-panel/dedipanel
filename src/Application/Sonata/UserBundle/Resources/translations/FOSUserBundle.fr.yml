@@ -101,6 +101,9 @@ layout:
     login: Connexion
     register: Enregistrer
     logged_in_as: Connecté en tant que %username%
+    
+# Security
+"Bad credentials": Nom d'utilisateur ou mot de passe incorrect
 
 # Form field labels
 fos_user_group_form_name: "Nom du groupe :"

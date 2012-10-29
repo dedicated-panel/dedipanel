@@ -1,0 +1,25 @@
+{% extends "SensioDistributionBundle::Configurator/layout.html.twig" %}
+
+{% block content_class %}config_done{% endblock %}
+{% block content %}
+    <h1>{{ 'final.title'|trans }}</h1>
+    
+    <p>
+    {% if is_writable %}
+        {{ 'final.configured'|trans }}<br />
+        {% trans with {'%yml_path%': yml_path} %}final.overwritten{% endtrans %}
+    {% else %}
+        <span class="configure-error">{{ 'final.almostConfigured'|trans }}</span><br />
+        
+        {% trans with {'%yml_path%': yml_path} %}final.notOverwritten{% endtrans %}
+    {% endif %}
+    </p>
+
+    <textarea class="symfony-configuration">{{ parameters }}</textarea>
+
+    {% if welcome_url %}
+        <ul>
+            <li><a href="{{ welcome_url }}">{{ 'final.goWelcomePage'|trans }}</a></li>
+        </ul>
+    {% endif %}
+{% endblock %}

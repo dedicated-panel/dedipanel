@@ -33,8 +33,8 @@ class FixturesStepType extends AbstractType
                 'choices' => array('install' => 'Installation', 'upgrade' => 'Upgrade'), 
                 'required' => true, 
             ))
-            ->add('dontLoadFixtures', 'checkbox', array(
-                'label' => 'dontLoadFixtures', 
+            ->add('loadFixtures', 'checkbox', array(
+                'label' => 'loadFixtures', 
                 'required' => false, 
             ));
     }

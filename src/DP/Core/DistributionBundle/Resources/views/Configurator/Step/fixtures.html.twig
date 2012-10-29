@@ -1,0 +1,23 @@
+{% extends "SensioDistributionBundle::Configurator/layout.html.twig" %}
+
+{% block title %}Préconfiguration du panel{% endblock %}
+
+{% block content %}
+    {% form_theme form "SensioDistributionBundle::Configurator/form.html.twig" %}
+    {% include "SensioDistributionBundle::Configurator/steps.html.twig" %}
+
+    <h1>Préconfiguration du panel</h1>
+    <p>{{ 'fixtures.description.db'|trans }}<br />{{ 'fixtures.description.fixtures'|trans }}</p>
+
+    {{ form_errors(form) }}
+    <form action="{{ path('_configurator_step', { 'index': index }) }} " method="POST">
+
+        {{ form_rest(form) }}
+
+        <div class="symfony-form-footer">
+            <p><input type="submit" value="{{ 'Next Step'|trans }}" class="symfony-button-grey" /></p>
+            <p>{{ '* mandatory fields'|trans }}</p>
+        </div>
+
+    </form>
+{% endblock %}

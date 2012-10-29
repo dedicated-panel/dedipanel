@@ -139,9 +139,8 @@ input:hover, textarea:hover {
 	background: #eee; 
 }
 input[type='radio'], input[type='checkbox'] {
-        opacity: 0;
-        float: left;
-        width: 1px;
+    width: 1px;
+    display: none;
 }
 input[type='radio'] + label, input[type='checkbox'] + label {
         margin: 0;

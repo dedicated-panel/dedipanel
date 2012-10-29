@@ -20,28 +20,41 @@
 
 namespace DP\Core\DistributionBundle\Configurator\Step;
 
-use Sensio\Bundle\DistributionBundle\Configurator\Step\Step;
 use DP\Core\DistributionBundle\Configurator\Form\UserStepType;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Sensio\Bundle\DistributionBundle\Configurator\Step\StepInterface;
 
-class UserStep extends Step
+class UserStep implements StepInterface
 {
     /**
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message="super_admin.username.blank")
+     * @Assert\MinLength(limit="2", message="super_admin.username.short")
+     * @Assert\MaxLength(limit="255", message="super_admin.username.long")
      */
     public $username;
     
     /**
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message="super_admin.email.blank")
+     * @Assert\MinLength(limit="2", message="super_admin.email.short")
+     * @Assert\MaxLength(limit="255", message="super_admin.email.long")
+     * @Assert\Email(checkMX="true", message="super_admin.email.valid")
      */
     public $email;
     
     /**
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message="super_admin.password.blank")
+     * @Assert\MinLength(limit="6", message="super_admin.password.short")
      */
     public $password;
+    
+    /**
+     * @see StepInterface
+     */
+    public function __construct(array $options)
+    {
+        $this->userManager = $options['usrMgr'];
+    }
     
     /**
      * @see StepInterface
@@ -50,21 +63,29 @@ class UserStep extends Step
     {
         return new UserStepType();
     }
+
+    /**
+     * @see StepInterface
+     */
+    public function getTemplate()
+    {
+        return 'DPDistributionBundle:Configurator/Step:user.html.twig';
+    }
     
     /**
      * @see StepInterface
      */
-    public function getTitle()
+    public function checkRequirements()
     {
-        return 'Super Admin';
+        return array();
     }
     
     /**
-     * @see StepInterface 
+     * @see StepInterface
      */
-    public function getDescription()
+    public function checkOptionalSettings()
     {
-        return 'Create an user for administer the panel.';
+        return array();
     }
     
     /**
@@ -81,13 +102,5 @@ class UserStep extends Step
         $this->userManager->updateUser($user);
         
         return array();
-    }
-    
-    /**
-     * @see StepInterface
-     */
-    public function __construct(array $options)
-    {
-        $this->userManager = $options['usrMgr'];
     }
 }

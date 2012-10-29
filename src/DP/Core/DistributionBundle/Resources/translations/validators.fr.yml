@@ -1,0 +1,13 @@
+super_admin:
+    username:
+        blank: Entrez un nom d'utilisateur s'il vous plait
+        short: "[-Inf,Inf]Le nom d'utilisateur est trop court"
+        long: "[-Inf,Inf]Le nom d'utilisateur est trop long"
+    email:
+        blank: Entrez une adresse e-mail s'il vous plait
+        short: "[-Inf,Inf]L'adresse e-mail est trop courte"
+        long: "[-Inf,Inf]L'adresse e-mail est trop longue"
+        invalid: L'adresse e-mail est invalide
+    password:
+        blank: Entrez un mot de passe s'il vous plait
+        short: "[-Inf,Inf]Le mot de passe est trop court"
