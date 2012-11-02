@@ -18,7 +18,9 @@ class DPDistributionBundle extends Bundle
         $configurator = $this->container->get('sensio.distribution.webconfigurator');
         $usrMgr = $this->container->get('fos_user.user_manager');
         
-        $configurator->addStep(new Configurator\Step\FixturesStep(array('container' => $this->container)));
-        $configurator->addStep(new UserStep(array('usrMgr' => $usrMgr)));
+        if ($configurator->isFileWritable()) {
+            $configurator->addStep(new Configurator\Step\FixturesStep(array('container' => $this->container)));
+            $configurator->addStep(new UserStep(array('usrMgr' => $usrMgr)));
+        }
     }
 }

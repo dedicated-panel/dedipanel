@@ -11,11 +11,10 @@
     {% else %}
         <span class="configure-error">{{ 'final.almostConfigured'|trans }}</span><br />
         
-        {% trans with {'%yml_path%': yml_path} %}final.notOverwritten{% endtrans %}
+        {% trans with {'%yml_path%': yml_path} %}final.notWritable{% endtrans %}<br />
+        {{ 'final.retry'|trans }}
     {% endif %}
     </p>
-
-    <textarea class="symfony-configuration">{{ parameters }}</textarea>
 
     {% if welcome_url %}
         <ul>
