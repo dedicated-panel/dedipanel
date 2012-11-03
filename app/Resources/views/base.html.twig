@@ -28,7 +28,7 @@
     <body>
         <header>
             <div id="logo">
-                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}<a href="/">&nbsp;</a>{% endif %}
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}<a href="{{ path('_welcome') }}">&nbsp;</a>{% endif %}
             </div>
 
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}

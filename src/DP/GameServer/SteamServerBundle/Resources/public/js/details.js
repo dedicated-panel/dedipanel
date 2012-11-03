@@ -1,4 +1,4 @@
-$(document).ready(function() {	
+$(function() {
 	$('a.slide').each(function(index, el) {
 		var toSlideSel = 'div#' + el.id + '.details';
 		$(toSlideSel).hide();
