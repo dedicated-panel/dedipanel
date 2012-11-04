@@ -18,25 +18,29 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\Core\DistributionBundle\ConsoleOutput;
+namespace DP\Core\DistributionBundle\Configurator\Form;
 
-use Symfony\Component\Console\Output\Output;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
 
-/**
-* StringOutput
-*
-* Collects console output into a string.
-*/
-class StringOutput extends Output
+class AutoInstallStepType extends AbstractType
 {
-    protected $buffer = '';
-
-    public function doWrite($message, $newline)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $this->buffer .= $message . ($newline===TRUE ? PHP_EOL : '');
+        $builder
+            ->add('configurationType', 'choice', array(
+                'label' => 'configurationType', 
+                'choices' => array('install' => 'Installation', 'upgrade' => 'Upgrade'), 
+                'required' => true, 
+            ))
+            ->add('loadFixtures', 'checkbox', array(
+                'label' => 'loadFixtures', 
+                'required' => false, 
+            ));
     }
-
-    public function getBuffer() {
-        return $this->buffer;
+    
+    public function getName()
+    {
+        return 'distributionbundle_fixtures_step';
     }
 }
