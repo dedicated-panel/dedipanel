@@ -31,26 +31,11 @@
             <div id="logo"></div>
 
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-            <div id="profil">
-                <div id="information"><span class="iicone">U</span><p>Bonjour: Vonclutch<br>godofking222@gmail.com</p></div>
-                <div id="notifications">
-                    <ul>
-                        <li>
-                            <a href="{{ path('fos_user_security_logout') }}">
-                                <span class="micone">U</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ path('fos_user_security_logout') }}">
-                                <span class="message">2</span><span class="micone">Z</span>
-                            </a>
-                        </li>                        
-                        <li>
-                            <a href="{{ path('fos_user_security_logout') }}" id="logout" ><span class="micone">X</span>Deconnexion</a>
-                        </li>
-                    </ul>                    
-                </div>
-            </div>		
+            <div class="profilName">
+                <div class="information"><span class="iicone">U</span>
+                    <h2 class="main">Bonjour: Vonclutch<br>godofking222@gmail.com</h2></div>
+            </div>	       
+
              <div class="clear"></div>
              
             <ul class="menu">
@@ -82,6 +67,34 @@
                     </a> 
                 </li>
             </ul>
+            <div class="profilNav">
+                <ul>
+                    <li>
+                        <a href="{{ path('sonata_user_profile_edit_authentication') }}">
+                               <i class="icon-user icon-white"></i>
+                            <span>Profil</span></a>
+                    </li>
+                    <li>
+                        <a href="#">
+                               <i class="icon-envelope icon-white"></i>
+                            <span>Messages</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" title="">
+                              <i class="icon-cog icon-white"></i>
+                            <span>Options</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('fos_user_security_logout') }}" id="logout" >
+                                <i class="icon-lock icon-white"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
             {% endif %}
         </header>
 
@@ -93,8 +106,8 @@
                 <a href="http://www.dedicated-panel.net">www.dedicated-panel.net</a>.
             </p></footer>
         
-        <script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-1.7.1.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-ui-1.8.17.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-1.8.0.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-ui-1.8.23.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-ui-i18n.js') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>
