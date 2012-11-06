@@ -4,20 +4,22 @@
 
 {% block content %}
     {% form_theme form "SensioDistributionBundle::Configurator/form.html.twig" %}
-    {% include "SensioDistributionBundle::Configurator/steps.html.twig" %}
 
-    <h1>{{ 'super_admin.title'|trans }}</h1>
-    <p>{{ 'super_admin.description'|trans }} :</p>
+     <legend>{{ 'super_admin.title'|trans }}</legend>
 
     {{ form_errors(form) }}
     <form action="{{ path('_configurator_step', { 'index': index }) }} " method="POST">
 
         {{ form_rest(form) }}
 
-        <div class="symfony-form-footer">
-            <p><input type="submit" value="{{ 'Next Step'|trans }}" class="symfony-button-grey" /></p>
-            <p>{{ '* mandatory fields'|trans }}</p>
+        <div class="form-actions">
+            <p><input type="submit" value="{{ 'Next Step'|trans }}" class="btn btn-primary" /></p>
         </div>
-
+        
+        <span class="information">
+            {{ 'super_admin.description'|trans }}<br />
+            {{ '* mandatory fields'|trans }}
+        </span>
+        
     </form>
 {% endblock %}

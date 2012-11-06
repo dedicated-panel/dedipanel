@@ -37,9 +37,10 @@ body	{
 /*** HEADER ***/
 header {
     background-color: #2d2d2d;
+    border-bottom: 1px solid rgb(167, 167, 167);
     padding-bottom: 135px;
     height: 170px
-    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25),inset 0 -1px 0 rgba(0, 0, 0, .1);
+        -webkit-box-shadow: 1px 3px rgba(0, 0, 0, .25),inset 0 -1px 0 rgba(0, 0, 0, .1);
     -moz-box-shadow: 0 1px 3px rgba(0,0,0,.25),inset 0 -1px 0 rgba(0,0,0,.1);
     box-shadow: 0 1px 3px rgba(0, 0, 0, .25),inset 0 -1px 0 rgba(0, 0, 0, .1);
 
@@ -56,19 +57,73 @@ header {
 
 /*** Page (Style général) ***/
 #page {
-    width: 96%;
+    width: 100%;
     margin: auto;
+    border-top: 1px solid #8A8A8A;
 }
 #page-content {   
-    height: 400px;
+    min-height: 400px;
     background-color: FFFFF;
     margin: 20px;
 }
 #page-content {
     /*	min-height: 500px;*/
-    padding: 10px 0 8px 0;
+    padding: 9px 0 8px 0;
 }
+/*** Etapes ***/
 
+
+#titre {
+    background-image: -webkit-gradient(linear, 0 0%, 0 100%, from(white), to(#EEE));
+    background-image: -webkit-linear-gradient(top, white 0%, #EEE 100%);
+    background-image: -moz-linear-gradient(top, white 0%, #EEE 100%);
+    background-image: -ms-linear-gradient(top, white 0%, #EEE 100%);
+    background-image: -o-linear-gradient(top, white 0%, #EEE 100%);
+    background-image: linear-gradient(top, white 0%, #EEE 100%);
+    height: 80px;
+}
+#titre h1 {
+    color: #646464;
+    font-size: 49px;
+    font-weight: normal;
+    float: left;
+    text-shadow: 0 1px 0 white;
+    margin-left: 20px;
+    position: absolute;
+    line-height: 65px;
+}
+.step {
+    background-color: #E5E5E5;
+    box-shadow: 0 0 1px white;
+    border-top: 1px solid #D6D6D6;
+    border-bottom: 1px solid #D6D6D6;
+    padding-left: 10px;
+}
+.step {
+    background-color: #e5e5e5;
+    box-shadow: 0 0 1px #ffffff;
+    border-top: 1px solid #d6d6d6;
+    border-bottom: 1px solid #d6d6d6;
+    padding-left: 10px;
+}
+.step a {
+    padding: 8px 20px 8px 10px;
+    display: inline-block;
+    background-image: url('../img/breadcrumb.png');
+    background-position: center right;
+    background-repeat: no-repeat;
+    font-size: 13px;
+    font-weight: bold;
+    color: #08C;
+    text-decoration: none;
+}
+.step > a.current {
+    font-weight: bold;
+    color: #444444;
+}
+.step > i {
+    opacity: .4;
+}
 /*** Footer ***/
 
 footer {
@@ -100,99 +155,7 @@ a {
     color: #818181;
     text-decoration:none
 }
-a:hover {
-    color: black;
-    text-decoration: none;
-}
-#details-right { 
-    float: left;
-}
-#details-left { 
-    float: right;
-}
-
-#form-delete {
-    position: relative;
-    margin-bottom: -60px !important;
-    right: -110px !important;
-    top: -64px !important;
-}
-/* etape */
-
-#etape {
-    font-family: Tahoma;
-    height:39px;
-    margin-bottom: 20px;
-}	
-.etape_sel {
-    float:left;
-    height:29px;
-    width:18px;
-    font-size: 18px;
-    line-height: 18px;
-    padding:10px 0 0 0;
-    text-align: center;
-}
-.etape_nsel {
-    float:left;
-    height:29px;
-    width:18px;
-    font-size: 18px;
-    line-height: 18px;
-    padding:10px 0 0 0;
-    text-align: center;
-    color:#cbcbcb;
-}
-.etape_selc_gauche {
-    float:left;	 
-    background: url("../images/installation/gauche_gris.gif") no-repeat;
-    height:27px;
-    padding:13px 15px 0 25px;
-    font-size: 13px;
-    color:#fff;
-    font-weight: bold;
-}
-.etape_selc_gauche a{ 
-    font-size: 13px;
-    color:#fff;
-    font-weight: bold;
-}
-.etape_selc_droite {
-    float:left;
-    width:12px;
-    background: url("../images/installation/droite_gris.gif") no-repeat;
-    height:39px;
-}
-.etape_selc_fin  {
-    float:left;
-    width:8px;
-    height:39px;
-    background: url("../images/installation/fin_gris.gif") no-repeat;
-}
-.etape_nselc_gauche {
-    float:left;
-    height:27px;
-    padding:13px 15px 0 25px;
-    font-size: 13px;
-    background: url("../images/installation/gauche_clair.gif") no-repeat;
-    height:39px;
-    color:#cbcbcb;
-    font-weight: bold;
-}
-.etape_nselc_gauche a{ 
-    font-size: 13px;
-    color:#cbcbcb;
-    font-weight: bold;
-}
-.etape_nselc_droite {
-    float:left;
-    width:12px;
-    background: url("../images/installation/droite_clair.gif") no-repeat;
-    height:39px;
-}
-.etape_nselc_fin  {
-    float:left;
-    width:8px;
-    height:39px;
-    background: url("../images/installation/fin_clair.gif") no-repeat;
+.information{
+    font-size: 10px;
+    color: grey;
 }

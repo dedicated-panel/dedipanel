@@ -4,10 +4,8 @@
 
 {% block content %}
     {% form_theme form "SensioDistributionBundle::Configurator/form.html.twig" %}
-    {% include "SensioDistributionBundle::Configurator/steps.html.twig" with { "index": index, "count": count } %}
 
-    <h1>{{ 'database.title'|trans }}</h1>
-    <p>{{ 'database.description'|trans }}</p>
+     <legend>{{ 'database.title'|trans }}</legend>
 
     {{ form_errors(form) }}
     <form action="{{ path('_configurator_step', { 'index': index }) }}" method="POST">
@@ -23,9 +21,13 @@
 
         {{ form_rest(form) }}
 
-        <div class="symfony-form-footer">
-            <p><input type="submit" value="{{ 'Next Step'|trans }}" class="symfony-button-grey" /></p>
-            <p>{{ '* mandatory fields'|trans }}</p>
+        <div class="form-actions">
+            <input type="submit" value="{{ 'Next Step'|trans }}" class="btn btn-primary"  />
         </div>
+                
+        <span class="information">
+            {{ 'database.description'|trans }}<br />
+            {{ '* mandatory fields'|trans }}
+        </span>
     </form>
 {% endblock %}
