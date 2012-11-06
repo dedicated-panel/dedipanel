@@ -37,8 +37,9 @@ body	{
 /*** HEADER ***/
 
 header {
+    border-bottom: 1px solid rgb(126, 126, 126);
     background-color: #202020;
-    padding-bottom: 25px;
+    padding-bottom: 30px;
     height: 170px
         -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25),inset 0 -1px 0 rgba(0, 0, 0, .1);
     -moz-box-shadow: 0 1px 3px rgba(0,0,0,.25),inset 0 -1px 0 rgba(0,0,0,.1);
@@ -66,6 +67,28 @@ legend{
 }
 
 /*** Page (Style général) ***/
+#page {
+    border-top: 1px solid #474747;
+    margin: auto;
+    position: relative;
+}
+#page-content {
+    /*	min-height: 500px;*/
+    margin: auto;
+    width: 96%;
+    padding: 10px 0 8px 0;
+    height: auto;
+    min-height: 530px
+}
+#shadow:before {  
+    top: 15px;  
+    left: 0;  
+    width: 100%;  
+    height: 130px;  
+    border-radius: 12px / 65px;  
+    box-shadow: 0 0 10px #555;  
+}  
+#shadow:after { display: none; }  
 
 #page h1:first-child {
     color: #4b4b4b;
@@ -79,18 +102,7 @@ legend{
     font-family: 'WebSymbolsRegular', cursive;
     font-size: 17px;	
     padding-right: 10px;
-    pointer: cursor;
-}
-#page {
-    width: 96%;
-    margin: auto;
-    position: relative;
-}
-#page-content {
-    /*	min-height: 500px;*/
-    padding: 10px 0 8px 0;
-    height: auto;
-    min-height: 530px
+    cursor: pointer;
 }
 
 /***** MENU *****/
@@ -129,7 +141,7 @@ legend{
 .icone{
     font-family: 'WebSymbolsRegular', cursive;
     font-size: 25px;
-    color: #004a70;	
+    color: #004A70;	
     position: absolute;
     left: 21px;
     text-align: center;
@@ -195,150 +207,87 @@ legend{
     cursor: pointer;
     margin: 10px 5px 0 5px;
 }
-#profil {
-    -webkit-box-shadow: 0 1px 0 white inset, 0 1px 3px rgba(0, 0, 0, 0.08);
-    -moz-box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 3px rgba(0, 0, 0, 0.08);
-    box-shadow: 0px -1px 9px 0px rgba(0, 0, 0, 0.34) inset, 0px 1px 17px 4px rgba(0, 0, 0, 0.56);
-    -moz-border-radius-topleft: 0px;
-    -moz-border-radius-topright: 0px;
-    -moz-border-radius-bottomright: 3px;
-    -moz-border-radius-bottomleft: 3px;
-    -webkit-border-radius: 0px 0px 3px 3px;
-    border-radius: 0px 0px 3px 3px;
+.profilName {
+    position: relative;
     float: right;
-    margin: 0px 30px 30px 0;
-    background-color: #DBDBDB;
-    padding: 0 20px 10px 20px;
-    border: 1px solid #919191;
+    top: 103px;
+    padding: 0 10px 10px 0px;
     border-top: 0;
-    border-bottom: 1px solid #919191;
-    opacity: 0.9;
 }
-#profil #information {
+.profilName > .information {
     text-align: center;
     height: 40px;
     padding: 9px 0 0 65px;
     color: black;
     top: 2px;
-    opacity: 0.4;
+    opacity: 0.8;
 }
-#profil #information p {
-    margin: -25px 0 0px 0px;
-    font-size: 13px;
-    color: #272727;
+.profilName > .information > h2 {
+    margin: -25px 0 0px -10px;
+    font-size: 12px;
+    line-height: 18px;
     text-align: center;
-    font-family: Tahoma;
 }       
-#profil #information span.iicone{
+.profilName > .information > span.iicone{
     font-family: 'WebSymbolsRegular', cursive;
-    color: black;
-    font-size: 40px;
+    font-size: 32px;
     position: relative;
-    left: -117px;
+    left: -110px;
+    color: #172F49;
     text-align: center;
-    top: 3px;
-    opacity: 0.4;
-}       
-#profil #notifications {
-    margin-top:9px;
-    opacity: 0.9;
+    top: 7px;
 }
-#profil #notifications ul {
-    padding:0;
-    margin:0;
+.profilNav { 
+    float: right; 
+    position: relative; 
+    top: -5px;
+    left: 29px;
+    font-size: 11px;
+    height: 35px;
 }
-#profil #notifications ul li {
-    list-style:none;
-    float:left;
+.profilNav > ul {
+    margin: 1px 30px 0 0;
+    border-right: 1px solid #474747;
+    border-left: 1px solid #2E2E2E;
+    height: 34px;
 }
-#profil #notifications ul li a {
-    display:block;
-    width:16px;
-    height:16px;
-    padding:4px;
-    border:1px solid #ccc;	
-    border-left:0;
-    border-bottom:1px solid #bbb;
-    background-color:#F5F5F5;
-    -webkit-box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 2px rgba(0, 0, 0, 0.1);
-    -moz-box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 2px rgba(0, 0, 0, 0.1);
-    box-shadow:0 1px 0 #FFFFFF inset, 0 1px 2px rgba(0, 0, 0, 0.1);
-    position:relative;
+.profilNav > ul > li { 
+    display: inline; 
+    float: left; 
+    position: relative; 
+    cursor: pointer;
+    border-left: 1px solid #2E2E2E;
+    border-top: 1px solid #2E2E2E;
+    border-bottom: 1px solid #2E2E2E;
+    border-right: 1px solid #2E2E2E;
+    height: 31px;
 }
-#profil #notifications ul li a:hover {
-    -webkit-box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 2px rgba(0, 0, 0, 0.3);
-    -moz-box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 2px rgba(0, 0, 0, 0.3);
-    box-shadow:0 1px 0 #FFFFFF inset, 0 1px 2px rgba(0, 0, 0, 0.3);
+.profilNav > ul > li > a { 
+    text-decoration: none; 
+    display: block; 
+    float: left;
+    color: #C2C2C2;
+    border-top: 1px solid #474747;
+    border-bottom: 1px solid #474747;
+    border-left: 1px solid #474747;
+    border-right: 1px solid #474747;
+    height: 29px;
 }
-#profil #notifications ul li:first-child a {
-    border-left:1px solid #ccc;
-    -moz-border-radius-topleft: 2px;
-    -moz-border-radius-topright: 0px;
-    -moz-border-radius-bottomright: 0px;
-    -moz-border-radius-bottomleft: 2px;
-    -webkit-border-radius: 2px 0px 0px 2px;
-    border-radius: 2px 0px 0px 2px;
+.profilNav > ul > li > a:hover { 
+    background-color: #2B2B2B; 
+    color: white;
 }
-#profil #notifications ul li:last-child a {
-    -moz-border-radius-topleft: 0px;
-    -moz-border-radius-topright: 2px;
-    -moz-border-radius-bottomright: 2px;
-    -moz-border-radius-bottomleft: 0px;
-    -webkit-border-radius: 0px 2px 2px 0px;
-    border-radius: 0px 2px 2px 0px; 
-}
-#profil #notifications ul li a span.message {
-    display:block;
-    padding:0px 4px 1px 4px;
-    color:#fff;
-    font-size:10px;
-    font-weight:bold;
-    position:absolute;
-    top:-7px;
-    right:-4px;
-    opacity: 0.6;
-    background-color:#1769C2;
-    z-index:990;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%; 
-    text-shadow:0 1px 0 #000;
-}
-#profil #notifications ul li a {
-    background-repeat:no-repeat;
-    background-position:center center;
-}
-#profil #notifications a#logout {
-    background-repeat:no-repeat;
-    background-position:5px center;
-    padding:4px;
-    padding-left:22px;
-    padding-right:10px;
-    text-align:center;
-    color:#777;
-    width:95px;
-    text-decoration:none;
-    font-weight:bold;
-    height:16px;
-}
-#profil #notifications a:hover#logout {
-    -webkit-box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 3px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 3px rgba(0, 0, 0, 0.2);
-    box-shadow:0 1px 0 #FFFFFF inset, 0 1px 3px rgba(0, 0, 0, 0.2);
-    color:#444;
-}
-#profil #notifications .micone {
-    font-family: 'WebSymbolsRegular', cursive;
+.profilNav > ul > li > a > span { 
+    display: block; 
+    padding: 4px 16px 3px 11px; 
+    float: left;
     font-size: 13px;
-    pointer: cursor;
-    color: black;
-    position: absolute;
-    left: 5px;
-    text-align: center;
-    top: 3px;    
-    opacity: 0.4;
 }
-
+.profilNav > ul > li > a > i { 
+    float: left;
+    display: block;
+    margin: 7px -5px 0px 10px;
+}
 
 /*** Footer ***/
 
@@ -549,7 +498,8 @@ button.machine {
 
 a {
     color: #818181;
-    text-decoration:none
+    text-decoration:none;
+    cursor: pointer;
 }
 a:hover {
     color: black;
@@ -574,11 +524,12 @@ fieldset {
 }
 
 #form-delete {
+    width: 100px;
     position: relative;
-    margin-bottom: -60px !important;
     right: -110px !important;
-    top: -64px !important;
+    top: -69px !important;
 }
+
 @font-face {
     font-family: 'WebSymbolsRegular';
     src: url('websymbols/websymbols-regular-webfont.eot');
@@ -650,4 +601,3 @@ to {
     -ms-transform: translateY(0%);
 }
 }
-

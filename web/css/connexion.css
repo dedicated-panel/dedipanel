@@ -46,7 +46,7 @@ header {
 	font-size: 14px;
         padding: 5px;
 }
-#connexion {
+#logbox {
 	background: linear-gradient(top, #F7F7F7 0%,#E9E9E9 100%);
 	border: 1px solid #EDEDED;
 	width: 375px;
@@ -178,6 +178,9 @@ fieldset {
 	border: none; 
 }
 
+i {
+    opacity: 0.7;
+}
 
 @font-face {
     font-family: 'WebSymbolsRegular';
