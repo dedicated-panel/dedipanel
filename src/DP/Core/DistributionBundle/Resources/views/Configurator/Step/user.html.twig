@@ -1,0 +1,23 @@
+{% extends "SensioDistributionBundle::Configurator/layout.html.twig" %}
+
+{% block title %}Configuration du Super Admin{% endblock %}
+
+{% block content %}
+    {% form_theme form "SensioDistributionBundle::Configurator/form.html.twig" %}
+    {% include "SensioDistributionBundle::Configurator/steps.html.twig" %}
+
+    <h1>{{ 'super_admin.title'|trans }}</h1>
+    <p>{{ 'super_admin.description'|trans }} :</p>
+
+    {{ form_errors(form) }}
+    <form action="{{ path('_configurator_step', { 'index': index }) }} " method="POST">
+
+        {{ form_rest(form) }}
+
+        <div class="symfony-form-footer">
+            <p><input type="submit" value="{{ 'Next Step'|trans }}" class="symfony-button-grey" /></p>
+            <p>{{ '* mandatory fields'|trans }}</p>
+        </div>
+
+    </form>
+{% endblock %}

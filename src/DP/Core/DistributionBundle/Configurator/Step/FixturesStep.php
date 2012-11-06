@@ -20,7 +20,6 @@
 
 namespace DP\Core\DistributionBundle\Configurator\Step;
 
-use Sensio\Bundle\DistributionBundle\Configurator\Step\Step;
 use Sensio\Bundle\DistributionBundle\Configurator\Step\StepInterface;
 use DP\Core\DistributionBundle\Configurator\Form\FixturesStepType;
 
@@ -28,12 +27,12 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\StringInput;
 use DP\Core\DistributionBundle\ConsoleOutput\StringOutput;
 
-class FixturesStep extends Step
+class FixturesStep implements StepInterface
 {
     private $container;
     
     public $configurationType;
-    public $dontLoadFixtures;
+    public $loadFixtures = true;
     
     public function __construct(array $parameters)
     {
@@ -43,25 +42,33 @@ class FixturesStep extends Step
     /**
      * @see StepInterface
      */
-    public function getTitle()
-    {
-        return 'Fixtures Installation';
-    }
-    
-    /**
-     * @see StepInterface
-     */
-    public function getDescription()
-    {
-        return 'Create tables and install data fixtures into database.';
-    }
-    
-    /**
-     * @see StepInterface
-     */
     public function getFormType()
     {
         return new FixturesStepType();
+    }
+    
+    /**
+     * @see StepInterface
+     */
+    public function checkRequirements()
+    {
+        return array();
+    }
+
+    /**
+     * @see StepInterface
+     */
+    public function getTemplate()
+    {
+        return 'DPDistributionBundle:Configurator/Step:fixtures.html.twig';
+    }
+    
+    /**
+     * @see StepInterface
+     */
+    public function checkOptionalSettings()
+    {
+        return array();
     }
     
     /**
@@ -76,7 +83,7 @@ class FixturesStep extends Step
             $this->executeConsoleCmd('doctrine:schema:update --force');
         }
         
-        if ($data->dontLoadFixtures != true) {
+        if ($data->loadFixtures == true) {
             $path = str_replace('\\', '/', __DIR__) . '/../../Fixtures';
             var_dump($this->executeConsoleCmd('doctrine:fixtures:load --fixtures=' . $path));
         }

@@ -21,7 +21,7 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             
 //            new Symfony\Bundle\DoctrineMigrationsBundle\DoctrineMigrationsBundle(),
-//            new Symfony\Bundle\DoctrineFixturesBundle\DoctrineFixturesBundle(),
+            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             
             new FOS\UserBundle\FOSUserBundle(),
             new Sonata\UserBundle\SonataUserBundle('FOSUserBundle'),
@@ -46,7 +46,7 @@ class AppKernel extends Kernel
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
             
-//            $bundles[] = new DP\Core\DistributionBundle\DPDistributionBundle();
+            $bundles[] = new DP\Core\DistributionBundle\DPDistributionBundle();
         }
 
         return $bundles;

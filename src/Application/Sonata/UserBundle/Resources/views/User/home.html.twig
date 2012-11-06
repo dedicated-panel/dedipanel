@@ -19,9 +19,21 @@
 {% extends "::layout.html.twig" %}
 
 {% block content %}
-    <ul>
-        <li><a href="{{ path('game_menu') }}">Serveurs de jeux</a></li>
-        <li><a href="{{ path('config_menu') }}">Configuration du panel</a></li>
-        <li><a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></li>
+    <ul class="widget">
+        <li >
+            <div>
+                <a href="{{ path('game_menu') }}">Serveurs de jeux</a>
+            </div>
+        </li>
+        <li >
+            <div>
+                <a  href="{{ path('config_menu') }}">Configuration</a>
+            </div>
+        </li>
+        <li >
+            <div>
+                <a  href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
+            </div>
+        </li>
     </ul>
 {% endblock %}

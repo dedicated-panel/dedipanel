@@ -1,0 +1,41 @@
+{% extends "SensioDistributionBundle::Configurator/layout.html.twig" %}
+
+{% block content %}
+    {% if majors|length %}
+        <h1>{% transchoice majors|length %}check.majorProblems{% endtranschoice %}</h1>
+        <p>
+            {% transchoice majors|length with {'%nbMajor%': majors|length} %}
+                check.majorDetected
+            {% endtranschoice %}
+            <br />
+            {% transchoice majors|length %}
+                check.fixMajor
+            {% endtranschoice %}
+        </p>
+        <ol>
+            {% for message in majors %}
+                <li>{{ message|trans }}</li>
+            {% endfor %}
+        </ol>
+    {% endif %}
+
+    {% if minors|length %}
+        <h1>{% transchoice minors|length %}check.minorProblems{% endtranschoice %}</h1>
+
+        <p>
+            {% transchoice minors|length with {'%nbMinor%': minors|length} %}
+                check.minorDetected
+            {% endtranschoice %}
+            <br />
+            {% transchoice minors|length %}
+                check.fixMinor
+            {% endtranschoice %}
+        </p>
+        
+        <ol>
+            {% for message in minors %}
+                <li>{{ message|trans }}</li>
+            {% endfor %}
+        </ol>
+    {% endif %}
+{% endblock %}

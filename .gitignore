@@ -7,6 +7,7 @@ app/logs/*
 build/
 vendor
 composer.phar
+composer.lock
 nbproject/
 .htaccess
 src/DP/Core/MachineBundle/Resources/config/.ssh/*

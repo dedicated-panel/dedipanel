@@ -82,9 +82,9 @@ fos_user:
         group_class: Application\Sonata\UserBundle\Entity\Group
     profile:  # Authentication Form
       form:
-          type:               app_user_profile
-          handler:            fos_user.profile.form.handler.default
-          name:               app_user_profile
+          type:               app_user_auth
+          handler:            app_user.auth.form.handler
+          name:               app_user_auth_form
           validation_groups:  [Authentication] # Please note : this is not the default value
 
 sonata_user:
