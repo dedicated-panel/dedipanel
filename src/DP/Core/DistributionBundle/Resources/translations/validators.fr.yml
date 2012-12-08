@@ -1,13 +1,18 @@
-super_admin:
-    username:
-        blank: Entrez un nom d'utilisateur s'il vous plait
-        short: "[-Inf,Inf]Le nom d'utilisateur est trop court"
-        long: "[-Inf,Inf]Le nom d'utilisateur est trop long"
-    email:
-        blank: Entrez une adresse e-mail s'il vous plait
-        short: "[-Inf,Inf]L'adresse e-mail est trop courte"
-        long: "[-Inf,Inf]L'adresse e-mail est trop longue"
-        invalid: L'adresse e-mail est invalide
-    password:
-        blank: Entrez un mot de passe s'il vous plait
-        short: "[-Inf,Inf]Le mot de passe est trop court"
+# Paramètres de la bdd (étape 1 install)
+configurator.db.host.blank: Vous devez indiquer l'hôte de la base de données (son IP ou son nom).
+configurator.db.name.blank: Vous devez indiquer le nom de la base de données.
+configurator.db.user.blank: Vous devez indiquer l'utilisateur.
+
+
+# Création du SuperAdmin (étape 3 install)
+configurator.userCreation.username.blank: Vous devez indiquer un nom d'utilisateur.
+configurator.userCreation.username.short: "[-Inf,Inf]Votre nom d'utilisateur est trop court, il doit faire plus de %count% caractères."
+configurator.userCreation.username.long: "[-Inf,Inf]Votre nom d'utilisateur est trop long, il doit faire moins de %count% caractères."
+
+configurator.userCreation.email.blank: Vous devez indiquer votre adresse email.
+configurator.userCreation.email.short: "[-Inf,Inf]Votre adresse email est trop courte, elle doit faire plus de %count% caractères."
+configurator.userCreation.email.long: "[-Inf,Inf]Votre adresse email est trop longue, elle doit faire moins de %count% caractères."
+configurator.userCreation.email.valid: Votre adresse email n'est pas valide.
+
+configurator.userCreation.password.blank: Vous devez indiquer votre mot de passe.
+configurator.userCreation.password.short: "[-Inf,Inf]Votre mot de passe est trop court, il doit faire plus de %count% caractères."

@@ -20,23 +20,43 @@
 
 namespace DP\Core\DistributionBundle\Configurator\Step;
 
-use Sensio\Bundle\DistributionBundle\Configurator\Step\StepInterface;
+use DP\Core\DistributionBundle\Configurator\Step\StepInterface;
 use DP\Core\DistributionBundle\Configurator\Form\AutoInstallStepType;
+
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Tools\SchemaTool;
+use Doctrine\ORM\Tools\ToolsException;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader as DataFixturesLoader;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 
 class AutoInstallStep implements StepInterface
-{
-    private $container;
-    
+{ 
     public $configurationType;
     public $loadFixtures = true;
     
-    public function __construct(array $parameters)
+    private $secret;
+    private $container;
+    
+    public function __construct(ContainerInterface $container)
     {
-        $this->container = $parameters['container'];
+        $this->container = $container;
+        $installer = $this->container->get('dp.webinstaller');
+        $parameters = $installer->getConfigParameters();
+        
+        // Chargement du secret actuellement utilisé
+        if (array_key_exists('secret', $parameters)) {
+            $this->secret = $parameters['secret'];
+        }
+    }
+    
+    /**
+     * @see StepInterface
+     */
+    public function getTitle()
+    {
+        return 'auto_install.title';
     }
     
     /**
@@ -45,14 +65,6 @@ class AutoInstallStep implements StepInterface
     public function getFormType()
     {
         return new AutoInstallStepType();
-    }
-    
-    /**
-     * @see StepInterface
-     */
-    public function checkRequirements()
-    {
-        return array();
     }
 
     /**
@@ -66,31 +78,33 @@ class AutoInstallStep implements StepInterface
     /**
      * @see StepInterface
      */
-    public function checkOptionalSettings()
+    public function run(StepInterface $data, $configType)
     {
-        if (!function_exists('symlink')) {
-            return array('The symlink() function is not available on your system. You need to install the assets without the --symlink option.');
+        $error = false;
+        
+        // Installation de la base de données
+        $error &= $this->databaseInstallation($configType, $data->loadFixtures);
+
+        // Installation automatique des assets
+        $error &= $this->installAssets();
+        
+        if (!isset($this->secret) || 
+            'ThisTokenIsNotSoSecretChangeIt' == $this->secret) {
+            $this->secret = $this->generateRandomSecret();
+            
+            $configurator = $this->container->get('dp.webinstaller');
+            $configurator->mergeParameters(array('secret' => $this->secret));
+            $configurator->write();
+            
         }
         
-        return array();
-    }
-    
-    /**
-     * @see StepInterface
-     */
-    public function update(StepInterface $data)
-    {
-        // Installation de la base de données
-        $this->databaseInstallation($data->configurationType, $data->loadFixtures);
-        
-        // Installation automatique des assets
-        $this->installAssets();
-        
-        return array();
+        return $error;
     }
     
     protected function databaseInstallation($configurationType, $loadFixtures)
     {
+        $errors = array();
+        
         // Création du schemaTool et récupération des metadatas relatives aux entités
         $em = $this->container->get('doctrine')->getEntityManager();
         $schemaTool = new SchemaTool($em);
@@ -98,17 +112,29 @@ class AutoInstallStep implements StepInterface
         
         if ($configurationType == 'install') {
             // Création de la bdd
-            $schemaTool->createSchema($metadatas);
+            try {
+                $schemaTool->createSchema($metadatas);
+            }
+            catch (ToolsException $e) {
+                $errors[] = $e->getMessage();
+            }
         }
         else {
             // Mise à jour de la bdd
-            $schemaTool->updateSchema($metadatas, true);
+            try {
+                $schemaTool->updateSchema($metadatas, true);
+            }
+            catch (ToolsException $e) {
+                $errors[] = $e->getMessage();
+            }
         }
         
         // Chargement des données de config du panel et des jeux fourni
         if ($loadFixtures == true) {
             $this->loadFixtures(__DIR__ . '/../../Fixtures');
         }
+            
+        return $errors;
     }
     
     protected function loadFixtures($path)
@@ -132,14 +158,14 @@ class AutoInstallStep implements StepInterface
         $executor->execute($fixtures);
     }
     
-    protected function installAssets($targetArg = 'web')
+    protected function installAssets($targetArg = '.')
     {
-        $filesystem = $this->getContainer()->get('filesystem');
+        $filesystem = $this->container->get('filesystem');
         
         // Create the bundles directory otherwise symlink will fail.
         $filesystem->mkdir($targetArg.'/bundles/', 0777);
         
-        foreach ($this->getContainer()->get('kernel')->getBundles() as $bundle) {
+        foreach ($this->container->get('kernel')->getBundles() as $bundle) {
             if (is_dir($originDir = $bundle->getPath().'/Resources/public')) {
                 $bundlesDir = $targetArg.'/bundles/';
                 $targetDir  = $bundlesDir.preg_replace('/bundle$/', '', strtolower($bundle->getName()));
@@ -148,5 +174,25 @@ class AutoInstallStep implements StepInterface
                 $filesystem->symlink($originDir, $targetDir);
             }
         }
+    }    
+
+    protected function generateRandomSecret()
+    {
+        return hash('sha1', uniqid(mt_rand()));
+    }
+    
+    public function isInstallStep()
+    {
+        return true;
+    }
+    
+    public function isUpdateStep()
+    {
+        return true;
+    }
+    
+    public function checkRequirements()
+    {
+        return array();
     }
 }

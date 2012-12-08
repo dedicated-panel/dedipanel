@@ -16,3 +16,8 @@ _configurator:
 
 _main:
     resource: routing.yml
+
+_installer:
+    resource: "@DPDistributionBundle/Resources/config/routing.yml"
+    prefix:   /installer/
+    

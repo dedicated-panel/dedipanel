@@ -28,12 +28,15 @@ class UserStepType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username')
-            ->add('email', 'email')
+            ->add('username', 'text', array('label' => 'configurator.userCreation.username'))
+            ->add('email', 'email', array('label' => 'configurator.userCreation.email'))
             ->add('password', 'repeated', array(
                     'type'          => 'password',
                     'first_name'    => 'password',
-                    'second_name'   => 'password_again'));
+                    'second_name'   => 'password_again', 
+                    'first_options' => array('label' => 'configurator.userCreation.password'), 
+                    'second_options' => array('label' => 'configurator.userCreation.password_again'), 
+            ));
     }
     
     public function getName()

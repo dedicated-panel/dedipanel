@@ -28,19 +28,15 @@ class AutoInstallStepType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('configurationType', 'choice', array(
-                'label' => 'configurationType', 
-                'choices' => array('install' => 'Installation', 'upgrade' => 'Upgrade'), 
-                'required' => true, 
-            ))
             ->add('loadFixtures', 'checkbox', array(
-                'label' => 'loadFixtures', 
+                'label' => 'configurator.autoInstall.loadFixtures', 
                 'required' => false, 
-            ));
+            ))
+        ;
     }
     
     public function getName()
     {
-        return 'distributionbundle_fixtures_step';
+        return 'distributionbundle_autoinstall_step';
     }
 }

@@ -1,0 +1,20 @@
+installer_chooseType:
+    pattern:  /
+    defaults: { _controller: DPDistributionBundle:Configurator:index }
+
+installer_check:
+    pattern: /install/check
+    defaults: { _controller: DPDistributionBundle:Configurator:check }
+
+installer_step:
+    pattern: /{type}/{index}
+    defaults: { _controller: DPDistributionBundle:Configurator:step }
+    requirements: 
+      index: \d+
+      type: install|update
+
+installer_final:
+    pattern: /{type}/final
+    defaults: { _controller: DPDistributionBundle:Configurator:final }
+    requirements:
+        type: install|update

@@ -10,5 +10,5 @@ parameters:
     mailer_user: null
     mailer_password: null
     locale: fr
-    secret: ThisIsNotReallyASecretChangeIt!
+    secret: ThisTokenIsNotSoSecretChangeIt
     database_path: null

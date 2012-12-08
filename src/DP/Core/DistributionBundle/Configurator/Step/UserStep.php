@@ -20,40 +20,43 @@
 
 namespace DP\Core\DistributionBundle\Configurator\Step;
 
+use DP\Core\DistributionBundle\Configurator\Step\StepInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use DP\Core\DistributionBundle\Configurator\Form\UserStepType;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Sensio\Bundle\DistributionBundle\Configurator\Step\StepInterface;
 
 class UserStep implements StepInterface
 {
     /**
-     * @Assert\NotBlank(message="super_admin.username.blank")
-     * @Assert\MinLength(limit="2", message="super_admin.username.short")
-     * @Assert\MaxLength(limit="255", message="super_admin.username.long")
+     * @Assert\NotBlank(message="configurator.userCreation.username.blank")
+     * @Assert\MinLength(limit="2", message="configurator.userCreation.username.short")
+     * @Assert\MaxLength(limit="255", message="configurator.userCreation.username.long")
      */
     public $username;
     
     /**
-     * @Assert\NotBlank(message="super_admin.email.blank")
-     * @Assert\MinLength(limit="2", message="super_admin.email.short")
-     * @Assert\MaxLength(limit="255", message="super_admin.email.long")
-     * @Assert\Email(checkMX="true", message="super_admin.email.valid")
+     * @Assert\NotBlank(message="configurator.userCreation.email.blank")
+     * @Assert\MinLength(limit="8", message="configurator.userCreation.email.short")
+     * @Assert\MaxLength(limit="255", message="configurator.userCreation.email.long")
+     * @Assert\Email(checkMX="true", message="configurator.userCreation.email.valid")
      */
     public $email;
     
     /**
-     * @Assert\NotBlank(message="super_admin.password.blank")
-     * @Assert\MinLength(limit="6", message="super_admin.password.short")
+     * @Assert\NotBlank(message="configurator.userCreation.password.blank")
+     * @Assert\MinLength(limit="6", message="configurator.userCreation.password.short")
      */
     public $password;
+    
+    private $container;
     
     /**
      * @see StepInterface
      */
-    public function __construct(array $options)
+    public function __construct(ContainerInterface $container)
     {
-        $this->userManager = $options['usrMgr'];
+        $this->container = $container;
     }
     
     /**
@@ -75,32 +78,41 @@ class UserStep implements StepInterface
     /**
      * @see StepInterface
      */
-    public function checkRequirements()
+    public function getTitle()
     {
-        return array();
+        return 'configurator.userCreation.title';
     }
     
     /**
      * @see StepInterface
      */
-    public function checkOptionalSettings()
+    public function run(StepInterface $data, $configType)
     {
-        return array();
-    }
-    
-    /**
-     * @see StepInterface
-     */
-    public function update(StepInterface $data)
-    {
-        $user = $this->userManager->createUser();
+        $userManager = $this->container->get('fos_user.user_manager');
+        
+        $user = $userManager->createUser();
         $user->setUsername($data->username);
         $user->setEmail($data->email);
         $user->setPlainPassword($data->password);
         $user->setSuperAdmin(true);
         $user->setEnabled(true);
-        $this->userManager->updateUser($user);
+        $userManager->updateUser($user);
         
+        return true;
+    }
+    
+    public function isInstallStep()
+    {
+        return true;
+    }
+    
+    public function isUpdateStep()
+    {
+        return false;
+    }
+    
+    public function checkRequirements()
+    {
         return array();
     }
 }

@@ -1,24 +1,7 @@
-{% extends "SensioDistributionBundle::Configurator/layout.html.twig" %}
+{% extends "DPDistributionBundle:Configurator:layout.html.twig" %}
 
-{% block content_class %}config_done{% endblock %}
 {% block content %}
-    <h1>{{ 'final.title'|trans }}</h1>
+    <h1>{{ 'configurator.final.title'|trans }}</h1>
     
-    <p>
-    {% if is_writable %}
-        {{ 'final.configured'|trans }}<br />
-        {% trans with {'%yml_path%': yml_path} %}final.overwritten{% endtrans %}
-    {% else %}
-        <span class="configure-error">{{ 'final.almostConfigured'|trans }}</span><br />
-        
-        {% trans with {'%yml_path%': yml_path} %}final.notWritable{% endtrans %}<br />
-        {{ 'final.retry'|trans }}
-    {% endif %}
-    </p>
-
-    {% if welcome_url %}
-        <ul>
-            <li><a href="{{ welcome_url }}">{{ 'final.goWelcomePage'|trans }}</a></li>
-        </ul>
-    {% endif %}
+    <p><a href="{{ path('_welcome') }}">{{ 'configurator.final.goWelcomePage'|trans }}</a></p>
 {% endblock %}
