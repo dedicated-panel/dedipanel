@@ -1,13 +1,14 @@
 {% extends "::layout.html.twig" %}
 
 {% form_theme form "::form.html.twig" %}
-{% block title %}<a href="{{ path('machine') }}"><span class="titre">h</span></a>{{ 'machine.new'|trans }}{% endblock %}
 {% block content %}
+
+<legend></a>{{ 'machine.new'|trans }}</legend>
 
     <form action="{{ path('machine_create') }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
-        <p>
-            <input type="submit" name="submit" class="submit" value="{{ 'machine.add'|trans }}" />
-        </p>
+        <div class="form-actions">
+            <input type="submit" name="submit" class="btn btn-primary" value="{{ 'machine.add'|trans }}" />
+        </div>
     </form>
 {% endblock %}

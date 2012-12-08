@@ -18,24 +18,22 @@
         "sensio/generator-bundle": "2.1.*",
         "jms/security-extra-bundle": "1.2.*",
         "jms/di-extra-bundle": "1.1.*",
-        
-        "sonata-project/block-bundle": "*", 
+
+        "sonata-project/block-bundle": "*",
         "sonata-project/cache-bundle": "*",
-        "knplabs/knp-menu-bundle": "*", 
-        "sonata-project/jquery-bundle": "*", 
-        "sonata-project/exporter": "*", 
-        "sonata-project/admin-bundle": "*", 
-        "sonata-project/doctrine-orm-admin-bundle": "*", 
-        "sonata-project/easy-extends-bundle": "*", 
-        "friendsofsymfony/user-bundle": "*", 
-        "sonata-project/user-bundle": "*", 
-        "sonata-project/doctrine-extensions": "*", 
-        "doctrine/migrations": "*", 
-        "doctrine/doctrine-migrations-bundle": "*", 
-        "doctrine/data-fixtures": "*", 
-        "doctrine/doctrine-fixtures-bundle": "*", 
-        "mopa/bootstrap-bundle": "*", 
-        "twitter/bootstrap": "*", 
+        "knplabs/knp-menu-bundle": "*",
+        "sonata-project/jquery-bundle": "*",
+        "sonata-project/exporter": "*",
+        "sonata-project/admin-bundle": "*",
+        "sonata-project/doctrine-orm-admin-bundle": "*",
+        "sonata-project/easy-extends-bundle": "*",
+        "friendsofsymfony/user-bundle": "*",
+        "sonata-project/user-bundle": "*",
+        "sonata-project/doctrine-extensions": "*",
+        "doctrine/migrations": "*",
+        "doctrine/doctrine-migrations-bundle": "*",
+        "doctrine/data-fixtures": "*",
+        "doctrine/doctrine-fixtures-bundle": "*",
         "sensio/distribution-bundle": "*"
     },
     "scripts": {
@@ -51,31 +49,5 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
         ]
-    },
-    "config": {
-        "bin-dir": "bin"
-    },
-    "minimum-stability": "dev",
-    "extra": {
-        "symfony-app-dir": "app",
-        "symfony-web-dir": "web"
-    }, 
-    "repositories": [
-        {
-            "type": "package", 
-            "package": {
-                "version": "master", 
-                "name": "twitter/bootstrap", 
-                "source": {
-                    "url": "https://github.com/twitter/bootstrap.git", 
-                    "type": "git", 
-                    "reference": "master"
-                }, 
-                "dist": {
-                    "url": "https://github.com/twitter/bootstrap/zipball/master",
-                    "type": "zip"
-                }
-            }
-        }
-    ]
+    }
 }

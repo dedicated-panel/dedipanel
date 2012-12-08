@@ -1,0 +1,13 @@
+fos_user:
+    username:
+        blank: Please enter a username
+        short: "[-Inf,Inf]The username is too short"
+        long: "[-Inf,Inf]The username is too long"
+    email:
+        blank: Please enter an email
+        short: "[-Inf,Inf]The email is too short"
+        long: "[-Inf,Inf]The email is too long"
+        invalid: The email is not valid
+    password:
+        blank: Please enter a password
+        short: "[-Inf,Inf]The password is too short"

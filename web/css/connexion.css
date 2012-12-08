@@ -5,7 +5,7 @@ html, body	{
 }
 
 body	{
-    background: #2d2d2d;
+    background: #2d2d2d !important;
     color: #393939;
     font-family: Arial;
     font-size: 0px;
@@ -17,15 +17,19 @@ body	{
 
 
 /*** HEADER ***/
+aside{
+    display: none !important;
+}
+i{
+   opacity: 0.6; 
+}
 header {
     padding-top: 10px;
     padding-bottom: 10px;
     height: 160px
 }
 
-#logo {
-	background-image: url(../images/header/logo.png);
-	background-repeat: no-repeat;
+.logo {
 	width: 290px;
 	height: 80px;
 	margin: auto;
@@ -42,11 +46,22 @@ header {
 	display: block;
 
 }
+#page {
+	width: 95%;
+	margin: auto;
+}
+#titre {	
+	font-family: 'Cuprum', Arial, sans-serif;
+	color: #55585D;
+	font-size: 24px;
+	display: block;
+
+}
 .actions {	
 	font-size: 14px;
         padding: 5px;
 }
-#connexion {
+#logbox {
 	background: linear-gradient(top, #F7F7F7 0%,#E9E9E9 100%);
 	border: 1px solid #EDEDED;
 	width: 375px;
@@ -76,20 +91,20 @@ header {
 /*** Footer ***/
 
 
-footer a:selected, footer a:hover{
+#footer a:selected, footer a:hover{
     color: #000;
     text-decoration: none;
 }
 
-footer {
+#footer {
 	padding: 3px 0px;
 }
 
-footer p img {
+#footer p img {
 	margin-bottom: -10px;
 }
 
-footer p {
+#footer p {
     text-align: center;
     color: #818181;	 
     font-size: 11px;
@@ -176,16 +191,4 @@ input.submit:hover {
 
 fieldset {
 	border: none; 
-}
-
-
-@font-face {
-    font-family: 'WebSymbolsRegular';
-    src: url('websymbols/websymbols-regular-webfont.eot');
-    src: url('websymbols/websymbols-regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('websymbols/websymbols-regular-webfont.woff') format('woff'),
-         url('websymbols/websymbols-regular-webfont.ttf') format('truetype'),
-         url('websymbols/websymbols-regular-webfont.svg#WebSymbolsRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
 }

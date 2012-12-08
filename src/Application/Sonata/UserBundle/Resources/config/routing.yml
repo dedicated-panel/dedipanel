@@ -66,3 +66,10 @@ _sonata_admin:
 
 sonata_user_impersonating:
     pattern: /
+
+# Réécrit la route sonata pour ne pas afficher une page non charté
+# L'utilisateur est redirigé vers la home
+sonata_user_profile_show:
+    pattern: /profile/
+    defaults: { _controller: ApplicationSonataUserBundle:Profile:show }
+    requirements: { _method: GET }

@@ -1,0 +1,30 @@
+database.title: "Configure your Database"
+database.description: "If your website needs a database connection, please configure it here."
+
+secret.title: "Global Secret"
+secret.description: "Configure the global secret for your website (the secret is used for the CSRF protection among other things):"
+secret.generate: "Generate"
+
+fixtures.description.db: "If you perform an installation the tables will be created, else the database just will be upgraded."
+fixtures.description.fixtures: "Data necessary for the proper functionning of the panel will be loaded during this step."
+
+super_admin.title: "Root User Creation"
+super_admin.description: "Create a root user for administrer the panel"
+
+check.majorProblems: "Major Problem :|Major Problems :"
+check.majorDetected: "<strong>%nbMajor%</strong> major problem has been detected.|<strong>%nbMajor%</strong> major problems has been detected."
+check.fixMajor: "You need to fix him before continue the panel installation.|You need to fix them before continue the panel installation."
+"Please install PDO drivers.": "Install required PDO drivers (MySQL, SQLite)."
+check.minorProblems: "Recommandation|Recommandations"
+check.minorDetected: "<strong>%nbMinor%</strong> minor problem has been detected.|<strong>%nbMinor%</strong> minor problems has been detected."
+check.fixMinor: "You should fix him to have a better experience.|You should fix them to have a better experience."
+
+final.title: "Terminé !"
+final.configured: "Le panel est configuré !"
+final.almostConfigured: "Le panel est presque configuré ..."
+final.overwritten: "Your parameters.yml file has been overwritten with these parameters (in <em>%yml_path%</em>):"
+final.notOverwritten: "Your parameters.yml file is not writeable! Here are the parameters you can copy and paste in <em>%yml_path%</em>:"
+final.overwritten: "The configuration file has been correctly overwritten. The panel is preconfigured. From this point on, you can connect with the user previously created and access to the panel !"
+final.notWritable: "Your configuration file could not be rewrite automatically ! You need to change the chmod (also pay attention to the user and the group) of the file app/config/parameters.yml."
+final.retry: "Once done, you need to restart the installation in order to execute the two last steps who preconfigure the panel and create a super admin user."
+final.goWelcomePage: "Go to the login page"

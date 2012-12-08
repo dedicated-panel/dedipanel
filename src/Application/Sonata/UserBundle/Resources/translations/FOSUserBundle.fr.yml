@@ -34,6 +34,7 @@ security:
         password: "Mot de passe :"
         remember_me: Se souvenir de moi
         submit: Connexion
+        titre: Mot de passe oublié ! 
 
 # Profile
 profile:
@@ -73,7 +74,7 @@ registration:
             L'équipe.
 
 # Password resetting
-resetting:
+resetting: 
     password_already_requested: Un nouveau mot de passe a déjà été demandé pour cet utilisateur dans les dernières 24 heures.
     check_email: Un e-mail a été envoyé à l'adresse %email%. Veuillez suivre les instructions qui vous y sont indiquées.
     request:
@@ -101,6 +102,9 @@ layout:
     login: Connexion
     register: Enregistrer
     logged_in_as: Connecté en tant que %username%
+    
+# Security
+"Bad credentials": Nom d'utilisateur ou mot de passe incorrect
 
 # Form field labels
 fos_user_group_form_name: "Nom du groupe :"

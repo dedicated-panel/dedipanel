@@ -17,20 +17,23 @@
 #}
 
 {% extends "::layout.html.twig" %}
-{% block title %}<a href="{{ path('steam') }}"><span class="titre">h</span></a>{{ 'steam.editTitle'|trans }}{% endblock %}
 {% block content %}
+
+<legend>{{ 'steam.edit'|trans }}</legend>
+
     <form action="{{ path('steam_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
         <fieldset id="validation"> 
             {{ form_widget(edit_form) }}
-
-            <input type="submit" value="{{ 'steam.edit'|trans }}" name="submit" class="submit">                
-
+            
+            <div class="form-actions">
+                <button type="submit"  class="btn btn-primary">{{ 'steam.edit'|trans }}</button>
+            </div>  
         </fieldset> 
     </form>       
-    <span class="deletebutton">
-        <form action="{{ path('steam_delete', { 'id': entity.id }) }}" method="post">
-                        {{ form_widget(delete_form) }}
-                <input type="submit" value="{{ 'steam.del'|trans }}" name="submit" class="delete">
-            </form>
-        </span>
+    <form action="{{ path('steam_delete', { 'id': entity.id }) }}" method="post" id="form-delete">
+        {{ form_widget(delete_form) }}
+
+        <button type="submit"  class="btn btn-danger">{{ 'steam.del'|trans }}</button>
+    </form>   
+
 {% endblock %}

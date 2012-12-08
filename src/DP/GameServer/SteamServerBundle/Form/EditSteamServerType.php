@@ -19,11 +19,11 @@
 */
 
 namespace DP\GameServer\SteamServerBundle\Form;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class EditSteamServerType extends AddSteamServerType
 {    
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
         $builder->add('rconPassword', 'text', array('label' => 'steam.rcon.password', 'required' => false));

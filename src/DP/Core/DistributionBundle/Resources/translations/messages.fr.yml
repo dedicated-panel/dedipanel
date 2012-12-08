@@ -4,6 +4,7 @@ Name: Nom
 Host: Hôte
 Port: Port
 User: Utilisateur
+Path: Chemin
 Username: Utilisateur
 Password: Mot de passe
 Password again: Confirmer le mot de passe
@@ -16,6 +17,38 @@ Global Secret: Sécurité
 Root User: Super Admin
 Fixtures Installation: Préconfiguration
 configurationType: Type de configuration
-dontLoadFixtures: Ne pas préconfigurer le panel ?
+loadFixtures: Préconfigurer le panel ?
 Installation: Installation
 Upgrade: Mise à jour
+"* mandatory fields": "* Champs obligatoires"
+Configure yout database: Config de la base de données
+
+database.title: "Configuration de la base de données"
+database.description: "Configurez les paramètres de connexion à votre base de données."
+
+Secret: "Token"
+secret.title: "Token de sécurité"
+secret.description: "Configurez le token de sécurité afin de mieux protéger le panel. Celui-ci est notamment utilisé contre les attaques CSRF."
+secret.generate: "Générer"
+
+fixtures.description.db: "Si vous effectuez une installation, les tables seront alors automatiquement créées; sinon elle sera mise à jour."
+fixtures.description.fixtures: "Les données nécessaire au fonctionnement du panel seront également chargé lors de cette étape."
+
+super_admin.title: "Création d'un Super Admin"
+super_admin.description: "Création d'un super utilisateur qui contrôlera le panel"
+
+check.majorProblems: "Problème majeure :|Problèmes majeures :"
+check.majorDetected: "<strong>%nbMajor%</strong> problème majeure a été détecté.|<strong>%nbMajor%</strong> problèmes majeures ont été détectés."
+check.fixMajor: "Vous devez le corriger avant de poursuivre l'installation du panel.|Vous devez les corriger avant de poursuivre l'installation du panel."
+"Please install PDO drivers.": "Installez les drivers PDO requis (MySQL, SQLite)."
+check.minorProblems: "Recommandation|Recommandations"
+check.minorDetected: "<strong>%nbMinor%</strong> problème mineure a été détecté.|<strong>%nbMinor%</strong> problèmes mineures ont été détectés."
+check.fixMinor: "Vous pouvez corriger ces problèmes afin de profiter de toutes les fonctionnalités."
+
+final.title: "Terminé !"
+final.configured: "Le panel est configuré !"
+final.almostConfigured: "Le panel est presque configuré ..."
+final.overwritten: "Le fichier de configuration a bien été réécrit. Le panel est préconfiguré. Vous pouvez désormais vous connecter avec l'utilisateur précédemment créé et ainsi accéder au panel !"
+final.notWritable: "Votre fichier de configuration ne peut être réécrit automatiquement ! Vous devez modifier le chmod (faîtes également attention à l'utilisateur et au groupe) du fichier app/config/parameters.yml."
+final.retry: "Une fois fait, vous devrez relancer l'installation afin d'exécuter les deux dernières étapes qui préconfigurent le panel et créer un super admin."
+final.goWelcomePage: "Se connecter"

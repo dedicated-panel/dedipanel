@@ -1,0 +1,33 @@
+{% extends "SensioDistributionBundle::Configurator/layout.html.twig" %}
+
+{% block title %}Symfony - Configure database{% endblock %}
+
+{% block content %}
+    {% form_theme form "SensioDistributionBundle::Configurator/form.html.twig" %}
+
+     <legend>{{ 'database.title'|trans }}</legend>
+
+    {{ form_errors(form) }}
+    <form action="{{ path('_configurator_step', { 'index': index }) }}" method="POST">
+        <div class="symfony-form-column">
+            {{ form_row(form.driver) }}
+            {{ form_row(form.host) }}
+            {{ form_row(form.name) }}
+        </div>
+        <div class="symfony-form-column">
+            {{ form_row(form.user) }}
+            {{ form_row(form.password) }}
+        </div>
+
+        {{ form_rest(form) }}
+
+        <div class="form-actions">
+            <input type="submit" value="{{ 'Next Step'|trans }}" class="btn btn-primary"  />
+        </div>
+                
+        <span class="information">
+            {{ 'database.description'|trans }}<br />
+            {{ '* mandatory fields'|trans }}
+        </span>
+    </form>
+{% endblock %}

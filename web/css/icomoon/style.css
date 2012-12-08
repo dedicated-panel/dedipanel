@@ -1,0 +1,148 @@
+@font-face {
+	font-family: 'icomoon';
+	src:url('fonts/icomoon.eot');
+	src:url('fonts/icomoon.eot?#iefix') format('embedded-opentype'),
+		url('fonts/icomoon.svg#icomoon') format('svg'),
+		url('fonts/icomoon.woff') format('woff'),
+		url('fonts/icomoon.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+/* Use the following CSS code if you want to use data attributes for inserting your icons */
+[data-icon]:before {
+	font-family: 'icomoon';
+	content: attr(data-icon);
+	speak: none;
+	font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Use the following CSS code if you want to have a class per icon */
+[class^="icon-"]:before, [class*=" icon-"]:before {
+	font-family: 'icomoon';
+	font-style: normal;
+	speak: none;
+	font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+}
+.icon-home:before {
+	content: "\21";
+}
+.icon-user:before {
+	content: "\22";
+}
+.icon-mic:before {
+	content: "\23";
+}
+.icon-pictures:before {
+	content: "\24";
+}
+.icon-mouse:before {
+	content: "\25";
+}
+.icon-loading:before {
+	content: "\27";
+}
+.icon-fire:before {
+	content: "\26";
+}
+.icon-cog:before {
+	content: "\28";
+}
+.icon-stats-up:before {
+	content: "\29";
+}
+.icon-user-2:before {
+	content: "\2a";
+}
+.icon-locked:before {
+	content: "\2b";
+}
+.icon-database:before {
+	content: "\2c";
+}
+.icon-grid-view:before {
+	content: "\2d";
+}
+.icon-droplet:before {
+	content: "\2e";
+}
+.icon-database-2:before {
+	content: "\2f";
+}
+.icon-box-add:before {
+	content: "\30";
+}
+.icon-locked-2:before {
+	content: "\31";
+}
+.icon-unlocked:before {
+	content: "\32";
+}
+.icon-wrench:before {
+	content: "\33";
+}
+.icon-equalizer:before {
+	content: "\34";
+}
+.icon-pie:before {
+	content: "\35";
+}
+.icon-bars:before {
+	content: "\36";
+}
+.icon-remove:before {
+	content: "\37";
+}
+.icon-download:before {
+	content: "\38";
+}
+.icon-tux:before {
+	content: "\39";
+}
+.icon-github:before {
+	content: "\3a";
+}
+.icon-github-2:before {
+	content: "\3b";
+}
+.icon-new-tab:before {
+	content: "\3c";
+}
+.icon-arrow-up:before {
+	content: "\3d";
+}
+.icon-arrow-down:before {
+	content: "\3e";
+}
+.icon-eye:before {
+	content: "\3f";
+}
+.icon-pencil:before {
+	content: "\40";
+}
+.icon-clipboard:before {
+	content: "\41";
+}
+.icon-radio-unchecked:before {
+	content: "\42";
+}
+.icon-comments:before {
+	content: "\43";
+}
+.icon-comments-2:before {
+	content: "\44";
+}
+.icon-comments-3:before {
+	content: "\45";
+}
+.icon-headphones:before {
+	content: "\46";
+}
+.icon-mail:before {
+	content: "\47";
+}
+.icon-enter:before {
+	content: "\48";
+}

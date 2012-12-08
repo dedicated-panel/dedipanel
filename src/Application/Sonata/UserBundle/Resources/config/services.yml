@@ -1,0 +1,12 @@
+services:
+    app_user.auth.form.type:
+        class: Application\Sonata\UserBundle\Form\Type\ProfileFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: app_user_auth }
+    
+    app_user.auth.form.handler:
+        class: Application\Sonata\UserBundle\Form\Handler\ProfileFormHandler
+        arguments: ["@fos_user.profile.form", "@request", "@fos_user.user_manager"]
+        scope: request
+        #public: false 
