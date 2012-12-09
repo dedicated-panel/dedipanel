@@ -30,8 +30,8 @@ group:
 # Security
 security:
     login:
-        username: "Nom d'utilisateur :"
-        password: "Mot de passe :"
+        username: "Nom d'utilisateur"
+        password: "Mot de passe"
         remember_me: Se souvenir de moi
         submit: Connexion
         titre: Mot de passe oublié ! 
