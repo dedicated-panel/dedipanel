@@ -16,7 +16,14 @@
 
 layout.webSite: "Web Site"
 
+profil.profil: "Profil"
+profil.options: "Settings"
+profil.message: "Messages"
+profil.logout: "Log Out"
+
+menu.home: "Dashboard"
 menu.steam: "Steam Servers"
 menu.machine: "Machines Management"
 menu.game: "Game management"
-menu.logout: "Logout"
+menu.vocal: "Voip Management"
+menu.user: "User"

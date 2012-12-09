@@ -40,3 +40,44 @@ steam.selectGame: Select a game
 steam.addButton: Add
 
 steam.ended: Ended
+steam.start: Start
+steam.stop: Stop
+steam.restart: Restart
+
+steam.pluginsAction: Show plugins
+
+steam.plugins.name: Name
+steam.plugins.status: Statut
+steam.plugins.showTitle: Server plugins
+steam.plugins.installed: Installed
+steam.plugins.notInstalled: Not Installed
+
+steam.isAlreadyInstalled: Serv. already exist ?
+steam.yes: Yes
+steam.no: No
+
+steam.cfg.showTitle: Show CFG
+steam.cfg.filename: File name
+steam.cfg.content: File content
+
+steam.hltv.running: HLTV start
+steam.hltv.stopped: HLTV stopped
+steam.hltv.hltvIP: HLTV Ip Adress
+steam.hltv.password: Server password
+steam.hltv.serverAddress: Server adress
+steam.hltv.recordName: Record name
+steam.hltv.connect: Connect HLTV
+steam.hltv.reloadMap: Restart the map ?
+steam.hltv.yes: Yes
+steam.hltv.no: No
+steam.hltv.portAlreadyUsed: The specified port for HLTV is already used
+steam.hltv.port: HLTV port
+
+steam.rcon.title: Zone RCON
+steam.rcon.timeout: Serveur disconnected
+steam.rcon.send: Send
+steam.rcon.password: Rcon password
+steam.rcon.cmd: Command
+
+steam.banned: Server Banned
+steam.updateStatus: Update status

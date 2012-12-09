@@ -23,6 +23,9 @@ machine.genPrivKey: Is generated private key ?
 machine.yes: Yes
 machine.no: No
 
+machine.test.successful: Connection test successful.
+machine.test.failed: Connection test failed.
+
 machine.assert:
   - privateIp: You must give a valid IP address.
   - publicIp: You must give a valid failover IP address.

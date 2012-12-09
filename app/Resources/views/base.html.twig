@@ -36,24 +36,24 @@
                     <li>
                         <a href="{{ path('sonata_user_profile_show') }}" title="">
                               <div class="fsProfil" aria-hidden="true" data-icon="&#x2a;"></div>
-                            <span>Profil</span></a>
+                            <span>{{ 'profil.profil'|trans }}</span></a>
                     </li>
                     <li>
                         <a href="#">
                               <div class="fsProfil" aria-hidden="true" data-icon="&#x47;"></div>
-                            <span>Messages</span>
+                            <span>{{ 'profil.message'|trans }}</span>
                         </a>
                     </li>
                     <li>
                         <a href="{{ path('sonata_user_profile_edit_authentication') }}">
                               <div class="fsProfil" aria-hidden="true" data-icon="&#x33;"></div>
-                            <span>Settings</span>
+                            <span>{{ 'profil.options'|trans }}</span>
                         </a>
                     </li>
                     <li>
                         <a href="login.html" title="">
                               <div class="fsProfil" aria-hidden="true" data-icon="&#x48;"></div>
-                            <span>Logout</span>
+                            <span>{{ 'profil.logout'|trans }}</span>
                         </a>
                     </li>
                 </ul>
@@ -68,24 +68,24 @@
                 <li>
                     <a href="/">
                         <div class="fsMenu" aria-hidden="true" data-icon="&#x21;"></div>
-                        <span>Home</span></a>
+                        <span>{{ 'menu.home'|trans }}</span></a>
                     </li>
                 <li><a href="{{ path('steam') }}">
                         <div class="fsMenu" aria-hidden="true" data-icon="&#x25;"></div>
-                        <span>Games</span></a>
+                        <span>{{ 'menu.steam'|trans }}</span></a>
                     </li>
                 <li>
                     <a href="/vocal">
                         <div class="fsMenu" aria-hidden="true" data-icon="&#x23;"></div>
-                        <span>Speak</span></a>
+                        <span>{{ 'menu.vocal'|trans }}</span></a>
                     </li>
                 <li><a href="{{ path('sonata_admin_dashboard') }}">
                         <div class="fsMenu" aria-hidden="true" data-icon="&#x2a;"></div>
-                        <span>User</span></a>
+                        <span>{{ 'menu.user'|trans }}</span></a>
                     </li>
                 <li><a href="{{ path('machine') }}">
                         <div class="fsMenu" aria-hidden="true" data-icon="&#x2c;"></div>
-                        <span>Machine</span></a>
+                        <span>{{ 'menu.machine'|trans }}</span></a>
                     </li>
             </ul>
             </div>

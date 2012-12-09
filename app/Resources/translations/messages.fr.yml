@@ -15,9 +15,15 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 layout.webSite: "Site Web"
-menu.logout: Déconnexion
 
-menu.steam: "Serveurs Steam"
-menu.machine: "Gestion des Machines"
-menu.game: "Gestion des Jeux"
-menu.logout: "Déconnexion"
+profil.profil: "Profil"
+profil.options: "Options"
+profil.message: "Messages"
+profil.logout: "Déconnexion"
+
+menu.home: "Dashboard"
+menu.steam: "Steam Serveurs"
+menu.machine: "Gestion des machines"
+menu.game: "Serveurs de jeux"
+menu.vocal: "Serveurs vocaux"
+menu.user: "Utilisateur"
