@@ -25,6 +25,10 @@ DPMachineBundle:
 ApplicationSonataUserBundle:
     resource: "@ApplicationSonataUserBundle/Resources/config/routing.yml"
     prefix: /
+    
+DPMinecraftBundle:
+    resource: "@DPMinecraftBundle/Resources/config/routing.yml"
+    prefix:   /
 
 _welcome:
     pattern: /
