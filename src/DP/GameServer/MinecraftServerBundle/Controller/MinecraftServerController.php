@@ -93,7 +93,7 @@ class MinecraftServerController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('minecraft_show', array('id' => $entity->getId())));
         }
 
         return array(
@@ -153,7 +153,7 @@ class MinecraftServerController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('minecraft_edit', array('id' => $id)));
         }
 
         return array(

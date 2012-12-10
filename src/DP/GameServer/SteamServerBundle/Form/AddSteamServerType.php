@@ -29,16 +29,16 @@ class AddSteamServerType extends AbstractType
     {
         $builder
             ->add('machine', 'entity', array(
-                'label' => 'steam.selectMachine', 'class' => 'DPMachineBundle:Machine'))
-            ->add('name', 'text', array('label' => 'steam.name'))
-            ->add('port', 'number', array('label' => 'steam.port'))
+                'label' => 'game.selectMachine', 'class' => 'DPMachineBundle:Machine'))
+            ->add('name', 'text', array('label' => 'game.name'))
+            ->add('port', 'number', array('label' => 'game.port'))
             ->add('game', 'entity', array(
-                'label' => 'steam.selectGame', 'class' => 'DPGameBundle:Game', 
+                'label' => 'game.selectGame', 'class' => 'DPGameBundle:Game', 
                 'query_builder' => function($repo) {
                     return $repo->getQBAvailableSteamGames();
                 }))
-            ->add('dir', 'text', array('label' => 'steam.dir'))
-            ->add('maxplayers', 'number', array('label' => 'steam.maxplayers'))
+            ->add('dir', 'text', array('label' => 'game.dir'))
+            ->add('maxplayers', 'number', array('label' => 'game.maxplayers'))
         ;
     }
 

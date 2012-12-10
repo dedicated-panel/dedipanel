@@ -1,2 +1,19 @@
 menu.steamServers: Serveurs Steam
 menu.minecraftServers: Serveurs Minecraft
+
+game.edit: Editer
+game.del: Supprimer
+
+game.name: Nom
+game.port: Port
+game.game: Jeu
+game.installStatus: Statut de l'installation
+game.dir: Répertoire d'installation
+game.maxplayers: Joueurs max.
+game.actions: Actions
+game.IPAddress: Adresse IP
+game.ping: Ping
+
+game.selectMachine: Sélectionnez une machine
+game.selectGame: Jeu
+game.addButton: Ajouter

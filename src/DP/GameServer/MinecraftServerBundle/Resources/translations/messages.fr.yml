@@ -1,2 +1,4 @@
 minecraft.list: Liste des Serveurs Minecraft
 minecraft.add: Ajouter un serveur Minecraft
+minecraft.create: Ajouter
+minecraft.queryPort: Port pour le Query Web

@@ -18,21 +18,15 @@
 
 {% extends "::layout.html.twig" %}
 
-{% block title %}MinecraftServer creation{% endblock %}
+{% block title %}<a href="{{ path('minecraft') }}"><span class="titre">h</span></a>{{ 'minecraft.add'|trans }}{% endblock %}
 
 {% block content %}
+
     <form action="{{ path('minecraft_create') }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
+        
         <p>
-            <button type="submit">Create</button>
+            <input type="submit" value="{{ 'minecraft.create'|trans }}" name="submit" class="submit" />
         </p>
     </form>
-
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('minecraft') }}">
-                Back to the list
-            </a>
-        </li>
-    </ul>
 {% endblock %}

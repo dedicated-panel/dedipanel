@@ -23,23 +23,23 @@
 <table class="record_properties">
     <tbody>
         <tr>
-            <th>{{ 'steam.id'|trans }}</th>
+            <th>{{ 'game.id'|trans }}</th>
             <td>{{ entity.id }}</td>
         </tr>
         <tr>
-            <th>{{ 'steam.IPAddress'|trans }}</th>
+            <th>{{ 'game.IPAddress'|trans }}</th>
             <td>{{ entity.machine.publicIp }}:{{ entity.port }}</td>
         </tr>
         <tr>
-            <th>{{ 'steam.name'|trans }}</th>
+            <th>{{ 'game.name'|trans }}</th>
             <td>{{ entity.name }}</td>
         </tr>
         <tr>
-            <th>{{ 'steam.game'|trans }}</th>
+            <th>{{ 'game.game'|trans }}</th>
             <td>{{ entity.game }}</td>
         </tr>
         <tr>
-            <th>{{ 'steam.installStatus'|trans }}</th>
+            <th>{{ 'game.installStatus'|trans }}</th>
             <td><a href="{{ path('steam_install', { 'id': entity.id }) }}">{% spaceless %}
                         {% if entity.installationStatus is null %}
                             Buggued
@@ -51,11 +51,11 @@
                 {% endspaceless %}</a></td>
                 </tr>
                 <tr>
-                    <th>{{ 'steam.dir'|trans }}</th>
+                    <th>{{ 'game.dir'|trans }}</th>
                     <td>{{ entity.dir }}</td>
                 </tr>
                 <tr>
-                    <th>{{ 'steam.maxplayers'|trans }}</th>
+                    <th>{{ 'game.maxplayers'|trans }}</th>
                     <td>{{ entity.maxplayers }}</td>
                 </tr>
                 <tr>
@@ -86,12 +86,12 @@
         </table>
         <form action="{{ path('steam_edit', { 'id': entity.id }) }}" method="post">
             <fieldset id="validation">        
-                <input type="submit" value="{{ 'steam.edit'|trans }}" name="submit" class="submit">      
+                <input type="submit" value="{{ 'game.edit'|trans }}" name="submit" class="submit">      
             </fieldset>
         </form>
 
         <form action="{{ path('steam_delete', { 'id': entity.id }) }}" method="post" class="deletebutton">
-            <input type="submit" value="{{ 'steam.del'|trans }}" name="submit" class="delete">
+            <input type="submit" value="{{ 'game.del'|trans }}" name="submit" class="delete">
             {{ form_widget(delete_form) }}
         </form>
 

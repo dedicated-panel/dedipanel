@@ -13,15 +13,16 @@ class MinecraftServerType extends AbstractType
         $builder
             ->add('machine', 'entity', array(
                 'label' => 'steam.selectMachine', 'class' => 'DPMachineBundle:Machine'))
-            ->add('name', 'text', array('label' => 'steam.name'))
-            ->add('port', 'number', array('label' => 'steam.port'))
+            ->add('name', 'text', array('label' => 'game.name'))
+            ->add('port', 'number', array('label' => 'game.port'))
+            ->add('queryPort', 'number', array('label' => 'minecraft.queryPort'))
             ->add('game', 'entity', array(
-                'label' => 'steam.selectGame', 'class' => 'DPGameBundle:Game', 
+                'label' => 'game.selectGame', 'class' => 'DPGameBundle:Game', 
                 'query_builder' => function($repo) {
                     return $repo->getQBAvailableMinecraftGames();
                 }))
-            ->add('dir', 'text', array('label' => 'steam.dir'))
-            ->add('maxplayers', 'number', array('label' => 'steam.maxplayers'))
+            ->add('dir', 'text', array('label' => 'game.dir'))
+            ->add('maxplayers', 'number', array('label' => 'game.maxplayers'))
         ;
     }
 
