@@ -20,20 +20,38 @@ class GameRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
     
-    public function getAvailableSteamGames() {
+    public function getAvailableSteamGames()
+    {
         return $this->getQBAvailableSteamGames()->getQuery()->getResult();
     }
     
-    public function getQBAvailableSteamGames() {
+    public function getQBAvailableSteamGames()
+    {
         $qb = $this->createQueryBuilder('game');
         $expr = $qb->expr();
         
-        $qb->where($expr->orX(
-                    $expr->eq('game.bin', '?1'), 
-                    $expr->eq('game.bin', '?2')
-                  ))
+        $qb
+            ->where('game.type = "steam"')
             ->andWhere('game.available = true')
-            ->setParameters(array(1 => 'hlds_run', 2 => 'srcds_run'));
+        ;
+        
+        return $qb;
+    }
+    
+    public function getAvailableMinecraftGames()
+    {
+        return $this->getQBAvailableMinecraftGames()->getQuery()->getResult();
+    }
+    
+    public function getQBAvailableMinecraftGames()
+    {
+        $qb = $this->createQueryBuilder('game');
+        $expr = $qb->expr();
+        
+        $qb
+            ->where('game.type = "minecraft')
+            ->andWhere('game.available = true')
+        ;
         
         return $qb;
     }
