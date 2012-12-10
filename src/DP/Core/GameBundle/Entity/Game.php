@@ -68,7 +68,6 @@ class Game
      * @var string $bin
      *
      * @ORM\Column(name="bin", type="string", length=24)
-     * @Assert\Choice(choices={"hlds_run", "srcds_run"}, message="game.assert.bin")
      */
     private $bin;
 
@@ -89,7 +88,7 @@ class Game
     /**
      * @var string $map
      *
-     * @ORM\Column(name="map", type="string", length=20)
+     * @ORM\Column(name="map", type="string", length=20, nullable=true)
      */
     private $map;
 
@@ -131,6 +130,12 @@ class Game
      * )
      */
     private $plugins; 
+    
+    /**
+     * @ORM\Column(name="type", type="string", length=32)
+     * @Assert\Choice(choices={"steam", "minecraft"}, message="game.assert.type")
+     */    
+    private $type;
     
 
     public function __construct()
@@ -395,5 +400,23 @@ class Game
         }
         
         return $this->plugins;
+    }
+    
+    /**
+     * Set game type (steam or minecraft)
+     * 
+     * @param string $type 
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+    
+    /**
+     * @return string Game type
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }

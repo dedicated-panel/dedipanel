@@ -39,6 +39,7 @@ class GameAdmin extends Admin
             ->add('bin')
             ->add('map')
             ->add('available', 'boolean')
+            ->add('type')
         ;
     }
     
@@ -53,6 +54,7 @@ class GameAdmin extends Admin
             ->add('bin')
             ->add('available')
             ->add('id')
+            ->add('type')
         ;
     }
     
@@ -66,10 +68,11 @@ class GameAdmin extends Admin
             ->add('binDir')
             ->add('orangebox', null, array('required' => false))
             ->add('source', null, array('required' => false))
-            ->add('map')
+            ->add('map', null, array('required' => false))
             ->add('available', null, array('required' => false))
             ->add('sourceImagesMaps', null, array('required' => false))
-            ->add('plugins', 'sonata_type_model', array('required' => false))
+            ->add('plugins', 'sonata_type_model', array('required' => false, 'multiple' => true, 'expanded' => true))
+            ->add('type')
         ;
     }
 }

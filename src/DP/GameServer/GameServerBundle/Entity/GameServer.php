@@ -32,7 +32,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({
  *      "steam" = "DP\GameServer\SteamServerBundle\Entity\SteamServer", 
- *      "minecraft" = "DP\GameServer\MinecraftBundle\Entity\MinecraftServer"
+ *      "minecraft" = "DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer"
  * })
  */
 class GameServer
