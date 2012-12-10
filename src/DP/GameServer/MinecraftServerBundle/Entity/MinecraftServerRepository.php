@@ -1,6 +1,6 @@
 <?php
 
-namespace DP\GameServer\MinecraftBundle\Entity;
+namespace DP\GameServer\MinecraftServerBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 

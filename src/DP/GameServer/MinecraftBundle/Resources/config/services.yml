@@ -1,7 +1,0 @@
-parameters:
-#    dp_minecraft.example.class: DP\GameServer\MinecraftBundle\Example
-
-services:
-#    dp_minecraft.example:
-#        class: %dp_minecraft.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]

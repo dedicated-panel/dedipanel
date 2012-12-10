@@ -1,0 +1,30 @@
+minecraft:
+    pattern:  /
+    defaults: { _controller: "DPMinecraftServerBundle:MinecraftServer:index" }
+
+minecraft_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "DPMinecraftServerBundle:MinecraftServer:show" }
+
+minecraft_new:
+    pattern:  /new
+    defaults: { _controller: "DPMinecraftServerBundle:MinecraftServer:new" }
+
+minecraft_create:
+    pattern:  /create
+    defaults: { _controller: "DPMinecraftServerBundle:MinecraftServer:create" }
+    requirements: { _method: post }
+
+minecraft_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "DPMinecraftServerBundle:MinecraftServer:edit" }
+
+minecraft_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "DPMinecraftServerBundle:MinecraftServer:update" }
+    requirements: { _method: post }
+
+minecraft_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "DPMinecraftServerBundle:MinecraftServer:delete" }
+    requirements: { _method: post }

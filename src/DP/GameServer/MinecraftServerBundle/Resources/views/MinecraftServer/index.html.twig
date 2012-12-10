@@ -1,0 +1,89 @@
+{# 
+ Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jérôme
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License along
+ with this program; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#}
+
+{% extends "::layout.html.twig" %}
+
+{% block title %}<a href="{{ path('DPGameServerBundle_menu') }}"><span class="titre">h</span></a>{{ 'minecraft.list'|trans }}{% endblock %}
+
+{% block content %}
+    <ul>
+        <li>
+            <a href="{{ path('minecraft_new') }}">
+                {{ 'minecraft.add'|trans }}
+            </a>
+        </li>
+    </ul>
+
+    {% for entity in entities %}
+        <div class="steam-server" id="minecraft-{{ entity.id }}">
+            <div class="summary">
+                <div class="infos">
+                        <a href="{{ path('minecraft_show', {'id': entity.id }) }}">
+                            <img src="../images/serveur/viewer/minecraft.png" alt="Minecraft" />
+                        </a>
+                        <p>
+                            <b><a href="{{ path('minecraft_show', {id: entity.id}) }}">{{ entity.name }}</a></b><br />
+                            {{ entity.machine.publicIp }}:{{ entity.port }}
+                        </p>
+                    </div>
+
+                    {# <div id="installation-progress">
+                        <progress value="{{ entity.installationStatus }}"></progress><br />
+                        <a href="{{ path('minecraft_install', {id: entity.id }) }}">{{ 'minecraft.updateStatus'|trans }}</a>
+                    </div> #}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    {# <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Port</th>
+                <th>Installationstatus</th>
+                <th>Dir</th>
+                <th>Maxplayers</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('minecraft_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.name }}</td>
+                <td>{{ entity.port }}</td>
+                <td>{{ entity.installationStatus }}</td>
+                <td>{{ entity.dir }}</td>
+                <td>{{ entity.maxplayers }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('minecraft_show', { 'id': entity.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('minecraft_edit', { 'id': entity.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table> #}
+{% endblock %}

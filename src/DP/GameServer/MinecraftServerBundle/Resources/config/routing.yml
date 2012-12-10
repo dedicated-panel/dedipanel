@@ -1,0 +1,3 @@
+DPMinecraftServerBundle:
+    resource: "@DPMinecraftServerBundle/Resources/config/routing/minecraftserver.yml"
+    prefix: /

@@ -1,3 +1,0 @@
-dp_minecraft_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: DPMinecraftBundle:Default:index }
