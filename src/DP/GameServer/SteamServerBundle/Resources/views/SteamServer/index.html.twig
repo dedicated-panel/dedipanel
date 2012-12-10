@@ -18,22 +18,10 @@
 
 {% extends "::layout.html.twig" %}
 
-{% block title %}<a href="{{ path('game_menu') }}"><span class="titre">h</span></a>{{ 'steam.list'|trans }}{% endblock %}
+{% block title %}<a href="{{ path('DPGameServerBundle_menu') }}"><span class="titre">h</span></a>{{ 'steam.list'|trans }}{% endblock %}
 
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('bundles/dpsteamserver/js/details.js') }}"></script>
-{% endblock %}
-
-{% block selectVm %}
-    {# <div id="select-vm"><form method="post" action="">
-
-        <select name="vm-selection">
-            <option value="Serveur1">Serveur 1</option>
-            <option value="Serveur2">Serveur 2</option>
-            <option value="Serveur3">Serveur 3</option>
-            <option value="Serveur4">Serveur 4</option>					
-        </select>
-    </form></div> #}
 {% endblock %}
 
 {% block content %}

@@ -20,6 +20,7 @@
 
 {% block content %}
     <ul>
-        <li><a href="{{ path('steam') }}">Serveurs Steam</a></li>
+        <li><a href="{{ path('steam') }}">{{ 'menu.steamServers'|trans }}</a></li>
+        <li><a href="{{ path('minecraft') }}">{{ 'menu.minecraftServers'|trans }}</a></li>
     </ul>
 {% endblock %}
