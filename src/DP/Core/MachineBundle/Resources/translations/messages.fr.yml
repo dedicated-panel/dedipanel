@@ -10,7 +10,7 @@ machine.del: Supprimer
 
 machine.id: ID
 machine.privateIp: IP Privée
-machine.publicIp: IP Public
+machine.publicIp: IP Publique
 machine.port: Port
 machine.user: Utilisateur
 machine.actions: Actions

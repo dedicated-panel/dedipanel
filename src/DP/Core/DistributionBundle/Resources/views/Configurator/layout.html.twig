@@ -19,16 +19,9 @@
 
 {% block stylesheets %}
     <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('css/install.css') }}" />
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('bootstrap/css/bootstrap.css') }}" />
 {% endblock %}
 
 {% block body %}
-    
-    <div id="titre">
-        <h1>Installation</h1>
-    </div>
-
-    {% include "SensioDistributionBundle::Configurator/steps.html.twig" %}
-    
+    <h1>{{ 'configurator.installer'|trans }}</h1>
     <div id="page-content">{% block content %}{% endblock %}</div>
 {% endblock %}

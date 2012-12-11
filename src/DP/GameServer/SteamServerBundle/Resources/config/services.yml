@@ -31,3 +31,11 @@ services:
             - [ setServiceContainer, [ @service_container ] ]
         tags: 
             - { name: doctrine.event_listener, event: postLoad, method: postLoad }
+    
+    steam.listener.configModifier:
+        class: DP\GameServer\SteamServerBundle\Listener\ConfigModifier
+        arguments: [ @service_container ]
+        calls:
+            - [ setServiceContainer, [ @service_container ] ]
+        tags:
+            - { name: doctrine.event_listener, event: preUpdate, method: preUpdate }

@@ -46,13 +46,36 @@ class PHPSeclibWrapper {
     const UPLOAD_FILE = 2;
     
     
+    private function __construct($host, $port, $user, $home = null, $keyfile = null, 
+        $passwd = null, $debug = false)
+    {
+        $this->host = $host;
+        $this->port = $port;
+        $this->user = $user;
+        $this->home = $home;
+        $this->passwd = $passwd;
+        $this->debug = $debug;
+        
+        // On vérifie s'il y a un keyfile de fourni au constructeur
+        // Et si le fichier existe, on charge la clé privée
+        if (!is_null($keyfile)) {
+            $this->keyfile = $keyfile;
+        }
+        elseif (!is_null($passwd)) {
+            $this->passwd = $passwd;
+        }
+    }
     public static function getFromMachineEntity(Entity\Machine $machine, $loadKey = true)
     {
         $host = $machine->getPrivateIp();
         $port = $machine->getPort();
         $user = $machine->getUser();
         $home = $machine->getHome();
-        $keyfile = $machine->getPrivateKeyFilename();
+        $keyfile = null;
+        
+        if ($loadKey == true) {
+            $keyfile = $machine->getPrivateKeyFilename();
+        }
         
         return self::get($host, $port, $user, $home, $keyfile);
     }
@@ -83,25 +106,6 @@ class PHPSeclibWrapper {
         }
         
         return $serv;
-    }
-    private function __construct($host, $port, $user, $home = null, $keyfile = null, 
-        $passwd = null, $debug = false)
-    {
-        $this->host = $host;
-        $this->port = $port;
-        $this->user = $user;
-        $this->home = $home;
-        $this->passwd = $passwd;
-        $this->debug = $debug;
-        
-        // On vérifie s'il y a un keyfile de fourni au constructeur
-        // Et si le fichier existe, on charge la clé privée
-        if (!is_null($keyfile)) {
-            $this->keyfile = $keyfile;
-        }
-        elseif (!is_null($passwd)) {
-            $this->passwd = $passwd;
-        }
     }
     /**
      * Prevents object cloning

@@ -28,13 +28,15 @@
 
     <body>
         <header>
-            <div id="logo"></div>
+            <div id="logo">
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}<a href="{{ path('_welcome') }}">&nbsp;</a>{% endif %}
+            </div>
 
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
             <div class="profilName">
                 <div class="information"><span class="iicone">U</span>
                     <h2 class="main">Bonjour: Vonclutch<br>godofking222@gmail.com</h2></div>
-            </div>	       
+            </div>
 
              <div class="clear"></div>
              
