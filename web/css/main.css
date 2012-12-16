@@ -1,4 +1,5 @@
-/* Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jérôme
+/*
+ Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jérôme
 
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -12,49 +13,233 @@
  
  You should have received a copy of the GNU General Public License along
  with this program; if not, write to the Free Software Foundation, Inc.,
- 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.*/
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+*/
 
-@charset "UTF-8";
 
-html, body	{
-    height: 100%;
+@font-face {
+    font-family: 'WebSymbolsRegular';
+    src: url('websymbols/websymbols-regular-webfont.eot');
+    src: url('websymbols/websymbols-regular-webfont.eot?#iefix') format('embedded-opentype'),
+        url('websymbols/websymbols-regular-webfont.woff') format('woff'),
+        url('websymbols/websymbols-regular-webfont.ttf') format('truetype'),
+        url('websymbols/websymbols-regular-webfont.svg#WebSymbolsRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
 body	{
     background: #F4F4F4 !important;
     color: #393939 ;
     font-family: Arial;
-    font-size: 0px;
-    font-size:13px;
-    line-height:19px;
-    margin: 0;
-    padding: 0;
 }
 
 .clear {
     clear: both;
 }
-/*** HEADER ***/
 
+/*** HEADER ***/
 header {
-    border-bottom: 1px solid rgb(126, 126, 126);
     background-color: #202020;
-    padding-bottom: 30px;
-    height: 170px
-        -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25),inset 0 -1px 0 rgba(0, 0, 0, .1);
-    -moz-box-shadow: 0 1px 3px rgba(0,0,0,.25),inset 0 -1px 0 rgba(0,0,0,.1);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .25),inset 0 -1px 0 rgba(0, 0, 0, .1);
+    padding: 25px 0 0 0;
+    
+    -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, .25),inset 0 -1px 0 rgba(0, 0, 0, .1);
+    -moz-box-shadow: 0 2px 3px rgba(0,0,0,.25),inset 0 -1px 0 rgba(0,0,0,.1);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, .25),inset 0 -1px 0 rgba(0, 0, 0, .1);
 
 }
+
 #logo {
-    background-image:url(../images/header/logo.png);
-    background-repeat:no-repeat;
+    margin: 0 0 20px 50px;
+}
+#logo a, 
+#logo a:hover {
+    background: url(../images/header/logo.png) no-repeat;
+    display: block;
     width:290px;
     height:80px;
-    margin: 25px 0 0px 50px;	
+    text-decoration: none;
+}
+
+
+nav#menuBar {
+    background: url('../images/menu/bg-menu.png') repeat-x;
+    height:49px;
+    padding: 0 0 1px 0;
+    margin: 0;
+}
+nav .menu {
+    margin: 0;
     float: left;
 }
-.well{
+nav .menu li {
+    height: 49px;
+    width: 170px;
+    display: block;
+    float: left;
+    margin: 0;
+    
+    overflow: hidden;
+    -webkit-transition: all 300ms linear;
+    -moz-transition: all 300ms linear;
+    -o-transition: all 300ms linear;
+    -ms-transition: all 300ms linear;
+    transition: all 300ms linear;
+}
+nav .menu li:hover{
+    background: #202020;
+}
+nav .menu li:last-child {
+    margin-bottom: 0px;
+}
+nav .menu li a {
+    text-align: left;
+    width: 100%;
+    height: 100%;
+    display: block;
+    color: #333;
+    position: relative;
+}
+nav .menu li .icone {
+    font-family: 'WebSymbolsRegular', cursive;
+    font-size: 25px;
+    color: #004A70;	
+    margin: 13px 0 0 21px;
+    float: left;
+    height: 28px;
+    
+    -webkit-transition: all 300ms linear;
+    -moz-transition: all 300ms linear;
+    -o-transition: all 300ms linear;
+    -ms-transition: all 300ms linear;
+    transition: all 300ms linear;
+}
+nav .menu li:hover .icone {
+    font-size: 80px;
+    color: #1279b0;
+    opacity: 0.4;
+    text-shadow: 0px 0px 13px #12638e;
+    -webkit-transform: rotate(-20deg);
+    -moz-transform: rotate(-20deg);
+    -ms-transform: rotate(-20deg);
+    transform: rotate(-20deg);
+}
+nav .menu li .content {
+    margin: 10px 0 0 10px;
+    float: left;
+}
+nav .menu li .main {
+    font-size: 13px;
+    line-height: normal;
+    color: #cbcbcb;	
+    margin: 0;
+    -webkit-transition: all 300ms linear;
+    -moz-transition: all 300ms linear;
+    -o-transition: all 300ms linear;
+    -ms-transition: all 300ms linear;
+    transition: all 300ms linear;
+}
+nav .menu li:hover .main {
+    opacity: 1;
+    color:#2676ac;
+/* -webkit-animation: moveFromTop 300ms ease-in-out;
+-moz-animation: moveFromTop 300ms ease-in-out;
+-ms-animation: moveFromTop 300ms ease-in-out;*/
+}
+nav .menu li .sub {
+    font-size: 9px;
+    line-height: normal;
+    color: #202020;
+    margin: 3px 0 0 0;
+    -webkit-transition: all 300ms linear;
+    -moz-transition: all 300ms linear;
+    -o-transition: all 300ms linear;
+    -ms-transition: all 300ms linear;
+    transition: all 300ms linear;
+}
+nav .menu li:hover .sub {
+    color: #666;
+    opacity: 1;
+    -webkit-animation: moveFromBottom 300ms ease-in-out;
+    -moz-animation: moveFromBottom 300ms ease-in-out;
+    -ms-animation: moveFromBottom 300ms ease-in-out;
+}
+
+
+nav .infosProfil {
+    height: 49px;
+    line-height: normal;
+    float: right;
+}
+nav .infosProfil .icone {
+    font-family: 'WebSymbolsRegular', cursive;
+    font-size: 32px;
+    color: #172F49;
+    text-align: center;
+    float: left;
+}
+nav .infosProfil h2 {
+    font-size: 11px;
+    line-height: normal;
+    text-align: left;
+    margin: 0 0 0 34px;
+    padding: 9px 0 0 10px;
+    height: 39px;
+    overflow: hidden;
+    word-wrap: break-word;
+    color: #cbcbcb;	
+}
+
+
+.profilNav {
+    float: right;
+    font-size: 11px;
+}
+.profilNav ul {
+    margin: 1px 15px 0 0;
+    border-right: 1px solid #474747;
+    border-left: 1px solid #2E2E2E;
+}
+.profilNav ul li {
+    display: inline;
+    float: left;
+    position: relative;
+    cursor: pointer;
+    border-left: 1px solid #2E2E2E;
+    border-top: 1px solid #2E2E2E;
+    border-bottom: 1px solid #2E2E2E;
+    border-right: 1px solid #2E2E2E;
+    height: 31px;
+}
+.profilNav ul li a {
+    text-decoration: none;
+    display: block;
+    float: left;
+    color: #C2C2C2;
+    border-top: 1px solid #474747;
+    border-bottom: 1px solid #474747;
+    border-left: 1px solid #474747;
+    border-right: 1px solid #474747;
+    height: 29px;
+}
+.profilNav ul li a:hover {
+    background-color: #2B2B2B;
+    color: white;
+}
+.profilNav ul li a span {
+    display: block;
+    padding: 4px 16px 3px 11px;
+    float: left;
+    font-size: 13px;
+}
+.profilNav ul li a i {
+    float: left;
+    display: block;
+    margin: 7px -5px 0px 10px;
+}
+
+
+/*.well{
     background-color: #DDD !important;
 }
 
@@ -66,14 +251,14 @@ legend{
     border-bottom: 1px solid #D6D6D6 !important; 
 }
 
-/*** Page (Style général) ***/
+/*** Page (Style général) ***
 #page {
     border-top: 1px solid #474747;
     margin: auto;
     position: relative;
 }
 #page-content {
-    /*	min-height: 500px;*/
+    /*	min-height: 500px;*
     margin: auto;
     width: 96%;
     padding: 10px 0 8px 0;
@@ -90,7 +275,7 @@ legend{
 }  
 #shadow:after { display: none; }  
 
-#page h1:first-child {
+#page h1 {
     color: #4b4b4b;
     font-family: Tahoma;
     font-size: 22px;
@@ -98,213 +283,131 @@ legend{
     font-weight: normal;
     margin-left: 5%;
 }
-.titre{
+*/
+
+
+/*** Page title ***/
+#page h1#title {
+    font-size: 21px;
+    font-weight: normal;
+    border-bottom: 1px solid #E5E5E5;
+    padding: 0 0 0 15px;
+    margin: 10px 0 0 0;
+}
+#page h1#title .icone {
     font-family: 'WebSymbolsRegular', cursive;
     font-size: 17px;	
     padding-right: 10px;
-    cursor: pointer;
 }
-
-/***** MENU *****/
-
-.menu{
-    background-image:url(../images/menu/bg-menu.png);
-    background-repeat:repeat-x;
-    height:57px;
-    margin: 0 0 0px -25px;
-    padding-left: 60px;
-}
-.menu li{
-    width: 170px;
-    height: 52px;
-    overflow: hidden;
-    float: left;
-    position: relative;
-    display: block;
-    -webkit-transition: all 300ms linear;
-    -moz-transition: all 300ms linear;
-    -o-transition: all 300ms linear;
-    -ms-transition: all 300ms linear;
-    transition: all 300ms linear;
-}
-.menu li:last-child{
-    margin-bottom: 0px;
-}
-.menu li a{
-    text-align: left;
-    width: 100%;
-    height: 100%;
-    display: block;
-    color: #333;
-    position: relative;
-}
-.icone{
-    font-family: 'WebSymbolsRegular', cursive;
-    font-size: 25px;
-    color: #004A70;	
-    position: absolute;
-    left: 21px;
-    text-align: center;
-    top: 13px;
-    -webkit-transition: all 300ms linear;
-    -moz-transition: all 300ms linear;
-    -o-transition: all 300ms linear;
-    -ms-transition: all 300ms linear;
-    transition: all 300ms linear;
-}
-.content{
-    position: absolute;
-    left: 65px;
-    top: 10px;
-}
-.main{
-    font-size: 13px;
-    line-height: 0;	
-    color: #cbcbcb;	
-    -webkit-transition: all 300ms linear;
-    -moz-transition: all 300ms linear;
-    -o-transition: all 300ms linear;
-    -ms-transition: all 300ms linear;
-    transition: all 300ms linear;
-}
-.sub{
-    font-size: 9px;
-    color: #202020;
-    -webkit-transition: all 300ms linear;
-    -moz-transition: all 300ms linear;
-    -o-transition: all 300ms linear;
-    -ms-transition: all 300ms linear;
-    transition: all 300ms linear;
-}
-.menu li:hover{
-    background: #202020;
-}
-.menu li:hover .icone{
-    font-size: 80px;
-    color: #1279b0;
-    opacity: 0.4;
-    text-shadow: 0px 0px 13px #12638e;
-    -webkit-transform: rotate(-20deg);
-    -moz-transform: rotate(-20deg);
-    -ms-transform: rotate(-20deg);
-    transform: rotate(-20deg);
-}
-.menu li:hover .main{
-    opacity: 1;
-    color:#2676ac;
-    -webkit-animation: moveFromTop 300ms ease-in-out;
-    -moz-animation: moveFromTop 300ms ease-in-out;
-    -ms-animation: moveFromTop 300ms ease-in-out;
-}
-.menu li:hover .sub{
-    color: #666;
-    opacity: 1;
-    -webkit-animation: moveFromBottom 300ms ease-in-out;
-    -moz-animation: moveFromBottom 300ms ease-in-out;
-    -ms-animation: moveFromBottom 300ms ease-in-out;
-}
-.profil-show	{
-    cursor: pointer;
-    margin: 10px 5px 0 5px;
-}
-.profilName {
-    position: relative;
+#page h1#title nav#tabs {
     float: right;
-    top: 103px;
-    padding: 0 10px 10px 0px;
-    border-top: 0;
+    border: 0;
+    margin: 0 20px 0 0;
+    font-size: 13px;
+    font-weight: normal;
 }
-.profilName > .information {
-    text-align: center;
-    height: 40px;
-    padding: 9px 0 0 65px;
-    color: black;
-    top: 2px;
-    opacity: 0.8;
+nav#tabs {
+    border: 0;
 }
-.profilName > .information > h2 {
-    margin: -25px 0 0px -10px;
-    font-size: 12px;
-    line-height: 18px;
-    text-align: center;
-}       
-.profilName > .information > span.iicone{
-    font-family: 'WebSymbolsRegular', cursive;
-    font-size: 32px;
-    position: relative;
-    left: -110px;
-    color: #172F49;
-    text-align: center;
-    top: 7px;
+nav#tabs a {
+    display: block;
+    padding: 0 5px;
 }
-.profilNav { 
-    float: right; 
-    position: relative; 
-    top: -5px;
-    left: 29px;
-    font-size: 11px;
-    height: 35px;
+nav#tabs a:hover {
+    background: #E6E6E6;
 }
-.profilNav > ul {
-    margin: 1px 30px 0 0;
-    border-right: 1px solid #474747;
-    border-left: 1px solid #2E2E2E;
-    height: 34px;
+
+#page-content {
+	min-height: 250px;
+    margin: auto;
+    padding: 10px 15px 10px 15px;
+    height: auto;
 }
-.profilNav > ul > li { 
-    display: inline; 
-    float: left; 
-    position: relative; 
-    cursor: pointer;
-    border-left: 1px solid #2E2E2E;
-    border-top: 1px solid #2E2E2E;
-    border-bottom: 1px solid #2E2E2E;
-    border-right: 1px solid #2E2E2E;
-    height: 31px;
+
+
+/*** Page content ***/
+#page-content #forms-show {
+    margin: 20px 15px 15px 0;
 }
-.profilNav > ul > li > a { 
-    text-decoration: none; 
-    display: block; 
+#page-content #form-edit {
+/*    float: left;*/
+    margin: 0;
+}
+#page-content .form-actions {
+    padding: 0;
+    margin: 0;
+    border: 0;
     float: left;
-    color: #C2C2C2;
-    border-top: 1px solid #474747;
-    border-bottom: 1px solid #474747;
-    border-left: 1px solid #474747;
-    border-right: 1px solid #474747;
-    height: 29px;
 }
-.profilNav > ul > li > a:hover { 
-    background-color: #2B2B2B; 
-    color: white;
-}
-.profilNav > ul > li > a > span { 
-    display: block; 
-    padding: 4px 16px 3px 11px; 
+
+#page-content #form-delete {
+    margin: 0 0 10px 10px;
     float: left;
+}
+
+/*** Pages Steam ***/
+#steam{
+    overflow: hidden;
+}
+#steam .serveur-steam {
+    padding: 10px 10px 5px 10px;
+    border-bottom: 1px dotted #C3C3C3;
+    border-top: 1px solid white;
+}
+#steam .serveur-steam:nth-child(odd) {
+    background: #E6E6E6;
+}
+
+#steam .serveur-steam .visuel {
+    width: 115px;
+    margin: 0 0 0 20px;
+    float: left;
+}
+#steam .serveur-steam .serverInfos {
+    width: auto;
+    float: left;
+    margin: 0 0 0 15px;
+}
+#steam .serveur-steam .titre {
+    margin: 7px 0 ;
+    font-family: "Trebuchet MS", Arial;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 1px 1px white;
+}
+.serveur-steam .description {
+    margin: 3px;
+    color: #535353;
     font-size: 13px;
 }
-.profilNav > ul > li > a > i { 
-    float: left;
-    display: block;
-    margin: 7px -5px 0px 10px;
+.serveur-steam .description .info {
+    margin-left:165px; 
 }
+.serveur-steam .installation {
+    font-size: 15px;
+    color: #0684CA; 
+}
+.serveur-steam .installation-status {
+    padding: 9px;
+    margin-left: 55px;
+}
+.serveur-steam .progress {
+    margin-top: 15px;
+}
+.serveur-steam .actions {
+    padding: 12px; 
+    width: auto;
+    float: right;
+}
+
 
 /*** Footer ***/
 
 footer {
-    position: relative;
-    bottom: 30px;
-    top: 30px;
     border-top: 1px solid #DBDBDB;
     border-bottom: 1px solid #DBDBDB;
-    padding: 3px 0px;
+    padding: 3px 0px 6px 0;
 }
-
-footer a:selected, footer a:hover{
-    color: #000;
-    text-decoration: none;
-}
-
 footer p {
     height: 13px;
     text-align: center;
@@ -312,67 +415,17 @@ footer p {
     font-size: 11px;
     margin-top: 2px;
 }
+footer a:selected, footer a:hover{
+    color: #000;
+    text-decoration: none;
+}
+
+
 
 /*** Home ***/
 
 [class^="icon-"], [class*=" icon-"] {
     opacity: .7;
-}
-/*** Serveurs Steam ***/
-
-.steam > .pull-right {
-    margin-right: -2px;
-}
-.steam > li > a:hover {
-    background: #E6E6E6 !important;
-}
-#steam{
-    margin-top: -81px;
-    overflow: hidden;
-}
-
-#steam div.serveur-steam:nth-child(odd) {background: #E6E6E6;}
-
-#menu-legend {
-    position: relative;
-    top: -58px;
-}
-.serveur-steam {
-    height: 50px;
-    padding: 10px 10px 12px;
-    border-bottom: 1px dotted #C3C3C3;
-    border-top: 1px solid white;
-}
-
-.serveur-steam .titre {
-    margin: 7px 35px;
-    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    font-size: 18px;
-    font-weight: bold;
-    text-shadow: 1px 1px white;
-}
-.serveur-steam .description{
-    padding: 0 20px;
-    margin: 4px;
-    color: #535353;
-    font-size: 13px;
-}
-.serveur-steam .description .info{
-    margin-left:165px; 
-}
-.serveur-steam .actions{
-    padding: 12px; 
-}
-.serveur-steam .installation{
-    font-size: 15px;
-    color: #0684CA; 
-}
-.serveur-steam .installation-status{
-    padding: 9px;
-    margin-left: 55px;
-}
-.serveur-steam .progress{
-    margin-top: 15px;
 }
 
 
@@ -512,6 +565,7 @@ label {
     width: 150px;
     display: block;
     float: left;
+    clear: left;
 }
 fieldset { 
     border: none;
@@ -523,81 +577,64 @@ fieldset {
     float: right;
 }
 
-#form-delete {
-    width: 100px;
-    position: relative;
-    right: -110px !important;
-    top: -69px !important;
-}
-
-@font-face {
-    font-family: 'WebSymbolsRegular';
-    src: url('websymbols/websymbols-regular-webfont.eot');
-    src: url('websymbols/websymbols-regular-webfont.eot?#iefix') format('embedded-opentype'),
-        url('websymbols/websymbols-regular-webfont.woff') format('woff'),
-        url('websymbols/websymbols-regular-webfont.ttf') format('truetype'),
-        url('websymbols/websymbols-regular-webfont.svg#WebSymbolsRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
 @-webkit-keyframes moveFromBottom {
     from {
-    opacity: 0;
-    -webkit-transform: translateY(200%);
-}
-to {
-    opacity: 1;
-    -webkit-transform: translateY(0%);
-}
+        opacity: 0;
+        -webkit-transform: translateY(200%);
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: translateY(0%);
+    }
 }
 @-moz-keyframes moveFromBottom {
     from {
-    opacity: 0;
-    -moz-transform: translateY(200%);
-}
-to {
-    opacity: 1;
-    -moz-transform: translateY(0%);
-}
+        opacity: 0;
+        -moz-transform: translateY(200%);
+    }
+    to {
+        opacity: 1;
+        -moz-transform: translateY(0%);
+    }
 }
 @-ms-keyframes moveFromBottom {
     from {
-    opacity: 0;
-    -ms-transform: translateY(200%);
-}
-to {
-    opacity: 1;
-    -ms-transform: translateY(0%);
-}
+        opacity: 0;
+        -ms-transform: translateY(200%);
+    }
+    to {
+        opacity: 1;
+        -ms-transform: translateY(0%);
+    }
 }
 
 @-webkit-keyframes moveFromTop {
     from {
-    opacity: 0;
-    -webkit-transform: translateY(-200%);
-}
-to {
-    opacity: 1;
-    -webkit-transform: translateY(0%);
-}
+        opacity: 0;
+        -webkit-transform: translateY(-200%);
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: translateY(0%);
+    }
 }
 @-moz-keyframes moveFromTop {
     from {
-    opacity: 0;
-    -moz-transform: translateY(-200%);
-}
-to {
-    opacity: 1;
-    -moz-transform: translateY(0%);
-}
+        opacity: 0;
+        -moz-transform: translateY(-200%);
+    }
+    to {
+        opacity: 1;
+        -moz-transform: translateY(0%);
+    }
 }
 @-ms-keyframes moveFromTop {
     from {
-    opacity: 0;
-    -ms-transform: translateY(-200%);
-}
-to {
-    opacity: 1;
-    -ms-transform: translateY(0%);
-}
+        opacity: 0;
+        -ms-transform: translateY(-200%);
+    }
+    to {
+        opacity: 1;
+        -ms-transform: translateY(0%);
+    }
 }

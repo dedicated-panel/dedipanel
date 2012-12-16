@@ -19,13 +19,13 @@
 {% extends "::base.html.twig" %}
 
 {% block stylesheets %}
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('bootstrap/css/bootstrap.css') }}" />
+    
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
         <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('css/main.css') }}" />
     {% else %}
         <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('css/connexion.css') }}" />
     {% endif %}
-        
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('bootstrap/css/bootstrap.css') }}" />
         
  {# <!-- base application asset -->
     <link rel="stylesheet" href="{{ asset('bundles/sonataadmin/css/layout.css') }}" type="text/css" media="all">
@@ -49,7 +49,7 @@
 
 {% block body %}
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-        <h1 id="title">{% block title %}{% endblock %}</h1>
+        <h1 id="title" class="clearfix">{% block title %}{% endblock %}</h1>
 
         {% block selectVm %}{% endblock %}
 
@@ -58,5 +58,5 @@
         {% set contentId = 'logbox' %}
     {% endif %}
         
-    <div id="{{ contentId }}">{% block content %}{% endblock %}</div>
+    <div id="{{ contentId }}" class="clearfix">{% block content %}{% endblock %}</div>
 {% endblock %}
