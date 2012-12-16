@@ -32,7 +32,6 @@ steam.munin: Graphes munin activés ?
 steam.passwd: Mot de passe du serveur
 steam.core: Lancer le serveur sur le core ?
 
-steam.ended: Terminé
 steam.start: Démarrer
 steam.stop: Arrêter
 steam.restart: Redémarrer
@@ -73,4 +72,3 @@ steam.rcon.password: Mot de passe Rcon
 steam.rcon.cmd: Commande
 
 steam.banned: Serveur Banni
-steam.updateStatus: Mettre à jour le statut

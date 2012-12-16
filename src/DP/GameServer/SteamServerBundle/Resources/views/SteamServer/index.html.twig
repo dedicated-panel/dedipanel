@@ -54,7 +54,7 @@
                         
                     <div id="installation-progress">
                         <progress value="{{ entity.installationStatus }}"></progress><br />
-                        <a href="{{ path('steam_install', {id: entity.id }) }}">{{ 'steam.updateStatus'|trans }}</a>
+                        <a href="{{ path('steam_install', {id: entity.id }) }}">{{ 'game.updateStatus'|trans }}</a>
                     </div>
                 </div>
             {% else %}

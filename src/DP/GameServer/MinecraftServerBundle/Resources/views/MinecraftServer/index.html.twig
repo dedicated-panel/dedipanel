@@ -31,8 +31,9 @@
 
     {% for entity in entities %}
         <div class="steam-server" id="minecraft-{{ entity.id }}">
-            <div class="summary">
-                <div class="infos">
+            {% if entity.getInstallationStatus < 101 %}
+                <div class="summary">
+                    <div class="infos">
                         <a href="{{ path('minecraft_show', {'id': entity.id }) }}">
                             <img src="../images/serveur/viewer/minecraft.png" alt="Minecraft" />
                         </a>
@@ -42,48 +43,48 @@
                         </p>
                     </div>
 
-                    {# <div id="installation-progress">
+                    <div id="installation-progress">
                         <progress value="{{ entity.installationStatus }}"></progress><br />
-                        <a href="{{ path('minecraft_install', {id: entity.id }) }}">{{ 'minecraft.updateStatus'|trans }}</a>
-                    </div> #}
+                        <a href="{{ path('minecraft_install', {id: entity.id }) }}">{{ 'game.updateStatus'|trans }}</a>
+                    </div>
                 </div>
-            </div>
+            {% else %}
+                <div class="summary">
+                    <div class="infos">
+                        <a href="{{ path('minecraft_show', {'id': entity.id }) }}">
+                            <img src="../images/serveur/viewer/minecraft.png" alt="Minecraft" />
+                        </a>
+                        <p>
+                            <b><a href="{{ path('minecraft_show', {id: entity.id}) }}">{{ entity.name }}</a></b><br />
+                            {{ entity.machine.publicIp }}:{{ entity.port }}
+                        </p>
+                    </div>
+
+                    <div class="actions">
+                        {# {% if online %} #}
+                            <a href="{{ path('minecraft_changeState', { 'id': entity.id, 'state': 'stop' }) }}">
+                                <img src="../images/icones/serveur/stop.png" title="{{ 'game.stop'|trans }}"/>
+                            </a>
+                            <a href="{{ path('minecraft_changeState', { 'id': entity.id, 'state': 'restart' }) }}">
+                                <img src="../images/icones/serveur/restart.png" title="{{ 'game.restart'|trans }}"/>
+                            </a>
+                        {# {% else %} #}
+                            <a href="{{ path('minecraft_changeState', { 'id': entity.id, 'state': 'start' }) }}">
+                                <img src="../images/icones/serveur/start.png" title="{{ 'game.start'|trans }}"/>
+                            </a>
+                        {# {% endif %} #}
+
+                        <a href="{{ path('minecraft_edit', {id: entity.id }) }}">
+                            <img src="../images/icones/serveur/config.png" title="{{ 'steam.edit'|trans }}" />
+                        </a>
+                        <a href="{{ path('minecraft_show', {id: entity.id}) }}" class="slide" id="steam-{{ entity.id }}">
+                            <img src="../images/icones/serveur/bfleche.png" title="Slide"/>
+                        </a>
+                    </div>
+
+                    <div class="clear"></div>
+                </div>
+            {% endif %}
         </div>
     {% endfor %}
-
-    {# <table class="records_list">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Port</th>
-                <th>Installationstatus</th>
-                <th>Dir</th>
-                <th>Maxplayers</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('minecraft_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.name }}</td>
-                <td>{{ entity.port }}</td>
-                <td>{{ entity.installationStatus }}</td>
-                <td>{{ entity.dir }}</td>
-                <td>{{ entity.maxplayers }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('minecraft_show', { 'id': entity.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('minecraft_edit', { 'id': entity.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table> #}
 {% endblock %}

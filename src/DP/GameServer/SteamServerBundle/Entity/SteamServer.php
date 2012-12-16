@@ -220,26 +220,6 @@ class SteamServer extends GameServer {
     }
     
     /**
-     * Get absolute path of server installation directory
-     * 
-     * @return string
-     */
-    public function getAbsoluteDir()
-    {
-        return $this->machine->getHome() . '/' . $this->getDir() . '/';
-    }
-    
-    /**
-     * Get absolute path of binaries directory
-     * 
-     * @return string
-     */
-    private function getAbsoluteBinDir()
-    {        
-        return $this->getAbsoluteDir() . $this->game->getBinDir(); 
-   }
-    
-    /**
      * Get absolute path of game content directory
      * 
      * @return string
@@ -259,7 +239,7 @@ class SteamServer extends GameServer {
         $installDir = $this->getAbsoluteDir();
         $scriptPath = $installDir . 'install.sh';
         $logPath = $installDir . 'install.log';
-        $screenName = 'install-' . $this->getDir();
+        $screenName = $this->getInstallScreenName();
         $installName = $this->game->getInstallName();
         
         $mkdirCmd = 'if [ ! -e ' . $installDir . ' ]; then mkdir ' . $installDir . '; fi';
@@ -286,7 +266,7 @@ class SteamServer extends GameServer {
                 ->exec('rm -f ' . $scriptPath . ' ' . $logPath);
     }
     
-    public function getGameInstallationProgress()
+    public function getInstallationProgress()
     {
         $absDir = $this->getAbsoluteDir();
         $logPath = $absDir . 'install.log';
@@ -360,7 +340,7 @@ class SteamServer extends GameServer {
         $scriptPath = $this->getAbsoluteDir() . 'hlds.sh';
         
         $hldsScript = $twig->render('DPSteamServerBundle:sh:hlds.sh.twig', array(
-            'screenName' => $this->getHldsScreenName(), 'bin' => $game->getBin(), 
+            'screenName' => $this->getScreenName(), 'bin' => $game->getBin(), 
             'launchName' => $game->getLaunchName(), 'ip' => $this->getMachine()->getPublicIp(), 
             'port' => $this->getPort(), 'maxplayers' => $this->getMaxplayers(), 
             'startMap' => $game->getMap(), 'binDir' => $this->getAbsoluteBinDir(), 
@@ -407,11 +387,6 @@ class SteamServer extends GameServer {
         $cfgPath .= 'server.cfg';
         
         return $sec->exec('if [ ! -e ' . $cfgPath . ' ]; then touch ' . $cfgPath . '; fi');
-    }
-    
-    protected function getHldsScreenName()
-    {
-        return $this->getMachine()->getUser() . '-' . $this->getDir();
     }
     
     public function changeStateServer($state)

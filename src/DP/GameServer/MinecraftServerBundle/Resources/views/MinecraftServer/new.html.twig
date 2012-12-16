@@ -23,10 +23,9 @@
 {% block content %}
 
     <form action="{{ path('minecraft_create') }}" method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
-        
-        <p>
+    {{ form_widget(form) }}
+    <p>
             <input type="submit" value="{{ 'minecraft.create'|trans }}" name="submit" class="submit" />
-        </p>
-    </form>
+    </p>
+</form>
 {% endblock %}

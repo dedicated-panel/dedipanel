@@ -1,0 +1,11 @@
+if [ -d {{ installDir }} ]; then 
+    if [ -e {{ logPath }} ]; then
+        echo 1; 
+    elif [ -e {{ binPath }} ]; then 
+        echo 2; 
+    else 
+        echo 0; 
+    fi; 
+else 
+    echo 0; 
+fi; 

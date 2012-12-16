@@ -250,4 +250,34 @@ class GameServer
     {
         return $this->maxplayers;
     }
+    
+    /**
+     * Get absolute path of server installation directory
+     * 
+     * @return string
+     */
+    public function getAbsoluteDir()
+    {
+        return $this->getMachine()->getHome() . '/' . $this->getDir() . '/';
+    }
+    
+    /**
+     * Get absolute path of binaries directory
+     * 
+     * @return string
+     */
+    protected function getAbsoluteBinDir()
+    {        
+        return $this->getAbsoluteDir() . $this->getGame()->getBinDir(); 
+    }
+    
+    protected function getScreenName()
+    {
+        return $this->getMachine()->getUser() . '-' . $this->getDir();
+    }
+    
+    protected function getInstallScreenName()
+    {
+        return 'install-' . $this->getMachine()->getUser() . '-' . $this->getDir();
+    }
 }

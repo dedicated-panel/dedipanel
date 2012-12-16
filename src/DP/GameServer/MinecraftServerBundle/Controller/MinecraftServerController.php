@@ -4,24 +4,19 @@ namespace DP\GameServer\MinecraftServerBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
 use DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer;
 use DP\GameServer\MinecraftServerBundle\Form\MinecraftServerType;
 
 /**
  * MinecraftServer controller.
  *
- * @Route("/")
  */
 class MinecraftServerController extends Controller
 {
     /**
      * Lists all MinecraftServer entities.
      *
-     * @Route("/", name="")
-     * @Template()
      */
     public function indexAction()
     {
@@ -29,16 +24,14 @@ class MinecraftServerController extends Controller
 
         $entities = $em->getRepository('DPMinecraftServerBundle:MinecraftServer')->findAll();
 
-        return array(
+        return $this->render('DPMinecraftServerBundle:MinecraftServer:index.html.twig', array(
             'entities' => $entities,
-        );
+        ));
     }
 
     /**
      * Finds and displays a MinecraftServer entity.
      *
-     * @Route("/{id}/show", name="_show")
-     * @Template()
      */
     public function showAction($id)
     {
@@ -52,35 +45,30 @@ class MinecraftServerController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('DPMinecraftServerBundle:MinecraftServer:show.html.twig', array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
      * Displays a form to create a new MinecraftServer entity.
      *
-     * @Route("/new", name="_new")
-     * @Template()
      */
     public function newAction()
     {
         $entity = new MinecraftServer();
         $form   = $this->createForm(new MinecraftServerType(), $entity);
 
-        return array(
+        return $this->render('DPMinecraftServerBundle:MinecraftServer:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+        ));
     }
 
     /**
      * Creates a new MinecraftServer entity.
      *
-     * @Route("/create", name="_create")
-     * @Method("POST")
-     * @Template("DPMinecraftServerBundle:MinecraftServer:new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -89,6 +77,8 @@ class MinecraftServerController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
+            $entity->installServer();
+            
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
@@ -96,17 +86,15 @@ class MinecraftServerController extends Controller
             return $this->redirect($this->generateUrl('minecraft_show', array('id' => $entity->getId())));
         }
 
-        return array(
+        return $this->render('DPMinecraftServerBundle:MinecraftServer:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+        ));
     }
 
     /**
      * Displays a form to edit an existing MinecraftServer entity.
      *
-     * @Route("/{id}/edit", name="_edit")
-     * @Template()
      */
     public function editAction($id)
     {
@@ -121,19 +109,16 @@ class MinecraftServerController extends Controller
         $editForm = $this->createForm(new MinecraftServerType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('DPMinecraftServerBundle:MinecraftServer:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
      * Edits an existing MinecraftServer entity.
      *
-     * @Route("/{id}/update", name="_update")
-     * @Method("POST")
-     * @Template("DPMinecraftServerBundle:MinecraftServer:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
@@ -156,18 +141,16 @@ class MinecraftServerController extends Controller
             return $this->redirect($this->generateUrl('minecraft_edit', array('id' => $id)));
         }
 
-        return array(
+        return $this->render('DPMinecraftServerBundle:MinecraftServer:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
      * Deletes a MinecraftServer entity.
      *
-     * @Route("/{id}/delete", name="_delete")
-     * @Method("POST")
      */
     public function deleteAction(Request $request, $id)
     {
@@ -186,7 +169,53 @@ class MinecraftServerController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl(''));
+        return $this->redirect($this->generateUrl('minecraft'));
+    }
+    
+    /**
+     * Recover installation status
+     * Upload HLDS Scripts
+     */
+    public function installAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $entity = $em->getRepository('DPMinecraftServerBundle:MinecraftServer')->find($id);
+        
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find MinecraftServer entity.');
+        }
+        
+        $status = $entity->getInstallationStatus();
+        
+        // On upload le script du panel si l'archive jar est téléchargé
+        if ($status >= 100) {
+            $entity->uploadShellScripts($this->get('twig'));
+        }  
+        // On récupère le statut de l'installation que si celui-ci
+        // N'est pas déjà indiqué comme terminé
+        elseif ($status < 100) {
+            $newStatus = $entity->getInstallationProgress($this->get('twig'));
+            $entity->setInstallationStatus($newStatus);
+            
+            // On upload les scripts si le dl est terminé
+            if ($newStatus == 100) {
+                $entity->uploadShellScripts($this->get('twig'));
+            }
+            // Si celui-ci n'est pas lancé on le lance
+            elseif ($newStatus === null) {
+                $entity->installServer();
+            }
+            
+        } 
+        // On vérifie que l'installation n'est pas bloqué (ou non démarré)
+        elseif ($status === null) {
+            $entity->installServer($this->get('twig'));
+        }
+
+        $em->persist($entity);
+        $em->flush();
+        
+        return $this->redirect($this->generateUrl('minecraft'));
     }
 
     private function createDeleteForm($id)

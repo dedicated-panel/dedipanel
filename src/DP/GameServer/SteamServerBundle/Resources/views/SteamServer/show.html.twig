@@ -17,82 +17,89 @@
 #}
 
 {% extends "::layout.html.twig" %}
-{% block title %}<a href="{{ path('steam') }}"><span class="titre">h</span></a>{{ 'steam.showTitle'|trans }}{% endblock %}
+
+{% block title %}
+    <a href="{{ path('steam') }}">
+        <span class="titre">h</span>
+    </a>
+    {{ 'steam.showTitle'|trans }}
+{% endblock %}
 
 {% block content %}
-<table class="record_properties">
-    <tbody>
-        <tr>
-            <th>{{ 'game.id'|trans }}</th>
-            <td>{{ entity.id }}</td>
-        </tr>
-        <tr>
-            <th>{{ 'game.IPAddress'|trans }}</th>
-            <td>{{ entity.machine.publicIp }}:{{ entity.port }}</td>
-        </tr>
-        <tr>
-            <th>{{ 'game.name'|trans }}</th>
-            <td>{{ entity.name }}</td>
-        </tr>
-        <tr>
-            <th>{{ 'game.game'|trans }}</th>
-            <td>{{ entity.game }}</td>
-        </tr>
-        <tr>
-            <th>{{ 'game.installStatus'|trans }}</th>
-            <td><a href="{{ path('steam_install', { 'id': entity.id }) }}">{% spaceless %}
-                        {% if entity.installationStatus is null %}
-                            Buggued
-                        {% elseif entity.installationStatus == 101 %}
-                            {{ 'steam.ended'|trans }}
-                        {% else %}
-                            {{ entity.installationStatus }}%
-                        {% endif %}
-                {% endspaceless %}</a></td>
-                </tr>
-                <tr>
-                    <th>{{ 'game.dir'|trans }}</th>
-                    <td>{{ entity.dir }}</td>
-                </tr>
-                <tr>
-                    <th>{{ 'game.maxplayers'|trans }}</th>
-                    <td>{{ entity.maxplayers }}</td>
-                </tr>
-                <tr>
-                    <th>{{ 'steam.autoReboot'|trans }}</th>
-                    <td>{{ entity.autoReboot }}</td>
-                </tr>
-                <tr>
-                    <th>{{ 'steam.rcon.password'|trans }}</th>
-                    <td>{{ entity.rconPassword }}</td>
-                </tr>
-                <tr>
-                    <th>{{ 'steam.hltv.port'|trans }}</th>
-                    <td>{{ entity.hltvPort }}</td>
-                </tr>
-                <tr>
-                    <th>{{ 'steam.munin'|trans }}</th>
-                    <td>{{ entity.munin }}</td>
-                </tr>
-                <tr>
-                    <th>{{ 'steam.passwd'|trans }}</th>
-                    <td>{{ entity.svpasswd }}</td>
-                </tr>
-                <tr>
-                    <th>{{ 'steam.core'|trans }}</th>
-                    <td>{{ entity.core }}</td>
-                </tr>
-            </tbody>
-        </table>
-        <form action="{{ path('steam_edit', { 'id': entity.id }) }}" method="post">
-            <fieldset id="validation">        
-                <input type="submit" value="{{ 'game.edit'|trans }}" name="submit" class="submit">      
-            </fieldset>
-        </form>
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>{{ 'game.id'|trans }}</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'game.IPAddress'|trans }}</th>
+                <td>{{ entity.machine.publicIp }}:{{ entity.port }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'game.name'|trans }}</th>
+                <td>{{ entity.name }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'game.game'|trans }}</th>
+                <td>{{ entity.game }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'game.installStatus'|trans }}</th>
+                <td>
+                    <a href="{{ path('steam_install', { 'id': entity.id }) }}">{% spaceless %}
+                            {% if entity.installationStatus is null %}
+                                {{ 'game.installNotStarted'|trans }}
+                            {% elseif entity.installationStatus == 101 %}
+                                {{ 'game.installEnded'|trans }}
+                            {% else %}
+                                {{ entity.installationStatus }}%
+                            {% endif %}
+                    {% endspaceless %}</a>
+                </td>
+            </tr>
+            <tr>
+                <th>{{ 'game.dir'|trans }}</th>
+                <td>{{ entity.dir }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'game.maxplayers'|trans }}</th>
+                <td>{{ entity.maxplayers }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'steam.autoReboot'|trans }}</th>
+                <td>{{ entity.autoReboot }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'steam.rcon.password'|trans }}</th>
+                <td>{{ entity.rconPassword }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'steam.hltv.port'|trans }}</th>
+                <td>{{ entity.hltvPort }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'steam.munin'|trans }}</th>
+                <td>{{ entity.munin }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'steam.passwd'|trans }}</th>
+                <td>{{ entity.svpasswd }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'steam.core'|trans }}</th>
+                <td>{{ entity.core }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <form action="{{ path('steam_edit', { 'id': entity.id }) }}" method="post">
+        <fieldset id="validation">        
+            <input type="submit" value="{{ 'game.edit'|trans }}" name="submit" class="submit">      
+        </fieldset>
+    </form>
 
-        <form action="{{ path('steam_delete', { 'id': entity.id }) }}" method="post" class="deletebutton">
-            <input type="submit" value="{{ 'game.del'|trans }}" name="submit" class="delete">
-            {{ form_widget(delete_form) }}
-        </form>
-
+    <form action="{{ path('steam_delete', { 'id': entity.id }) }}" method="post" class="deletebutton">
+        <input type="submit" value="{{ 'game.del'|trans }}" name="submit" class="delete">
+        {{ form_widget(delete_form) }}
+    </form>
 {% endblock %}

@@ -12,7 +12,7 @@ class MinecraftServerType extends AbstractType
     {
         $builder
             ->add('machine', 'entity', array(
-                'label' => 'steam.selectMachine', 'class' => 'DPMachineBundle:Machine'))
+                'label' => 'game.selectMachine', 'class' => 'DPMachineBundle:Machine'))
             ->add('name', 'text', array('label' => 'game.name'))
             ->add('port', 'number', array('label' => 'game.port'))
             ->add('queryPort', 'number', array('label' => 'minecraft.queryPort'))

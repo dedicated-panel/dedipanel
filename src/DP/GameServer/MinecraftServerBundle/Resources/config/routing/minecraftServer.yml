@@ -28,3 +28,12 @@ minecraft_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "DPMinecraftServerBundle:MinecraftServer:delete" }
     requirements: { _method: post }
+
+minecraft_install:
+    pattern:  /{id}/install
+    defaults: { _controller : "DPMinecraftServerBundle:MinecraftServer:install" }
+
+minecraft_changeState:
+    pattern:  /{id}/{state}
+    defaults: { _controller: "DPMinecraftServerBundle:MinecraftServer:changeState" }
+    requirements: { state: "start|stop|restart" }

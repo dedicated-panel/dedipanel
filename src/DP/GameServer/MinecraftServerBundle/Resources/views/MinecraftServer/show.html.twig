@@ -18,54 +18,63 @@
 
 {% extends "::layout.html.twig" %}
 
-{% block title %}MinecraftServer{% endblock %}
-
-{% block content %}
+{% block title %}
+    <a href="{{ path('minecraft') }}">
+        <span class="titre">h</span>
+    </a>
+    {{ 'minecraft.showTitle'|trans }}
+{% endblock %}{% block content %}
     <table class="record_properties">
         <tbody>
             <tr>
-                <th>Id</th>
+                <th>{{ 'game.id'|trans }}</th>
                 <td>{{ entity.id }}</td>
             </tr>
             <tr>
-                <th>Name</th>
+                <th>{{ 'game.IPAddress'|trans }}</th>
+                <td>{{ entity.machine.publicIp }}:{{ entity.port }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'game.name'|trans }}</th>
                 <td>{{ entity.name }}</td>
             </tr>
             <tr>
-                <th>Port</th>
-                <td>{{ entity.port }}</td>
+                <th>{{ 'game.game'|trans }}</th>
+                <td>{{ entity.game }}</td>
             </tr>
             <tr>
-                <th>Installationstatus</th>
-                <td>{{ entity.installationStatus }}</td>
+                <th>{{ 'game.installStatus'|trans }}</th>
+                <td>
+                    <a href="{{ path('minecraft_install', { 'id': entity.id }) }}">{% spaceless %}
+                            {% if entity.installationStatus is null %}
+                                {{ 'game.installNotStarted'|trans }}
+                            {% elseif entity.installationStatus == 101 %}
+                                {{ 'game.installEnded'|trans }}
+                            {% else %}
+                                {{ 'minecraft.installInProgress'|trans }}
+                            {% endif %}
+                    {% endspaceless %}</a>
+                </td>
             </tr>
             <tr>
-                <th>Dir</th>
+                <th>{{ 'game.dir'|trans }}</th>
                 <td>{{ entity.dir }}</td>
             </tr>
             <tr>
-                <th>Maxplayers</th>
+                <th>{{ 'game.maxplayers'|trans }}</th>
                 <td>{{ entity.maxplayers }}</td>
             </tr>
         </tbody>
     </table>
 
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('minecraft') }}">
-                Back to the list
-            </a>
-        </li>
-        <li>
-            <a href="{{ path('minecraft_edit', { 'id': entity.id }) }}">
-                Edit
-            </a>
-        </li>
-        <li>
-            <form action="{{ path('minecraft_delete', { 'id': entity.id }) }}" method="post">
-                {{ form_widget(delete_form) }}
-                <button type="submit">Delete</button>
-            </form>
-        </li>
-    </ul>
+    <form action="{{ path('minecraft_edit', { 'id': entity.id }) }}" method="post">
+        <fieldset id="validation">        
+            <input type="submit" value="{{ 'game.edit'|trans }}" name="submit" class="submit">      
+        </fieldset>
+    </form>
+
+    <form action="{{ path('minecraft_delete', { 'id': entity.id }) }}" method="post" class="deletebutton">
+        <input type="submit" value="{{ 'game.del'|trans }}" name="submit" class="delete">
+        {{ form_widget(delete_form) }}
+    </form>
 {% endblock %}

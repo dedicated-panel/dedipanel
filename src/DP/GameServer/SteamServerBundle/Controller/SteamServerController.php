@@ -236,7 +236,7 @@ class SteamServerController extends Controller
         // On récupère le statut de l'installation que si celui-ci
         // N'est pas déjà indiqué comme terminé
         elseif ($status < 100) {
-            $newStatus = $entity->getGameInstallationProgress();
+            $newStatus = $entity->getInstallationProgress();
             $entity->setInstallationStatus($newStatus);
             
             if ($newStatus == 100) {
