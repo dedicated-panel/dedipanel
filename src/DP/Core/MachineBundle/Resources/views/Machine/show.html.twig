@@ -1,36 +1,30 @@
 {% extends "::layout.html.twig" %}
-{% block title %}<a href="{{ path('machine') }}"><span class="titre">h</span></a>{{ 'machine.machine'|trans }}{% endblock %}
 {% block content %}
 
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>{{ 'machine.id'|trans }}</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'machine.privateIp'|trans }}</th>
-                <td>{{ entity.privateIp }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'machine.publicIp'|trans }}</th>
-                <td>{{ entity.publicIp }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'machine.port'|trans }}</th>
-                <td>{{ entity.port }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'machine.user'|trans }}</th>
-                <td>{{ entity.user }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'machine.home'|trans }}</th>
-                <td>{{ entity.home }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'machine.genPrivKey'|trans }}</th>
-                <td>{% if entity.privateKeyFilename|length > 0 %}
+<legend><a href="{{ path('machine') }}"><span class="titre">h</span></a>{{ 'machine.machine'|trans }}</legend>
+
+<table class="table table-striped">
+    <thead>
+
+        <tr>
+            <th>{{ 'machine.id'|trans }}</th>
+            <th>{{ 'machine.privateIp'|trans }}</th>
+            <th>{{ 'machine.publicIp'|trans }}</th>
+            <th>{{ 'machine.port'|trans }}</th>
+            <th>{{ 'machine.user'|trans }}</th>
+            <th>{{ 'machine.home'|trans }}</th>
+            <th>{{ 'machine.genPrivKey'|trans }}</th>
+        </tr>  
+    </thead>   
+    <tbody>
+        <tr>
+            <td>{{ entity.id }}</td>
+            <td>{{ entity.privateIp }}</td>
+            <td>{{ entity.publicIp }}</td>
+            <td>{{ entity.port }}</td> 
+            <td>{{ entity.user }}</td>
+            <td>{{ entity.home }}</td>                
+            <td>{% if entity.privateKeyFilename|length > 0 %}
                         {{ 'machine.yes'|trans }}
                     {% else %}
                         {{ 'machine.no'|trans }}
@@ -40,11 +34,9 @@
         </tbody>
     </table>
 
-        <form action="{{ path('machine_edit', { 'id': entity.id }) }}" method="post">
-            <fieldset id="validation"> 
-
-                <input type="submit" value="{{ 'machine.edit'|trans }}" name="submit" class="submit">                
-
-            </fieldset> 
-        </form>  
+    <form action="{{ path('machine_edit', { 'id': entity.id }) }}" method="post">          
+        <div class="form-actions">
+            <button type="submit"  class="btn btn-primary">{{ 'machine.edit'|trans }}</button>
+        </div>
+    </form>  
 {% endblock %}

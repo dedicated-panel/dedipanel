@@ -17,9 +17,12 @@
 #}
 
 {% extends "::layout.html.twig" %}
-{% block content %}
-    <h1>{{ 'steam.query'|trans }}</h1>
-    
+
+{% block title %}
+    {{ 'steam.query'|trans }}
+{% endblock %}
+
+{% block content %}    
     {% if entity.query.latency == false %}
         <p>Timeout</p>
     {% else %}

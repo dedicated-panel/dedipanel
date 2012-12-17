@@ -20,34 +20,37 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
 {% block fos_user_content %}
-<form id="connexion" action="{{ path("fos_user_security_check") }}" method="post">
-        {% if error %}
-            <div class="alert alert-error">{{ error }}</div>
-        {% endif %}
+<form  action="{{ path("fos_user_security_check") }}" method="post">        
+    <h1 class="clearfix">
+        <span class="icone">w</span>
+        <span class="texte">
+            {{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}
+        </span>
+    </h1>
+        
 
-        <legend>
-            <div id="content-titre">
-                <span class="icone">w</span><p id="titre">{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}</p>
-            </div>
-        </legend>
-        <div class="input-prepend">
-            <span class="add-on"><i class="icon-user"></i></span>
-            <input class="span3" type="text" name="_username" id="_username" placeholder="{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}">
-        </div>
-        <div class="input-prepend">
-            <span class="add-on"><i class="icon-user"></i></span>
-            <input type="password" name="_password" id="_password" placeholder="{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}">
-        </div>
+    {% if error %}
+        <div class="alert alert-error">{{ error }}</div>
+    {% endif %}
+    
+    <div class="input-prepend">
+        <span class="add-on"><i class="icon-user"></i></span>
+        <input class="span3" type="text" name="_username" id="_username" placeholder="{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}">
+    </div>
+    
+    <div class="input-prepend">
+        <span class="add-on"><i class="icon-lock"></i></span>
+        <input type="password" name="_password" id="_password" placeholder="{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}">
+    </div>
+        
+    {# <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+    <label for="remember_me">{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label><br /> #}
 
-        <div class="actions">  
-            <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-            <label for="remember_me">{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label><br />
-            <input type="submit" id="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}"  class="btn btn-medium btn-primary" type="button">
-            <br /><br />
-            
-            <a href="{{ path('fos_user_resetting_request') }}">
-                {{ 'resetting.request.titre'|trans({}, 'FOSUserBundle') }}
-                </a>
-            </div>
-        </form>
+    <div class="actions">         
+        <input type="submit" id="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}"  class="btn btn-medium btn-primary" type="button">
+        <a href="{{ path('fos_user_resetting_request') }}" class="btn btn-danger">
+            {{ 'security.login.titre'|trans({}, 'FOSUserBundle') }}
+        </a>
+    </div>
+</form>
 {% endblock fos_user_content %}

@@ -1,52 +1,33 @@
-@charset "UTF-8";
-
-html, body	{
-    height: 100%;
+@font-face {
+    font-family: 'WebSymbolsRegular';
+    src: url('websymbols/websymbols-regular-webfont.eot');
+    src: url('websymbols/websymbols-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('websymbols/websymbols-regular-webfont.woff') format('woff'),
+         url('websymbols/websymbols-regular-webfont.ttf') format('truetype'),
+         url('websymbols/websymbols-regular-webfont.svg#WebSymbolsRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
 body	{
-    background: #2d2d2d;
-    color: #393939;
-    font-family: Arial;
-    font-size: 0px;
-    font-size:13px;
-    line-height:19px;
-    margin: 0;
-    padding: 0;
+    background: #2d2d2d !important;
 }
 
 
 /*** HEADER ***/
 header {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    height: 160px
+    padding: 50px 0 20px 0;
 }
 
 #logo {
-	background-image: url(../images/header/logo.png);
-	background-repeat: no-repeat;
+	background: url('../images/header/logo.png') no-repeat;
 	width: 290px;
 	height: 80px;
-	margin: auto;
-	margin-top: 75px;
+	margin: 0 auto;
 }
-#page {
-	width: 95%;
-	margin: auto;
-}
-#titre {	
-	font-family: 'Cuprum', Arial, sans-serif;
-	color: #55585D;
-	font-size: 24px;
-	display: block;
 
-}
-.actions {	
-	font-size: 14px;
-        padding: 5px;
-}
-#connexion {
+/*** Logbox **/
+#logbox {
 	background: linear-gradient(top, #F7F7F7 0%,#E9E9E9 100%);
 	border: 1px solid #EDEDED;
 	width: 375px;
@@ -62,129 +43,51 @@ header {
 	border-image: initial;
 }
 
-.icone{
+#logbox h1 {
+    margin: 0 0 30px 0;
+    padding: 0 0 10px 0;
+    border-bottom: 1px solid #E5E5E5;
+}
+#logbox h1 .icone {
     font-family: 'WebSymbolsRegular', cursive;
 	font-size: 25px;
 	margin-right: 6px;
-	float: left;
-	text-align: center;
-	top: 10px;
 	color: #0077B5;
-}	
+    font-weight: normal;
+    float: left;
+}
+#logbox h1 .texte {
+	font-family: 'Cuprum', Arial, sans-serif;
+	color: #55585D;
+	font-size: 24px;
+    font-weight: normal;
+    float: left;
+}
+
+i {
+    opacity: 0.7;
+}
+
+#logbox .actions {	
+	font-size: 14px;
+    padding: 5px 0;
+    margin: 30px 0 0 0;
+}
 
 
 /*** Footer ***/
-
-
-footer a:selected, footer a:hover{
-    color: #000;
-    text-decoration: none;
-}
-
 footer {
-	padding: 3px 0px;
+	margin: 5px 0 0 0;
 }
-
-footer p img {
-	margin-bottom: -10px;
-}
-
 footer p {
     text-align: center;
     color: #818181;	 
     font-size: 11px;
 }
-
-/* =============================================================== */
-
-a {
-	color: #818181;
-	text-decoration:none
+footer img {
+    margin-bottom: 6px;
 }
-a:hover {
-	color: black;
-	text-decoration: none;
-}
-label {	
-	font-size: 14px;
-	color: #666; 
-}
-select, input, textarea { 		
-	padding: 8px; 
-	margin: 4px 0 20px 0; 
-	background: #fff; 
-	width: 220px; 
-	font-size: 14px; 
-	color: #555; 
-	border: 0.5px #ddd solid;
-	cursor: pointer;
-	-webkit-box-shadow: 0px 0px 4px #aaa;
-	-moz-box-shadow: 0px 0px 4px #aaa; 
-	box-shadow: 0px 0px 4px #aaa;	
-	-webkit-transition: background 0.3s linear;							
-}
-select{ 		
-	background: #fff; 
-	width: 220px; 
-	border: 1px #ddd solid;
-	-webkit-border-radius: 6px;
-	-moz-border-radius: 6px;
-	border-radius: 6px;	
-}
-textarea {		
-	width: 390px; 
-	height: 175px; 		 		
-}
-input:hover, textarea:hover { 
-	background: #eee; 
-}
-input[type='radio'], input[type='checkbox'] {
-    width: 1px;
-    display: none;
-}
-input[type='radio'] + label, input[type='checkbox'] + label {
-        margin: 0;
-        clear: none;
-        padding: 5px 0 4px 24px;
-        cursor: pointer;
-        background: url(../images/icones/form/off.png) left center no-repeat; 
-}
-input[type='radio']:checked + label, input[type='checkbox']:checked + label {
-        background-image: url(../images/icones/form/check.png);
-}	
-input.submit { 	
-	width: 150px; 
-	color: #eee; 
-	text-transform: uppercase; 
-	margin-top: 10px;
-	background-color: #0077b5;
-	border: none;	
-	-webkit-transition: -webkit-box-shadow 0.3s linear;		
-	-moz-border-radius: 4px; 
-	-webkit-border-radius: 4px;
-	border-radius: 4px; 						
-	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#0077b5), to(#00507a)); 
-	background: -moz-linear-gradient(25% 75% 90deg,#00507a, #0077b5);		
-} 
-input.submit:hover { 		
-	-webkit-box-shadow: 0px 0px 20px #555;
-	-moz-box-shadow: 0px 0px 20px #aaa; 
-	box-shadow: 0px 0px 20px #555;	
-	cursor:  pointer; 
-}
-
-fieldset {
-	border: none; 
-}
-
-
-@font-face {
-    font-family: 'WebSymbolsRegular';
-    src: url('websymbols/websymbols-regular-webfont.eot');
-    src: url('websymbols/websymbols-regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('websymbols/websymbols-regular-webfont.woff') format('woff'),
-         url('websymbols/websymbols-regular-webfont.ttf') format('truetype'),
-         url('websymbols/websymbols-regular-webfont.svg#WebSymbolsRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
+footer a:selected, footer a:hover{
+    color: #000;
+    text-decoration: none;
 }
