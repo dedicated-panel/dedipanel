@@ -335,71 +335,72 @@ nav#tabs a:hover {
 }
 #page-content .form-actions {
     padding: 0;
-    margin: 0;
+    margin: 15px 0 0 0;
     border: 0;
     float: left;
 }
 
 #page-content #form-delete {
-    margin: 0 0 10px 10px;
+    margin: 15px 0 10px 10px;
     float: left;
 }
 
-/*** Pages Steam ***/
-#steam{
-    overflow: hidden;
-}
-#steam .serveur-steam {
+/*** Serveurs de jeux ***/
+.server-list .server-item {
     padding: 10px 10px 5px 10px;
     border-bottom: 1px dotted #C3C3C3;
     border-top: 1px solid white;
 }
-#steam .serveur-steam:nth-child(odd) {
+.server-list .server-item:nth-child(odd) {
     background: #E6E6E6;
 }
-
-#steam .serveur-steam .visuel {
+.server-list .server-item .visuel {
     width: 115px;
     margin: 0 0 0 20px;
     float: left;
 }
-#steam .serveur-steam .serverInfos {
+.server-list .server-item .server-infos {
     width: auto;
     float: left;
     margin: 0 0 0 15px;
 }
-#steam .serveur-steam .titre {
+.server-list .server-item .titre {
     margin: 7px 0 ;
     font-family: "Trebuchet MS", Arial;
     font-size: 18px;
     font-weight: bold;
     text-shadow: 1px 1px white;
 }
-.serveur-steam .description {
+.server-list .server-item .description {
     margin: 3px;
     color: #535353;
     font-size: 13px;
 }
-.serveur-steam .description .info {
+.server-list .server-item .description .info {
     margin-left:165px; 
 }
-.serveur-steam .installation {
+.server-list .server-item .installation {
     font-size: 15px;
     color: #0684CA; 
 }
-.serveur-steam .installation-status {
+.server-list .server .installation-status {
     padding: 9px;
     margin-left: 55px;
 }
-.serveur-steam .progress {
+.server-list .server-item .progress {
     margin-top: 15px;
 }
-.serveur-steam .actions {
+.server-list .server-item .actions {
     padding: 12px; 
     width: auto;
     float: right;
 }
 
+/*** Pages Steam ***/
+#steam{
+    overflow: hidden;
+
+}
 
 /*** Footer ***/
 

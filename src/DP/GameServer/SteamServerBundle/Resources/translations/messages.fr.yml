@@ -18,8 +18,6 @@ steam.title: Serveurs Steam
 steam.show: Voir
 steam.list: Liste des Serveurs Steam
 steam.add: Ajouter un serveur Steam
-steam.edit: Modifier
-steam.del: Supprimer
 steam.back: Retour à la liste
 steam.query: Query
 

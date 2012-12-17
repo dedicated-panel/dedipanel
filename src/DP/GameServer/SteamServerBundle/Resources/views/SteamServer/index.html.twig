@@ -18,8 +18,6 @@
 
 {% extends "::layout.html.twig" %}
 
-{% block title %}<a href="{{ path('DPGameServerBundle_menu') }}"><span class="titre">h</span></a>{{ 'steam.list'|trans }}{% endblock %}
-
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('bundles/dpsteamserver/js/details.js') }}"></script>
 {% endblock %}
@@ -36,10 +34,10 @@
     
 {% block content %}
  
-<div id="steam">
+<div id="steam" class="server-list">
     {% for entity in entities %}
         {% if entity.getInstallationStatus < 101 %}
-            <div class="row serveur-steam" id="steam-{{ entity.id }}">
+            <div class="row server-item" id="steam-{{ entity.id }}">
                 <div class="span2">
                     {% set gameImg = entity.game.installname %}
                     {% if gameImg == 'Counter-Strike Source' %}
@@ -76,7 +74,7 @@
                 </div>
             </div>
         {% else %}
-            <div class="row serveur-steam" id="steam-{{ entity.id }}">
+            <div class="row server-item" id="steam-{{ entity.id }}">
                 <div class="visuel">
                     {% set gameImg = entity.game.installname %}
                     {% if gameImg == 'Counter-Strike Source' %}
@@ -87,7 +85,7 @@
                     </a>
                 </div>
                     
-                <div class="serverInfos">
+                <div class="server-infos">
                     <div class="titre">
                         <a href="{{ path('steam_show', {id: entity.id}) }}">{{ entity.name }}</a>
                     </div>
@@ -128,7 +126,7 @@
                         <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'start' }) }}"><img class="start-image" src="/images/icones/serveur/start.png" title="{{ 'steam.start'|trans }}"/></a>
                     {% endif %}
 
-                        <a href="{{ path('steam_edit', {id: entity.id }) }}"><img src="/images/icones/serveur/config.png" title="{{ 'steam.edit'|trans }}" /></a>
+                        <a href="{{ path('steam_edit', {id: entity.id }) }}"><img src="/images/icones/serveur/config.png" title="{{ 'game.edit'|trans }}" /></a>
                         <a href="{{ path('steam_plugins_show', {id: entity.id }) }}"><img src="/images/icones/serveur/plugins.png" title="{{ 'steam.pluginsAction'|trans }}" /></a>
                         <a href="{{ path('steam_show', {id: entity.id}) }}" class="slide" id="steam-{{ entity.id }}"><img src="/images/icones/serveur/slide.png" title="Slide"/></a>
                         {# <a href="{{ path('steam_show', {id: entity.id}) }}" class="slide" id="steam-{{ entity.id }}"><img src="/images/icones/serveur/stats.png" title="Statistiques"/></a> #}

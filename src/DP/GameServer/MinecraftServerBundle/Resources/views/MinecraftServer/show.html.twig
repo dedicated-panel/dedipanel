@@ -20,8 +20,9 @@
 
 {% block title %}
     <a href="{{ path('minecraft') }}">
-        <span class="titre">h</span>
+        <span class="titre icone">h</span>
     </a>
+
     {{ 'minecraft.showTitle'|trans }}
 {% endblock %}{% block content %}
     <table class="record_properties">
@@ -67,14 +68,14 @@
         </tbody>
     </table>
 
-    <form action="{{ path('minecraft_edit', { 'id': entity.id }) }}" method="post">
-        <fieldset id="validation">        
-            <input type="submit" value="{{ 'game.edit'|trans }}" name="submit" class="submit">      
-        </fieldset>
+    <form action="{{ path('minecraft_edit', { 'id': entity.id }) }}" method="post" id="form-edit">
+        <div class="form-actions">
+            <input type="submit" value="{{ 'game.edit'|trans }}" name="submit" class="btn btn-primary">      
+        </div>
     </form>
 
-    <form action="{{ path('minecraft_delete', { 'id': entity.id }) }}" method="post" class="deletebutton">
-        <input type="submit" value="{{ 'game.del'|trans }}" name="submit" class="delete">
+    <form action="{{ path('minecraft_delete', { 'id': entity.id }) }}" method="post" id="form-delete">
+        <input type="submit" value="{{ 'game.del'|trans }}" name="submit" class="btn btn-danger">
         {{ form_widget(delete_form) }}
     </form>
 {% endblock %}
