@@ -138,4 +138,12 @@ class MinecraftServer extends GameServer
             return false;
         }
     }
+    
+    public function changeStateServer($state)
+    {
+        $scriptPath = $this->getAbsoluteDir() . 'minecraft.sh';
+        
+        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
+                ->exec($scriptPath . ' ' . $state);
+    }
 }

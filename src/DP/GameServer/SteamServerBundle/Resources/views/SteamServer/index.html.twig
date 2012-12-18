@@ -68,8 +68,8 @@
                 </div>
                 <div class="span5">
                     <div class="progress progress-info progress-striped">
-                        <div class="bar" style="width: 50%">
-                        </div>{{ entity.installationStatus }}
+                        <div class="bar" style="width: {{ entity.installationStatus }}%"></div>
+                        {{ entity.installationStatus }} %
                     </div>
                 </div>
             </div>

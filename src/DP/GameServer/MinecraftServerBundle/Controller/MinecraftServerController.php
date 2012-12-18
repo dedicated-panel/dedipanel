@@ -171,6 +171,14 @@ class MinecraftServerController extends Controller
 
         return $this->redirect($this->generateUrl('minecraft'));
     }
+
+    private function createDeleteForm($id)
+    {
+        return $this->createFormBuilder(array('id' => $id))
+            ->add('id', 'hidden')
+            ->getForm()
+        ;
+    }
     
     /**
      * Recover installation status
@@ -217,12 +225,18 @@ class MinecraftServerController extends Controller
         
         return $this->redirect($this->generateUrl('minecraft'));
     }
-
-    private function createDeleteForm($id)
+    
+    public function changeStateAction($id, $state)
     {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
-            ->getForm()
-        ;
+        $em = $this->getDoctrine()->getEntityManager();
+        $entity = $em->getRepository('DPMinecraftServerBundle:MinecraftServer')->find($id);
+        
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find MinecraftServer entity.');
+        }
+        
+        $entity->changeStateServer($state);
+        
+        return $this->redirect($this->generateUrl('minecraft'));
     }
 }

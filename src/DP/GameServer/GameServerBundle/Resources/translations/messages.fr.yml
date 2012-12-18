@@ -13,7 +13,7 @@ game.maxplayers: Joueurs max.
 game.actions: Actions
 game.IPAddress: Adresse IP
 game.ping: Ping
-game.updateStatus: Mettre à jour le statut de l'installation
+game.updateStatus: Mettre à jour le statut
 
 game.selectMachine: Sélectionnez une machine
 game.selectGame: Jeu
