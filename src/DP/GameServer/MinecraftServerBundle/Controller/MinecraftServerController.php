@@ -24,6 +24,8 @@ class MinecraftServerController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('DPMinecraftServerBundle:MinecraftServer')->findAll();
+        
+//        $query = $this->get('query.minecraft')->getServerQuery('5.39.91.107', 25565);
 
         return $this->render('DPMinecraftServerBundle:MinecraftServer:index.html.twig', array(
             'entities' => $entities,

@@ -17,7 +17,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 SCREEN_NAME="{{ screenName }}"
-STATUS=`ps aux | grep SCREEN | grep "$SCREEN_NAME " | wc -l`
+STATUS=`pgrep -f "$SCREEN_NAME" | wc -l`
 
 INVOCATION="java -Xmx{{ maxHeap }}M -Xms{{ minHeap }}M -XX:+UseConcMarkSweepGC \
 -XX:+CMSIncrementalPacing -XX:ParallelGCThreads={{ parallelThreads }} -XX:+AggressiveOpts \
@@ -38,8 +38,8 @@ case "$1" in
     stop)
         if [ $STATUS -ne 0 ]; then
             echo "stopping"
-            PID=`ps aux | grep SCREEN | grep "$SCREEN_NAME " | awk '{print $2}'`
-            screen -p 0 -S $SCREEN_NAME -X eval 'stuff "stop"015'
+            screen -p 0 -S $SCREEN_NAME -X eval 'stuff "save-all"\015'
+            screen -p 0 -S $SCREEN_NAME -X eval 'stuff "stop"\015'
             echo "."
         fi
 
@@ -48,7 +48,7 @@ case "$1" in
 
     restart)
         $0 stop
-        sleep 1
+        sleep 5
         $0 start
 
         exit ${?}
