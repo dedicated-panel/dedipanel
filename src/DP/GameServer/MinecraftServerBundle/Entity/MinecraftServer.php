@@ -66,6 +66,8 @@ class MinecraftServer extends GameServer
         
         $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
         
+        // On détermine si le log d'installation est présent
+        // Si ce n'est pas le cas mais que le binaire est là, c'est que l'install est déjà terminé
         $statusCmd = $twig->render('DPMinecraftServerBundle:sh:installStatus.sh.twig', array(
             'installDir'    => $installDir, 
             'logPath'       => $logPath, 
@@ -77,6 +79,7 @@ class MinecraftServer extends GameServer
             return 100;
         }
         if ($status == 1) {
+            // On récupère les 20 dernières lignes du fichier afin de déterminer le pourcentage
             $tailCmd = 'tail -n 20 ' . $logPath;
             $installLog = $sec->exec($tailCmd);
             $percent = $this->getPercentFromInstallLog($installLog);
