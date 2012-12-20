@@ -6,7 +6,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer;
-use DP\GameServer\MinecraftServerBundle\Form\MinecraftServerType;
+use DP\GameServer\MinecraftServerBundle\Form\AddMinecraftServerType;
+use DP\GameServer\MinecraftServerBundle\Form\EditMinecraftServerType;
 
 /**
  * MinecraftServer controller.
@@ -58,7 +59,7 @@ class MinecraftServerController extends Controller
     public function newAction()
     {
         $entity = new MinecraftServer();
-        $form   = $this->createForm(new MinecraftServerType(), $entity);
+        $form   = $this->createForm(new AddMinecraftServerType(), $entity);
 
         return $this->render('DPMinecraftServerBundle:MinecraftServer:new.html.twig', array(
             'entity' => $entity,
@@ -73,11 +74,20 @@ class MinecraftServerController extends Controller
     public function createAction(Request $request)
     {
         $entity  = new MinecraftServer();
-        $form = $this->createForm(new MinecraftServerType(), $entity);
+        $form = $this->createForm(new AddMinecraftServerType(), $entity);
         $form->bind($request);
 
         if ($form->isValid()) {
-            $entity->installServer();
+            $alreadyInstalled = $form->get('alreadyInstalled')->getData();
+            
+            // On lance l'installation si le serveur n'est pas déjà sur la machine, 
+            // Sinon on upload les scripts nécessaires au panel
+            if (!$alreadyInstalled) {
+                $entity->installServer();
+            }
+            else {
+                $entity->uploadShellScripts($this->get('twig'));
+            }
             
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
@@ -106,7 +116,7 @@ class MinecraftServerController extends Controller
             throw $this->createNotFoundException('Unable to find MinecraftServer entity.');
         }
 
-        $editForm = $this->createForm(new MinecraftServerType(), $entity);
+        $editForm = $this->createForm(new EditMinecraftServerType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('DPMinecraftServerBundle:MinecraftServer:edit.html.twig', array(
@@ -131,7 +141,7 @@ class MinecraftServerController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new MinecraftServerType(), $entity);
+        $editForm = $this->createForm(new EditMinecraftServerType(), $entity);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {

@@ -42,10 +42,6 @@ steam.plugins.showTitle: Plugins du serveur
 steam.plugins.installed: Installé
 steam.plugins.notInstalled: Non installé
 
-steam.isAlreadyInstalled: Serv. déjà installé ?
-steam.yes: Oui
-steam.no: Non
-
 steam.cfg.showTitle: Visualiser les CFG
 steam.cfg.filename: Nom du fichier
 steam.cfg.content: Contenu du fichier

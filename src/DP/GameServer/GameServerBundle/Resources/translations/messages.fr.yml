@@ -21,3 +21,7 @@ game.addButton: Ajouter
 
 game.installNotStarted: Installation non démarré
 game.installEnded: Installation terminé
+
+game.isAlreadyInstalled: Serv. déjà installé ?
+game.yes: Oui
+game.no: Non
