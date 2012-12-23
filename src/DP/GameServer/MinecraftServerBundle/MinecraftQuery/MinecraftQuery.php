@@ -22,6 +22,8 @@ namespace DP\GameServer\MinecraftServerBundle\MinecraftQuery;
 use DP\GameServer\GameServerBundle\Socket\Socket;
 use DP\GameServer\GameServerBundle\Socket\Packet;
 use DP\GameServer\GameServerBundle\Socket\PacketCollection;
+use DP\GameServer\GameServerBundle\Socket\Exception\RecvTimeoutException;
+use DP\GameServer\MinecraftServerBundle\MinecraftQuery\Exception;
 
 /**
  * @author Albin Kerouanton 
@@ -34,27 +36,78 @@ class MinecraftQuery
 
     protected $challenge;
     protected $players;
+    protected $serverInfos;
     
     public function __construct($container, $host, $port)
     {
         $this->container = $container;
         $this->packetFactory = $container->get('packet.factory.minecraft.query');
         
-        $this->socket = $container->get('socket')->getTCPSocket($host, $port);
+        $this->socket = $container->get('socket')->getUDPSocket($host, $port);
         
         try {
             $this->socket->connect();
-            $this->retrieveChallenge();
+            $this->getServerInfos();
         }
         catch (ConnectionFailedException $e) {}
         catch (NotConnectedException $e) {}
+        catch (Exception\ServerTimeoutException $e) {}
     }
     
-    public function retrieveChallenge()
+    public function getChallenge()
     {
-        $sessionId = rand();
-        $this->socket->send($this->packetFactory->handshake($sessionId));
-        $resp = $this->socket->recv();
-        var_dump($resp);
+        if (!isset($this->challenge)) {      
+            try {
+                $sessionId = rand();
+                $this->socket->send($this->packetFactory->handshake($sessionId));
+            
+                $resp = $this->socket->recv();
+                $data = $resp->extract(array(
+                    'type' => 'byte', 
+                    'sessionId' => 'long', 
+                    'challenge' => 'string'
+                ));
+                
+                if ($data['sessionId'] == $sessionId) {
+                    $this->challenge = $data['challenge'];
+                }
+            }
+            catch (RecvTimeoutException $e) {
+                throw new Exception\ServerTimeoutException;
+            }
+        }
+        
+        return $this->challenge;
+    }
+    
+    public function getServerInfos()
+    {
+        if (!isset($this->serverInfos)) {
+            try {
+                $sessionId = rand();
+                $this->socket->send($this->packetFactory->stat($sessionId, $this->getChallenge()));
+                
+                $resp = $this->socket->recv();
+                $data = $resp->extract(array(
+                    'type' => 'byte', 
+                    'sessionId' => 'long', 
+                    'motd' => 'string', 
+                    'gametype' => 'string', 
+                    'map' => 'string', 
+                    'numplayers' => 'string', 
+                    'maxplayers' => 'string', 
+                    'hostport' => 'short', 
+                    'hostip' => 'string'
+                ));
+                
+                unset($data['type'], $data['sessionId']);
+                $this->serverInfos = $data;
+            }
+            catch (RecvTimeoutException $e) {
+                throw new Exception\ServerTimeoutException;
+            }
+        }
+        
+        return $this->serverInfos;
     }
 }

@@ -50,7 +50,7 @@ class MinecraftQueryPacketFactory extends PacketFactory
     public function stat($sessionId, $challenge)
     {
         $sessionId = $this->transformLong($sessionId);
-        $challenge = $this->transformLong($challenge);
+        $challenge = $this->transformBigEndianLong($challenge);
         
         return $this->newPacket(self::HEADER . self::STAT . $sessionId . $challenge);
     }
