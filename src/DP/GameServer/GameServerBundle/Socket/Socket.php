@@ -111,8 +111,8 @@ class Socket
         socket_set_block($this->socket);
         socket_set_option($this->socket, SOL_SOCKET, SO_SNDTIMEO, array('sec' => $this->timeout[0], 'usec' => $this->timeout[1]));
         socket_set_option($this->socket, SOL_SOCKET, SO_RCVTIMEO, array('sec' => $this->timeout[0], 'usec' => $this->timeout[1]));
-                
-        $connect = socket_connect($this->socket, $this->ip, $this->port);
+               
+        $connect = @socket_connect($this->socket, $this->ip, $this->port);
         
         if (!$connect) {
             throw new ConnectionFailedException($this->getLastError());
