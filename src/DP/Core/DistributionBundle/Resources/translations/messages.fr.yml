@@ -31,3 +31,9 @@ configurator.userCreation.password_again: Confirmation du mot de passe
 
 configurator.final.title: Configuration du panel terminé !
 configurator.final.goWelcomePage: Connectez-vous
+
+configurator.socketExtension: Extension PHP de sockets
+configurator.intlExtension: Extension PHP d'internationalisation
+
+configurator.ok: Installé
+configurator.nok: Non installé

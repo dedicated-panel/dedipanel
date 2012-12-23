@@ -106,6 +106,20 @@ class Configurator
                 }
             }
         }
+        
+        // Vérification de la présence de l'extension php socket
+        $requirements['configurator.socketExtension'] = true;
+        if (!function_exists('socket_create')) {
+            $requirements['configurator.socketExtension'] = false;
+            $error = true;
+        }
+        
+        // Vérification de la présence de l'extension php intl
+        $requirements['configurator.intlExtension'] = true;
+        if (!defined('INTL_MAX_LOCALE_LEN')) {
+            $requirements['configurator.intlExtension'] = false;
+            $error = true;
+        }
 
         return array('requirements' => $requirements, 'error' => $error);
     }

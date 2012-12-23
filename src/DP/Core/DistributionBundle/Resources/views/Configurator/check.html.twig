@@ -13,9 +13,9 @@
                 <b>{{ label|trans }} :</b>
                 
                 {% if state == true %}
-                    OK
+                    {{ 'configurator.ok'|trans }}
                 {% else %}
-                    NOK
+                    {{ 'configurator.nok'|trans }}
                 {% endif %}
             </li>
         {% endfor %}
