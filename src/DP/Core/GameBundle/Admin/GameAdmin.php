@@ -34,12 +34,14 @@ class GameAdmin extends Admin
             ->addIdentifier('name')
             ->add('installName')
             ->add('launchName')
+            ->add('type', 'choice', array(
+                'choices' => array('steam' => 'Steam', 'minecraft' => 'Minecraft')
+            ))
             ->add('orangebox')
             ->add('source')
             ->add('bin')
             ->add('map')
             ->add('available', 'boolean')
-            ->add('type')
         ;
     }
     
@@ -72,7 +74,9 @@ class GameAdmin extends Admin
             ->add('available', null, array('required' => false))
             ->add('sourceImagesMaps', null, array('required' => false))
             ->add('plugins', 'sonata_type_model', array('required' => false, 'multiple' => true, 'expanded' => true))
-            ->add('type')
+            ->add('type', 'choice', array(
+                'choices' => array('steam' => 'Steam', 'minecraft' => 'Minecraft')
+            ))
         ;
     }
 }
