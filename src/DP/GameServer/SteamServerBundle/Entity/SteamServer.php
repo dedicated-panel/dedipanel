@@ -397,16 +397,6 @@ class SteamServer extends GameServer {
                 ->exec($scriptPath . ' ' . $state);
     }
     
-    public function setQuery(SteamQuery $query)
-    {
-        $this->query = $query;
-    }
-    
-    public function getQuery()
-    {
-        return $this->query;
-    }
-    
     public function setRcon($rcon)
     {
         $this->rcon = $rcon;

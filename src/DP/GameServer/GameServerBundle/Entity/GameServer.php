@@ -23,6 +23,7 @@ namespace DP\GameServer\GameServerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use DP\Core\MachineBundle\Entity\Machine;
 use Symfony\Component\Validator\Constraints as Assert;
+use DP\GameServer\GameServerBundle\Query\QueryInterface;
 
 /**
  * DP\Core\GameServer\GameServerBundle\Entity\GameServer
@@ -99,6 +100,8 @@ class GameServer
      * @Assert\NotNull(message="gameServer.assert.game")
      */
     protected $game;
+    
+    protected $query;
 
 
     /**
@@ -279,5 +282,15 @@ class GameServer
     protected function getInstallScreenName()
     {
         return 'install-' . $this->getMachine()->getUser() . '-' . $this->getDir();
+    }
+    
+    public function setQuery(QueryInterface $query)
+    {
+        $this->query = $query;
+    }
+    
+    public function getQuery()
+    {
+        return $this->query;
     }
 }

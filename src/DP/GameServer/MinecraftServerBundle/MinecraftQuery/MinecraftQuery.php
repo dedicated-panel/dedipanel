@@ -19,6 +19,7 @@
 
 namespace DP\GameServer\MinecraftServerBundle\MinecraftQuery;
 
+use DP\GameServer\GameServerBundle\Query\QueryInterface;
 use DP\GameServer\GameServerBundle\Socket\Socket;
 use DP\GameServer\GameServerBundle\Socket\Packet;
 use DP\GameServer\GameServerBundle\Socket\PacketCollection;
@@ -28,7 +29,7 @@ use DP\GameServer\MinecraftServerBundle\MinecraftQuery\Exception;
 /**
  * @author Albin Kerouanton 
  */
-class MinecraftQuery
+class MinecraftQuery implements QueryInterface
 {
     private $container;
     private $socket;
@@ -37,6 +38,7 @@ class MinecraftQuery
     protected $challenge;
     protected $players;
     protected $serverInfos;
+    protected $online;
     
     public function __construct($container, $host, $port)
     {
@@ -47,11 +49,14 @@ class MinecraftQuery
         
         try {
             $this->socket->connect();
-            $this->getServerInfos();
+            // On récupère le challenge pour s'assurer que le serveur est bien en ligne
+            $this->getChallenge();
+            
+            $this->online = true;
         }
-        catch (ConnectionFailedException $e) {}
-        catch (NotConnectedException $e) {}
-        catch (Exception\ServerTimeoutException $e) {}
+        catch (Exception\ServerTimeoutException $e) {
+            $this->online = false;
+        }
     }
     
     public function getChallenge()
@@ -109,5 +114,14 @@ class MinecraftQuery
         }
         
         return $this->serverInfos;
+    }
+    
+    public function verifyStatus()
+    {
+        return true;
+    }
+    
+    public function isOnline() {
+        return $this->online;
     }
 }

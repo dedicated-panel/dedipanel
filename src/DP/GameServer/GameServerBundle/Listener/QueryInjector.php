@@ -18,10 +18,13 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\GameServer\SteamServerBundle\Listener;
+namespace DP\GameServer\GameServerBundle\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use DP\GameServer\GameServerBundle\Entity\GameServer;
 use DP\GameServer\SteamServerBundle\Entity\SteamServer;
+use DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer;
+use DP\GameServer\SteamServerBundle\SteamQuery\Exception\UnexpectedServerTypeException;
 
 /**
  * @author Albin Kerouanton 
@@ -39,16 +42,25 @@ class QueryInjector
     {
         $entity = $args->getEntity();
         
-        if ($entity instanceof SteamServer) {            
-            $query = $this->getQueryService()->getServerQuery(
-                $entity->getMachine()->getPublicIp(), 
-                $entity->getPort()
-            );
+        if ($entity instanceof GameServer) {
+            // Détection du type de serveur pour appeler le query adéquat
+            if ($entity instanceof SteamServer) {
+                $query = $this->getSteamQueryService()->getServerQuery(
+                    $entity->getMachine()->getPublicIp(), 
+                    $entity->getPort()
+                );
+            }
+            elseif ($entity instanceof MinecraftServer) {
+                $query = $this->getMinecraftQueryService()->getServerQuery(
+                    $entity->getMachine()->getPublicIp(), 
+                    $entity->getPort()
+                );
+            }
             
             try {               
                 $query->verifyStatus();
             }
-            catch (\Exception $e) {}
+            catch (UnexpectedServerTypeException $e) {}
             
             $entity->setQuery($query);
         }
@@ -70,12 +82,27 @@ class QueryInjector
      * @return \DP\GameServer\SteamServerBundle\Service\Query
      * @throws Exception 
      */
-    private function getQueryService()
+    private function getSteamQueryService()
     {
         if (is_null($this->serviceContainer)) {
             throw new Exception('The service container is not yet set.');
         }
         
         return $this->serviceContainer->get('query.steam');
+    }
+    
+    /**
+     * Get steam query service
+     * 
+     * @return \DP\GameServer\MinecraftServerBundle\Service\Query
+     * @throws Exception 
+     */
+    private function getMinecraftQueryService()
+    {
+        if (is_null($this->serviceContainer)) {
+            throw new Exception('The service container is not yet set.');
+        }
+        
+        return $this->serviceContainer->get('query.minecraft');
     }
 }
