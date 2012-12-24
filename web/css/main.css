@@ -431,23 +431,24 @@ footer a:selected, footer a:hover{
 
 
 /* Details */
-#steam .details{
+.server-list .details {
     margin-top: -1px;
+    display: none;
 }
-#steam .details .nav-tabs > .active > a,
-#steam .details .nav-tabs > .active > a:hover{
+.server-list .details .nav-tabs > .active > a,
+.server-list .details .nav-tabs > .active > a:hover{
     background-color: whiteSmoke;
 }
-#steam .details .nav-tabs > li > a:hover {
+.server-list .details .nav-tabs > li > a:hover {
     background-color: #E6E6E6;
 }
-.steam-server .details {
+.server-list .details {
     /*border: 5px solid green;*/
     /* display: none; */
     margin-left: 30px;
 }
 
-.steam-server .details p:nth-child(1) {
+.server-list .details p:nth-child(1) {
     min-width: 160px;
     min-height: 120px;
     width: 20%;
@@ -455,17 +456,17 @@ footer a:selected, footer a:hover{
     margin-left: 33px;
 }
 
-.steam-server .details .actions a {
+.server-list .details .actions a {
     text-decoration: none;
 }
 
-.steam-server .details .players-list {
+.server-list .details .players-list {
     float: left;
     width: 33%;
 }
 
 /* Player List (Steam Server) */
-.steam-server .details table.players-list thead th {
+.server-list .details table.players-list thead th {
     background-color: #333333;
     /*margin-bottom: 6px;
     padding-bottom: 3px;
@@ -477,7 +478,7 @@ footer a:selected, footer a:hover{
     color: #FFFFFF;
     min-width: 100px;
 }
-.steam-server .details table.players-list tbody td {
+.server-list .details table.players-list tbody td {
     border-bottom-color: #C7C7C7;
     border-bottom-style: solid;
     border-bottom-width: 1px;
@@ -487,23 +488,19 @@ footer a:selected, footer a:hover{
     line-height: 8px;
     height: 18px;
 }
-.steam-server .details table.players-list tbody tr:hover {
+.server-list .details table.players-list tbody tr:hover {
     background-color: #1F1F1F;
     color: grey;
 }
 
-.steam-server#steam-20 .details{
-    display: none;
-}
-
-.steam-server .details .actions{
+.server-list .details .actions {
     float: left;
     width: 5%;
     text-align: right;
     text-decoration: none;
 }
 
-.steam-server .stop-image:hover{
+.server-list .stop-image:hover {
     background-image:url(../images/icones/serveur/stop-h.png);
     background-repeat:repeat-x;
 }

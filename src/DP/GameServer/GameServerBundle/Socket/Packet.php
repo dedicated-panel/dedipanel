@@ -252,7 +252,7 @@ class Packet
         
         if ($delString) {
             $pos = strpos($content, "\0");
-            $this->setContentFromPos(substr($this->content, $pos+1));
+            $this->setContentFromPos(substr($this->content, $this->pos+$pos+1));
         }
         
         return $string;

@@ -64,5 +64,3 @@ steam.rcon.timeout: Serveur déconnecté
 steam.rcon.send: Envoyer
 steam.rcon.password: Mot de passe Rcon
 steam.rcon.cmd: Commande
-
-steam.banned: Serveur Banni

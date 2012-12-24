@@ -116,6 +116,34 @@ class MinecraftQuery implements QueryInterface
         return $this->serverInfos;
     }
     
+    public function getPlayers()
+    {
+        if (!isset($this->players)) {
+            $sessionId = rand();
+            $this->socket->send($this->packetFactory->fullStat($sessionId, $this->getChallenge()));
+            
+            // 1 octet + 1 int + string "splitnum\x00\x80\x00" (2 + 4 + 11 = 16)
+            $resp = $this->socket->recv()->setPos(16);
+            
+            do {
+                $varname = $resp->getString();
+                
+                if (!empty($varname)) {
+                    $val = $resp->getString();
+                }
+            } while ($varname != '');
+            
+            $playerPartPos = strpos($resp->rewind()->getContent(), "player_\x00\x00") + strlen("player_\x00\x00");
+            $resp->setPos($playerPartPos);
+            
+            while ($playerName = $resp->getString()) {
+                $this->players[] = $playerName;
+            }
+        }
+        
+        return $this->players;
+    }
+    
     public function verifyStatus()
     {
         return true;

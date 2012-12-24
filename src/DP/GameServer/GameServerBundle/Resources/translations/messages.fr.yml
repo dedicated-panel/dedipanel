@@ -2,7 +2,7 @@ menu.steamServers: Serveurs Steam
 menu.minecraftServers: Serveurs Minecraft
 
 game.edit: Modifier
-game.del: Supprimer
+game.del: Supprimer 
 
 game.name: Nom
 game.port: Port
@@ -25,3 +25,6 @@ game.installEnded: Installation terminé
 game.isAlreadyInstalled: Serv. déjà installé ?
 game.yes: Oui
 game.no: Non
+
+game.offline: Serveur arrêté
+game.banned: IP bannie du serveur
