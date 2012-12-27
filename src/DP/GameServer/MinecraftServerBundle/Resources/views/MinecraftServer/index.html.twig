@@ -112,7 +112,7 @@
                         {% endif %}
 
                         <a href="{{ path('minecraft_edit', {id: entity.id }) }}"><img src="/images/icones/serveur/config.png" title="{{ 'game.edit'|trans }}" /></a>
-                        {# <a href="{{ path('minecraft_plugins_show', {id: entity.id }) }}"><img src="/images/icones/serveur/plugins.png" title="{{ 'steam.pluginsAction'|trans }}" /></a> #}
+                        <a href="{{ path('minecraft_plugins_show', {id: entity.id }) }}"><img src="/images/icones/serveur/plugins.png" title="{{ 'steam.pluginsAction'|trans }}" /></a>
                         <a href="{{ path('minecraft_show', {id: entity.id}) }}" class="slide" id="slide-toggler-{{ entity.id }}"><img src="/images/icones/serveur/slide.png" title="Slide"/></a>
                     </div>
                 </div>

@@ -14,16 +14,16 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-steam_plugins_show:
+minecraft_plugins_show:
     pattern: /
-    defaults: { _controller: "DPSteamServerBundle:Plugin:showServer" }
+    defaults: { _controller: "DPMinecraftServerBundle:Plugin:showServer" }
 
-steam_plugins_install:
+minecraft_plugins_install:
     pattern: /{plugin}/install/
-    defaults: { _controller: "DPSteamServerBundle:Plugin:install" }
+    defaults: { _controller: "DPMinecraftServerBundle:Plugin:install" }
     requirements: {plugin: \d+}
 
-steam_plugins_uninstall:
+minecraft_plugins_uninstall:
     pattern: /{plugin}/uninstall/
-    defaults: { _controller: "DPSteamServerBundle:Plugin:uninstall" }
+    defaults: { _controller: "DPMinecraftServerBundle:Plugin:uninstall" }
     requirements: {plugin: \d+}

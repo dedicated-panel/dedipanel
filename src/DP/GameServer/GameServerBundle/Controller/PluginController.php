@@ -18,22 +18,21 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\GameServer\SteamServerBundle\Controller;
+namespace DP\GameServer\GameServerBundle\Controller;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
-use DP\GameServer\SteamServerBundle\Entity\SteamServer;
-use DP\Core\GameBundle\Entity\Plugin;
-
-class PluginsController extends Controller
+abstract class PluginController extends Controller
 {
+    abstract public function getEntityRepository();
+    abstract public function getPluginShowRoute();
+    
     public function showServerAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-        $server = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
+        $server = $this->getEntityRepository()->find($id);
         
         if (!$server) {
-            throw $this->createNotFoundException('Unable to find SteamServer entity.');
+            throw $this->createNotFoundException('Unable to find Server entity.');
         }
         
         return $this->render('DPSteamServerBundle:Plugins:show.html.twig', array(
@@ -44,11 +43,11 @@ class PluginsController extends Controller
     public function installAction($id, $plugin)
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $server = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
+        $server = $this->getEntityRepository()->find($id);
         $plugin = $em->getRepository('DPGameBundle:Plugin')->find($plugin);
         
         if (!$server) {
-            throw $this->createNotFoundException('Unable to find SteamServer entity.');
+            throw $this->createNotFoundException('Unable to find Server entity.');
         }
         if (!$plugin) {
             throw $this->createNotFoundException('Unable to find Plugin entity.');

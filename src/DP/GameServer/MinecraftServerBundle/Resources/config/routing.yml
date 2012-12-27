@@ -1,3 +1,8 @@
 DPMinecraftServerBundle:
     resource: "@DPMinecraftServerBundle/Resources/config/routing/minecraftServer.yml"
     prefix: /
+
+DPSteamServerBundle_Plugins:
+    resource: "@DPMinecraftServerBundle/Resources/config/routing/plugins.yml"
+    prefix: /{id}/plugins/
+    requirements: {id: \d+}
