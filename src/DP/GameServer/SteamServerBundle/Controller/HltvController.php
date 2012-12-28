@@ -90,7 +90,9 @@ class HltvController extends Controller
                     $serv->setRconPassword($data['rconPasswd']);
                 }
                 
-                $serv->setRcon($this->get('query.steam')->getRcon(
+                // Les serveurs hltv source se démarre en rcon
+                // Les serveurs hltv goldsrc se démarre en ssh
+                $serv->setRcon($this->get('rcon.source')->getRcon(
                     $serv->getMachine()->getPublicIp(), 
                     $serv->getPort(), 
                     $serv->getRconPassword()
@@ -119,7 +121,9 @@ class HltvController extends Controller
         }
         
         if ($serv->getGame()->isSource()) {
-            $serv->setRcon($this->get('query.steam')->getRcon(
+            // Les serveurs hltv source sont exécutés via des commandes rcon, 
+            // Alors que les serveurs hltv goldsrc sont exécutés en ssh
+            $serv->setRcon($this->get('rcon.source')->getRcon(
                 $serv->getMachine()->getPublicIp(), 
                 $serv->getPort(), 
                 $serv->getRconPassword()

@@ -19,43 +19,26 @@
 
 namespace DP\GameServer\SteamServerBundle\Service;
 
-use DP\GameServer\SteamServerBundle\SteamQuery\SteamQuery;
-use DP\GameServer\SteamServerBundle\SteamQuery\SourceRcon;
+use DP\GameServer\SteamServerBundle\SteamQuery\GoldSrcRcon;
 
-/**
- * Query Service
- * @author Albin Kerouanton
- */
-class Query
+class GoldSrcRconFactory
 {
     private $container;
-    private $queries;
     private $rcon;
     
-    /**
-     * Constructor
-     * @param Service Container $container 
-     */
     public function __construct($container)
     {
         $this->container = $container;
     }
     
-    /**
-     * Get Server Query
-     * 
-     * @param string $ip
-     * @param int $port
-     * @return \DP\GameServer\SteamServerBundle\SteamQuery\SteamQuery
-     */
-    public function getServerQuery($ip, $port, $isHltv = false)
+    public function getRcon($ip, $port, $password)
     {
         $key = $ip . ':' . $port;
         
-        if (!isset($this->queries) || !array_key_exists($key, $this->queries)) {
-            $this->queries[$key] = new SteamQuery($this->container, $ip, $port, $isHltv);
+        if (!isset($this->rcon) || !array_key_exists($key, $this->rcon)) {
+            $this->rcon[$key] = new GoldSrcRcon($this->container, $ip, $port, $password);
         }
         
-        return $this->queries[$key];
+        return $this->rcon[$key];
     }
 }

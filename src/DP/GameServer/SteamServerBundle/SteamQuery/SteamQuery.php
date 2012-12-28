@@ -206,8 +206,10 @@ class SteamQuery
                 $this->socket->send($packet);
                 $resp = $this->socket->recv();
 
-                $data = $resp->extract(
-                    array('header' => 'byte', 'challenge' => 'long'));
+                $data = $resp->extract(array(
+                    'header' => 'byte', 
+                    'challenge' => 'long', 
+                ));
 
                 if ($data['header'] == 65) {
                     $this->challenge = $data['challenge'];

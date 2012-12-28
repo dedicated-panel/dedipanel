@@ -19,8 +19,8 @@
 */
 
 namespace DP\GameServer\SteamServerBundle\Controller;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 
 class CfgController extends Controller
 {
@@ -56,7 +56,7 @@ class CfgController extends Controller
             throw $this->createNotFoundException('Unable to find SteamServer entity.');
         }
         
-        $filename = $this->getFilename($path);
+        $filename = basename($path);
         $fileContent = $server->getFileContent($path);
         
         $default = array('filename' => $filename, 'file' => $fileContent);
@@ -78,22 +78,7 @@ class CfgController extends Controller
             'sid' => $id, 
             'form' => $form->createView(), 
             'path' => $path, 
+            'dirPath' => dirname($path), 
         ));
-    }
-    
-    /*
-     * Extract filename from path
-     * @return string
-     */
-    private function getFilename($path)
-    {
-        $pos = strrpos($path, '/');
-        
-        if ($pos) {
-            $path = substr($path, $pos+1);
-        }
-        
-        
-        return $path;
     }
 }

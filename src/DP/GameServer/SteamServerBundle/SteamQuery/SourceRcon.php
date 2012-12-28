@@ -38,7 +38,7 @@ class SourceRcon
     
     public function __construct($container, $host, $port, $rconPassword)
     {
-        $callback = function(Packet $packet, Socket $socket) {
+        /*$callback = function(Packet $packet, Socket $socket) {
             if (is_null($packet) || $packet->isEmpty()) return false;
             
             $remaining = $packet->getLong(false);
@@ -80,11 +80,12 @@ class SourceRcon
             else {
                 return $packet;
             }
-        };
+        };*/
         
         $this->rconPassword = $rconPassword;
-        $this->socket = $container->get('socket')->getTCPSocket($host, $port, $callback);
-        $this->packetFactory = $container->get('packet.factory.steam.rcon.source');
+        $this->socket = $container->get('socket')->getTCPSocket($host, $port);
+//        $this->socket = $container->get('socket')->getTCPSocket($host, $port, array($callback));
+        $this->packetFactory = $container->get('packet.factory.rcon.source');
         
         try {
             $this->socket->connect();
@@ -97,7 +98,7 @@ class SourceRcon
     {
         if ($this->authenticated == null) {
             $id = null;
-            $packet = $this->packetFactory->getAuthPacket($id, $this->rconPassword);
+            $packet = $this->packetFactory->getAuthPacket($id, $this->rconPassword);            
             $this->socket->send($packet);
             $resp = $this->socket->recv(false);
             

@@ -17,38 +17,26 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\GameServer\SteamServerBundle\Service;
+namespace DP\GameServer\SteamServerBundle\Service\PacketFactory;
+
 use DP\GameServer\GameServerBundle\Service\PacketFactory;
 
 /**
  * @author Albin Kerouanton
  */
-class SourceRconPacketFactory extends PacketFactory
+class GoldSrcRconPacketFactory extends PacketFactory
 {
-    public $SERVERDATA_EXECCOMMAND = 2;
-    public $SERVERDATA_AUTH = 3;
-    public $SERVER_RESPONSE_VALUE = 0;
-    public $SERVER_AUTH_RESPONSE = 2;
+    const HEADER = "\xFF\xFF\xFF\xFF"; // 0xFF x 4
+    const GET_CHALLENGE = 'challenge rcon';
+    const EXEC_CMD = 'rcon ';
     
-    public function getAuthPacket(&$id, $passwd)
+    public function getChallengePacket()
     {
-        return $this->forgePacket($id, $this->SERVERDATA_AUTH, $passwd);
+        return $this->newPacket(self::HEADER . self::GET_CHALLENGE);
     }
     
-    public function getCmdPacket(&$id, $cmd)
+    public function getExecCmdPacket($challenge, $mdp, $cmd)
     {
-        return $this->forgePacket($id, $this->SERVERDATA_EXECCOMMAND, $cmd);
-    }
-    
-    private function forgePacket(&$id, $cmdType, $cmd)
-    {
-        $id = mt_rand(0, pow(2, 16));
-        $packet = $this->newPacket(
-            $this->transformLong($id) .
-            $this->transformLong($cmdType) .
-            $cmd . chr(0) . chr(0)
-        );
-        
-        return $packet->pushContent($this->transformLong($packet->getLength()));
+        return $this->newPacket(self::HEADER . self::EXEC_CMD . ' ' . $challenge . ' "' . $mdp . '" ' . $cmd);
     }
 }

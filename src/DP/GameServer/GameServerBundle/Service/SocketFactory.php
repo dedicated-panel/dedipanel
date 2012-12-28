@@ -71,7 +71,7 @@ class SocketFactory
      * @parram array $callbacks List of callbacks used after recv
      * @return \DP\GameServer\GameServerBundle\Socket\Socket 
      */
-    public function getUDPSocket($ip, $port, array $callbacks = array())
+    public function getUDPSocket($ip, $port, array $callbacks = null)
     {
         return $this->getSocket($ip, $port, 'udp', $callbacks);
     }
@@ -81,11 +81,11 @@ class SocketFactory
      *  
      * @param string $ip
      * @param int $port
-     * @parram array $callback List of callbacks used after recv
+     * @parram array $callbacks List of callbacks used after recv
      * @return \DP\GameServer\GameServerBundle\Socket\Socket 
      */
-    public function getTCPSocket($ip, $port, $callback)
+    public function getTCPSocket($ip, $port, $callbacks = null)
     {
-        return $this->getSocket($ip, $port, 'tcp', $callback);
+        return $this->getSocket($ip, $port, 'tcp', $callbacks);
     }
 }

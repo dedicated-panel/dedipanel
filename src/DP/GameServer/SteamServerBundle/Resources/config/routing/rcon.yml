@@ -14,26 +14,11 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-DPSteamServerBundle_CRUD:
-    resource: "@DPSteamServerBundle/Resources/config/routing/steamCrud.yml"
-    prefix:   /
+steam_rcon_show:
+    pattern: /
+    defaults: { _controller: "DPSteamServerBundle:Rcon:showConsole" }
 
-DPSteamServerBundle_Plugins:
-    resource: "@DPSteamServerBundle/Resources/config/routing/plugins.yml"
-    prefix: /{id}/plugins/
-    requirements: {id: \d+}
-  
-DPSteamServerBundle_Cfg:
-    resource: "@DPSteamServerBundle/Resources/config/routing/cfg.yml"
-    prefix: /{id}/cfg/
-    requirements: {id: \d+}
-
-DPSteamServerBundle_Hltv:
-    resource: "@DPSteamServerBundle/Resources/config/routing/hltv.yml"
-    prefix: /{id}/hltv/
-    requirements: {id: \d+}
-
-DPSteamServerBundle_Rcon:
-    resource: "@DPSteamServerBundle/Resources/config/routing/rcon.yml"
-    prefix: /{id}/rcon/
-    requirements: {id: \d+}
+steam_rcon_execute:
+    pattern: /exec
+    defaults: { _controller: "DPSteamServerBundle:Rcon:executeCmd" }
+    requirements: { _method: post }

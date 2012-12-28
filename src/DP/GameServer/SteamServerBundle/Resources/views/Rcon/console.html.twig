@@ -17,24 +17,12 @@
 #}
 
 {% extends "::layout.html.twig" %}
+
+{% block title %}
+    {{ 'steam.rconTitle'|trans }}
+{% endblock %}
+
 {% block content %}
-    <h1>{{ 'steam.cfg.showTitle'|trans }}</h1>
-    
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('steam_cfg_show', {id: sid, path: dirPath}) }}">
-                {{ 'steam.back'|trans }}
-            </a>
-        </li>
-    </ul>
-    
-    <p>{{ path }}</p>
-    
-    <form action="{{ path('steam_cfg_edit', {id: sid, path: path}) }}" method="post">	
-        <fieldset>
-            {{ form_widget(form) }}
-            
-            <input type="submit" value="{{ 'steam.edit'|trans }}" name="submit" class="submit"></fieldset>
-        </fieldset>
+    <form action="{{ path('steam_rcon_execute', {id: sid}) }}" method="post">
     </form>
 {% endblock %}
