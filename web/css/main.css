@@ -747,8 +747,13 @@ input.submit:hover, input.delete:hover {
     font-weight: normal;
     font-style: normal;
 }
-/* etape */
 
+#rcon-form textarea {
+    width: auto;
+    height: auto;
+}
+
+/* etape */
 #etape {
     font-family: Tahoma;
     height:39px;

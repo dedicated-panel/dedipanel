@@ -59,11 +59,7 @@ class CfgController extends Controller
         $filename = basename($path);
         $fileContent = $server->getFileContent($path);
         
-        $default = array('filename' => $filename, 'file' => $fileContent);
-        $form = $this->createFormBuilder($default)
-                     ->add('filename', 'text', array('label' => 'steam.cfg.filename'))
-                     ->add('file', 'textarea', array('label' => 'steam.cfg.content'))
-                     ->getForm();
+        $form = $this->createEditFileForm(array('filename' => $filename, 'file' => $fileContent));
         
         if ($request->getMethod() == 'POST') {
             $form->bindRequest($request);
@@ -80,5 +76,14 @@ class CfgController extends Controller
             'path' => $path, 
             'dirPath' => dirname($path), 
         ));
+    }
+    
+    public function createEditFileForm(array $default = array())
+    {
+        return $this->createFormBuilder($default)
+                    ->add('filename', 'text', array('label' => 'steam.cfg.filename'))
+                    ->add('file', 'textarea', array('label' => 'steam.cfg.content'))
+                    ->getForm()
+        ;
     }
 }

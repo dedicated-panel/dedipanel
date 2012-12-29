@@ -22,7 +22,27 @@
     {{ 'steam.rconTitle'|trans }}
 {% endblock %}
 
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('bundles/dpsteamserver/js/details.js') }}"></script>
+{% endblock %}
+
 {% block content %}
-    <form action="{{ path('steam_rcon_execute', {id: sid}) }}" method="post">
-    </form>
+    {% if online and not banned %}
+        <form action="{{ path('steam_rcon_execute', {id: sid}) }}" method="post" id="rcon-form">
+            <textarea disabled="disabled" cols="80" rows="20">{{ log }}</textarea>
+
+            {% if form.password is defined %}
+                {{ form_row(form.password) }}
+            {% endif %}
+
+            {{ form_row(form.cmd) }}
+            {{ form_widget(form) }}
+
+            <input type="submit" value="{{ 'game.send'|trans }}" name="submit" class="submit"></fieldset>
+        </form>
+    {% elseif banned %}
+        {{ 'steam.banned'|trans }}
+    {% else %}
+        {{ 'steam.offline'|trans }}
+    {% endif %}
 {% endblock %}

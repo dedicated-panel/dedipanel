@@ -111,7 +111,6 @@ class SteamServerController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('steam_show', array('id' => $entity->getId())));
-            
         }
 
         return $this->render('DPSteamServerBundle:SteamServer:new.html.twig', array(

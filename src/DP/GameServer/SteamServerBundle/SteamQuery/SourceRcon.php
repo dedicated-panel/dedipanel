@@ -149,12 +149,18 @@ class SourceRcon
                 return false;
             }
             
-            if ($resp->setPos(8)->getLong(false) != $this->packetFactory->SERVER_RESPONSE_VALUE 
-                || $resp->setPos(4)->getLong(false) != $id) {
+            $resp = $resp->rewind()->extract(array(
+                'size' => 'long', 
+                'id' => 'long', 
+                'type' => 'long', 
+                'body' => 'string', 
+            ));
+            
+            if ($resp['id'] != $id || $resp['type'] != $this->packetFactory->SERVER_RESPONSE_VALUE) {
                 return false;
             }
             
-            return $resp->rewind();
+            return $resp['body'];
         }
         else {
             return false;
