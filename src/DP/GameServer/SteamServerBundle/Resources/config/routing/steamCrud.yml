@@ -57,7 +57,3 @@ steam_changeState:
 steam_query:
     pattern:  /{id}/query
     defaults: { _controller: "DPSteamServerBundle:SteamServer:query" }
-    
-steam_rcon:
-    pattern: /{id}/rcon
-    defaults: { _controller: "DPSteamServerBundle:SteamServer:rcon" }

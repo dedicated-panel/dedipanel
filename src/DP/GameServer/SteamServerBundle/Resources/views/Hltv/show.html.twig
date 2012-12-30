@@ -27,7 +27,7 @@
     {% else %}
         <form action="{{ path('steam_hltv_start', {id: id}) }}" method="post">
             {% if banned %}
-                <p>{{ 'stea.banned'|trans }}.</p>
+                <p>{{ 'game.banned'|trans }}.</p>
             {% else %}
                 <p>{{ 'steam.hltv.stopped'|trans }}.</p>
             {% endif %}

@@ -17,24 +17,32 @@
 #}
 
 {% extends "::layout.html.twig" %}
+
+{% block title %}
+    {{ 'game.rconTitle'|trans }}
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('bundles/dpsteamserver/js/details.js') }}"></script>
+{% endblock %}
+
 {% block content %}
-    <h1>{{ 'steam.cfg.showTitle'|trans }}</h1>
-    
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('steam_cfg_show', {id: sid, path: dirPath}) }}">
-                {{ 'steam.back'|trans }}
-            </a>
-        </li>
-    </ul>
-    
-    <p>{{ path }}</p>
-    
-    <form action="{{ path('steam_cfg_edit', {id: sid, path: path}) }}" method="post">	
-        <fieldset>
+    {% if online and not banned %}
+        <form action="{{ path('steam_rcon_execute', {id: sid}) }}" method="post" id="rcon-form">
+            <textarea disabled="disabled" cols="80" rows="20">{{ log }}</textarea>
+
+            {% if form.password is defined %}
+                {{ form_row(form.password) }}
+            {% endif %}
+
+            {{ form_row(form.cmd) }}
             {{ form_widget(form) }}
-            
-            <input type="submit" value="{{ 'steam.edit'|trans }}" name="submit" class="submit"></fieldset>
-        </fieldset>
-    </form>
+
+            <input type="submit" value="{{ 'game.send'|trans }}" name="submit" class="submit"></fieldset>
+        </form>
+    {% elseif banned %}
+        {{ 'game.banned'|trans }}
+    {% else %}
+        {{ 'game.offline'|trans }}
+    {% endif %}
 {% endblock %}

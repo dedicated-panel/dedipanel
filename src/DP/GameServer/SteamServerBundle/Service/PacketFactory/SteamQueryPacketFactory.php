@@ -17,7 +17,8 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\GameServer\SteamServerBundle\Service;
+namespace DP\GameServer\SteamServerBundle\Service\PacketFactory;
+
 use DP\GameServer\GameServerBundle\Service\PacketFactory;
 
 /**
@@ -25,11 +26,11 @@ use DP\GameServer\GameServerBundle\Service\PacketFactory;
  */
 class SteamQueryPacketFactory extends PacketFactory
 {
-    const HEADER = "\xFF\xFF\xFF\xFF"; //0xFFFFFFFF;
-    const A2A_PING = "\x69"; //0x69;
+    const HEADER = "\xFF\xFF\xFF\xFF"; //4 x 0xFF
+    const A2A_PING = "\x69"; //0x69
     const A2S_INFO = "TSource Engine Query\0";
-    const A2S_PLAYER = "\x55"; //0x55;
-    const A2S_RULES = "\x56"; //0x56;
+    const A2S_PLAYER = "\x55"; //0x55
+    const A2S_RULES = "\x56"; //0x56
     
     /**
      * Get a ping request packet

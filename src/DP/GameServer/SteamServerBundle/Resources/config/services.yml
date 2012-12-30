@@ -16,12 +16,22 @@
 
 services:
     packet.factory.steam.query:
-        class: DP\GameServer\SteamServerBundle\Service\SteamQueryPacketFactory
-    packet.factory.steam.rcon.source:
-        class: DP\GameServer\SteamServerBundle\Service\SourceRconPacketFactory
+        class: DP\GameServer\SteamServerBundle\Service\PacketFactory\SteamQueryPacketFactory
+    packet.factory.rcon.goldsrc:
+        class: DP\GameServer\SteamServerBundle\Service\PacketFactory\GoldSrcRconPacketFactory
+    packet.factory.rcon.source:
+        class: DP\GameServer\SteamServerBundle\Service\PacketFactory\SourceRconPacketFactory
     
     query.steam:
         class: DP\GameServer\SteamServerBundle\Service\Query
+        arguments: [ @service_container ]
+    
+    rcon.goldsrc:
+        class: DP\GameServer\SteamServerBundle\Service\GoldSrcRconFactory
+        arguments: [ @service_container ]
+    
+    rcon.source:
+        class: DP\GameServer\SteamServerBundle\Service\SourceRconFactory
         arguments: [ @service_container ]
     
     steam.listener.configModifier:

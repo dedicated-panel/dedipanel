@@ -400,6 +400,8 @@ class SteamServer extends GameServer {
     public function setRcon($rcon)
     {
         $this->rcon = $rcon;
+        
+        return $this->rcon;
     }
     
     public function getRcon()

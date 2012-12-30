@@ -93,8 +93,14 @@ class AutoInstallStep implements StepInterface
             $this->secret = $this->generateRandomSecret();
             
             $configurator = $this->container->get('dp.webinstaller');
-            $configurator->mergeParameters(array('secret' => $this->secret));
-            $configurator->write();
+            
+            if ($configurator->isFileWritable()) {
+                $configurator->mergeParameters(array('secret' => $this->secret));
+                $error = !$configurator->write();
+            }
+            else {
+                $error = true;
+            }
             
         }
         
@@ -134,7 +140,7 @@ class AutoInstallStep implements StepInterface
             $this->loadFixtures(__DIR__ . '/../../Fixtures');
         }
             
-        return $errors;
+        return count($errors) > 0;
     }
     
     protected function loadFixtures($path)

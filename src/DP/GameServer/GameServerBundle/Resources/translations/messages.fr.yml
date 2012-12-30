@@ -28,3 +28,6 @@ game.no: Non
 
 game.offline: Serveur arrêté
 game.banned: IP bannie du serveur
+
+game.rconTitle: Zone Rcon
+game.rconCmd: Commande
