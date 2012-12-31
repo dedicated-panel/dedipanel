@@ -41,13 +41,6 @@ class SteamServer extends GameServer {
     private $autoReboot;
 
     /**
-     * @var string $rcon
-     *
-     * @ORM\Column(name="rconPassword", type="string", length=32, nullable=true)
-     */
-    private $rconPassword;
-
-    /**
      * @var boolean $munin
      *
      * @ORM\Column(name="munin", type="boolean", nullable=true)
@@ -86,8 +79,6 @@ class SteamServer extends GameServer {
      */
     private $hltvPort;
     
-    private $rcon;
-    
     
     public function __construct()
     {
@@ -112,31 +103,6 @@ class SteamServer extends GameServer {
     public function getAutoReboot()
     {
         return $this->autoReboot;
-    }
-
-    /**
-     * Set rconPassword
-     *
-     * @param string $rconPassword
-     */
-    public function setRconPassword($rconPassword)
-    {
-        $this->rconPassword = $rconPassword;
-    }
-
-    /**
-     * Get rconPassword
-     *
-     * @return string 
-     */
-    public function getRconPassword()
-    {
-        return $this->rconPassword;
-    }
-    
-    public function isEmptyRconPassword()
-    {
-        return empty($this->rconPassword);
     }
 
     /**
@@ -395,18 +361,6 @@ class SteamServer extends GameServer {
         
         return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
                 ->exec($scriptPath . ' ' . $state);
-    }
-    
-    public function setRcon($rcon)
-    {
-        $this->rcon = $rcon;
-        
-        return $this->rcon;
-    }
-    
-    public function getRcon()
-    {
-        return $this->rcon;
     }
     
     /**

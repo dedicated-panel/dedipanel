@@ -149,7 +149,13 @@ class MinecraftQuery implements QueryInterface
         return true;
     }
     
-    public function isOnline() {
+    public function isOnline()
+    {
         return $this->online;
+    }
+    
+    public function isBanned()
+    {
+        return false;
     }
 }

@@ -18,33 +18,27 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\GameServer\SteamServerBundle\Controller;
+namespace DP\GameServer\MinecraftServerBundle\Controller;
 
 use DP\GameServer\GameServerBundle\Controller\RconController as BaseRconController;
 use DP\GameServer\GameServerBundle\Entity\GameServer;
-use DP\GameServer\SteamServerBundle\Entity\SteamServer;
+use DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer;
 
 class RconController extends BaseRconController
 {
     public function getEntityRepository()
     {
-        return $this->getDoctrine()->getEntityManager()->getRepository('DPSteamServerBundle:SteamServer');
+        return $this->getDoctrine()->getEntityManager()->getRepository('DPMinecraftServerBundle:MinecraftServer');
     }
     
     public function getRconFromServer(GameServer $server)
     {
-        if (!$server instanceof SteamServer) {
-            throw new Exception('The requested server is not a SteamServer.');
+        if (!$server instanceof MinecraftServer)
+        {
+            throw new Exception('The requested server is not a MinecraftServer.');
         }
         
-        if ($server->getGame()->isSource()) {
-            $rconFactory = $this->get('rcon.source');
-        }
-        else {
-            $rconFactory = $this->get('rcon.goldsrc');
-        }
-        
-        return $rconFactory->getRcon(
+        return $this->get('rcon.source')->getRcon(
                 $server->getMachine()->getPublicIp(), 
                 $server->getPort(), 
                 $server->getRconPassword()
@@ -53,10 +47,10 @@ class RconController extends BaseRconController
     
     public function getFormActionURL(GameServer $server)
     {
-        if (!$server instanceof SteamServer) {
-            throw new Exception('The requested server is not a SteamServer.');
+        if (!$server instanceof MinecraftServer) {
+            throw new Exception('The requested server is not a MinecraftServer.');
         }
         
-        return $this->generateUrl('steam_rcon_execute', array('id' => $server->getId()));
+        return $this->generateUrl('minecraft_rcon_execute', array('id' => $server->getId()));
     }
 }

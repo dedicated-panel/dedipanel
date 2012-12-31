@@ -2,7 +2,12 @@ DPMinecraftServerBundle:
     resource: "@DPMinecraftServerBundle/Resources/config/routing/minecraftServer.yml"
     prefix: /
 
-DPSteamServerBundle_Plugins:
+DPMinecraftServerBundle_Plugins:
     resource: "@DPMinecraftServerBundle/Resources/config/routing/plugins.yml"
     prefix: /{id}/plugins/
+    requirements: {id: \d+}
+
+DPMinecraftServerBundle_Rcon:
+    resource: "@DPMinecraftServerBundle/Resources/config/routing/rcon.yml"
+    prefix: /{id}/rcon/
     requirements: {id: \d+}

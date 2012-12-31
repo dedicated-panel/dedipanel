@@ -28,7 +28,7 @@
 
 {% block content %}
     {% if online and not banned %}
-        <form action="{{ path('steam_rcon_execute', {id: sid}) }}" method="post" id="rcon-form">
+        <form action="{{ formActionUrl }}" method="post" id="rcon-form">
             <textarea disabled="disabled" cols="80" rows="20">{{ log }}</textarea>
 
             {% if form.password is defined %}

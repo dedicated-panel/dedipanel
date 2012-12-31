@@ -100,8 +100,16 @@ class GameServer
      * @Assert\NotNull(message="gameServer.assert.game")
      */
     protected $game;
+
+    /**
+     * @var string $rcon
+     *
+     * @ORM\Column(name="rconPassword", type="string", length=32, nullable=true)
+     */
+    protected $rconPassword;
     
     protected $query;
+    protected $rcon;
 
 
     /**
@@ -293,4 +301,42 @@ class GameServer
     {
         return $this->query;
     }
+    
+    /**
+     * Set rconPassword
+     *
+     * @param string $rconPassword
+     */
+    public function setRconPassword($rconPassword)
+    {
+        $this->rconPassword = $rconPassword;
+    }
+
+    /**
+     * Get rconPassword
+     *
+     * @return string 
+     */
+    public function getRconPassword()
+    {
+        return $this->rconPassword;
+    }
+    
+    public function isEmptyRconPassword()
+    {
+        return empty($this->rconPassword);
+    }
+    
+    public function setRcon($rcon)
+    {
+        $this->rcon = $rcon;
+        
+        return $this->rcon;
+    }
+    
+    public function getRcon()
+    {
+        return $this->rcon;
+    }
+
 }

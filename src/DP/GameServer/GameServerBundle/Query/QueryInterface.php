@@ -24,6 +24,17 @@ interface QueryInterface
 {
     /*
      * @return boolean
+     * @TODO: renommer en verifyServerType(), et appliquer une vérif sur le type minecraft/bukkit aux serveurs minecraft
      */
     function verifyStatus();
+    
+    /*
+     * @return boolean
+     */
+    function isOnline();
+    
+    /*
+     * @return boolean
+     */
+    function isBanned();
 }
