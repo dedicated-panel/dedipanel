@@ -53,7 +53,7 @@ class QueryInjector
             elseif ($entity instanceof MinecraftServer) {
                 $query = $this->getMinecraftQueryService()->getServerQuery(
                     $entity->getMachine()->getPublicIp(), 
-                    $entity->getPort()
+                    $entity->getQueryPort()
                 );
             }
             

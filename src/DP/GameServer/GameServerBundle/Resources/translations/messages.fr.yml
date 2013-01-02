@@ -26,7 +26,7 @@ game.isAlreadyInstalled: Serv. déjà installé ?
 game.yes: Oui
 game.no: Non
 
-game.offline: Serveur arrêté
+game.offline: Serveur indisponible
 game.banned: IP bannie du serveur
 
 game.rconTitle: Zone Rcon

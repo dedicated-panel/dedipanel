@@ -31,10 +31,12 @@
         <form action="{{ formActionUrl }}" method="post" id="rcon-form">
             <textarea disabled="disabled" cols="80" rows="20">{{ log }}</textarea>
 
-            {% if form.password is defined %}
-                {{ form_row(form.password) }}
-            {% endif %}
+            {{ form_row(form.password) }}
 
+            {% if form.rconPort is defined %}
+                {{ form_row(form.rconPort) }}
+            {% endif %}
+            
             {{ form_row(form.cmd) }}
             {{ form_widget(form) }}
 

@@ -46,7 +46,7 @@ abstract class RconController extends Controller
         $trans = $this->get('translator');
         
         if ($server->query->isOnline() && !$server->query->isBanned()) {
-            $form = $this->createRconForm(array('password' => $server->getRconPassword()));
+            $form = $this->createRconForm($this->getFormDefaultValues($server))->getForm();
             $request = $this->get('request');
             
             if ($request->getMethod() == 'POST') {
@@ -56,8 +56,7 @@ abstract class RconController extends Controller
                     $data = $form->getData();
 
                     // Enregistrement du mdp rcon
-                    $server->setRconPassword($data['password']);
-                    
+                    $server = $this->saveServerData($server, $data);
                     $em = $this->getDoctrine()->getEntityManager();        
                     $em->persist($server);
                     $em->flush();
@@ -93,7 +92,7 @@ abstract class RconController extends Controller
         }
         
         $log = '';
-        $form = $this->createRconForm(array('password' => $server->getRconPassword()));
+        $form = $this->createRconForm($this->getFormDefaultValues($server))->getForm();
         
         if ($server->getQuery()->isOnline() && !$server->getQuery()->isBanned()) {
             $request = $this->get('request');
@@ -103,10 +102,9 @@ abstract class RconController extends Controller
 
                 if ($form->isValid()) {
                     $data = $form->getData();
-
-                    // Enregistrement du mot de passe rcon
-                    $server->setRconPassword($data['password']);
                     
+                    // Enregistrement du mot de passe rcon
+                    $server = $this->saveServerData($server, $data);                    
                     $em = $this->getDoctrine()->getEntityManager();
                     $em->persist($server);
                     $em->flush();
@@ -137,6 +135,18 @@ abstract class RconController extends Controller
                     ->add('password', 'text', array('label' => 'steam.rcon'))
         ;
         
-        return $form->getForm();
+        return $form;
+    }
+    
+    public function getFormDefaultValues(GameServer $server)
+    {
+        return array('password' => $server->getRconPassword());
+    }
+    
+    public function saveServerData(GameServer $server, array $data)
+    {
+        $server->setRconPassword($data['password']);
+        
+        return $server;
     }
 }

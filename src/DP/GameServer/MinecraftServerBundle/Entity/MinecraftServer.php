@@ -15,23 +15,63 @@ use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
  */
 class MinecraftServer extends GameServer
 {
+    
     /**
      * @var integer $queryPort
      *
      * @ORM\Column(name="queryPort", type="integer")
-     * @Assert\Min(limit="1", message="gameServer.assert.queryPort.min")
-     * @Assert\Max(limit="65536", message="gameServer.assert.queryPort.max")
+     * @Assert\Min(limit="1", message="minecraft.assert.queryPort.min")
+     * @Assert\Max(limit="65536", message="minecraft.assert.queryPort.max")
      */
     protected $queryPort;
     
+    /**
+     * @var integer $rconPort
+     *
+     * @ORM\Column(name="rconPort", type="integer")
+     * @Assert\Min(limit="1", message="minecraft.assert.rconPort.min")
+     * @Assert\Max(limit="65536", message="minecraft.assert.rconPort.max")
+     */
+    protected $rconPort;
+    
+    /*
+     * Set minecraft query port
+     * 
+     * @param integer $queryPort
+     */
     public function setQueryPort($queryPort)
     {
         $this->queryPort = $queryPort;
     }
     
+    /*
+     * Get minecraft query port
+     * 
+     * @return integer Query port
+     */
     public function getQueryPort()
     {
         return $this->queryPort;
+    }
+    
+    /*
+     * Set rcon port
+     * 
+     * @param integer $rconPort
+     */
+    public function setRconPort($rconPort)
+    {
+        $this->rconPort = $rconPort;
+    }
+    
+    /*
+     * Get rcon port
+     * 
+     * @return integer RCON Port
+     */
+    public function getRconPort()
+    {
+        return $this->rconPort;
     }
     
     /**

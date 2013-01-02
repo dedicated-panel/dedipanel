@@ -338,5 +338,4 @@ class GameServer
     {
         return $this->rcon;
     }
-
 }

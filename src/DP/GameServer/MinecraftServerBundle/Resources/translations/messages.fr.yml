@@ -1,7 +1,8 @@
 minecraft.list: Liste des Serveurs Minecraft
 minecraft.add: Ajouter un serveur Minecraft
 minecraft.create: Ajouter
-minecraft.queryPort: Port pour le Query Web
+minecraft.queryPort: Port pour le query
+minecraft.rconPort: Port pour le RCON
 
 minecraft.showTitle: Voir un serveur Minecraft
 minecraft.installInProgress: Installation en cours

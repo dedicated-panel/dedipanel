@@ -40,7 +40,7 @@ class RconController extends BaseRconController
         
         return $this->get('rcon.source')->getRcon(
                 $server->getMachine()->getPublicIp(), 
-                $server->getPort(), 
+                $server->getRconPort(), 
                 $server->getRconPassword()
         );
     }
@@ -52,5 +52,36 @@ class RconController extends BaseRconController
         }
         
         return $this->generateUrl('minecraft_rcon_execute', array('id' => $server->getId()));
+    }
+    
+    public function createRconForm(array $default = array())
+    {
+        $form = parent::createRconForm($default);
+        
+        return $form
+                    ->add('rconPort', 'integer', array('label' => 'minecraft.rconPort'))
+        ;
+    }
+    
+    public function getFormDefaultValues(GameServer $server)
+    {
+        if (!$server instanceof MinecraftServer) {
+            throw new Exception('The requested server is not a MinecraftServer.');
+        }
+        
+        $default = parent::getFormDefaultValues($server);
+        
+        return $default + array('rconPort' => $server->getRconPort());
+    }
+    
+    public function saveServerData(GameServer $server, array $data)
+    {
+        if (!$server instanceof MinecraftServer) {
+            throw new Exception('The requested server is not a MinecraftServer.');
+        }
+        
+        $server->setRconPort($data['rconPort']);
+        
+        return parent::saveServerData($server, $data);
     }
 }

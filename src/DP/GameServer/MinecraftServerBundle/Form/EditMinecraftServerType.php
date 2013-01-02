@@ -21,6 +21,7 @@
 namespace DP\GameServer\MinecraftServerBundle\Form;
 
 use DP\GameServer\MinecraftServerBundle\Form\BaseMinecraftServerType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class EditMinecraftServerType extends BaseMinecraftServerType
 {
