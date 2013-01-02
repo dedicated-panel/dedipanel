@@ -19,7 +19,7 @@ class MinecraftServer extends GameServer
     /**
      * @var integer $queryPort
      *
-     * @ORM\Column(name="queryPort", type="integer")
+     * @ORM\Column(name="queryPort", type="integer", nullable=true)
      * @Assert\Min(limit="1", message="minecraft.assert.queryPort.min")
      * @Assert\Max(limit="65536", message="minecraft.assert.queryPort.max")
      */
@@ -51,7 +51,12 @@ class MinecraftServer extends GameServer
      */
     public function getQueryPort()
     {
-        return $this->queryPort;
+        if (isset($this->queryPort)) {
+            return $this->queryPort;
+        }
+        else {
+            return $this->getPort();
+        }
     }
     
     /*

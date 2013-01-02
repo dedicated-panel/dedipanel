@@ -32,15 +32,16 @@ abstract class BaseMinecraftServerType extends AbstractType
             ->add('machine', 'entity', array(
                 'label' => 'game.selectMachine', 'class' => 'DPMachineBundle:Machine'))
             ->add('name', 'text', array('label' => 'game.name'))
-            ->add('port', 'number', array('label' => 'game.port'))
-            ->add('queryPort', 'number', array('label' => 'minecraft.queryPort'))
+            ->add('port', 'integer', array('label' => 'game.port'))
+            ->add('queryPort', 'integer', array('label' => 'minecraft.queryPort', 'required' => false))
+            ->add('rconPort', 'integer', array('label' => 'minecraft.rconPort'))
             ->add('game', 'entity', array(
                 'label' => 'game.selectGame', 'class' => 'DPGameBundle:Game', 
                 'query_builder' => function($repo) {
                     return $repo->getQBAvailableMinecraftGames();
                 }))
             ->add('dir', 'text', array('label' => 'game.dir'))
-            ->add('maxplayers', 'number', array('label' => 'game.maxplayers'))
+            ->add('maxplayers', 'integer', array('label' => 'game.maxplayers'))
         ;
     }
 
