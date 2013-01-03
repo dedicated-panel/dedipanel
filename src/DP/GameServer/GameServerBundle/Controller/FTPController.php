@@ -18,19 +18,21 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\GameServer\SteamServerBundle\Controller;
+namespace DP\GameServer\GameServerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class CfgController extends Controller
+abstract class FTPController extends Controller
 {
+    abstract public function getEntityRepository();
+    abstract public function getBaseRoute();
+    
     public function showAction($id, $path)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-        $server = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
+        $server = $this->getEntityRepository()->find($id);
         
         if (!$server) {
-            throw $this->createNotFoundException('Unable to find SteamServer entity.');
+            throw $this->createNotFoundException('Unable to find GameServer entity.');
         }
         
         if (!empty($path) && strrpos($path, '/') != strlen($path)-1) {
@@ -39,21 +41,20 @@ class CfgController extends Controller
         
         $dirContent = $server->getDirContent($path);
         
-        return $this->render('DPSteamServerBundle:Cfg:show.html.twig', array(
+        return $this->render('DPGameServerBundle:FTP:show.html.twig', array(
             'sid' => $id, 
             'currentPath' => $path, 
             'dirContent' => $dirContent, 
+            'baseRoute' => $this->getBaseRoute(), 
         ));
     }
     
     public function editFileAction($id, $path)
     {
-        $request = $this->get('request');
-        $em = $this->getDoctrine()->getEntityManager();
-        $server = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
+        $server = $this->getEntityRepository()->find($id);
         
         if (!$server) {
-            throw $this->createNotFoundException('Unable to find SteamServer entity.');
+            throw $this->createNotFoundException('Unable to find GameServer entity.');
         }
         
         $filename = basename($path);
@@ -61,6 +62,7 @@ class CfgController extends Controller
         
         $form = $this->createEditFileForm(array('filename' => $filename, 'file' => $fileContent));
         
+        $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
             $form->bindRequest($request);
             
@@ -70,19 +72,20 @@ class CfgController extends Controller
             }
         }
         
-        return $this->render('DPSteamServerBundle:Cfg:editFile.html.twig', array(
+        return $this->render('DPGameServerBundle:FTP:editFile.html.twig', array(
             'sid' => $id, 
             'form' => $form->createView(), 
             'path' => $path, 
             'dirPath' => dirname($path), 
+            'baseRoute' => $this->getBaseRoute(), 
         ));
     }
     
     public function createEditFileForm(array $default = array())
     {
         return $this->createFormBuilder($default)
-                    ->add('filename', 'text', array('label' => 'steam.cfg.filename'))
-                    ->add('file', 'textarea', array('label' => 'steam.cfg.content'))
+                    ->add('filename', 'text', array('label' => 'game.ftp.filename'))
+                    ->add('file', 'textarea', array('label' => 'game.ftp.content'))
                     ->getForm()
         ;
     }

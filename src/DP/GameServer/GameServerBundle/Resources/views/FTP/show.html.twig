@@ -17,30 +17,31 @@
 #}
 
 {% extends "::layout.html.twig" %}
-{% block content %}
-    <h1>{{ 'steam.cfg.showTitle'|trans }}</h1>
+
+{% block title %}
+    {{ 'game.ftp.showTitle'|trans }}
     
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('steam') }}">
-                {{ 'steam.back'|trans }}
-            </a>
-        </li>
-    </ul>
-    
+    <nav id="tabs" class="nav nav-tabs">
+        <a href="{{ path(baseRoute) }}">
+            {{ 'game.back'|trans }}
+        </a>
+    </nav>
+{% endblock %}
+
+{% block content %}    
     {{ currentPath }}
     
     <ul>
         {% if currentPath is not empty %}
             {% set path = currentPath ~ '..' %}
             <li class="dir">
-                <a href="{{ path('steam_cfg_show', {'id': sid, 'path': path}) }}">..</a>
+                <a href="{{ path(baseRoute ~ '_ftp_show', {'id': sid, 'path': path}) }}">..</a>
             </li>
         {% endif %}
         {% for dir in dirContent['dirs'] %}
             {% set path = currentPath ~ dir['name'] %}
             <li class="dir">
-                <a href="{{ path('steam_cfg_show', {'id': sid, 'path': path }) }}">
+                <a href="{{ path(baseRoute ~ '_ftp_show', {'id': sid, 'path': path }) }}">
                     {{ dir['name'] }}
                 </a>
             </li>
@@ -48,7 +49,7 @@
         {% for file in dirContent['files'] %}
             {% set path = currentPath ~ file['name'] %}
             <li class="file">
-                <a href="{{ path('steam_cfg_edit', {id: sid, path: path}) }}">
+                <a href="{{ path(baseRoute ~ '_ftp_edit', {id: sid, path: path}) }}">
                     {{ file['name'] }}
                 </a>
             </li>

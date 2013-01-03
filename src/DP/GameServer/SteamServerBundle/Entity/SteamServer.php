@@ -23,7 +23,6 @@ namespace DP\GameServer\SteamServerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use DP\GameServer\GameServerBundle\Entity\GameServer;
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
-use DP\GameServer\SteamServerBundle\SteamQuery\SteamQuery;
 use DP\Core\GameBundle\Entity\Plugin;
 
 /**
@@ -183,16 +182,6 @@ class SteamServer extends GameServer {
     public function getHltvPort()
     {
         return $this->hltvPort;
-    }
-    
-    /**
-     * Get absolute path of game content directory
-     * 
-     * @return string
-     */
-    private function getAbsoluteGameContentDir()
-    {
-        return $this->getAbsoluteBinDir() . $this->game->getLaunchName() . '/';
     }
     
     /**
@@ -432,54 +421,6 @@ class SteamServer extends GameServer {
         $sec->exec($screenCmd);
     }
     
-    public function getDirContent($path = '')
-    {
-        $path = $this->getAbsoluteGameContentDir() . $path;
-        $sftp = PHPSeclibWrapper::getFromMachineEntity($this->getMachine())->getSFTP();
-        
-        $dirContent = $sftp->rawlist($path);
-        $dirs = array();
-        $files = array();
-        
-        foreach ($dirContent AS $key => $attr) {
-            $attr['name'] = $key;
-            
-            if ($attr['type'] == NET_SFTP_TYPE_DIRECTORY
-                && $key != '..' && $key != '.') {
-                $dirs[] = $attr;
-            }
-            elseif ($attr['type'] == NET_SFTP_TYPE_REGULAR) {
-                $files[] = $attr;
-            }
-        }
-        
-        return array('files' => $files, 'dirs' => $dirs);
-    }
-    
-    public function getFileContent($path)
-    {
-        $path = $this->getAbsoluteGameContentDir() . $path;
-        
-        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
-                ->getRemoteFile($path);
-    }
-    
-    public function uploadFile($path, $content)
-    {
-        $path = $this->getAbsoluteGameContentDir() . $path;
-        
-        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
-                ->upload($path, $content, false);
-    }
-    
-    public function touch($file)
-    {
-        $path = $this->getAbsoluteGameContentDir() . $file;
-        
-        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
-                ->touch($path);
-    }
-    
     public function getHltvScreenName()
     {
         return 'hltv-' . $this->getMachine()->getUser() . '-' . $this->getDir();
@@ -534,5 +475,10 @@ class SteamServer extends GameServer {
             return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
                 ->getSSH()->exec($this->getAbsoluteBinDir() . 'hltv.sh stop');
         }
+    }
+    
+    protected function getAbsoluteGameContentDir()
+    {
+        return $this->getAbsoluteBinDir() . $this->game->getLaunchName() . '/';
     }
 }

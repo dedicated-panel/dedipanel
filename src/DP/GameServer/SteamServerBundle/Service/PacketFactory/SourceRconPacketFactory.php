@@ -45,8 +45,8 @@ class SourceRconPacketFactory extends PacketFactory
     {
         $id = mt_rand(0, pow(2, 16));
         $packet = $this->newPacket(
-            $this->transformLong($id) .
-            $this->transformLong($cmdType) .
+            self::transformLong($id) .
+            self::transformLong($cmdType) .
             $cmd . chr(0) . chr(0)
         );
         

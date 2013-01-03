@@ -11,3 +11,8 @@ DPMinecraftServerBundle_Rcon:
     resource: "@DPMinecraftServerBundle/Resources/config/routing/rcon.yml"
     prefix: /{id}/rcon/
     requirements: {id: \d+}
+
+DPMinecraftServerBundle_FTP:
+    resource: "@DPMinecraftServerBundle/Resources/config/routing/ftp.yml"
+    prefix: /{id}/ftp/
+    requirements: {id: \d+}

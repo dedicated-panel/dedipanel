@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
 use DP\Core\MachineBundle\Entity\Machine;
 use Symfony\Component\Validator\Constraints as Assert;
 use DP\GameServer\GameServerBundle\Query\QueryInterface;
+use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 
 /**
  * DP\Core\GameServer\GameServerBundle\Entity\GameServer
@@ -282,6 +283,16 @@ class GameServer
         return $this->getAbsoluteDir() . $this->getGame()->getBinDir(); 
     }
     
+    /**
+     * Get absolute path of game content directory
+     * 
+     * @return string
+     */
+    protected function getAbsoluteGameContentDir()
+    {
+        return $this->getAbsoluteBinDir();
+    }
+    
     protected function getScreenName()
     {
         return $this->getMachine()->getUser() . '-' . $this->getDir();
@@ -337,5 +348,53 @@ class GameServer
     public function getRcon()
     {
         return $this->rcon;
+    }
+    
+    public function getDirContent($path = '')
+    {
+        $path = $this->getAbsoluteGameContentDir() . $path;
+        $sftp = PHPSeclibWrapper::getFromMachineEntity($this->getMachine())->getSFTP();
+        
+        $dirContent = $sftp->rawlist($path);
+        $dirs = array();
+        $files = array();
+        
+        foreach ($dirContent AS $key => $attr) {
+            $attr['name'] = $key;
+            
+            if ($attr['type'] == NET_SFTP_TYPE_DIRECTORY
+                && $key != '..' && $key != '.') {
+                $dirs[] = $attr;
+            }
+            elseif ($attr['type'] == NET_SFTP_TYPE_REGULAR) {
+                $files[] = $attr;
+            }
+        }
+        
+        return array('files' => $files, 'dirs' => $dirs);
+    }
+    
+    public function getFileContent($path)
+    {
+        $path = $this->getAbsoluteGameContentDir() . $path;
+        
+        return utf8_encode(PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
+                ->getRemoteFile($path));
+    }
+    
+    public function uploadFile($path, $content)
+    {
+        $path = $this->getAbsoluteGameContentDir() . $path;
+        
+        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
+                ->upload($path, $content, false);
+    }
+    
+    public function touch($file)
+    {
+        $path = $this->getAbsoluteGameContentDir() . $file;
+        
+        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
+                ->touch($path);
     }
 }

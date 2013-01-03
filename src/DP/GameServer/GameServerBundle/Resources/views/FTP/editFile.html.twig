@@ -17,24 +17,23 @@
 #}
 
 {% extends "::layout.html.twig" %}
-{% block content %}
-    <h1>{{ 'steam.cfg.showTitle'|trans }}</h1>
+
+{% block title %}
+    {{ 'game.ftp.editTitle'|trans }}
     
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('steam_cfg_show', {id: sid, path: dirPath}) }}">
-                {{ 'steam.back'|trans }}
-            </a>
-        </li>
-    </ul>
-    
-    <p>{{ path }}</p>
-    
-    <form action="{{ path('steam_cfg_edit', {id: sid, path: path}) }}" method="post">	
+    <nav id="tabs" class="nav nav-tabs">
+        <a href="{{ path(baseRoute ~ '_ftp_show', {id: sid, path: dirPath}) }}">
+            {{ 'game.back'|trans }}
+        </a>
+    </nav>
+{% endblock %}
+
+{% block content %}    
+    <form action="{{ path(baseRoute ~ '_ftp_edit', {id: sid, path: path}) }}" method="post">	
         <fieldset>
             {{ form_widget(form) }}
             
-            <input type="submit" value="{{ 'steam.edit'|trans }}" name="submit" class="submit"></fieldset>
+            <input type="submit" value="{{ 'game.edit'|trans }}" name="submit" class="submit"></fieldset>
         </fieldset>
     </form>
 {% endblock %}

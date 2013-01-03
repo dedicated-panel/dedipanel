@@ -14,26 +14,14 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-DPSteamServerBundle_CRUD:
-    resource: "@DPSteamServerBundle/Resources/config/routing/steamCrud.yml"
-    prefix:   /
+steam_ftp_edit:
+    pattern: /{path}/edit
+    defaults: { _controller: "DPSteamServerBundle:FTP:editFile" }
+    requirements:
+        path: .+
 
-DPSteamServerBundle_Plugins:
-    resource: "@DPSteamServerBundle/Resources/config/routing/plugins.yml"
-    prefix: /{id}/plugins/
-    requirements: {id: \d+}
-  
-DPSteamServerBundle_FTP:
-    resource: "@DPSteamServerBundle/Resources/config/routing/ftp.yml"
-    prefix: /{id}/ftp/
-    requirements: {id: \d+}
-
-DPSteamServerBundle_Hltv:
-    resource: "@DPSteamServerBundle/Resources/config/routing/hltv.yml"
-    prefix: /{id}/hltv/
-    requirements: {id: \d+}
-
-DPSteamServerBundle_Rcon:
-    resource: "@DPSteamServerBundle/Resources/config/routing/rcon.yml"
-    prefix: /{id}/rcon/
-    requirements: {id: \d+}
+steam_ftp_show:
+    pattern: /{path}
+    defaults: { _controller: "DPSteamServerBundle:FTP:show", path: '' }
+    requirements:
+        path: .*
