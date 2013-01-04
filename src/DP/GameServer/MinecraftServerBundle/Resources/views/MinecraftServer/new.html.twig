@@ -18,6 +18,10 @@
 
 {% extends "::layout.html.twig" %}
 
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('bundles/dpminecraftserver/js/add.js') }}"></script>
+{% endblock %}
+
 {% block title %}
     <a href="{{ path('minecraft') }}">
         <span class="titre icone">h</span>
