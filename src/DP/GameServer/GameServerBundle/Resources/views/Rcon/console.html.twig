@@ -20,6 +20,12 @@
 
 {% block title %}
     {{ 'game.rcon.title'|trans }}
+    
+    <nav id="tabs" class="nav nav-tabs">
+        <a href="{{ path(baseRoute) }}">
+            {{ 'game.back'|trans }}
+        </a>
+    </nav>
 {% endblock %}
 
 {% block javascripts %}
@@ -28,7 +34,7 @@
 
 {% block content %}
     {% if online and not banned %}
-        <form action="{{ formActionUrl }}" method="post" id="rcon-form">
+        <form action="{{ path(baseRoute ~ '_rcon_execute', {id: sid}) }}" method="post" id="rcon-form">
             <textarea disabled="disabled" cols="80" rows="20">{{ log }}</textarea>
 
             {{ form_row(form.password) }}

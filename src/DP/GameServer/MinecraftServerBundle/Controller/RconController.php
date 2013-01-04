@@ -45,15 +45,6 @@ class RconController extends BaseRconController
         );
     }
     
-    public function getFormActionURL(GameServer $server)
-    {
-        if (!$server instanceof MinecraftServer) {
-            throw new Exception('The requested server is not a MinecraftServer.');
-        }
-        
-        return $this->generateUrl('minecraft_rcon_execute', array('id' => $server->getId()));
-    }
-    
     public function createRconForm(array $default = array())
     {
         $form = parent::createRconForm($default);
@@ -83,5 +74,10 @@ class RconController extends BaseRconController
         $server->setRconPort($data['rconPort']);
         
         return parent::saveServerData($server, $data);
+    }
+    
+    public function getBaseRoute()
+    {
+        return 'minecraft';
     }
 }

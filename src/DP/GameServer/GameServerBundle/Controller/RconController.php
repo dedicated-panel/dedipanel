@@ -28,7 +28,7 @@ abstract class RconController extends Controller
 {
     abstract public function getEntityRepository();
     abstract public function getRconFromServer(GameServer $server);
-    abstract public function getFormActionURL(GameServer $server);
+    abstract public function getBaseRoute();
     
     public function consoleJsonAction($id)
     {
@@ -122,7 +122,8 @@ abstract class RconController extends Controller
         return $this->render('DPGameServerBundle:Rcon:console.html.twig', array(
             'log' => $log, 
             'form' => $form->createView(), 
-            'formActionUrl' => $this->getFormActionURL($server), 
+            'baseRoute' => $this->getBaseRoute(), 
+            'sid' => $server->getId(), 
             'online' => $server->getQuery()->isOnline(), 
             'banned' => $server->getQuery()->isBanned(), 
         ));

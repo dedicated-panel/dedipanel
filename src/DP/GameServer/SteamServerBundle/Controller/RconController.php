@@ -51,12 +51,8 @@ class RconController extends BaseRconController
         );
     }
     
-    public function getFormActionURL(GameServer $server)
+    public function getBaseRoute()
     {
-        if (!$server instanceof SteamServer) {
-            throw new Exception('The requested server is not a SteamServer.');
-        }
-        
-        return $this->generateUrl('steam_rcon_execute', array('id' => $server->getId()));
+        return 'steam';
     }
 }
