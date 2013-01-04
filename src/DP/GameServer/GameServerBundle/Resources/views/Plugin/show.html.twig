@@ -17,28 +17,29 @@
 #}
 
 {% extends "::layout.html.twig" %}
-{% block content %}
-    <h1>{{ 'steam.plugins.showTitle'|trans }}</h1>
+
+{% block title %}
+    {{ 'game.plugin.title'|trans }}
     
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('steam') }}">
-                {{ 'steam.back'|trans }}
-            </a>
-        </li>
-    </ul>
-    
+    <nav id="tabs" class="nav nav-tabs">
+        <a href="{{ path(baseRoute) }}">
+            {{ 'game.back'|trans }}
+        </a>
+    </nav>
+{% endblock %}
+
+{% block content %}    
     <table>
         <tr>
-            <th>{{ 'steam.plugins.name'|trans }}</th>
-            <th>{{ 'steam.plugins.status'|trans }}</th>
+            <th>{{ 'game.plugin.name'|trans }}</th>
+            <th>{{ 'game.plugin.status'|trans }}</th>
         </tr>
         
         {% for plugin in server.installedPlugins %}
             <tr>
                 <th>{{ plugin.name }}</th>
-                <td><a href="{{ path('steam_plugins_uninstall', {'id': server.id, 'plugin': plugin.id}) }}">
-                    {{ 'steam.plugins.installed'|trans }}
+                <td><a href="{{ path(baseRoute ~ '_plugin_uninstall', {'id': server.id, 'plugin': plugin.id}) }}">
+                    {{ 'game.plugin.installed'|trans }}
                 </a></td>
             </tr>
         {% endfor %}
@@ -46,8 +47,8 @@
         {% for plugin in server.notInstalledPlugins %}
             <tr>
                 <th>{{ plugin.name }}</th>
-                <td><a href="{{ path('steam_plugins_install', {'id': server.id, 'plugin': plugin.id}) }}">
-                    {{ 'steam.plugins.notInstalled'|trans }}
+                <td><a href="{{ path(baseRoute ~ '_plugin_install', {'id': server.id, 'plugin': plugin.id}) }}">
+                    {{ 'game.plugin.notInstalled'|trans }}
                 </a></td>
             </tr>
         {% endfor %}

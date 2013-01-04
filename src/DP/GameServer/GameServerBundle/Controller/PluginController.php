@@ -24,31 +24,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 abstract class PluginController extends Controller
 {
-    abstract public function getEntityRepository();
-    abstract public function getPluginShowRoute();
+    abstract public function getServerEntity($id);
+    abstract public function getBaseRoute();
     
     public function showServerAction($id)
     {
-        $server = $this->getEntityRepository()->find($id);
+        $server = $this->getServerEntity($id);
         
-        if (!$server) {
-            throw $this->createNotFoundException('Unable to find Server entity.');
-        }
-        
-        return $this->render('DPSteamServerBundle:Plugins:show.html.twig', array(
-            'server' => $server
+        return $this->render('DPGameServerBundle:Plugin:show.html.twig', array(
+            'server'    => $server, 
+            'baseRoute' => $this->getBaseRoute(), 
         ));
     }
     
     public function installAction($id, $plugin)
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $server = $this->getEntityRepository()->find($id);
+        $server = $this->getServerEntity($id);
         $plugin = $em->getRepository('DPGameBundle:Plugin')->find($plugin);
-        
-        if (!$server) {
-            throw $this->createNotFoundException('Unable to find Server entity.');
-        }
+
         if (!$plugin) {
             throw $this->createNotFoundException('Unable to find Plugin entity.');
         }
@@ -59,18 +53,15 @@ abstract class PluginController extends Controller
         $server->addPlugin($plugin);
         $em->flush();
         
-        return $this->redirect($this->generateUrl('steam_plugins_show', array('id' => $id)));
+        return $this->redirect($this->generateUrl($this->getBaseRoute() . '_plugin_show', array('id' => $id)));
     }
     
     public function uninstallAction($id, $plugin)
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $server = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
+        $server = $this->getServerEntity($id);
         $plugin = $em->getRepository('DPGameBundle:Plugin')->find($plugin);
         
-        if (!$server) {
-            throw $this->createNotFoundException('Unable to find SteamServer entity.');
-        }
         if (!$plugin) {
             throw $this->createNotFoundException('Unable to find Plugin entity.');
         }
@@ -81,6 +72,6 @@ abstract class PluginController extends Controller
         $server->removePlugin($plugin);
         $em->flush();
         
-        return $this->redirect($this->generateUrl('steam_plugins_show', array('id' => $id)));
+        return $this->redirect($this->generateUrl($this->getBaseRoute() . '_plugin_show', array('id' => $id)));
     }
 }

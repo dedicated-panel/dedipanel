@@ -14,16 +14,16 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-minecraft_plugins_show:
+minecraft_plugin_show:
     pattern: /
     defaults: { _controller: "DPMinecraftServerBundle:Plugin:showServer" }
 
-minecraft_plugins_install:
+minecraft_plugin_install:
     pattern: /{plugin}/install/
     defaults: { _controller: "DPMinecraftServerBundle:Plugin:install" }
     requirements: {plugin: \d+}
 
-minecraft_plugins_uninstall:
+minecraft_plugin_uninstall:
     pattern: /{plugin}/uninstall/
     defaults: { _controller: "DPMinecraftServerBundle:Plugin:uninstall" }
     requirements: {plugin: \d+}

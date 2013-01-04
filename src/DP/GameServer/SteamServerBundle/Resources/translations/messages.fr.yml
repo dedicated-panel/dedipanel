@@ -34,14 +34,6 @@ steam.start: Démarrer
 steam.stop: Arrêter
 steam.restart: Redémarrer
 
-steam.pluginsAction: Voir les plugins
-
-steam.plugins.name: Nom
-steam.plugins.status: Statut
-steam.plugins.showTitle: Plugins du serveur
-steam.plugins.installed: Installé
-steam.plugins.notInstalled: Non installé
-
 steam.hltv.running: HLTV démarré
 steam.hltv.stopped: HLTV arrêté
 steam.hltv.hltvIP: Adresse IP de l'HLTV

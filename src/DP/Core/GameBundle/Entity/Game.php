@@ -419,4 +419,9 @@ class Game
     {
         return $this->type;
     }
+    
+    public function isBukkit()
+    {
+        return $this->getInstallName() == 'bukkit';
+    }
 }

@@ -24,13 +24,20 @@ use DP\GameServer\GameServerBundle\Controller\PluginController as AbstractPlugin
 
 class PluginController extends AbstractPluginController
 {
-    public function getEntityRepository() {
+    public function getServerEntity($id)
+    {
         $em = $this->getDoctrine()->getEntityManager();
+        $server = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
         
-        return $em->getRepository('DPSteamServerBundle:SteamServer');
+        if (!$server) {
+            throw $this->createNotFoundException('Unable to find SteamServer entity.');
+        }
+        
+        return $server;
     }
     
-    public function getPluginShowRoute() {
-        return $this->generateUrl('steam_plugins_show');
+    public function getBaseRoute()
+    {
+        return 'steam';
     }
 }

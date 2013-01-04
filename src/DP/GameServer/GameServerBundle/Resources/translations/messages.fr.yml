@@ -36,3 +36,9 @@ game.ftp.showTitle: Voir les fichiers/dossiers
 game.ftp.editTitle: Editer un fichier
 game.ftp.filename: Nom du fichier
 game.ftp.content: Contenu du fichier
+
+game.plugin.title: Voir les plugins du serveur
+game.plugin.name: Nom
+game.plugin.status: Statut
+game.plugin.installed: Installé
+game.plugin.notInstalled: Non installé

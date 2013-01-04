@@ -24,13 +24,23 @@ use DP\GameServer\GameServerBundle\Controller\PluginController as AbstractPlugin
 
 class PluginController extends AbstractPluginController
 {
-    public function getEntityRepository() {
+    public function getServerEntity($id)
+    {
         $em = $this->getDoctrine()->getEntityManager();
+        $server = $em->getRepository('DPMinecraftServerBundle:MinecraftServer')->find($id);
         
-        return $em->getRepository('DPMinecraftServerBundle:MinecraftServer');
+        if (!$server) {
+            throw $this->createNotFoundException('Unable to find MinecraftServer entity.');
+        }
+        if (!$server->getGame()->isBukkit()) {
+            throw new \Exception('Les plugins ne peuvent pas être installés sur ce type de serveur.');
+        }
+        
+        return $server;
     }
     
-    public function getPluginShowRoute() {
-        return $this->generateUrl('minecraft_plugins_show');
+    public function getBaseRoute()
+    {
+        return 'minecraft';
     }
 }
