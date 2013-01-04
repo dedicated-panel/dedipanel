@@ -33,6 +33,7 @@ class AddMinecraftServerType extends BaseMinecraftServerType
                 'choices'   => array('game.no', 'game.yes'), 
                 'label'     => 'game.isAlreadyInstalled', 
                 'mapped'    => false, 
+                'expanded'  => true
             ))
         ;
     }

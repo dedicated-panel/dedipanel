@@ -174,17 +174,17 @@ class MinecraftServer extends GameServer
             'parallelThreads' => 1, 'binDir' => $this->getAbsoluteBinDir(), 
         ));
         
-        $uploadMinecraftScript = $sec->upload($scriptPath, $minecraftScript, 0750);
-//        echo'<pre>'; print_r($sec->getSFTP()->getSFTPLog()); echo'</pre>';
-        
-        if ($uploadMinecraftScript) {
-            $this->installationStatus = 101;
-            
-            return true;
-        }
-        else {
+        if (!$sec->upload($scriptPath, $minecraftScript, 0750)) {
             return false;
         }
+        
+        if (!$this->uploadDefaultServerPropertiesFile($twig)) {
+            return false;
+        }
+        
+        $this->installationStatus = 101;
+            
+        return true;
     }
     
     public function changeStateServer($state)
@@ -193,5 +193,27 @@ class MinecraftServer extends GameServer
         
         return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
                 ->exec($scriptPath . ' ' . $state);
+    }
+    
+    public function uploadDefaultServerPropertiesFile(\Twig_Environment $twig)
+    {
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $cfgPath = $this->getAbsoluteDir() . 'server.properties';
+        
+        // Supression du fichier s'il existe déjà
+        $sec->exec('if [ -e ' . $cfgPath . ']; then rm ' . $cfgPath . '; fi');
+        
+        $template = 'DPMinecraftServerBundle:cfg:server.properties.' . $this->getGame()->getInstallName() . '.twig';
+        $cfgFile = $twig->render($template, array(
+            'serverPort'    => $this->getPort(), 
+            'queryPort'     => $this->getQueryPort(), 
+            'rconPort'      => $this->getRconPort(), 
+            'rconPassword'  => $this->getRconPassword(), 
+            'maxPlayers'    => $this->getMaxplayers(), 
+            'serverName'    => $this->getName(), 
+            'ip'            => $this->getMachine()->getPublicIp(), 
+        ));
+        
+        return $sec->upload($cfgPath, $cfgFile, 0750);
     }
 }
