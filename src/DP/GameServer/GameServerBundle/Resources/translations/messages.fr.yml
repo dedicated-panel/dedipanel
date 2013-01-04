@@ -29,8 +29,9 @@ game.no: Non
 game.offline: Serveur indisponible
 game.banned: IP bannie du serveur
 
-game.rconTitle: Zone Rcon
-game.rconCmd: Commande
+game.rcon.title: Zone Rcon
+game.rcon.password: Mdp RCON
+game.rcon.command: Commande
 
 game.ftp.showTitle: Voir les fichiers/dossiers
 game.ftp.editTitle: Editer un fichier

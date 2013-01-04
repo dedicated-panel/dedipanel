@@ -131,8 +131,8 @@ abstract class RconController extends Controller
     public function createRconForm(array $default = array())
     {
         $form = $this->createFormBuilder($default)
-                    ->add('cmd', 'text', array('label' => 'game.rconCmd'))
-                    ->add('password', 'text', array('label' => 'steam.rcon'))
+                    ->add('cmd', 'text', array('label' => 'game.rcon.command'))
+                    ->add('password', 'text', array('label' => 'game.rcon.password'))
         ;
         
         return $form;

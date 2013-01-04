@@ -59,7 +59,7 @@ class RconController extends BaseRconController
         $form = parent::createRconForm($default);
         
         return $form
-                    ->add('rconPort', 'integer', array('label' => 'minecraft.rconPort'))
+                ->add('rconPort', 'integer', array('label' => 'minecraft.rcon.port'))
         ;
     }
     

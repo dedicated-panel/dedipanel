@@ -34,7 +34,8 @@ abstract class BaseMinecraftServerType extends AbstractType
             ->add('name', 'text', array('label' => 'game.name'))
             ->add('port', 'integer', array('label' => 'game.port'))
             ->add('queryPort', 'integer', array('label' => 'minecraft.queryPort', 'required' => false))
-            ->add('rconPort', 'integer', array('label' => 'minecraft.rconPort'))
+            ->add('rconPort', 'integer', array('label' => 'minecraft.rcon.port'))
+            ->add('rconPassword', 'text', array('label' => 'game.rcon.password'))
             ->add('game', 'entity', array(
                 'label' => 'game.selectGame', 'class' => 'DPGameBundle:Game', 
                 'query_builder' => function($repo) {
