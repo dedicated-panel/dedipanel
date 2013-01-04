@@ -25,7 +25,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use DP\GameServer\SteamServerBundle\Entity\SteamServer;
 use DP\GameServer\SteamServerBundle\Form\AddSteamServerType;
 use DP\GameServer\SteamServerBundle\Form\EditSteamServerType;
-use DP\GameServer\SteamServerBundle\SteamQuery\Exception\ServerTimeoutException;
 
 /**
  * SteamServer controller.
@@ -112,7 +111,6 @@ class SteamServerController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('steam_show', array('id' => $entity->getId())));
-            
         }
 
         return $this->render('DPSteamServerBundle:SteamServer:new.html.twig', array(

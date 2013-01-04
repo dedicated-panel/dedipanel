@@ -1,5 +1,4 @@
 <?php
-
 /*
 ** Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jérôme
 **
@@ -18,25 +17,28 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\Core\DistributionBundle\ConsoleOutput;
+namespace DP\GameServer\SteamServerBundle\Service;
 
-use Symfony\Component\Console\Output\Output;
+use DP\GameServer\SteamServerBundle\SteamQuery\GoldSrcRcon;
 
-/**
-* StringOutput
-*
-* Collects console output into a string.
-*/
-class StringOutput extends Output
+class GoldSrcRconFactory
 {
-    protected $buffer = '';
-
-    public function doWrite($message, $newline)
+    private $container;
+    private $rcon;
+    
+    public function __construct($container)
     {
-        $this->buffer .= $message . ($newline===TRUE ? PHP_EOL : '');
+        $this->container = $container;
     }
-
-    public function getBuffer() {
-        return $this->buffer;
+    
+    public function getRcon($ip, $port, $password)
+    {
+        $key = $ip . ':' . $port;
+        
+        if (!isset($this->rcon) || !array_key_exists($key, $this->rcon)) {
+            $this->rcon[$key] = new GoldSrcRcon($this->container, $ip, $port, $password);
+        }
+        
+        return $this->rcon[$key];
     }
 }

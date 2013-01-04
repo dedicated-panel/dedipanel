@@ -1,17 +1,17 @@
-{% extends "SensioDistributionBundle::Configurator/layout.html.twig" %}
-
-{% block title %}Symfony - Configure database{% endblock %}
+{% extends "DPDistributionBundle:Configurator:layout.html.twig" %}
 
 {% block content %}
-    {% form_theme form "SensioDistributionBundle::Configurator/form.html.twig" %}
+    {% form_theme form "DPDistributionBundle:Configurator:form.html.twig" %}
+    {% include "DPDistributionBundle:Configurator:steps.html.twig" with { "index": index, "count": count } %}
 
-     <legend>{{ 'database.title'|trans }}</legend>
+    <h1>{{ 'configurator.db.title'|trans }}</h1>
+    <p>{{ 'configurator.db.description'|trans }}</p>
 
     {{ form_errors(form) }}
-    <form action="{{ path('_configurator_step', { 'index': index }) }}" method="POST">
+    <form action="{{ path('installer_step', {'type': configType, 'index': index}) }}" method="POST">
         <div class="symfony-form-column">
-            {{ form_row(form.driver) }}
             {{ form_row(form.host) }}
+            {{ form_row(form.port) }}
             {{ form_row(form.name) }}
         </div>
         <div class="symfony-form-column">
@@ -21,13 +21,9 @@
 
         {{ form_rest(form) }}
 
-        <div class="form-actions">
-            <input type="submit" value="{{ 'Next Step'|trans }}" class="btn btn-primary"  />
+        <div class="symfony-form-footer">
+            <p><input type="submit" value="{{ 'configurator.next'|trans }}" /></p>
+            <p>* {{ 'configurator.mandatoryFields'|trans }}</p>
         </div>
-                
-        <span class="information">
-            {{ 'database.description'|trans }}<br />
-            {{ '* mandatory fields'|trans }}
-        </span>
     </form>
 {% endblock %}

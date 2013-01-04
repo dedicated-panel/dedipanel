@@ -19,8 +19,8 @@
 */
 
 namespace DP\GameServer\SteamServerBundle\Controller;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 
 class CfgController extends Controller
 {
@@ -56,14 +56,10 @@ class CfgController extends Controller
             throw $this->createNotFoundException('Unable to find SteamServer entity.');
         }
         
-        $filename = $this->getFilename($path);
+        $filename = basename($path);
         $fileContent = $server->getFileContent($path);
         
-        $default = array('filename' => $filename, 'file' => $fileContent);
-        $form = $this->createFormBuilder($default)
-                     ->add('filename', 'text', array('label' => 'steam.cfg.filename'))
-                     ->add('file', 'textarea', array('label' => 'steam.cfg.content'))
-                     ->getForm();
+        $form = $this->createEditFileForm(array('filename' => $filename, 'file' => $fileContent));
         
         if ($request->getMethod() == 'POST') {
             $form->bindRequest($request);
@@ -78,22 +74,16 @@ class CfgController extends Controller
             'sid' => $id, 
             'form' => $form->createView(), 
             'path' => $path, 
+            'dirPath' => dirname($path), 
         ));
     }
     
-    /*
-     * Extract filename from path
-     * @return string
-     */
-    private function getFilename($path)
+    public function createEditFileForm(array $default = array())
     {
-        $pos = strrpos($path, '/');
-        
-        if ($pos) {
-            $path = substr($path, $pos+1);
-        }
-        
-        
-        return $path;
+        return $this->createFormBuilder($default)
+                    ->add('filename', 'text', array('label' => 'steam.cfg.filename'))
+                    ->add('file', 'textarea', array('label' => 'steam.cfg.content'))
+                    ->getForm()
+        ;
     }
 }

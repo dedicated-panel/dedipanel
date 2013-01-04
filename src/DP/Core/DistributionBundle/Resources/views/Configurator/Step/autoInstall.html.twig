@@ -1,0 +1,21 @@
+{% extends "DPDistributionBundle:Configurator:layout.html.twig" %}
+
+{% block content %}
+    {% form_theme form "DPDistributionBundle:Configurator:form.html.twig" %}
+    {% include "DPDistributionBundle:Configurator:steps.html.twig" %}
+
+    <h1>{{ 'configurator.autoInstall.title'|trans }}</h1>
+    <p>{{ 'configurator.autoInstall.description'|trans }}</p>
+
+    {{ form_errors(form) }}
+    <form action="{{ path('installer_step', {'type': configType, 'index': index}) }} " method="post">
+
+        {{ form_rest(form) }}
+
+        <div class="symfony-form-footer">
+            <p><input type="submit" value="{{ 'configurator.next'|trans }}" /></p>
+            <p>* {{ 'configurator.mandatoryFields'|trans }}</p>
+        </div>
+
+    </form>
+{% endblock %}

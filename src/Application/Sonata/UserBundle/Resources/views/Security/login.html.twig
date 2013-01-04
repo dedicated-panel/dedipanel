@@ -20,10 +20,10 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
 {% block fos_user_content %}
-<form  action="{{ path("fos_user_security_check") }}" method="post">
-    {% if error %}
-        <div class="alert alert-error">{{ error }}</div>
-    {% endif %}
+<form id="connexion" action="{{ path("fos_user_security_check") }}" method="post">
+        {% if error %}
+            <div class="alert alert-error">{{ error }}</div>
+        {% endif %}
 
     <legend>
         <div id="content-titre">

@@ -32,3 +32,8 @@ DPSteamServerBundle_Hltv:
     resource: "@DPSteamServerBundle/Resources/config/routing/hltv.yml"
     prefix: /{id}/hltv/
     requirements: {id: \d+}
+
+DPSteamServerBundle_Rcon:
+    resource: "@DPSteamServerBundle/Resources/config/routing/rcon.yml"
+    prefix: /{id}/rcon/
+    requirements: {id: \d+}

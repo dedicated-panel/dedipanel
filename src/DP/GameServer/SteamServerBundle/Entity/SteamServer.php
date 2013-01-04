@@ -338,48 +338,80 @@ class SteamServer extends GameServer {
     
     public function uploadShellScripts(\Twig_Environment $twig)
     {        
-        $game = $this->getGame();
-        $machine = $this->getMachine();
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        // Upload du script de gestion du serveur de jeu
+        $uploadHlds = $this->uploadHldsScript($twig);
         
-        /** HLDS.sh **/
-        $screenName = $machine->getUser() . '-' . $this->getDir();
+        // Upload du script de gestion de l'hltv
+        $uploadHltv = $this->uploadHltvScript($twig);
+        
+        // Upload d'un fichier server.cfg par défaut (si celui-ci n'existe pas)
+        $this->createDefaultServerCfgFile();
+        
+        $this->installationStatus = 101;
+        
+        return $uploadHlds && $uploadHltv;
+    }
+    
+    public function uploadHldsScript(\Twig_Environment $twig)
+    {
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $game = $this->getGame();
+        
         $scriptPath = $this->getAbsoluteDir() . 'hlds.sh';
         
         $hldsScript = $twig->render('DPSteamServerBundle:sh:hlds.sh.twig', array(
-            'screenName' => $screenName, 'bin' => $game->getBin(), 
-            'launchName' => $game->getLaunchName(), 'ip' => $machine->getPublicIp(), 
+            'screenName' => $this->getHldsScreenName(), 'bin' => $game->getBin(), 
+            'launchName' => $game->getLaunchName(), 'ip' => $this->getMachine()->getPublicIp(), 
             'port' => $this->getPort(), 'maxplayers' => $this->getMaxplayers(), 
             'startMap' => $game->getMap(), 'binDir' => $this->getAbsoluteBinDir(), 
         ));
+        
         $uploadHlds = $sec->upload($scriptPath, $hldsScript, 0750);
 //        echo'<pre>'; print_r($sec->getSFTP()->getSFTPLog()); echo'</pre>';
         
-        /** HLTV.sh **/
-        $uploadHltv = true;
+        return $uploadHlds;
+    }
+    
+    public function uploadHltvScript(\Twig_Environment $twig)
+    {        
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $scriptPath = $this->getAbsoluteDir() . 'hltv.sh';
         
-        if ($game->getBin() == 'hlds_run') {
-            $screenName = $machine->getUser() . '-hltv-' . $this->getDir();
-            $scriptPath = $this->getAbsoluteDir() . 'hltv.sh';
+        // Supression du fichier (s'il exsite déjà)
+        $sec->exec('if [ -e ' . $scriptPath . ' ]; then rm ' . $scriptPath . '; fi');
 
+        // Création du fichier hltv.sh (uniquement si c'est un jeu GoldSrc)
+        if ($this->getGame()->getBin() == 'hlds_run') {
             $hltvScript = $twig->render('DPSteamServerBundle:sh:hltv.sh.twig', array(
                 'binDir' => $this->getAbsoluteBinDir(), 
                 'screenName' => $this->getHltvScreenName(), 
             ));
             $uploadHltv = $sec->upload($scriptPath, $hltvScript, 0750);
         }
+        else {
+            $uploadHltv = true;
+        }
+        
+        return $uploadHltv;
+    }
+    
+    public function createDefaultServerCfgFile()
+    {
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
         
         // On upload un fichier server.cfg si aucun n'existe
         $cfgPath = $this->getAbsoluteGameContentDir();
-        if ($game->isSource() || $game->isOrangebox()) {
+        if ($this->getGame()->isSource() || $this->getGame()->isOrangebox()) {
             $cfgPath .= 'cfg/';
         }
         $cfgPath .= 'server.cfg';
-        $sec->exec('if [ ! -e ' . $cfgPath . ' ]; then touch ' . $cfgPath . '; fi');
         
-        $this->installationStatus = 101;
-        
-        return $uploadHlds && $uploadHltv;
+        return $sec->exec('if [ ! -e ' . $cfgPath . ' ]; then touch ' . $cfgPath . '; fi');
+    }
+    
+    protected function getHldsScreenName()
+    {
+        return $this->getMachine()->getUser() . '-' . $this->getDir();
     }
     
     public function changeStateServer($state)
@@ -403,6 +435,8 @@ class SteamServer extends GameServer {
     public function setRcon($rcon)
     {
         $this->rcon = $rcon;
+        
+        return $this->rcon;
     }
     
     public function getRcon()

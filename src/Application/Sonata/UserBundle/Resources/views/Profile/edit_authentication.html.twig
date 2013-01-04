@@ -1,20 +1,14 @@
 {% extends "::layout.html.twig" %}
 
-{% block content %}        
-        <legend>
-            <div id="content-titre">
-                <p id="titre">{{ "title_user_account" | trans({}, 'SonataUserBundle')) }}</p>
-            </div>
-        </legend>
-
+{% block content %}
     <div class="sonata-user-edit-authentication">
 
         <h2>{{ "title_user_account" | trans({}, 'SonataUserBundle')}} - {{ "title_user_edit_authentication" | trans({}, 'SonataUserBundle')}}</h2>
 
-        <form id="connexion" action="{{ path('sonata_user_profile_edit_authentication') }}" method="POST">
+        <form action="{{ path('sonata_user_profile_edit_authentication') }}" method="POST">
             {{ form_rest(form) }}
 
-                <input type="submit"  class="btn btn-medium btn-primary" name="submit" value="{{ 'sonata_user_submit'|trans({}, 'SonataUserBundle') }}" />
+            <input type="submit" name="submit" value="{{ 'sonata_user_submit'|trans({}, 'SonataUserBundle') }}" />
         </form>
     </div>
 {% endblock %}

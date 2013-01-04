@@ -1,5 +1,4 @@
 <?php
-
 /*
 ** Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jérôme
 **
@@ -18,29 +17,28 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\Core\DistributionBundle\Configurator\Form;
+namespace DP\GameServer\SteamServerBundle\Service;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
+use DP\GameServer\SteamServerBundle\SteamQuery\SourceRcon;
 
-class FixturesStepType extends AbstractType
+class SourceRconFactory
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    private $container;
+    private $rcon;
+    
+    public function __construct($container)
     {
-        $builder
-            ->add('configurationType', 'choice', array(
-                'label' => 'configurationType', 
-                'choices' => array('install' => 'Installation', 'upgrade' => 'Upgrade'), 
-                'required' => true, 
-            ))
-            ->add('loadFixtures', 'checkbox', array(
-                'label' => 'loadFixtures', 
-                'required' => false, 
-            ));
+        $this->container = $container;
     }
     
-    public function getName()
+    public function getRcon($ip, $port, $password)
     {
-        return 'distributionbundle_fixtures_step';
+        $key = $ip . ':' . $port;
+        
+        if (!isset($this->rcon) || !array_key_exists($key, $this->rcon)) {
+            $this->rcon[$key] = new SourceRcon($this->container, $ip, $port, $password);
+        }
+        
+        return $this->rcon[$key];
     }
 }

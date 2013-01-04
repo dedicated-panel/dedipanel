@@ -1,0 +1,4 @@
+services:
+    dp.webinstaller:
+        class: "DP\Core\DistributionBundle\Configurator\Configurator"
+        arguments: [ %kernel.root_dir% ]

@@ -82,13 +82,13 @@ fos_user:
         group_class: Application\Sonata\UserBundle\Entity\Group
     profile:  # Authentication Form
       form:
-          type:               app_user_profile
-          handler:            fos_user.profile.form.handler.default
-          name:               app_user_profile
+          type:               app_user_auth
+          name:               app_user_auth_form
           validation_groups:  [Authentication] # Please note : this is not the default value
 
 sonata_user:
     security_acl: true
+    impersonating_route: _welcome
     class:
         user:               Application\Sonata\UserBundle\Entity\User
         group:              Application\Sonata\UserBundle\Entity\Group

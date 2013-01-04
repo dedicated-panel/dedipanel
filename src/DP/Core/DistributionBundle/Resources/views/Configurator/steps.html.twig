@@ -1,14 +1,14 @@
-<div class="step">
+<div class="symfony-block-steps">
     {% for i in 1..count %}
 
       {% if i == index + 1 %}
-          <a href="#" class="current">Step {{ i }}</a>
+          <span class="selected">{{ 'configurator.step'|trans }} {{ i }}</span>
       {% else %}
-          <a href="#">Step {{ i }}</a>
+          <span>{{ 'configurator.step'|trans }} {{ i }}</span>
       {% endif %}
 
       {% if i != count %}
-        <i class="icon-chevron-right"></i>
+        &gt;
       {% endif %}
     {% endfor %}
 </div>

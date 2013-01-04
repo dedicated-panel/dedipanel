@@ -1,41 +1,27 @@
-{% extends "SensioDistributionBundle::Configurator/layout.html.twig" %}
+{% extends "DPDistributionBundle:Configurator:layout.html.twig" %}
 
 {% block content %}
-    {% if majors|length %}
-        <h1>{% transchoice majors|length %}check.majorProblems{% endtranschoice %}</h1>
-        <p>
-            {% transchoice majors|length with {'%nbMajor%': majors|length} %}
-                check.majorDetected
-            {% endtranschoice %}
-            <br />
-            {% transchoice majors|length %}
-                check.fixMajor
-            {% endtranschoice %}
-        </p>
-        <ol>
-            {% for message in majors %}
-                <li>{{ message|trans }}</li>
-            {% endfor %}
-        </ol>
-    {% endif %}
-
-    {% if minors|length %}
-        <h1>{% transchoice minors|length %}check.minorProblems{% endtranschoice %}</h1>
-
-        <p>
-            {% transchoice minors|length with {'%nbMinor%': minors|length} %}
-                check.minorDetected
-            {% endtranschoice %}
-            <br />
-            {% transchoice minors|length %}
-                check.fixMinor
-            {% endtranschoice %}
-        </p>
-        
-        <ol>
-            {% for message in minors %}
-                <li>{{ message|trans }}</li>
-            {% endfor %}
-        </ol>
+    <ul id="requirements">
+        {% for label, state in requirements %}
+            {% if state == true %}
+                {% set class = 'good' %}
+            {% else %}
+                {% set class = 'bad' %}
+            {% endif %}
+            
+            <li class="{{ class }}">
+                <b>{{ label|trans }} :</b>
+                
+                {% if state == true %}
+                    {{ 'configurator.ok'|trans }}
+                {% else %}
+                    {{ 'configurator.nok'|trans }}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    
+    {% if hasError == false %}
+        <a href="{{ path('installer_step', { 'type': 'install', 'index': 0 }) }}">{{ 'configurator.next'|trans }}</a>
     {% endif %}
 {% endblock %}

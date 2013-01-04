@@ -418,9 +418,9 @@ select, input[type="file"] {
 input.petit, select.petit { 	
     height: 14px !important;
     width: 135px !important;
-    font-size: 14px; 	
-
-}select.petit { 	
+    font-size: 14px;
+}
+select.petit { 	
     height: 27px !important;
     font-size: 13px;				
 }
@@ -489,6 +489,37 @@ fieldset {
     padding: 9px 10px 7px 11px;
     float: left;
     opacity: .7;
+}
+
+#rcon-form textarea {
+    width: auto;
+    height: auto;
+}
+
+/* etape */
+#etape {
+    font-family: Tahoma;
+    height:39px;
+    margin-bottom: 20px;
+}	
+.etape_sel {
+    float:left;
+    height:29px;
+    width:18px;
+    font-size: 18px;
+    line-height: 18px;
+    padding:10px 0 0 0;
+    text-align: center;
+}
+.etape_nsel {
+    float:left;
+    height:29px;
+    width:18px;
+    font-size: 18px;
+    line-height: 18px;
+    padding:10px 0 0 0;
+    text-align: center;
+    color:#cbcbcb;
 }
 .widget-titre h5 {
     color: #666666;

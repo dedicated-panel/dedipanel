@@ -31,7 +31,7 @@ security:
     
     firewalls:        
         configurator:
-            pattern: ^/_configurator
+            pattern: ^/installer
             anonymous: true
         
         dev:
@@ -48,14 +48,14 @@ security:
             pattern:            /admin(.*)
             form_login:
                 provider:       fos_userbundle
-                login_path:     /admin/login
+                login_path:     /login
                 use_forward:    false
-                check_path:     /admin/login_check
+                check_path:     /login_check
                 failure_path:   null
                 use_referer:    true
             logout:
-                path:           /admin/logout
-                target:         /admin/login
+                path:           /logout
+                target:         /login
             anonymous:    true
         
         main:
@@ -75,7 +75,7 @@ security:
             logout: true
     
     access_control:
-        - { path: ^/configurator, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/installer, role: IS_AUTHENTICATED_ANONYMOUSLY }
         # -> custom access control for the admin area of the URL
         - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
