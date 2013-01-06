@@ -124,7 +124,7 @@ class Game
      * @var \Doctrine\Common\Collections\ArrayCollection $plugins
      * 
      * @ORM\ManyToMany(targetEntity="DP\Core\GameBundle\Entity\Plugin", inversedBy="games")
-     * @ORM\JoinTable(name="games_plugins", 
+     * @ORM\JoinTable(name="game_plugin", 
      *      joinColumns={@ORM\JoinColumn(name="game_id", referencedColumnName="id")}, 
      *      inverseJoinColumns={@ORM\JoinColumn(name="plugin_id", referencedColumnName="id")}
      * )
@@ -140,7 +140,7 @@ class Game
 
     public function __construct()
     {
-        $this->setPlugins();
+        $this->plugins = new \Doctrine\Common\Collections\ArrayCollection(array());
     }
     
     /**
@@ -374,8 +374,16 @@ class Game
      */
     public function addPlugin(\DP\Core\GameBundle\Entity\Plugin $plugin)
     {
-        $plugin->addGame($this);
         $this->plugins[] = $plugin;
+        
+        if (!$plugin->getGames()->contains($this)) {
+            $plugin->addGame($this);
+        }
+    }
+    
+    public function removePlugin(Plugin $plugin)
+    {
+        $this->plugins->removeElement($plugin);
     }
     
     /**
@@ -383,7 +391,7 @@ class Game
      * 
      * @param array $plugins 
      */
-    private function setPlugins(array $plugins = array())
+    public function setPlugins(array $plugins = array())
     {
         $this->plugins = new \Doctrine\Common\Collections\ArrayCollection($plugins);
     }
@@ -395,10 +403,6 @@ class Game
      */
     public function getPlugins()
     {
-        if ($this->plugins instanceof \Doctrine\ORM\PersistentCollection) {
-            $this->setPlugins($this->plugins->getValues());
-        }
-        
         return $this->plugins;
     }
     

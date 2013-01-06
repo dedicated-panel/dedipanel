@@ -20,6 +20,7 @@
 namespace DP\Core\GameBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use DP\Core\GameBundle\Entity\Game;
 
 /**
  * DP\Core\GameBundle\Entity\Plugin
@@ -54,13 +55,6 @@ class Plugin
     private $downloadUrl;
 
     /**
-     * @var string $archiveType
-     *
-     * @ORM\Column(name="archiveType", type="string", length=10)
-     */
-    private $archiveType;
-
-    /**
      * @var string $scriptName
      *
      * @ORM\Column(name="scriptName", type="string", length=32)
@@ -71,7 +65,7 @@ class Plugin
      * @var \Doctrine\Common\Collections\ArrayCollection $games
      * 
      * @ORM\ManyToMany(targetEntity="DP\Core\GameBundle\Entity\Game", mappedBy="plugins")
-     * @ORM\JoinTable(name="games_plugins", 
+     * @ORM\JoinTable(
      *      joinColumns={@ORM\JoinColumn(name="plugin_id", referencedColumnName="id")}, 
      *      inverseJoinColumns={@ORM\JoinColumn(name="game_id", referencedColumnName="id")}
      * )
@@ -134,26 +128,6 @@ class Plugin
     }
 
     /**
-     * Set archiveType
-     *
-     * @param string $archiveType
-     */
-    public function setArchiveType($archiveType)
-    {
-        $this->archiveType = $archiveType;
-    }
-
-    /**
-     * Get archiveType
-     *
-     * @return string 
-     */
-    public function getArchiveType()
-    {
-        return $this->archiveType;
-    }
-
-    /**
      * Set scriptName
      *
      * @param string $scriptName
@@ -176,11 +150,34 @@ class Plugin
     /**
      * Add game
      *
-     * @param DP\Core\GameBundle\Entity\Game $game
+     * @param Game $game
      */
-    public function addGame(\DP\Core\GameBundle\Entity\Game $game)
+    public function addGame(Game $game)
     {
         $this->games[] = $game;
+        
+        if (!$game->getPlugins()->contains($this)) {
+            $game->addPlugin($this);
+        }
+    }
+    
+    /**
+     * Remove game
+     * 
+     * @param Game $game
+     */
+    public function removeGame(Game $game)
+    {
+        $this->games->removeElement($game);
+        
+        if ($game->getPlugins()->contains($this)) {
+            $game->removePlugin($this);
+        }
+    }
+    
+    public function setGames(array $games = array())
+    {
+        $this->games = new \Doctrine\Common\Collections\ArrayCollection($games);
     }
 
     /**

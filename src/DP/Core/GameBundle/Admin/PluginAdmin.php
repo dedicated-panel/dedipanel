@@ -52,7 +52,7 @@ class PluginAdmin extends Admin
             ->add('name')
             ->add('downloadUrl')
             ->add('scriptName')
-            ->add('games', 'sonata_type_model', array('required' => false))
+            ->add('games', 'sonata_type_model', array('required' => false, 'multiple' => true, 'expanded' => true, 'by_reference' => false))
         ;
     }
 }
