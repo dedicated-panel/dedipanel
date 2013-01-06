@@ -128,18 +128,14 @@
                                 {% if entity.query.online %}
                                     <div class="row description-general">
                                         <div class="span3 offset4">
-                                            {% if entity.game.sourceImageMaps is defined %}
-                                                <img src="{{ entity.game.sourceImagesMaps }}{{ entity.query.serverInfos['map'] }}.jpg" alt="{{ entity.query.serverInfos['map'] }}" />
-                                            {% else %}
-                                                <img src="{{ entity.game.sourceImagesMaps }}de_dust2.jpg" />
-                                            {% endif %}                            
+                                            {{ entity.query.activePlugins }}
                                         </div>
                                         <div class="span4">
                                             <table class="table table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th>Joueur</th>
-                                                    <th>Score</th>
+                                                    <th>{{ 'game.player'|trans }}</th>
+                                                    <th>{{ 'game.score'|trans }}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -148,6 +144,8 @@
                                                         <td>{{ player.nom }}</td>
                                                         <td>{{ player.score }}</td>
                                                     </tr>
+                                                {% else %}
+                                                    <tr><th colspan="2">{{ 'game.noPlayerConnected'|trans }}</th></tr>
                                                 {% endfor %}
                                                 </tbody>
                                             </table>

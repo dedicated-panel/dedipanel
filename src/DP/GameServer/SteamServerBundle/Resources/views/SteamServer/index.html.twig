@@ -155,14 +155,16 @@
                                                 <th>Score</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            {% for player in entity.query.players %}
-                                                <tr>
-                                                    <td>{{ player.nom }}</td>
-                                                    <td>{{ player.score }}</td>
-                                                </tr>
-                                            {% endfor %}
-                                            </tbody>
+                                            <tbody>
+                                                {% for player in entity.query.players %}
+                                                    <tr>
+                                                        <td>{{ player.nom }}</td>
+                                                        <td>{{ player.score }}</td>
+                                                    </tr>
+                                                {% else %}
+                                                    <tr><th colspan="2">{{ 'game.noPlayerConnected'|trans }}</th></tr>
+                                                {% endfor %}
+                                                </tbody>
                                         </table>
                                     </div>
                                 </div>

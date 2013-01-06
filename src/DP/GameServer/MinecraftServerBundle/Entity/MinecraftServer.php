@@ -1,11 +1,30 @@
 <?php
 
+/*
+** Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jérôme
+**
+** This program is free software; you can redistribute it and/or modify
+** it under the terms of the GNU General Public License as published by
+** the Free Software Foundation; either version 2 of the License, or
+** (at your option) any later version.
+**
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+** GNU General Public License for more details.
+**
+** You should have received a copy of the GNU General Public License along
+** with this program; if not, write to the Free Software Foundation, Inc.,
+** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+*/
+
 namespace DP\GameServer\MinecraftServerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use DP\GameServer\GameServerBundle\Entity\GameServer;
 use Symfony\Component\Validator\Constraints as Assert;
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
+use DP\Core\GameBundle\Entity\Plugin;
 
 /**
  * DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer
@@ -215,5 +234,26 @@ class MinecraftServer extends GameServer
         ));
         
         return $sec->upload($cfgPath, $cfgFile, 0750);
+    }
+    
+    public function execPluginScript(\Twig_Environment $twig, Plugin $plugin, $action)
+    {
+        $dir = $this->getAbsoluteDir();
+        $scriptPath = $dir . 'plugin.sh';
+        
+        // Hashage du screen name pour qu'il ne dépasse pas le max de caractère
+        $screenName = sha1($this->getMachine()->getUser() . '-plugin-' . $this->getDir(), true);
+        $screenCmd  = 'screen -dmS ' . $screenName . ' ' . $scriptPath . ' ' . $action;
+        
+        if ($action == 'install') {
+            $screenCmd .= ' "' . $plugin->getDownloadUrl () . '"';
+        }
+        
+        $pluginScript = $twig->render(
+            'DPMinecraftServerBundle:sh:plugin.sh.twig', array('gameDir' => $dir . 'plugins'));
+        
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $sec->upload($scriptPath, $pluginScript);
+        $sec->exec($screenCmd);
     }
 }

@@ -52,5 +52,9 @@
                 </a></td>
             </tr>
         {% endfor %}
+            
+        {% if server.installedPlugins is empty and server.notInstalledPlugins is empty %}
+            <tr><th colspan="2">{{ 'game.plugin.noPluginForThatGame'|trans }}</th></tr>
+        {% endif %}
     </table>
 {% endblock %}

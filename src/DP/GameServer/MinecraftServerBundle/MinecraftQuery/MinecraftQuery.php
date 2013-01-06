@@ -39,6 +39,7 @@ class MinecraftQuery implements QueryInterface
     protected $players;
     protected $serverInfos;
     protected $online;
+    protected $plugins;
     
     public function __construct($container, $host, $port)
     {
@@ -130,6 +131,10 @@ class MinecraftQuery implements QueryInterface
                 
                 if (!empty($varname)) {
                     $val = $resp->getString();
+                    
+                    if ($varname == 'plugins') {
+                        $this->plugins = $val;
+                    }
                 }
             } while ($varname != '');
             
@@ -157,5 +162,14 @@ class MinecraftQuery implements QueryInterface
     public function isBanned()
     {
         return false;
+    }
+    
+    public function getActivePlugins()
+    {
+        if (!isset($this->plugins)) {
+            $this->getPlayers();
+        }
+        
+        return $this->plugins;
     }
 }
