@@ -21,3 +21,11 @@ services:
     query.minecraft:
         class: DP\GameServer\MinecraftServerBundle\Service\Query
         arguments: [ @service_container ]
+    
+    minecraft.listener.configModifier:
+        class: DP\GameServer\MinecraftServerBundle\Listener\ConfigModifier
+        arguments: [ @service_container ]
+        calls:
+            - [ setServiceContainer, [ @service_container ] ]
+        tags:
+            - { name: doctrine.event_listener, event: preUpdate, method: preUpdate }

@@ -18,14 +18,14 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\GameServer\SteamServerBundle\Listener;
+namespace DP\GameServer\GameServerBundle\Listener;
 
 use Doctrine\ORM\Event\PreUpdateEventArgs;
-use DP\GameServer\SteamServerBundle\Entity\SteamServer;
-use DP\Core\MachineBundle\Entity\Machine;
+use DP\GameServer\GameServerBundle\Entity\GameServer;
 
 /**
- * @author Albin Kerouanton 
+ * Les classes ConfigModifier modifie automatiquement les configs des serveurs
+ * selon la configuration des machines/jeux/serveurs.
  */
 class ConfigModifier
 {
@@ -56,44 +56,23 @@ class ConfigModifier
         return $this->container->get('twig');
     }
     
-    /**
-     * Maj des scripts du serveur si la config du serveur (port, maxplayers, dir) a été modifié
-     * Ou si la config du jeu (bin, binDir, installName, launchName, map, orangebox, source) a été modifié
-     * Ou si l'IP publique de la machine a été modifié
-     * 
-     * Réinstallation du serveur
-     * Si des modifs ont été faites sur la machine (IP privée, home, user)
-     * Ou si le serveur de jeu n'est plus sur la meme machine
-     * Ou si le jeu du serveur est modifié
-     * 
-     * @param \Doctrine\ORM\Event\PreUpdateEventArgs $args
-     */
     public function preUpdate(PreUpdateEventArgs $args)
     {
         $entity = $args->getEntity();
         
-        if ($entity instanceof SteamServer) {            
-            if ($args->hasChangedField('port') || $args->hasChangedField('maxplayers') 
-                || $args->hasChangedField('dir')) {
+        if ($entity instanceof GameServer) {
+            if ($args->hasChangedField('machine') || $args->hasChangedField('game')) {
                 try {
-                    $entity->uploadHldsScript($this->getTwig());
+                    $entity->installServer($this->getTwig());
                 }
-                catch (\Exception $e) {}
-            }
-        }
-        elseif ($entity instanceof Machine) {
-            // Upload des scripts si l'IP public ou le home de la machine a été modifié
-            if ($args->hasChangedField('publicIp')) {
-                $servers = $entity->getGameServers();
+                catch (\Exception $e) {
+                    $entity->setInstallationStatus(0);
+                }
                 
-                foreach ($servers AS $server) {
-                    if (!$server instanceof SteamServer) continue;
-                    
-                    try {
-                        $server->uploadHldsScript($this->getTwig());
-                    }
-                    catch (\Exception $e) {}
-                }
+                $em = $args->getEntityManager();
+                $uow = $em->getUnitOfWork();
+                $meta = $em->getClassMetadata(get_class($entity));
+                $uow->recomputeSingleEntityChangeSet($meta, $entity);
             }
         }
     }

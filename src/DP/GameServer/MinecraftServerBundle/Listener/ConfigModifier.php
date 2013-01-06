@@ -18,10 +18,10 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\GameServer\SteamServerBundle\Listener;
+namespace DP\GameServer\MinecraftServerBundle\Listener;
 
 use Doctrine\ORM\Event\PreUpdateEventArgs;
-use DP\GameServer\SteamServerBundle\Entity\SteamServer;
+use DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer;
 use DP\Core\MachineBundle\Entity\Machine;
 
 /**
@@ -72,11 +72,11 @@ class ConfigModifier
     {
         $entity = $args->getEntity();
         
-        if ($entity instanceof SteamServer) {            
+        if ($entity instanceof MinecraftServer) { 
             if ($args->hasChangedField('port') || $args->hasChangedField('maxplayers') 
                 || $args->hasChangedField('dir')) {
                 try {
-                    $entity->uploadHldsScript($this->getTwig());
+                    $entity->modifyServerConfig();
                 }
                 catch (\Exception $e) {}
             }
@@ -87,10 +87,10 @@ class ConfigModifier
                 $servers = $entity->getGameServers();
                 
                 foreach ($servers AS $server) {
-                    if (!$server instanceof SteamServer) continue;
+                    if (!$server instanceof MinecraftServer) continue;
                     
                     try {
-                        $server->uploadHldsScript($this->getTwig());
+                        $server->modifyServerConfig();
                     }
                     catch (\Exception $e) {}
                 }

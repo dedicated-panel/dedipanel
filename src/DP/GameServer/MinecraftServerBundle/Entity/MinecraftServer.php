@@ -236,6 +236,55 @@ class MinecraftServer extends GameServer
         return $sec->upload($cfgPath, $cfgFile, 0750);
     }
     
+    public function modifyServerConfig()
+    {
+        // Variables à modifier dans le fichier server.properties
+        $varToChange = array(
+            'server-port'   => $this->getPort(), 
+            'enable-query'  => 'true', 
+            'query.port'    => $this->getQueryPort(), 
+            'enable-rcon'   => 'true', 
+            'rcon.port'     => $this->getRconPort(), 
+            'rcon.password' => $this->getRconPassword(), 
+            'server-ip'     => $this->getMachine()->getPublicIp(), 
+            'max-players'   => $this->getMaxplayers(), 
+        );
+        
+        // Récupération du fichier server.properties distant
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $cfgPath = $this->getAbsoluteDir() . 'server.properties';
+        
+        $remoteFile = $sec->getRemoteFile($cfgPath);
+        $fileLines = explode("\n", $remoteFile);
+        
+        foreach ($fileLines AS &$line) {
+            if ($line == '') continue;
+            
+            // Extraction du nom de la variable
+            $var = substr($line, 0, strpos($line, '='));
+            
+            // Si c'est l'une des variables à modifier, on modifie la ligne
+            // Et on supprime l'entrée dans l'array des variables à modifier
+            if (array_key_exists($var, $varToChange)) {
+                $line = $var . '=' . $varToChange[$var];
+                
+                unset($varToChange[$var]);
+            }
+        }
+        
+        // S'il reste des variables dans l'array $varToChange
+        // On ajoute les lignes au fichier 
+        // (puisqu'elle n'existe pas, les nouvelles valeurs n'ont pas encore été mises)
+        if (!empty($varToChange)) {
+            foreach ($varToChange AS $var => $val) {
+                $fileLines[] .= $var . '=' . $val;
+            }
+        }
+        
+        // Upload du nouveau fichier
+        return $sec->upload($cfgPath, implode("\n", $fileLines));
+    }
+    
     public function execPluginScript(\Twig_Environment $twig, Plugin $plugin, $action)
     {
         $dir = $this->getAbsoluteDir();
