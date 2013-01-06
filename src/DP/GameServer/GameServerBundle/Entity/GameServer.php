@@ -37,7 +37,7 @@ use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
  *      "minecraft" = "DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer"
  * })
  */
-class GameServer
+abstract class GameServer
 {
     /**
      * @var integer $id
@@ -111,7 +111,26 @@ class GameServer
     
     protected $query;
     protected $rcon;
-
+    
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection $plugins
+     * 
+     * @ORM\ManyToMany(targetEntity="DP\Core\GameBundle\Entity\Plugin") 
+     * @ORM\JoinTable(name="gameserver_plugins",
+     *      joinColumns={@ORM\JoinColumn(name="server_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="plugin_id", referencedColumnName="id")}
+     * )
+     */
+    private $plugins;
+    
+    
+    abstract public function changeStateServer($state);
+    
+    
+    public function __construct()
+    {
+        $this->plugins = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -396,5 +415,56 @@ class GameServer
         
         return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
                 ->touch($path);
+    }
+    
+    /**
+     * Add plugin
+     * 
+     * @param \DP\Core\GameBundle\Entity\Plugin $plugin 
+     */
+    public function addPlugin(\DP\Core\GameBundle\Entity\Plugin $plugin)
+    {
+        $this->plugins[] = $plugin;
+    }
+    
+    /**
+     * Remove a server plugin
+     * @param \DP\Core\GameBundle\Entity\Plugin $plugin 
+     */
+    public function removePlugin(\DP\Core\GameBundle\Entity\Plugin $plugin)
+    {
+        $this->plugins->removeElement($plugin);
+    }
+    
+    /**
+     * Get plugins recorded as "installed on the server"
+     * 
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getPlugins()
+    {
+        if ($this->plugins instanceof \Doctrine\ORM\PersistentCollection) {
+            return $this->plugins->getValues();
+        }
+        else {
+            return $this->plugins;
+        }
+    }
+    
+    public function getInstalledPlugins()
+    {
+        return $this->getPlugins();
+    }
+    
+    public function getNotInstalledPlugins()
+    {
+        $intersectCallback = function ($plugin1, $plugin2) {
+            return $plugin1->getId() - $plugin2->getId();
+        };
+        $plugins = $this->getGame()->getPlugins()->getValues();
+        
+        // On compare l'array contenant l'ensemble des plugins dispo pour le jeu
+        // A ceux installés sur le serveur
+        return array_udiff($plugins, $this->getPlugins(), $intersectCallback);
     }
 }

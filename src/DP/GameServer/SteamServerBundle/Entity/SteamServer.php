@@ -61,28 +61,11 @@ class SteamServer extends GameServer {
     private $core;
     
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection $plugins
-     * 
-     * @ORM\ManyToMany(targetEntity="DP\Core\GameBundle\Entity\Plugin") 
-     * @ORM\JoinTable(name="steamserver_plugins",
-     *      joinColumns={@ORM\JoinColumn(name="server_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="plugin_id", referencedColumnName="id")}
-     * )
-     */
-    private $plugins;
-    
-    /**
      * @var integer $hltvPort
      * 
      * @ORM\Column(name="hltvPort", type="integer", nullable=true)
      */
     private $hltvPort;
-    
-    
-    public function __construct()
-    {
-        $this->plugins = new \Doctrine\Common\Collections\ArrayCollection();
-    }
     
     /**
      * Set autoReboot
@@ -352,69 +335,22 @@ class SteamServer extends GameServer {
                 ->exec($scriptPath . ' ' . $state);
     }
     
-    /**
-     * Add plugin
-     * 
-     * @param \DP\Core\GameBundle\Entity\Plugin $plugin 
-     */
-    public function addPlugin(\DP\Core\GameBundle\Entity\Plugin $plugin)
-    {
-        $this->plugins[] = $plugin;
-    }
-    
-    /**
-     * Remove a server plugin
-     * @param \DP\Core\GameBundle\Entity\Plugin $plugin 
-     */
-    public function removePlugin(\DP\Core\GameBundle\Entity\Plugin $plugin)
-    {
-        $this->plugins->removeElement($plugin);
-    }
-    
-    /**
-     * Get plugins recorded as "installed on the server"
-     * 
-     * @return \Doctrine\Common\Collections\ArrayCollection
-     */
-    public function getPlugins()
-    {
-        if ($this->plugins instanceof \Doctrine\ORM\PersistentCollection) {
-            return $this->plugins->getValues();
-        }
-        else {
-            return $this->plugins;
-        }
-    }
-    
-    public function getInstalledPlugins()
-    {
-        return $this->getPlugins();
-    }
-    
-    public function getNotInstalledPlugins()
-    {
-        $intersectCallback = function ($plugin1, $plugin2) {
-            return $plugin1->getId() - $plugin2->getId();
-        };
-        $plugins = $this->getGame()->getPlugins()->getValues();
-        
-        // On compare l'array contenant l'ensemble des plugins dispo pour le jeu
-        // A ceux installés sur le serveur
-        return array_udiff($plugins, $this->getPlugins(), $intersectCallback);
-    }
-    
     public function execPluginScript(\Twig_Environment $twig, Plugin $plugin, $action)
     {
         $dir = $this->getAbsoluteGameContentDir();
         $scriptName = $plugin->getScriptName();
         $scriptPath = $dir . $scriptName . '.sh';
         
-        $screenName = $scriptName . '-' . $this->getDir();
+        // Hashage du screen name pour qu'il ne dépasse pas le max de caractère
+        $screenName = sha1($this->getMachine()->getUser() . '-' . $scriptName . '-' . $this->getDir(), true);
         $screenCmd  = 'screen -dmS ' . $screenName . ' ' . $scriptPath . ' ' . $action;
-        if ($action == 'install') $screenCmd .= ' "' . $plugin->getDownloadUrl () . '"';
+        
+        if ($action == 'install') {
+            $screenCmd .= ' "' . $plugin->getDownloadUrl () . '"';
+        }
         
         $pluginScript = $twig->render(
-            'DPSteamServerBundle:sh:Plugins/' . $scriptName . '.sh.twig', array('gameDir' => $dir));
+            'DPSteamServerBundle:sh:Plugin/' . $scriptName . '.sh.twig', array('gameDir' => $dir));
         
         $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
         $sec->upload($scriptPath, $pluginScript);
