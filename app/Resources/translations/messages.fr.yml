@@ -14,16 +14,12 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-layout.webSite: "Site Web"
+layout.website: Site web
 
-profil.profil: "Profil"
-profil.options: "Options"
-profil.message: "Messages"
-profil.logout: "Déconnexion"
+profil.profil: Profil
+profil.logout: Déconnexion
 
-menu.home: "Dashboard"
-menu.steam: "Steam Serveurs"
-menu.machine: "Gestion des machines"
-menu.game: "Serveurs de jeux"
-menu.vocal: "Serveurs vocaux"
-menu.user: "Utilisateur"
+menu.home: Accueil
+menu.machine: Gestion des machines
+menu.game: Serveurs de jeux
+menu.admin: Administration
