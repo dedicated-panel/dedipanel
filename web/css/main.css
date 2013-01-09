@@ -467,8 +467,12 @@ label {
     font-family: 'Yanone Kaffeesatz', arial, sans-serif;
     font-size: 16px;
     color: #666; 
-    width: 150px;
+    width: 250px !important;
     display: block;
+    float: left;
+}
+input[type="radio"], input[type="checkbox"] {
+    margin: 4px 0 0;
     float: left;
 }
 fieldset { 
