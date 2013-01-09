@@ -343,59 +343,6 @@ nav > .menuNav > ul > li > a > span {
 #steam > .details > .nav-tabs > li > a:hover {
     background-color: #E6E6E6;
 }
-.steam-server > .details {
-    /*border: 5px solid green;*/
-    /* display: none; */
-    margin-left: 30px;
-}
-
-.steam-server > .details > p:nth-child(1) {
-    min-width: 160px;
-    min-height: 120px;
-    width: 20%;
-    float: left;
-    margin-left: 33px;
-}
-
-.steam-server > .details > .actions > a {
-    text-decoration: none;
-}
-
-.steam-server > .details > .players-list {
-    float: left;
-    width: 33%;
-}
-
-/* Player List (Steam Server) */
-.steam-server > .details > table.players-list > thead > th {
-    background-color: #333333;
-    /*margin-bottom: 6px;
-    padding-bottom: 3px;
-    padding-left: 7px;
-    padding-top: 5px;
-    text-align: left;
-    /*height: 25px;*/
-    /*color: red;*/
-    color: #FFFFFF;
-    min-width: 100px;
-}
-.steam-server > .details > table.players-list > tbody > td {
-    border-bottom-color: #C7C7C7;
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    padding-bottom: 5px;
-    padding-left: 15px;
-    padding-top: 5px;
-    line-height: 8px;
-    height: 18px;
-}
-.steam-server > .details > table.players-list > tbody > tr:hover {
-    background-color: #1F1F1F;
-    color: grey;
-}
-.steam-server#steam-20 > .details{
-    display: none;
-}
 
 .serveur-steam > .actions{  
 }
