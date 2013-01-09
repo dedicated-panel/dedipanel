@@ -43,7 +43,7 @@ game.plugin.name: Nom
 game.plugin.status: Statut
 game.plugin.installed: Installé
 game.plugin.notInstalled: Non installé
-game.plugin.noPluginForThatGame: Il n'y a page de plugin de configuré pour ce jeu.
+game.plugin.noPluginForThatGame: Il n'y a pas de plugin de configuré pour ce jeu.
 
 game.player: Joueur
 game.score: Score

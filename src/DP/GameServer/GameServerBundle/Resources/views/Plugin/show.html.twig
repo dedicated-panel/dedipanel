@@ -19,16 +19,16 @@
 {% extends "::layout.html.twig" %}
 
 {% block title %}
-    {{ 'game.plugin.title'|trans }}
+    <a href="{{ path(baseRoute) }}"> 
+        <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></div>
+    </a>
     
-    <nav id="tabs" class="nav nav-tabs">
-        <a href="{{ path(baseRoute) }}">
-            {{ 'game.back'|trans }}
-        </a>
-    </nav>
+    <p>{{ (baseRoute ~ '.title')|trans }}</p>
 {% endblock %}
 
-{% block content %}    
+{% block content %}
+    <legend>{{ 'game.plugin.title'|trans }}</legend>
+    
     <table>
         <tr>
             <th>{{ 'game.plugin.name'|trans }}</th>

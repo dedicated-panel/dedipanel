@@ -19,16 +19,16 @@
 {% extends "::layout.html.twig" %}
 
 {% block title %}
-    {{ 'game.ftp.editTitle'|trans }}
+    <a href="{{ path(baseRoute) }}"> 
+        <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></div>
+    </a>
     
-    <nav id="tabs" class="nav nav-tabs">
-        <a href="{{ path(baseRoute ~ '_ftp_show', {id: sid, path: dirPath}) }}">
-            {{ 'game.back'|trans }}
-        </a>
-    </nav>
+    <p>{{ (baseRoute ~ '.title')|trans }}</p>
 {% endblock %}
 
 {% block content %}    
+    <legend>{{ 'game.ftp.editTitle'|trans }}</legend>
+    
     <form action="{{ path(baseRoute ~ '_ftp_edit', {id: sid, path: path}) }}" method="post">	
         <fieldset>
             {{ form_widget(form) }}

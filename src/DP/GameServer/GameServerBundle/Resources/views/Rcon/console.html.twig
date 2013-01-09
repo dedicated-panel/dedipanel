@@ -19,13 +19,11 @@
 {% extends "::layout.html.twig" %}
 
 {% block title %}
-    {{ 'game.rcon.title'|trans }}
+    <a href="{{ path(baseRoute) }}"> 
+        <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></div>
+    </a>
     
-    <nav id="tabs" class="nav nav-tabs">
-        <a href="{{ path(baseRoute) }}">
-            {{ 'game.back'|trans }}
-        </a>
-    </nav>
+    <p>{{ (baseRoute ~ '.title')|trans }}</p>
 {% endblock %}
 
 {% block javascripts %}
@@ -33,6 +31,8 @@
 {% endblock %}
 
 {% block content %}
+    <legend>{{ 'game.rcon.title'|trans }}</legend>
+    
     {% if online and not banned %}
         <form action="{{ path(baseRoute ~ '_rcon_execute', {id: sid}) }}" method="post" id="rcon-form">
             <textarea disabled="disabled" cols="80" rows="20">{{ log }}</textarea>
