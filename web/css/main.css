@@ -34,7 +34,7 @@ body	{
 .clear {
     clear: both;
 }
-/*** HEADER ***/
+/*** HEADER & modif bootstrap ***/
 
 header {
     -webkit-box-shadow: inset 0 0 15px #141414;
@@ -56,11 +56,14 @@ header {
 }
 
 .form-actions{   
-    background-color: #E9E9E9 !important;
-    border-top: 1px solid #D6D6D6 !important;
+    background-color: #DDD !important;
+    border-top: 1px solid #C4C4C4 !important
 }
 legend{
-    border-bottom: 1px solid #D6D6D6 !important; 
+    border-bottom: 1px solid #C4C4C4 !important
+}
+.nav > li > a:hover {
+    background-color: #E2E2E2 !important;
 }
 
 /*** Page (Style général) ***/
@@ -76,16 +79,26 @@ section {
     top: 35px;
     border-left: 1px solid #000000;
 }
-section h1:first-child {
+section > h1:first-child {
     color: #646464;
     font-family: Tahoma;
-    font-size: 28px;
+    font-size: 26px;
     font-weight: normal;
-    height: 42px;
+    height: 38px;
     padding-left: 16px;                              
     text-shadow: 0 1px 0 #DFDFDF;      
     border-bottom: 1px solid #C5C5C5;
     background-color: #CECECE;      box-shadow: 0 0 1px white;
+}
+section > #title > a {
+    color: #5488A2;
+    width: 100px;
+    text-decoration: none;
+}
+section > #title > p{
+    position: relative;
+    top: -41px;
+    left: 34px;
 }
 #page-content {
     /*	min-height: 500px;*/
@@ -94,7 +107,7 @@ section h1:first-child {
     padding: 10px;
     margin: 13px;
     min-height: 700px
-;
+        ;
 }
 /***** Menu User ****/
 
@@ -170,7 +183,7 @@ nav {
     border-right: 5px solid #333;
     -webkit-box-shadow: inset 0 0 41px #262626;
     position: absolute;
-    width: 200px;  
+    width: 201px;  
     bottom: 0;
     background-color: #262626;
 }
@@ -215,7 +228,6 @@ nav > .menuNav > ul > li > a:hover {
 nav > .menuNav > ul > li > a > .fsMenu {
     font-size: 1.6em;
     float: left;
-    
     margin-left: 20px;
     margin-top: 9px;
 }
@@ -237,11 +249,11 @@ nav > .menuNav > ul > li > a > span {
     padding: 3px 0px;
 }
 
-#footer a:selected, footer a:hover{
+#footer > a:selected, footer a:hover{
     color: #000;
     text-decoration: none;
 }
-#footer p {
+#footer > p {
     height: 13px;
     text-align: center;
     color: #818181;
@@ -271,7 +283,7 @@ nav > .menuNav > ul > li > a > span {
 
 #menu-legend {
     position: relative;
-    top: -58px;
+    top: -57px;
 }
 .serveur-steam {
     height: 50px;
@@ -316,20 +328,20 @@ nav > .menuNav > ul > li > a > span {
 #steam .details{
     margin-top: -1px;
 }
-#steam .details .nav-tabs > .active > a,
-#steam .details .nav-tabs > .active > a:hover{
+#steam > .details .nav-tabs > .active > a,
+#steam > .details .nav-tabs > .active > a:hover{
     background-color: whiteSmoke;
 }
-#steam .details .nav-tabs > li > a:hover {
+#steam > .details > .nav-tabs > li > a:hover {
     background-color: #E6E6E6;
 }
-.steam-server .details {
+.steam-server > .details {
     /*border: 5px solid green;*/
     /* display: none; */
     margin-left: 30px;
 }
 
-.steam-server .details p:nth-child(1) {
+.steam-server > .details > p:nth-child(1) {
     min-width: 160px;
     min-height: 120px;
     width: 20%;
@@ -337,17 +349,17 @@ nav > .menuNav > ul > li > a > span {
     margin-left: 33px;
 }
 
-.steam-server .details .actions a {
+.steam-server > .details > .actions > a {
     text-decoration: none;
 }
 
-.steam-server .details .players-list {
+.steam-server > .details > .players-list {
     float: left;
     width: 33%;
 }
 
 /* Player List (Steam Server) */
-.steam-server .details table.players-list thead th {
+.steam-server > .details > table.players-list > thead > th {
     background-color: #333333;
     /*margin-bottom: 6px;
     padding-bottom: 3px;
@@ -359,7 +371,7 @@ nav > .menuNav > ul > li > a > span {
     color: #FFFFFF;
     min-width: 100px;
 }
-.steam-server .details table.players-list tbody td {
+.steam-server > .details > table.players-list > tbody > td {
     border-bottom-color: #C7C7C7;
     border-bottom-style: solid;
     border-bottom-width: 1px;
@@ -369,29 +381,31 @@ nav > .menuNav > ul > li > a > span {
     line-height: 8px;
     height: 18px;
 }
-.steam-server .details table.players-list tbody tr:hover {
+.steam-server > .details > table.players-list > tbody > tr:hover {
     background-color: #1F1F1F;
     color: grey;
 }
-
-.steam-server#steam-20 .details{
+.steam-server#steam-20 > .details{
     display: none;
 }
 
-.steam-server .details .actions{
+.serveur-steam > .actions{  
+}
+.serveur-steam > .actions > a {   
     float: left;
-    width: 5%;
-    text-align: right;
-    text-decoration: none;
-}
+    color: rgba(129, 129, 129, 0.9);
 
-.steam-server .stop-image:hover{
-    background-image:url(../images/icones/serveur/stop-h.png);
-    background-repeat:repeat-x;
+    height: 20px;
 }
-.start-image:hover{
-    -webkit-transform:scale(0.8);
-    -webkit-box-shadow:0px 0px 30px #ccc;
+.serveur-steam > .actions >  a:hover { 
+    -webkit-transform:scale(1.1);
+    color: rgba(0, 136, 204, 0.34);
+}
+.serveur-steam > .actions > a > .fsGame { 
+    float: left;
+    display: block;
+    margin: 0px -2px 0px 14px;
+    font-size: 2.9em;
 }
 .description-general{  
     padding-top: 10px;
@@ -462,7 +476,7 @@ fieldset {
     position: relative;
     margin-bottom: -60px !important;
     right: -110px !important;
-    top: -64px !important;
+    top: -69px !important;
 }
 
 /* Widgets */
