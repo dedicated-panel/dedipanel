@@ -106,7 +106,7 @@ section > #title > a {
 section > #title > p{
     position: relative;
     top: -41px;
-    left: 34px;
+    margin-left: 31px;
 }
 #page-content {
     /*	min-height: 500px;*/
