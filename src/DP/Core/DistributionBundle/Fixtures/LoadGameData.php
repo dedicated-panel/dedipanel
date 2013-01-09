@@ -144,6 +144,37 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $dods->setSource(false);
         $manager->persist($dods);
 //        $this->addReference('dods', $dods);
+                
+        /********************
+         * Orangebox/Source *
+         ********************/
+        $mc = new Game();
+        $mc->setName('Minecraft');
+        $mc->setInstallName('minecraft');
+        $mc->setLaunchName('minecraft');
+        $mc->setBin('minecraft_server.jar');
+        $mc->setOrangebox(false);
+        $mc->setSource(false);
+        $mc->setMap('world');
+        $mc->setAvailable(true);
+        $mc->setBinDir('./');
+//        $mc->setSourceImagesMaps('');
+        $mc->setType('minecraft');
+        $manager->persist($mc);
+        
+        $bukkit = new Game();
+        $bukkit->setName('Minecraft Bukkit');
+        $bukkit->setInstallName('bukkit');
+        $bukkit->setLaunchName('bukkit');
+        $bukkit->setBin('craftbukkit.jar');
+        $bukkit->setOrangebox(false);
+        $bukkit->setSource(false);
+        $bukkit->setMap('world');
+        $bukkit->setAvailable(true);
+        $bukkit->setBinDir('./');
+//        $bukkit->setSourceImagesMaps('');
+        $bukkit->setType('minecraft');
+        $manager->persist($bukkit);
         
         $manager->flush();
     }
