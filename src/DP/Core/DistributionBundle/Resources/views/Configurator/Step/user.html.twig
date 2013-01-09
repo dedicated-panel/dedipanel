@@ -1,9 +1,8 @@
-{% extends "SensioDistributionBundle::Configurator/layout.html.twig" %}
-
-{% block title %}Configuration du Super Admin{% endblock %}
+{% extends "DPDistributionBundle:Configurator:layout.html.twig" %}
 
 {% block content %}
-    {% form_theme form "SensioDistributionBundle::Configurator/form.html.twig" %}
+    {% form_theme form "DPDistributionBundle:Configurator:form.html.twig" %}
+    {% include "DPDistributionBundle:Configurator:steps.html.twig" with { "index": index, "count": count } %}
 
      <legend>{{ 'super_admin.title'|trans }}</legend>
 
