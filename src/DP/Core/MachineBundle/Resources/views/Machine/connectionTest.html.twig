@@ -1,5 +1,12 @@
 {% extends "::layout.html.twig" %}
 
+{% block title %}
+    <a href="{{ path('machine') }}"> 
+        <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'machine.back'|trans }}"></div>
+            </a>
+        <p>{{ 'machine.machine'|trans }}</p>
+{% endblock %}
+        
 {% block content %}
 
 <legend>{{ 'machine.connectionTest'|trans }}</legend>

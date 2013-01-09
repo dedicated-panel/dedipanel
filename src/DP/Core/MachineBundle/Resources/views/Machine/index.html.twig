@@ -1,9 +1,15 @@
 {% extends "::layout.html.twig" %}
+{% block title %}
+    <a href="/"> 
+        <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'machine.back'|trans }}"></div>
+            </a>
+        <p>{{ 'machine.machine'|trans }}</p>
+{% endblock %}
 {% block content %}
 
-<legend>Machine</legend>
+<legend>{{ 'machine.machine'|trans }}</legend>
 
-<div id="menu-legend" class="nav nav-tabs steam">
+<div id="menu-legend" class="nav nav-tabs">
     <li class="pull-right">
         <a href="{{ path('machine_new') }}">
             {{ 'machine.new'|trans }}
@@ -42,17 +48,17 @@
     <button id="publicip" type="submit" class="btn machine">Ajouter</button>
 </form>#}
 <table class="table table-striped">
-    <thead>
-        <tr>
-            <th>{{ 'machine.id'|trans }}</th>
-            <th>{{ 'machine.privateIp'|trans }}</th>
-            <th>{{ 'machine.publicIp'|trans }}</th>
-            <th>{{ 'machine.port'|trans }}</th>
-            <th>{{ 'machine.user'|trans }}</th>
-            <th>{{ 'machine.actions'|trans }}</th>
-        </tr>
-    </thead>
-    <tbody>
+        <thead>
+            <tr>
+                <th>{{ 'machine.id'|trans }}</th>
+                <th>{{ 'machine.privateIp'|trans }}</th>
+                <th>{{ 'machine.publicIp'|trans }}</th>
+                <th>{{ 'machine.port'|trans }}</th>
+                <th>{{ 'machine.user'|trans }}</th>
+                <th>{{ 'machine.actions'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
             {% for entity in entities %}
             <tr>
                 <td>{{ entity.id }}</td>
