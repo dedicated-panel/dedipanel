@@ -15,6 +15,7 @@
 	content: attr(data-icon);
 	speak: none;
 	font-weight: normal;
+	line-height: 1;
 	-webkit-font-smoothing: antialiased;
 }
 
@@ -24,125 +25,177 @@
 	font-style: normal;
 	speak: none;
 	font-weight: normal;
+	line-height: 1;
 	-webkit-font-smoothing: antialiased;
 }
-.icon-home:before {
+.icon-menu:before {
 	content: "\21";
 }
-.icon-user:before {
+.icon-play:before {
 	content: "\22";
 }
-.icon-mic:before {
+.icon-pause:before {
 	content: "\23";
 }
-.icon-pictures:before {
+.icon-stop:before {
 	content: "\24";
 }
-.icon-mouse:before {
+.icon-wrench:before {
 	content: "\25";
 }
-.icon-loading:before {
-	content: "\27";
-}
-.icon-fire:before {
+.icon-transfer:before {
 	content: "\26";
 }
-.icon-cog:before {
-	content: "\28";
-}
-.icon-stats-up:before {
-	content: "\29";
-}
-.icon-user-2:before {
-	content: "\2a";
-}
-.icon-locked:before {
-	content: "\2b";
-}
-.icon-database:before {
-	content: "\2c";
-}
-.icon-grid-view:before {
-	content: "\2d";
-}
-.icon-droplet:before {
-	content: "\2e";
-}
-.icon-database-2:before {
-	content: "\2f";
-}
-.icon-box-add:before {
-	content: "\30";
-}
-.icon-locked-2:before {
-	content: "\31";
-}
-.icon-unlocked:before {
-	content: "\32";
-}
-.icon-wrench:before {
-	content: "\33";
-}
-.icon-equalizer:before {
-	content: "\34";
-}
-.icon-pie:before {
-	content: "\35";
+.icon-record:before {
+	content: "\27";
 }
 .icon-bars:before {
+	content: "\28";
+}
+.icon-forward:before {
+	content: "\29";
+}
+.icon-untitled:before {
+	content: "\2a";
+}
+.icon-untitled-2:before {
+	content: "\2b";
+}
+.icon-untitled-3:before {
+	content: "\2c";
+}
+.icon-untitled-4:before {
+	content: "\2d";
+}
+.icon-untitled-5:before {
+	content: "\2e";
+}
+.icon-untitled-6:before {
+	content: "\2f";
+}
+.icon-untitled-7:before {
+	content: "\30";
+}
+.icon-untitled-8:before {
+	content: "\31";
+}
+.icon-untitled-9:before {
+	content: "\32";
+}
+.icon-untitled-10:before {
+	content: "\33";
+}
+.icon-untitled-11:before {
+	content: "\34";
+}
+.icon-untitled-12:before {
+	content: "\35";
+}
+.icon-untitled-13:before {
 	content: "\36";
 }
-.icon-remove:before {
+.icon-untitled-14:before {
 	content: "\37";
 }
-.icon-download:before {
+.icon-untitled-15:before {
 	content: "\38";
 }
-.icon-tux:before {
+.icon-untitled-16:before {
 	content: "\39";
 }
-.icon-github:before {
+.icon-untitled-17:before {
 	content: "\3a";
 }
-.icon-github-2:before {
+.icon-untitled-18:before {
 	content: "\3b";
 }
-.icon-new-tab:before {
+.icon-untitled-19:before {
 	content: "\3c";
 }
-.icon-arrow-up:before {
+.icon-untitled-20:before {
 	content: "\3d";
 }
-.icon-arrow-down:before {
+.icon-untitled-21:before {
 	content: "\3e";
 }
-.icon-eye:before {
+.icon-untitled-22:before {
 	content: "\3f";
 }
-.icon-pencil:before {
+.icon-untitled-23:before {
 	content: "\40";
 }
-.icon-clipboard:before {
+.icon-untitled-24:before {
 	content: "\41";
 }
-.icon-radio-unchecked:before {
+.icon-untitled-25:before {
 	content: "\42";
 }
-.icon-comments:before {
+.icon-untitled-26:before {
 	content: "\43";
 }
-.icon-comments-2:before {
+.icon-untitled-27:before {
 	content: "\44";
 }
-.icon-comments-3:before {
+.icon-untitled-28:before {
 	content: "\45";
 }
-.icon-headphones:before {
+.icon-untitled-29:before {
 	content: "\46";
 }
-.icon-mail:before {
+.icon-untitled-30:before {
 	content: "\47";
 }
-.icon-enter:before {
+.icon-untitled-31:before {
 	content: "\48";
+}
+.icon-untitled-32:before {
+	content: "\49";
+}
+.icon-untitled-33:before {
+	content: "\4a";
+}
+.icon-untitled-34:before {
+	content: "\4b";
+}
+.icon-untitled-35:before {
+	content: "\4c";
+}
+.icon-untitled-36:before {
+	content: "\4d";
+}
+.icon-untitled-37:before {
+	content: "\4e";
+}
+.icon-users:before {
+	content: "\4f";
+}
+.icon-home:before {
+	content: "\50";
+}
+.icon-activity:before {
+	content: "\51";
+}
+.icon-cube:before {
+	content: "\52";
+}
+.icon-credit-card:before {
+	content: "\53";
+}
+.icon-headset:before {
+	content: "\54";
+}
+.icon-microphone:before {
+	content: "\55";
+}
+.icon-equalizer:before {
+	content: "\56";
+}
+.icon-switch:before {
+	content: "\57";
+}
+.icon-user:before {
+	content: "\58";
+}
+.icon-pencil:before {
+	content: "\59";
 }
