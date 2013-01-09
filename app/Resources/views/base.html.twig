@@ -29,7 +29,9 @@
     <body>
         <header>
             <div class="logo">
-                 <img src="{{ asset('images/header/logo.png') }}"/>
+                <a href="{{ path('_welcome') }}">
+                    <img src="{{ asset('images/header/logo.png') }}"/>
+                </a> 
             </div>
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}         
             <div class="profilNav">
@@ -67,7 +69,7 @@
             <div class="menuNav">
             <ul>
                 <li>
-                    <a href="/">
+                    <a href="{{ path('_welcome') }}">
                         <div class="fsMenu" aria-hidden="true" data-icon="&#x50;"></div>
                         <span>{{ 'menu.home'|trans }}</span></a>
                     </li>
@@ -79,15 +81,16 @@
                     <a href="{{ path('minecraft') }}">
                         <div class="fsMenu" aria-hidden="true" data-icon="&#x52;"></div>
                         <span>{{ 'menu.minecraft'|trans }}</span></a>
+                    </li>                
+                <li><a href="{{ path('machine') }}">
+                        <div class="fsMenu" aria-hidden="true" data-icon="&#x51;"></div>
+                        <span>{{ 'menu.machine'|trans }}</span></a>
                     </li>
                 <li><a href="{{ path('sonata_admin_dashboard') }}">
                         <div class="fsMenu" aria-hidden="true" data-icon="&#x25;"></div>
                         <span>{{ 'menu.admin'|trans }}</span></a>
                     </li>
-                <li><a href="{{ path('machine') }}">
-                        <div class="fsMenu" aria-hidden="true" data-icon="&#x51;"></div>
-                        <span>{{ 'menu.machine'|trans }}</span></a>
-                    </li>
+
                 </ul>
                 </div>
             </nav>
@@ -106,8 +109,8 @@
     
         {# <footer></footer> #}
     
-        <script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-1.7.1.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-ui-1.8.17.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-1.8.0.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-ui-1.8.23.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-ui-i18n.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bootstrap/js/bootstrap.js') }}"></script>
         {% block javascripts %}{% endblock %}

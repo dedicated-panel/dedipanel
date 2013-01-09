@@ -23,23 +23,25 @@
 {% endblock %}
     
 {% block title %}
-    {{ 'minecraft.list'|trans }}
+    <a href="{{ path('minecraft') }}"> 
+        <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'minecraft.back'|trans }}"></div>
+    </a>
     
-    <nav id="tabs" class="nav nav-tabs minecraft">
-        <a href="{{ path('minecraft_new') }}">
-            {{ 'minecraft.add'|trans }}
-        </a>
-    </nav>
+    <p>{{ 'minecraft.list'|trans }}</p>
 {% endblock %}
 
+
 {% block content %}
-    <ul>
-        <li>
+    
+    <legend> {{ 'minecraft.list'|trans }}</legend>
+
+    <div id="menu-legend" class="nav nav-tabs">
+        <li class="pull-right">
             <a href="{{ path('minecraft_new') }}">
                 {{ 'minecraft.add'|trans }}
             </a>
         </li>
-    </ul>
+    </div>
 
     <div class="server-list">
         {% for entity in entities %}

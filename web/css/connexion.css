@@ -37,8 +37,6 @@ header {
 	height: 80px;
 	margin: 0 auto;
 }
-
-}
 #page {
 	width: 95%;
 	margin: auto;
@@ -55,19 +53,19 @@ header {
         padding: 5px;
 }
 #logbox {
-	background: linear-gradient(top, #F7F7F7 0%,#E9E9E9 100%);
-	border: 1px solid #EDEDED;
-	width: 375px;
-	height: 310px;
-	margin: auto;
-	padding: 20px;
-	background: #F7F7F7;
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
-	border: 10px solid #646464;
-	border: 4px solid rgba(54, 54, 54, 0.9);
-	border-image: initial;
+    background: linear-gradient(top, #F7F7F7 0%,#E9E9E9 100%);
+    border: 1px solid #EDEDED;
+    width: 375px;
+    height: 310px;
+    margin: auto;
+    padding: 20px;
+    background: #F7F7F7;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border: 10px solid #646464;
+    border: 4px solid rgba(54, 54, 54, 0.9);
+    border-image: initial;
 }
 
 #logbox h1 {
@@ -133,6 +131,9 @@ select, input, input.span3, textarea {
 	/*box-shadow: 0px 0px 4px #aaa;*/	
 	/*-webkit-transition: background 0.3s linear;*/							
 }
+legend {
+    height: 40px;
+}
 select{ 		
 	background: #fff; 
 	width: 220px; 
@@ -144,6 +145,9 @@ select{
 textarea {		
 	width: 390px; 
 	height: 175px; 		 		
+}
+.alert-danger, .alert-error {
+    margin-bottom: 5px;
 }
 input:hover, textarea:hover { 
 	background: #eee; 
