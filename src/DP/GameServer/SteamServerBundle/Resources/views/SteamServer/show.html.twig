@@ -17,8 +17,15 @@
 #}
 
 {% extends "::layout.html.twig" %}
-{% block content %}
 
+{% block title %}
+    <a href="{{ path('steam') }}"> 
+        <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'steam.back'|trans }}"></div>
+            </a>
+        <p>{{ 'steam.title'|trans }}</p>
+{% endblock %}
+
+{% block content %}
 
 <legend>{{ 'machine.show'|trans }}</legend>
 

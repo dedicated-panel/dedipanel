@@ -17,8 +17,15 @@
 #}
 
 {% extends "::layout.html.twig" %}
-{% block content %}
 
+{% block title %}
+    <a href="{{ path('steam') }}"> 
+        <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'steam.back'|trans }}"></div>
+            </a>
+        <p>{{ 'steam.title'|trans }}</p>
+{% endblock %}
+        
+{% block content %}
 <legend>{{ 'steam.add'|trans }}</legend>
 
     <form action="{{ path('steam_create') }}" method="post" {{ form_enctype(form) }}>
