@@ -34,19 +34,11 @@
             <div class="profilNav">
                 <ul>
                     <li>
-<<<<<<< HEAD
                         <a href="{{ path('sonata_user_profile_edit_authentication') }}" title="">
                               <div class="fsProfil" aria-hidden="true" data-icon="&#x2a;"></div>
                             <span>{{ 'profil.profil'|trans }}</span></a>
                     </li>
-                    {# <li>
-=======
-                        <a href="{{ path('sonata_user_profile_show') }}" title="">
-                              <div class="fsProfil" aria-hidden="true" data-icon="&#x58;"></div>
-                            <span>{{ 'profil.profil'|trans }}</span></a>
-                    </li>
                     {#<li>
->>>>>>> Integration du design
                         <a href="#">
                               <div class="fsProfil" aria-hidden="true" data-icon="&#x47;"></div>
                             <span>{{ 'profil.message'|trans }}</span>
@@ -57,7 +49,7 @@
                               <div class="fsProfil" aria-hidden="true" data-icon="&#x59;"></div>
                             <span>{{ 'profil.options'|trans }}</span>
                         </a>
-                    </li> #}
+                    </li>
                     <li>
                         <a href="/logout" title="">
                               <div class="fsProfil" aria-hidden="true" data-icon="&#x57;"></div>
@@ -70,33 +62,6 @@
             {% endif %}
         </header>
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}   
-<<<<<<< HEAD
-            <nav>
-                <div class="menuNav">
-                <ul>
-                    <li>
-                        <a href="/">
-                            <div class="fsMenu" aria-hidden="true" data-icon="&#x21;"></div>
-                            <span>{{ 'menu.home'|trans }}</span>
-                        </a>
-                    </li>
-                    <li><a href="{{ path('steam') }}">
-                            <div class="fsMenu" aria-hidden="true" data-icon="&#x25;"></div>
-                            <span>{{ 'menu.game'|trans }}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ path('machine') }}">
-                            <div class="fsMenu" aria-hidden="true" data-icon="&#x2c;"></div>
-                            <span>{{ 'menu.machine'|trans }}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ path('sonata_admin_dashboard') }}">
-                            <div class="fsMenu" aria-hidden="true" data-icon="&#x2a;"></div>
-                            <span>{{ 'menu.admin'|trans }}</span>
-                        </a>
-=======
         <nav>
             <div class="menuNav">
             <ul>
@@ -121,7 +86,6 @@
                 <li><a href="{{ path('machine') }}">
                         <div class="fsMenu" aria-hidden="true" data-icon="&#x52;"></div>
                         <span>{{ 'menu.machine'|trans }}</span></a>
->>>>>>> Integration du design
                     </li>
                 </ul>
                 </div>
