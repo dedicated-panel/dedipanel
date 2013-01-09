@@ -20,24 +20,11 @@ steam.add: Add a server
 steam.edit: Edit
 steam.back: Back to the list
 
-steam.id: ID
-steam.name: Name
-steam.port: Port
-steam.game: Game
-steam.installStatus: Installation status
-steam.dir: Installation dir.
-steam.maxplayers: Max Players
 steam.autoReboot: Auto Reboot at
 steam.rcon: RCON Password
 steam.munin: Munin Graphing ?
 steam.passwd: Server Password
 steam.core: Core ?
-steam.actions: Actions
-steam.IPAddress: IP Address
-
-steam.selectMachine: Select a machine
-steam.selectGame: Select a game
-steam.addButton: Add
 
 steam.ended: Ended
 steam.start: Start

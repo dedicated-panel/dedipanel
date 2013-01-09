@@ -1,4 +1,5 @@
-/* Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jérôme
+/*
+ Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jérôme
 
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -12,12 +13,19 @@
  
  You should have received a copy of the GNU General Public License along
  with this program; if not, write to the Free Software Foundation, Inc.,
- 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.*/
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+*/
 
-@charset "UTF-8";
 
-html, body	{
-    height: 100%;
+@font-face {
+    font-family: 'WebSymbolsRegular';
+    src: url('websymbols/websymbols-regular-webfont.eot');
+    src: url('websymbols/websymbols-regular-webfont.eot?#iefix') format('embedded-opentype'),
+        url('websymbols/websymbols-regular-webfont.woff') format('woff'),
+        url('websymbols/websymbols-regular-webfont.ttf') format('truetype'),
+        url('websymbols/websymbols-regular-webfont.svg#WebSymbolsRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
 body	{
@@ -391,7 +399,7 @@ nav > .menuNav > ul > li > a > span {
 
 .serveur-steam > .actions{  
 }
-.serveur-steam > .actions > a {   
+.serveur-steam > .actions > a {
     float: left;
     color: rgba(129, 129, 129, 0.9);
 
@@ -448,7 +456,8 @@ button.machine {
 
 a {
     color: #818181;
-    text-decoration:none
+    text-decoration:none;
+    cursor: pointer;
 }
 a:hover {
     color: black;
@@ -666,5 +675,5 @@ fieldset {
 }
 .operating li span.value {
     font-size: 12px;
-    color: rgba(0, 136, 204, 0.79)
+    color: rgba(0, 136, 204, 0.79);
 }

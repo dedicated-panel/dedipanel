@@ -1,0 +1,89 @@
+{# 
+ Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jérôme
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License along
+ with this program; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#}
+
+{% extends "::layout.html.twig" %}
+
+{% block title %}
+    <a href="{{ path('minecraft') }}">
+        <span class="titre icone">h</span>
+    </a>
+
+    {{ 'minecraft.showTitle'|trans }}
+{% endblock %}{% block content %}
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>{{ 'game.id'|trans }}</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'game.IPAddress'|trans }}</th>
+                <td>{{ entity.machine.publicIp }}:{{ entity.port }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'game.name'|trans }}</th>
+                <td>{{ entity.name }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'game.game'|trans }}</th>
+                <td>{{ entity.game }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'game.installStatus'|trans }}</th>
+                <td>
+                    <a href="{{ path('minecraft_install', { 'id': entity.id }) }}">{% spaceless %}
+                            {% if entity.installationStatus is null %}
+                                {{ 'game.installNotStarted'|trans }}
+                            {% elseif entity.installationStatus == 101 %}
+                                {{ 'game.installEnded'|trans }}
+                            {% else %}
+                                {{ 'minecraft.installInProgress'|trans }}
+                            {% endif %}
+                    {% endspaceless %}</a>
+                </td>
+            </tr>
+            <tr>
+                <th>{{ 'game.dir'|trans }}</th>
+                <td>{{ entity.dir }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'game.maxplayers'|trans }}</th>
+                <td>{{ entity.maxplayers }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'minecraft.queryPort'|trans }}</th>
+                <td>{{ entity.queryPort }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'minecraft.rconPort'|trans }}</th>
+                <td>{{ entity.rconPort }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <form action="{{ path('minecraft_edit', { 'id': entity.id }) }}" method="post" id="form-edit">
+        <div class="form-actions">
+            <input type="submit" value="{{ 'game.edit'|trans }}" name="submit" class="btn btn-primary">      
+        </div>
+    </form>
+
+    <form action="{{ path('minecraft_delete', { 'id': entity.id }) }}" method="post" id="form-delete">
+        <input type="submit" value="{{ 'game.del'|trans }}" name="submit" class="btn btn-danger">
+        {{ form_widget(delete_form) }}
+    </form>
+{% endblock %}

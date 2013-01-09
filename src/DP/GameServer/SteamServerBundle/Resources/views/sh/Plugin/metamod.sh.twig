@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jérôme
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+DIR='{{ gameDir }}'
+cd $DIR
+
+case "$1" in
+    install)
+        if [ $# -ne 2 ]; then
+            echo "Usage: $0 install downloadUrl"
+            exit 1
+        fi
+        
+        # On créer le dossier addons/metamod/dlls/ (si nécessaire)
+        if [ ! -d $DIR/addons/metamod/dlls ]; then
+            mkdir -p $DIR/addons/metamod/dlls
+        fi
+        
+        # Puis on télécharge l'archive, on la décompresse pour avoir le .so et on la supprime
+        wget -O metamod.tar.gz $2 && tar zxvf metamod.tar.gz && rm metamod.tar.gz
+        # On déplace le .so vers son dossier
+        mv metamod_i386.so $DIR/addons/metamod/dlls/metamod_i386.so
+
+        # On créer le fichier contenant la liste des plugins (si nécessaire)
+        if [ ! -f $DIR/addons/metamod/plugins.ini ]; then
+            touch $DIR/addons/metamod/plugins.ini
+        fi
+
+        `$0 activate`
+    ;;
+    
+    uninstall)
+        `$0 deactivate`
+        rm -Rf $DIR/addons/metamod/
+    ;;
+    
+    activate)
+        # On modifie le liblist.gam 
+        # On commence par commenter la ligne concernant windows (si nécessaire)
+        sed -i '/^gamedll / s/gamedll/#gamedll/g' $DIR/liblist.gam
+        # Puis on modifie celle concernant linux
+        sed -i '/^gamedll_linux/ s/".\+"/"addons\/metamod\/dlls\/metamod_i386.so"/' $DIR/liblist.gam
+    ;;
+    
+    deactivate)
+        sed -i '/^gamedll_linux/ s/".\+"/"dlls\/cs_i386.so"/' $DIR/liblist.gam
+    ;;
+    
+    *)
+        echo "Usage: $0 {install downloadUrl|uninstall|activate|deactivate}"
+    ;;
+esac

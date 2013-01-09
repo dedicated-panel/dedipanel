@@ -40,6 +40,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $cs->setBinDir('./');
 //        $cs->setSourceImagesMaps('');
         $cs->setSource(false);
+        $cs->setType('steam');
         $cs->addPlugin($manager->merge($this->getReference('metamod')));
         $cs->addPlugin($manager->merge($this->getReference('amxCs')));
         $manager->persist($cs);
@@ -55,6 +56,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $cz->setAvailable(true);
         $cz->setBinDir('./');
 //        $cz->setSourceImageMaps('');
+        $cz->setType('steam');
         $cz->setSource(false);
         $cs->addPlugin($manager->merge($this->getReference('metamod')));
         $cs->addPlugin($manager->merge($this->getReference('amxCs')));
@@ -71,6 +73,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $dod->setAvailable(true);
         $dod->setBinDir('./');
 //        $dod->setSourceImageMaps('');
+        $dod->setType('steam');
         $dod->setSource(false);
         $cs->addPlugin($manager->merge($this->getReference('metamod')));
         $cs->addPlugin($manager->merge($this->getReference('amxDod')));
@@ -87,6 +90,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $tfc->setAvailable(true);
         $tfc->setBinDir('./');
 //        $tfc->setSourceImageMaps('');
+        $tfc->setType('steam');
         $tfc->setSource(false);
         $cs->addPlugin($manager->merge($this->getReference('metamod')));
         $cs->addPlugin($manager->merge($this->getReference('amx')));
@@ -106,6 +110,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $css->setAvailable(true);
         $css->setBinDir('css/');
 //        $css->setSourceImageMaps('');
+        $css->setType('steam');
         $css->setSource(true);
         $manager->persist($css);
 //        $this->addReference('css', $css);
@@ -120,6 +125,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $tf->setAvailable(true);
         $tf->setBinDir('./');
 //        $tf->setSourceImageMaps('');
+        $tf->setType('steam');
         $tf->setSource(false);
         $manager->persist($tf);
 //        $this->addReference('tf', $tf);
@@ -134,6 +140,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $dods->setAvailable(true);
         $dods->setBinDir('./');
 //        $dods->setSourceImageMaps('');
+        $dods->setType('steam');
         $dods->setSource(false);
         $manager->persist($dods);
 //        $this->addReference('dods', $dods);

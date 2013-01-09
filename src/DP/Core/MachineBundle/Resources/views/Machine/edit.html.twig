@@ -1,13 +1,15 @@
 {% extends "::layout.html.twig" %}
+
 {% block title %}
     <a href="{{ path('machine') }}"> 
         <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'machine.back'|trans }}"></div>
-            </a>
-        <p>{{ 'machine.machine'|trans }}</p>
-{% endblock %}
-{% block content %}
+    </a>
 
-<legend>{{ 'machine.editMachine'|trans }}</legend>
+    <p>{{ 'machine.machine'|trans }}</p>
+{% endblock %}
+
+{% block content %}
+    <legend>{{ 'machine.editMachine'|trans }}</legend>
 
     <form action="{{ path('machine_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>    
         {{ form_widget(edit_form) }}
@@ -15,12 +17,11 @@
         <div class="form-actions">
             <button type="submit"  class="btn btn-primary">{{ 'machine.edit'|trans }}</button>
         </div>    
-    </form>    
+    </form>
+    
     <form action="{{ path('machine_delete', { 'id': entity.id }) }}" method="post" id="form-delete">
-            {{ form_widget(delete_form) }}
+        {{ form_widget(delete_form) }}
 
-            <button type="submit"  class="btn btn-danger">{{ 'machine.del'|trans }}</button>
-    </form>   
-
-
+        <button type="submit"  class="btn btn-danger">{{ 'machine.del'|trans }}</button>
+    </form>
 {% endblock %}

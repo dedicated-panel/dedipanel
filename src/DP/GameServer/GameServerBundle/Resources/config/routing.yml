@@ -1,0 +1,11 @@
+DPGameServerBundle_menu:
+    pattern: /menu
+    defaults: { _controller: "DPGameServerBundle:Menu:menu" }
+
+DPSteamServerBundle:
+    resource: "@DPSteamServerBundle/Resources/config/routing.yml"
+    prefix:   /steam/
+
+DPMinecraftBundle:
+    resource: "@DPMinecraftServerBundle/Resources/config/routing.yml"
+    prefix:   /minecraft/

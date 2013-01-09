@@ -23,13 +23,12 @@ namespace DP\GameServer\SteamServerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use DP\GameServer\GameServerBundle\Entity\GameServer;
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
-use DP\GameServer\SteamServerBundle\SteamQuery\SteamQuery;
 use DP\Core\GameBundle\Entity\Plugin;
 
 /**
  * DP\GameServer\SteamServerBundle\Entity\SteamServer
  *
- * @ORM\Table(name="steamserver")
+ * @ORM\Table(name="steam_server")
  * @ORM\Entity(repositoryClass="DP\GameServer\SteamServerBundle\Entity\SteamServerRepository")
  */
 class SteamServer extends GameServer {
@@ -39,13 +38,6 @@ class SteamServer extends GameServer {
      * @ORM\Column(name="autoReboot", type="integer", nullable=true)
      */
     private $autoReboot;
-
-    /**
-     * @var string $rcon
-     *
-     * @ORM\Column(name="rconPassword", type="string", length=32, nullable=true)
-     */
-    private $rconPassword;
 
     /**
      * @var boolean $munin
@@ -69,30 +61,11 @@ class SteamServer extends GameServer {
     private $core;
     
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection $plugins
-     * 
-     * @ORM\ManyToMany(targetEntity="DP\Core\GameBundle\Entity\Plugin") 
-     * @ORM\JoinTable(name="steamserver_plugins",
-     *      joinColumns={@ORM\JoinColumn(name="server_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="plugin_id", referencedColumnName="id")}
-     * )
-     */
-    private $plugins;
-    
-    /**
      * @var integer $hltvPort
      * 
      * @ORM\Column(name="hltvPort", type="integer", nullable=true)
      */
     private $hltvPort;
-    
-    private $rcon;
-    
-    
-    public function __construct()
-    {
-        $this->plugins = new \Doctrine\Common\Collections\ArrayCollection();
-    }
     
     /**
      * Set autoReboot
@@ -112,31 +85,6 @@ class SteamServer extends GameServer {
     public function getAutoReboot()
     {
         return $this->autoReboot;
-    }
-
-    /**
-     * Set rconPassword
-     *
-     * @param string $rconPassword
-     */
-    public function setRconPassword($rconPassword)
-    {
-        $this->rconPassword = $rconPassword;
-    }
-
-    /**
-     * Get rconPassword
-     *
-     * @return string 
-     */
-    public function getRconPassword()
-    {
-        return $this->rconPassword;
-    }
-    
-    public function isEmptyRconPassword()
-    {
-        return empty($this->rconPassword);
     }
 
     /**
@@ -220,36 +168,6 @@ class SteamServer extends GameServer {
     }
     
     /**
-     * Get absolute path of server installation directory
-     * 
-     * @return string
-     */
-    public function getAbsoluteDir()
-    {
-        return $this->machine->getHome() . '/' . $this->getDir() . '/';
-    }
-    
-    /**
-     * Get absolute path of binaries directory
-     * 
-     * @return string
-     */
-    private function getAbsoluteBinDir()
-    {        
-        return $this->getAbsoluteDir() . $this->game->getBinDir(); 
-   }
-    
-    /**
-     * Get absolute path of game content directory
-     * 
-     * @return string
-     */
-    private function getAbsoluteGameContentDir()
-    {
-        return $this->getAbsoluteBinDir() . $this->game->getLaunchName() . '/';
-    }
-    
-    /**
      * Upload & launch game server installation
      * 
      * @param \Twig_Environment $twig Used for generate shell script
@@ -259,7 +177,7 @@ class SteamServer extends GameServer {
         $installDir = $this->getAbsoluteDir();
         $scriptPath = $installDir . 'install.sh';
         $logPath = $installDir . 'install.log';
-        $screenName = 'install-' . $this->getDir();
+        $screenName = $this->getInstallScreenName();
         $installName = $this->game->getInstallName();
         
         $mkdirCmd = 'if [ ! -e ' . $installDir . ' ]; then mkdir ' . $installDir . '; fi';
@@ -286,7 +204,7 @@ class SteamServer extends GameServer {
                 ->exec('rm -f ' . $scriptPath . ' ' . $logPath);
     }
     
-    public function getGameInstallationProgress()
+    public function getInstallationProgress()
     {
         $absDir = $this->getAbsoluteDir();
         $logPath = $absDir . 'install.log';
@@ -360,7 +278,7 @@ class SteamServer extends GameServer {
         $scriptPath = $this->getAbsoluteDir() . 'hlds.sh';
         
         $hldsScript = $twig->render('DPSteamServerBundle:sh:hlds.sh.twig', array(
-            'screenName' => $this->getHldsScreenName(), 'bin' => $game->getBin(), 
+            'screenName' => $this->getScreenName(), 'bin' => $game->getBin(), 
             'launchName' => $game->getLaunchName(), 'ip' => $this->getMachine()->getPublicIp(), 
             'port' => $this->getPort(), 'maxplayers' => $this->getMaxplayers(), 
             'startMap' => $game->getMap(), 'binDir' => $this->getAbsoluteBinDir(), 
@@ -409,11 +327,6 @@ class SteamServer extends GameServer {
         return $sec->exec('if [ ! -e ' . $cfgPath . ' ]; then touch ' . $cfgPath . '; fi');
     }
     
-    protected function getHldsScreenName()
-    {
-        return $this->getMachine()->getUser() . '-' . $this->getDir();
-    }
-    
     public function changeStateServer($state)
     {
         $scriptPath = $this->getAbsoluteDir() . 'hlds.sh';
@@ -422,143 +335,26 @@ class SteamServer extends GameServer {
                 ->exec($scriptPath . ' ' . $state);
     }
     
-    public function setQuery(SteamQuery $query)
-    {
-        $this->query = $query;
-    }
-    
-    public function getQuery()
-    {
-        return $this->query;
-    }
-    
-    public function setRcon($rcon)
-    {
-        $this->rcon = $rcon;
-        
-        return $this->rcon;
-    }
-    
-    public function getRcon()
-    {
-        return $this->rcon;
-    }
-    
-    /**
-     * Add plugin
-     * 
-     * @param \DP\Core\GameBundle\Entity\Plugin $plugin 
-     */
-    public function addPlugin(\DP\Core\GameBundle\Entity\Plugin $plugin)
-    {
-        $this->plugins[] = $plugin;
-    }
-    
-    /**
-     * Remove a server plugin
-     * @param \DP\Core\GameBundle\Entity\Plugin $plugin 
-     */
-    public function removePlugin(\DP\Core\GameBundle\Entity\Plugin $plugin)
-    {
-        $this->plugins->removeElement($plugin);
-    }
-    
-    /**
-     * Get plugins recorded as "installed on the server"
-     * 
-     * @return \Doctrine\Common\Collections\ArrayCollection
-     */
-    public function getPlugins()
-    {
-        if ($this->plugins instanceof \Doctrine\ORM\PersistentCollection) {
-            return $this->plugins->getValues();
-        }
-        else {
-            return $this->plugins;
-        }
-    }
-    
-    public function getInstalledPlugins()
-    {
-        return $this->getPlugins();
-    }
-    
-    public function getNotInstalledPlugins()
-    {
-        $intersectCallback = function ($plugin1, $plugin2) {
-            return $plugin1->getId() - $plugin2->getId();
-        };
-        $plugins = $this->getGame()->getPlugins()->getValues();
-        
-        // On compare l'array contenant l'ensemble des plugins dispo pour le jeu
-        // A ceux installés sur le serveur
-        return array_udiff($plugins, $this->getPlugins(), $intersectCallback);
-    }
-    
     public function execPluginScript(\Twig_Environment $twig, Plugin $plugin, $action)
     {
         $dir = $this->getAbsoluteGameContentDir();
         $scriptName = $plugin->getScriptName();
         $scriptPath = $dir . $scriptName . '.sh';
         
-        $screenName = $scriptName . '-' . $this->getDir();
+        // Hashage du screen name pour qu'il ne dépasse pas le max de caractère
+        $screenName = sha1($this->getMachine()->getUser() . '-' . $scriptName . '-' . $this->getDir(), true);
         $screenCmd  = 'screen -dmS ' . $screenName . ' ' . $scriptPath . ' ' . $action;
-        if ($action == 'install') $screenCmd .= ' "' . $plugin->getDownloadUrl () . '"';
+        
+        if ($action == 'install') {
+            $screenCmd .= ' "' . $plugin->getDownloadUrl () . '"';
+        }
         
         $pluginScript = $twig->render(
-            'DPSteamServerBundle:sh:Plugins/' . $scriptName . '.sh.twig', array('gameDir' => $dir));
+            'DPSteamServerBundle:sh:Plugin/' . $scriptName . '.sh.twig', array('gameDir' => $dir));
         
         $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
         $sec->upload($scriptPath, $pluginScript);
         $sec->exec($screenCmd);
-    }
-    
-    public function getDirContent($path = '')
-    {
-        $path = $this->getAbsoluteGameContentDir() . $path;
-        $sftp = PHPSeclibWrapper::getFromMachineEntity($this->getMachine())->getSFTP();
-        
-        $dirContent = $sftp->rawlist($path);
-        $dirs = array();
-        $files = array();
-        
-        foreach ($dirContent AS $key => $attr) {
-            $attr['name'] = $key;
-            
-            if ($attr['type'] == NET_SFTP_TYPE_DIRECTORY
-                && $key != '..' && $key != '.') {
-                $dirs[] = $attr;
-            }
-            elseif ($attr['type'] == NET_SFTP_TYPE_REGULAR) {
-                $files[] = $attr;
-            }
-        }
-        
-        return array('files' => $files, 'dirs' => $dirs);
-    }
-    
-    public function getFileContent($path)
-    {
-        $path = $this->getAbsoluteGameContentDir() . $path;
-        
-        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
-                ->getRemoteFile($path);
-    }
-    
-    public function uploadFile($path, $content)
-    {
-        $path = $this->getAbsoluteGameContentDir() . $path;
-        
-        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
-                ->upload($path, $content, false);
-    }
-    
-    public function touch($file)
-    {
-        $path = $this->getAbsoluteGameContentDir() . $file;
-        
-        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
-                ->touch($path);
     }
     
     public function getHltvScreenName()
@@ -615,5 +411,10 @@ class SteamServer extends GameServer {
             return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
                 ->getSSH()->exec($this->getAbsoluteBinDir() . 'hltv.sh stop');
         }
+    }
+    
+    protected function getAbsoluteGameContentDir()
+    {
+        return $this->getAbsoluteBinDir() . $this->game->getLaunchName() . '/';
     }
 }

@@ -21,87 +21,90 @@
 {% block title %}
     <a href="{{ path('steam') }}"> 
         <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'steam.back'|trans }}"></div>
-            </a>
-        <p>{{ 'steam.title'|trans }}</p>
+    </a>
+    
+    <p>{{ 'steam.title'|trans }}</p>
 {% endblock %}
 
 {% block content %}
+    <legend>{{ 'machine.show'|trans }}</legend>
 
-<legend>{{ 'machine.show'|trans }}</legend>
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>{{ 'game.id'|trans }}</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'game.IPAddress'|trans }}</th>
+                <td>{{ entity.machine.publicIp }}:{{ entity.port }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'game.name'|trans }}</th>
+                <td>{{ entity.name }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'game.game'|trans }}</th>
+                <td>{{ entity.game }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'game.installStatus'|trans }}</th>
+                <td>
+                    <a href="{{ path('steam_install', { 'id': entity.id }) }}">{% spaceless %}
+                            {% if entity.installationStatus is null %}
+                                Buggued
+                            {% elseif entity.installationStatus == 101 %}
+                                {{ 'steam.ended'|trans }}
+                            {% else %}
+                                {{ entity.installationStatus }}%
+                            {% endif %}
+                    {% endspaceless %}</a>
+                </td>
+            </tr>
+            <tr>
+                <th>{{ 'game.dir'|trans }}</th>
+                <td>{{ entity.dir }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'game.maxplayers'|trans }}</th>
+                <td>{{ entity.maxplayers }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'steam.autoReboot'|trans }}</th>
+                <td>{{ entity.autoReboot }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'game.rcon.password'|trans }}</th>
+                <td>{{ entity.rconPassword }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'steam.hltv.port'|trans }}</th>
+                <td>{{ entity.hltvPort }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'steam.munin'|trans }}</th>
+                <td>{{ entity.munin }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'steam.passwd'|trans }}</th>
+                <td>{{ entity.svpasswd }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'steam.core'|trans }}</th>
+                <td>{{ entity.core }}</td>
+            </tr>
+        </tbody>
+    </table>
+            
+    <form action="{{ path('steam_edit', { 'id': entity.id }) }}" method="post">          
+        <div class="form-actions">
+            <button type="submit"  class="btn btn-primary">{{ 'game.edit'|trans }}</button>
+        </div>
+    </form>
+    
+    <form action="{{ path('steam_delete', { 'id': entity.id }) }}" method="post" id="form-delete">
+        {{ form_widget(delete_form) }}
 
-<table class="record_properties">
-    <tbody>
-        <tr>
-            <th>{{ 'steam.id'|trans }}</th>
-            <td>{{ entity.id }}</td>
-        </tr>
-        <tr>
-            <th>{{ 'steam.IPAddress'|trans }}</th>
-            <td>{{ entity.machine.publicIp }}:{{ entity.port }}</td>
-        </tr>
-        <tr>
-            <th>{{ 'steam.name'|trans }}</th>
-            <td>{{ entity.name }}</td>
-        </tr>
-        <tr>
-            <th>{{ 'steam.game'|trans }}</th>
-            <td>{{ entity.game }}</td>
-        </tr>
-        <tr>
-            <th>{{ 'steam.installStatus'|trans }}</th>
-            <td><a href="{{ path('steam_install', { 'id': entity.id }) }}">{% spaceless %}
-                        {% if entity.installationStatus is null %}
-                            Buggued
-                        {% elseif entity.installationStatus == 101 %}
-                            {{ 'steam.ended'|trans }}
-                        {% else %}
-                            {{ entity.installationStatus }}%
-                        {% endif %}
-                {% endspaceless %}</a></td>
-                </tr>
-                <tr>
-                    <th>{{ 'steam.dir'|trans }}</th>
-                    <td>{{ entity.dir }}</td>
-                </tr>
-                <tr>
-                    <th>{{ 'steam.maxplayers'|trans }}</th>
-                    <td>{{ entity.maxplayers }}</td>
-                </tr>
-                <tr>
-                    <th>{{ 'steam.autoReboot'|trans }}</th>
-                    <td>{{ entity.autoReboot }}</td>
-                </tr>
-                <tr>
-                    <th>{{ 'steam.rcon.password'|trans }}</th>
-                    <td>{{ entity.rconPassword }}</td>
-                </tr>
-                <tr>
-                    <th>{{ 'steam.hltv.port'|trans }}</th>
-                    <td>{{ entity.hltvPort }}</td>
-                </tr>
-                <tr>
-                    <th>{{ 'steam.munin'|trans }}</th>
-                    <td>{{ entity.munin }}</td>
-                </tr>
-                <tr>
-                    <th>{{ 'steam.passwd'|trans }}</th>
-                    <td>{{ entity.svpasswd }}</td>
-                </tr>
-                <tr>
-                    <th>{{ 'steam.core'|trans }}</th>
-                    <td>{{ entity.core }}</td>
-                </tr>
-            </tbody>
-        </table>
-        <form action="{{ path('steam_edit', { 'id': entity.id }) }}" method="post">          
-            <div class="form-actions">
-                <button type="submit"  class="btn btn-primary">{{ 'steam.edit'|trans }}</button>
-            </div>
-        </form>  
-        <form action="{{ path('steam_delete', { 'id': entity.id }) }}" method="post" id="form-delete">
-            {{ form_widget(delete_form) }}
-
-            <button type="submit"  class="btn btn-danger">{{ 'steam.del'|trans }}</button>
-        </form>   
-
+        <button type="submit"  class="btn btn-danger">{{ 'game.del'|trans }}</button>
+    </form>
 {% endblock %}

@@ -68,7 +68,7 @@ class UserStep implements StepInterface
     {
         return new UserStepType();
     }
-
+    
     /**
      * @see StepInterface
      */

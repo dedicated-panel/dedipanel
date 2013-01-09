@@ -1,17 +1,19 @@
 {% extends "::layout.html.twig" %}
+
 {% block title %}
     <a href="{{ path('machine') }}"> 
         <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'machine.back'|trans }}"></div>
             </a>
         <p>{{ 'machine.machine'|trans }}</p>
 {% endblock %}
-{% form_theme form "::form.html.twig" %}
-{% block content %}
 
-<legend></a>{{ 'machine.new'|trans }}</legend>
+{% block content %}
+    {% form_theme form "::form.html.twig" %}
+    <legend></a>{{ 'machine.new'|trans }}</legend>
 
     <form action="{{ path('machine_create') }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
+        
         <div class="form-actions">
             <input type="submit" name="submit" class="btn btn-primary" value="{{ 'machine.add'|trans }}" />
         </div>

@@ -235,6 +235,9 @@ class MachineController extends Controller
             $test = false;
         }
         
-        return $this->render('DPMachineBundle:Machine:connectionTest.html.twig', array('result' => $test));
+        return $this->render('DPMachineBundle:Machine:connectionTest.html.twig', array(
+            'mid' => $id, 
+            'result' => $test, 
+        ));
     }
 }

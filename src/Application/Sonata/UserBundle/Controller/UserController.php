@@ -30,11 +30,6 @@ public function homeMenuAction()
         return $this->render('ApplicationSonataUserBundle:User:home.html.twig');
     }
     
-    public function gameMenuAction()
-    {
-        return $this->render('ApplicationSonataUserBundle:User:gameMenu.html.twig');
-    }
-    
     public function configMenuAction()
     {
         return $this->render('ApplicationSonataUserBundle:User:configMenu.html.twig');

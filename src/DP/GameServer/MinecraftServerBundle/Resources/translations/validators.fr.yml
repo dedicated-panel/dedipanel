@@ -1,0 +1,5 @@
+minecraft.assert.queryPort.min: "[-Inf,Inf]Le port du query doit être supérieur à %count%."
+minecraft.assert.queryPort.max: "[-Inf,Inf]Le port du query doit être inférieur à %count%."
+
+minecraft.assert.rconPort.min: "[-Inf,Inf]Le port du RCON doit être supérieur à %count%."
+minecraft.assert.rconPort.max: "[-Inf,Inf]Le port du RCON doit être inférieur à %count%."

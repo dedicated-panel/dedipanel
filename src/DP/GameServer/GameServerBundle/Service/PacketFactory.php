@@ -25,16 +25,35 @@ use DP\GameServer\GameServerBundle\Socket\Packet;
  * @author Albin Kerouanton
  */
 class PacketFactory
-{
+{    
     /**
-     * Transform $var to long value
+     * Transform $var to little endian long value
      * 
      * @param long $var
      * @return 4 bytes
      */
-    public static function transformLong($var)
+    public static function transformLittleEndianLong($var)
     {
         return pack('V', $var);
+    }
+    
+    /**
+     * Transform $var to big endiang long value
+     * 
+     * @param long $var
+     * @return 4 bytes
+     */
+    public static function transformBigEndianLong($var)
+    {
+        return pack('N', $var);
+    }
+    
+    /**
+     * @see PacketFactory::transformLittleEndianLong()
+     */
+    public static function transformLong($var)
+    {
+        return self::transformLittleEndianLong($var);
     }
     
     /**

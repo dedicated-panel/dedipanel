@@ -1,7 +1,12 @@
-@charset "UTF-8";
-
-html, body	{
-    height: 100%;
+@font-face {
+    font-family: 'WebSymbolsRegular';
+    src: url('websymbols/websymbols-regular-webfont.eot');
+    src: url('websymbols/websymbols-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('websymbols/websymbols-regular-webfont.woff') format('woff'),
+         url('websymbols/websymbols-regular-webfont.ttf') format('truetype'),
+         url('websymbols/websymbols-regular-webfont.svg#WebSymbolsRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
 body	{
@@ -24,26 +29,14 @@ i{
    opacity: 0.6; 
 }
 header {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    height: 160px
+    padding: 50px 0 20px 0;
 }
 
 .logo {
 	width: 290px;
 	height: 80px;
-	margin: auto;
-	margin-top: 75px;
+	margin: 0 auto;
 }
-#page {
-	width: 95%;
-	margin: auto;
-}
-#titre {	
-	font-family: 'Cuprum', Arial, sans-serif;
-	color: #55585D;
-	font-size: 24px;
-	display: block;
 
 }
 #page {
@@ -77,13 +70,15 @@ header {
 	border-image: initial;
 }
 
-.icone{
+#logbox h1 {
+    margin: 0 0 30px 0;
+    padding: 0 0 10px 0;
+    border-bottom: 1px solid #E5E5E5;
+}
+#logbox h1 .icone {
     font-family: 'WebSymbolsRegular', cursive;
 	font-size: 25px;
 	margin-right: 6px;
-	float: left;
-	text-align: center;
-	top: 10px;
 	color: #0077B5;
 }	
 
@@ -124,19 +119,19 @@ label {
 	font-size: 14px;
 	color: #666; 
 }
-select, input, textarea { 		
-	padding: 8px; 
-	margin: 4px 0 20px 0; 
+select, input, input.span3, textarea { 		
+	padding: 4px 8px;
+	margin: 0 0 20px 0; 
 	background: #fff; 
 	width: 220px; 
 	font-size: 14px; 
 	color: #555; 
-	border: 0.5px #ddd solid;
+	border: 1px #ccc solid;
 	cursor: pointer;
-	-webkit-box-shadow: 0px 0px 4px #aaa;
-	-moz-box-shadow: 0px 0px 4px #aaa; 
-	box-shadow: 0px 0px 4px #aaa;	
-	-webkit-transition: background 0.3s linear;							
+	/*-webkit-box-shadow: 0px 0px 4px #aaa;*/
+	/*-moz-box-shadow: 0px 0px 4px #aaa;*/ 
+	/*box-shadow: 0px 0px 4px #aaa;*/	
+	/*-webkit-transition: background 0.3s linear;*/							
 }
 select{ 		
 	background: #fff; 

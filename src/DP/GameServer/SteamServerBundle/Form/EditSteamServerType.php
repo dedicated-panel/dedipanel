@@ -19,6 +19,7 @@
 */
 
 namespace DP\GameServer\SteamServerBundle\Form;
+
 use Symfony\Component\Form\FormBuilderInterface;
 
 class EditSteamServerType extends AddSteamServerType

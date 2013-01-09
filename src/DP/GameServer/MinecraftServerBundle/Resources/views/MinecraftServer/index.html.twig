@@ -1,0 +1,168 @@
+{# 
+ Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jérôme
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License along
+ with this program; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#}
+
+{% extends "::layout.html.twig" %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('bundles/dpgameserver/js/details.js') }}"></script>
+{% endblock %}
+    
+{% block title %}
+    {{ 'minecraft.list'|trans }}
+    
+    <nav id="tabs" class="nav nav-tabs minecraft">
+        <a href="{{ path('minecraft_new') }}">
+            {{ 'minecraft.add'|trans }}
+        </a>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <ul>
+        <li>
+            <a href="{{ path('minecraft_new') }}">
+                {{ 'minecraft.add'|trans }}
+            </a>
+        </li>
+    </ul>
+
+    <div class="server-list">
+        {% for entity in entities %}
+            {% if entity.getInstallationStatus < 101 %}
+                <div class="row server-item" rel="{{ entity.id }}">
+                    <div class="span3">
+                        <div class="titre">
+                            <a href="{{ path('minecraft_show', {id: entity.id}) }}">{{ entity.name }}</a>
+                        </div>
+                        <div class="description">
+                            {{ entity.machine.publicIp }}:{{ entity.port }}
+
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="installation-status">
+                            <img src="/images/icones/serveur/install.png" alt="{{ 'game.updateStatus'|trans }}" />
+                            <span class="installation">
+                                <strong>
+                                        <a href="{{ path('minecraft_install', {id: entity.id }) }}">{{ 'game.updateStatus'|trans }}</a>
+                                </strong>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="span5">
+                        <div class="progress progress-info progress-striped">
+                            <div class="bar" style="width: {{ entity.installationStatus }}%"></div>
+                            {{ entity.installationStatus }} %
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="row server-item" rel="{{ entity.id }}">
+                    <div class="visuel">
+                        <a href="{{ path('minecraft_show', {'id': entity.id }) }}">
+                            <img src="/images/serveur/viewer/{{ entity.game.installname }}.png" alt="{{ entity.game }}" />
+                        </a>
+                    </div>
+
+                    <div class="server-infos">
+                        <div class="titre">
+                            <a href="{{ path('minecraft_show', {id: entity.id}) }}">{{ entity.name }}</a>
+                        </div>
+
+                        <div class="description">
+                            {{ entity.machine.publicIp }}:{{ entity.port }}
+                            
+                            {% if entity.query.online %}
+                                <span class="info">
+                                    {{ 'minecraft.map'|trans }} : {{ entity.query.serverInfos['map'] }}
+                                </span>
+                                <span class="info">
+                                    <strong>
+                                        {{ entity.query.serverInfos['numplayers'] }} / 
+                                        {{ entity.query.serverInfos['maxplayers'] }}
+                                    </strong>
+                                </span>
+                            {% else %}
+                                <span class="info"><strong>{{ 'game.offline'|trans }}</strong></span>
+                            {% endif %}	
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        {% if entity.query.online %}
+                            <a href="{{ path('minecraft_changeState', { 'id': entity.id, 'state': 'stop' }) }}"><img class="stop-image" src="/images/icones/serveur/stop.png" title="{{ 'steam.stop'|trans }}"/></a>
+                            <a href="{{ path('minecraft_changeState', { 'id': entity.id, 'state': 'restart' }) }}"><img src="/images/icones/serveur/restart.png" title="{{ 'steam.restart'|trans }}"/></a>
+                        {% else %}
+                            <a href="{{ path('minecraft_changeState', { 'id': entity.id, 'state': 'start' }) }}"><img class="start-image" src="/images/icones/serveur/start.png" title="{{ 'steam.start'|trans }}"/></a>
+                        {% endif %}
+
+                        <a href="{{ path('minecraft_edit', {id: entity.id }) }}"><img src="/images/icones/serveur/config.png" title="{{ 'game.edit'|trans }}" /></a>
+                        {% if entity.game.isBukkit %}<a href="{{ path('minecraft_plugin_show', {id: entity.id }) }}"><img src="/images/icones/serveur/plugins.png" title="{{ 'game.plugin.title'|trans }}" /></a>{% endif %}
+                        <a href="{{ path('minecraft_show', {id: entity.id}) }}" class="slide" id="slide-toggler-{{ entity.id }}"><img src="/images/icones/serveur/slide.png" title="Slide"/></a>
+                    </div>
+                </div>
+            
+                <div class="details" rel="{{ entity.id }}">
+                    <div class="tabbable tabs-left">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#lA" data-toggle="tab">Général</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="lA"> 
+                                {% if entity.query.online %}
+                                    <div class="row description-general">
+                                        <div class="span3 offset4">
+                                            {{ entity.query.activePlugins }}
+                                        </div>
+                                        <div class="span4">
+                                            <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>{{ 'game.player'|trans }}</th>
+                                                    <th>{{ 'game.score'|trans }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for player in entity.query.players %}
+                                                    <tr>
+                                                        <td>{{ player.nom }}</td>
+                                                        <td>{{ player.score }}</td>
+                                                    </tr>
+                                                {% else %}
+                                                    <tr><th colspan="2">{{ 'game.noPlayerConnected'|trans }}</th></tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="row description-general">
+                                        <div class="span12">
+                                            Lancé le Serveur pour avoir des stats ?
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

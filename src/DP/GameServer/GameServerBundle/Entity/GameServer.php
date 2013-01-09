@@ -23,6 +23,8 @@ namespace DP\GameServer\GameServerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use DP\Core\MachineBundle\Entity\Machine;
 use Symfony\Component\Validator\Constraints as Assert;
+use DP\GameServer\GameServerBundle\Query\QueryInterface;
+use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 
 /**
  * DP\Core\GameServer\GameServerBundle\Entity\GameServer
@@ -30,9 +32,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity()
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
- * @ORM\DiscriminatorMap({"steam" = "DP\GameServer\SteamServerBundle\Entity\SteamServer"})
+ * @ORM\DiscriminatorMap({
+ *      "steam" = "DP\GameServer\SteamServerBundle\Entity\SteamServer", 
+ *      "minecraft" = "DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer"
+ * })
  */
-class GameServer
+abstract class GameServer
 {
     /**
      * @var integer $id
@@ -97,6 +102,35 @@ class GameServer
      */
     protected $game;
 
+    /**
+     * @var string $rcon
+     *
+     * @ORM\Column(name="rconPassword", type="string", length=32, nullable=true)
+     */
+    protected $rconPassword;
+    
+    protected $query;
+    protected $rcon;
+    
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection $plugins
+     * 
+     * @ORM\ManyToMany(targetEntity="DP\Core\GameBundle\Entity\Plugin") 
+     * @ORM\JoinTable(name="gameserver_plugins",
+     *      joinColumns={@ORM\JoinColumn(name="server_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="plugin_id", referencedColumnName="id")}
+     * )
+     */
+    private $plugins;
+    
+    
+    abstract public function changeStateServer($state);
+    
+    
+    public function __construct()
+    {
+        $this->plugins = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -246,5 +280,191 @@ class GameServer
     public function getMaxplayers()
     {
         return $this->maxplayers;
+    }
+    
+    /**
+     * Get absolute path of server installation directory
+     * 
+     * @return string
+     */
+    public function getAbsoluteDir()
+    {
+        return $this->getMachine()->getHome() . '/' . $this->getDir() . '/';
+    }
+    
+    /**
+     * Get absolute path of binaries directory
+     * 
+     * @return string
+     */
+    protected function getAbsoluteBinDir()
+    {        
+        return $this->getAbsoluteDir() . $this->getGame()->getBinDir(); 
+    }
+    
+    /**
+     * Get absolute path of game content directory
+     * 
+     * @return string
+     */
+    protected function getAbsoluteGameContentDir()
+    {
+        return $this->getAbsoluteBinDir();
+    }
+    
+    protected function getScreenName()
+    {
+        return $this->getMachine()->getUser() . '-' . $this->getDir();
+    }
+    
+    protected function getInstallScreenName()
+    {
+        return 'install-' . $this->getMachine()->getUser() . '-' . $this->getDir();
+    }
+    
+    public function setQuery(QueryInterface $query)
+    {
+        $this->query = $query;
+    }
+    
+    public function getQuery()
+    {
+        return $this->query;
+    }
+    
+    /**
+     * Set rconPassword
+     *
+     * @param string $rconPassword
+     */
+    public function setRconPassword($rconPassword)
+    {
+        $this->rconPassword = $rconPassword;
+    }
+
+    /**
+     * Get rconPassword
+     *
+     * @return string 
+     */
+    public function getRconPassword()
+    {
+        return $this->rconPassword;
+    }
+    
+    public function isEmptyRconPassword()
+    {
+        return empty($this->rconPassword);
+    }
+    
+    public function setRcon($rcon)
+    {
+        $this->rcon = $rcon;
+        
+        return $this->rcon;
+    }
+    
+    public function getRcon()
+    {
+        return $this->rcon;
+    }
+    
+    public function getDirContent($path = '')
+    {
+        $path = $this->getAbsoluteGameContentDir() . $path;
+        $sftp = PHPSeclibWrapper::getFromMachineEntity($this->getMachine())->getSFTP();
+        
+        $dirContent = $sftp->rawlist($path);
+        $dirs = array();
+        $files = array();
+        
+        foreach ($dirContent AS $key => $attr) {
+            $attr['name'] = $key;
+            
+            if ($attr['type'] == NET_SFTP_TYPE_DIRECTORY
+                && $key != '..' && $key != '.') {
+                $dirs[] = $attr;
+            }
+            elseif ($attr['type'] == NET_SFTP_TYPE_REGULAR) {
+                $files[] = $attr;
+            }
+        }
+        
+        return array('files' => $files, 'dirs' => $dirs);
+    }
+    
+    public function getFileContent($path)
+    {
+        $path = $this->getAbsoluteGameContentDir() . $path;
+        
+        return utf8_encode(PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
+                ->getRemoteFile($path));
+    }
+    
+    public function uploadFile($path, $content)
+    {
+        $path = $this->getAbsoluteGameContentDir() . $path;
+        
+        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
+                ->upload($path, $content, false);
+    }
+    
+    public function touch($file)
+    {
+        $path = $this->getAbsoluteGameContentDir() . $file;
+        
+        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
+                ->touch($path);
+    }
+    
+    /**
+     * Add plugin
+     * 
+     * @param \DP\Core\GameBundle\Entity\Plugin $plugin 
+     */
+    public function addPlugin(\DP\Core\GameBundle\Entity\Plugin $plugin)
+    {
+        $this->plugins[] = $plugin;
+    }
+    
+    /**
+     * Remove a server plugin
+     * @param \DP\Core\GameBundle\Entity\Plugin $plugin 
+     */
+    public function removePlugin(\DP\Core\GameBundle\Entity\Plugin $plugin)
+    {
+        $this->plugins->removeElement($plugin);
+    }
+    
+    /**
+     * Get plugins recorded as "installed on the server"
+     * 
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getPlugins()
+    {
+        if ($this->plugins instanceof \Doctrine\ORM\PersistentCollection) {
+            return $this->plugins->getValues();
+        }
+        else {
+            return $this->plugins;
+        }
+    }
+    
+    public function getInstalledPlugins()
+    {
+        return $this->getPlugins();
+    }
+    
+    public function getNotInstalledPlugins()
+    {
+        $intersectCallback = function ($plugin1, $plugin2) {
+            return $plugin1->getId() - $plugin2->getId();
+        };
+        $plugins = $this->getGame()->getPlugins()->getValues();
+        
+        // On compare l'array contenant l'ensemble des plugins dispo pour le jeu
+        // A ceux installés sur le serveur
+        return array_udiff($plugins, $this->getPlugins(), $intersectCallback);
     }
 }

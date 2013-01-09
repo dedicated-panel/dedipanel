@@ -33,7 +33,6 @@ plugin.add: Ajouter un plugin
 plugin.edit: Edition d'un plugin
 
 plugin.downloadUrl: Adresse de téléchargement du plugin
-plugin.archiveType: Type d'archive
 plugin.scriptName: Script utilisé par le panel
 plugin.back: Retour à la gestion des jeux
 plugin.associatedGames: Jeux associés

@@ -25,6 +25,7 @@
         <link rel="shortcut icon" href="{{ asset('images/footer/logo-min.png') }}" />
         {% block stylesheets %}{% endblock %}
     </head>
+    
     <body>
         <header>
             <div class="logo">
@@ -44,12 +45,12 @@
                             <span>{{ 'profil.message'|trans }}</span>
                         </a>
                     </li>#}
-                    <li> 
+                    {# <li> 
                         <a href="{{ path('sonata_user_profile_edit_authentication') }}">
                               <div class="fsProfil" aria-hidden="true" data-icon="&#x59;"></div>
                             <span>{{ 'profil.options'|trans }}</span>
                         </a>
-                    </li>
+                    </li> #}
                     <li>
                         <a href="/logout" title="">
                               <div class="fsProfil" aria-hidden="true" data-icon="&#x57;"></div>
@@ -108,6 +109,7 @@
         <script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-1.7.1.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-ui-1.8.17.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-ui-i18n.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bootstrap/js/bootstrap.js') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

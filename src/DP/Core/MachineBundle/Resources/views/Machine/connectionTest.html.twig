@@ -8,24 +8,22 @@
 {% endblock %}
         
 {% block content %}
-
-<legend>{{ 'machine.connectionTest'|trans }}</legend>
+    <legend>{{ 'machine.connectionTest'|trans }}</legend>
+    
     {% if result %}
-
-    <div class="alert alert-block alert-success fade in">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        <h2 class="alert-heading">{{ 'machine.test.successful'|trans }} !</h2>
-    </div>
+        <div class="alert alert-block alert-success fade in">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <h2 class="alert-heading">{{ 'machine.test.successful'|trans }}</h2>
+        </div>
     {% else %}
-    <div class="alert alert-block alert-error fade in">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        <h2 class="alert-heading">{{ 'machine.test.failed'|trans }} !</h2>
-        <p><br />
-            <a class="btn btn-danger" href="{{ path('machine')}}">{{ 'machine.edit'|trans }}</a>
-            <a class="btn" href="#">{{ 'machine.connectionTest'|trans }}</a>
-        </p>
-    </div>
+        <div class="alert alert-block alert-error fade in">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <h2 class="alert-heading">{{ 'machine.test.failed'|trans }}</h2>
+            
+            <p><br />
+                <a class="btn btn-danger" href="{{ path('machine_edit', {id: mid}) }}">{{ 'machine.edit'|trans }}</a>
+                <a class="btn" href="{{ path('machine_connectionTest', {id: mid}) }}">{{ 'machine.connectionTest'|trans }}</a>
+            </p>
+        </div>
     {% endif %}
-
-
 {% endblock %}

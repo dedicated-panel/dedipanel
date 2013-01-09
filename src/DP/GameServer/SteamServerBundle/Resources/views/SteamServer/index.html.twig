@@ -18,34 +18,32 @@
 
 {% extends "::layout.html.twig" %}
 
-
 {% block javascripts %}
-    <script type="text/javascript" src="{{ asset('bundles/dpsteamserver/js/details.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/dpgameserver/js/details.js') }}"></script>
 {% endblock %}
 
 {% block title %}
     <a href="{{ path('steam') }}"> 
         <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'steam.back'|trans }}"></div>
-            </a>
-        <p>{{ 'steam.title'|trans }}</p>
+    </a>
+    
+    <p>{{ 'steam.title'|trans }}</p>
 {% endblock %}
 
 {% block content %}
+    <legend> {{ 'steam.title'|trans }}</legend>
 
-<legend> {{ 'steam.title'|trans }}</legend>
-
-<div id="menu-legend" class="nav nav-tabs">
-    <li class="pull-right">
-        <a href="{{ path('steam_new') }}">
-            {{ 'steam.add'|trans }}
-        </a>
-    </li>
-</div>
+    <div id="menu-legend" class="nav nav-tabs">
+        <li class="pull-right">
+            <a href="{{ path('steam_new') }}">
+                {{ 'steam.add'|trans }}
+            </a>
+        </li>
+    </div>
  
-<div id="steam">
-    
+<div id="steam" class="server-list">
     {% for entity in entities %}
-        <div class="row serveur-steam" id="steam-{{ entity.id }}">   
+        <div class="row serveur-steam" id="steam-{{ entity.id }}">
             {% if entity.getInstallationStatus < 101 %}
                 <div class="span2">
                     {% set gameImg = entity.game.installname %}
@@ -53,7 +51,7 @@
                         {% set gameImg = 'css' %}
                     {% endif %}
                     <a href="{{ path('steam_show', {'id': entity.id }) }}">
-                        <img src="../images/serveur/viewer/{{ gameImg }}.png" alt="{{ entity.game }}" />
+                        <img src="/images/serveur/viewer/{{ gameImg }}.png" alt="{{ entity.game }}" />
                     </a>
                 </div>
                 <div class="span3">
@@ -67,17 +65,17 @@
                 </div>
                 <div class="span4">
                     <div class="installation-status">
-                        <img src="../images/icones/serveur/install.png" alt="{{ 'steam.updateStatus'|trans }}" />
+                        <img src="/images/icones/serveur/install.png" alt="{{ 'game.updateStatus'|trans }}" />
                         <span class="installation">
                             <strong>
-                                    <a href="{{ path('steam_install', {id: entity.id }) }}">{{ 'steam.updateStatus'|trans }}</a>
+                                    <a href="{{ path('steam_install', {id: entity.id }) }}">{{ 'game.updateStatus'|trans }}</a>
                             </strong>
                         </span>
                     </div>
                 </div>
                 <div class="span5">
                     <div class="progress progress-info progress-striped">
-                        <div class="bar" style="width: 50%">
+                        <div class="bar" style="width: {{ entity.installationStatus }}%"></div>
                         </div>{{ entity.installationStatus }}
                     </div>
                 </div>
@@ -88,7 +86,7 @@
                     {% set gameImg = 'css' %}
                 {% endif %}
                 <a href="{{ path('steam_show', {'id': entity.id }) }}">
-                    <img src="../images/serveur/viewer/{{ gameImg }}.png" alt="{{ entity.game }}" />
+                    <img src="/images/serveur/viewer/{{ gameImg }}.png" alt="{{ entity.game }}" />
                 </a>
             </div>
             <div class="span9">
@@ -97,30 +95,25 @@
                 </div>
 
                 <div class="description">
-                        {{ entity.machine.publicIp }}:{{ entity.port }}
+                    {{ entity.machine.publicIp }}:{{ entity.port }}
 
-                        {% set banned = (entity.query.isBanned(true) == true) %}                    
-                        {% set online = (entity.query.latency != false) %}
-                        {% if online %}
-                                <span class="info">
-                                    {{ entity.query.serverInfos['map'] }}
-                                </span>
-                                <span class="info">
-                                    <strong>
-                                            {{ entity.query.serverInfos['players'] }} / 
-                                            {{ entity.query.serverInfos['maxPlayers'] }}
-                                    </strong>
-                                </span>	
-
-                        {% elseif banned %}
-
-                                <span class="info"><strong>{{ 'steam.banned'|trans }}</strong></span>
-
-                        {% else %}
-
-                                <span class="info"><strong>{{ 'steam.offline'|trans }}</strong></span>
-
-                        {% endif %}				
+                    {% set banned = (entity.query.isBanned(true) == true) %}                    
+                    {% set online = (entity.query.latency != false) %}
+                    {% if online %}
+                        <span class="info">
+                            {{ entity.query.serverInfos['map'] }}
+                        </span>
+                        <span class="info">
+                            <strong>
+                                {{ entity.query.serverInfos['players'] }} / 
+                                {{ entity.query.serverInfos['maxPlayers'] }}
+                            </strong>
+                        </span>
+                    {% elseif banned %}
+                            <span class="info"><strong>{{ 'game.banned'|trans }}</strong></span>
+                    {% else %}
+                            <span class="info"><strong>{{ 'game.offline'|trans }}</strong></span>
+                    {% endif %}
                 </div>
             </div>    
             <div class="span4 actions">
@@ -131,12 +124,15 @@
                     <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'start' }) }}"><div class="fsGame" aria-hidden="true" data-icon="&#x22;" title="{{ 'steam.start'|trans }}"></div></a>
                 {% endif %}
 
-                    <a href="{{ path('steam_edit', {id: entity.id }) }}">
-                        <div class="fsGame" aria-hidden="true" data-icon="&#x25;" title="{{ 'steam.edit'|trans }}"></div></a>
-                    <a href="{{ path('steam_show', {id: entity.id}) }}" class="slide" id="steam-{{ entity.id }}">
-                        <div class="fsGame" aria-hidden="true" data-icon="&#x26;" title="{{ 'steam.show'|trans }}"></div></a>
-                    <a href="{{ path('steam_plugins_show', {id: entity.id }) }}">
-                        <div class="fsGame" aria-hidden="true" data-icon="&#x56;" title="{{ 'steam.pluginsAction'|trans }}"></div></a>
+                <a href="{{ path('steam_edit', {id: entity.id }) }}">
+                    <div class="fsGame" aria-hidden="true" data-icon="&#x25;" title="{{ 'game.edit'|trans }}"></div>
+                </a>
+                <a href="{{ path('steam_show', {id: entity.id}) }}" class="slide" id="steam-{{ entity.id }}">
+                    <div class="fsGame" aria-hidden="true" data-icon="&#x26;" title="{{ 'steam.show'|trans }}"></div>
+                </a>
+                <a href="{{ path('steam_plugin_show', {id: entity.id }) }}">
+                    <div class="fsGame" aria-hidden="true" data-icon="&#x56;" title="{{ 'game.plugin.title'|trans }}"></div>
+                </a>
             </div>
         </div>     
         <div class="details" id="steam-{{ entity.id }}">
@@ -160,34 +156,34 @@
                                     </div>
                                     <div class="span4">
                                         <table class="table table-hover">
-                                           <thead>
-                                               <tr>
-                                                   <th>Joueur</th>
-                                                   <th>Score</th>
-                                               </tr>
-                                           </thead>
-                                           <tbody>
-                                       {% for player in entity.query.players %}
-                                                   <tr>
-                                                       <td>{{ player.nom }}</td>
-                                                       <td>{{ player.score }}</td>
-                                                   </tr>
-                                       {% endfor %}
-                                               </tbody>
-                                           </table>
-                                       </div>
-                                   </div>
+                                        <thead>
+                                            <tr>
+                                                <th>Joueur</th>
+                                                <th>Score</th>
+                                            </tr>
+                                        </thead>
+                                            <tbody>
+                                                {% for player in entity.query.players %}
+                                                    <tr>
+                                                        <td>{{ player.nom }}</td>
+                                                        <td>{{ player.score }}</td>
+                                                    </tr>
+                                                {% else %}
+                                                    <tr><th colspan="2">{{ 'game.noPlayerConnected'|trans }}</th></tr>
+                                                {% endfor %}
+                                                </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             {% else %}
                                 <div class="row description-general">
                                     <div class="span12">
                                         Lancé le Serveur pour avoir des stats ?
                                     </div>
-                                </div>                           
-
-
+                                </div>
                             {% endif %}
-
                         </div>
+                        
                         <div class="tab-pane" id="lB">
                             <p>CFG</p>
                         </div>

@@ -1,53 +1,53 @@
 {% extends "::layout.html.twig" %}
+
 {% block title %}
     <a href="/"> 
         <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'machine.back'|trans }}"></div>
-            </a>
-        <p>{{ 'machine.machine'|trans }}</p>
+    </a>
+    <p>{{ 'machine.machine'|trans }}</p>
 {% endblock %}
+
 {% block content %}
+    <legend>{{ 'machine.machine'|trans }}</legend>
 
-<legend>{{ 'machine.machine'|trans }}</legend>
+    <div id="menu-legend" class="nav nav-tabs">
+        <li class="pull-right">
+            <a href="{{ path('machine_new') }}">
+                {{ 'machine.new'|trans }}
+            </a>
+        </li>
+    </div>
 
-<div id="menu-legend" class="nav nav-tabs">
-    <li class="pull-right">
-        <a href="{{ path('machine_new') }}">
-            {{ 'machine.new'|trans }}
-        </a>
-    </li>
-</div>
- 
-
-
-{# Pour la Beta suivante
-<form class="well machine">
-    <div class="span12">
-        <div class="row">
-            <div class="span2">
-                <label for="privateip">{{ 'machine.privateIp'|trans }}</label>
-                <input id="privateip" type="text" class="input-medium petit" placeholder="{{ 'machine.privateIp'|trans }}">
+    {# Pour la Beta suivante
+    <form class="well machine">
+        <div class="span12">
+            <div class="row">
+                <div class="span2">
+                    <label for="privateip">{{ 'machine.privateIp'|trans }}</label>
+                    <input id="privateip" type="text" class="input-medium petit" placeholder="{{ 'machine.privateIp'|trans }}">
+                </div>
+                <div class="span2">
+                    <label>{{ 'machine.publicIp'|trans }}</label>
+                    <input id="publicip" type="text" class="input-medium petit" placeholder="{{ 'machine.publicIp'|trans }}">
+                </div>
+                <div class="span3">
+                    <label>{{ 'machine.port'|trans }}</label>
+                    <input id="port" type="number" class="input-medium petit" placeholder="{{ 'machine.port'|trans }}">
+                </div>
+                <div class="span2">
+                    <label>{{ 'machine.user'|trans }}</label>
+                    <input id="user" type="text" class="input-medium petit" placeholder="{{ 'machine.user'|trans }}">  
+                </div>
+                <div class="span2">
+                    <label>{{ 'machine.passwd'|trans }}</label>
+                    <input id="user" type="text" class="input-medium petit" placeholder="{{ 'machine.passwd'|trans }}">  
+                </div>               
             </div>
-            <div class="span2">
-                <label>{{ 'machine.publicIp'|trans }}</label>
-                <input id="publicip" type="text" class="input-medium petit" placeholder="{{ 'machine.publicIp'|trans }}">
-            </div>
-            <div class="span3">
-                <label>{{ 'machine.port'|trans }}</label>
-                <input id="port" type="number" class="input-medium petit" placeholder="{{ 'machine.port'|trans }}">
-            </div>
-            <div class="span2">
-                <label>{{ 'machine.user'|trans }}</label>
-                <input id="user" type="text" class="input-medium petit" placeholder="{{ 'machine.user'|trans }}">  
-            </div>
-            <div class="span2">
-                <label>{{ 'machine.passwd'|trans }}</label>
-                <input id="user" type="text" class="input-medium petit" placeholder="{{ 'machine.passwd'|trans }}">  
-            </div>               
-        </div>
-    </div>​
-    <button id="publicip" type="submit" class="btn machine">Ajouter</button>
-</form>#}
-<table class="table table-striped">
+        </div>​
+        <button id="publicip" type="submit" class="btn machine">Ajouter</button>
+    </form>#}
+    
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>{{ 'machine.id'|trans }}</th>
@@ -60,23 +60,22 @@
         </thead>
         <tbody>
             {% for entity in entities %}
-            <tr>
-                <td>{{ entity.id }}</td>
-                <td>{{ entity.privateIp }}</td>
-                <td>{{ entity.publicIp }}</td>
-                <td>{{ entity.port }}</td>
-                <td>{{ entity.user }}</td>
+                <tr>
+                    <td>{{ entity.id }}</td>
+                    <td>{{ entity.privateIp }}</td>
+                    <td>{{ entity.publicIp }}</td>
+                    <td>{{ entity.port }}</td>
+                    <td>{{ entity.user }}</td>
 
-                <td> 
-                    <div class="btn-group">
-                        <button class="btn"> <a href="{{ path('machine_show', { 'id': entity.id }) }}">{{ 'machine.show'|trans }}</a></button>
-                        <button class="btn"><a href="{{ path('machine_edit', { 'id': entity.id }) }}">{{ 'machine.edit'|trans }}</a></button>
-                        <button class="btn"> <a href="{{ path('machine_connectionTest', { 'id': entity.id }) }}">{{ 'machine.connectionTest'|trans }}</a></button>
-                    </div>
-                </td>
-            </tr>  
+                    <td> 
+                        <div class="btn-group">
+                            <button class="btn"> <a href="{{ path('machine_show', { 'id': entity.id }) }}">{{ 'machine.show'|trans }}</a></button>
+                            <button class="btn"><a href="{{ path('machine_edit', { 'id': entity.id }) }}">{{ 'machine.edit'|trans }}</a></button>
+                            <button class="btn"> <a href="{{ path('machine_connectionTest', { 'id': entity.id }) }}">{{ 'machine.connectionTest'|trans }}</a></button>
+                        </div>
+                    </td>
+                </tr>  
             {% endfor %}
         </tbody>
     </table>
-
 {% endblock %}
