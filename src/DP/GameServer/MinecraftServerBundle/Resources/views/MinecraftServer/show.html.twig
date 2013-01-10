@@ -19,12 +19,16 @@
 {% extends "::layout.html.twig" %}
 
 {% block title %}
-    <a href="{{ path('minecraft') }}">
-        <span class="titre icone">h</span>
+    <a href="{{ path('minecraft') }}"> 
+        <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></div>
     </a>
+    
+    <p>{{ 'minecraft.title'|trans }}</p>
+{% endblock %}
 
-    {{ 'minecraft.showTitle'|trans }}
-{% endblock %}{% block content %}
+{% block content %}
+    <legend>{{ 'minecraft.showTitle'|trans }}</legend>
+    
     <table class="record_properties">
         <tbody>
             <tr>

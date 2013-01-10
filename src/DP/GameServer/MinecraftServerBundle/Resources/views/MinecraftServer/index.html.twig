@@ -23,63 +23,66 @@
 {% endblock %}
     
 {% block title %}
-    {{ 'minecraft.list'|trans }}
+    <a href="{{ path('DPGameServerBundle_menu') }}"> 
+        <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></div>
+    </a>
     
-    <nav id="tabs" class="nav nav-tabs minecraft">
-        <a href="{{ path('minecraft_new') }}">
-            {{ 'minecraft.add'|trans }}
-        </a>
-    </nav>
+    <p>{{ 'minecraft.title'|trans }}</p>
 {% endblock %}
 
 {% block content %}
-    <ul>
-        <li>
+    <legend>{{ 'minecraft.list'|trans }}</legend>
+
+    <div id="menu-legend" class="nav nav-tabs">
+        <li class="pull-right">
             <a href="{{ path('minecraft_new') }}">
                 {{ 'minecraft.add'|trans }}
             </a>
         </li>
-    </ul>
+    </div>
 
-    <div class="server-list">
+    <div id="minecraft" class="server-list">
         {% for entity in entities %}
             {% if entity.getInstallationStatus < 101 %}
-                <div class="row server-item" rel="{{ entity.id }}">
+                <div class="row serveur-steam" rel="{{ entity.id }}">
                     <div class="span3">
                         <div class="titre">
                             <a href="{{ path('minecraft_show', {id: entity.id}) }}">{{ entity.name }}</a>
                         </div>
+                        
                         <div class="description">
                             {{ entity.machine.publicIp }}:{{ entity.port }}
-
                         </div>
                     </div>
+                    
                     <div class="span4">
                         <div class="installation-status">
                             <img src="/images/icones/serveur/install.png" alt="{{ 'game.updateStatus'|trans }}" />
                             <span class="installation">
                                 <strong>
-                                        <a href="{{ path('minecraft_install', {id: entity.id }) }}">{{ 'game.updateStatus'|trans }}</a>
+                                    <a href="{{ path('minecraft_install', {id: entity.id }) }}">{{ 'game.updateStatus'|trans }}</a>
                                 </strong>
                             </span>
                         </div>
                     </div>
+                        
                     <div class="span5">
                         <div class="progress progress-info progress-striped">
                             <div class="bar" style="width: {{ entity.installationStatus }}%"></div>
+                            
                             {{ entity.installationStatus }} %
                         </div>
                     </div>
                 </div>
             {% else %}
-                <div class="row server-item" rel="{{ entity.id }}">
-                    <div class="visuel">
+                <div class="row serveur-steam" rel="{{ entity.id }}">
+                    <div class="span2">
                         <a href="{{ path('minecraft_show', {'id': entity.id }) }}">
                             <img src="/images/serveur/viewer/{{ entity.game.installname }}.png" alt="{{ entity.game }}" />
                         </a>
                     </div>
-
-                    <div class="server-infos">
+                    
+                    <div class="span9">
                         <div class="titre">
                             <a href="{{ path('minecraft_show', {id: entity.id}) }}">{{ entity.name }}</a>
                         </div>
@@ -102,25 +105,36 @@
                             {% endif %}	
                         </div>
                     </div>
-
-                    <div class="actions">
+                    <div class="span4 actions">
                         {% if entity.query.online %}
-                            <a href="{{ path('minecraft_changeState', { 'id': entity.id, 'state': 'stop' }) }}"><img class="stop-image" src="/images/icones/serveur/stop.png" title="{{ 'steam.stop'|trans }}"/></a>
-                            <a href="{{ path('minecraft_changeState', { 'id': entity.id, 'state': 'restart' }) }}"><img src="/images/icones/serveur/restart.png" title="{{ 'steam.restart'|trans }}"/></a>
+                            <a href="{{ path('minecraft_changeState', { 'id': entity.id, 'state': 'stop' }) }}"><div class="fsGame" aria-hidden="true" data-icon="&#x24;" title="{{ 'steam.stop'|trans }}"></div></a>
+                            <a href="{{ path('minecraft_changeState', { 'id': entity.id, 'state': 'restart' }) }}"><div class="fsGame" aria-hidden="true" data-icon="&#x27;" title="{{ 'steam.restart'|trans }}"></div></a>
                         {% else %}
-                            <a href="{{ path('minecraft_changeState', { 'id': entity.id, 'state': 'start' }) }}"><img class="start-image" src="/images/icones/serveur/start.png" title="{{ 'steam.start'|trans }}"/></a>
+                            <a href="{{ path('minecraft_changeState', { 'id': entity.id, 'state': 'start' }) }}"><div class="fsGame" aria-hidden="true" data-icon="&#x22;" title="{{ 'steam.start'|trans }}"></div></a>
                         {% endif %}
 
-                        <a href="{{ path('minecraft_edit', {id: entity.id }) }}"><img src="/images/icones/serveur/config.png" title="{{ 'game.edit'|trans }}" /></a>
-                        {% if entity.game.isBukkit %}<a href="{{ path('minecraft_plugin_show', {id: entity.id }) }}"><img src="/images/icones/serveur/plugins.png" title="{{ 'game.plugin.title'|trans }}" /></a>{% endif %}
-                        <a href="{{ path('minecraft_show', {id: entity.id}) }}" class="slide" id="slide-toggler-{{ entity.id }}"><img src="/images/icones/serveur/slide.png" title="Slide"/></a>
+                        <a href="{{ path('minecraft_edit', {id: entity.id }) }}">
+                            <div class="fsGame" aria-hidden="true" data-icon="&#x25;" title="{{ 'game.edit'|trans }}"></div>
+                        </a>
+                        
+                        {% if entity.game.isBukkit %}
+                            <a href="{{ path('minecraft_plugin_show', {id: entity.id }) }}">
+                                <div class="fsGame" aria-hidden="true" data-icon="&#x56;" title="{{ 'game.plugin.title'|trans }}"></div>
+                            </a>
+                        {% endif %}
+                        
+                        <a href="{{ path('minecraft_show', {id: entity.id}) }}" class="slide" id="slide-toggler-{{ entity.id }}">
+                            <div class="fsGame" aria-hidden="true" data-icon="&#x26;" title="{{ 'minecraft.show'|trans }}"></div>
+                        </a>
                     </div>
                 </div>
             
                 <div class="details" rel="{{ entity.id }}">
                     <div class="tabbable tabs-left">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#lA" data-toggle="tab">Général</a></li>
+                            <li class="active"><a href="#lA" data-toggle="tab">{{ 'game.general'|trans }}</a></li>
+                            <li class=""><a href="#lB" data-toggle="tab">CFG</a></li>
+                            <li class=""><a href="#lC" data-toggle="tab">HLTV</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -149,12 +163,6 @@
                                                 {% endfor %}
                                                 </tbody>
                                             </table>
-                                        </div>
-                                    </div>
-                                {% else %}
-                                    <div class="row description-general">
-                                        <div class="span12">
-                                            Lancé le Serveur pour avoir des stats ?
                                         </div>
                                     </div>
                                 {% endif %}

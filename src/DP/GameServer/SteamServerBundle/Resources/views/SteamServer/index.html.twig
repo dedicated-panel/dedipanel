@@ -59,9 +59,9 @@
                         <div class="titre">
                             <a href="{{ path('steam_show', {id: entity.id}) }}">{{ entity.name }}</a>
                         </div>
+                        
                         <div class="description">
                             {{ entity.machine.publicIp }}:{{ entity.port }}
-
                         </div>
                     </div>
                     
@@ -70,7 +70,7 @@
                             <img src="/images/icones/serveur/install.png" alt="{{ 'game.updateStatus'|trans }}" />
                             <span class="installation">
                                 <strong>
-                                        <a href="{{ path('steam_install', {id: entity.id }) }}">{{ 'game.updateStatus'|trans }}</a>
+                                    <a href="{{ path('steam_install', {id: entity.id }) }}">{{ 'game.updateStatus'|trans }}</a>
                                 </strong>
                             </span>
                         </div>
@@ -79,9 +79,9 @@
                     <div class="span5">
                         <div class="progress progress-info progress-striped">
                             <div class="bar" style="width: {{ entity.installationStatus }}%"></div>
+                            
+                            {{ entity.installationStatus }} %
                         </div>
-                        
-                        {{ entity.installationStatus }}
                     </div>
                 </div>
             {% else %}
@@ -144,7 +144,7 @@
                 <div class="details" id="steam-{{ entity.id }}">
                     <div class="tabbable tabs-left">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#lA" data-toggle="tab">Général</a></li>
+                            <li class="active"><a href="#lA" data-toggle="tab">{{ 'game.general'|trans }}</a></li>
                             <li class=""><a href="#lB" data-toggle="tab">CFG</a></li>
                             <li class=""><a href="#lC" data-toggle="tab">HLTV</a></li>
                         </ul>

@@ -23,14 +23,16 @@
 {% endblock %}
 
 {% block title %}
-    <a href="{{ path('minecraft') }}">
-        <span class="titre icone">h</span>
+    <a href="{{ path('minecraft') }}"> 
+        <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></div>
     </a>
     
-    {{ 'minecraft.add'|trans }}
+    <p>{{ 'minecraft.title'|trans }}</p>
 {% endblock %}
 
 {% block content %}
+    <legend>{{ 'minecraft.add'|trans }}</legend>
+    
     <form action="{{ path('minecraft_create') }}" method="post" {{ form_enctype(form) }} id="form-edit">
         {{ form_widget(form) }}
         

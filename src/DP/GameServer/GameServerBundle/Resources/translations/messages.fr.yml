@@ -48,3 +48,5 @@ game.plugin.noPluginForThatGame: Il n'y a pas de plugin de configuré pour ce je
 game.player: Joueur
 game.score: Score
 game.noPlayerConnected: Aucun joueur n'est connecté.
+
+game.general: Général

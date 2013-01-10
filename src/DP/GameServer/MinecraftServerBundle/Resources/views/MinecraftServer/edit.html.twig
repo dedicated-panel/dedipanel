@@ -17,16 +17,18 @@
 #}
 
 {% extends "::layout.html.twig" %}
-
+    
 {% block title %}
-    <a href="{{ path('minecraft') }}">
-        <span class="titre icone">h</span>
+    <a href="{{ path('minecraft') }}"> 
+        <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></div>
     </a>
     
-    {{ 'minecraft.editTitle'|trans }}
+    <p>{{ 'minecraft.title'|trans }}</p>
 {% endblock %}
 
 {% block content %}
+    <legend>{{ 'minecraft.editTitle'|trans }}</legend>
+    
     <form action="{{ path('minecraft_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} id="form-edit">
         {{ form_widget(edit_form) }}
         
