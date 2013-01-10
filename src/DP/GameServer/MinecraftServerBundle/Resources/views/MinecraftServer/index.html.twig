@@ -33,13 +33,13 @@
 {% block content %}
     <legend>{{ 'minecraft.list'|trans }}</legend>
 
-    <div id="menu-legend" class="nav nav-tabs">
+    <ul id="menu-legend" class="nav nav-tabs">
         <li class="pull-right">
             <a href="{{ path('minecraft_new') }}">
                 {{ 'minecraft.add'|trans }}
             </a>
         </li>
-    </div>
+    </ul>
 
     <div id="minecraft" class="server-list">
         {% for entity in entities %}

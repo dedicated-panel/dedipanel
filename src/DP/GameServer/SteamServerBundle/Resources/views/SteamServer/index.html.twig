@@ -33,13 +33,13 @@
 {% block content %}
     <legend> {{ 'steam.title'|trans }}</legend>
 
-    <div id="menu-legend" class="nav nav-tabs">
+    <ul id="menu-legend" class="nav nav-tabs">
         <li class="pull-right">
             <a href="{{ path('steam_new') }}">
                 {{ 'steam.add'|trans }}
             </a>
         </li>
-    </div>
+    </ul>
 
     <div id="steam" class="server-list">
         {% for entity in entities %}

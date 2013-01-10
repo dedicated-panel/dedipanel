@@ -64,10 +64,11 @@ header {
 
 .form-actions{   
     background-color: #DDD !important;
-    border-top: 1px solid #C4C4C4 !important
+    border-top: 1px solid #C4C4C4 !important;
 }
 legend{
-    border-bottom: 1px solid #C4C4C4 !important
+    border-bottom: 1px solid #C4C4C4 !important;
+    /*padding: 0 0 0 5px;*/
 }
 .nav > li > a:hover {
     background-color: #E2E2E2 !important;
@@ -105,7 +106,7 @@ section > #title > a {
 section > #title > p{
     position: relative;
     top: -41px;
-    margin-left: 31px;
+    margin-left: 35px;
 }
 #page-content {
     /*	min-height: 500px;*/
@@ -126,7 +127,7 @@ section > #title > p{
 }
 .logo img {
     position: relative;
-    top: 25px;
+    top: 35px;
     width: 195px;
     opacity: 0.6;
     left: 4px;
@@ -292,6 +293,9 @@ nav > .menuNav > ul > li > a > span {
     position: relative;
     top: -57px;
 }
+#menu-legend li:last-child a {
+    margin: 0;
+}
 .server-item {
     height: 50px;
     padding: 10px 10px 12px;
@@ -422,9 +426,13 @@ label {
     font-family: 'Yanone Kaffeesatz', arial, sans-serif;
     font-size: 16px;
     color: #666; 
-    width: 250px !important;
+    width: 250px;
     display: block;
     float: left;
+}
+input[type="radio"] + label, input[type="checkbox"] + label {
+    width: auto;
+    margin: 0 20px 0 5px;
 }
 input[type="radio"], input[type="checkbox"] {
     margin: 4px 0 0;

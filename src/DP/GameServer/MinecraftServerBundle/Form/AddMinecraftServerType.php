@@ -29,8 +29,9 @@ class AddMinecraftServerType extends BaseMinecraftServerType
     {
         parent::buildForm($builder, $options);
         
-        $builder->add('alreadyInstalled', 'choice', array(
-                'choices'   => array('game.no', 'game.yes'), 
+        $builder
+            ->add('alreadyInstalled', 'choice', array(
+                'choices'   => array(1 => 'game.yes', 0 => 'game.no'), 
                 'label'     => 'game.isAlreadyInstalled', 
                 'mapped'    => false, 
                 'expanded'  => true

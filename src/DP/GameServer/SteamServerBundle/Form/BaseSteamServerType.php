@@ -20,26 +20,30 @@
 
 namespace DP\GameServer\SteamServerBundle\Form;
 
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class AddSteamServerType extends BaseSteamServerType
+class BaseSteamServerType extends AbstractType
 {    
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
-        
         $builder
-            ->add('alreadyInstalled', 'choice', array(
-                'choices'   => array(1 => 'game.yes', 0 => 'game.no'), 
-                'label'     => 'game.isAlreadyInstalled', 
-                'mapped'    => false, 
-                'expanded'  => true
-            ))
+            ->add('machine', 'entity', array(
+                'label' => 'game.selectMachine', 'class' => 'DPMachineBundle:Machine'))
+            ->add('name', 'text', array('label' => 'game.name'))
+            ->add('port', 'integer', array('label' => 'game.port'))
+            ->add('game', 'entity', array(
+                'label' => 'game.selectGame', 'class' => 'DPGameBundle:Game', 
+                'query_builder' => function($repo) {
+                    return $repo->getQBAvailableSteamGames();
+                }))
+            ->add('dir', 'text', array('label' => 'game.dir'))
+            ->add('maxplayers', 'integer', array('label' => 'game.maxplayers'))
         ;
     }
 
     public function getName()
     {
-        return 'dp_gameserver_steamserverbundle_steamservertype_addsteamservertype';
+        return 'dp_gameserver_steamserverbundle_steamservertype';
     }
 }

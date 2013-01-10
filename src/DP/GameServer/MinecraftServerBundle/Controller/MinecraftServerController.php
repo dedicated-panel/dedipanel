@@ -24,7 +24,7 @@ class MinecraftServerController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('DPMinecraftServerBundle:MinecraftServer')->findAll();
-
+        
         return $this->render('DPMinecraftServerBundle:MinecraftServer:index.html.twig', array(
             'entities' => $entities,
         ));

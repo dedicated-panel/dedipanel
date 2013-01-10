@@ -54,7 +54,7 @@
                             {% if entity.installationStatus is null %}
                                 Buggued
                             {% elseif entity.installationStatus == 101 %}
-                                {{ 'steam.ended'|trans }}
+                                {{ 'game.installEnded'|trans }}
                             {% else %}
                                 {{ entity.installationStatus }}%
                             {% endif %}

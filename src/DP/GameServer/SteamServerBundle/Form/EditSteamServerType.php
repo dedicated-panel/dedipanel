@@ -22,17 +22,20 @@ namespace DP\GameServer\SteamServerBundle\Form;
 
 use Symfony\Component\Form\FormBuilderInterface;
 
-class EditSteamServerType extends AddSteamServerType
+class EditSteamServerType extends BaseSteamServerType
 {    
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
-        $builder->add('rconPassword', 'text', array('label' => 'steam.rcon.password', 'required' => false));
-        $builder->add('hltvPort', 'integer', array('label' => 'steam.hltv.port', 'required' => false));
+        
+        $builder
+            ->add('rconPassword', 'text', array('label' => 'steam.rcon.password', 'required' => false))
+            ->add('hltvPort', 'integer', array('label' => 'steam.hltv.port', 'required' => false))
+        ;
     }
 
     public function getName()
     {
-        return 'dp_gameserver_steamserverbundle_editsteamservertype';
+        return 'dp_gameserver_steamserverbundle_steamservertype_editsteamservertype';
     }
 }
