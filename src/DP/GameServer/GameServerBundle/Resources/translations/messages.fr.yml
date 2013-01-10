@@ -33,12 +33,14 @@ game.rcon.title: Zone Rcon
 game.rcon.password: Mdp RCON
 game.rcon.command: Commande
 
+game.ftp.title: Zone FTP
 game.ftp.showTitle: Voir les fichiers/dossiers
 game.ftp.editTitle: Editer un fichier
 game.ftp.filename: Nom du fichier
 game.ftp.content: Contenu du fichier
 
-game.plugin.title: Voir les plugins du serveur
+game.plugin.title: Voir les plugins
+game.plugin.showTitle: Voir les plugins du serveur
 game.plugin.name: Nom
 game.plugin.status: Statut
 game.plugin.installed: Installé
@@ -50,3 +52,8 @@ game.score: Score
 game.noPlayerConnected: Aucun joueur n'est connecté.
 
 game.general: Général
+
+game.map: Map : %map%
+game.start: Démarrer
+game.stop: Arrêter
+game.restart: Redémarrer

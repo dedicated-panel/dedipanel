@@ -44,7 +44,7 @@
     <div id="minecraft" class="server-list">
         {% for entity in entities %}
             {% if entity.getInstallationStatus < 101 %}
-                <div class="row serveur-steam" rel="{{ entity.id }}">
+                <div class="row server-item" rel="{{ entity.id }}">
                     <div class="span3">
                         <div class="titre">
                             <a href="{{ path('minecraft_show', {id: entity.id}) }}">{{ entity.name }}</a>
@@ -75,7 +75,7 @@
                     </div>
                 </div>
             {% else %}
-                <div class="row serveur-steam" rel="{{ entity.id }}">
+                <div class="row server-item" rel="{{ entity.id }}">
                     <div class="span2">
                         <a href="{{ path('minecraft_show', {'id': entity.id }) }}">
                             <img src="/images/serveur/viewer/{{ entity.game.installname }}.png" alt="{{ entity.game }}" />
@@ -92,7 +92,7 @@
                             
                             {% if entity.query.online %}
                                 <span class="info">
-                                    {{ 'minecraft.map'|trans }} : {{ entity.query.serverInfos['map'] }}
+                                    {{ 'game.map'|trans({'%map%': entity.query.serverInfos['map']}) }}
                                 </span>
                                 <span class="info">
                                     <strong>
@@ -105,12 +105,12 @@
                             {% endif %}	
                         </div>
                     </div>
-                    <div class="span4 actions">
+                    <div class="span5 actions">
                         {% if entity.query.online %}
-                            <a href="{{ path('minecraft_changeState', { 'id': entity.id, 'state': 'stop' }) }}"><div class="fsGame" aria-hidden="true" data-icon="&#x24;" title="{{ 'steam.stop'|trans }}"></div></a>
-                            <a href="{{ path('minecraft_changeState', { 'id': entity.id, 'state': 'restart' }) }}"><div class="fsGame" aria-hidden="true" data-icon="&#x27;" title="{{ 'steam.restart'|trans }}"></div></a>
+                            <a href="{{ path('minecraft_changeState', { 'id': entity.id, 'state': 'stop' }) }}"><div class="fsGame" aria-hidden="true" data-icon="&#x24;" title="{{ 'game.stop'|trans }}"></div></a>
+                            <a href="{{ path('minecraft_changeState', { 'id': entity.id, 'state': 'restart' }) }}"><div class="fsGame" aria-hidden="true" data-icon="&#x27;" title="{{ 'game.restart'|trans }}"></div></a>
                         {% else %}
-                            <a href="{{ path('minecraft_changeState', { 'id': entity.id, 'state': 'start' }) }}"><div class="fsGame" aria-hidden="true" data-icon="&#x22;" title="{{ 'steam.start'|trans }}"></div></a>
+                            <a href="{{ path('minecraft_changeState', { 'id': entity.id, 'state': 'start' }) }}"><div class="fsGame" aria-hidden="true" data-icon="&#x22;" title="{{ 'game.start'|trans }}"></div></a>
                         {% endif %}
 
                         <a href="{{ path('minecraft_edit', {id: entity.id }) }}">
@@ -123,19 +123,23 @@
                             </a>
                         {% endif %}
                         
-                        <a href="{{ path('minecraft_show', {id: entity.id}) }}" class="slide" id="slide-toggler-{{ entity.id }}">
-                            <div class="fsGame" aria-hidden="true" data-icon="&#x26;" title="{{ 'minecraft.show'|trans }}"></div>
+                        <a href="{{ path('minecraft_ftp_show', {id: entity.id }) }}">
+                            <div class="fsGame" aria-hidden="true" data-icon="&#x26;" title="{{ 'game.ftp.title'|trans }}"></div>
                         </a>
+                        
+                        {% if entity.query.online %}
+                            <a href="{{ path('minecraft_show', {id: entity.id}) }}" class="slide">
+                                <div class="fsGame" aria-hidden="true" data-icon="&#x21;" title="{{ 'minecraft.show'|trans }}"></div>
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
             
                 <div class="details" rel="{{ entity.id }}">
                     <div class="tabbable tabs-left">
-                        <ul class="nav nav-tabs">
+                        {# <ul class="nav nav-tabs">
                             <li class="active"><a href="#lA" data-toggle="tab">{{ 'game.general'|trans }}</a></li>
-                            <li class=""><a href="#lB" data-toggle="tab">CFG</a></li>
-                            <li class=""><a href="#lC" data-toggle="tab">HLTV</a></li>
-                        </ul>
+                        </ul> #}
 
                         <div class="tab-content">
                             <div class="tab-pane active" id="lA"> 

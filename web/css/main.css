@@ -282,52 +282,52 @@ nav > .menuNav > ul > li > a > span {
 .steam > li > a:hover {
     background: #E6E6E6 !important;
 }
-#steam{
+.server-list {
     margin-top: -81px;
     overflow: hidden;
 }
 
-#steam div.serveur-steam:nth-child(odd) {background: #E6E6E6;}
+.server-list div.server-item {background: #E6E6E6;}
 
 #menu-legend {
     position: relative;
     top: -57px;
 }
-.serveur-steam {
+.server-item {
     height: 50px;
     padding: 10px 10px 12px;
     border-bottom: 1px dotted #C3C3C3;
     border-top: 1px solid white;
 }
 
-.serveur-steam .titre {
+.server-item .titre {
     margin: 7px 24px;
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     font-size: 18px;
     font-weight: bold;
     text-shadow: 1px 1px white;
 }
-.serveur-steam .description{
+.server-item .description{
     padding: 0 20px;
     margin: 4px;
     color: #535353;
     font-size: 13px;
 }
-.serveur-steam .description .info{
+.server-item .description .info{
     margin-left:165px; 
 }
-.serveur-steam .actions{
+.server-item .actions{
     padding: 12px; 
 }
-.serveur-steam .installation{
+.server-item .installation{
     font-size: 15px;
     color: #0684CA; 
 }
-.serveur-steam .installation-status{
+.server-item .installation-status{
     padding: 9px;
     margin-left: 55px;
 }
-.serveur-steam .progress{
+.server-item .progress{
     margin-top: 15px;
 }
 
@@ -344,26 +344,29 @@ nav > .menuNav > ul > li > a > span {
     background-color: #E6E6E6;
 }
 
-.serveur-steam > .actions{  
+.server-item > .actions{  
 }
-.serveur-steam > .actions > a {
+.server-item > .actions > a {
     float: left;
     color: rgba(129, 129, 129, 0.9);
 
     height: 20px;
 }
-.serveur-steam > .actions >  a:hover { 
+.server-item > .actions >  a:hover { 
     -webkit-transform:scale(1.1);
     color: rgba(0, 136, 204, 0.34);
 }
-.serveur-steam > .actions > a > .fsGame { 
+.server-item > .actions > a > .fsGame { 
     float: left;
     display: block;
     margin: 0px -2px 0px 14px;
     font-size: 2.9em;
 }
-.description-general{  
+.description-general {
     padding-top: 10px;
+}
+.description-general th {
+    text-align: center;
 }
 
 select, input[type="file"] {

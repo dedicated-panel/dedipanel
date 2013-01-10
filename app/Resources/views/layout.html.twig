@@ -19,8 +19,7 @@
 {% extends "::base.html.twig" %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('bootstrap/css/bootstrap.css') }}" />
-    {# <link rel="stylesheet" href="{{ asset('bundles/sonataadmin/bootstrap/bootstrap.min.css') }}" type="text/css" media="all" > #}
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('css/icomoon/style.css') }}" />
     
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}

@@ -29,10 +29,6 @@ steam.munin: Graphes munin activés ?
 steam.passwd: Mot de passe du serveur
 steam.core: Lancer le serveur sur le core ?
 
-steam.start: Démarrer
-steam.stop: Arrêter
-steam.restart: Redémarrer
-
 steam.hltv.running: HLTV démarré
 steam.hltv.stopped: HLTV arrêté
 steam.hltv.hltvIP: Adresse IP de l'HLTV
@@ -45,3 +41,4 @@ steam.hltv.yes: Oui
 steam.hltv.no: Non
 steam.hltv.portAlreadyUsed: Le port indiqué pour l'hltv est déjà utilisé.
 steam.hltv.port: Port de l'HLTV
+steam.hltv.title: Zone HLTV

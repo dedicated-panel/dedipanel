@@ -44,12 +44,13 @@
     <div id="steam" class="server-list">
         {% for entity in entities %}
             {% if entity.getInstallationStatus < 101 %}
-                <div class="row serveur-steam" rel="{{ entity.id }}">
+                <div class="row server-item" rel="{{ entity.id }}">
                     <div class="span2">
                         {% set gameImg = entity.game.installname %}
                         {% if gameImg == 'Counter-Strike Source' %}
                             {% set gameImg = 'css' %}
                         {% endif %}
+                        
                         <a href="{{ path('steam_show', {'id': entity.id }) }}">
                             <img src="/images/serveur/viewer/{{ gameImg }}.png" alt="{{ entity.game }}" />
                         </a>
@@ -85,16 +86,18 @@
                     </div>
                 </div>
             {% else %}
-                <div class="row serveur-steam" rel="{{ entity.id }}">
+                <div class="row server-item" rel="{{ entity.id }}">
                     <div class="span2">
                         {% set gameImg = entity.game.installname %}
                         {% if gameImg == 'Counter-Strike Source' %}
                             {% set gameImg = 'css' %}
                         {% endif %}
+                        
                         <a href="{{ path('steam_show', {'id': entity.id }) }}">
                             <img src="/images/serveur/viewer/{{ gameImg }}.png" alt="{{ entity.game }}" />
                         </a>
                     </div>
+                    
                     <div class="span9">
                         <div class="titre">
                             <a href="{{ path('steam_show', {id: entity.id}) }}">{{ entity.name }}</a>
@@ -107,7 +110,7 @@
                             {% set online = (entity.query.latency != false) %}
                             {% if online %}
                                 <span class="info">
-                                    {{ entity.query.serverInfos['map'] }}
+                                    {{ 'game.map'|trans({'%map%': entity.query.serverInfos['map']}) }}
                                 </span>
                                 <span class="info">
                                     <strong>
@@ -124,46 +127,37 @@
                     </div>
                     <div class="span5 actions">                        
                         {% if online %}
-                            <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'stop' }) }}"><div class="fsGame" aria-hidden="true" data-icon="&#x24;" title="{{ 'steam.stop'|trans }}"></div></a>
-                            <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'restart' }) }}"><div class="fsGame" aria-hidden="true" data-icon="&#x27;" title="{{ 'steam.restart'|trans }}"></div></a>
+                            <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'stop' }) }}"><div class="fsGame" aria-hidden="true" data-icon="&#x24;" title="{{ 'game.stop'|trans }}"></div></a>
+                            <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'restart' }) }}"><div class="fsGame" aria-hidden="true" data-icon="&#x27;" title="{{ 'game.restart'|trans }}"></div></a>
                         {% else %}
-                            <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'start' }) }}"><div class="fsGame" aria-hidden="true" data-icon="&#x22;" title="{{ 'steam.start'|trans }}"></div></a>
+                            <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'start' }) }}"><div class="fsGame" aria-hidden="true" data-icon="&#x22;" title="{{ 'game.start'|trans }}"></div></a>
                         {% endif %}
-
-                        {# <a href="{{ path('steam_edit', {id: entity.id }) }}">
-                            <div class="fsGame" aria-hidden="true" data-icon="&#x25;" title="{{ 'game.edit'|trans }}"></div>
-                        </a>
-                        <a href="{{ path('steam_show', {id: entity.id}) }}" class="slide" id="steam-{{ entity.id }}">
-                            <div class="fsGame" aria-hidden="true" data-icon="&#x26;" title="{{ 'steam.show'|trans }}"></div>
-                        </a>
-                        <a href="{{ path('steam_plugin_show', {id: entity.id }) }}">
-                            <div class="fsGame" aria-hidden="true" data-icon="&#x56;" title="{{ 'game.plugin.title'|trans }}"></div>
-                        </a> #}
+                        
                         <a href="{{ path('steam_edit', {id: entity.id }) }}">
                             <div class="fsGame" aria-hidden="true" data-icon="&#x25;" title="{{ 'game.edit'|trans }}"></div>
                         </a>
-
                         <a href="{{ path('steam_plugin_show', {id: entity.id }) }}">
                             <div class="fsGame" aria-hidden="true" data-icon="&#x56;" title="{{ 'game.plugin.title'|trans }}"></div>
                         </a>
-                        <a href="{{ path('steam', {id: entity.id }) }}">
-                            <div class="fsGame" aria-hidden="true" data-icon="&#x60;" title="{{ 'game.plugin.title'|trans }}"></div>
+                        <a href="{{ path('steam_hltv_show', {id: entity.id }) }}">
+                            <div class="fsGame" aria-hidden="true" data-icon="&#x60;" title="{{ 'steam.hltv.title'|trans }}"></div>
                         </a>                
-                        <a href="{{ path('steam', {id: entity.id }) }}">
-                            <div class="fsGame" aria-hidden="true" data-icon="&#x26;" title="{{ 'game.plugin.title'|trans }}"></div>
+                        <a href="{{ path('steam_ftp_show', {id: entity.id }) }}">
+                            <div class="fsGame" aria-hidden="true" data-icon="&#x26;" title="{{ 'game.ftp.title'|trans }}"></div>
                         </a>                
-                        <a href="#" class="slide" id="steam-{{ entity.id }}">
-                            <div class="fsGame" aria-hidden="true" data-icon="&#x21;" title="{{ 'steam.show'|trans }}"></div>
-                        </a>
+                        
+                        {% if online %}
+                            <a href="{{ path('steam_show', {id: entity.id}) }}" class="slide">
+                                <div class="fsGame" aria-hidden="true" data-icon="&#x21;" title="{{ 'steam.show'|trans }}"></div>
+                            </a>
+                        {% endif %}
                     </div>
                 </div>     
                 <div class="details" rel="{{ entity.id }}">
                     <div class="tabbable tabs-left">
-                        <ul class="nav nav-tabs">
+                        {# <ul class="nav nav-tabs">
                             <li class="active"><a href="#lA" data-toggle="tab">{{ 'game.general'|trans }}</a></li>
-                            <li class=""><a href="#lB" data-toggle="tab">CFG</a></li>
-                            <li class=""><a href="#lC" data-toggle="tab">HLTV</a></li>
-                        </ul>
+                        </ul> #}
 
                         <div class="tab-content">
                             <div class="tab-pane active" id="lA"> 
@@ -172,18 +166,16 @@
                                         <div class="span3 offset4">
                                             {% if entity.game.sourceImageMaps is defined %}
                                                 <img src="{{ entity.game.sourceImagesMaps }}{{ entity.query.serverInfos['map'] }}.jpg" alt="{{ entity.query.serverInfos['map'] }}" />
-                                            {% else %}
-                                                <img src="{{ entity.game.sourceImagesMaps }}de_dust2.jpg" />
                                             {% endif %}                            
                                         </div>
                                         <div class="span4">
                                             <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Joueur</th>
-                                                    <th>Score</th>
-                                                </tr>
-                                            </thead>
+                                                <thead>
+                                                    <tr>
+                                                        <th>{{ 'game.player'|trans }}</th>
+                                                        <th>{{ 'game.score'|trans }}</th>
+                                                    </tr>
+                                                </thead>
                                                 <tbody>
                                                     {% for player in entity.query.players %}
                                                         <tr>
@@ -193,18 +185,11 @@
                                                     {% else %}
                                                         <tr><th colspan="2">{{ 'game.noPlayerConnected'|trans }}</th></tr>
                                                     {% endfor %}
-                                                    </tbody>
+                                                </tbody>
                                             </table>
                                         </div>
                                     </div>
                                 {% endif %}
-                            </div>
-
-                            <div class="tab-pane" id="lB">
-                                <p>CFG</p>
-                            </div>
-                            <div class="tab-pane" id="lC">
-                                <p>HLTV</p>
                             </div>
                         </div>
                     </div>
