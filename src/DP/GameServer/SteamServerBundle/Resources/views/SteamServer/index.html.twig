@@ -99,7 +99,7 @@
                         <div class="titre">
                             <a href="{{ path('steam_show', {id: entity.id}) }}">{{ entity.name }}</a>
                         </div>
-
+                        
                         <div class="description">
                             {{ entity.machine.publicIp }}:{{ entity.port }}
 
@@ -122,7 +122,7 @@
                             {% endif %}
                         </div>
                     </div>
-                    <div class="span4 actions">
+                    <div class="span5 actions">                        
                         {% if online %}
                             <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'stop' }) }}"><div class="fsGame" aria-hidden="true" data-icon="&#x24;" title="{{ 'steam.stop'|trans }}"></div></a>
                             <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'restart' }) }}"><div class="fsGame" aria-hidden="true" data-icon="&#x27;" title="{{ 'steam.restart'|trans }}"></div></a>
@@ -130,7 +130,7 @@
                             <a href="{{ path('steam_changeState', { 'id': entity.id, 'state': 'start' }) }}"><div class="fsGame" aria-hidden="true" data-icon="&#x22;" title="{{ 'steam.start'|trans }}"></div></a>
                         {% endif %}
 
-                        <a href="{{ path('steam_edit', {id: entity.id }) }}">
+                        {# <a href="{{ path('steam_edit', {id: entity.id }) }}">
                             <div class="fsGame" aria-hidden="true" data-icon="&#x25;" title="{{ 'game.edit'|trans }}"></div>
                         </a>
                         <a href="{{ path('steam_show', {id: entity.id}) }}" class="slide" id="steam-{{ entity.id }}">
@@ -138,10 +138,26 @@
                         </a>
                         <a href="{{ path('steam_plugin_show', {id: entity.id }) }}">
                             <div class="fsGame" aria-hidden="true" data-icon="&#x56;" title="{{ 'game.plugin.title'|trans }}"></div>
+                        </a> #}
+                        <a href="{{ path('steam_edit', {id: entity.id }) }}">
+                            <div class="fsGame" aria-hidden="true" data-icon="&#x25;" title="{{ 'game.edit'|trans }}"></div>
+                        </a>
+
+                        <a href="{{ path('steam_plugin_show', {id: entity.id }) }}">
+                            <div class="fsGame" aria-hidden="true" data-icon="&#x56;" title="{{ 'game.plugin.title'|trans }}"></div>
+                        </a>
+                        <a href="{{ path('steam', {id: entity.id }) }}">
+                            <div class="fsGame" aria-hidden="true" data-icon="&#x60;" title="{{ 'game.plugin.title'|trans }}"></div>
+                        </a>                
+                        <a href="{{ path('steam', {id: entity.id }) }}">
+                            <div class="fsGame" aria-hidden="true" data-icon="&#x26;" title="{{ 'game.plugin.title'|trans }}"></div>
+                        </a>                
+                        <a href="#" class="slide" id="steam-{{ entity.id }}">
+                            <div class="fsGame" aria-hidden="true" data-icon="&#x21;" title="{{ 'steam.show'|trans }}"></div>
                         </a>
                     </div>
                 </div>     
-                <div class="details" id="steam-{{ entity.id }}">
+                <div class="details" rel="{{ entity.id }}">
                     <div class="tabbable tabs-left">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#lA" data-toggle="tab">{{ 'game.general'|trans }}</a></li>
