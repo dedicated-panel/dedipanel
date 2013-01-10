@@ -267,8 +267,11 @@ class PHPSeclibWrapper {
     public function deleteKeyPair($publicKey)
     {        
         try {
+            // Suppression de la clé publique de la machine
             $publicKey = str_replace('/', '\/', $publicKey);
             $this->exec('cd ~/.ssh/ && sed -i "/^' . $publicKey . '/d" authorized_keys');
+            
+            // Puis suppression de la clé privée stockée sur le panel
             unlink($this->getPrivateKeyFilepath());
             
             return true;

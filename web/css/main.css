@@ -32,8 +32,7 @@ body	{
     background: url('../images/icones/back.png') !important;
     color: #393939 ;
     font-family: Arial;
-    font-size: 0px;
-    font-size:13px;
+    font-size: 13px;
     margin: 0;
     padding: 0;
     height: 100%;
@@ -401,6 +400,12 @@ form.machine {
 }
 button.machine {
     margin: 20px 0 0 -35px !important;
+}
+.machine-test p {
+    font-size: 14px;
+}
+.machine-test.alert-error p.alert-heading {
+    margin-bottom: 15px;
 }
 /* =============================================================== */
 

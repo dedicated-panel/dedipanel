@@ -6,7 +6,7 @@ class FileNotFoundException extends \Exception
 {
     public function __construct($message, PHPSeclibWrapper $srv)
     {
-        parent::__construct('The private keyfile for ' . $srv->getUser() . '@' .
+        parent::__construct('The private key file for ' . $srv->getUser() . '@' .
             $srv->getHost() . ' ' . $message);
     }  
 }
@@ -14,8 +14,8 @@ class EmptyKeyfileException extends \Exception
 {
     public function __construct(PHPSeclibWrapper $srv)
     {
-        parent::__construct('The private keyfile for ' . $srv->getUser() . '@' .
-             $srv->getHost() . ':' . $srv->getPort() . 'is empty.');
+        parent::__construct('The private key file for ' . $srv->getUser() . '@' .
+             $srv->getHost() . ':' . $srv->getPort() . ' is empty.');
     }
 }
 

@@ -18,10 +18,26 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\Core\MachineBundle;
+namespace DP\Core\MachineBundle\Form;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
 
-class DPMachineBundle extends Bundle
+class BaseMachineType extends AbstractType
 {
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('privateIp', 'text', array('label' => 'machine.privateIp'))
+            ->add('publicIp', 'text', array('label' => 'machine.publicIp', 'required' => false))
+            ->add('port', 'number', array('label' => 'machine.port'))
+            ->add('user', 'text', array('label' => 'machine.user'))
+            ->add('passwd', 'password', array('label' => 'machine.passwd'))
+        ;
+    }
+
+    public function getName()
+    {
+        return 'dp_machinebundle_machinetype';
+    }
 }

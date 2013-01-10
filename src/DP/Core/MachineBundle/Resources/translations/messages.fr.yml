@@ -24,3 +24,4 @@ machine.no: Non
 
 machine.test.successful: Test de connexion réussi !
 machine.test.failed: Test de connexion échoué !
+machine.test.retry: Réessayer

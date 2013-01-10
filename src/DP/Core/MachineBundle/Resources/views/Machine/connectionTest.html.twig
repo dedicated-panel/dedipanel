@@ -3,26 +3,25 @@
 {% block title %}
     <a href="{{ path('machine') }}"> 
         <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'machine.back'|trans }}"></div>
-            </a>
-        <p>{{ 'machine.machine'|trans }}</p>
+    </a>
+    
+    <p>{{ 'machine.machine'|trans }}</p>
 {% endblock %}
         
 {% block content %}
     <legend>{{ 'machine.connectionTest'|trans }}</legend>
     
     {% if result %}
-        <div class="alert alert-block alert-success fade in">
-            <button type="button" class="close" data-dismiss="alert">×</button>
-            <h2 class="alert-heading">{{ 'machine.test.successful'|trans }}</h2>
+        <div class="alert alert-block alert-success machine-test">
+            <p class="alert-heading">{{ 'machine.test.successful'|trans }}</p>
         </div>
     {% else %}
-        <div class="alert alert-block alert-error fade in">
-            <button type="button" class="close" data-dismiss="alert">×</button>
-            <h2 class="alert-heading">{{ 'machine.test.failed'|trans }}</h2>
+        <div class="alert alert-block alert-error machine-test">
+            <p class="alert-heading">{{ 'machine.test.failed'|trans }}</p>
             
-            <p><br />
+            <p>
                 <a class="btn btn-danger" href="{{ path('machine_edit', {id: mid}) }}">{{ 'machine.edit'|trans }}</a>
-                <a class="btn" href="{{ path('machine_connectionTest', {id: mid}) }}">{{ 'machine.connectionTest'|trans }}</a>
+                <a class="btn" href="{{ path('machine_connectionTest', {id: mid}) }}">{{ 'machine.test.retry'|trans }}</a>
             </p>
         </div>
     {% endif %}

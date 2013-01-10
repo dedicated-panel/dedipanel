@@ -5,7 +5,8 @@ namespace DP\Core\MachineBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use DP\Core\MachineBundle\Entity\Machine;
-use DP\Core\MachineBundle\Form\MachineType;
+use DP\Core\MachineBundle\Form\AddMachineType;
+use DP\Core\MachineBundle\Form\EditMachineType;
 
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 
@@ -60,7 +61,7 @@ class MachineController extends Controller
     public function newAction()
     {
         $entity = new Machine();
-        $form   = $this->createForm(new MachineType(), $entity);
+        $form   = $this->createForm(new AddMachineType(), $entity);
 
         return $this->render('DPMachineBundle:Machine:new.html.twig', array(
             'entity' => $entity,
@@ -76,11 +77,12 @@ class MachineController extends Controller
     {
         $entity  = new Machine();
         $request = $this->getRequest();
-        $form    = $this->createForm(new MachineType(), $entity);
+        $form    = $this->createForm(new AddMachineType(), $entity);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $this->genKeyPair($entity);
+            $this->generateKeyPair($entity);
+            
             $em = $this->getDoctrine()->getEntityManager();
             $em->persist($entity);
             $em->flush();
@@ -108,7 +110,7 @@ class MachineController extends Controller
             throw $this->createNotFoundException('Unable to find Machine entity.');
         }
 
-        $editForm = $this->createForm(new MachineType(), $entity);
+        $editForm = $this->createForm(new EditMachineType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('DPMachineBundle:Machine:edit.html.twig', array(
@@ -132,15 +134,18 @@ class MachineController extends Controller
             throw $this->createNotFoundException('Unable to find Machine entity.');
         }
 
-        $editForm   = $this->createForm(new MachineType(), $entity);
+        $editForm   = $this->createForm(new EditMachineType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
 
         $editForm->bindRequest($request);
 
-        if ($editForm->isValid()) {         
-            $this->genKeyPair($entity);
+        if ($editForm->isValid()) {
+            // Si l'utilisateur a précisé son mdp, on régénère une paire de clé
+            if (!empty($entity->passwd)) {
+                $this->generateKeyPair($entity, true);
+            }
             $em->persist($entity);
             $em->flush();
 
@@ -154,7 +159,7 @@ class MachineController extends Controller
         ));
     }
     
-    private function genKeyPair(Machine $entity, $delete = false)
+    private function generateKeyPair(Machine $entity, $delete = false)
     {
         $secure = PHPSeclibWrapper::getFromMachineEntity($entity, false);
         $secure->setPasswd($entity->getPasswd());

@@ -18,10 +18,24 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\Core\MachineBundle;
+namespace DP\Core\MachineBundle\Form;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use DP\Core\MachineBundle\Form\BaseMachineType;
+use Symfony\Component\Form\FormBuilderInterface;
 
-class DPMachineBundle extends Bundle
+class AddMachineType extends BaseMachineType
 {
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        parent::buildForm($builder, $options);
+        
+        $builder
+            ->add('passwd', 'password', array('label' => 'machine.passwd'))
+        ;
+    }
+
+    public function getName()
+    {
+        return 'dp_machinebundle_machinetype_addmachinetype';
+    }
 }
