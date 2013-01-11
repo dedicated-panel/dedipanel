@@ -41,6 +41,11 @@ class SourceRconPacketFactory extends PacketFactory
         return $this->forgePacket($id, $this->SERVERDATA_EXECCOMMAND, $cmd);
     }
     
+    public function getEmptyResponsePacket(&$id)
+    {
+        return $this->forgePacket($id, $this->SERVER_RESPONSE_VALUE, '');
+    }
+    
     private function forgePacket(&$id, $cmdType, $cmd)
     {
         $id = mt_rand(0, pow(2, 16));

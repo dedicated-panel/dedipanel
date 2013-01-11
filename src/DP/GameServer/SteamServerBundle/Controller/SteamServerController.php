@@ -96,10 +96,12 @@ class SteamServerController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $install = $request->request->getInt('install');
+            $alreadyInstalled = $form->get('alreadyInstalled')->getData();
             $twig = $this->get('twig');
             
-            if ($install) {
+            // On lance l'installation si le serveur n'est pas déjà sur la machine, 
+            // Sinon on upload les scripts nécessaires au panel
+            if (!$alreadyInstalled) {
                 $entity->installServer($twig);
             }
             else {
