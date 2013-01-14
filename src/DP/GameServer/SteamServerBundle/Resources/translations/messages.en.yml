@@ -14,38 +14,22 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+steam.title: Steam Servers
 steam.show: Show
 steam.list: Steam Servers list
 steam.add: Add a server
 steam.edit: Edit
 steam.back: Back to the list
+steam.query: Query
+
+steam.showTitle: Show Steam Server
+steam.editTitle: Edit Steam Server
 
 steam.autoReboot: Auto Reboot at
 steam.rcon: RCON Password
 steam.munin: Munin Graphing ?
 steam.passwd: Server Password
 steam.core: Core ?
-
-steam.ended: Ended
-steam.start: Start
-steam.stop: Stop
-steam.restart: Restart
-
-steam.pluginsAction: Show plugins
-
-steam.plugins.name: Name
-steam.plugins.status: Statut
-steam.plugins.showTitle: Server plugins
-steam.plugins.installed: Installed
-steam.plugins.notInstalled: Not Installed
-
-steam.isAlreadyInstalled: Serv. already exist ?
-steam.yes: Yes
-steam.no: No
-
-steam.cfg.showTitle: Show CFG
-steam.cfg.filename: File name
-steam.cfg.content: File content
 
 steam.hltv.running: HLTV start
 steam.hltv.stopped: HLTV stopped
@@ -59,12 +43,4 @@ steam.hltv.yes: Yes
 steam.hltv.no: No
 steam.hltv.portAlreadyUsed: The specified port for HLTV is already used
 steam.hltv.port: HLTV port
-
-steam.rcon.title: Zone RCON
-steam.rcon.timeout: Serveur disconnected
-steam.rcon.send: Send
-steam.rcon.password: Rcon password
-steam.rcon.cmd: Command
-
-steam.banned: Server Banned
-steam.updateStatus: Update status
+steam.hltv.title: HLTV area
