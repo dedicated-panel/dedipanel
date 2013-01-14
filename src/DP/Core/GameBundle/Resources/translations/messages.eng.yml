@@ -1,0 +1,38 @@
+game.game: Game
+game.list: List of Games
+game.add: Add Ggame
+game.show: Show
+game.edit: Edit
+game.del: Delete
+game.back: Back to list
+
+game.id: ID
+game.name: Name
+game.installName: Name Installation
+game.launchName: Name of launch
+game.bin: Binary
+game.binDir: Folder containing binary
+game.orangebox: Game Orangebox?
+game.map: Map Starting
+game.available: Available?
+game.actions: Actions
+steam.offline: Server offline
+
+game.yes: Yes
+game.no: No
+
+game.addButton: Add
+game.editGame: Edit game
+game.sourceImagesMaps: Folder containing map pictures
+game.plugins: Plugins associated with game
+game.pluginManagement:  Managing plugins
+game.associatedPlugins: Plugins associated
+
+plugin.list: List of plugins
+plugin.add: Add plugin
+plugin.edit: Edit plugin
+
+plugin.downloadUrl: Address to download the plugin
+plugin.scriptName: Script used by the panel
+plugin.back: Back to game management
+plugin.associatedGames: Related Games
