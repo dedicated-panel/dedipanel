@@ -2,9 +2,9 @@
     {% for i in 1..count %}
 
       {% if i == index + 1 %}
-          <span class="selected">{{ 'configurator.step'|trans }} {{ i }}</span>
+          <a class="current">{{ 'configurator.step'|trans }} {{ i }}</a>
       {% else %}
-          <span>{{ 'configurator.step'|trans }} {{ i }}</span>
+          <a>{{ 'configurator.step'|trans }} {{ i }}</a>
       {% endif %}
 
       {% if i != count %}
