@@ -18,22 +18,30 @@
 
 {% extends "::layout.html.twig" %}
 
+{% block bundleStylesheets %}
+    <link rel="stylesheet" media="screen" href="{{ asset('bundles/dpgameserver/css/game.css') }}" />
+{% endblock %}
+
 {% block title %}
     <a href="{{ path(baseRoute) }}"> 
-        <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></div>
+        <span class="icon" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></span>
     </a>
     
-    <p>{{ (baseRoute ~ '.title')|trans }}</p>
+    {{ (baseRoute ~ '.title')|trans }}
 {% endblock %}
 
 {% block content %}    
-    <legend>{{ 'game.ftp.editTitle'|trans }}</legend>
+    <h2>{{ 'game.ftp.editTitle'|trans }}</h2>
     
-    <form action="{{ path(baseRoute ~ '_ftp_edit', {id: sid, path: path}) }}" method="post">	
+    <form action="{{ path(baseRoute ~ '_ftp_edit', {id: sid, path: path}) }}" method="post" class="form-ftp">	
         <fieldset>
             {{ form_widget(form) }}
             
-            <input type="submit" value="{{ 'game.edit'|trans }}" name="submit" class="submit"></fieldset>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    {{ 'game.edit'|trans }}
+                </button>
+            </div>
         </fieldset>
     </form>
 {% endblock %}

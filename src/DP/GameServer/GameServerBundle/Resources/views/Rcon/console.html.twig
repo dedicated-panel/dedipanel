@@ -18,24 +18,28 @@
 
 {% extends "::layout.html.twig" %}
 
-{% block title %}
-    <a href="{{ path(baseRoute) }}"> 
-        <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></div>
-    </a>
-    
-    <p>{{ (baseRoute ~ '.title')|trans }}</p>
+{% block bundleStylesheets %}
+    <link rel="stylesheet" media="screen" href="{{ asset('bundles/dpgameserver/css/game.css') }}" />
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" src="{{ asset('bundles/dpsteamserver/js/details.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/dpgameserver/js/rcon.js') }}"></script>
+{% endblock %}
+
+{% block title %}
+    <a href="{{ path(baseRoute) }}"> 
+        <span class="icon" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></span>
+    </a>
+    
+    {{ (baseRoute ~ '.title')|trans }}
 {% endblock %}
 
 {% block content %}
-    <legend>{{ 'game.rcon.title'|trans }}</legend>
+    <h2>{{ 'game.rcon.title'|trans }}</h2>
     
     {% if online and not banned %}
-        <form action="{{ path(baseRoute ~ '_rcon_execute', {id: sid}) }}" method="post" id="rcon-form">
-            <textarea disabled="disabled" cols="80" rows="20">{{ log }}</textarea>
+        <form action="{{ path(baseRoute ~ '_rcon_execute', {id: sid}) }}" method="post" class="form-rcon">
+            <textarea disabled="disabled">{{ log }}</textarea>
 
             {{ form_row(form.password) }}
 
@@ -46,7 +50,11 @@
             {{ form_row(form.cmd) }}
             {{ form_widget(form) }}
 
-            <input type="submit" value="{{ 'game.send'|trans }}" name="submit" class="submit"></fieldset>
+            <div class="form-actions">
+                <button class="btn btn-primary">
+                    {{ 'game.rcon.send'|trans }}
+                </button>
+            </div>
         </form>
     {% elseif banned %}
         {{ 'game.banned'|trans }}

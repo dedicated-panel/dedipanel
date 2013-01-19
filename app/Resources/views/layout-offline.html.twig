@@ -16,28 +16,27 @@
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #}
 
-{% extends "::layout.html.twig" %}
+{% extends "::base.html.twig" %}
 
-{% block javascripts %}
-    <script type="text/javascript" src="{{ asset('bundles/dpminecraftserver/js/add.js') }}"></script>
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" />    
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('css/connexion.css') }}" />
 {% endblock %}
 
-{% block title %}
-    <a href="{{ path('minecraft') }}"> 
-        <span class="icon" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></span>
-    </a>
+{% block body %}
+    <header id="log-title">   
+        <a href="{{ path('_welcome') }}">
+            <img src="{{ asset('images/header/logo.png') }}" title="DediPanel" />
+        </a>
+    </header>
     
-    {{ 'minecraft.title'|trans }}
-{% endblock %}
+    {% block title %}{% endblock %}
+    <div id="logbox">{% block content %}{% endblock %}</div>
 
-{% block content %}
-    <legend>{{ 'minecraft.add'|trans }}</legend>
-    
-    <form action="{{ path('minecraft_create') }}" method="post" {{ form_enctype(form) }} id="form-edit">
-        {{ form_widget(form) }}
-        
-        <div class="form-actions">
-                <input type="submit" value="{{ 'minecraft.create'|trans }}" name="submit" class="btn btn-primary" />
-        </div>
-    </form>
+    <footer>
+        <p>
+            DediPanel - Code & Design par Von et NiR | 
+            <a href="http://www.dedicated-panel.net">www.dedicated-panel.net</a>.
+        </p>
+    </footer>
 {% endblock %}

@@ -2,9 +2,10 @@
 
 {% block title %}
     <a href="{{ path('machine') }}"> 
-        <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'machine.back'|trans }}"></div>
-            </a>
-        <p>{{ 'machine.machine'|trans }}</p>
+        <span class="icon" data-icon="&#x29;" title="{{ 'machine.back'|trans }}"></span>
+    </a>
+    
+    {{ 'machine.machine'|trans }}
 {% endblock %}
 
 {% block content %}

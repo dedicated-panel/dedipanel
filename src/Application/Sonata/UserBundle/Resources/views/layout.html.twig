@@ -17,8 +17,8 @@
 #}
 
 {# Layout utilisé par le bundle FOSUserBundle #}
-{% extends "::layout.html.twig" %}
-{% block title %}{{ 'profile.link.edit'|trans({}, 'FOSUserBundle') }}{% endblock %}
+{% extends "::layout-offline.html.twig" %}
+
 {% block content %}
     {% block fos_user_content %}{% endblock %}
 {% endblock %}

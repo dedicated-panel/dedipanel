@@ -32,6 +32,7 @@ game.banned: IP bannie du serveur
 game.rcon.title: Zone Rcon
 game.rcon.password: Mdp RCON
 game.rcon.command: Commande
+game.rcon.send: Exécuter
 
 game.ftp.title: Zone FTP
 game.ftp.showTitle: Voir les fichiers/dossiers

@@ -24,10 +24,10 @@
     
 {% block title %}
     <a href="{{ path('DPGameServerBundle_menu') }}"> 
-        <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></div>
+        <span class="icon" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></span>
     </a>
     
-    <p>{{ 'minecraft.title'|trans }}</p>
+    {{ 'minecraft.title'|trans }}
 {% endblock %}
 
 {% block content %}

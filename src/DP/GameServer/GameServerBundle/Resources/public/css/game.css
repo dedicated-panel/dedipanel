@@ -1,0 +1,118 @@
+.server-list {
+    margin: 0 0 10px 0;
+}
+.server-item {
+    background: #E6E6E6;
+    padding: 16px 10px 10px 15px;
+    border-bottom: 1px dotted #C3C3C3;
+    border-top: 1px solid white;
+}
+.server-item .game-image, 
+.server-item .infos, 
+.server-item .actions {
+    /*height: 53px;*/
+    float: left;
+}
+.server-item .game-image {
+    width: 115px;
+    margin: 0 20px 0 0;
+}
+.server-item .infos {
+    margin: 0 0 0 8px;
+}
+.server-item .infos .titre {
+    margin: 2px 24px 7px 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 1px 1px white;
+}
+.server-item .infos .description {
+    margin: 4px 24px 4px 0;
+    color: #535353;
+    font-size: 13px;
+}
+.server-item .infos .description .players, 
+.server-item .infos .description .banned, 
+.server-item .infos .description .offline {
+    font-weight: bold;
+    margin-left: 10px;
+}
+.server-item .actions {
+    padding: 12px 0 0 0;
+    float: right;
+    margin-right: 20px;
+}
+.server-item .actions a {
+    float: left;
+    color: rgba(129, 129, 129, 0.9);
+    margin: 0 2px;
+}
+.server-item .actions a:hover { 
+    color: rgba(0, 136, 204, 0.34);
+    
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1);
+}
+.server-item .actions .icon { 
+    float: left;
+    display: inline-block;
+    font-size: 38px;
+}
+
+/* Installation */
+.server-item .installation {
+    font-size: 15px;
+    color: #0684CA; 
+    margin: 0 0 0 8px;
+}
+.server-item .installation-status {
+    padding: 9px;
+    margin-left: 55px;
+}
+.server-item .progress {
+    margin-top: 15px;
+    padding-left: 
+}
+
+
+/* Details */
+.server-item .details {
+    display: none;
+    padding: 10px 5px 0;
+}
+.server-item .details .map-image {
+    width: 160px;
+    height: 120px;
+    float: left;
+}
+.server-item .details .players {
+    float: left;
+    margin-left: 20px;
+}
+
+.server-item .details .players thead th {
+    text-align: center;
+}
+.server-item .details .players tr th.empty {
+    text-align: center;
+}
+.server-item .details .players tr:hover th.empty {
+    background: none;
+}
+
+select, input[type="file"] {
+    height: 32px !important;
+    line-height: 28px;
+}
+form.form-ftp textarea#form_file {
+    width: 380px;
+    height: 200px;
+}
+form.form-rcon textarea {
+    width: 456px;
+    height: 200px;
+}

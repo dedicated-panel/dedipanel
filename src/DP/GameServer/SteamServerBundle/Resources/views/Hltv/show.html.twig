@@ -17,9 +17,17 @@
 #}
 
 {% extends "::layout.html.twig" %}
-{% block title %}<a href="{{ path('steam') }}"><span class="titre">h</span></a>{{ 'steam.showTitle'|trans }}{% endblock %}
+{% block title %}
+    <a href="{{ path('steam') }}">
+        <span class="icon" data-icon="&#x29;" title="{{ 'machine.back'|trans }}"></span>
+    </a>
+    
+    {{ 'steam.title'|trans }}
+{% endblock %}
 
 {% block content %}
+    <h2>{{ 'steam.showTitle'|trans }}</h2>
+
     {% if status == true %}
         <p><a href="{{ path('steam_hltv_stop', {id: id}) }}">{{ 'steam.hltv.running'|trans }}.</a></p>
     {% elseif notHltv == true %}
@@ -28,8 +36,6 @@
         <form action="{{ path('steam_hltv_start', {id: id}) }}" method="post">
             {% if banned %}
                 <p>{{ 'game.banned'|trans }}.</p>
-            {% else %}
-                <p>{{ 'steam.hltv.stopped'|trans }}.</p>
             {% endif %}
                 
             {{ form_label(form.ip) }} {{ form_widget(form.ip) }} 
@@ -39,7 +45,12 @@
             <b>:</b> {{ form_widget(form.servPort) }}
             
             {{ form_rest(form) }}
-            <input type="submit" value="{{ 'steam.hltv.connect'|trans }}" />
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    {{ 'steam.hltv.connect'|trans }}
+                </button>
+            </div>
         </form>
     {% endif %}
 {% endblock %}
