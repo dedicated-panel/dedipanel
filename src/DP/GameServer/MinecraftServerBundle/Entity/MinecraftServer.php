@@ -290,8 +290,7 @@ class MinecraftServer extends GameServer
         $dir = $this->getAbsoluteDir();
         $scriptPath = $dir . 'plugin.sh';
         
-        // Hashage du screen name pour qu'il ne dépasse pas le max de caractère
-        $screenName = sha1($this->getMachine()->getUser() . '-plugin-' . $this->getDir(), true);
+        $screenName = $this->getPluginInstallScreenName();
         $screenCmd  = 'screen -dmS ' . $screenName . ' ' . $scriptPath . ' ' . $action;
         
         if ($action == 'install') {

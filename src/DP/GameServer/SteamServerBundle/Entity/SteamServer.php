@@ -222,7 +222,7 @@ class SteamServer extends GameServer {
             // On récupère le pourcentage du dl dans le screen
             // Pour l'afficher à l'utilisateur
             $tmpFile = '/tmp/' . uniqid();
-            $cmd = 'screen -S install-' . $this->getDir() . ' -X hardcopy ' . $tmpFile . '; sleep 1s;';
+            $cmd = 'screen -S ' . $this->getInstallScreenName() . ' -X hardcopy ' . $tmpFile . '; sleep 1s;';
             $cmd .= 'if [ -e ' . $tmpFile . ' ]; then cat ' . $tmpFile . '; rm -f ' . $tmpFile . '; fi';
             
             $screenContent = $sec->exec($cmd);
@@ -334,15 +334,14 @@ class SteamServer extends GameServer {
         return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
                 ->exec($scriptPath . ' ' . $state);
     }
-    
+
     public function execPluginScript(\Twig_Environment $twig, Plugin $plugin, $action)
     {
         $dir = $this->getAbsoluteGameContentDir();
         $scriptName = $plugin->getScriptName();
         $scriptPath = $dir . $scriptName . '.sh';
         
-        // Hashage du screen name pour qu'il ne dépasse pas le max de caractère
-        $screenName = sha1($this->getMachine()->getUser() . '-' . $scriptName . '-' . $this->getDir(), true);
+        $screenName = $this->getPluginInstallScreenName($scriptName);
         $screenCmd  = 'screen -dmS ' . $screenName . ' ' . $scriptPath . ' ' . $action;
         
         if ($action == 'install') {
@@ -358,8 +357,8 @@ class SteamServer extends GameServer {
     }
     
     public function getHltvScreenName()
-    {
-        return 'hltv-' . $this->getMachine()->getUser() . '-' . $this->getDir();
+    {        
+        return sha1('hltv-' . $this->getMachine()->getUser() . '-' . $this->getDir(), true);
     }
     
     public function getHltvStatus()
