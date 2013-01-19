@@ -30,7 +30,7 @@ class EditMachineType extends BaseMachineType
         parent::buildForm($builder, $options);
         
         $builder
-            ->add('passwd', 'password', array('label' => 'machine.passwd', 'required' => false))
+            ->add('password', 'password', array('label' => 'machine.passwd', 'required' => false))
         ;
     }
 

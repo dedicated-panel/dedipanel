@@ -21,6 +21,7 @@
 namespace DP\Core\MachineBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 
 /**
  * DP\Core\MachineBundle\Entity\Machine
@@ -73,9 +74,9 @@ class Machine
     private $user;
     
     /**
-     * @var string $passwd
+     * @var string $password
      */
-    private $passwd;
+    private $password;
 
     /** 
      * @var string $privateKey
@@ -104,6 +105,13 @@ class Machine
      * @ORM\OneToMany(targetEntity="DP\GameServer\GameServerBundle\Entity\GameServer", mappedBy="machine", cascade={"persist"})
      */
     private $gameServers;
+    
+    /**
+     * @var integer
+     * 
+     * @ORM\Column(name="nbCore", type="integer", nullable=true)
+     */
+    private $nbCore;
 
 
     public function __construct()
@@ -258,20 +266,20 @@ class Machine
     /**
      * Set password
      * 
-     * @param string $passwd
+     * @param string $password
      */
-    public function setPasswd($passwd)
+    public function setPassword($password)
     {
-        $this->passwd = $passwd;
+        $this->password = $password;
     }
     /**
      * Get password
      * 
      * @return string
      */
-    public function getPasswd()
+    public function getPassword()
     {
-        return $this->passwd;
+        return $this->password;
     }
     
     /**
@@ -295,6 +303,33 @@ class Machine
     
     public function __toString() {
         return $this->user . '@' . $this->privateIp . ':' . $this->port;
+    }
+    
+    /**
+     * Set the number of core on the server
+     * 
+     * @param integer $nbCore
+     */
+    public function setNbCore($nbCore)
+    {
+        $this->nbCore = $nbCore;
+    }
+    
+    /**
+     * Get the number of core on the server
+     * 
+     * @return integer Number of core
+     */
+    public function getNbCore()
+    {
+        return $this->nbCore;
+    }
+    
+    public function retrieveNbCore()
+    {
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this);
+        
+        return $sec->exec('grep processor /proc/cpuinfo | wc -l');
     }
 }
 ?>

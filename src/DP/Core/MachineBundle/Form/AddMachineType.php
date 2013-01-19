@@ -30,7 +30,7 @@ class AddMachineType extends BaseMachineType
         parent::buildForm($builder, $options);
         
         $builder
-            ->add('passwd', 'password', array('label' => 'machine.passwd'))
+            ->add('password', 'password', array('label' => 'machine.passwd'))
         ;
     }
 

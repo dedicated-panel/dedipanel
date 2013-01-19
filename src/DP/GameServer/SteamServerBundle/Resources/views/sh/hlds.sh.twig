@@ -24,7 +24,13 @@ case "$1" in
         if [ $STATUS -eq 0 ]; then
             echo "starting "
             cd {{ binDir }}
-            screen -dmS $SCREEN_NAME ./{{ bin }} -game {{ launchName }} +ip {{ ip }} -port {{ port }} +maxplayers {{ maxplayers }} +map {{ startMap }} -autoupdate
+            
+            {% if core is not empty %}
+                screen -dmS $SCREEN_NAME taskset -c {{ core }} ./{{ bin }} -game {{ launchName }} +ip {{ ip }} -port {{ port }} +maxplayers {{ maxplayers }} +map {{ startMap }} -autoupdate
+            {% else %}
+                screen -dmS $SCREEN_NAME ./{{ bin }} -game {{ launchName }} +ip {{ ip }} -port {{ port }} +maxplayers {{ maxplayers }} +map {{ startMap }} -autoupdate
+            {% endif %}
+            
             echo "."
         fi
         

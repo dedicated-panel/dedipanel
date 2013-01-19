@@ -32,7 +32,6 @@ class BaseMachineType extends AbstractType
             ->add('publicIp', 'text', array('label' => 'machine.publicIp', 'required' => false))
             ->add('port', 'number', array('label' => 'machine.port'))
             ->add('user', 'text', array('label' => 'machine.user'))
-            ->add('passwd', 'password', array('label' => 'machine.passwd'))
         ;
     }
 

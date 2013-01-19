@@ -32,6 +32,21 @@ class EditSteamServerType extends BaseSteamServerType
             ->add('rconPassword', 'text', array('label' => 'steam.rcon.password', 'required' => false))
             ->add('hltvPort', 'integer', array('label' => 'steam.hltv.port', 'required' => false))
         ;
+        
+        if (isset($options['data'])) {
+            $entity = $options['data'];
+            
+            if ($entity->getMachine()->getNbCore() != null) {
+                $coreList = array();
+                for ($i = 1, $imax = $entity->getMachine()->getNbCore(); $i <= $imax; ++$i) {
+                    $coreList[$i] = $i;
+                }                
+                
+                $builder
+                    ->add('core', 'choice', array('label' => 'steam.core', 'choices' => $coreList, 'required' => false))
+                ;
+            }
+        }
     }
 
     public function getName()

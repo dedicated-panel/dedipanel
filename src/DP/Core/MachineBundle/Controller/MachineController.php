@@ -171,6 +171,8 @@ class MachineController extends Controller
         
         $entity->setPrivateKeyFilename($privkeyFilename);
         $entity->setHome($secure->getHome());
+        $nbCore = $entity->retrieveNbCore();
+        $entity->setNbCore($nbCore);
         $entity->setPublicKey($pubKey);
 
         return true;
