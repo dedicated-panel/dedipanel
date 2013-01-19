@@ -18,12 +18,12 @@
 
 {% extends "::layout.html.twig" %}
 
-{% block javascripts %}
-    <script type="text/javascript" src="{{ asset('bundles/dpgameserver/js/details.js') }}"></script>
-{% endblock %}
-    
 {% block bundleStylesheets %}
     <link rel="stylesheet" media="screen" href="{{ asset('bundles/dpgameserver/css/game.css') }}" />
+{% endblock %}
+    
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('bundles/dpgameserver/js/details.js') }}"></script>
 {% endblock %}
 
 {% block title %}

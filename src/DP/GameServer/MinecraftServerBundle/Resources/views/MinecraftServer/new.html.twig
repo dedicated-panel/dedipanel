@@ -31,13 +31,13 @@
 {% endblock %}
 
 {% block content %}
-    <legend>{{ 'minecraft.add'|trans }}</legend>
+    <h2>{{ 'minecraft.add'|trans }}</h2>
     
     <form action="{{ path('minecraft_create') }}" method="post" {{ form_enctype(form) }} id="form-edit">
         {{ form_widget(form) }}
         
         <div class="form-actions">
-                <input type="submit" value="{{ 'minecraft.create'|trans }}" name="submit" class="btn btn-primary" />
+            <button class="btn btn-primary">{{ 'minecraft.create'|trans }}</button>
         </div>
     </form>
 {% endblock %}
