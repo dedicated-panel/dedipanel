@@ -19,9 +19,12 @@
 
 {% block stylesheets %}
     <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('css/install.css') }}" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('bootstrap/css/bootstrap.css') }}" />
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'configurator.installer'|trans }}</h1>
+     <div class="titre">
+         <h1>{{ 'configurator.installer'|trans }}</h1>
+     </div>
     <div id="page-content">{% block content %}{% endblock %}</div>
 {% endblock %}

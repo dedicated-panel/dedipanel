@@ -53,7 +53,7 @@ game.noPlayerConnected: Aucun joueur n'est connecté.
 
 game.general: Général
 
-game.map: Map : %map%
+game.map: Map %map%
 game.start: Démarrer
 game.stop: Arrêter
 game.restart: Redémarrer

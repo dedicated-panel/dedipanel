@@ -1,30 +1,39 @@
-database.title: "Configure your Database"
-database.description: "If your website needs a database connection, please configure it here."
+configurator.installer: Installation
+configurator.chooseType: "Choose your configuration: "
+configurator.install: Installation
+configurator.update: Update
+configurator.next: Next step
+configurator.mandatoryFields: Required field
+configurator.step: Step
 
-secret.title: "Global Secret"
-secret.description: "Configure the global secret for your website (the secret is used for the CSRF protection among other things):"
-secret.generate: "Generate"
+configurator.pdoMandatory: Extension PHP pdo
+configurator.mysqlExtensionMandatory: Extension PHP pdo_mysql
+configurator.sqliteExtensionMandatory: Extension PHP pdo_sqlite
+configurator.db.title: Configure your Database
+configurator.db.description: If your website needs a database connection, please configure it here.
+configurator.db.host: Host
+configurator.db.name: DB name
+configurator.db.user: Username
+configurator.db.password: Password
+configurator.db.password_again: Confirm password
+configurator.db.port: Port
 
-fixtures.description.db: "If you perform an installation the tables will be created, else the database just will be upgraded."
-fixtures.description.fixtures: "Data necessary for the proper functionning of the panel will be loaded during this step."
+configurator.autoInstall.title: Configuration of the panel
+configurator.autoInstall.description: If you perform an installation the tables will be created, else the database just will be upgraded.
+configurator.autoInstall.loadFixtures: Charging the default data ?
 
-super_admin.title: "Root User Creation"
-super_admin.description: "Create a root user for administrer the panel"
+configurator.userCreation.title: Create Super-Admin
+configurator.userCreation.description: Create a Super-Admin user for administrer the panel.
+configurator.userCreation.username: Username
+configurator.userCreation.email: Email
+configurator.userCreation.password: Password
+configurator.userCreation.password_again: Confirm password
 
-check.majorProblems: "Major Problem :|Major Problems :"
-check.majorDetected: "<strong>%nbMajor%</strong> major problem has been detected.|<strong>%nbMajor%</strong> major problems has been detected."
-check.fixMajor: "You need to fix him before continue the panel installation.|You need to fix them before continue the panel installation."
-"Please install PDO drivers.": "Install required PDO drivers (MySQL, SQLite)."
-check.minorProblems: "Recommandation|Recommandations"
-check.minorDetected: "<strong>%nbMinor%</strong> minor problem has been detected.|<strong>%nbMinor%</strong> minor problems has been detected."
-check.fixMinor: "You should fix him to have a better experience.|You should fix them to have a better experience."
+configurator.final.title: Configuration finsished!
+configurator.final.goWelcomePage: Log In
 
-final.title: "Terminé !"
-final.configured: "Le panel est configuré !"
-final.almostConfigured: "Le panel est presque configuré ..."
-final.overwritten: "Your parameters.yml file has been overwritten with these parameters (in <em>%yml_path%</em>):"
-final.notOverwritten: "Your parameters.yml file is not writeable! Here are the parameters you can copy and paste in <em>%yml_path%</em>:"
-final.overwritten: "The configuration file has been correctly overwritten. The panel is preconfigured. From this point on, you can connect with the user previously created and access to the panel !"
-final.notWritable: "Your configuration file could not be rewrite automatically ! You need to change the chmod (also pay attention to the user and the group) of the file app/config/parameters.yml."
-final.retry: "Once done, you need to restart the installation in order to execute the two last steps who preconfigure the panel and create a super admin user."
-final.goWelcomePage: "Go to the login page"
+configurator.socketExtension: Extension PHP de sockets
+configurator.intlExtension: Extension PHP d'internationalisation
+
+configurator.ok: Installed
+configurator.nok: Not Installed

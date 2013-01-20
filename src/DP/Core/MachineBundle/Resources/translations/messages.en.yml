@@ -16,7 +16,6 @@ machine.user: User
 machine.actions: Actions
 machine.passwd: Password
 machine.add: Add
-machine.addMachine: Add a machine
 machine.back: Back to the list
 machine.home: Home Dir.
 machine.genPrivKey: Is generated private key ?
@@ -25,6 +24,7 @@ machine.no: No
 
 machine.test.successful: Connection test successful.
 machine.test.failed: Connection test failed.
+machine.test.retry: Retry.
 
 machine.assert:
   - privateIp: You must give a valid IP address.

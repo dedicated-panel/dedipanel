@@ -1,0 +1,16 @@
+Game: Game
+Plugin: Plugin
+
+Name: Name
+Install Name: Name used by the installer
+Launch Name: Name used to launch
+Bin: Binary
+Available: Available ?
+Bin Dir: Folder containing binary (from the repertory of the game)
+Map: Map to launch
+Source Images Maps: URL source for map pictures
+
+Download Url: Download address
+Script Name: Name of the installation script
+Games: Games
+Plugin List: List of plugins

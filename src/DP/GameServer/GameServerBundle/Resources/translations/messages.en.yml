@@ -1,0 +1,58 @@
+menu.steamServers: Steam Servers
+menu.minecraftServers: Minecraft Servers
+
+game.edit: Edit
+game.del: delete 
+
+game.name: Name
+game.port: Port
+game.game: Game
+game.installStatus: Installation Status
+game.dir: Installation directory
+game.maxplayers: Max players.
+game.actions: Actions
+game.IPAddress: IP address
+game.ping: Ping
+game.updateStatus: Update status
+
+game.selectMachine: Select a machine
+game.selectGame: Game
+game.addButton: Add
+
+game.installNotStarted: Installation not started
+game.installEnded: Installation completed
+
+game.isAlreadyInstalled: Serv. already installed?
+game.yes: Yes
+game.no: No
+
+game.offline: Server unavailable
+game.banned: IP banned from the server
+
+game.rcon.title: Rcon area
+game.rcon.password: Pwd RCON
+game.rcon.command: Command
+
+game.ftp.title: FTP area
+game.ftp.showTitle: View files/folders
+game.ftp.editTitle: Edit a file
+game.ftp.filename: Filename
+game.ftp.content: File Contents
+
+game.plugin.title: Show plugins
+game.plugin.showTitle: Show server plugins
+game.plugin.name: Name
+game.plugin.status: Status
+game.plugin.installed: Installed
+game.plugin.notInstalled: Not Installed
+game.plugin.noPluginForThatGame: Il n'y a pas de plugin de configuré pour ce jeu.
+
+game.player: Players
+game.score: Score
+game.noPlayerConnected: No player is connected.
+game.general: General
+
+game.map: Map %map%
+game.start: Start
+game.stop: Stop
+game.restart: Restart
