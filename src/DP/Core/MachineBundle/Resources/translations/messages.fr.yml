@@ -25,3 +25,5 @@ machine.no: Non
 machine.test.successful: Test de connexion réussi !
 machine.test.failed: Test de connexion échoué !
 machine.test.retry: Réessayer
+
+machine.nbCore: Nombre de core détecté(s)
