@@ -249,7 +249,7 @@ abstract class GameServer
      */
     public function setDir($dir)
     {
-        $this->dir = $dir;
+        $this->dir = trim($dir, '/ ');
     }
 
     /**

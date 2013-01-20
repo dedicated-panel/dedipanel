@@ -8,7 +8,7 @@ game.name: Nom
 game.port: Port
 game.game: Jeu
 game.installStatus: Statut de l'installation
-game.dir: Répertoire d'installation
+game.dir: Répertoire d'installation (depuis le home de l'utilisateur)
 game.maxplayers: Joueurs max.
 game.actions: Actions
 game.IPAddress: Adresse IP
