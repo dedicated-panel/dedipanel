@@ -256,11 +256,12 @@ footer p {
 }
 form .form-actions {
     margin-bottom: 0;
+    background: #DDD;
 }
 form.form-edit .form-actions.contain-delete button {
     display: block;
     float: left;
-    margin-left: 10px;
+    margin-left: 15px;
 }
 form.form-edit .form-actions.contain-delete button:first-of-type {
     margin-left: 0;
@@ -285,6 +286,7 @@ input[type="radio"], input[type="checkbox"] {
 .form-group {
     border-top: 1px solid #ddd;
     padding: 20px 0 20px 20px;
+    background: #DDD;
 }
 .form-group form {
     margin: 0;

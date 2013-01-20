@@ -10,7 +10,7 @@
 
 {% block content %}
     {% form_theme form "::form.html.twig" %}
-    <legend></a>{{ 'machine.new'|trans }}</legend>
+    <h2>{{ 'machine.new'|trans }}</h2>
 
     <form action="{{ path('machine_create') }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}

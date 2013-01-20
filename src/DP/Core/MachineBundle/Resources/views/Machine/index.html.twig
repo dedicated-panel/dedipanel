@@ -1,5 +1,9 @@
 {% extends "::layout.html.twig" %}
 
+{% block bundleStylesheets %}
+    <link rel="stylesheet" media="screen" href="{{ asset('bundles/dpmachine/css/machine.css') }}" />
+{% endblock %}
+
 {% block title %}
     <a href="/"> 
         <span class="icon" data-icon="&#x29;" title="{{ 'machine.back'|trans }}"></span>
@@ -9,46 +13,17 @@
 {% endblock %}
 
 {% block content %}
-    <legend>{{ 'machine.machine'|trans }}</legend>
+    <h2>{{ 'machine.machine'|trans }}</h2>
 
-    <ul id="menu-legend" class="nav nav-tabs">
+    <ul id="top-nav" class="nav nav-tabs">
         <li class="pull-right">
             <a href="{{ path('machine_new') }}">
                 {{ 'machine.new'|trans }}
             </a>
         </li>
     </ul>
-
-    {# Pour la Beta suivante
-    <form class="well machine">
-        <div class="span12">
-            <div class="row">
-                <div class="span2">
-                    <label for="privateip">{{ 'machine.privateIp'|trans }}</label>
-                    <input id="privateip" type="text" class="input-medium petit" placeholder="{{ 'machine.privateIp'|trans }}">
-                </div>
-                <div class="span2">
-                    <label>{{ 'machine.publicIp'|trans }}</label>
-                    <input id="publicip" type="text" class="input-medium petit" placeholder="{{ 'machine.publicIp'|trans }}">
-                </div>
-                <div class="span3">
-                    <label>{{ 'machine.port'|trans }}</label>
-                    <input id="port" type="number" class="input-medium petit" placeholder="{{ 'machine.port'|trans }}">
-                </div>
-                <div class="span2">
-                    <label>{{ 'machine.user'|trans }}</label>
-                    <input id="user" type="text" class="input-medium petit" placeholder="{{ 'machine.user'|trans }}">  
-                </div>
-                <div class="span2">
-                    <label>{{ 'machine.passwd'|trans }}</label>
-                    <input id="user" type="text" class="input-medium petit" placeholder="{{ 'machine.passwd'|trans }}">  
-                </div>               
-            </div>
-        </div>​
-        <button id="publicip" type="submit" class="btn machine">Ajouter</button>
-    </form>#}
     
-    <table class="table table-striped">
+    <table class="table table-striped machine-list">
         <thead>
             <tr>
                 <th>{{ 'machine.id'|trans }}</th>
@@ -70,9 +45,9 @@
 
                     <td> 
                         <div class="btn-group">
-                            <button class="btn"> <a href="{{ path('machine_show', { 'id': entity.id }) }}">{{ 'machine.show'|trans }}</a></button>
-                            <button class="btn"><a href="{{ path('machine_edit', { 'id': entity.id }) }}">{{ 'machine.edit'|trans }}</a></button>
-                            <button class="btn"> <a href="{{ path('machine_connectionTest', { 'id': entity.id }) }}">{{ 'machine.connectionTest'|trans }}</a></button>
+                            <a href="{{ path('machine_show', { 'id': entity.id }) }}" class="btn">{{ 'machine.show'|trans }}</a>
+                            <a href="{{ path('machine_edit', { 'id': entity.id }) }}" class="btn">{{ 'machine.edit'|trans }}</a>
+                            <a href="{{ path('machine_connectionTest', { 'id': entity.id }) }}" class="btn">{{ 'machine.connectionTest'|trans }}</a>
                         </div>
                     </td>
                 </tr>  
