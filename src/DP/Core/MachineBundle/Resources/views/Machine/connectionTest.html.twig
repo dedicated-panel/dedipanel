@@ -2,14 +2,14 @@
 
 {% block title %}
     <a href="{{ path('machine') }}"> 
-        <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'machine.back'|trans }}"></div>
+        <span class="icon" data-icon="&#x29;" title="{{ 'machine.back'|trans }}"></span>
     </a>
     
-    <p>{{ 'machine.machine'|trans }}</p>
+    {{ 'machine.machine'|trans }}
 {% endblock %}
         
 {% block content %}
-    <legend>{{ 'machine.connectionTest'|trans }}</legend>
+    <h2>{{ 'machine.connectionTest'|trans }}</h2>
     
     {% if result %}
         <div class="alert alert-block alert-success machine-test">

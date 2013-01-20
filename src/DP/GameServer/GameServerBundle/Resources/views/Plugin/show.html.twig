@@ -20,14 +20,14 @@
 
 {% block title %}
     <a href="{{ path(baseRoute) }}"> 
-        <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></div>
+        <span class="icon" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></span>
     </a>
     
-    <p>{{ (baseRoute ~ '.title')|trans }}</p>
+    {{ (baseRoute ~ '.title')|trans }}
 {% endblock %}
 
 {% block content %}
-    <legend>{{ 'game.plugin.showTitle'|trans }}</legend>
+    <h2>{{ 'game.plugin.showTitle'|trans }}</h2>
     
     <table>
         <tr>

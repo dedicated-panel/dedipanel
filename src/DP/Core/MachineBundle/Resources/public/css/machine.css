@@ -1,0 +1,6 @@
+.machine-list .btn-group a.btn {
+    color: #818181;
+}
+.machine-list .btn-group a.btn:hover {
+    color: black;
+}

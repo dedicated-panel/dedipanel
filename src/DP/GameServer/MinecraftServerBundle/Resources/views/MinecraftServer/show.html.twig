@@ -20,16 +20,16 @@
 
 {% block title %}
     <a href="{{ path('minecraft') }}"> 
-        <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></div>
+        <span class="icon" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></span>
     </a>
     
-    <p>{{ 'minecraft.title'|trans }}</p>
+    {{ 'minecraft.title'|trans }}
 {% endblock %}
 
 {% block content %}
-    <legend>{{ 'minecraft.showTitle'|trans }}</legend>
+    <h2>{{ 'minecraft.showTitle'|trans }}</h2>
     
-    <table class="record_properties">
+    <table class="properties">
         <tbody>
             <tr>
                 <th>{{ 'game.id'|trans }}</th>
@@ -74,7 +74,7 @@
                 <td>{{ entity.queryPort }}</td>
             </tr>
             <tr>
-                <th>{{ 'minecraft.rconPort'|trans }}</th>
+                <th>{{ 'minecraft.rcon.port'|trans }}</th>
                 <td>{{ entity.rconPort }}</td>
             </tr>
             <tr>
@@ -88,14 +88,16 @@
         </tbody>
     </table>
 
-    <form action="{{ path('minecraft_edit', { 'id': entity.id }) }}" method="post" id="form-edit">
-        <div class="form-actions">
-            <input type="submit" value="{{ 'game.edit'|trans }}" name="submit" class="btn btn-primary">      
-        </div>
-    </form>
+    <div class="form-group clearfix">
+        <form action="{{ path('minecraft_edit', { 'id': entity.id }) }}" method="post" class="form-edit">
+            <div class="form-actions">
+                <input type="submit" value="{{ 'game.edit'|trans }}" name="submit" class="btn btn-primary">      
+            </div>
+        </form>
 
-    <form action="{{ path('minecraft_delete', { 'id': entity.id }) }}" method="post" id="form-delete">
-        <input type="submit" value="{{ 'game.del'|trans }}" name="submit" class="btn btn-danger">
-        {{ form_widget(delete_form) }}
-    </form>
+        <form action="{{ path('minecraft_delete', { 'id': entity.id }) }}" method="post" class="form-delete">
+            <input type="submit" value="{{ 'game.del'|trans }}" name="submit" class="btn btn-danger">
+            {{ form_widget(delete_form) }}
+        </form>
+    </div>
 {% endblock %}

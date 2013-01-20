@@ -1,27 +1,44 @@
+{# 
+ Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jérôme
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License along
+ with this program; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#}
+
 {% extends "::layout.html.twig" %}
 
 {% block title %}
     <a href="{{ path('machine') }}"> 
-        <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'machine.back'|trans }}"></div>
+        <span class="icon" data-icon="&#x29;" title="{{ 'machine.back'|trans }}"></span>
     </a>
 
-    <p>{{ 'machine.machine'|trans }}</p>
+    {{ 'machine.machine'|trans }}
 {% endblock %}
 
 {% block content %}
-    <legend>{{ 'machine.editMachine'|trans }}</legend>
+    <h2>{{ 'machine.editMachine'|trans }}</h2>
 
-    <form action="{{ path('machine_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>    
+    <form action="{{ path('machine_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} class="form-edit">    
         {{ form_widget(edit_form) }}
 
-        <div class="form-actions">
-            <button type="submit"  class="btn btn-primary">{{ 'machine.edit'|trans }}</button>
+        <div class="form-actions contain-delete">
+            <button type="submit" class="btn btn-primary">{{ 'machine.edit'|trans }}</button>
+            <button type="submit" class="btn btn-danger" form="form-delete">{{ 'machine.del'|trans }}</button>
         </div>    
     </form>
     
     <form action="{{ path('machine_delete', { 'id': entity.id }) }}" method="post" id="form-delete">
         {{ form_widget(delete_form) }}
-
-        <button type="submit"  class="btn btn-danger">{{ 'machine.del'|trans }}</button>
     </form>
 {% endblock %}

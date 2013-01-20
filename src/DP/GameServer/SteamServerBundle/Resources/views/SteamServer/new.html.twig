@@ -20,14 +20,14 @@
 
 {% block title %}
     <a href="{{ path('steam') }}"> 
-        <div class="fsBack" aria-hidden="true" data-icon="&#x29;" title="{{ 'steam.back'|trans }}"></div>
+        <span class="icon" data-icon="&#x29;" title="{{ 'steam.back'|trans }}"></span>
     </a>
     
-    <p>{{ 'steam.title'|trans }}</p>
+    {{ 'steam.title'|trans }}
 {% endblock %}
         
 {% block content %}
-    <legend>{{ 'steam.add'|trans }}</legend>
+    <h2>{{ 'steam.add'|trans }}</h2>
 
     <form action="{{ path('steam_create') }}" method="post" {{ form_enctype(form) }}>
        <fieldset id="validation">	
