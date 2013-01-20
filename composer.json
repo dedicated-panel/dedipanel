@@ -1,5 +1,5 @@
 {
-    "name": "symfony/framework-standard-edition",
+    "name": "dedipanel/dedipanel",
     "description": "The \"Symfony Standard Edition\" distribution",
     "autoload": {
         "psr-0": { "": "src/" }
@@ -49,5 +49,13 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
         ]
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "symfony-app-dir": "app",
+        "symfony-web-dir": "web"
     }
 }
