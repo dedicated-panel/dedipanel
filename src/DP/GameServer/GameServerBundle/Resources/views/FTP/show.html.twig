@@ -19,9 +19,15 @@
 {% extends "::layout.html.twig" %}
 
 {% block title %}
-    <a href="{{ path(baseRoute) }}"> 
-        <span class="icon" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></span>
-    </a>
+    {% if currentPath is not empty %}
+        <a href="{{ path(baseRoute ~ '_ftp_show', {id: sid, path: currentPath ~ '..'}) }}">
+            <span class="icon" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></span>
+        </a>
+    {% else %}
+        <a href="{{ path(baseRoute) }}">
+            <span class="icon" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></span>
+        </a>
+    {% endif %}
     
     {{ (baseRoute ~ '.title')|trans }}
 {% endblock %}
@@ -29,15 +35,48 @@
 {% block content %}
     <h2>{{ 'game.ftp.showTitle'|trans }}</h2>
     
+    <ul id="top-nav" class="nav nav-tabs">
+        <li>
+            <a href="{{ path(baseRoute ~ '_ftp_add', {'id': sid, 'path': currentPath}) }}">
+                {{ 'game.ftp.addFile'|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path(baseRoute ~ '_ftp_add_dir', {'id': sid, 'path': currentPath}) }}">
+                {{ 'game.ftp.addDirectory'|trans }}
+            </a>
+        </li>
+        
+        {# On ajoute un lien pour supprimer le dossier courant #}
+        {# Si l'utilisateur n'est pas dans le dossier root du serveur #}
+        {% if currentPath is not empty %}
+            <li>
+                <form action="{{ path(baseRoute ~ '_ftp_delete', {id: sid, path: currentPath}) }}" method="post" class="form-ftp">
+                    {{ form_widget(del_form) }}
+                    
+                    <button type="submit">
+                        {{ 'game.ftp.deleteDir'|trans }}
+                    </button>
+                </form>
+                {# <a href="{{ path(baseRoute ~ '_ftp_delete', {'id': sid, 'path': currentPath}) }}">
+                    {{ 'game.ftp.deleteDir'|trans }}
+                </a> #}
+            </li>
+        {% endif %}
+    </ul>
+    
     {{ currentPath }}
     
     <ul>
+        {# Affichage d'un lien ".." de retour vers le dossier parent #}
         {% if currentPath is not empty %}
             {% set path = currentPath ~ '..' %}
             <li class="dir">
                 <a href="{{ path(baseRoute ~ '_ftp_show', {'id': sid, 'path': path}) }}">..</a>
             </li>
         {% endif %}
+        
+        {# Affichage de la liste des dossiers #}
         {% for dir in dirContent['dirs'] %}
             {% set path = currentPath ~ dir['name'] %}
             <li class="dir">
@@ -46,6 +85,7 @@
                 </a>
             </li>
         {% endfor %}
+        {# Affichage de la liste des fichiers #}
         {% for file in dirContent['files'] %}
             {% set path = currentPath ~ file['name'] %}
             <li class="file">

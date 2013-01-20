@@ -39,6 +39,11 @@ game.ftp.showTitle: Voir les fichiers/dossiers
 game.ftp.editTitle: Editer un fichier
 game.ftp.filename: Nom du fichier
 game.ftp.content: Contenu du fichier
+game.ftp.addFile: Ajouter un fichier
+game.ftp.deleteDir: Supprimer le dossier
+game.ftp.deleteFile: Supprimer le fichier
+game.ftp.addDirectory: Ajouter un dossier
+game.ftp.dirname: Nom du dossier
 
 game.plugin.title: Voir les plugins
 game.plugin.showTitle: Voir les plugins du serveur

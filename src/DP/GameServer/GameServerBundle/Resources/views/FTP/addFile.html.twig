@@ -23,7 +23,7 @@
 {% endblock %}
 
 {% block title %}
-    <a href="{{ path(baseRoute ~ '_ftp_show', {id: sid, path: dirPath}) }}"> 
+    <a href="{{ path(baseRoute ~ '_ftp_show', {id: sid, path: path}) }}"> 
         <span class="icon" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></span>
     </a>
     
@@ -31,30 +31,15 @@
 {% endblock %}
 
 {% block content %}    
-    <h2>{{ 'game.ftp.editTitle'|trans }}</h2>
+    <h2>{{ 'game.ftp.addFile'|trans }}</h2>
     
-    <ul id="top-nav" class="nav nav-tabs">
-        <li>
-            <a href="{{ path(baseRoute ~ '_ftp_add', {'id': sid, 'path': dirPath}) }}">
-                {{ 'game.ftp.addFile'|trans }}
-            </a>
-        </li>
-    </ul>
-    
-    <form action="{{ path(baseRoute ~ '_ftp_edit', {id: sid, path: path}) }}" method="post" class="form-ftp">
+    <form action="{{ path(baseRoute ~ '_ftp_add', {id: sid, path: path}) }}" method="post" class="form-ftp">
         {{ form_widget(form) }}
 
-        <div class="form-actions contains-delete">
+        <div class="form-actions">
             <button type="submit" class="btn btn-primary">
-                {{ 'game.edit'|trans }}
-            </button>
-            <button type="submit" class="btn btn-danger" form="delete-form">
-                {{ 'game.ftp.deleteFile'|trans }}
+                {{ 'game.ftp.addFile'|trans }}
             </button>
         </div>
-    </form>
-    
-    <form action="{{ path(baseRoute ~ '_ftp_delete', {id: sid, path: path}) }}" method="post" class="form-ftp" id="delete-form">
-        {{ form_widget(del_form) }}
     </form>
 {% endblock %}

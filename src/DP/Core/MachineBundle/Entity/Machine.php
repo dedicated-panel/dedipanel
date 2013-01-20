@@ -349,5 +349,14 @@ class Machine
         return PHPSeclibWrapper::getFromMachineEntity($this)
                 ->exec($cmd);
     }
+    
+    public function fileExists($filepath)
+    {
+        return PHPSeclibWrapper::getFromMachineEntity($this)->fileExists($filepath);
+    }
+    
+    public function dirExists($dirpath)
+    {
+        return PHPSeclibWrapper::getFromMachineEntity($this)->dirExists($dirpath);
+    }
 }
-?>

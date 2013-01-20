@@ -21,6 +21,7 @@
 namespace DP\GameServer\GameServerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormError;
 
 abstract class FTPController extends Controller
 {
@@ -46,6 +47,7 @@ abstract class FTPController extends Controller
             'currentPath' => $path, 
             'dirContent' => $dirContent, 
             'baseRoute' => $this->getBaseRoute(), 
+            'del_form' => $this->createDeleteForm($id, $path)->createView(), 
         ));
     }
     
@@ -64,7 +66,7 @@ abstract class FTPController extends Controller
         
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
             
             if ($form->isValid()) {
                 $data = $form->getData();
@@ -78,15 +80,130 @@ abstract class FTPController extends Controller
             'path' => $path, 
             'dirPath' => dirname($path), 
             'baseRoute' => $this->getBaseRoute(), 
+            'del_form' => $this->createDeleteForm($id, $path)->createView(), 
         ));
     }
     
-    public function createEditFileForm(array $default = array())
+    public function createFileAction($id, $path = '')
+    {
+        $server = $this->getEntityRepository()->find($id);
+        
+        if (!$server) {
+            throw $this->createNotFoundException('Unable to find GameServer entity.');
+        }
+        
+        $form = $this->createEditFileForm(array('filename' => '', 'file' => ''));
+        
+        $request = $this->get('request');
+        if ($request->getMethod() == 'POST') {
+            $form->bind($request);
+            
+            if ($form->isValid()) {
+                $data = $form->getData();
+                $filepath = $path . $data['filename'];
+                
+                if (!$server->fileExists($filepath)) {
+                    $server->uploadFile($filepath, $data['file']);
+
+                    return $this->redirect($this->generateUrl(
+                            $this->getBaseRoute() . '_ftp_show', 
+                            array('id' => $id, 'path' => $path)
+                    ));
+                }
+                else {
+                    $form->get('filename')->addError(new FormError('game.ftp.fileAlreadyExists'));
+                }
+            }
+        }
+        
+        return $this->render('DPGameServerBundle:FTP:addFile.html.twig', array(
+            'sid' => $id, 
+            'form' => $form->createView(), 
+            'path' => $path, 
+            'baseRoute' => $this->getBaseRoute(), 
+        ));
+    }
+    
+    public function deleteAction($id, $path)
+    {
+        $server = $this->getEntityRepository()->find($id);
+        
+        if (!$server) {
+            throw $this->createNotFoundException('Unable to find GameServer entity.');
+        }
+        
+        // Suppression du fichier/dossier
+        $server->remove($path);
+        
+        return $this->redirect($this->generateUrl(
+                $this->getBaseRoute() . '_ftp_show', 
+                array('id' => $id, 'path' => dirname($path))
+        ));
+    }
+    
+    public function createDirectoryAction($id, $path = '')
+    {
+        $server = $this->getEntityRepository()->find($id);
+        
+        if (!$server) {
+            throw $this->createNotFoundException('Unable to find GameServer entity.');
+        }
+        
+        $form = $this->createAddDirForm(array('dirname' => ''));
+        
+        $request = $this->get('request');
+        if ($request->getMethod() == 'POST') {
+            $form->bind($request);
+            
+            if ($form->isValid()) {
+                $data = $form->getData();
+                $dirpath = $path . $data['dirname'];
+                
+                if (!$server->dirExists($dirpath)) {
+                    $server->createDirectory($dirpath);
+
+                    return $this->redirect($this->generateUrl(
+                            $this->getBaseRoute() . '_ftp_show', 
+                            array('id' => $id, 'path' => $dirpath)
+                    ));
+                }
+                else {
+                    $form->get('dirname')->addError(new FormError('game.ftp.dirAlreadyExists'));
+                }
+            }
+        }
+        
+        return $this->render('DPGameServerBundle:FTP:addDirectory.html.twig', array(
+            'sid' => $id, 
+            'form' => $form->createView(), 
+            'path' => $path, 
+            'baseRoute' => $this->getBaseRoute(), 
+        ));
+    }
+    
+    private function createEditFileForm(array $default = array())
     {
         return $this->createFormBuilder($default)
-                    ->add('filename', 'text', array('label' => 'game.ftp.filename'))
-                    ->add('file', 'textarea', array('label' => 'game.ftp.content'))
-                    ->getForm()
+            ->add('filename', 'text', array('label' => 'game.ftp.filename'))
+            ->add('file', 'textarea', array('label' => 'game.ftp.content'))
+            ->getForm()
+        ;
+    }
+
+    private function createDeleteForm($id, $path)
+    {
+        return $this->createFormBuilder(array('id' => $id, 'path' => $path))
+            ->add('id', 'hidden')
+            ->add('path', 'hidden')
+            ->getForm()
+        ;
+    }
+    
+    private function createAddDirForm()
+    {
+        return $this->createFormBuilder(array())
+            ->add('dirname', 'text', array('label' => 'game.ftp.dirname'))
+            ->getForm()
         ;
     }
 }

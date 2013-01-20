@@ -67,6 +67,9 @@ body {
 	font-family: Arial;
 	font-size: 13px;
 }
+#outer {
+    position: relative;
+}
 header ul {
 	list-style-type: none;
 	margin: 0;
@@ -214,6 +217,7 @@ header li a span {
 	background-color: whiteSmoke;
 	box-shadow: inset 0 0 0 1px #BBB, 0 0 0 1px #E4E4E4;
 	margin-bottom: 52px;
+    min-height: 155px;
 }
 
 #inner #page-content h2 {
@@ -224,13 +228,28 @@ header li a span {
 }
 #inner #page-content #top-nav {
     margin: -58px 0 20px 0;
-    
+    float: right;    
 }
-#inner #page-content #top-nav li a:hover {
+#inner #page-content #top-nav li a:hover, 
+#inner #page-content #top-nav li form button:hover {
     background: #E2E2E2;
 }
 #inner #page-content #top-nav li:last-child a {
     margin: 0;
+}
+#inner #page-content #top-nav li form {
+    margin: 0;
+}
+#inner #page-content #top-nav li form button {
+    background: none;
+    color: #818181;
+    line-height: 20px;
+    padding: 8px;
+    font-size: 13px;
+    border: 1px solid transparent;
+}
+#inner #page-content #top-nav li form button:hover {
+    color: black;
 }
 
 footer {
