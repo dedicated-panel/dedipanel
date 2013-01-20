@@ -71,7 +71,9 @@
             </tr>
             <tr>
                 <th>{{ 'steam.autoReboot'|trans }}</th>
-                <td>{{ entity.autoReboot }}</td>
+                <td>{% if entity.rebootAt is not empty %}
+                    {{ entity.rebootAt|date('H:i') }}
+                {% endif %}</td>
             </tr>
             <tr>
                 <th>{{ 'game.rcon.password'|trans }}</th>

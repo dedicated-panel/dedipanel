@@ -80,9 +80,19 @@ class ConfigModifier
                 }
                 catch (\Exception $e) {}
             }
+            elseif ($args->hasChangedField('rebootAt')) {
+                // Suppression du reboot auto si la valeur du champ vaut null
+                // Sinon ajout/modif
+                if ($args->getNewValue('rebootAt') == null) {
+                    $entity->removeAutoReboot();
+                }
+                else {
+                    $entity->addAutoReboot();
+                }
+            }
         }
         elseif ($entity instanceof Machine) {
-            // Upload des scripts si l'IP public ou le home de la machine a été modifié
+            // Upload des scripts si l'IP publique ou le home de la machine a été modifié
             if ($args->hasChangedField('publicIp')) {
                 $servers = $entity->getGameServers();
                 

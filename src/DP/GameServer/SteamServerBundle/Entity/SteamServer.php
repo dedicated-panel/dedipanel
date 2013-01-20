@@ -33,11 +33,11 @@ use DP\Core\GameBundle\Entity\Plugin;
  */
 class SteamServer extends GameServer {
     /**
-     * @var integer $autoReboot
+     * @var integer $rebootAt
      *
-     * @ORM\Column(name="autoReboot", type="integer", nullable=true)
+     * @ORM\Column(name="rebootAt", type="time", nullable=true)
      */
-    private $autoReboot;
+    private $rebootAt;
 
     /**
      * @var boolean $munin
@@ -68,23 +68,23 @@ class SteamServer extends GameServer {
     private $hltvPort;
     
     /**
-     * Set autoReboot
+     * Set rebootAt
      *
-     * @param integer $autoReboot
+     * @param \DateTime $rebootAt
      */
-    public function setAutoReboot($autoReboot)
+    public function setRebootAt($rebootAt)
     {
-        $this->autoReboot = $autoReboot;
+        $this->rebootAt = $rebootAt;
     }
 
     /**
-     * Get autoReboot
+     * Get rebootAt
      *
-     * @return integer 
+     * @return \DateTime 
      */
-    public function getAutoReboot()
+    public function getRebootAt()
     {
-        return $this->autoReboot;
+        return $this->rebootAt;
     }
 
     /**
@@ -275,7 +275,7 @@ class SteamServer extends GameServer {
         $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
         $game = $this->getGame();
         
-        $scriptPath = $this->getAbsoluteDir() . 'hlds.sh';
+        $scriptPath = $this->getAbsoluteHldsScriptPath();
         
         $hldsScript = $twig->render('DPSteamServerBundle:sh:hlds.sh.twig', array(
             'screenName' => $this->getScreenName(), 'bin' => $game->getBin(), 
@@ -330,10 +330,8 @@ class SteamServer extends GameServer {
     
     public function changeStateServer($state)
     {
-        $scriptPath = $this->getAbsoluteDir() . 'hlds.sh';
-        
         return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
-                ->exec($scriptPath . ' ' . $state);
+                ->exec($this->getAbsoluteHldsScriptPath() . ' ' . $state);
     }
 
     public function execPluginScript(\Twig_Environment $twig, Plugin $plugin, $action)
@@ -409,12 +407,33 @@ class SteamServer extends GameServer {
         }
         else {
             return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
-                ->getSSH()->exec($this->getAbsoluteBinDir() . 'hltv.sh stop');
+                ->exec($this->getAbsoluteBinDir() . 'hltv.sh stop');
         }
     }
     
     protected function getAbsoluteGameContentDir()
     {
         return $this->getAbsoluteBinDir() . $this->game->getLaunchName() . '/';
+    }
+    
+    public function getAbsoluteHldsScriptPath()
+    {
+        return $this->getAbsoluteDir() . 'hlds.sh';
+    }
+    
+    public function addAutoReboot()
+    {
+        $hldsScriptPath = $this->getAbsoluteHldsScriptPath();
+        $rebootTime = $this->getRebootAt();
+        
+        $crontabLine  = $rebootTime->format('i H') . ' * * * ' . $hldsScriptPath;
+        $crontabLine .= ' restart >> ' . $this->getAbsoluteDir() . 'cron-dp.log';
+        
+        return $this->getMachine()->updateCrontab($hldsScriptPath, $crontabLine);
+    }
+    
+    public function removeAutoReboot()
+    {
+        return $this->getMachine()->removeFromCrontab($this->getAbsoluteHldsScriptPath());
     }
 }

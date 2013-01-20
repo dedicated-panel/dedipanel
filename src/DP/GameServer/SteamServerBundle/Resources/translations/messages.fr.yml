@@ -42,3 +42,5 @@ steam.hltv.no: Non
 steam.hltv.portAlreadyUsed: Le port indiqué pour l'hltv est déjà utilisé.
 steam.hltv.port: Port de l'HLTV
 steam.hltv.title: Zone HLTV
+
+steam.rebootAt: Reboot auto à (0-24h)

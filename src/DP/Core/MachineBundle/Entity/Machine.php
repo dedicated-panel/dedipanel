@@ -326,10 +326,28 @@ class Machine
     }
     
     public function retrieveNbCore()
+    {        
+        return PHPSeclibWrapper::getFromMachineEntity($this)
+                ->exec('grep processor /proc/cpuinfo | wc -l');
+    }
+    
+    public function updateCrontab($search, $replace)
     {
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this);
+        $cmd  = 'crontab -l | awk \'BEGIN{search="' . $search . '"; replacement="' . $replace . '"}//';
+        $cmd .= '{if ($6 == search) { print replacement; found=1} else { print }}';
+        $cmd .= 'END{ if (!found) { print replacement }}\' | crontab -';
         
-        return $sec->exec('grep processor /proc/cpuinfo | wc -l');
+        return PHPSeclibWrapper::getFromMachineEntity($this)
+                ->exec($cmd);
+    }
+    
+    public function removeFromCrontab($search)
+    {
+        $cmd  = 'crontab -l | awk \'BEGIN{search="' . $search . '"}//';
+        $cmd .= '{if ($6 == search) { found=1} else { print }}\' | crontab -';
+        
+        return PHPSeclibWrapper::getFromMachineEntity($this)
+                ->exec($cmd);
     }
 }
 ?>

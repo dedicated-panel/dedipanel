@@ -190,7 +190,7 @@ class PHPSeclibWrapper {
         $ret = trim($ret);
         
         if ($this->debug) {
-            // TODO: Add debug via monolog
+            // @TODO: Add debug via monolog
         }
         
         return $ret;

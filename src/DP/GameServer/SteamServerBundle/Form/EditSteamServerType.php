@@ -47,6 +47,10 @@ class EditSteamServerType extends BaseSteamServerType
                 ;
             }
         }
+        
+        $builder
+            ->add('rebootAt', 'time', array('label' => 'steam.rebootAt', 'required' => false))
+        ;
     }
 
     public function getName()

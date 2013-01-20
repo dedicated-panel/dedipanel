@@ -162,9 +162,7 @@ class SteamServerController extends Controller
         $editForm   = $this->createForm(new EditSteamServerType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        $request = $this->getRequest();
-
-        $editForm->bindRequest($request);
+        $editForm->bind($this->getRequest());
 
         if ($editForm->isValid()) {
             $em->persist($entity);
