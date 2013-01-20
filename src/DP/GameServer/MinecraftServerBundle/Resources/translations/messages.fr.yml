@@ -9,3 +9,6 @@ minecraft.show: Voir
 minecraft.showTitle: Voir un serveur Minecraft
 minecraft.installInProgress: Installation en cours
 minecraft.editTitle: Modifier un serveur Miencraft
+
+minecraft.minHeap: Taille réservé pour le serveur lors du démarrage (en Mo)
+minecraft.maxHeap: Taille maximum que peut allouer le serveur (en Mo)

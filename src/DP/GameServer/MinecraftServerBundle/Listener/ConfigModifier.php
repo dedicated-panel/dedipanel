@@ -80,6 +80,12 @@ class ConfigModifier
                 }
                 catch (\Exception $e) {}
             }
+            if ($args->hasChangedField('minHeap') || $args->hasChangedField('maxHeap')) {
+                try {
+                    $entity->uploadShellScripts($this->getTwig());
+                }
+                catch (\Exception $e) {}
+            }
         }
         elseif ($entity instanceof Machine) {
             // Upload des scripts si l'IP public ou le home de la machine a été modifié

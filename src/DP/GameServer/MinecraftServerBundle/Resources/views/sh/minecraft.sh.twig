@@ -19,7 +19,7 @@
 SCREEN_NAME="{{ screenName }}"
 STATUS=`pgrep -f "$SCREEN_NAME" | wc -l`
 
-INVOCATION="java -Xmx{{ maxHeap }}M -Xms{{ minHeap }}M -XX:+UseConcMarkSweepGC \
+INVOCATION="java -Xms{{ minHeap }}M -Xmx{{ maxHeap }}M -XX:+UseConcMarkSweepGC \
 -XX:+CMSIncrementalPacing -XX:ParallelGCThreads={{ parallelThreads }} -XX:+AggressiveOpts \
 -jar {{ bin }} {{ options }}"
 

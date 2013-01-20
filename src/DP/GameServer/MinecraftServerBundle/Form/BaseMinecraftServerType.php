@@ -43,6 +43,8 @@ abstract class BaseMinecraftServerType extends AbstractType
                 }))
             ->add('dir', 'text', array('label' => 'game.dir'))
             ->add('maxplayers', 'integer', array('label' => 'game.maxplayers'))
+            ->add('minHeap', 'integer', array('label' => 'minecraft.minHeap'))
+            ->add('maxHeap', 'integer', array('label' => 'minecraft.maxHeap'))
         ;
     }
 

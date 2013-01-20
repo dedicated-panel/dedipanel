@@ -218,6 +218,7 @@ class MinecraftServerController extends Controller
             // On upload les scripts si le dl est terminé
             if ($newStatus == 100) {
                 $entity->uploadShellScripts($this->get('twig'));
+                $entity->uploadDefaultServerPropertiesFile($this->get('twig'));
             }
             // Si celui-ci n'est pas lancé on le lance
             elseif ($newStatus === null) {

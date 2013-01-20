@@ -53,6 +53,20 @@ class MinecraftServer extends GameServer
      */
     protected $rconPort;
     
+    /**
+     * @var integer $minHeap
+     * 
+     * @ORM\Column(name="minHeap", type="integer")
+     */
+    protected $minHeap;
+    
+    /**
+     * @var integer $maxHeap
+     * 
+     * @ORM\Column(name="maxHeap", type="integer")
+     */
+    protected $maxHeap;
+    
     /*
      * Set minecraft query port
      * 
@@ -99,10 +113,50 @@ class MinecraftServer extends GameServer
     }
     
     /**
+     * Set min heap
+     * 
+     * @param integer $minHeap 
+     */
+    public function setMinHeap($minHeap)
+    {
+        $this->minHeap = $minHeap;
+    }
+    
+    /**
+     * Get min heap
+     * 
+     * @return integer Min heap
+     */
+    public function getMinHeap()
+    {
+        return $this->minHeap;
+    }
+    
+    /**
+     * Set max heap
+     * 
+     * @param integer $maxHeap 
+     */
+    public function setMaxHeap($maxHeap)
+    {
+        $this->maxHeap = $maxHeap;
+    }
+    
+    /**
+     * Get max heap
+     * 
+     * @return integer Max heap
+     */
+    public function getMaxHeap()
+    {
+        return $this->maxHeap;
+    }
+    
+    /**
      * Download server
      */
     public function installServer()
-    {      
+    {
         $installDir = $this->getAbsoluteDir();
         $logPath = $installDir . 'install.log';
         
@@ -123,7 +177,7 @@ class MinecraftServer extends GameServer
     }
     
     public function getInstallationProgress(\Twig_Environment $twig)
-    {      
+    {
         $installDir = $this->getAbsoluteDir();
         $logPath = $installDir . 'install.log';
         $binPath = $installDir . $this->getGame()->getBin();
@@ -149,6 +203,7 @@ class MinecraftServer extends GameServer
             $percent = $this->getPercentFromInstallLog($installLog);
             
             if (!empty($percent)) {
+                // Suppression du fichier de log si le dl est terminé
                 if ($percent == 100) {
                     $sec->exec('rm ' . $logPath);
                 }
@@ -189,15 +244,11 @@ class MinecraftServer extends GameServer
         
         $minecraftScript = $twig->render('DPMinecraftServerBundle:sh:minecraft.sh.twig', array(
             'screenName' => $this->getScreenName(), 'bin' => $game->getBin(), 
-            'options' => 'nogui', 'minHeap' => 1024, 'maxHeap' => '1024', 
+            'options' => 'nogui', 'minHeap' => $this->getMinHeap(), 'maxHeap' => $this->getMaxHeap(), 
             'parallelThreads' => 1, 'binDir' => $this->getAbsoluteBinDir(), 
         ));
         
         if (!$sec->upload($scriptPath, $minecraftScript, 0750)) {
-            return false;
-        }
-        
-        if (!$this->uploadDefaultServerPropertiesFile($twig)) {
             return false;
         }
         
