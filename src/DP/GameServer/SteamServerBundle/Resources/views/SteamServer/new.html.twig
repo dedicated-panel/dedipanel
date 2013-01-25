@@ -30,12 +30,10 @@
     <h2>{{ 'steam.add'|trans }}</h2>
 
     <form action="{{ path('steam_create') }}" method="post" {{ form_enctype(form) }}>
-       <fieldset id="validation">	
-            {{ form_widget(form) }}
-           
-            <div class="form-actions">
-                <button type="submit"  class="btn btn-primary">{{ 'game.addButton'|trans }}</button>
-            </div>
-        </fieldset>	
+        {{ form_widget(form) }}
+
+        <div class="form-actions">
+            <button type="submit"  class="btn btn-primary">{{ 'game.addButton'|trans }}</button>
+        </div>
     </form>
 {% endblock %}
