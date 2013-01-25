@@ -20,7 +20,7 @@
 
 {% block title %}
     {% if currentPath is not empty %}
-        <a href="{{ path(baseRoute ~ '_ftp_show', {id: sid, path: currentPath ~ '..'}) }}">
+        <a href="{{ path(baseRoute ~ '_ftp_show', {id: sid, path: prevDirPath}) }}">
             <span class="icon" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></span>
         </a>
     {% else %}
@@ -58,9 +58,6 @@
                         {{ 'game.ftp.deleteDir'|trans }}
                     </button>
                 </form>
-                {# <a href="{{ path(baseRoute ~ '_ftp_delete', {'id': sid, 'path': currentPath}) }}">
-                    {{ 'game.ftp.deleteDir'|trans }}
-                </a> #}
             </li>
         {% endif %}
     </ul>
@@ -70,9 +67,8 @@
     <ul>
         {# Affichage d'un lien ".." de retour vers le dossier parent #}
         {% if currentPath is not empty %}
-            {% set path = currentPath ~ '..' %}
             <li class="dir">
-                <a href="{{ path(baseRoute ~ '_ftp_show', {'id': sid, 'path': path}) }}">..</a>
+                <a href="{{ path(baseRoute ~ '_ftp_show', {'id': sid, 'path': prevDirPath}) }}">..</a>
             </li>
         {% endif %}
         

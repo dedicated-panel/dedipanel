@@ -45,6 +45,7 @@ abstract class FTPController extends Controller
         return $this->render('DPGameServerBundle:FTP:show.html.twig', array(
             'sid' => $id, 
             'currentPath' => $path, 
+            'prevDirPath' => dirname($path), 
             'dirContent' => $dirContent, 
             'baseRoute' => $this->getBaseRoute(), 
             'del_form' => $this->createDeleteForm($id, $path)->createView(), 
