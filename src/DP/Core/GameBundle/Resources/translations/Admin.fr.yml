@@ -1,3 +1,5 @@
+Game List: Liste des Jeux
+
 Game: Jeu
 Plugin: Plugin
 
@@ -9,6 +11,7 @@ Available: Disponible ?
 Bin Dir: Répertoire contenant le binaire (depuis la racine du jeu)
 Map: Map de lancement
 Source Images Maps: URL source pour les images de map
+Config Template: Fichier de config par défaut (server.cfg)
 
 Download Url: Adresse de téléchargement
 Script Name: Nom du script d'installation

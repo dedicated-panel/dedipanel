@@ -137,6 +137,11 @@ class Game
      */    
     private $type;
     
+    /**
+     * @ORM\Column(name="configTemplate", type="text", nullable=true)
+     */
+    private $configTemplate;
+    
 
     public function __construct()
     {
@@ -427,5 +432,24 @@ class Game
     public function isBukkit()
     {
         return $this->getInstallName() == 'bukkit';
+    }
+    
+    /**
+     * Set the server config file template
+     * @param string|null $configTemplate 
+     */
+    public function setConfigTemplate($configTemplate)
+    {
+        $this->configTemplate = $configTemplate;
+    }
+    
+    /**
+     * Get the server config file template
+     * 
+     * @return string
+     */
+    public function getConfigTemplate()
+    {
+        return $this->configTemplate;
     }
 }
