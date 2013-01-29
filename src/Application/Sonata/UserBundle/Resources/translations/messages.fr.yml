@@ -21,3 +21,7 @@ ROLE_ALLOWED_TO_SWITCH: Autoriser a switcher de compte
 
 admin: Administration
 machine_admin: Gestion des machines
+title_user_account: Compte
+title_user_edit_authentication: Modification des identifiants
+sonata.user.back: Retour
+sonata.user.edit: Modifier

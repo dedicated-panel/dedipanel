@@ -1,19 +1,21 @@
-{% extends "::layout.html.twig" %}
+{% extends "ApplicationSonataUserBundle::layout.html.twig" %}
 
-{% block content %}        
-        <legend>
-            <div id="content-titre">
-                <span class="icone">w</span><p id="titre">{{ "title_user_account" | trans({}, 'SonataUserBundle') }}</p>
-            </div>
-        </legend>
+{% block title %}
+    <a href="{{ path('_welcome') }}"> 
+        <span class="icon" data-icon="&#x29;" title="{{ 'sonata.user.back'|trans }}"></span>
+    </a>
+    
+    {{ 'title_user_account' | trans }}
+{% endblock %}
+
+{% block content %}
     <div class="sonata-user-edit-authentication">
-
-        <h2>{{ "title_user_account" | trans({}, 'SonataUserBundle')}} - {{ "title_user_edit_authentication" | trans({}, 'SonataUserBundle')}}</h2>
+        <h2>{{ 'title_user_account' | trans }} - {{ 'title_user_edit_authentication' | trans }}</h2>
         
         <form id="connexion" action="{{ path('sonata_user_profile_edit_authentication') }}" method="POST">
             {{ form_rest(form) }}
 
-                <input type="submit" name="submit" value="{{ 'sonata_user_submit'|trans({}, 'SonataUserBundle') }}" />
+            <input type="submit" name="submit" value="{{ 'sonata.user.edit'|trans }}" />
         </form>
     </div>
 {% endblock %}

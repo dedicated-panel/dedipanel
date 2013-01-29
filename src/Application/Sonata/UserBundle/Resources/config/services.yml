@@ -3,4 +3,4 @@ services:
         class: Application\Sonata\UserBundle\Form\Type\ProfileFormType
         arguments: [%fos_user.model.user.class%]
         tags:
-            - { name: form.type, alias: app_user_auth }
+            - { name: form.type, alias: app_user_profile }

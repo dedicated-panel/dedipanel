@@ -23,7 +23,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('css/connexion.css') }}" />
 {% endblock %}
 
-{% block body %}
+{% block baseBody %}
     <header id="log-title">   
         <a href="{{ path('_welcome') }}">
             <img src="{{ asset('images/header/logo.png') }}" title="DediPanel" />
@@ -31,7 +31,7 @@
     </header>
     
     {% block title %}{% endblock %}
-    <div id="logbox">{% block content %}{% endblock %}</div>
+    <div id="logbox">{% block body %}{% endblock %}</div>
 
     <footer>
         <p>

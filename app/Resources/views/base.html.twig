@@ -22,16 +22,20 @@
 
         <title>DediPanel</title>
         <link rel="shortcut icon" href="{{ asset('images/footer/logo-min.png') }}" />
+        
         {% block stylesheets %}{% endblock %}
+        
+        <script src="{{ asset('bundles/sonatajquery/jquery-1.8.0.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/sonatajquery/jquery-ui-1.8.23.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/sonatajquery/jquery-ui-i18n.js') }}" type="text/javascript"></script>
+
+        <script src="{{ asset('bundles/sonataadmin/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
+        {% block topJavascripts %}{% endblock %}
     </head>
     
     <body>
-        <div id="outer">{% block body %}{% endblock %}</div>
-    
-        <script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-1.8.0.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-ui-1.8.23.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/sonatajquery/jquery-ui-i18n.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bootstrap/js/bootstrap.js') }}"></script>
+        <div id="outer">{% block baseBody %}{% endblock %}</div>
+        
         {% block javascripts %}{% endblock %}
     </body>
 </html>

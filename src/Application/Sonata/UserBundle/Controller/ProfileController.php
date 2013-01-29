@@ -20,8 +20,20 @@
 
 namespace Application\Sonata\UserBundle\Controller;
 
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sonata\UserBundle\Controller\ProfileController as BaseController;
+use Application\Sonata\UserBundle\Form\Model\AuthenticationModel;
+use Application\Sonata\UserBundle\Form\Type\ProfileFormType;
+
+use FOS\UserBundle\FOSUserEvents;
+use FOS\UserBundle\Event\FormEvent;
+use FOS\UserBundle\Event\FilterUserResponseEvent;
+use FOS\UserBundle\Event\GetResponseUserEvent;
+use FOS\UserBundle\Model\UserInterface;
+use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
 
 class ProfileController extends BaseController
 {
@@ -32,6 +44,11 @@ class ProfileController extends BaseController
      */
     public function showAction()
     {
-        return new RedirectResponse($this->generateUrl('user_menu'));
+        return new RedirectResponse($this->generateUrl('aze'));
+    }
+    
+    public function editProfileAction()
+    {
+        return $this->redirect($this->generateUrl('sonata_user_profile_edit_authentication'));
     }
 }

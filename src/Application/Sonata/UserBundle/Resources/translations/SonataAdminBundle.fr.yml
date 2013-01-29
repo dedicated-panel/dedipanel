@@ -15,3 +15,6 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 list.label_email: Adresse email
+
+admin.group.user: Utilisateurs
+admin.group.game: Jeux & Plugins

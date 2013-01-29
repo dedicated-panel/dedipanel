@@ -322,3 +322,13 @@ input[type="radio"], input[type="checkbox"] {
 .form-group form.form-edit + form.form-delete {
     margin-left: 10px;
 }
+
+/* Empêche le flotement du label "Par page" sur l'action list (en bas de la liste) */
+.sonata-ba-list tbody:nth-of-type(2) .form-inline .pull-right .control-label {
+    float: none;
+}
+
+.template-server-cfg {
+    width: 350px;
+    height: 250px;
+}

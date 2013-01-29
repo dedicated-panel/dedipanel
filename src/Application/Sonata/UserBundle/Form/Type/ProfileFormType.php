@@ -11,59 +11,17 @@
 
 namespace Application\Sonata\UserBundle\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
+use FOS\UserBundle\Form\Type\ProfileFormType as BaseProfileFormType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\Security\Core\Validator\Constraint\UserPassword;
 
-class ProfileFormType extends AbstractType
+class ProfileFormType extends BaseProfileFormType
 {
-    private $class;
-
-    /**
-     * @param string $class The User class name
-     */
-    public function __construct($class)
-    {
-        $this->class = $class;
-    }
-
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $this->buildUserForm($builder, $options);
-        
-        $builder->add('current_password', 'password', array(
-            'label' => 'form.current_password',
-            'translation_domain' => 'FOSUserBundle',
-            'constraints' => new UserPassword(),
-        ));
-    }
-
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => 'Application\Sonata\UserBundle\Form\Model\AuthenticationModel',
-            'intention'  => 'profile',
-        ));
-    }
-
-    public function getName()
-    {
-        return 'app_user_auth';
-    }
-
-    /**
-     * Builds the embedded form representing the user.
-     *
-     * @param FormBuilderInterface $builder
-     * @param array                $options
-     */
     protected function buildUserForm(FormBuilderInterface $builder, array $options)
     {
+        parent::buildUserForm($builder, $options);
+        
         $builder
-            ->add('username', null, array('label' => 'form.username', 'translation_domain' => 'FOSUserBundle'))
-            ->add('email', 'email', array('label' => 'form.email', 'translation_domain' => 'FOSUserBundle'))
-            ->add('new', 'repeated', array(
+            ->add('plainPassword', 'repeated', array(
                 'type' => 'password',
                 'required' => false,
                 'options' => array('translation_domain' => 'FOSUserBundle'),
@@ -71,5 +29,10 @@ class ProfileFormType extends AbstractType
                 'second_options' => array('label' => 'form.new_password_confirmation'),
             ))
         ;
+    }
+    
+    public function getName()
+    {
+        return 'app_user_profile';
     }
 }
