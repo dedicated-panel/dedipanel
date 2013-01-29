@@ -143,7 +143,7 @@ class MachineController extends Controller
 
         if ($editForm->isValid()) {
             // Si l'utilisateur a précisé son mdp, on régénère une paire de clé
-            if (!empty($entity->passwd)) {
+            if (!empty($entity->password)) {
                 $this->generateKeyPair($entity, true);
             }
             $em->persist($entity);
@@ -162,7 +162,7 @@ class MachineController extends Controller
     private function generateKeyPair(Machine $entity, $delete = false)
     {
         $secure = PHPSeclibWrapper::getFromMachineEntity($entity, false);
-        $secure->setPasswd($entity->getPasswd());
+        $secure->setPassword($entity->getPassword());
 
         if ($delete) $secure->deleteKeyPair($entity->getPublicKey());
         
