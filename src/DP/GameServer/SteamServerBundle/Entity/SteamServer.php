@@ -262,7 +262,7 @@ class SteamServer extends GameServer {
         // Upload du script de gestion de l'hltv
         $uploadHltv = $this->uploadHltvScript($twig);
         
-        // Upload d'un fichier server.cfg par défaut (si celui-ci n'existe pas)
+        // Création d'un ficier server.cfg vide (si celui-ci n'existe pas)
         $this->createDefaultServerCfgFile();
         
         $this->installationStatus = 101;
@@ -326,6 +326,50 @@ class SteamServer extends GameServer {
         $cfgPath .= 'server.cfg';
         
         return $sec->exec('if [ ! -e ' . $cfgPath . ' ]; then touch ' . $cfgPath . '; fi');
+    }
+    
+    public function uploadDefaultServerCfgFile()
+    {
+        $template = $this->getGame()->getConfigTemplate();
+        
+        if (!empty($template)) {
+            $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+            $cfgPath = $this->getServerCfgPath();
+            
+            $env = new \Twig_Environment(new \Twig_Loader_String());
+            $cfgFile = $env->render($template, array(
+                'hostname' => $this->getServerName(), 
+            ));
+
+            return $sec->upload($cfgPath, $cfgFile, 0750);
+        }
+        
+        return false;
+    }
+    
+    public function modifyServerCfgFile()
+    {
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $cfgPath = $this->getServerCfgPath();
+        
+        $remoteFile = $sec->getRemoteFile($cfgPath);
+        $fileLines = explode("\r\n", $remoteFile);
+        
+        $pattern = '#^hostname "(.+)"$#';
+        $replacement = 'hostname "' . $this->getServerName() . '"';
+        
+        foreach ($fileLines AS &$line) {
+            if ($line == '' || substr($line, 0, 2) == '//') continue;
+            
+            if (preg_match($pattern, $line)) {
+                $line = preg_replace($pattern, $replacement, $line);
+            }
+        }
+        // Suppression de la référence
+        unset($line);
+        
+        // Upload du nouveau fichier
+        return $sec->upload($cfgPath, implode("\r\n", $fileLines));
     }
     
     public function changeStateServer($state)
@@ -435,5 +479,20 @@ class SteamServer extends GameServer {
     public function removeAutoReboot()
     {
         return $this->getMachine()->removeFromCrontab($this->getAbsoluteHldsScriptPath());
+    }
+    
+    public function getServerCfgPath()
+    {
+        $cfgPath = $this->getAbsoluteGameContentDir();
+        if ($this->getGame()->isSource() || $this->getGame()->isOrangebox()) {
+            $cfgPath .= 'cfg/';
+        }
+        
+        return $cfgPath . 'server.cfg';
+    }
+    
+    public function getServerName()
+    {
+        return '[DediPanel] ' . $this->getName();
     }
 }

@@ -74,13 +74,19 @@ class ConfigModifier
         
         if ($entity instanceof SteamServer) {            
             if ($args->hasChangedField('port') || $args->hasChangedField('maxplayers') 
-                || $args->hasChangedField('dir') || $args->hasChangedField('core')) {
+                || $args->hasChangedField('core')) {
                 try {
                     $entity->uploadHldsScript($this->getTwig());
                 }
                 catch (\Exception $e) {}
             }
-            elseif ($args->hasChangedField('rebootAt')) {
+            if ($args->hasChangedField('dir')) {
+                try {
+                    $entity->uploadShellScripts($this->getTwig());
+                }
+                catch (\Exception $e) {}
+            }
+            if ($args->hasChangedField('rebootAt')) {
                 // Suppression du reboot auto si la valeur du champ vaut null
                 // Sinon ajout/modif
                 if ($args->getNewValue('rebootAt') == null) {
@@ -90,17 +96,23 @@ class ConfigModifier
                     $entity->addAutoReboot();
                 }
             }
+            if ($args->hasChangedField('name')) {
+                try {
+                    $entity->modifyServerCfgFile();
+                }
+                catch (\Exception $e) {}
+            }
         }
         elseif ($entity instanceof Machine) {
             // Upload des scripts si l'IP publique ou le home de la machine a été modifié
-            if ($args->hasChangedField('publicIp')) {
+            if ($args->hasChangedField('publicIp') || $args->hasChangedField('home')) {
                 $servers = $entity->getGameServers();
                 
                 foreach ($servers AS $server) {
                     if (!$server instanceof SteamServer) continue;
                     
                     try {
-                        $server->uploadHldsScript($this->getTwig());
+                        $server->uploadShellScripts($this->getTwig());
                     }
                     catch (\Exception $e) {}
                 }

@@ -62,7 +62,7 @@ class ConfigModifier
      * Ou si l'IP publique de la machine a été modifié
      * 
      * Réinstallation du serveur
-     * Si des modifs ont été faites sur la machine (IP privée, home, user)
+     * Si des modifs ont été faites sur la machine (IP publique, home, user)
      * Ou si le serveur de jeu n'est plus sur la meme machine
      * Ou si le jeu du serveur est modifié
      * 
@@ -74,13 +74,14 @@ class ConfigModifier
         
         if ($entity instanceof MinecraftServer) { 
             if ($args->hasChangedField('port') || $args->hasChangedField('maxplayers') 
-                || $args->hasChangedField('dir')) {
+                || $args->hasChangedField('name')) {
                 try {
-                    $entity->modifyServerConfig();
+                    $entity->modifyServerPropertiesFile();
                 }
                 catch (\Exception $e) {}
             }
-            if ($args->hasChangedField('minHeap') || $args->hasChangedField('maxHeap')) {
+            if ($args->hasChangedField('minHeap') || $args->hasChangedField('maxHeap')
+                || $args->hasChangedField('dir')) {
                 try {
                     $entity->uploadShellScripts($this->getTwig());
                 }
@@ -89,16 +90,24 @@ class ConfigModifier
         }
         elseif ($entity instanceof Machine) {
             // Upload des scripts si l'IP public ou le home de la machine a été modifié
-            if ($args->hasChangedField('publicIp')) {
+            if ($args->hasChangedField('publicIp') || $args->hasChangedField('home')) {
                 $servers = $entity->getGameServers();
                 
                 foreach ($servers AS $server) {
                     if (!$server instanceof MinecraftServer) continue;
                     
-                    try {
-                        $server->modifyServerConfig();
+                    if ($args->hasChangedField('publicIp')) {
+                        try {
+                            $server->modifyServerPropertiesFile();
+                        }
+                        catch (\Exception $e) {}
                     }
-                    catch (\Exception $e) {}
+                    if ($args->hasChangedField('home')) {
+                        try  {
+                            $server->uploadShellScripts($this->getTwig());
+                        }
+                        catch (\Exception $e) {}
+                    }
                 }
             }
         }

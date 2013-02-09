@@ -265,29 +265,35 @@ class MinecraftServer extends GameServer
                 ->exec($scriptPath . ' ' . $state);
     }
     
-    public function uploadDefaultServerPropertiesFile(\Twig_Environment $twig)
+    public function uploadDefaultServerPropertiesFile()
     {
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
-        $cfgPath = $this->getAbsoluteDir() . 'server.properties';
+        $template = $this->getGame()->getConfigTemplate();
         
-        // Supression du fichier s'il existe déjà
-        $sec->exec('if [ -e ' . $cfgPath . ']; then rm ' . $cfgPath . '; fi');
+        if (!empty($template)) {
+            $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+            $cfgPath = $this->getAbsoluteDir() . 'server.properties';
+
+            // Supression du fichier s'il existe déjà
+            $sec->exec('if [ -e ' . $cfgPath . ']; then rm ' . $cfgPath . '; fi');
+
+            $env = new \Twig_Environment(new \Twig_Loader_String());
+            $cfgFile = $env->render($template, array(
+                'serverPort'    => $this->getPort(), 
+                'queryPort'     => $this->getQueryPort(), 
+                'rconPort'      => $this->getRconPort(), 
+                'rconPassword'  => $this->getRconPassword(), 
+                'maxPlayers'    => $this->getMaxplayers(), 
+                'serverName'    => $this->getName(), 
+                'ip'            => $this->getMachine()->getPublicIp(), 
+            ));
+
+            return $sec->upload($cfgPath, $cfgFile, 0750);
+        }
         
-        $template = 'DPMinecraftServerBundle:cfg:server.properties.' . $this->getGame()->getInstallName() . '.twig';
-        $cfgFile = $twig->render($template, array(
-            'serverPort'    => $this->getPort(), 
-            'queryPort'     => $this->getQueryPort(), 
-            'rconPort'      => $this->getRconPort(), 
-            'rconPassword'  => $this->getRconPassword(), 
-            'maxPlayers'    => $this->getMaxplayers(), 
-            'serverName'    => $this->getName(), 
-            'ip'            => $this->getMachine()->getPublicIp(), 
-        ));
-        
-        return $sec->upload($cfgPath, $cfgFile, 0750);
+        return false;
     }
     
-    public function modifyServerConfig()
+    public function modifyServerPropertiesFile()
     {
         // Variables à modifier dans le fichier server.properties
         $varToChange = array(
@@ -322,6 +328,8 @@ class MinecraftServer extends GameServer
                 unset($varToChange[$var]);
             }
         }
+        // Suppression de la référence
+        unset($line);
         
         // S'il reste des variables dans l'array $varToChange
         // On ajoute les lignes au fichier 

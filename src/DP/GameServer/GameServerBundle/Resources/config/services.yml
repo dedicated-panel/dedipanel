@@ -15,7 +15,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 parameters:
-    socket.timeout: [1, 0]
+    socket.timeout: [0, 300]
     
 services:
     socket:

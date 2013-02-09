@@ -40,7 +40,7 @@ header {
     border-bottom: 1px solid rgb(167, 167, 167);
     padding-bottom: 135px;
     height: 170px
-        -webkit-box-shadow: 1px 3px rgba(0, 0, 0, .25),inset 0 -1px 0 rgba(0, 0, 0, .1);
+    -webkit-box-shadow: 1px 3px rgba(0, 0, 0, .25),inset 0 -1px 0 rgba(0, 0, 0, .1);
     -moz-box-shadow: 0 1px 3px rgba(0,0,0,.25),inset 0 -1px 0 rgba(0,0,0,.1);
     box-shadow: 0 1px 3px rgba(0, 0, 0, .25),inset 0 -1px 0 rgba(0, 0, 0, .1);
 

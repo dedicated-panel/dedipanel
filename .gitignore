@@ -11,3 +11,5 @@ composer.lock
 nbproject/
 .htaccess
 src/DP/Core/MachineBundle/Resources/config/.ssh/*
+.settings
+.project

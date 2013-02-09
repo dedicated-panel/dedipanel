@@ -190,10 +190,10 @@ header li a span {
 }
 
 #inner h1#title {
-	margin: 10px 0 10px 0;
-	padding: 0 0 0 15px;
-	height: 38px;
-    line-height: 38px;
+	margin: 15px 0 10px 0;
+	padding: 8px 0 3px 15px;
+    line-height: normal;
+    min-height: 31px;
 	box-shadow: 0 0 1px 0 white;
 	background-color: #CECECE;
 	color: #646464;
