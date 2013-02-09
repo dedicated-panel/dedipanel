@@ -25,10 +25,10 @@ class DoctrineStepType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'text', array('required' => false, 'label' => 'configurator.db.name'))
-            ->add('host', 'text', array('required' => false, 'label' => 'configurator.db.host'))
+            ->add('name', 'text', array('label' => 'configurator.db.name'))
+            ->add('host', 'text', array('label' => 'configurator.db.host'))
             ->add('port', 'text', array('required' => false, 'label' => 'configurator.db.port'))
-            ->add('user', 'text', array('required' => false, 'label' => 'configurator.db.user'))
+            ->add('user', 'text', array('label' => 'configurator.db.user'))
             ->add('password', 'repeated', array(
                 'required'        => false,
                 'type'            => 'password',

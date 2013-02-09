@@ -67,7 +67,7 @@ class ConfiguratorController extends Controller
             $stepCount = $configurator->getInstallStepCount();
         }
         elseif ($type == 'update') {
-            $step = $configurator->getUpdatetStep($index);
+            $step = $configurator->getUpdateStep($index);
             $stepCount = $configurator->getUpdateStepCount();
         }
         
