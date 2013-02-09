@@ -17,21 +17,15 @@
 #}
 
 {# Custom #}
-{% block field_row %}{% spaceless %}
+{% block form_row %}
+{% spaceless %}
     <div class="clearfix">
-        {{ form_label(form, label|default(null)) }}
+        {{ form_label(form) }}
         {{ form_errors(form) }}
         {{ form_widget(form) }}
     </div>
-{% endspaceless %}{% endblock field_row %}
-
-{% block form_widget %}{% spaceless %}
-	{# TODO: Add form errors #}
-    <div {{ block('widget_container_attributes') }}>
-        {{ block('field_rows') }}
-        {{ form_rest(form) }}
-    </div>
-{% endspaceless %}{% endblock form_widget %}
+{% endspaceless %}
+{% endblock form_row %}
 
 {% block form_label %}
 {% spaceless %}

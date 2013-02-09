@@ -11,13 +11,13 @@ class ConfiguratorController extends Controller
     {
         $request = $this->get('request');
         $form = $this->createFormBuilder()
-                     ->add('type', 'choice', array(
-                            'choices' => array(
-                                'i' => 'configurator.install', 
-                                'u' => 'configurator.update'
-                            ), 
-                            'label' => 'configurator.chooseType'))
-                     ->getForm();
+             ->add('type', 'choice', array(
+                'choices' => array(
+                    'i' => 'configurator.install', 
+                    'u' => 'configurator.update'
+                ), 
+                'label' => 'configurator.chooseType')
+            )->getForm();
         
         if ($request->getMethod() == 'POST') {
             $form->bindRequest($request);

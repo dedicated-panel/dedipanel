@@ -83,7 +83,7 @@ class Game
      * 
      * @ORM\Column(name="source", type="boolean")
      */
-    private $source = false; // default value, used for source tv
+    private $source = false; // default value, useful for source tv
 
     /**
      * @var string $map

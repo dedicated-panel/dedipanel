@@ -1,0 +1,4 @@
+game.assert.name: Veuillez spécifier un nom au jeu.
+game.assert.installName: Veuillez spéciier le nom utilisé par l'installateur pour ce jeu.
+game.assert.launchName: Veuillez spécifier le nom utilisé par le lanceur automatique.
+game.assert.available: Veuillez indiquer si ce jeu est disponible ou non.

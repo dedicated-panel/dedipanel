@@ -60,8 +60,9 @@ abstract class GameServer
      * @var integer $port
      *
      * @ORM\Column(name="port", type="integer")
-     * @Assert\Min(limit="1", message="gameServer.assert.port")
+     * @Assert\Min(limit="1024", message="gameServer.assert.port")
      * @Assert\Max(limit="65536", message="gameServer.assert.port")
+     * @Assert\NotBlank(message="gameServer.assert.port")
      */
     protected $port;
 
