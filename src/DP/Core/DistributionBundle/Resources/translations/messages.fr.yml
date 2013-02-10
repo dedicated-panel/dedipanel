@@ -1,9 +1,9 @@
 configurator.installer: "Installateur"
-configurator.chooseType: "Choisissez le type de configuration :"
+configurator.chooseType: "Choisissez le type de configuration"
 configurator.install: "Installation"
 configurator.update: "Mise à jour"
 configurator.next: "Prochaine étape"
-configurator.mandatoryFields: Champs obligatoires
+configurator.mandatoryFields: "* Champs obligatoires"
 configurator.step: Étape
 
 configurator.pdoMandatory: Extension PHP pdo

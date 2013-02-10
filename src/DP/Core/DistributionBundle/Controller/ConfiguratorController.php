@@ -3,7 +3,6 @@
 namespace DP\Core\DistributionBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class ConfiguratorController extends Controller
 {
@@ -34,7 +33,7 @@ class ConfiguratorController extends Controller
                     $url = $this->container->get('router')->generate('installer_step', array('index' => 0, 'type' => 'update'));
                 }
                 
-                return new RedirectResponse($url);
+                return $this->redirect($url);
             }
         }
         
@@ -82,10 +81,10 @@ class ConfiguratorController extends Controller
                     
                     ++$index;                    
                     if ($index < $stepCount) {
-                        return new RedirectResponse($this->container->get('router')->generate('installer_step', array('type' => $type, 'index' => $index)));
+                        return $this->redirect($this->container->get('router')->generate('installer_step', array('type' => $type, 'index' => $index)));
                     }
                     
-                    return new RedirectResponse($this->container->get('router')->generate('installer_final', array('type' => $type)));
+                    return $this->redirect($this->container->get('router')->generate('installer_final', array('type' => $type)));
                 }
             }
         }

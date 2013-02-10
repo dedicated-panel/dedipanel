@@ -294,14 +294,20 @@ label {
     display: block;
     float: left;
 }
-input[type="radio"] + label, input[type="checkbox"] + label {
-    width: auto;
-    margin: 0 20px 0 5px;
-}
 input[type="radio"], input[type="checkbox"] {
     margin: 4px 0 0;
     float: left;
 }
+input[type="radio"] + label, input[type="checkbox"] + label {
+    width: auto;
+    margin: 0 20px 0 5px;
+}
+input[type="radio"] + label > .symfony-form-required,
+input[type="radio"] + label > span:last-of-type, 
+input[type="checkbox"] + label > .symfony-form-required,
+input[type="checkbox"] + label > span:last-of-type {
+	display: none;
+} 
 
 .form-group {
     border-top: 1px solid #ddd;

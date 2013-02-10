@@ -8,15 +8,15 @@
      <p>{{ 'configurator.userCreation.description'|trans }}</p>
 
     {{ form_errors(form) }}
-    <form action="{{ path('_configurator_step', { 'index': index }) }} " method="POST">
+    <form action="{{ path('installer_step', { 'type': configType, 'index': index }) }} " method="POST">
 
         {{ form_rest(form) }}
 
         <div class="form-actions">
-            <p><input type="submit" value="{{ 'Next Step'|trans }}" class="btn btn-primary" /></p>
+            <p><input type="submit" value="{{ 'configurator.next'|trans }}" class="btn btn-primary" /></p>
 
             <span class="information">
-                {{ '* mandatory fields'|trans }}
+                {{ 'configurator.mandatoryFields'|trans }}
             </span>       
         </div>
     </form>

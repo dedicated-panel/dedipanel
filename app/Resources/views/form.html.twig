@@ -42,8 +42,10 @@
         {{ label|trans({}, translation_domain) }}
         
         {% if required %}
-            *
+            <span class="symfony-form-required" title="This field is required">*</span>
         {% endif %}
+        
+        &nbsp;<span>:</span>
     </label>
 {% endspaceless %}
 {% endblock form_label %}
