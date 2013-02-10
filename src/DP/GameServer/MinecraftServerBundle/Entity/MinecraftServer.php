@@ -363,4 +363,17 @@ class MinecraftServer extends GameServer
         $sec->upload($scriptPath, $pluginScript);
         $sec->exec($screenCmd);
     }
+    
+    public function removeServer()
+    {
+        $screenName = $this->getScreenName();
+        $serverDir = $this->getAbsoluteDir();
+        $scriptPath = $serverDir . 'minecraft.sh';
+        
+        $cmd  = 'if [ `pgrep -cf "' . $screenName . '"` != 0 ]; then ';
+        $cmd .= $scriptPath . ' stop; fi; rm -Rf ' . $serverDir . ';';
+        
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $sec->exec($cmd);
+    }
 }

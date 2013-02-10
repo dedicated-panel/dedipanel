@@ -25,8 +25,8 @@ minecraft_update:
     requirements: { _method: post }
 
 minecraft_delete:
-    pattern:  /{id}/delete
-    defaults: { _controller: "DPMinecraftServerBundle:MinecraftServer:delete" }
+    pattern:  /{id}/delete/{fromMachine}
+    defaults: { _controller: "DPMinecraftServerBundle:MinecraftServer:delete", fromMachine: false }
     requirements: { _method: post }
 
 minecraft_install:

@@ -315,17 +315,17 @@ abstract class GameServer
     
     protected function getScreenName()
     {
-        return sha1($this->getMachine()->getUser() . '-' . $this->getDir(), true);
+        return substr(sha1($this->getMachine()->getUser() . '-' . $this->getDir()), 0, 20);
     }
     
     protected function getInstallScreenName()
     {        
-        return sha1($this->getMachine()->getUser() . '-install-' . $this->getDir(), true);
+        return substr(sha1($this->getMachine()->getUser() . '-install-' . $this->getDir()), 0, 20);
     }
     
     public function getPluginInstallScreenName($scriptName = '')
     {
-        return sha1($this->getMachine()->getUser() . '-plugin-install-' . $scriptName . '-' . $this->getDir(), true);
+        return substr(sha1($this->getMachine()->getUser() . '-plugin-install-' . $scriptName . '-' . $this->getDir()), 0, 20);
     }
     
     public function setQuery(QueryInterface $query)

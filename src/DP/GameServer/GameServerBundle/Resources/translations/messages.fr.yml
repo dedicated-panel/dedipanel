@@ -2,7 +2,8 @@ menu.steamServers: Serveurs Steam
 menu.minecraftServers: Serveurs Minecraft
 
 game.edit: Modifier
-game.del: Supprimer 
+game.del: Supprimer
+game.delAll: Supprimer totalement
 
 game.name: Nom
 game.port: Port
@@ -63,3 +64,5 @@ game.map: Map %map%
 game.start: Démarrer
 game.stop: Arrêter
 game.restart: Redémarrer
+
+game.regenerate: Régénérer les scripts

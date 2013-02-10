@@ -49,6 +49,7 @@ class MinecraftServerController extends Controller
         return $this->render('DPMinecraftServerBundle:MinecraftServer:show.html.twig', array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'delete_all_form' => $deleteForm->createView(),
         ));
     }
 
@@ -123,6 +124,7 @@ class MinecraftServerController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'delete_all_form' => $deleteForm->createView(),
         ));
     }
 
@@ -155,6 +157,7 @@ class MinecraftServerController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'delete_all_form' => $deleteForm->createView(),
         ));
     }
 
@@ -162,7 +165,7 @@ class MinecraftServerController extends Controller
      * Deletes a MinecraftServer entity.
      *
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(Request $request, $id, $fromMachine)
     {
         $form = $this->createDeleteForm($id);
         $form->bind($request);
@@ -173,6 +176,10 @@ class MinecraftServerController extends Controller
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find MinecraftServer entity.');
+            }
+            
+            if ($fromMachine) {
+                $entity->removeServer();
             }
 
             $em->remove($entity);

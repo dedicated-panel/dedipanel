@@ -319,7 +319,8 @@ input[type="radio"], input[type="checkbox"] {
     margin: 0;
     border-top: 0;
 }
-.form-group form.form-edit + form.form-delete {
+.form-group form.form-edit + form.form-delete, 
+.form-group form.form-delete + form.form-delete {
     margin-left: 10px;
 }
 

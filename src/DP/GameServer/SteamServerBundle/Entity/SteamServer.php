@@ -183,8 +183,10 @@ class SteamServer extends GameServer {
         $mkdirCmd = 'if [ ! -e ' . $installDir . ' ]; then mkdir ' . $installDir . '; fi';
         $screenCmd  = 'screen -dmS ' . $screenName . ' ' . $scriptPath . ' "' . $installName . '"';
         
-        $installScript = $twig->render('DPSteamServerBundle:sh:install.sh.twig', 
-            array('installDir' => $installDir));
+        $installScript = $twig->render(
+            'DPSteamServerBundle:sh:install.sh.twig', 
+            array('installDir' => $installDir)
+        );
         
         $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
         $sec->exec($mkdirCmd);
@@ -493,6 +495,22 @@ class SteamServer extends GameServer {
     
     public function getServerName()
     {
-        return '[DediPanel] ' . $this->getName();
+        return $this->getName();
+    }
+
+    public function removeServer()
+    {
+        $screenName = $this->getScreenName();
+        $scriptPath = $this->getAbsoluteHldsScriptPath();
+        $serverPath = $this->getAbsoluteDir();
+        
+        // On commence par vérifier que le serveur n'est pas lancé (sinon on l'arrête)        
+        $cmd  = 'if [ `pgrep -cf "' . $screenName . '"` != 0 ]; then ';
+        $cmd .= $scriptPath . ' stop; fi; ';
+        // Puis on supprime complètement le dossier du serveur
+        $cmd .= 'rm -Rf ' . $serverPath;
+        
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $sec->exec($cmd);
     }
 }

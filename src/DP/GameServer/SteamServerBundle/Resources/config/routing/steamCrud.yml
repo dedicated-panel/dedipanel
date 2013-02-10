@@ -41,8 +41,8 @@ steam_update:
     requirements: { _method: post }
 
 steam_delete:
-    pattern:  /{id}/delete
-    defaults: { _controller: "DPSteamServerBundle:SteamServer:delete" }
+    pattern:  /{id}/delete/{fromMachine}
+    defaults: { _controller: "DPSteamServerBundle:SteamServer:delete", fromMachine: false }
     requirements: { _method: post }
 
 steam_install:
@@ -57,3 +57,7 @@ steam_changeState:
 steam_query:
     pattern:  /{id}/query
     defaults: { _controller: "DPSteamServerBundle:SteamServer:query" }
+
+steam_regen:
+    pattern: /{id}/regen
+    defaults: { _controller: "DPSteamServerBundle:SteamServer:regen" }

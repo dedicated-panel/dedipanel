@@ -64,8 +64,9 @@ class SteamServerController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('DPSteamServerBundle:SteamServer:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
+            'entity'            => $entity,
+            'delete_form'       => $deleteForm->createView(),
+            'delete_all_form'   => $deleteForm->createView(),  
         ));
     }
 
@@ -142,6 +143,7 @@ class SteamServerController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'delete_all_form'   => $deleteForm->createView(), 
         ));
     }
 
@@ -175,6 +177,7 @@ class SteamServerController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'delete_all_form' => $deleteForm->createView(),
         ));
     }
 
@@ -182,7 +185,7 @@ class SteamServerController extends Controller
      * Deletes a SteamServer entity.
      *
      */
-    public function deleteAction($id)
+    public function deleteAction($id, $fromMachine)
     {
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
@@ -196,11 +199,15 @@ class SteamServerController extends Controller
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find SteamServer entity.');
             }
+            
+            if ($fromMachine) {
+                $entity->removeServer();
+            }
 
             $em->remove($entity);
             $em->flush();
         }
-
+        
         return $this->redirect($this->generateUrl('steam'));
     }
 
@@ -279,5 +286,20 @@ class SteamServerController extends Controller
         return $this->render('DPSteamServerBundle:SteamServer:query.html.twig', array(
             'entity' => $entity
         ));
+    }
+    
+    public function regenAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
+        
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find SteamServer entity.');
+        }
+        
+        // Régénération des scripts du panel
+        $entity->uploadHldsScript($this->get('twig'));
+        
+        return $this->redirect($this->generateUrl('steam_show', array('id' => $id)));
     }
 }

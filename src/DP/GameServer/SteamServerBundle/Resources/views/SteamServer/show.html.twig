@@ -28,6 +28,14 @@
 
 {% block content %}
     <h2>{{ 'machine.show'|trans }}</h2>
+    
+    <ul id="top-nav" class="nav nav-tabs">
+        <li>
+            <a href="{{ path('steam_regen', { 'id': entity.id }) }}">
+                {{ 'game.regenerate'|trans }}
+            </a>
+        </li>
+    </ul>
 
     <table class="properties">
         <tbody>
@@ -110,5 +118,11 @@
 
             <button type="submit"  class="btn btn-danger">{{ 'game.del'|trans }}</button>
         </form>
+        
+        <form action="{{ path('steam_delete', { 'id': entity.id, fromMachine: true }) }}" method="post" class="form-delete">
+            {{ form_widget(delete_all_form) }}
+
+            <button type="submit"  class="btn btn-danger">{{ 'game.delAll'|trans }}</button>
+        </form> 
     </div>
 {% endblock %}
