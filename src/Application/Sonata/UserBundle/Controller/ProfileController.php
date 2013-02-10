@@ -31,7 +31,6 @@ use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 
@@ -44,7 +43,7 @@ class ProfileController extends BaseController
      */
     public function showAction()
     {
-        return new RedirectResponse($this->generateUrl('aze'));
+        return $this->redirect($this->generateUrl('_welcome'));
     }
     
     public function editProfileAction()
