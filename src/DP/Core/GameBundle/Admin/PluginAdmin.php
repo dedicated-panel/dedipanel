@@ -34,15 +34,6 @@ class PluginAdmin extends Admin
             ->addIdentifier('name')
             ->add('downloadUrl')
             ->add('scriptName')
-//            ->add('')
-        ;
-    }
-    
-    protected function configureDatagridFilters(DatagridMapper $filterMapper)
-    {
-        $filterMapper
-            ->add('name')
-            ->add('scriptName')
         ;
     }
     
