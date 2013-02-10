@@ -34,39 +34,42 @@ class LoadPluginData extends AbstractFixture implements OrderedFixtureInterface
         $metamod->setDownloadUrl('http://ks380373.kimsufi.com/metamod.tar.gz');
         $metamod->setScriptName('metamod');
         $manager->persist($metamod);
-        $this->addReference('metamod', $metamod);
         
         $amxx = new Plugin();
         $amxx->setName('AMX Mod X');
         $amxx->setDownloadUrl('http://www.amxmodx.org/dl.php?filename=amxmodx-1.8.1-base.tar.gz');
         $amxx->setScriptName('amxmodx');
         $manager->persist($amxx);
-        $this->addReference('amxx', $amxx);
         
         $amxCs = new Plugin();
         $amxCs->setName('AMX Mod (CS/CZ)');
         $amxCs->setDownloadUrl('http://www.amxmod.net/amxfiles/amxmod_2010.1/amxmod_2010.1_cs-fr.zip');
         $amxCs->setScriptName('amxmod');
         $manager->persist($amxCs);
-        $this->addReference('amxCs', $amxCs);
         
         $amxDod = new Plugin();
         $amxDod->setName('AMX Mod (DoD)');
         $amxDod->setDownloadUrl('http://www.amxmod.net/amxfiles/amxmod_2010.1/amxmod_2010.1_dod-fr.zip');
         $amxDod->setScriptName('amxmod');
         $manager->persist($amxDod);
-        $this->addReference('amxDod', $amxDod);
         
         $amx = new Plugin();
         $amx->setName('AMX Mod (Lite)');
         $amx->setDownloadUrl('http://www.amxmod.net/amxfiles/amxmod_2010.1/amxmod_2010.1_lite-fr.zip');
         $amx->setScriptName('amxmod');
         $manager->persist($amx);
+        
+        $manager->flush();
+        
+        $this->addReference('metamod', $metamod);
+        $this->addReference('amxx', $amxx);
+        $this->addReference('amxCs', $amxCs);
+        $this->addReference('amxDod', $amxDod);
         $this->addReference('amx', $amx);
     }
     
     public function getOrder()
     {
-        return 0;
+        return 1;
     }
 }

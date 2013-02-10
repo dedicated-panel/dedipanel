@@ -41,8 +41,8 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
 //        $cs->setSourceImagesMaps('');
         $cs->setSource(false);
         $cs->setType('steam');
-        $cs->addPlugin($manager->merge($this->getReference('metamod')));
-        $cs->addPlugin($manager->merge($this->getReference('amxCs')));
+        $cs->addPlugin($this->getReference('metamod'));
+        $cs->addPlugin($this->getReference('amxCs'));
         $manager->persist($cs);
 //        $this->addReference('cs', $cs);
         
@@ -58,8 +58,8 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
 //        $cz->setSourceImageMaps('');
         $cz->setType('steam');
         $cz->setSource(false);
-        $cs->addPlugin($manager->merge($this->getReference('metamod')));
-        $cs->addPlugin($manager->merge($this->getReference('amxCs')));
+        $cz->addPlugin($this->getReference('metamod'));
+        $cz->addPlugin($this->getReference('amxCs'));
         $manager->persist($cz);
 //        $this->addReference('cz', $cz);
         
@@ -75,8 +75,8 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
 //        $dod->setSourceImageMaps('');
         $dod->setType('steam');
         $dod->setSource(false);
-        $cs->addPlugin($manager->merge($this->getReference('metamod')));
-        $cs->addPlugin($manager->merge($this->getReference('amxDod')));
+        $dod->addPlugin($this->getReference('metamod'));
+        $dod->addPlugin($this->getReference('amxDod'));
         $manager->persist($dod);
 //        $this->addReference('dod', $dod);
         
@@ -92,8 +92,8 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
 //        $tfc->setSourceImageMaps('');
         $tfc->setType('steam');
         $tfc->setSource(false);
-        $cs->addPlugin($manager->merge($this->getReference('metamod')));
-        $cs->addPlugin($manager->merge($this->getReference('amx')));
+        $tfc->addPlugin($this->getReference('metamod'));
+        $tfc->addPlugin($this->getReference('amx'));
         $manager->persist($tfc);
 //        $this->addReference('tfc', $tfc);
         
@@ -144,7 +144,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $dods->setSource(false);
         $manager->persist($dods);
 //        $this->addReference('dods', $dods);
-                
+        
         /********************
          * Orangebox/Source *
          ********************/
