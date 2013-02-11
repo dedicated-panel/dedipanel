@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
 use DP\GameServer\GameServerBundle\Entity\GameServer;
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 use DP\Core\GameBundle\Entity\Plugin;
+use DP\GameServer\SteamServerBundle\Exception\InstallAlreadyStartedException;
 
 /**
  * DP\GameServer\SteamServerBundle\Entity\SteamServer
@@ -179,9 +180,13 @@ class SteamServer extends GameServer {
         $logPath = $installDir . 'install.log';
         $screenName = $this->getInstallScreenName();
         $installName = $this->game->getInstallName();
-        
+
         $mkdirCmd = 'if [ ! -e ' . $installDir . ' ]; then mkdir ' . $installDir . '; fi';
-        $screenCmd  = 'screen -dmS ' . $screenName . ' ' . $scriptPath . ' "' . $installName . '"';
+        
+        $pgrep = '`ps aux | grep SCREEN | grep "' . $screenName . ' " | grep -v grep | wc -l`';
+        $screenCmd  = 'if [ ' . $pgrep . ' = "0" ]; then ';
+        $screenCmd .= 'screen -dmS ' . $screenName . ' ' . $scriptPath . ' "' . $installName . '"; ';
+        $screenCmd .= 'else echo "Installation is already in progress."';
         
         $installScript = $twig->render(
             'DPSteamServerBundle:sh:install.sh.twig', 
@@ -191,7 +196,11 @@ class SteamServer extends GameServer {
         $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
         $sec->exec($mkdirCmd);
         $sec->upload($scriptPath, $installScript);
-        $sec->exec($screenCmd);
+        $result = $sec->exec($screenCmd);
+        
+        if ($result == 'Installation is already in progress.') {
+            throw new InstallAlreadyStartedException();
+        }
         
         $this->installationStatus = 0;
     }  
@@ -210,14 +219,17 @@ class SteamServer extends GameServer {
     {
         $absDir = $this->getAbsoluteDir();
         $logPath = $absDir . 'install.log';
+        $logCmd = 'if [ -f ' . $logPath . ' ]; then cat ' . $logPath . '; else echo "File not found exception."; fi; ';
         
         $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
-        $installLog = $sec->exec('cat ' . $logPath);
+        $installLog = $sec->exec($logCmd);
         
         if (strpos($installLog, 'Install ended') !== false) {
             // Si l'installation est terminé, on supprime le fichier de log et le script
             $sec->exec('rm -f' . $absDir . 'install.log ' . $absDir . 'install.sh');
-           return 100; // 101 == serveur installé
+           // 100 = serveur installé
+           // 101 = serveur installé + config uploadé
+           return 100;
         }
         elseif (strpos($installLog, 'Game install') !== false) {
             // Si on en est rendu au téléchargement des données, 
@@ -240,7 +252,8 @@ class SteamServer extends GameServer {
                     $percentPos = strpos($line, '%');
                     
                     if ($percentPos !== false) {
-                        return substr($line, $percentPos-5, 5);
+                        $percent = substr($line, $percentPos-5, 5);
+                        $percent = ($percent > 2) ? $percent : 2;
                     }
                 }
             }
@@ -251,8 +264,11 @@ class SteamServer extends GameServer {
         elseif (strpos($installLog, 'DL hldsupdatetool.bin')) {
             return 1;
         }
+        elseif ($installLog == 'File not found exception.') {
+            return null;
+        }
         else {
-            return 0;
+            throw new \ErrorException('Impossible de définir le statut de l\'installation du serveur.');
         }
     }
     
@@ -504,8 +520,9 @@ class SteamServer extends GameServer {
         $scriptPath = $this->getAbsoluteHldsScriptPath();
         $serverPath = $this->getAbsoluteDir();
         
-        // On commence par vérifier que le serveur n'est pas lancé (sinon on l'arrête)        
-        $cmd  = 'if [ `pgrep -cf "' . $screenName . '"` != 0 ]; then ';
+        // On commence par vérifier que le serveur n'est pas lancé (sinon on l'arrête)
+        $pgrep = '`ps aux | grep SCREEN | grep "' . $screenName . ' " | grep -v grep | wc -l`';
+        $cmd  = 'if [ ' . $pgrep . ' != "0" ]; then ';
         $cmd .= $scriptPath . ' stop; fi; ';
         // Puis on supprime complètement le dossier du serveur
         $cmd .= 'rm -Rf ' . $serverPath;

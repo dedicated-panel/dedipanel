@@ -20,7 +20,7 @@ class AppKernel extends Kernel
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             
-//            new Symfony\Bundle\DoctrineMigrationsBundle\DoctrineMigrationsBundle(),
+            // new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(), 
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             
             new FOS\UserBundle\FOSUserBundle(),

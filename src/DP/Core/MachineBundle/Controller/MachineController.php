@@ -162,7 +162,7 @@ class MachineController extends Controller
     private function generateKeyPair(Machine $entity, $delete = false)
     {
         $secure = PHPSeclibWrapper::getFromMachineEntity($entity, false);
-        $secure->setPassword($entity->getPassword());
+        $secure->setPasswd($entity->getPassword());
 
         if ($delete) $secure->deleteKeyPair($entity->getPublicKey());
         

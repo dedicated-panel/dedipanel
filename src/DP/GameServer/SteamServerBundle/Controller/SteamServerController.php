@@ -25,6 +25,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use DP\GameServer\SteamServerBundle\Entity\SteamServer;
 use DP\GameServer\SteamServerBundle\Form\AddSteamServerType;
 use DP\GameServer\SteamServerBundle\Form\EditSteamServerType;
+use Symfony\Component\Form\FormError;
+use DP\GameServer\SteamServerBundle\Exception\InstallAlreadyStartedException;
 
 /**
  * SteamServer controller.
@@ -100,20 +102,27 @@ class SteamServerController extends Controller
             $alreadyInstalled = $form->get('alreadyInstalled')->getData();
             $twig = $this->get('twig');
             
-            // On lance l'installation si le serveur n'est pas déjà sur la machine, 
-            // Sinon on upload les scripts nécessaires au panel
-            if (!$alreadyInstalled) {
-                $entity->installServer($twig);
+            // Affichage d'une erreur sur le formulaire si l'installation est déjà en cours.
+            try {
+                // On lance l'installation si le serveur n'est pas déjà sur la machine, 
+                // Sinon on upload les scripts nécessaires au panel
+                if (!$alreadyInstalled) {
+                    $entity->installServer($twig);
+                }
+                else {
+                    $entity->uploadShellScripts($twig);
+                }
+                
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->persist($entity);
+                $em->flush();
+    
+                return $this->redirect($this->generateUrl('steam_show', array('id' => $entity->getId())));
             }
-            else {
-                $entity->uploadShellScripts($twig);
+            catch (InstallAlreadyStartedException $e) {
+                $trans = $this->get('translator')->trans('game.installAlreadyStarted');
+                $form->addError(new FormError($trans));
             }
-            
-            $em = $this->getDoctrine()->getEntityManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('steam_show', array('id' => $entity->getId())));
         }
 
         return $this->render('DPSteamServerBundle:SteamServer:new.html.twig', array(
@@ -247,6 +256,9 @@ class SteamServerController extends Controller
             if ($newStatus == 100) {
                 $entity->uploadShellScripts($this->get('twig'));
                 $entity->removeInstallationFiles();
+            }
+            elseif ($newStatus === null) {
+                $entity->installServer($this->get('twig'));
             }
         } 
         // On vérifie que l'installation n'est pas bloqué (ou non démarré)

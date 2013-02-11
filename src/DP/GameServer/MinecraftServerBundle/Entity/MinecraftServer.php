@@ -370,7 +370,8 @@ class MinecraftServer extends GameServer
         $serverDir = $this->getAbsoluteDir();
         $scriptPath = $serverDir . 'minecraft.sh';
         
-        $cmd  = 'if [ `pgrep -cf "' . $screenName . '"` != 0 ]; then ';
+        $pgrep = '`ps aux | grep SCREEN | grep "' . $screenName . ' " | grep -v grep | wc -l`';
+        $cmd  = 'if [ ' . $pgrep . ' != "0" ]; then ';
         $cmd .= $scriptPath . ' stop; fi; rm -Rf ' . $serverDir . ';';
         
         $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
