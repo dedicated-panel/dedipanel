@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use DP\Core\MachineBundle\Entity\Machine;
 use DP\Core\MachineBundle\Form\AddMachineType;
 use DP\Core\MachineBundle\Form\EditMachineType;
+use Symfony\Component\Form\FormError;
 
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 
@@ -81,13 +82,22 @@ class MachineController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $this->generateKeyPair($entity);
+            $sec = PHPSeclibWrapper::getFromMachineEntity($entity);
+            $test = $sec->connectionTest();
             
-            $em = $this->getDoctrine()->getEntityManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('machine_show', array('id' => $entity->getId())));          
+            if ($test) {
+                $this->generateKeyPair($entity);
+                
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->persist($entity);
+                $em->flush();
+    
+                return $this->redirect($this->generateUrl('machine_show', array('id' => $entity->getId())));          
+            }
+            else {
+                $trans = $this->get('translator')->trans('machine.identNotGood');
+                $form->addError(new FormError($trans));
+            }
         }
 
         return $this->render('DPMachineBundle:Machine:new.html.twig', array(

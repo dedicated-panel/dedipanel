@@ -27,3 +27,5 @@ machine.test.failed: Test de connexion échoué !
 machine.test.retry: Réessayer
 
 machine.nbCore: Nombre de core détecté(s)
+
+machine.identNotGood: "Impossible de se connecter au serveur. Veuillez vérifier l'adresse ip, le port ainsi que le nom d'utilisateur et le mot de passe."
