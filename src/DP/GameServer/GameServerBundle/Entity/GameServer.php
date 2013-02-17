@@ -315,17 +315,32 @@ abstract class GameServer
     
     protected function getScreenName()
     {
-        return substr(sha1($this->getMachine()->getUser() . '-' . $this->getDir()), 0, 20);
+        $screenName = $this->getMachine()->getUser() . '-' . $this->getDir();
+        // Hashage du screen name pour qu'il garde un certain sens tout en restant court (~ 20) et unique aux paramètres déterminant
+        $screenName = sha1($screenName);
+        $screenName = substr($screenName, 0, 20);
+        
+        return 'dp-' . $screenName;
     }
     
     protected function getInstallScreenName()
-    {        
-        return substr(sha1($this->getMachine()->getUser() . '-install-' . $this->getDir()), 0, 20);
+    {
+        $screenName = $this->getMachine()->getUser() . '-install-' . $this->getDir();
+        // Hashage du screen name pour qu'il garde un certain sens tout en restant court (~ 20) et unique aux paramètres déterminant
+        $screenName = sha1($screenName);
+        $screenName = substr($screenName, 0, 20);
+        
+        return 'dp-' . $screenName;
     }
     
     public function getPluginInstallScreenName($scriptName = '')
     {
-        return substr(sha1($this->getMachine()->getUser() . '-plugin-install-' . $scriptName . '-' . $this->getDir()), 0, 20);
+        $screenName = $this->getMachine()->getUser() . '-plugin-install-' . $scriptName . '-' . $this->getDir();
+        // Hashage du screen name pour qu'il garde un certain sens tout en restant court (~ 20) et unique aux paramètres déterminant
+        $screenName = sha1($screenName);
+        $screenName = substr($screenName, 0, 20);
+
+        return 'dp-' . $screenName;
     }
     
     public function setQuery(QueryInterface $query)

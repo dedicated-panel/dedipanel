@@ -185,8 +185,8 @@ class SteamServer extends GameServer {
         
         $pgrep = '`ps aux | grep SCREEN | grep "' . $screenName . ' " | grep -v grep | wc -l`';
         $screenCmd  = 'if [ ' . $pgrep . ' = "0" ]; then ';
-        $screenCmd .= 'screen -dmS ' . $screenName . ' ' . $scriptPath . ' "' . $installName . '"; ';
-        $screenCmd .= 'else echo "Installation is already in progress."';
+        $screenCmd .= 'screen -dmS "' . $screenName . '" ' . $scriptPath . ' "' . $installName . '"; ';
+        $screenCmd .= 'else echo "Installation is already in progress."; fi; ';
         
         $installScript = $twig->render(
             'DPSteamServerBundle:sh:install.sh.twig', 
@@ -236,7 +236,7 @@ class SteamServer extends GameServer {
             // On récupère le pourcentage du dl dans le screen
             // Pour l'afficher à l'utilisateur
             $tmpFile = '/tmp/' . uniqid();
-            $cmd = 'screen -S ' . $this->getInstallScreenName() . ' -X hardcopy ' . $tmpFile . '; sleep 1s;';
+            $cmd = 'screen -S "' . $this->getInstallScreenName() . '" -X hardcopy ' . $tmpFile . '; sleep 1s;';
             $cmd .= 'if [ -e ' . $tmpFile . ' ]; then cat ' . $tmpFile . '; rm -f ' . $tmpFile . '; fi';
             
             $screenContent = $sec->exec($cmd);
@@ -248,14 +248,23 @@ class SteamServer extends GameServer {
                 // Un signe "%" afin de connaître le % le plus à jour
                 $lines = array_reverse(explode("\n", $screenContent));
                 
-                foreach ($lines AS $line) {                    
+                foreach ($lines AS $line) {
+                    // On passe à la ligne suivante si l'actuelle est vide
+                    if (empty($line)) continue;
+                    
                     $percentPos = strpos($line, '%');
                     
                     if ($percentPos !== false) {
                         $percent = substr($line, $percentPos-5, 5);
-                        $percent = ($percent > 2) ? $percent : 2;
+                        $percent = ($percent > 3) ? $percent : 3;
+                        
+                        return $percent;
                     }
                 }
+                
+                // Si arrivé à ce stade aucun pourcentage n'a été détecté
+                // C'est surement que l'installation est en train de vérifier les fichiers locaux
+                return 3;
             }
         }
         elseif (strpos($installLog, 'Steam updating')) {

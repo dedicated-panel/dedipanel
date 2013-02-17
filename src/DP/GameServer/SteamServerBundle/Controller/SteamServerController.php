@@ -252,6 +252,7 @@ class SteamServerController extends Controller
         elseif ($status < 100) {
             $newStatus = $entity->getInstallationProgress();
             $entity->setInstallationStatus($newStatus);
+            var_dump($newStatus);
             
             if ($newStatus == 100) {
                 $entity->uploadShellScripts($this->get('twig'));
