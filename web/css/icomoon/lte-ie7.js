@@ -3,7 +3,7 @@
 window.onload = function() {
 	function addIcon(el, entity) {
 		var html = el.innerHTML;
-		el.innerHTML = '<span style="font-family: \'loops105\'">' + entity + '</span>' + html;
+		el.innerHTML = '<span style="font-family: \'icomoon\'">' + entity + '</span>' + html;
 	}
 	var icons = {
 			'icon-cabinet' : '&#x5f;',
@@ -69,9 +69,7 @@ window.onload = function() {
 			'icon-untitled-54' : '&#x24;',
 			'icon-untitled-55' : '&#x23;',
 			'icon-untitled-56' : '&#x22;',
-			'icon-untitled-57' : '&#x21;',
-			'icon-camera' : '&#x60;',
-			'icon-eject' : '&#x61;'
+			'icon-untitled-57' : '&#x21;'
 		},
 		els = document.getElementsByTagName('*'),
 		i, attr, html, c, el;
@@ -79,10 +77,6 @@ window.onload = function() {
 		el = els[i];
 		attr = el.getAttribute('data-icon');
 		if (attr) {
-			c = icons['icon-' + attr];
-			if (c) {
-				attr = c;
-			}
 			addIcon(el, attr);
 		}
 		c = el.className;

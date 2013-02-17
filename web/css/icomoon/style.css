@@ -1,4 +1,15 @@
 @font-face {
+	font-family: 'icomoon';
+	src:url('fonts/icomoon.eot');
+	src:url('fonts/icomoon.eot?#iefix') format('embedded-opentype'),
+		url('fonts/icomoon.woff') format('woff'),
+		url('fonts/icomoon.ttf') format('truetype'),
+		url('fonts/icomoon.svg#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+font-face {
 	font-family: 'loops105';
 	src:url('fonts/loops105.eot');
 	src:url('fonts/loops105.eot?#iefix') format('embedded-opentype'),
@@ -9,9 +20,10 @@
 	font-style: normal;
 }
 
+
 /* Use the following CSS code if you want to use data attributes for inserting your icons */
 [data-icon]:before {
-	font-family: 'loops105';
+	font-family: 'icomoon';
 	content: attr(data-icon);
 	speak: none;
 	font-weight: normal;
@@ -20,10 +32,15 @@
 }
 
 /* Use the following CSS code if you want to have a class per icon */
-[class^="icon-"]:before, [class*=" icon-"]:before {
-	font-family: 'loops105';
-	font-style: normal;
+/*
+Instead of a list of all class selectors,
+you can use the generic selector below, but it's slower:
+[class*="icon-"]:before {
+*/
+.icon-cabinet:before, .icon-code:before, .icon-analytics:before, .icon-eye:before, .icon-pictures:before, .icon-speaker:before, .icon-modem:before, .icon-untitled:before, .icon-untitled-2:before, .icon-untitled-3:before, .icon-untitled-4:before, .icon-untitled-5:before, .icon-untitled-6:before, .icon-untitled-7:before, .icon-untitled-8:before, .icon-untitled-9:before, .icon-untitled-10:before, .icon-untitled-11:before, .icon-untitled-12:before, .icon-untitled-13:before, .icon-untitled-14:before, .icon-untitled-15:before, .icon-untitled-16:before, .icon-untitled-17:before, .icon-untitled-18:before, .icon-untitled-19:before, .icon-untitled-20:before, .icon-untitled-21:before, .icon-untitled-22:before, .icon-untitled-23:before, .icon-untitled-24:before, .icon-untitled-25:before, .icon-untitled-26:before, .icon-untitled-27:before, .icon-untitled-28:before, .icon-untitled-29:before, .icon-untitled-30:before, .icon-untitled-31:before, .icon-untitled-32:before, .icon-untitled-33:before, .icon-untitled-34:before, .icon-untitled-35:before, .icon-untitled-36:before, .icon-untitled-37:before, .icon-untitled-38:before, .icon-untitled-39:before, .icon-untitled-40:before, .icon-untitled-41:before, .icon-untitled-42:before, .icon-untitled-43:before, .icon-untitled-44:before, .icon-untitled-45:before, .icon-untitled-46:before, .icon-untitled-47:before, .icon-untitled-48:before, .icon-untitled-49:before, .icon-untitled-50:before, .icon-untitled-51:before, .icon-untitled-52:before, .icon-untitled-53:before, .icon-untitled-54:before, .icon-untitled-55:before, .icon-untitled-56:before, .icon-untitled-57:before {
+	font-family: 'icomoon';
 	speak: none;
+	font-style: normal;
 	font-weight: normal;
 	line-height: 1;
 	-webkit-font-smoothing: antialiased;
@@ -219,10 +236,4 @@
 }
 .icon-untitled-57:before {
 	content: "\21";
-}
-.icon-camera:before {
-	content: "\60";
-}
-.icon-eject:before {
-	content: "\61";
 }
