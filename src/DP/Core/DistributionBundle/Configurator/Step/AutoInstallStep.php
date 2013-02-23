@@ -80,13 +80,13 @@ class AutoInstallStep implements StepInterface
      */
     public function run(StepInterface $data, $configType)
     {
-        $error = false;
+        $return = true;
         
         // Installation de la base de données
-        $error &= $this->databaseInstallation($configType, $data->loadFixtures);
+        $return &= $this->databaseInstallation($configType, $data->loadFixtures);
 
         // Installation automatique des assets
-        $error &= $this->installAssets();
+        $return &= $this->installAssets();
         
         if (!isset($this->secret) || 
             'ThisTokenIsNotSoSecretChangeIt' == $this->secret) {
@@ -96,15 +96,15 @@ class AutoInstallStep implements StepInterface
             
             if ($configurator->isFileWritable()) {
                 $configurator->mergeParameters(array('secret' => $this->secret));
-                $error = !$configurator->write();
+                $return &= $configurator->write();
             }
             else {
-                $error = true;
+                $return = false;
             }
             
         }
         
-        return $error;
+        return $return;
     }
     
     protected function databaseInstallation($configurationType, $loadFixtures)
@@ -140,7 +140,7 @@ class AutoInstallStep implements StepInterface
             $this->loadFixtures(__DIR__ . '/../../Fixtures');
         }
             
-        return count($errors) > 0;
+        return count($errors) == 0;
     }
     
     protected function loadFixtures($path)
@@ -180,6 +180,8 @@ class AutoInstallStep implements StepInterface
                 $filesystem->symlink($originDir, $targetDir);
             }
         }
+        
+        return true;
     }    
 
     protected function generateRandomSecret()

@@ -77,14 +77,16 @@ class ConfiguratorController extends Controller
             $form->bindRequest($request);
             
             if ($form->isValid()) {                
-                if ($step->run($form->getData(), $type) !== false) {
+                if ($step->run($form->getData(), $type) === true) {
+                    ++$index;
                     
-                    ++$index;                    
-                    if ($index < $stepCount) {
-                        return $this->redirect($this->container->get('router')->generate('installer_step', array('type' => $type, 'index' => $index)));
+                    // Redirection vers la page finale s'il n'y a plus d'étapes                    
+                    if ($index == $stepCount) {
+                        return $this->redirect($this->container->get('router')->generate('installer_final', array('type' => $type)));                        
                     }
                     
-                    return $this->redirect($this->container->get('router')->generate('installer_final', array('type' => $type)));
+                    // Redirection vers la prochaine étape
+                    return $this->redirect($this->container->get('router')->generate('installer_step', array('type' => $type, 'index' => $index)));
                 }
             }
         }
