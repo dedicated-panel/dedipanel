@@ -4,3 +4,13 @@ services:
         arguments: [%fos_user.model.user.class%]
         tags:
             - { name: form.type, alias: app_user_profile }
+    
+    app_user.update_watcher.service:
+        class: Application\Sonata\UserBundle\Service\UpdateWatcherService
+        arguments: [0.4]
+
+    app_user.update_watcher.extension:
+        class: Application\Sonata\UserBundle\Extension\UpdateWatcherExtension
+        arguments: [@app_user.update_watcher.service]
+        tags:
+            - { name: twig.extension }

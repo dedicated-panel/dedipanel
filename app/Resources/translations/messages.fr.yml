@@ -28,3 +28,5 @@ menu.admin: Administration
 admin.group.user: Utilisateurs
 admin.group.game: Jeux & Plugins
 Dashboard: Administration
+
+updateAvailable: Version %versionAvailable% disponible !

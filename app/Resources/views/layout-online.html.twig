@@ -98,7 +98,15 @@
 
             <footer>
                 <p>
-                    DediPanel - Code & Design par Von et NiR<br />
+                    DediPanel {% spaceless %}
+                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            {{ dedipanel.current_version }}
+                            
+                            {% if dedipanel.update_available %}
+                                &nbsp;({{ 'updateAvailable'|trans({'%versionAvailable%': dedipanel.version_available}) }})
+                            {% endif %}
+                        {% endif %}
+                    {% endspaceless %} - Code & Design par Von et NiR<br />
             
 		            <a href="http://www.dedicated-panel.net">dedicated-panel.net</a> | 
 		            <a href="http://wiki.dedicated-panel.net">wiki</a> | 
