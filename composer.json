@@ -4,6 +4,7 @@
     "autoload": {
         "psr-0": { "": "src/" }
     },
+    "minimum-stability": "dev",
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "2.1.*",
@@ -33,7 +34,8 @@
         "doctrine/migrations": "*",
         "doctrine/doctrine-migrations-bundle": "*",
         "doctrine/data-fixtures": "*",
-        "doctrine/doctrine-fixtures-bundle": "*"
+        "doctrine/doctrine-fixtures-bundle": "*",
+        "sensio/distribution-bundle": "*"
     },
     "scripts": {
         "post-install-cmd": [
@@ -52,7 +54,6 @@
     "config": {
         "bin-dir": "bin"
     },
-    "minimum-stability": "dev",
     "extra": {
         "symfony-app-dir": "app",
         "symfony-web-dir": "web"
