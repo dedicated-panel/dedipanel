@@ -7,7 +7,10 @@
     <legend>{{ 'configurator.autoInstall.title'|trans }}</legend>
     <p class="legend-information">{{ 'configurator.autoInstall.description'|trans }}</p>
 
-    {{ form_errors(form) }}
+    <div class="text-error">
+        {{ form_errors(form) }}
+    </div>
+    
     <form action="{{ path('installer_step', {'type': configType, 'index': index}) }} " method="post">
 
         {{ form_rest(form) }}

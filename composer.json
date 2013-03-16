@@ -33,8 +33,7 @@
         "doctrine/migrations": "*",
         "doctrine/doctrine-migrations-bundle": "*",
         "doctrine/data-fixtures": "*",
-        "doctrine/doctrine-fixtures-bundle": "*",
-        "sensio/distribution-bundle": "*"
+        "doctrine/doctrine-fixtures-bundle": "*"
     },
     "scripts": {
         "post-install-cmd": [

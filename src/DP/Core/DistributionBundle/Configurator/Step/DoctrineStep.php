@@ -42,10 +42,11 @@ class DoctrineStep implements StepInterface
     public $password;
     
     private $container;
-    
+
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+        
         $installer = $container->get('dp.webinstaller');
         $parameters = $installer->getConfigParameters();
         
@@ -53,7 +54,16 @@ class DoctrineStep implements StepInterface
             if (0 === strpos($key, 'database_')) {
                 $parameters[substr($key, 9)] = $value;
                 $key = substr($key, 9);
-                $this->$key = $value;
+                
+                switch ($key) {
+                    case 'host':
+                    case 'port':
+                    case 'name':
+                    case 'user':
+                    case 'password':
+                        $this->$key = $value;
+                    break;
+                }
             }
         }
     }
@@ -105,22 +115,26 @@ class DoctrineStep implements StepInterface
     
     public function run(StepInterface $data, $configType)
     {
+        $errors = array();
         $configurator = $this->container->get('dp.webinstaller');
         $parameters = array();
-
-        unset($data->container);
         
         foreach ($data as $key => $value) {
-            $parameters['database_'.$key] = $value;
+            $parameters['database_' . $key] = $value;
         }
-
-        // Modifie également le secret
-//        $parameters['secret'] = hash('sha1', uniqid(mt_rand()));
         
-        $configurator->mergeParameters($parameters);
-        $configurator->write();
+        if ($configurator->isFileWritable()) {
+            $configurator->mergeParameters($parameters);
+            
+            if (!$configurator->write()) {
+                $errors[] = 'An error occured while writing the app/config/parameters.yml file.';
+            }
+        }
+        else {
+            $errors[] = 'Your app/config/parameters.yml is not writable.';
+        }
         
-        return $configurator->isFileWritable();
+        return $errors;
     }
 
     /**

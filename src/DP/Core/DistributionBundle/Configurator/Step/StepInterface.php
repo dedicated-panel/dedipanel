@@ -54,7 +54,7 @@ interface StepInterface
      *
      * @param array  $parameters
      * @param string Configuration type (install|update)
-     * @return boolean
+     * @return array Errors (or empty array)
      */
     function run(StepInterface $data, $configType);
     

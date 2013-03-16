@@ -7,7 +7,10 @@
      <legend>{{ 'configurator.userCreation.title'|trans }}</legend>
      <p>{{ 'configurator.userCreation.description'|trans }}</p>
 
-    {{ form_errors(form) }}
+    <div class="text-error">
+        {{ form_errors(form) }}
+    </div>
+    
     <form action="{{ path('installer_step', { 'type': configType, 'index': index }) }} " method="POST">
 
         {{ form_rest(form) }}

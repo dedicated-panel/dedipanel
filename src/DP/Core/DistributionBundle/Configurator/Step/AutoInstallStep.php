@@ -80,13 +80,13 @@ class AutoInstallStep implements StepInterface
      */
     public function run(StepInterface $data, $configType)
     {
-        $return = true;
+        $return = array();
         
         // Installation de la base de données
-        $return &= $this->databaseInstallation($configType, $data->loadFixtures);
+        $return = array_merge($return, $this->databaseInstallation($configType, $data->loadFixtures));
 
         // Installation automatique des assets
-        $return &= $this->installAssets();
+        $return = array_merge($return, $this->installAssets());
         
         if (!isset($this->secret) || 
             'ThisTokenIsNotSoSecretChangeIt' == $this->secret) {
@@ -96,10 +96,13 @@ class AutoInstallStep implements StepInterface
             
             if ($configurator->isFileWritable()) {
                 $configurator->mergeParameters(array('secret' => $this->secret));
-                $return &= $configurator->write();
+                
+                if (!$configurator->write()) {
+                    $return[] = 'An error occured while writing the app/config/parameters.yml file.';
+                }
             }
             else {
-                $return = false;
+                $return[] = 'Your app/config/parameters.yml is not writable.';
             }
             
         }
@@ -137,10 +140,10 @@ class AutoInstallStep implements StepInterface
         
         // Chargement des données de config du panel et des jeux fourni
         if ($loadFixtures == true) {
-            $this->loadFixtures(__DIR__ . '/../../Fixtures');
+            $errors = array_merge($errors, $this->loadFixtures(__DIR__ . '/../../Fixtures'));
         }
             
-        return count($errors) == 0;
+        return $errors;
     }
     
     protected function loadFixtures($path)
@@ -151,17 +154,26 @@ class AutoInstallStep implements StepInterface
         $loader = new DataFixturesLoader($this->container);
         $loader->loadFromDirectory($path);
         $fixtures = $loader->getFixtures();
+        
         if (!$fixtures) {
-            throw new InvalidArgumentException(
-                sprintf('Could not find any fixtures to load in: %s', "\n\n- ".implode("\n- ", $paths))
-            );
+            return array(sprintf('Could not find any fixtures to load in: %s', "\n\n- ".implode("\n- ", $paths)));
         }
         
-        $purger = new ORMPurger($em);
-        $purger->setPurgeMode(ORMPurger::PURGE_MODE_DELETE);
+        $errors = array();
         
-        $executor = new ORMExecutor($em, $purger);
-        $executor->execute($fixtures);
+        try {
+            $purger = new ORMPurger($em);
+            $purger->setPurgeMode(ORMPurger::PURGE_MODE_DELETE);
+            
+            $executor = new ORMExecutor($em, $purger);
+            $executor->execute($fixtures);
+        }
+        catch (\Exception $e) {
+            $errors[] = $e->getMessage();
+        }
+        
+        
+        return $errors;
     }
     
     protected function installAssets($targetArg = '.')
@@ -181,7 +193,7 @@ class AutoInstallStep implements StepInterface
             }
         }
         
-        return true;
+        return array();
     }    
 
     protected function generateRandomSecret()

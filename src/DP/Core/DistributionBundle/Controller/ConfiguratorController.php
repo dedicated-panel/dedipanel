@@ -3,6 +3,7 @@
 namespace DP\Core\DistributionBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormError;
 
 class ConfiguratorController extends Controller
 {
@@ -76,8 +77,10 @@ class ConfiguratorController extends Controller
         if ($request->getMethod() == 'POST') {
             $form->bindRequest($request);
             
-            if ($form->isValid()) {                
-                if ($step->run($form->getData(), $type) === true) {
+            if ($form->isValid()) {
+                $errors = $step->run($form->getData(), $type);
+                                
+                if (count($errors) == 0) {
                     ++$index;
                     
                     // Redirection vers la page finale s'il n'y a plus d'étapes                    
@@ -88,6 +91,11 @@ class ConfiguratorController extends Controller
                     // Redirection vers la prochaine étape
                     return $this->redirect($this->container->get('router')->generate('installer_step', array('type' => $type, 'index' => $index)));
                 }
+                else {
+                    foreach ($errors AS $error) {
+                        $form->addError(new FormError($error));
+                    }
+                }
             }
         }
         
@@ -95,7 +103,7 @@ class ConfiguratorController extends Controller
             'form'          => $form->createView(),
             'configType'    => $type, 
             'index'         => $index,
-            'count'         => $stepCount
+            'count'         => $stepCount, 
         ));
     }
 

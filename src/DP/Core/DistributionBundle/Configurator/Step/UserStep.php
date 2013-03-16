@@ -100,7 +100,7 @@ class UserStep implements StepInterface
         $user->setEnabled(true);
         $userManager->updateUser($user);
         
-        return true;
+        return array();
     }
     
     public function isInstallStep()
