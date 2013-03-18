@@ -1,0 +1,11 @@
+gameServer:
+    assert:
+        name: Please specify a name.
+        port: Please specify a port between 1024 and 65536.
+        dir: Please specify an install directory.
+        maxplayers: Please specify the maximum number of players your server can support.
+        machine: Please specify on which machine you want to install your server.
+        game: Please specify your game.
+
+game.ftp.dirAlreadyExists: This folder already exist.
+game.ftp.fileAlreadyExists: This file already exist.

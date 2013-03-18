@@ -1,0 +1,6 @@
+machine.assert:
+  - privateIp: You must give a valid IP address.
+  - publicIp: You must give a valid failover IP address.
+  - port: You must specify a port between 1 and 65356.
+  - user: You must specify a username.
+  - passwd: You must specify the user's password.

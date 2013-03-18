@@ -10,8 +10,5 @@ minecraft.showTitle: Show Minecraft server
 minecraft.installInProgress: nstallation in progress
 minecraft.editTitle: Edit Minecraft server
 
-minecraft.assert.queryPort.min: "[-Inf,Inf]The Query port must be bigger than %count%."
-minecraft.assert.queryPort.max: "[-Inf,Inf]The Query port must be bigger than %count%."
-
-minecraft.assert.rconPort.min: "[-Inf,Inf]The Rcon port must be bigger than %count%."
-minecraft.assert.rconPort.max: "[-Inf,Inf]The Rcon port must be bigger than à %count%."
+minecraft.minHeap: Size reserved for the server at startup (in Mo)
+minecraft.maxHeap: Maximum size that the server can allocate (in Mo)

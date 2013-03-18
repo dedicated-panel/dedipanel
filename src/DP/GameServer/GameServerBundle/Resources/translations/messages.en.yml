@@ -3,6 +3,7 @@ menu.minecraftServers: Minecraft Servers
 
 game.edit: Edit
 game.del: delete 
+game.delAll: Delete all files
 
 game.name: Name
 game.port: Port
@@ -21,6 +22,7 @@ game.addButton: Add
 
 game.installNotStarted: Installation not started
 game.installEnded: Installation completed
+game.installAlreadyStarted: "A server is already in installation in this folder."
 
 game.isAlreadyInstalled: Serv. already installed?
 game.yes: Yes
@@ -32,12 +34,17 @@ game.banned: IP banned from the server
 game.rcon.title: Rcon area
 game.rcon.password: Pwd RCON
 game.rcon.command: Command
+game.rcon.send: Execute
 
 game.ftp.title: FTP area
 game.ftp.showTitle: View files/folders
 game.ftp.editTitle: Edit a file
 game.ftp.filename: Filename
 game.ftp.content: File Contents
+game.ftp.deleteDir: Delete the folder
+game.ftp.deleteFile: Delete the file
+game.ftp.addDirectory: Add a folder
+game.ftp.dirname: Name of the folder
 
 game.plugin.title: Show plugins
 game.plugin.showTitle: Show server plugins
@@ -45,14 +52,17 @@ game.plugin.name: Name
 game.plugin.status: Status
 game.plugin.installed: Installed
 game.plugin.notInstalled: Not Installed
-game.plugin.noPluginForThatGame: Il n'y a pas de plugin de configuré pour ce jeu.
+game.plugin.noPluginForThatGame: There is no plugin configured for this game.
 
 game.player: Players
 game.score: Score
 game.noPlayerConnected: No player is connected.
+
 game.general: General
 
 game.map: Map %map%
 game.start: Start
 game.stop: Stop
 game.restart: Restart
+
+game.regenerate: Régénérer les scripts

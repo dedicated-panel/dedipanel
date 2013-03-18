@@ -3,7 +3,7 @@ gameServer:
         name: Veuillez spécifier un nom.
         port: Veuillez indiquer un port compris entre 1024 et 65536.
         dir: Veuillez indiquer un répertoire d'installation.
-        maxplayers: Veuillez indiquer le nombre maximum de joueurs que vous serveur pourra accueillir.
+        maxplayers: Veuillez indiquer le nombre maximum de joueurs que votre serveur pourra accueillir.
         machine: Veuillez indiquer sur quelle machine vous souhaiter installer votre serveur.
         game: Veuillez indiquer le jeu de votre serveur.
 

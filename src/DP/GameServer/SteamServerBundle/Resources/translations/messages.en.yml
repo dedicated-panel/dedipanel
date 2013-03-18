@@ -18,7 +18,6 @@ steam.title: Steam Servers
 steam.show: Show
 steam.list: Steam Servers list
 steam.add: Add a server
-steam.edit: Edit
 steam.back: Back to the list
 steam.query: Query
 
@@ -26,7 +25,6 @@ steam.showTitle: Show Steam Server
 steam.editTitle: Edit Steam Server
 
 steam.autoReboot: Auto Reboot at
-steam.rcon: RCON Password
 steam.munin: Munin Graphing ?
 steam.passwd: Server Password
 steam.core: Core ?
@@ -44,3 +42,5 @@ steam.hltv.no: No
 steam.hltv.portAlreadyUsed: The specified port for HLTV is already used
 steam.hltv.port: HLTV port
 steam.hltv.title: HLTV area
+
+steam.rebootAt: Auto reboot at (0-24h)

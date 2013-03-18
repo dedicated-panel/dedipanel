@@ -1,3 +1,5 @@
+Game List: List of games
+
 Game: Game
 Plugin: Plugin
 
@@ -9,6 +11,7 @@ Available: Available ?
 Bin Dir: Folder containing binary (from the repertory of the game)
 Map: Map to launch
 Source Images Maps: URL source for map pictures
+Config Template: The config file by default (server.cfg)
 
 Download Url: Download address
 Script Name: Name of the installation script

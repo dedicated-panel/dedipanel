@@ -1,13 +1,18 @@
-fos_user:
-    username:
-        blank: Please enter a username
-        short: "[-Inf,Inf]The username is too short"
-        long: "[-Inf,Inf]The username is too long"
-    email:
-        blank: Please enter an email
-        short: "[-Inf,Inf]The email is too short"
-        long: "[-Inf,Inf]The email is too long"
-        invalid: The email is not valid
-    password:
-        blank: Please enter a password
-        short: "[-Inf,Inf]The password is too short"
+# Paramètres de la bdd (étape 1 install)
+configurator.db.host.blank: You must specify the host for the database (the IP or the name).
+configurator.db.name.blank: You must specify the name for the database.
+configurator.db.user.blank: You must specify the username for the database.
+
+
+# Création du SuperAdmin (étape 3 install)
+configurator.userCreation.username.blank: Please enter a username.
+configurator.userCreation.username.short: "[-Inf,Inf]Your user name is too short, it must be more than %count% characters."
+configurator.userCreation.username.long: "[-Inf,Inf]Your user name is too  long, it must be less than %count% characters."
+
+configurator.userCreation.email.blank: You must specify your email.
+configurator.userCreation.email.short: "[-Inf,Inf]Your email is too short, it must be more than %count% characters."
+configurator.userCreation.email.long: "[-Inf,Inf]Your email is too long, it must be less than %count% characters."
+configurator.userCreation.email.valid: Your email is invalid.
+
+configurator.userCreation.password.blank: You must specify your password.
+configurator.userCreation.password.short: "[-Inf,Inf]Your password is too short, it must be more than  %count% characters."

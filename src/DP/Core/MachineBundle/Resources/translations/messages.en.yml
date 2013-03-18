@@ -26,9 +26,6 @@ machine.test.successful: Connection test successful.
 machine.test.failed: Connection test failed.
 machine.test.retry: Retry.
 
-machine.assert:
-  - privateIp: You must give a valid IP address.
-  - publicIp: You must give a valid failover IP address.
-  - port: You must specify a port between 1 and 65356.
-  - user: You must specify a username.
-  - passwd: You must specify the user's password.
+machine.nbCore: Number of cores detected.
+
+machine.identNotGood: "Failed to connect to the server. Please check the IP address, the port, the username and the password."
