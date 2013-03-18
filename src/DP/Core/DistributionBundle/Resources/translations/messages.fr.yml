@@ -30,6 +30,7 @@ configurator.userCreation.password: Mot de passe
 configurator.userCreation.password_again: Confirmation du mot de passe
 
 configurator.final.title: Configuration du panel terminé !
+configurator.final.modifyAppFile: "La configuration du panel est terminé. Il ne vous reste plus qu'à modifier le fichier web/.htaccess afin de rendre le panel public."
 configurator.final.goWelcomePage: Connectez-vous
 
 configurator.socketExtension: Extension PHP de sockets
