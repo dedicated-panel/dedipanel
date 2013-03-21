@@ -72,12 +72,13 @@ class PHPSeclibWrapper {
         $user = $machine->getUser();
         $home = $machine->getHome();
         $keyfile = null;
+        $passwd = $machine->getPassword();
         
         if ($loadKey == true) {
             $keyfile = $machine->getPrivateKeyFilename();
         }
         
-        return self::get($host, $port, $user, $home, $keyfile);
+        return self::get($host, $port, $user, $home, $keyfile, $passwd);
     }
     /**
      * Get a instance of this class for a server
@@ -144,7 +145,7 @@ class PHPSeclibWrapper {
                 $ssh->login($this->user, $this->passwd);
             }
             else {
-                throw new Exception\IncompleteLoginID($this);
+                throw new Exception\IncompleteLoginIDException($this);
             }
             
             $this->ssh = $ssh;
@@ -169,7 +170,7 @@ class PHPSeclibWrapper {
                 $sftp->login($this->user, $this->passwd);
             }
             else {
-                throw new Exception\IncompleteLoginID($this);
+                throw new Exception\IncompleteLoginIDException($this);
             }
             
             $this->sftp = $sftp;
@@ -222,8 +223,7 @@ class PHPSeclibWrapper {
         if (!isset($this->privateKey)) {
             $privkeyFilepath = $this->getPrivateKeyFilepath();
             if (!file_exists($privkeyFilepath)) {
-                throw new Exception\FileNotFoundException(
-                    'has been not found.', $this);
+                throw new Exception\FileNotFoundException('has been not found.', $this);
             }
             
             $fileContent = file_get_contents($this->getPrivateKeyFilepath());
@@ -249,8 +249,7 @@ class PHPSeclibWrapper {
         // Opening the private key file for saving it
         $file = fopen($this->getPrivateKeyFilepath($privateKeyFilename), 'w');
         if (!$file) {
-            throw new Exception\FileNotFoundException(
-                'cant\'t be created.', $this);
+            throw new Exception\FileNotFoundException('cant\'t be created.', $this);
         }
         fwrite($file, $keyPair['privatekey'], strlen($keyPair['privatekey']));
         fclose($file);
