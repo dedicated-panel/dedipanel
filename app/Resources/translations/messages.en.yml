@@ -14,9 +14,9 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-layout.website: Site web
+layout.website: Website
 
-profil.profil: Profil
+profil.profil: Profile
 profil.logout: Log Out
 
 menu.home: Dashboard
@@ -24,3 +24,7 @@ menu.machine: Machines Management
 menu.steam: Steam Servers
 menu.minecraft: Minecraft Servers
 menu.admin: Administration
+
+admin.group.game: Game & Plugins
+
+updateAvailable: Version %versionAvailable% available !
