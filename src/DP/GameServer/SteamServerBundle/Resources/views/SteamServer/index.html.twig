@@ -19,11 +19,14 @@
 {% extends "::layout.html.twig" %}
 
 {% block bundleStylesheets %}
-    <link rel="stylesheet" media="screen" href="{{ asset('bundles/dpgameserver/css/game.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/dpgameserver/css/game.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/sonatajquery/themes/base/jquery.ui.theme.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/sonatajquery/themes/base/jquery.ui.progressbar.css') }}" />
 {% endblock %}
     
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('bundles/dpgameserver/js/details.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/dpgameserver/js/progress.js') }}"></script>
 {% endblock %}
 
 {% block title %}
@@ -77,11 +80,13 @@
                                 <a href="{{ path('steam_install', {id: entity.id }) }}">{{ 'game.updateStatus'|trans }}</a>
                             </div>
                             
-                            <div class="progress progress-info progress-striped">
+                            <div id="installation-progress" class="progress" value="{{ entity.installationStatus }}"></div>
+                            
+                            {# <div class="progress progress-info progress-striped">
                                 <div class="bar" style="width: {{ entity.installationStatus }}%"></div>
 
                                 {{ entity.installationStatus }} %
-                            </div>
+                            </div> #}
                         </div>
                     </div>
                 {% else %}
