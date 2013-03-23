@@ -19,9 +19,11 @@
 */
 
 namespace DP\Core\MachineBundle\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
+use DP\GameServer\GameServerBundle\Entity\GameServer;
 
 /**
  * DP\Core\MachineBundle\Entity\Machine
@@ -100,9 +102,9 @@ class Machine
     private $home;
     
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection() $gameServers
+     * @var \Doctrine\Common\Collections\ArrayCollection $gameServers
      * 
-     * @ORM\OneToMany(targetEntity="DP\GameServer\GameServerBundle\Entity\GameServer", mappedBy="machine", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="GameServer", mappedBy="machine", cascade={"persist"})
      */
     private $gameServers;
     
@@ -117,9 +119,10 @@ class Machine
     public function __construct()
     {
         $this->gameServers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->voipServers = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
-    public function addGameServer(\DP\GameServer\GameServerBundle\Entity\GameServer $srv)
+    public function addGameServer(GameServer $srv)
     {
         $srv->setMachine($this);
         $this->gameServers[] = $srv;

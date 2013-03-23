@@ -139,13 +139,17 @@ class PHPSeclibWrapper {
             $ssh = new PHPSeclib\Net\SSH2($this->host, $this->port);
             
             if ($this->privateKey != null || $this->keyfile != null) {
-                $ssh->login($this->user, $this->getPrivateKey());
+                $login = $ssh->login($this->user, $this->getPrivateKey());
             }
             elseif ($this->passwd != null) {
-                $ssh->login($this->user, $this->passwd);
+                $login = $ssh->login($this->user, $this->passwd);
             }
             else {
                 throw new Exception\IncompleteLoginIDException($this);
+            }
+            
+            if ($login === false) {
+                throw new Exception\ConnectionErrorException($this);
             }
             
             $this->ssh = $ssh;
@@ -164,13 +168,17 @@ class PHPSeclibWrapper {
             $sftp = new PHPSeclib\Net\SFTP($this->host, $this->port);
             
             if ($this->privateKey != null || $this->keyfile != null) {
-                $sftp->login($this->user, $this->getPrivateKey());
+                $login = $sftp->login($this->user, $this->getPrivateKey());
             }
             elseif ($this->passwd != null) {
-                $sftp->login($this->user, $this->passwd);
+                $login = $sftp->login($this->user, $this->passwd);
             }
             else {
                 throw new Exception\IncompleteLoginIDException($this);
+            }
+            
+            if ($login === false) {
+                throw new Exception\ConnectionErrorException($this);
             }
             
             $this->sftp = $sftp;
@@ -205,14 +213,14 @@ class PHPSeclibWrapper {
     public function connectionTest()
     {
         try {
-            $echo = $this->exec('echo a');
+            $echo = $this->exec('echo dedipanel');
+            
+            if (empty($echo) || $echo != 'dedipanel') {
+                return false;
+            }
         }
-        catch (\ErrorException $e) {
+        catch (Exception\BaseException $e) {
             return false;
-        }
-        
-        if (empty($echo) || $echo != 'a') {
-            throw new Exception\ConnectionErrorException($this);
         }
         
         return true;

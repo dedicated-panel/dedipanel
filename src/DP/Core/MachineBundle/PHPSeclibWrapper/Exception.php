@@ -1,8 +1,11 @@
 <?php
 namespace PHPSeclibWrapper\Exception;
+
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 
-class FileNotFoundException extends \Exception
+abstract class BaseException extends \Exception {}
+
+class FileNotFoundException extends BaseException
 {
     public function __construct($message, PHPSeclibWrapper $srv)
     {
@@ -10,7 +13,7 @@ class FileNotFoundException extends \Exception
             $srv->getHost() . ' ' . $message);
     }  
 }
-class EmptyKeyfileException extends \Exception
+class EmptyKeyfileException extends BaseException
 {
     public function __construct(PHPSeclibWrapper $srv)
     {
@@ -19,7 +22,7 @@ class EmptyKeyfileException extends \Exception
     }
 }
 
-class ConnectionErrorException extends \Exception
+class ConnectionErrorException extends BaseException
 {
     public function __construct(PHPSeclibWrapper $srv)
     {
@@ -28,7 +31,7 @@ class ConnectionErrorException extends \Exception
     }
 }
 
-class IncompleteLoginIDException extends \Exception
+class IncompleteLoginIDException extends BaseException
 {
     public function __construct(PHPSeclibWrapper $srv)
     {
@@ -36,4 +39,3 @@ class IncompleteLoginIDException extends \Exception
             '@' . $srv->getHost() . ':' . $srv->getPort());
     }
 }
-?>
