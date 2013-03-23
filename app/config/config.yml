@@ -8,7 +8,7 @@ parameters:
     sonata.user.profile.form.type.class:            Sonata\UserBundle\Form\Type\ProfileType
     sonata.user.profile.form.handler.default.class: Sonata\UserBundle\Form\Handler\ProfileFormHandler
 
-    sonata.user.admin.user.class:              Sonata\UserBundle\Admin\Entity\UserAdmin
+    sonata.user.admin.user.class:              Application\Sonata\UserBundle\Admin\Entity\UserAdmin
     sonata.user.admin.user.controller:         SonataAdminBundle:CRUD
     sonata.user.admin.user.translation_domain: SonataUserBundle
 
