@@ -340,3 +340,8 @@ input[type="checkbox"] + label > .symfony-form-required/*,
     width: 350px;
     height: 250px;
 }
+
+form ul[id*="roles"].unstyled li label {
+    width: auto;
+    float: none;
+}
