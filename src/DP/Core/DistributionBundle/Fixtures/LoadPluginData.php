@@ -31,7 +31,7 @@ class LoadPluginData extends AbstractFixture implements OrderedFixtureInterface
     {
         $metamod = new Plugin();
         $metamod->setName('Metamod');
-        $metamod->setDownloadUrl('http://ks380373.kimsufi.com/metamod.tar.gz');
+        $metamod->setDownloadUrl('http://www.dedicated-panel.net/metamod.tar.gz');
         $metamod->setScriptName('metamod');
         $manager->persist($metamod);
         
