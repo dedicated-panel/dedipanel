@@ -44,3 +44,6 @@ steam.hltv.port: HLTV port
 steam.hltv.title: HLTV area
 
 steam.rebootAt: Auto reboot at (0-24h)
+
+steam.stateChanged.start: Server start in progress. This operation may take from 10 seconds to 1 minute.
+steam.stateChanged.restart: Server restart in progress. This operation may take from 10 seconds to 1 minute.

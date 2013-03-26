@@ -284,6 +284,10 @@ class SteamServerController extends Controller
         
         $entity->changeStateServer($state);
         
+        if ($state == 'start' || $state == 'restart') {
+            $this->get('session')->getFlashBag()->add('stateChanged', 'steam.stateChanged.' . $state);
+        }
+        
         return $this->redirect($this->generateUrl('steam'));
     }
     
