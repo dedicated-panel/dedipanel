@@ -60,7 +60,7 @@
                             {% endif %}
 
                             <a href="{{ path('steam_show', {'id': entity.id }) }}">
-                                <img src="/images/serveur/viewer/{{ gameImg }}.png" alt="{{ entity.game }}" />
+                                <img src="{{ asset('images/serveur/viewer/' ~ gameImg ~ '.png') }}" alt="{{ entity.game }}" />
                             </a>
                         </div>
 
@@ -76,7 +76,7 @@
 
                         <div class="installation">
                             <div class="update-status">
-                                <img src="/images/icones/serveur/install.png" alt="{{ 'game.updateStatus'|trans }}" />
+                                <img src="{{ asset('images/icones/serveur/install.png') }}" alt="{{ 'game.updateStatus'|trans }}" />
                                 <a href="{{ path('steam_install', {id: entity.id }) }}">{{ 'game.updateStatus'|trans }}</a>
                             </div>
                             
@@ -101,7 +101,7 @@
                             {% endif %}
 
                             <a href="{{ path('steam_show', {'id': entity.id }) }}">
-                                <img src="/images/serveur/viewer/{{ gameImg }}.png" alt="{{ entity.game }}" />
+                                <img src="{{ asset('images/serveur/viewer/' ~ gameImg ~ '.png') }}" alt="{{ entity.game }}" />
                             </a>
                         </div>
 
