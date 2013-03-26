@@ -151,15 +151,28 @@ class MachineController extends Controller
 
         $editForm->bindRequest($request);
 
-        if ($editForm->isValid()) {
+        if ($editForm->isValid()) {            
             // Si l'utilisateur a précisé son mdp, on régénère une paire de clé
-            if (!empty($entity->password)) {
-                $this->generateKeyPair($entity, true);
+            $password = $entity->getPassword();            
+            if (!empty($password)) {
+                $sec = PHPSeclibWrapper::getFromMachineEntity($entity);
+                $test = $sec->connectionTest();
+                
+                // Si le test de connexion à réussi, on génère la paire de clé
+                if ($test) {
+                    $this->generateKeyPair($entity);
+                    
+                    $em->persist($entity);
+                    $em->flush();
+                    
+                    return $this->redirect($this->generateUrl('machine'));
+                }
+                // Sinon ajout d'un message d'erreur sur le formulaire
+                else {
+                    $trans = $this->get('translator')->trans('machine.identNotGood');
+                    $form->addError(new FormError($trans));
+                }
             }
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('machine'));
         }
 
         return $this->render('DPMachineBundle:Machine:edit.html.twig', array(
