@@ -14,7 +14,7 @@ class ConfiguratorController extends Controller
              ->add('type', 'choice', array(
                 'choices' => array(
                     'i' => 'configurator.install', 
-                    'u' => 'configurator.update'
+                    // 'u' => 'configurator.update'
                 ), 
                 'label' => 'configurator.chooseType')
             )->getForm();
