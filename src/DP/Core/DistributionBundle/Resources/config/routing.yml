@@ -34,3 +34,7 @@ installer_final:
     defaults: { _controller: DPDistributionBundle:Configurator:final }
     requirements:
         type: install|update
+
+installer_rewrite_front_script:
+    pattern: /rewrite
+    defaults: { _controller: DPDistributionBundle:Configurator:rewriteFrontScript }

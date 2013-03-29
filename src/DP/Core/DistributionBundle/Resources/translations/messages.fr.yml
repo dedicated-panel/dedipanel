@@ -45,9 +45,8 @@ configurator.userCreation.email: Adresse email
 configurator.userCreation.password: Mot de passe
 configurator.userCreation.password_again: Confirmation du mot de passe
 
-configurator.final.title: Configuration du panel terminé !
-configurator.final.modifyAppFile: "La configuration du panel est terminé. Il ne vous reste plus qu'à modifier le fichier web/.htaccess afin de rendre le panel public."
-configurator.final.goWelcomePage: Connectez-vous
+configurator.final.title: Configuration terminé !
+configurator.final.modifyAppFile: "La configuration du panel est terminé. Il vous reste cependant <a href=\"%urlRewrite%\">une étape à effectuer</a> afin de rendre le pannel accessible.<br />Vous pouvez également <a href=\"%urlConnect%\">commencer à utiliser</a> le panel et le rendre accessible que plus tard. Il vous suffira de modifier le fichier web/.htaccess (<a href=\"http://wiki.dedicated-panel.net\">voir la procédure sur notre wiki</a>)."
 
 configurator.socketExtension: Extension PHP de sockets
 configurator.intlExtension: Extension PHP d'internationalisation

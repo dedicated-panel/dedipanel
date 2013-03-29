@@ -132,4 +132,19 @@ class ConfiguratorController extends Controller
         
         return $this->render('DPDistributionBundle:Configurator:final.html.twig');
     }
+    
+    public function rewriteFrontScriptAction()
+    {
+        $rootDir = $this->get('kernel')->getRootDir();
+        $filepath = $rootDir . '/../web/.htaccess';
+        
+        if (is_writable($filepath)) {
+            $content = file_get_contents($filepath);
+            $content = str_replace('app_dev.php', 'app.php', $content);
+            
+            file_put_contents($filepath, $content);
+        }
+        
+        return $this->redirect($this->generateUrl('_welcome'));
+    }
 }

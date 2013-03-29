@@ -19,10 +19,9 @@
 {% extends "::layout-installer.html.twig" %}
 
 {% block content %}
-        <h3>{{ 'configurator.final.title'|trans }}</h3>
+    <h3>{{ 'configurator.final.title'|trans }}</h3>
     
     <p>
-        {{ 'configurator.final.modifyAppFile'|trans }}<br />
-        <a href="{{ path('_welcome') }}">{{ 'configurator.final.goWelcomePage'|trans }}</a>.
+        {% autoescape false %}{{ 'configurator.final.modifyAppFile'|trans({ '%urlRewrite%': path('installer_rewrite_front_script'), '%urlConnect%': path('_welcome') }) }}{% endautoescape %}<br />
     </p>
 {% endblock %}
