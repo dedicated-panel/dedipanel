@@ -45,3 +45,6 @@ machine.test.retry: Réessayer
 machine.nbCore: Nombre de core détecté(s)
 
 machine.identNotGood: "Impossible de se connecter au serveur. Veuillez vérifier l'adresse ip, le port ainsi que le nom d'utilisateur et le mot de passe."
+
+machine.is64BitSystem: Système 64 bits ?
+machine.compatLibNotInstalled: "Vous utilisez un système 64bits. Nous vous recommandons vivement d'installer les librairies de compatibilités 32bits (<a href=\"http://www.dedicated-panel.net/faq#systeme-64b\">voir notre F.A.Q.</a>)."

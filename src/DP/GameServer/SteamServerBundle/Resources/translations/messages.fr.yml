@@ -47,3 +47,5 @@ steam.rebootAt: Reboot auto à (0-24h)
 
 steam.stateChanged.start: Démarrage du serveur en cours. Cette opération peut prendre d'une dizaine de secondes à une minute.
 steam.stateChanged.restart: Redémarrage du serveur en cours. Cette opération peut prendre d'une dizaine de secondes à une minute.
+
+steam.missingCompatLib: Un système 64 bits a été détecté sur votre système. Vous devez installer les librairies de compatibilités 32-64 bits (<a href="http://www.dedicated-panel.net/faq#systeme-64b">voir notre F.A.Q.</a>) afin de lancer l'installation de votre serveur steam.

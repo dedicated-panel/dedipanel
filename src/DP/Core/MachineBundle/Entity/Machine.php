@@ -114,6 +114,13 @@ class Machine
      * @ORM\Column(name="nbCore", type="integer", nullable=true)
      */
     private $nbCore;
+    
+    /**
+     * @var boolean
+     * 
+     * @ORM\Column(name="is64bit", type="boolean")
+     */
+    private $is64bit = false;
 
 
     public function __construct()
@@ -332,6 +339,30 @@ class Machine
     {        
         return PHPSeclibWrapper::getFromMachineEntity($this)
                 ->exec('grep processor /proc/cpuinfo | wc -l');
+    }
+    
+    /**
+     * Sets is 64 bit system
+     * 
+     * @param integer $is64bit Is 64 bit system ?
+     * 
+     * @return Machine
+     */
+    public function setIs64Bit($is64bit)
+    {
+        $this->is64bit = $is64bit;
+        
+        return $this;
+    }
+    
+    /**
+     * Gets is 64 bit system
+     * 
+     * @return integer Is 64 bit system
+     */
+    public function getIs64Bit()
+    {
+        return $this->is64bit;
     }
     
     public function updateCrontab($search, $replace)

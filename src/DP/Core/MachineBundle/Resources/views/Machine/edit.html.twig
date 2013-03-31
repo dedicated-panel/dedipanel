@@ -19,7 +19,7 @@
 {% extends "::layout.html.twig" %}
 
 {% block title %}
-    <a href="{{ path('machine') }}"> 
+    <a href="{{ path('machine_show', { id: entity.id }) }}"> 
         <span class="icon" data-icon="&#x29;" title="{{ 'machine.back'|trans }}"></span>
     </a>
 

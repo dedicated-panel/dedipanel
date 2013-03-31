@@ -47,7 +47,6 @@ class Packet
      */
     public function setContent($content)
     {
-        echo 'setContent';
         $this->content = $content;
     }
     

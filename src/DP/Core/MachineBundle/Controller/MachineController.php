@@ -106,6 +106,15 @@ class MachineController extends Controller
             if ($test) {
                 $this->generateKeyPair($entity);
                 
+                $this->getMachineInfos($sec, $entity);
+                $is64Bit = $entity->getIs64Bit();
+                
+                if ($is64Bit) {
+                    if (!$sec->hasCompatLib()) {
+                        $this->get('session')->setFlash('compatLib', 'machine.compatLibNotInstalled');
+                    }
+                }
+                
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->persist($entity);
                 $em->flush();
@@ -180,6 +189,15 @@ class MachineController extends Controller
                 if ($test) {
                     $this->generateKeyPair($entity);
                     
+                    $this->getMachineInfos($sec, $entity);
+                    $is64Bit = $entity->getIs64Bit();
+                    
+                    if ($is64Bit) {
+                        if (!$sec->hasCompatLib()) {
+                            $this->get('session')->setFlash('compatLib', 'machine.compatLibNotInstalled');
+                        }
+                    }
+                    
                     $em->persist($entity);
                     $em->flush();
                     
@@ -211,12 +229,18 @@ class MachineController extends Controller
         $pubKey = $secure->createKeyPair($privkeyFilename);
         
         $entity->setPrivateKeyFilename($privkeyFilename);
-        $entity->setHome($secure->getHome());
-        $nbCore = $entity->retrieveNbCore();
-        $entity->setNbCore($nbCore);
         $entity->setPublicKey($pubKey);
+        
+        $this->getMachineInfos($secure, $entity);
 
         return true;
+    }
+    
+    protected function getMachineInfos(PHPSeclibWrapper $secure, Machine $entity)
+    {
+        $entity->setHome($secure->getHome());
+        $entity->setNbCore($entity->retrieveNbCore());
+        $entity->setIs64bit($secure->is64bitSystem());
     }
 
     /**
@@ -274,18 +298,31 @@ class MachineController extends Controller
             throw $this->createNotFoundException('Unable to find Machine entity.');
         }
         
+        $is64Bit = false;
+        $compatLib = false;
+        
         try {    
             $secure = PHPSeclibWrapper::getFromMachineEntity($entity);
-            $secure->setKeyfile($entity->getPrivateKeyFilename());
             $test = $secure->connectionTest();
+            
+            $this->getMachineInfos($secure, $entity);
+            $is64Bit = $entity->getIs64Bit();
+            
+            if ($is64Bit) {
+                $compatLib = $secure->hasCompatLib();
+            }
+            
+            $em->persist($entity);
+            $em->flush($entity);
         }
         catch (PHPSeclibWrapper\Exception\ConnectionErrorException $e) {
             $test = false;
         }
         
         return $this->render('DPMachineBundle:Machine:connectionTest.html.twig', array(
-            'mid' => $id, 
+            'machine' => $entity, 
             'result' => $test, 
+            'hasCompatLib' => $compatLib, 
         ));
     }
 }

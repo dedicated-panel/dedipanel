@@ -58,3 +58,21 @@ class IncompleteLoginIDException extends BaseException
             '@' . $srv->getHost() . ':' . $srv->getPort());
     }
 }
+
+class MissingPacketException extends BaseException
+{
+    public function __construct(PHPSeclibWrapper $srv, $packet)
+    {
+        if (is_array($packet) == true) {
+            $packet = implode(', ', $packet);
+            
+            parent::__construct('Some packets (' . $packet . ') are missing on your system (' . $srv->getUser() . '@' . 
+            $srv->getHost() .':' . $srv->getPort() . ').');
+        }
+        else {
+            parent::__construct('A packet (' . $packet . ') is missing on your system (' . $srv->getUser() . '@' . 
+            $srv->getHost() .':' . $srv->getPort() . ').');
+        }
+    }
+}
+

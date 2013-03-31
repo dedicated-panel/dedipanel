@@ -27,7 +27,6 @@ class RecvDataException extends \Exception
 {
     public function __construct($sockError)
     {
-        var_dump($sockError);
         parent::__construct('An error has occurred during receiving data. ' .
             'Socket error : ' . $sockError);
     }

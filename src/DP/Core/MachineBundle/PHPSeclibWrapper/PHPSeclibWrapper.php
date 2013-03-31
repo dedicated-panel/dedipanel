@@ -398,6 +398,18 @@ class PHPSeclibWrapper {
         return $this->getSSH()->exec('mkdir ' . $dirpath);
     }
     
+    public function is64bitSystem()
+    {
+        return strlen($this->getSSH()->exec('uname -r | grep "\-64"')) > 0;
+    }
+    
+    public function hasCompatLib()
+    {
+        $ret = trim($this->getSSH()->exec('dpkg-query -W --showformat=\'${Status}\n\' ia32-libs | grep \'install ok installed\''));
+        
+        return $ret == 'install ok installed';
+    }
+    
     
     /**
      * Set host

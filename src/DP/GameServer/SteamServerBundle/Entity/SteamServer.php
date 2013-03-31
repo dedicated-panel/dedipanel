@@ -23,6 +23,7 @@ namespace DP\GameServer\SteamServerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use DP\GameServer\GameServerBundle\Entity\GameServer;
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
+use PHPSeclibWrapper\Exception\MissingPacketException;
 use DP\Core\GameBundle\Entity\Plugin;
 use DP\GameServer\SteamServerBundle\Exception\InstallAlreadyStartedException;
 
@@ -175,6 +176,16 @@ class SteamServer extends GameServer {
      */
     public function installServer(\Twig_Environment $twig)
     {
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        
+        // S'il s'agit d'un serveur 64 bits on commence par vérifier si le paquet ia32-libs est présent 
+        // (nécessaire pour l'utilisation de l'installateur steam)
+        if ($this->machine->getIs64Bit() === true) {
+            if ($sec->hasCompatLib() == false) {
+                throw new MissingPacketException($sec, 'ia32-libs');
+            }
+        }
+        
         $installDir = $this->getAbsoluteDir();
         $scriptPath = $installDir . 'install.sh';
         $logPath = $installDir . 'install.log';
@@ -193,7 +204,6 @@ class SteamServer extends GameServer {
             array('installDir' => $installDir)
         );
         
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
         $sec->exec($mkdirCmd);
         $sec->upload($scriptPath, $installScript);
         $result = $sec->exec($screenCmd);
