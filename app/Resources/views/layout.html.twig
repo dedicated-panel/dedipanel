@@ -20,5 +20,5 @@
 {% extends is_granted("IS_AUTHENTICATED_REMEMBERED") ? "::layout-online.html.twig" : "::layout-offline.html.twig" %}
 
 {% block body %}
-    {%  block content %}{% endblock %}
+    {% block content %}{% endblock %}
 {% endblock %}
