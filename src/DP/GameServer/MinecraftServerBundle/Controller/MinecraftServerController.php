@@ -22,10 +22,11 @@ namespace DP\GameServer\MinecraftServerBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
+use Symfony\Component\Form\FormError;
 use DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer;
 use DP\GameServer\MinecraftServerBundle\Form\AddMinecraftServerType;
 use DP\GameServer\MinecraftServerBundle\Form\EditMinecraftServerType;
+use PHPSeclibWrapper\Exception\MissingPacketException;
 
 /**
  * MinecraftServer controller.
@@ -99,20 +100,26 @@ class MinecraftServerController extends Controller
         if ($form->isValid()) {
             $alreadyInstalled = $form->get('alreadyInstalled')->getData();
             
-            // On lance l'installation si le serveur n'est pas déjà sur la machine, 
-            // Sinon on upload les scripts nécessaires au panel
-            if (!$alreadyInstalled) {
-                $entity->installServer();
+            try {
+                // On lance l'installation si le serveur n'est pas déjà sur la machine, 
+                // Sinon on upload les scripts nécessaires au panel
+                if (!$alreadyInstalled) {
+                    $entity->installServer();
+                }
+                else {
+                    $entity->uploadShellScripts($this->get('twig'));
+                }
+                
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($entity);
+                $em->flush();
+                
+                return $this->redirect($this->generateUrl('minecraft_show', array('id' => $entity->getId())));
             }
-            else {
-                $entity->uploadShellScripts($this->get('twig'));
+            catch (MissingPacketException $e) {
+                $trans = $this->get('translator')->trans('minecraft.javaMissing');
+                $form->addError(new FormError($trans));
             }
-            
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('minecraft_show', array('id' => $entity->getId())));
         }
 
         return $this->render('DPMinecraftServerBundle:MinecraftServer:new.html.twig', array(

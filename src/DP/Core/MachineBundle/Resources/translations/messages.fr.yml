@@ -48,3 +48,4 @@ machine.identNotGood: "Impossible de se connecter au serveur. Veuillez vérifier
 
 machine.is64BitSystem: Système 64 bits ?
 machine.compatLibNotInstalled: "Vous utilisez un système 64bits. Nous vous recommandons vivement d'installer les librairies de compatibilités 32bits (<a href=\"http://www.dedicated-panel.net/faq#systeme-64b\">voir notre F.A.Q.</a>)."
+machine.javaNotInstalled: "Java ne semble pas être installé sur cette machine. Vous devriez l'installer (<a href=\"http://www.dedicated-panel.net/faq#installation-java\">voir notre F.A.Q.</a>) afin d'utiliser des serveurs Minecraft dessus."

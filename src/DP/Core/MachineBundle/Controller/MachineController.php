@@ -26,7 +26,6 @@ use DP\Core\MachineBundle\Entity\Machine;
 use DP\Core\MachineBundle\Form\AddMachineType;
 use DP\Core\MachineBundle\Form\EditMachineType;
 use Symfony\Component\Form\FormError;
-
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 
 /**
@@ -115,6 +114,10 @@ class MachineController extends Controller
                     }
                 }
                 
+                if (!$sec->javaInstalled()) {
+                    $this->get('session')->setFlash('compatLib', 'machine.javaNotInstalled');
+                }
+                
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->persist($entity);
                 $em->flush();
@@ -196,6 +199,10 @@ class MachineController extends Controller
                         if (!$sec->hasCompatLib()) {
                             $this->get('session')->setFlash('compatLib', 'machine.compatLibNotInstalled');
                         }
+                    }
+                    
+                    if (!$sec->javaInstalled()) {
+                        $this->get('session')->setFlash('compatLib', 'machine.javaNotInstalled');
                     }
                     
                     $em->persist($entity);
@@ -312,6 +319,8 @@ class MachineController extends Controller
                 $compatLib = $secure->hasCompatLib();
             }
             
+            $javaInstalled = $secure->javaInstalled();
+            
             $em->persist($entity);
             $em->flush($entity);
         }
@@ -323,6 +332,7 @@ class MachineController extends Controller
             'machine' => $entity, 
             'result' => $test, 
             'hasCompatLib' => $compatLib, 
+            'javaInstalled' => $javaInstalled, 
         ));
     }
 }

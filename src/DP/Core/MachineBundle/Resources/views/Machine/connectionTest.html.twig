@@ -39,6 +39,12 @@
                 <p class="alert-heading">{% autoescape false %}{{ 'machine.compatLibNotInstalled'|trans }}{% endautoescape %}</p>
             </div>
         {% endif %}
+        
+        {% if javaInstalled == false %}
+            <div class="alert alert-block alert-warning java-not-installed">
+                <p class="alert-heading">{% autoescape false %}{{ 'machine.javaNotInstalled'|trans }}{% endautoescape %}</p>
+            </div>
+        {% endif %}
     {% else %}
         <div class="alert alert-block alert-error machine-test">
             <p class="alert-heading">{{ 'machine.test.failed'|trans }}</p>

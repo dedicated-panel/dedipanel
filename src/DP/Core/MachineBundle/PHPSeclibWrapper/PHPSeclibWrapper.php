@@ -415,6 +415,11 @@ class PHPSeclibWrapper {
         return $ret == 'install ok installed';
     }
     
+    public function javaInstalled()
+    {
+        return strlen($this->exec('java -version 2>/dev/null')) > 0;
+    }
+    
     
     /**
      * Set host
