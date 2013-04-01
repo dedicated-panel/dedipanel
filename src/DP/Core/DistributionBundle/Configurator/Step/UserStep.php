@@ -40,7 +40,6 @@ class UserStep implements StepInterface
      * @Assert\NotBlank(message="configurator.userCreation.email.blank")
      * @Assert\MinLength(limit="8", message="configurator.userCreation.email.short")
      * @Assert\MaxLength(limit="255", message="configurator.userCreation.email.long")
-     * @Assert\Email(checkMX="true", message="configurator.userCreation.email.valid")
      */
     public $email;
     

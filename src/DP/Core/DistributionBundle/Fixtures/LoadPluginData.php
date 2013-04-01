@@ -45,18 +45,21 @@ class LoadPluginData extends AbstractFixture implements OrderedFixtureInterface
         $amxCs->setName('AMX Mod (CS/CZ)');
         $amxCs->setDownloadUrl('http://www.amxmod.net/amxfiles/amxmod_2010.1/amxmod_2010.1_cs-fr.zip');
         $amxCs->setScriptName('amxmod');
+        $amxCs->setPacketDependencies(array('unzip'));
         $manager->persist($amxCs);
         
         $amxDod = new Plugin();
         $amxDod->setName('AMX Mod (DoD)');
         $amxDod->setDownloadUrl('http://www.amxmod.net/amxfiles/amxmod_2010.1/amxmod_2010.1_dod-fr.zip');
         $amxDod->setScriptName('amxmod');
+        $amxDod->setPacketDependencies(array('unzip'));
         $manager->persist($amxDod);
         
         $amx = new Plugin();
         $amx->setName('AMX Mod (Lite)');
         $amx->setDownloadUrl('http://www.amxmod.net/amxfiles/amxmod_2010.1/amxmod_2010.1_lite-fr.zip');
         $amx->setScriptName('amxmod');
+        $amx->setPacketDependencies(array('unzip'));
         $manager->persist($amx);
         
         $manager->flush();

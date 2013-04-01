@@ -73,6 +73,13 @@ class Plugin
      */
     private $games;
     
+    /**
+     * @var array $packetDependencies
+     * 
+     * @ORM\Column(name="packetDependencies", type="array", nullable=true)
+     */
+    private $packetDependencies;
+    
     public function __construct()
     {
         $this->games = new \Doctrine\Common\Collections\ArrayCollection();
@@ -194,5 +201,17 @@ class Plugin
     public function __toString()
     {
         return $this->getName();
+    }
+    
+    public function setPacketDependencies(array $packetDependencies)
+    {
+        $this->packetDependencies = $packetDependencies;
+        
+        return $this;
+    }
+    
+    public function getPacketDependencies()
+    {
+        return $this->packetDependencies;
     }
 }

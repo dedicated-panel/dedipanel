@@ -405,7 +405,12 @@ class PHPSeclibWrapper {
     
     public function hasCompatLib()
     {
-        $ret = trim($this->getSSH()->exec('dpkg-query -W --showformat=\'${Status}\n\' ia32-libs | grep \'install ok installed\''));
+        return $this->isPacketInstalled('ia32-libs');
+    }
+    
+    public function isPacketInstalled($packet)
+    {
+        $ret = trim($this->getSSH()->exec('dpkg-query -W --showformat=\'${Status}\n\' ' . $packet .' | grep \'install ok installed\''));
         
         return $ret == 'install ok installed';
     }

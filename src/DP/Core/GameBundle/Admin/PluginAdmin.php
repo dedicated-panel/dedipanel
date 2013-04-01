@@ -34,6 +34,7 @@ class PluginAdmin extends Admin
             ->addIdentifier('name')
             ->add('downloadUrl')
             ->add('scriptName')
+            ->add('packetDependencies')
         ;
     }
     
@@ -44,6 +45,7 @@ class PluginAdmin extends Admin
             ->add('downloadUrl')
             ->add('scriptName')
             ->add('games', 'sonata_type_model', array('required' => false, 'multiple' => true, 'expanded' => true, 'by_reference' => false))
+            ->add('packetDependencies')
         ;
     }
 }

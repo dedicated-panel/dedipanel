@@ -346,6 +346,10 @@ class MinecraftServer extends GameServer
     
     public function execPluginScript(\Twig_Environment $twig, Plugin $plugin, $action)
     {
+        if ($action != 'install' && $action != 'uninstall') {
+            throw new BadMethodCallException('Only actions available for MinecraftServers plugin script are : install and uninstall.');
+        }
+        
         $dir = $this->getAbsoluteDir();
         $scriptPath = $dir . 'plugin.sh';
         

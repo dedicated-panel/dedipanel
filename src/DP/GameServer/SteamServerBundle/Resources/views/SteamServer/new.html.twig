@@ -18,6 +18,26 @@
 
 {% extends "::layout.html.twig" %}
 
+{% form_theme form _self %}
+{% block form_errors %}
+{% spaceless %}
+    {% if errors|length > 0 %}
+    <ul>
+        {% for error in errors %}
+            <li>{% spaceless %}
+                {% autoescape false %}
+                    {{ error.messagePluralization is null
+                    ? error.messageTemplate|trans(error.messageParameters, 'validators')
+                    : error.messageTemplate|transchoice(error.messagePluralization, error.messageParameters, 'validators')
+                    }}
+                {% endautoescape %}
+            {% endspaceless %}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endspaceless %}
+{% endblock form_errors %}
+
 {% block title %}
     <a href="{{ path('steam') }}"> 
         <span class="icon" data-icon="&#x29;" title="{{ 'steam.back'|trans }}"></span>

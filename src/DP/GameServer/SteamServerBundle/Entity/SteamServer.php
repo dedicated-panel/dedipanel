@@ -417,6 +417,31 @@ class SteamServer extends GameServer {
 
     public function execPluginScript(\Twig_Environment $twig, Plugin $plugin, $action)
     {
+        if ($action != 'install' && $action != 'uninstall' && $action != 'activate' && $action != 'deactivate') {
+            throw new BadMethodCallException('Only actions available for SteamServers plugin scripts are : install, uninstall, activate and deactivate.');
+        }
+        
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        
+        // En cas d'installation, vérification des dépendances du plugin
+        if ($action == 'install') {
+            $packetDependencies = $plugin->getPacketDependencies();
+            
+            if (!empty($packetDependencies)) {
+                $missingPackets = array();
+                
+                foreach ($packetDependencies AS $dep) {
+                    if (!$sec->isPacketInstalled($dep)) {
+                        $missingPackets[] = $dep;
+                    }
+                }
+                
+                if (!empty($missingPackets)) {
+                    throw new MissingPacketException($sec, $missingPackets);
+                }
+            }
+        }
+        
         $dir = $this->getAbsoluteGameContentDir();
         $scriptName = $plugin->getScriptName();
         $scriptPath = $dir . $scriptName . '.sh';
@@ -431,7 +456,6 @@ class SteamServer extends GameServer {
         $pluginScript = $twig->render(
             'DPSteamServerBundle:sh:Plugin/' . $scriptName . '.sh.twig', array('gameDir' => $dir));
         
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
         $sec->upload($scriptPath, $pluginScript);
         $sec->exec($screenCmd);
     }
