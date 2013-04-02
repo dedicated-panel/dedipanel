@@ -192,7 +192,7 @@ class SteamServer extends GameServer {
         $screenName = $this->getInstallScreenName();
         $installName = $this->game->getInstallName();
 
-        $mkdirCmd = 'if [ ! -e ' . $installDir . ' ]; then mkdir ' . $installDir . '; fi';
+        $mkdirCmd = 'if [ ! -e ' . $installDir . ' ]; then mkdir -p ' . $installDir . '; fi';
         
         $pgrep = '`ps aux | grep SCREEN | grep "' . $screenName . ' " | grep -v grep | wc -l`';
         $screenCmd  = 'if [ ' . $pgrep . ' = "0" ]; then ';
@@ -335,7 +335,7 @@ class SteamServer extends GameServer {
         
         // Supression du fichier (s'il exsite déjà)
         $sec->exec('if [ -e ' . $scriptPath . ' ]; then rm ' . $scriptPath . '; fi');
-
+        
         // Création du fichier hltv.sh (uniquement si c'est un jeu GoldSrc)
         if ($this->getGame()->getBin() == 'hlds_run') {
             $hltvScript = $twig->render('DPSteamServerBundle:sh:hltv.sh.twig', array(
@@ -461,8 +461,10 @@ class SteamServer extends GameServer {
     }
     
     public function getHltvScreenName()
-    {        
-        return sha1('hltv-' . $this->getMachine()->getUser() . '-' . $this->getDir(), true);
+    {
+        $screenName = 'hltv-' . $this->getMachine()->getUser() . '-' . $this->getDir();
+        
+        return $this->getScreenNameHash($screenName, 10);
     }
     
     public function getHltvStatus()

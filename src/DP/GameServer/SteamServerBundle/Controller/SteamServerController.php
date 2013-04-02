@@ -318,8 +318,10 @@ class SteamServerController extends Controller
             throw $this->createNotFoundException('Unable to find SteamServer entity.');
         }
         
+        $twig = $this->get('twig');
         // Régénération des scripts du panel
-        $entity->uploadHldsScript($this->get('twig'));
+        $entity->uploadHldsScript($twig);
+        $entity->uploadHltvScript($twig);
         
         return $this->redirect($this->generateUrl('steam_show', array('id' => $id)));
     }
