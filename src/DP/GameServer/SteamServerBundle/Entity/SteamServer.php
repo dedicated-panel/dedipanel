@@ -181,7 +181,7 @@ class SteamServer extends GameServer {
         $screenName = $this->getInstallScreenName();
         $installName = $this->game->getInstallName();
 
-        $mkdirCmd = 'if [ ! -e ' . $installDir . ' ]; then mkdir ' . $installDir . '; fi';
+        $mkdirCmd = 'if [ ! -e ' . $installDir . ' ]; then mkdir -p ' . $installDir . '; fi';
         
         $pgrep = '`ps aux | grep SCREEN | grep "' . $screenName . ' " | grep -v grep | wc -l`';
         $screenCmd  = 'if [ ' . $pgrep . ' = "0" ]; then ';

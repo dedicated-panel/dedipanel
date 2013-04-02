@@ -160,7 +160,7 @@ class MinecraftServer extends GameServer
         $installDir = $this->getAbsoluteDir();
         $logPath = $installDir . 'install.log';
         
-        $mkdirCmd = 'if [ ! -e ' . $installDir . ' ]; then mkdir ' . $installDir . '; fi';
+        $mkdirCmd = 'if [ ! -e ' . $installDir . ' ]; then mkdir -p ' . $installDir . '; fi';
         
         $dlUrl = 'https://s3.amazonaws.com/MinecraftDownload/launcher/minecraft_server.jar';
         if ($this->game->getInstallName() == 'bukkit') {
