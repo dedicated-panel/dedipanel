@@ -316,30 +316,29 @@ abstract class GameServer
     protected function getScreenName()
     {
         $screenName = $this->getMachine()->getUser() . '-' . $this->getDir();
-        // Hashage du screen name pour qu'il garde un certain sens tout en restant court (~ 20) et unique aux paramètres déterminant
-        $screenName = sha1($screenName);
-        $screenName = substr($screenName, 0, 20);
         
-        return 'dp-' . $screenName;
+        return $this->getScreenNameHash($screenName);
     }
     
     protected function getInstallScreenName()
     {
         $screenName = $this->getMachine()->getUser() . '-install-' . $this->getDir();
-        // Hashage du screen name pour qu'il garde un certain sens tout en restant court (~ 20) et unique aux paramètres déterminant
-        $screenName = sha1($screenName);
-        $screenName = substr($screenName, 0, 20);
         
-        return 'dp-' . $screenName;
+        return $this->getScreenNameHash($screenName);
     }
     
     public function getPluginInstallScreenName($scriptName = '')
     {
         $screenName = $this->getMachine()->getUser() . '-plugin-install-' . $scriptName . '-' . $this->getDir();
-        // Hashage du screen name pour qu'il garde un certain sens tout en restant court (~ 20) et unique aux paramètres déterminant
+        
+        return $this->getScreenNameHash($screenName);
+    }
+    
+    protected function getScreenNameHash($screenName, $hashLength = 20)
+    {
         $screenName = sha1($screenName);
-        $screenName = substr($screenName, 0, 20);
-
+        $screenName = substr($screenName, 0, $hashLength);
+        
         return 'dp-' . $screenName;
     }
     

@@ -80,11 +80,10 @@ class HltvController extends Controller
         $request = $this->get('request');
         $form = $this->createStartForm($serv);
         $form->bindRequest($request);
-        $data = array('servIp' => '', 'servPort' => '', 'password' => '', 'record' => '', 'reload' => '');
         
         if ($form->isValid()) {
-            $data += $form->getData();
-
+            $data = $form->getData();
+            
             if ($serv->getGame()->isSource()) {
                 if ($serv->isEmptyRconPassword()) {
                     $serv->setRconPassword($data['rconPasswd']);
