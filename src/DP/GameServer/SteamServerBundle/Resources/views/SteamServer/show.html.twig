@@ -29,13 +29,15 @@
 {% block content %}
     <h2>{{ 'machine.show'|trans }}</h2>
     
-    <ul id="top-nav" class="nav nav-tabs">
-        <li>
-            <a href="{{ path('steam_regen', { 'id': entity.id }) }}">
-                {{ 'game.regenerate'|trans }}
-            </a>
-        </li>
-    </ul>
+    {% if entity.getInstallationStatus == 101 %}
+        <ul id="top-nav" class="nav nav-tabs">
+            <li>
+                <a href="{{ path('steam_regen', { 'id': entity.id }) }}">
+                    {{ 'game.regenerate'|trans }}
+                </a>
+            </li>
+        </ul>
+    {% endif %}
 
     <table class="properties">
         <tbody>
