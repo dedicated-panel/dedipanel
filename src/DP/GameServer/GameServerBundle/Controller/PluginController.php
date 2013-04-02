@@ -1,7 +1,7 @@
 <?php
 
 /*
-** Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jérôme
+** Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 namespace DP\GameServer\GameServerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use PHPSeclibWrapper\Exception\MissingPacketException;
 
 abstract class PluginController extends Controller
 {
@@ -47,11 +48,19 @@ abstract class PluginController extends Controller
             throw $this->createNotFoundException('Unable to find Plugin entity.');
         }
         
-        // On upload et on exécute le script du plugin
-        // Puis on supprime la liaison entre le serv et le plugin
-        $server->execPluginScript($this->get('twig'), $plugin, 'install');
-        $server->addPlugin($plugin);
-        $em->flush();
+        try {
+            // On upload et on exécute le script du plugin
+            // Puis on ajoute la liaison entre le serv et le plugin 
+            $server->execPluginScript($this->get('twig'), $plugin, 'install');
+            $server->addPlugin($plugin);
+            
+            $em->flush();
+        }
+        catch (MissingPacketException $e) {
+            $trans = $this->get('translator')->trans('game.missingPacket', array('%plugin%' => strval($plugin), '%packet%' => $e->getPacketList()));
+            
+            $this->get('session')->setFlash('missingPacket', $trans);
+        }
         
         return $this->redirect($this->generateUrl($this->getBaseRoute() . '_plugin_show', array('id' => $id)));
     }

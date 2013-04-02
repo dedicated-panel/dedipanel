@@ -1,7 +1,7 @@
 <?php
 
 /*
-** Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jérôme
+** Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@ class PluginAdmin extends Admin
             ->addIdentifier('name')
             ->add('downloadUrl')
             ->add('scriptName')
+            ->add('packetDependencies')
         ;
     }
     
@@ -44,6 +45,7 @@ class PluginAdmin extends Admin
             ->add('downloadUrl')
             ->add('scriptName')
             ->add('games', 'sonata_type_model', array('required' => false, 'multiple' => true, 'expanded' => true, 'by_reference' => false))
+            ->add('packetDependencies')
         ;
     }
 }

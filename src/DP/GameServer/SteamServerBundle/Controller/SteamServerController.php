@@ -1,7 +1,7 @@
 <?php
 
 /*
-** Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jérôme
+** Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@ use DP\GameServer\SteamServerBundle\Form\AddSteamServerType;
 use DP\GameServer\SteamServerBundle\Form\EditSteamServerType;
 use Symfony\Component\Form\FormError;
 use DP\GameServer\SteamServerBundle\Exception\InstallAlreadyStartedException;
+use PHPSeclibWrapper\Exception\MissingPacketException;
 
 /**
  * SteamServer controller.
@@ -121,6 +122,10 @@ class SteamServerController extends Controller
             }
             catch (InstallAlreadyStartedException $e) {
                 $trans = $this->get('translator')->trans('game.installAlreadyStarted');
+                $form->addError(new FormError($trans));
+            }
+            catch (MissingPacketException $e) {
+                $trans = $this->get('translator')->trans('steam.missingCompatLib');
                 $form->addError(new FormError($trans));
             }
         }
@@ -252,7 +257,6 @@ class SteamServerController extends Controller
         elseif ($status < 100) {
             $newStatus = $entity->getInstallationProgress();
             $entity->setInstallationStatus($newStatus);
-            var_dump($newStatus);
             
             if ($newStatus == 100) {
                 $entity->uploadShellScripts($this->get('twig'));

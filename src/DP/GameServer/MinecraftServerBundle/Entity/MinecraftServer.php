@@ -1,7 +1,7 @@
 <?php
 
 /*
-** Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jérôme
+** Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@ use DP\GameServer\GameServerBundle\Entity\GameServer;
 use Symfony\Component\Validator\Constraints as Assert;
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 use DP\Core\GameBundle\Entity\Plugin;
+use PHPSeclibWrapper\Exception\MissingPacketException;
 
 /**
  * DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer
@@ -157,6 +158,12 @@ class MinecraftServer extends GameServer
      */
     public function installServer()
     {
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        
+        if (!$sec->javaInstalled()) {
+            throw new MissingPacketException($sec, 'oracle-java8-installer');
+        }
+        
         $installDir = $this->getAbsoluteDir();
         $logPath = $installDir . 'install.log';
         
@@ -169,7 +176,6 @@ class MinecraftServer extends GameServer
         
         $dlCmd = 'cd ' . $installDir . ' && wget -N -o ' . $logPath . ' ' . $dlUrl . ' &';
         
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
         $sec->exec($mkdirCmd);
         $sec->exec($dlCmd);
         
@@ -346,6 +352,10 @@ class MinecraftServer extends GameServer
     
     public function execPluginScript(\Twig_Environment $twig, Plugin $plugin, $action)
     {
+        if ($action != 'install' && $action != 'uninstall') {
+            throw new BadMethodCallException('Only actions available for MinecraftServers plugin script are : install and uninstall.');
+        }
+        
         $dir = $this->getAbsoluteDir();
         $scriptPath = $dir . 'plugin.sh';
         

@@ -1,5 +1,5 @@
-{# 
- Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jérôme
+{#
+ Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
 
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -40,6 +40,7 @@
                 <th>{{ 'machine.home'|trans }}</th>
                 <th>{{ 'machine.genPrivKey'|trans }}</th>
                 <th>{{ 'machine.nbCore'|trans }}</th>
+                <th>{{ 'machine.is64BitSystem'|trans }}</th>
             </tr>  
         </thead>   
         <tbody>
@@ -57,13 +58,25 @@
                     {% endif %}
                 </td>
                 <td>{{ entity.nbCore }}</td>
+                <td>{% if entity.is64Bit == true %}
+                        {{ 'machine.yes'|trans }}
+                    {% else %}
+                        {{ 'machine.no'|trans }}
+                    {% endif %}
+                </td>
             </tr>
         </tbody>
     </table>
 
-    <form action="{{ path('machine_edit', { 'id': entity.id }) }}" method="post">          
-        <div class="form-actions">
-            <button type="submit"  class="btn btn-primary">{{ 'machine.edit'|trans }}</button>
-        </div>
-    </form>
+    <div class="form-group clearfix">        
+        <form action="{{ path('machine_edit', { 'id': entity.id }) }}" method="post" class="form-float">          
+            <div class="form-actions">
+                <button type="submit" class="btn" form="form-test">{{ 'machine.connectionTest'|trans }}</button>
+                <button type="submit" class="btn btn-primary">{{ 'machine.edit'|trans }}</button>
+            </div>
+        </form>
+        
+        <form action="{{ path('machine_connectionTest', { 'id': entity.id }) }}" method="get" id="form-test">
+        </form>
+    </div>
 {% endblock %}

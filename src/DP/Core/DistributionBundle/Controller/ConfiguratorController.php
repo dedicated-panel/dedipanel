@@ -1,5 +1,23 @@
 <?php
 
+/*
+** Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
+**
+** This program is free software; you can redistribute it and/or modify
+** it under the terms of the GNU General Public License as published by
+** the Free Software Foundation; either version 2 of the License, or
+** (at your option) any later version.
+**
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+** GNU General Public License for more details.
+**
+** You should have received a copy of the GNU General Public License along
+** with this program; if not, write to the Free Software Foundation, Inc.,
+** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+*/
+
 namespace DP\Core\DistributionBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -14,7 +32,7 @@ class ConfiguratorController extends Controller
              ->add('type', 'choice', array(
                 'choices' => array(
                     'i' => 'configurator.install', 
-                    'u' => 'configurator.update'
+                    // 'u' => 'configurator.update'
                 ), 
                 'label' => 'configurator.chooseType')
             )->getForm();
@@ -113,5 +131,20 @@ class ConfiguratorController extends Controller
         $configurator->clean();
         
         return $this->render('DPDistributionBundle:Configurator:final.html.twig');
+    }
+    
+    public function rewriteFrontScriptAction()
+    {
+        $rootDir = $this->get('kernel')->getRootDir();
+        $filepath = $rootDir . '/../web/.htaccess';
+        
+        if (is_writable($filepath)) {
+            $content = file_get_contents($filepath);
+            $content = str_replace('app_dev.php', 'app.php', $content);
+            
+            file_put_contents($filepath, $content);
+        }
+        
+        return $this->redirect($this->generateUrl('_welcome'));
     }
 }

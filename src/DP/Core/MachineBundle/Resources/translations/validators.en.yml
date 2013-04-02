@@ -14,14 +14,9 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-gameServer:
-    assert:
-        name: Please specify a name.
-        port: Please specify a port between 1024 and 65536.
-        dir: Please specify an install directory.
-        maxplayers: Please specify the maximum number of players your server can support.
-        machine: Please specify on which machine you want to install your server.
-        game: Please specify your game.
-
-game.ftp.dirAlreadyExists: This folder already exist.
-game.ftp.fileAlreadyExists: This file already exist.
+machine.assert:
+  - privateIp: You must give a valid IP address.
+  - publicIp: You must give a valid failover IP address.
+  - port: You must specify a port between 1 and 65356.
+  - user: You must specify a username.
+  - passwd: You must specify the user's password.

@@ -1,5 +1,5 @@
 {# 
- Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jérôme
+ Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
 
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -17,6 +17,26 @@
 #}
 
 {% extends "::layout.html.twig" %}
+
+{% form_theme form _self %}
+{% block form_errors %}
+{% spaceless %}
+    {% if errors|length > 0 %}
+    <ul>
+        {% for error in errors %}
+            <li>{% spaceless %}
+                {% autoescape false %}
+                    {{ error.messagePluralization is null
+                    ? error.messageTemplate|trans(error.messageParameters, 'validators')
+                    : error.messageTemplate|transchoice(error.messagePluralization, error.messageParameters, 'validators')
+                    }}
+                {% endautoescape %}
+            {% endspaceless %}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endspaceless %}
+{% endblock form_errors %}
 
 {% block title %}
     <a href="{{ path('steam') }}"> 

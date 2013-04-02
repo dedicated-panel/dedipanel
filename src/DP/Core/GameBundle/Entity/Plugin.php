@@ -1,6 +1,7 @@
 <?php
+
 /*
-** Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jérôme
+** Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -71,6 +72,13 @@ class Plugin
      * )
      */
     private $games;
+    
+    /**
+     * @var array $packetDependencies
+     * 
+     * @ORM\Column(name="packetDependencies", type="array", nullable=true)
+     */
+    private $packetDependencies;
     
     public function __construct()
     {
@@ -193,5 +201,17 @@ class Plugin
     public function __toString()
     {
         return $this->getName();
+    }
+    
+    public function setPacketDependencies(array $packetDependencies)
+    {
+        $this->packetDependencies = $packetDependencies;
+        
+        return $this;
+    }
+    
+    public function getPacketDependencies()
+    {
+        return $this->packetDependencies;
     }
 }

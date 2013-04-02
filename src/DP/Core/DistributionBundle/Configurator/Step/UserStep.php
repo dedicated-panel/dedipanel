@@ -1,7 +1,7 @@
 <?php
 
 /*
-** Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jérôme
+** Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -40,7 +40,6 @@ class UserStep implements StepInterface
      * @Assert\NotBlank(message="configurator.userCreation.email.blank")
      * @Assert\MinLength(limit="8", message="configurator.userCreation.email.short")
      * @Assert\MaxLength(limit="255", message="configurator.userCreation.email.long")
-     * @Assert\Email(checkMX="true", message="configurator.userCreation.email.valid")
      */
     public $email;
     

@@ -1,3 +1,19 @@
+# Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 configurator.installer: "Installateur"
 configurator.chooseType: "Choisissez le type de configuration"
 configurator.install: "Installation"
@@ -29,9 +45,8 @@ configurator.userCreation.email: Adresse email
 configurator.userCreation.password: Mot de passe
 configurator.userCreation.password_again: Confirmation du mot de passe
 
-configurator.final.title: Configuration du panel terminé !
-configurator.final.modifyAppFile: "La configuration du panel est terminé. Il ne vous reste plus qu'à modifier le fichier web/.htaccess afin de rendre le panel public."
-configurator.final.goWelcomePage: Connectez-vous
+configurator.final.title: Configuration terminé !
+configurator.final.modifyAppFile: "La configuration du panel est terminé. Il vous reste cependant <a href=\"%urlRewrite%\">une étape à effectuer</a> afin de rendre le pannel accessible.<br />Vous pouvez également <a href=\"%urlConnect%\">commencer à utiliser</a> le panel et le rendre accessible que plus tard. Il vous suffira de modifier le fichier web/.htaccess (<a href=\"http://wiki.dedicated-panel.net\">voir la procédure sur notre wiki</a>)."
 
 configurator.socketExtension: Extension PHP de sockets
 configurator.intlExtension: Extension PHP d'internationalisation

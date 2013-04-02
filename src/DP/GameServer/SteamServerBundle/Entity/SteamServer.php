@@ -1,7 +1,7 @@
 <?php
 
 /*
-** Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jérôme
+** Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@ namespace DP\GameServer\SteamServerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use DP\GameServer\GameServerBundle\Entity\GameServer;
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
+use PHPSeclibWrapper\Exception\MissingPacketException;
 use DP\Core\GameBundle\Entity\Plugin;
 use DP\GameServer\SteamServerBundle\Exception\InstallAlreadyStartedException;
 
@@ -175,6 +176,16 @@ class SteamServer extends GameServer {
      */
     public function installServer(\Twig_Environment $twig)
     {
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        
+        // S'il s'agit d'un serveur 64 bits on commence par vérifier si le paquet ia32-libs est présent 
+        // (nécessaire pour l'utilisation de l'installateur steam)
+        if ($this->machine->getIs64Bit() === true) {
+            if ($sec->hasCompatLib() == false) {
+                throw new MissingPacketException($sec, 'ia32-libs');
+            }
+        }
+        
         $installDir = $this->getAbsoluteDir();
         $scriptPath = $installDir . 'install.sh';
         $logPath = $installDir . 'install.log';
@@ -193,7 +204,6 @@ class SteamServer extends GameServer {
             array('installDir' => $installDir)
         );
         
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
         $sec->exec($mkdirCmd);
         $sec->upload($scriptPath, $installScript);
         $result = $sec->exec($screenCmd);
@@ -407,6 +417,31 @@ class SteamServer extends GameServer {
 
     public function execPluginScript(\Twig_Environment $twig, Plugin $plugin, $action)
     {
+        if ($action != 'install' && $action != 'uninstall' && $action != 'activate' && $action != 'deactivate') {
+            throw new BadMethodCallException('Only actions available for SteamServers plugin scripts are : install, uninstall, activate and deactivate.');
+        }
+        
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        
+        // En cas d'installation, vérification des dépendances du plugin
+        if ($action == 'install') {
+            $packetDependencies = $plugin->getPacketDependencies();
+            
+            if (!empty($packetDependencies)) {
+                $missingPackets = array();
+                
+                foreach ($packetDependencies AS $dep) {
+                    if (!$sec->isPacketInstalled($dep)) {
+                        $missingPackets[] = $dep;
+                    }
+                }
+                
+                if (!empty($missingPackets)) {
+                    throw new MissingPacketException($sec, $missingPackets);
+                }
+            }
+        }
+        
         $dir = $this->getAbsoluteGameContentDir();
         $scriptName = $plugin->getScriptName();
         $scriptPath = $dir . $scriptName . '.sh';
@@ -421,7 +456,6 @@ class SteamServer extends GameServer {
         $pluginScript = $twig->render(
             'DPSteamServerBundle:sh:Plugin/' . $scriptName . '.sh.twig', array('gameDir' => $dir));
         
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
         $sec->upload($scriptPath, $pluginScript);
         $sec->exec($screenCmd);
     }

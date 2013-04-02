@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (C) 2010-2012 Kerouanton Albin, Smedts Jérôme
+# Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,8 +19,6 @@
 CSP_FILE='cspromod_b108.zip'
 CSP_DLURL="http://dl.redline-hosting.net/public/$CSP_FILE"
 
-# @TODO: Ajout d'une vérif de la présence du packet ia32-libs
-# -n `uname -r | grep "\-64"` && -n `dpkg-query -W --showformat='${Status}\n' ia32-libs | grep 'install ok installed'`
 if [ $# -eq 1 ]; then
     cd {{ installDir }}
     
