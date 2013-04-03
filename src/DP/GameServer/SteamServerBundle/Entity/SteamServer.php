@@ -559,20 +559,22 @@ class SteamServer extends GameServer {
         return $this->getName();
     }
 
-    public function removeServer()
+    public function removeFromServer()
     {
         $screenName = $this->getScreenName();
         $scriptPath = $this->getAbsoluteHldsScriptPath();
         $serverPath = $this->getAbsoluteDir();
         
-        // On commence par vérifier que le serveur n'est pas lancé (sinon on l'arrête)
-        $pgrep = '`ps aux | grep SCREEN | grep "' . $screenName . ' " | grep -v grep | wc -l`';
-        $cmd  = 'if [ ' . $pgrep . ' != "0" ]; then ';
-        $cmd .= $scriptPath . ' stop; fi; ';
-        // Puis on supprime complètement le dossier du serveur
-        $cmd .= 'rm -Rf ' . $serverPath;
-        
         $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
-        $sec->exec($cmd);
+        
+        // On commence par vérifier que le serveur n'est pas lancé (sinon on l'arrête)
+        $pgrep   = '`ps aux | grep SCREEN | grep "' . $screenName . ' " | grep -v grep | wc -l`';
+        $stopCmd = 'if [ ' . $pgrep . ' != "0" ]; then ' . $scriptPath . ' stop; fi; ';
+        $sec->exec($stopCmd);
+        
+        // Puis on supprime complètement le dossier du serveur
+        $delCmd  = 'rm -Rf ' . $serverPath;
+                
+        return $sec->exec($delCmd);
     }
 }

@@ -215,7 +215,7 @@ class SteamServerController extends Controller
             }
             
             if ($fromMachine) {
-                $entity->removeServer();
+                $entity->removeFromServer();
             }
 
             $em->remove($entity);
