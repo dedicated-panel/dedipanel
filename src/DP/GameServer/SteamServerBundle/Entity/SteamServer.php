@@ -464,7 +464,7 @@ class SteamServer extends GameServer {
     {
         $screenName = 'hltv-' . $this->getMachine()->getUser() . '-' . $this->getDir();
         
-        return $this->getScreenNameHash($screenName, 10);
+        return $this->getScreenNameHash($screenName);
     }
     
     public function getHltvStatus()
