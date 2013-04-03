@@ -374,17 +374,22 @@ class MinecraftServer extends GameServer
         $sec->exec($screenCmd);
     }
     
-    public function removeServer()
+    public function removeFromServer()
     {
         $screenName = $this->getScreenName();
         $serverDir = $this->getAbsoluteDir();
         $scriptPath = $serverDir . 'minecraft.sh';
         
-        $pgrep = '`ps aux | grep SCREEN | grep "' . $screenName . ' " | grep -v grep | wc -l`';
-        $cmd  = 'if [ ' . $pgrep . ' != "0" ]; then ';
-        $cmd .= $scriptPath . ' stop; fi; rm -Rf ' . $serverDir . ';';
-        
         $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
-        $sec->exec($cmd);
+        
+        // On commence par vérifier que le serveur n'est pas lancé (sinon on l'arrête)
+        $pgrep   = '`ps aux | grep SCREEN | grep "' . $screenName . ' " | grep -v grep | wc -l`';
+        $stopCmd = 'if [ ' . $pgrep . ' != "0" ]; then ' . $scriptPath . ' stop; fi;';
+        $sec->exec($stopCmd);
+        
+        // Puis on supprime complètement le dossier du serveur
+        $delCmd  = 'rm -Rf ' . $serverDir . ';';
+        
+        return $sec->exec($delCmd);
     }
 }

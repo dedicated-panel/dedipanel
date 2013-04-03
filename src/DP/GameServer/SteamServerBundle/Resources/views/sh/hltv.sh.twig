@@ -18,7 +18,7 @@
 
 HLTV_DIR="{{ binDir }}"
 SCREEN_NAME="{{ screenName }}"
-HLTV_STATUS=`ps aux | grep SCREEN | grep $SCREEN_NAME | wc -l`
+HLTV_STATUS=`ps aux | grep SCREEN | grep $SCREEN_NAME | grep -v grep | wc -l`
 
 case "$1" in 
     start)
