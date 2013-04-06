@@ -29,4 +29,4 @@ minecraft.editTitle: Modifier un serveur Miencraft
 minecraft.minHeap: Taille réservé pour le serveur lors du démarrage (en Mo)
 minecraft.maxHeap: Taille maximum que peut allouer le serveur (en Mo)
 
-minecraft.javaMissing: Vous devez installer Java sur votre machine avant de pouvoir continuer (<a href=\"http://www.dedicated-panel.net/faq#installation-java\">voir notre F.A.Q.</a>).
+minecraft.javaMissing: Vous devez installer Java sur votre machine avant de pouvoir continuer (<a href="http://www.dedicated-panel.net/faq#installation-java">voir notre F.A.Q.</a>).
