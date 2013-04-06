@@ -104,11 +104,20 @@ sonata_user:
 
 sonata_admin:
     security:
-        handler: sonata.admin.security.handler.acl
+        handler: sonata.admin.security.handler.role
         information:
-        admin_permissions: [CREATE, LIST, DELETE, UNDELETE, OPERATOR, MASTER]
+            EDIT: EDIT
+            LIST: LIST
+            CREATE: CREATE
+            VIEW: VIEW
+            DELETE: DELETE
+            EXPORT: EXPORT
+            OPERATOR: OPERATOR
+            MASTER: MASTER
+        # information:
+        # admin_permissions: [CREATE, LIST, DELETE, UNDELETE, OPERATOR, MASTER]
         # permission related to the objects
-        object_permissions: [VIEW, EDIT, DELETE, UNDELETE, OPERATOR, MASTER, OWNER]
+        # object_permissions: [VIEW, EDIT, DELETE, UNDELETE, OPERATOR, MASTER, OWNER]
     templates:
         layout: ::layout-sonata.html.twig
 #        layout: SonataAdminBundle::standard_layout.html.twig
