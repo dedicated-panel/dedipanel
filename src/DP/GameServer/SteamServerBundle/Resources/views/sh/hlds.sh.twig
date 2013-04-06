@@ -26,7 +26,8 @@ case "$1" in
             cd {{ binDir }}
             
             {% if core is not empty %}
-                screen -dmS $SCREEN_NAME taskset -c {{ core }} ./{{ bin }} -game {{ launchName }} +ip {{ ip }} -port {{ port }} +maxplayers {{ maxplayers }} +map {{ startMap }} -autoupdate
+                {# Le numéro du core est stocké à partir de 1 en base; linux attend un bitmask représentant le core, commencant à 0 #}
+                screen -dmS $SCREEN_NAME taskset -c {{ core-1 }} ./{{ bin }} -game {{ launchName }} +ip {{ ip }} -port {{ port }} +maxplayers {{ maxplayers }} +map {{ startMap }} -autoupdate
             {% else %}
                 screen -dmS $SCREEN_NAME ./{{ bin }} -game {{ launchName }} +ip {{ ip }} -port {{ port }} +maxplayers {{ maxplayers }} +map {{ startMap }} -autoupdate
             {% endif %}
