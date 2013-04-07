@@ -78,41 +78,36 @@ header ul {
 }
 header li {
 	float: left;
-	margin: 0 5px 0 0;
 	height: 31px;
 	line-height: 31px;
-	border-left: 1px solid #2E2E2E;
-    border-right: 1px solid #2E2E2E;
+	border-left: 1px solid rgb(68, 68, 68);
+	border-right: 1px solid rgb(22, 22, 22);
 }
 header li:last-of-type {
-	/*margin: 0 3px 0 0;*/
 	margin: 0;
 }
 header li a {
-	color: #C2C2C2;
-    background-color: #262626;
+	color: #C2C2C2; 
+	background-color: rgb(39, 39, 39);
 	padding: 0 15px 0 15px;
 	display: block;
-    
-    -webkit-transition: color 0.4s ease-out;
-    -moz-transition: color 0.4s ease-out;
-    -o-transition: color 0.4s ease-out;
-    transition: color 0.4s ease-out;
+	-webkit-transition: color 0.4s ease-out;
+	-moz-transition: color 0.4s ease-out;
+	-o-transition: color 0.4s ease-out;
+	transition: color 0.4s ease-out;
 }
 header li a:hover {
-	background-color: #1B1B1B;
-	color: white;
+	background-color: rgb(29, 29, 29);
+	color: #4cb0ff;
 	text-decoration: none;
-    
-    -webkit-transition: color 0.2s ease-out;
-    -moz-transition: color 0.2s ease-out;
-    -o-transition: color 0.2s ease-out;
-    transition: color 0.2s ease-out;
+	-webkit-transition: color 0.2s ease-out;
+	-moz-transition: color 0.2s ease-out;
+	-o-transition: color 0.2s ease-out;
+	transition: color 0.2s ease-out;
 }
 header li a span {
 	margin-right: 8px;
 }
-
 #cols-container {
 	position: absolute;
 	top: 31px;
