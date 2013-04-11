@@ -55,7 +55,14 @@ class Game
      * @Assert\NotBlank(message="game.assert.installName")
      */
     private $installName;
-
+	
+    /**
+     * @var boolean $steamCmd
+     *
+     * @ORM\Column(name="steamCmd", type="boolean")
+     */
+    private $steamCmd = false; // default value
+    
     /**
      * @var string $launchName
      *
@@ -70,6 +77,21 @@ class Game
      * @ORM\Column(name="bin", type="string", length=24)
      */
     private $bin;
+    
+    /**
+     * @var integer $appId
+     *
+     * @ORM\Column(name="appId", type="integer")
+     */
+    protected $appId;
+	
+    /**
+     * @var integer $appMod
+     *
+     * @ORM\Column(name="appMod", type="string", length=20)
+     */
+    protected $appMod;
+	
 
     /**
      * @var boolean $orangebox
@@ -451,5 +473,127 @@ class Game
     public function getConfigTemplate()
     {
         return $this->configTemplate;
+    }
+
+    /**
+     * Set steamCmd
+     *
+     * @param boolean $steamCmd
+     * @return Game
+     */
+    public function setSteamCmd($steamCmd)
+    {
+        $this->steamCmd = $steamCmd;
+    
+        return $this;
+    }
+
+    /**
+     * Get steamCmd
+     *
+     * @return boolean 
+     */
+    public function getSteamCmd()
+    {
+        return $this->steamCmd;
+    }
+
+    /**
+     * Set appId
+     *
+     * @param integer $appId
+     * @return Game
+     */
+    public function setAppId($appId)
+    {
+        $this->appId = $appId;
+    
+        return $this;
+    }
+
+    /**
+     * Get appId
+     *
+     * @return integer 
+     */
+    public function getAppId()
+    {
+        return $this->appId;
+    }
+
+    /**
+     * Set appMod
+     *
+     * @param string $appMod
+     * @return Game
+     */
+    public function setAppMod($appMod)
+    {
+        $this->appMod = $appMod;
+    
+        return $this;
+    }
+
+    /**
+     * Get appMod
+     *
+     * @return string 
+     */
+    public function getAppMod()
+    {
+        return $this->appMod;
+    }
+
+    /**
+     * Get orangebox
+     *
+     * @return boolean 
+     */
+    public function getOrangebox()
+    {
+        return $this->orangebox;
+    }
+
+    /**
+     * Get source
+     *
+     * @return boolean 
+     */
+    public function getSource()
+    {
+        return $this->source;
+    }
+
+    /**
+     * Add gameServers
+     *
+     * @param \DP\GameServer\GameServerBundle\Entity\GameServer $gameServers
+     * @return Game
+     */
+    public function addGameServer(\DP\GameServer\GameServerBundle\Entity\GameServer $gameServers)
+    {
+        $this->gameServers[] = $gameServers;
+    
+        return $this;
+    }
+
+    /**
+     * Remove gameServers
+     *
+     * @param \DP\GameServer\GameServerBundle\Entity\GameServer $gameServers
+     */
+    public function removeGameServer(\DP\GameServer\GameServerBundle\Entity\GameServer $gameServers)
+    {
+        $this->gameServers->removeElement($gameServers);
+    }
+
+    /**
+     * Get gameServers
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGameServers()
+    {
+        return $this->gameServers;
     }
 }

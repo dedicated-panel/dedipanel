@@ -18,6 +18,10 @@ game.available: Disponible ?
 game.actions: Actions
 steam.offline: Serveur déconnecté
 
+game.steamcmd: Installation avec SteamCmd ?
+game.appId: Numéro du jeux avec steamCmd
+game.bin: Nom du mode avec SteamCmd
+
 game.yes: Oui
 game.no: Non
 

@@ -104,7 +104,7 @@ class Machine
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection $gameServers
      * 
-     * @ORM\OneToMany(targetEntity="GameServer", mappedBy="machine", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="DP\GameServer\GameServerBundle\Entity\GameServer", mappedBy="machine", cascade={"persist"})
      */
     private $gameServers;
     

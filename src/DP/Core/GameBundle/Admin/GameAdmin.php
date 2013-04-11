@@ -38,6 +38,7 @@ class GameAdmin extends Admin
                 'choices' => array('steam' => 'Steam', 'minecraft' => 'Minecraft')
             ))
             ->add('orangebox')
+			->add('steamCmd')
             ->add('source')
             ->add('bin')
             ->add('map')
@@ -67,6 +68,9 @@ class GameAdmin extends Admin
             ->add('binDir')
             ->add('orangebox', null, array('required' => false))
             ->add('source', null, array('required' => false))
+            ->add('steamCmd', null, array('required' => false))
+			->add('appId', null, array('required' => false))	
+			->add('appMod', null, array('required' => false))				
             ->add('map', null, array('required' => false))
             ->add('configTemplate', null, array(
                 'required' => false, 
