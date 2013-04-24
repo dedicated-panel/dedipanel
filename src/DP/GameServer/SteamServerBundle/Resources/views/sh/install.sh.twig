@@ -24,11 +24,45 @@ CSP_DLURL="http://dl.redline-hosting.net/public/$CSP_FILE"
 
 
 if [ $# -eq 2 ]; then
+
+    # Installation via steamCmd
+    if [ $1 -eq 1 ]; then
     
-    # Installation via hldsupdatetool
-    if [ ! $1 -eq 1 ]; then
-    
-    	cd /home/steamcmd/serveur1/
+		# On verifie que steamCmd soit là
+		# Sinon on l'installe dans un dossier a part du jeu (home/steamcmd)
+    	if [ ! -e  {{ steamCmdDir }} ]; then
+            
+            mkdir {{ steamCmdDir }} && cd {{ steamCmdDir }}
+            # On commence par télécharger steamCmd
+	    	wget http://media.steampowered.com/client/steamcmd_linux.tar.gz
+	    	
+	    	# On decompresse et supprime le fichier dl
+	    	tar xvfz steamcmd_linux.tar.gz && rm -f tar xvfz steamcmd_linux.tar.gz
+	    	
+	    	chmod 755 ./steamcmd.sh && chown u+x ./steam.sh
+    	fi
+    	
+    	steamapp=$2
+		JEU=${steamapp%.*}
+		MOD=${steamapp#*.}
+        
+        cd {{ steamCmdDir }} 
+    	
+	    # Et on lance l'install du jeu
+	    echo "Game install" >> {{ installDir }}/install.log
+
+    	if [ ! $MOD ]; then
+            ./steamcmd.sh +login anonymous +force_install_dir {{ installDir }} +app_update $JEU +app_set_config $JEU mod $MOD +app_update $JEU +quit
+        else
+            ./steamcmd.sh +login anonymous +force_install_dir {{ installDir }} +app_update $JEU validate +quit 
+    	fi
+
+    	echo "Install ended" >> {{ installDir }}install.log
+	
+	# Installation via hldsupdatetool
+	else 
+	
+    	cd {{ installDir }}
     	
 	    # S'il s'agit de cspromod, on installe css
 	    # sur lequel on ajoute le mod via une archive
@@ -70,38 +104,7 @@ if [ $# -eq 2 ]; then
 	    fi
 	    
 	    echo "Install ended" >> install.log
-    # Installation via steamCmd
-    else
-		# On verifie que steamCmd soit là
-		# Sinon on l'installe dans un dossier a part du jeu (home/steamcmd)
-    	if [ ! -e  {{ steamCmdDir }} ]; then
-            
-            mkdir {{ steamCmdDir }} && cd {{ steamCmdDir }}
-            # On commence par télécharger steamCmd
-	    	wget http://media.steampowered.com/client/steamcmd_linux.tar.gz
-	    	
-	    	# On decompresse et supprime le fichier dl
-	    	tar xvfz steamcmd_linux.tar.gz && rm -f tar xvfz steamcmd_linux.tar.gz
-	    	
-	    	chmod 755 ./steamcmd.sh && chown u+x ./steam.sh
-    	fi
-    	
-    	steamapp=$2
-		JEU=${steamapp%.*}
-		MOD=${steamapp#*.}
-        
-        cd {{ steamCmdDir }} 
-    	
-	    # Et on lance l'install du jeu
-	    echo "Game install" >> {{ installDir }}/install.log
-
-    	if [ ! $3 ]; then
-            ./steamcmd.sh +login anonymous +force_install_dir {{ installDir }} +app_update $JEU +app_set_config $JEU mod $MOD +app_update $JEU +quit
-        else
-            ./steamcmd.sh +login anonymous +force_install_dir {{ installDir }} +app_update $JEU validate +quit 
-    	fi
-
-    	echo "Install ended" >> {{ installDir }}/install.log
+	
     fi
 else
 	echo "Usage: $0 game"
