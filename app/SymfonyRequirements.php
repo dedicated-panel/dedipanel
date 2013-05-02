@@ -430,8 +430,15 @@ class SymfonyRequirements extends RequirementCollection
         );
 
         if (version_compare($installedPhpVersion, self::REQUIRED_PHP_VERSION, '>=')) {
+            $timezones = array();
+            foreach (DateTimeZone::listAbbreviations() as $abbreviations) {
+                foreach ($abbreviations as $abbreviation) {
+                    $timezones[$abbreviation['timezone_id']] = true;
+                }
+            }
+
             $this->addRequirement(
-                (in_array(date_default_timezone_get(), DateTimeZone::listIdentifiers())),
+                isset($timezones[date_default_timezone_get()]),
                 sprintf('Configured default timezone "%s" must be supported by your installation of PHP', date_default_timezone_get()),
                 'Your default timezone is not supported by PHP. Check for typos in your <strong>php.ini</strong> file and have a look at the list of deprecated timezones at <a href="http://php.net/manual/en/timezones.others.php">http://php.net/manual/en/timezones.others.php</a>.'
             );
@@ -468,11 +475,19 @@ class SymfonyRequirements extends RequirementCollection
         );
 
         if (function_exists('apc_store') && ini_get('apc.enabled')) {
-            $this->addRequirement(
-                version_compare(phpversion('apc'), '3.0.17', '>='),
-                'APC version must be at least 3.0.17',
-                'Upgrade your <strong>APC</strong> extension (3.0.17+).'
-            );
+            if (version_compare($installedPhpVersion, '5.4.0', '>=')) {
+                $this->addRequirement(
+                    version_compare(phpversion('apc'), '3.1.13', '>='),
+                    'APC version must be at least 3.1.13 when using PHP 5.4',
+                    'Upgrade your <strong>APC</strong> extension (3.1.13+).'
+                );
+            } else {
+                $this->addRequirement(
+                    version_compare(phpversion('apc'), '3.0.17', '>='),
+                    'APC version must be at least 3.0.17',
+                    'Upgrade your <strong>APC</strong> extension (3.0.17+).'
+                );
+            }
         }
 
         $this->addPhpIniRequirement('detect_unicode', false);

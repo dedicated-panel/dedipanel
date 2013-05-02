@@ -4,38 +4,37 @@
     "autoload": {
         "psr-0": { "": "src/" }
     },
-    "minimum-stability": "dev",
     "require": {
         "php": ">=5.3.3",
-        "symfony/symfony": "2.1.*",
-        "doctrine/orm": ">=2.2.3,<2.4-dev",
-        "doctrine/doctrine-bundle": "1.0.*",
+        "symfony/symfony": "2.2.*",
+        "doctrine/orm": "~2.2,>=2.2.3",
+        "doctrine/doctrine-bundle": "1.2.*",
         "twig/extensions": "1.0.*",
         "symfony/assetic-bundle": "2.1.*",
-        "symfony/swiftmailer-bundle": "2.1.*",
-        "symfony/monolog-bundle": "2.1.*",
-        "sensio/framework-extra-bundle": "2.1.*",
-        "sensio/generator-bundle": "2.1.*",
-        "jms/security-extra-bundle": "1.2.*",
-        "jms/di-extra-bundle": "1.1.*",
-        "kriswallsmith/assetic": "1.1.*@dev", 
-        
-        "sonata-project/block-bundle": "*", 
-        "sonata-project/cache-bundle": "*",
-        "knplabs/knp-menu-bundle": "*",
-        "sonata-project/jquery-bundle": "*",
-        "sonata-project/exporter": "*",
-        "sonata-project/admin-bundle": "*",
-        "sonata-project/doctrine-orm-admin-bundle": "*",
-        "sonata-project/easy-extends-bundle": "*",
-        "friendsofsymfony/user-bundle": "*",
-        "sonata-project/user-bundle": "*",
-        "sonata-project/doctrine-extensions": "*",
+        "symfony/swiftmailer-bundle": "2.2.*",
+        "symfony/monolog-bundle": "2.2.*",
+        "sensio/distribution-bundle": "2.2.*",
+        "sensio/framework-extra-bundle": "2.2.*",
+        "sensio/generator-bundle": "2.2.*",
+        "jms/security-extra-bundle": "1.4.*",
+        "jms/di-extra-bundle": "1.3.*",
+
+        "kriswallsmith/assetic": "1.1.*@dev",
+
+        "sonata-project/block-bundle": "2.2.*@dev",
+        "sonata-project/cache-bundle": "2.1.*@dev",
+        "knplabs/knp-menu-bundle": "1.1.*@dev",
+        "sonata-project/jquery-bundle": "1.8.*@dev",
+        "sonata-project/exporter": "1.2.*",
+        "sonata-project/admin-bundle": "2.2.*@dev",
+        "sonata-project/doctrine-orm-admin-bundle": "2.2.*@dev",
+        "sonata-project/easy-extends-bundle": "2.1.*@dev",
+        "friendsofsymfony/user-bundle": "1.3.*@dev",
+        "sonata-project/user-bundle": "2.2.*@dev",
         "doctrine/migrations": "*",
-        "doctrine/doctrine-migrations-bundle": "*",
-        "doctrine/data-fixtures": "*",
-        "doctrine/doctrine-fixtures-bundle": "*",
-        "sensio/distribution-bundle": "*"
+        "doctrine/doctrine-migrations-bundle": "dev-master",
+        "doctrine/data-fixtures": "1.0.*@dev",
+        "doctrine/doctrine-fixtures-bundle": "2.1.*@dev"
     },
     "scripts": {
         "post-install-cmd": [
@@ -54,8 +53,12 @@
     "config": {
         "bin-dir": "bin"
     },
+    "minimum-stability": "alpha",
     "extra": {
         "symfony-app-dir": "app",
-        "symfony-web-dir": "web"
+        "symfony-web-dir": "web",
+        "branch-alias": {
+            "dev-master": "2.2-dev"
+        }
     }
 }

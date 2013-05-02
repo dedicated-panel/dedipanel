@@ -44,7 +44,7 @@ class SteamServerController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
 
         $entities = $em->getRepository('DPSteamServerBundle:SteamServer')->findAll();
-        
+
         return $this->render('DPSteamServerBundle:SteamServer:index.html.twig', array(
             'entities' => $entities
         ));
@@ -69,7 +69,7 @@ class SteamServerController extends Controller
         return $this->render('DPSteamServerBundle:SteamServer:show.html.twig', array(
             'entity'            => $entity,
             'delete_form'       => $deleteForm->createView(),
-            'delete_all_form'   => $deleteForm->createView(),  
+            'delete_all_form'   => $deleteForm->createView(),
         ));
     }
 
@@ -97,15 +97,18 @@ class SteamServerController extends Controller
         $entity  = new SteamServer();
         $request = $this->getRequest();
         $form    = $this->createForm(new AddSteamServerType(), $entity);
+        var_dump($request->isMethod('POST'));
         $form->bindRequest($request);
 
+        var_dump($form->isValid());
         if ($form->isValid()) {
+            exit('form valid !');
             $alreadyInstalled = $form->get('alreadyInstalled')->getData();
             $twig = $this->get('twig');
-            
+
             // Affichage d'une erreur sur le formulaire si l'installation est déjà en cours.
             try {
-                // On lance l'installation si le serveur n'est pas déjà sur la machine, 
+                // On lance l'installation si le serveur n'est pas déjà sur la machine,
                 // Sinon on upload les scripts nécessaires au panel
                 if (!$alreadyInstalled) {
                     $entity->installServer($twig);
@@ -113,11 +116,11 @@ class SteamServerController extends Controller
                 else {
                     $entity->uploadShellScripts($twig);
                 }
-                
+
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->persist($entity);
                 $em->flush();
-    
+
                 return $this->redirect($this->generateUrl('steam_show', array('id' => $entity->getId())));
             }
             catch (InstallAlreadyStartedException $e) {
@@ -152,12 +155,12 @@ class SteamServerController extends Controller
 
         $editForm = $this->createForm(new EditSteamServerType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
-        
+
         return $this->render('DPSteamServerBundle:SteamServer:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'delete_all_form'   => $deleteForm->createView(), 
+            'delete_all_form'   => $deleteForm->createView(),
         ));
     }
 
@@ -213,7 +216,7 @@ class SteamServerController extends Controller
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find SteamServer entity.');
             }
-            
+
             if ($fromMachine) {
                 $entity->removeFromServer();
             }
@@ -221,7 +224,7 @@ class SteamServerController extends Controller
             $em->remove($entity);
             $em->flush();
         }
-        
+
         return $this->redirect($this->generateUrl('steam'));
     }
 
@@ -232,7 +235,7 @@ class SteamServerController extends Controller
             ->getForm()
         ;
     }
-    
+
     /**
      * Recover installation status
      * Upload HLDS Scripts
@@ -241,23 +244,23 @@ class SteamServerController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
-        
+
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find SteamServer entity.');
         }
-        
+
         $status = $entity->getInstallationStatus();
-        
+
         // On upload le script du panel si l'install est terminé
         if ($status >= 100) {
             $entity->uploadShellScripts($this->get('twig'));
-        }  
+        }
         // On récupère le statut de l'installation que si celui-ci
         // N'est pas déjà indiqué comme terminé
         elseif ($status < 100) {
             $newStatus = $entity->getInstallationProgress();
             $entity->setInstallationStatus($newStatus);
-            
+
             if ($newStatus == 100) {
                 $entity->uploadShellScripts($this->get('twig'));
                 $entity->removeInstallationFiles();
@@ -265,7 +268,7 @@ class SteamServerController extends Controller
             elseif ($newStatus === null) {
                 $entity->installServer($this->get('twig'));
             }
-        } 
+        }
         // On vérifie que l'installation n'est pas bloqué (ou non démarré)
         elseif ($status === null) {
             $entity->installServer($this->get('twig'));
@@ -273,56 +276,56 @@ class SteamServerController extends Controller
 
         $em->persist($entity);
         $em->flush();
-        
+
         return $this->redirect($this->generateUrl('steam'));
     }
-    
+
     public function changeStateAction($id, $state)
     {
         $em = $this->getDoctrine()->getEntityManager();
         $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
-        
+
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find SteamServer entity.');
         }
-        
+
         $entity->changeStateServer($state);
-        
+
         if ($state == 'start' || $state == 'restart') {
             $this->get('session')->getFlashBag()->add('stateChanged', 'steam.stateChanged.' . $state);
         }
-        
+
         return $this->redirect($this->generateUrl('steam'));
     }
-    
+
     public function queryAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
         $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
-        
+
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find SteamServer entity.');
         }
-        
+
         return $this->render('DPSteamServerBundle:SteamServer:query.html.twig', array(
             'entity' => $entity
         ));
     }
-    
+
     public function regenAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
         $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
-        
+
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find SteamServer entity.');
         }
-        
+
         $twig = $this->get('twig');
         // Régénération des scripts du panel
         $entity->uploadHldsScript($twig);
         $entity->uploadHltvScript($twig);
-        
+
         return $this->redirect($this->generateUrl('steam_show', array('id' => $id)));
     }
 }
