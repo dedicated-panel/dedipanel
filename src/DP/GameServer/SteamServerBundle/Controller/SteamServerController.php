@@ -97,14 +97,11 @@ class SteamServerController extends Controller
         $entity  = new SteamServer();
         $request = $this->getRequest();
         $form    = $this->createForm(new AddSteamServerType(), $entity);
-        var_dump(get_class($form));
-        var_dump($request->isMethod('POST'));
         $form->bind($request);
 
-        var_dump($form->isValid());
+
         if ($form->isValid()) {
-            exit('form valid !');
-            /*$alreadyInstalled = $form->get('alreadyInstalled')->getData();
+            $alreadyInstalled = $form->get('alreadyInstalled')->getData();
             $twig = $this->get('twig');
 
             // Affichage d'une erreur sur le formulaire si l'installation est déjà en cours.
@@ -131,7 +128,7 @@ class SteamServerController extends Controller
             catch (MissingPacketException $e) {
                 $trans = $this->get('translator')->trans('steam.missingCompatLib');
                 $form->addError(new FormError($trans));
-            }*/
+            }
         }
 
         return $this->render('DPSteamServerBundle:SteamServer:new.html.twig', array(
