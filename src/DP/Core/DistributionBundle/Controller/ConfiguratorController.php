@@ -31,18 +31,18 @@ class ConfiguratorController extends Controller
         $form = $this->createFormBuilder()
              ->add('type', 'choice', array(
                 'choices' => array(
-                    'i' => 'configurator.install', 
+                    'i' => 'configurator.install',
                     // 'u' => 'configurator.update'
-                ), 
+                ),
                 'label' => 'configurator.chooseType')
             )->getForm();
-        
+
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
-            
+            $form->bind($request);
+
             if ($form->isValid()) {
                 $data = $form->getData();
-                
+
                 // Installation
                 if ($data['type'] == 'i') {
                     $url = $this->container->get('router')->generate('installer_check');
@@ -51,27 +51,27 @@ class ConfiguratorController extends Controller
                 elseif ($data['type'] == 'u') {
                     $url = $this->container->get('router')->generate('installer_step', array('index' => 0, 'type' => 'update'));
                 }
-                
+
                 return $this->redirect($url);
             }
         }
-        
+
         return $this->render('DPDistributionBundle:Configurator:index.html.twig', array(
             'form' => $form->createView(),
         ));
     }
-    
+
     public function checkAction()
     {
         $configurator = $this->container->get('dp.webinstaller');
         $config = $configurator->getRequirements();
 
         return $this->render('DPDistributionBundle:Configurator:check.html.twig', array(
-            'requirements' => $config['requirements'], 
+            'requirements' => $config['requirements'],
             'hasError' => $config['error']
         ));
     }
-    
+
     /*
      * @param $type     Configuration type (install, update)
      * @param $index    Step index
@@ -79,7 +79,7 @@ class ConfiguratorController extends Controller
     public function stepAction($type, $index)
     {
         $configurator = $this->container->get('dp.webinstaller');
-        
+
         if ($type == 'install') {
             $step = $configurator->getInstallStep($index);
             $stepCount = $configurator->getInstallStepCount();
@@ -88,24 +88,24 @@ class ConfiguratorController extends Controller
             $step = $configurator->getUpdateStep($index);
             $stepCount = $configurator->getUpdateStepCount();
         }
-        
+
         $form = $this->container->get('form.factory')->create($step->getFormType(), $step);
         $request = $this->container->get('request');
-        
+
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
-            
+            $form->bind($request);
+
             if ($form->isValid()) {
                 $errors = $step->run($form->getData(), $type);
-                                
+
                 if (count($errors) == 0) {
                     ++$index;
-                    
-                    // Redirection vers la page finale s'il n'y a plus d'étapes                    
+
+                    // Redirection vers la page finale s'il n'y a plus d'étapes
                     if ($index == $stepCount) {
-                        return $this->redirect($this->container->get('router')->generate('installer_final', array('type' => $type)));                        
+                        return $this->redirect($this->container->get('router')->generate('installer_final', array('type' => $type)));
                     }
-                    
+
                     // Redirection vers la prochaine étape
                     return $this->redirect($this->container->get('router')->generate('installer_step', array('type' => $type, 'index' => $index)));
                 }
@@ -116,12 +116,12 @@ class ConfiguratorController extends Controller
                 }
             }
         }
-        
+
         return $this->render($step->getTemplate(), array(
             'form'          => $form->createView(),
-            'configType'    => $type, 
+            'configType'    => $type,
             'index'         => $index,
-            'count'         => $stepCount, 
+            'count'         => $stepCount,
         ));
     }
 
@@ -129,22 +129,22 @@ class ConfiguratorController extends Controller
     {
         $configurator = $this->get('dp.webinstaller');
         $configurator->clean();
-        
+
         return $this->render('DPDistributionBundle:Configurator:final.html.twig');
     }
-    
+
     public function rewriteFrontScriptAction()
     {
         $rootDir = $this->get('kernel')->getRootDir();
         $filepath = $rootDir . '/../web/.htaccess';
-        
+
         if (is_writable($filepath)) {
             $content = file_get_contents($filepath);
             $content = str_replace('app_dev.php', 'app.php', $content);
-            
+
             file_put_contents($filepath, $content);
         }
-        
+
         return $this->redirect($this->generateUrl('_welcome'));
     }
 }

@@ -96,33 +96,33 @@ class MachineController extends Controller
         $entity  = new Machine();
         $request = $this->getRequest();
         $form    = $this->createForm(new AddMachineType(), $entity);
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $sec = PHPSeclibWrapper::getFromMachineEntity($entity);
             $test = $sec->connectionTest();
-            
+
             if ($test) {
                 $this->generateKeyPair($entity);
-                
+
                 $this->getMachineInfos($sec, $entity);
                 $is64Bit = $entity->getIs64Bit();
-                
+
                 if ($is64Bit) {
                     if (!$sec->hasCompatLib()) {
                         $this->get('session')->setFlash('compatLib', 'machine.compatLibNotInstalled');
                     }
                 }
-                
+
                 if (!$sec->javaInstalled()) {
                     $this->get('session')->setFlash('compatLib', 'machine.javaNotInstalled');
                 }
-                
+
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->persist($entity);
                 $em->flush();
-    
-                return $this->redirect($this->generateUrl('machine_show', array('id' => $entity->getId())));          
+
+                return $this->redirect($this->generateUrl('machine_show', array('id' => $entity->getId())));
             }
             else {
                 $trans = $this->get('translator')->trans('machine.identNotGood');
@@ -179,35 +179,35 @@ class MachineController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->bindRequest($request);
+        $editForm->bind($request);
 
-        if ($editForm->isValid()) {            
+        if ($editForm->isValid()) {
             // Si l'utilisateur a précisé son mdp, on régénère une paire de clé
-            $password = $entity->getPassword();            
+            $password = $entity->getPassword();
             if (!empty($password)) {
                 $sec = PHPSeclibWrapper::getFromMachineEntity($entity);
                 $test = $sec->connectionTest();
-                
+
                 // Si le test de connexion à réussi, on génère la paire de clé
                 if ($test) {
                     $this->generateKeyPair($entity);
-                    
+
                     $this->getMachineInfos($sec, $entity);
                     $is64Bit = $entity->getIs64Bit();
-                    
+
                     if ($is64Bit) {
                         if (!$sec->hasCompatLib()) {
                             $this->get('session')->setFlash('compatLib', 'machine.compatLibNotInstalled');
                         }
                     }
-                    
+
                     if (!$sec->javaInstalled()) {
                         $this->get('session')->setFlash('compatLib', 'machine.javaNotInstalled');
                     }
-                    
+
                     $em->persist($entity);
                     $em->flush();
-                    
+
                     return $this->redirect($this->generateUrl('machine'));
                 }
                 // Sinon ajout d'un message d'erreur sur le formulaire
@@ -224,25 +224,25 @@ class MachineController extends Controller
             'delete_form' => $deleteForm->createView(),
         ));
     }
-    
+
     private function generateKeyPair(Machine $entity, $delete = false)
     {
         $secure = PHPSeclibWrapper::getFromMachineEntity($entity, false);
         $secure->setPasswd($entity->getPassword());
 
         if ($delete) $secure->deleteKeyPair($entity->getPublicKey());
-        
+
         $privkeyFilename = uniqid('', true);
         $pubKey = $secure->createKeyPair($privkeyFilename);
-        
+
         $entity->setPrivateKeyFilename($privkeyFilename);
         $entity->setPublicKey($pubKey);
-        
+
         $this->getMachineInfos($secure, $entity);
 
         return true;
     }
-    
+
     protected function getMachineInfos(PHPSeclibWrapper $secure, Machine $entity)
     {
         $entity->setHome($secure->getHome());
@@ -259,7 +259,7 @@ class MachineController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
@@ -268,18 +268,18 @@ class MachineController extends Controller
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Machine entity.');
             }
-            
+
             try {
                 $secure = PHPSeclibWrapper::getFromMachineEntity($entity);
                 $secure->deleteKeyPair($entity->getPublicKey());
             }
             catch (\Exception $e) {}
-            
+
             foreach ($entity->getGameServers() AS $srv) {
                 $entity->getGameServers()->removeElement($srv);
                 $em->remove($srv);
             }
-            
+
             $em->remove($entity);
             $em->flush();
         }
@@ -294,7 +294,7 @@ class MachineController extends Controller
             ->getForm()
         ;
     }
-    
+
     public function connectionTestAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
@@ -304,35 +304,35 @@ class MachineController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Machine entity.');
         }
-        
+
         $is64Bit = false;
         $compatLib = false;
-        
-        try {    
+
+        try {
             $secure = PHPSeclibWrapper::getFromMachineEntity($entity);
             $test = $secure->connectionTest();
-            
+
             $this->getMachineInfos($secure, $entity);
             $is64Bit = $entity->getIs64Bit();
-            
+
             if ($is64Bit) {
                 $compatLib = $secure->hasCompatLib();
             }
-            
+
             $javaInstalled = $secure->javaInstalled();
-            
+
             $em->persist($entity);
             $em->flush($entity);
         }
         catch (PHPSeclibWrapper\Exception\ConnectionErrorException $e) {
             $test = false;
         }
-        
+
         return $this->render('DPMachineBundle:Machine:connectionTest.html.twig', array(
-            'machine' => $entity, 
-            'result' => $test, 
-            'hasCompatLib' => $compatLib, 
-            'javaInstalled' => $javaInstalled, 
+            'machine' => $entity,
+            'result' => $test,
+            'hasCompatLib' => $compatLib,
+            'javaInstalled' => $javaInstalled,
         ));
     }
 }

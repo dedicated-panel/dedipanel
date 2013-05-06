@@ -22,9 +22,10 @@ namespace DP\GameServer\SteamServerBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class BaseSteamServerType extends AbstractType
-{    
+abstract class BaseSteamServerType extends AbstractType
+{
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -33,7 +34,7 @@ class BaseSteamServerType extends AbstractType
             ->add('name', 'text', array('label' => 'game.name'))
             ->add('port', 'integer', array('label' => 'game.port'))
             ->add('game', 'entity', array(
-                'label' => 'game.selectGame', 'class' => 'DPGameBundle:Game', 
+                'label' => 'game.selectGame', 'class' => 'DPGameBundle:Game',
                 'query_builder' => function($repo) {
                     return $repo->getQBAvailableSteamGames();
                 }))
@@ -42,8 +43,11 @@ class BaseSteamServerType extends AbstractType
         ;
     }
 
-    public function getName()
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return 'dp_gameserver_steamserverbundle_steamservertype';
+        $resolver->setDefaults(array(
+            'csrf_protection' => false,
+            'data_class' => 'DP\GameServer\SteamServerBundle\Entity\SteamServer'
+        ));
     }
 }

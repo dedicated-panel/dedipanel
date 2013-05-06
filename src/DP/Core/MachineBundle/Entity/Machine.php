@@ -62,8 +62,10 @@ class Machine
      * @var integer $port
      *
      * @ORM\Column(name="port", type="integer")
-     * @Assert\Min(limit=1, message="machine.assert.port")
-     * @Assert\Max(limit=65536, message="machine.assert.port")
+     * @Assert\Length(
+     *      min = 1, minMessage = "machine.assert.port",
+     *      max = 65536, maxMessage = "machine.assert.port"
+     * )
      */
     private $port = 22;
 
@@ -74,50 +76,50 @@ class Machine
      * @Assert\NotBlank(message="machine.assert.user")
      */
     private $user;
-    
+
     /**
      * @var string $password
      */
     private $password;
 
-    /** 
+    /**
      * @var string $privateKey
-     * 
+     *
      * @ORM\Column(name="privateKey", type="string", length=23)
      */
     private $privateKeyFilename;
-    
+
     /**
      * @var string $publicKey
      *
      * @ORM\Column(name="publicKey", type="string", length=255, nullable=true)
      */
     private $publicKey;
-    
+
     /**
      * @var string $home
-     * 
+     *
      * @ORM\Column(name="home", type="string", length=255, nullable=true)
      */
     private $home;
-    
+
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection $gameServers
-     * 
+     *
      * @ORM\OneToMany(targetEntity="DP\GameServer\GameServerBundle\Entity\GameServer", mappedBy="machine", cascade={"persist"})
      */
     private $gameServers;
-    
+
     /**
      * @var integer
-     * 
+     *
      * @ORM\Column(name="nbCore", type="integer", nullable=true)
      */
     private $nbCore;
-    
+
     /**
      * @var boolean
-     * 
+     *
      * @ORM\Column(name="is64bit", type="boolean")
      */
     private $is64bit = false;
@@ -128,22 +130,22 @@ class Machine
         $this->gameServers = new \Doctrine\Common\Collections\ArrayCollection();
         $this->voipServers = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     public function addGameServer(GameServer $srv)
     {
         $srv->setMachine($this);
         $this->gameServers[] = $srv;
     }
-    
+
     public function getGameServers()
     {
         return $this->gameServers;
     }
-    
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -163,7 +165,7 @@ class Machine
     /**
      * Get privateIp
      *
-     * @return bigint 
+     * @return bigint
      */
     public function getPrivateIp()
     {
@@ -183,7 +185,7 @@ class Machine
     /**
      * Get publicIp
      *
-     * @return bigint 
+     * @return bigint
      */
     public function getPublicIp()
     {
@@ -208,7 +210,7 @@ class Machine
     /**
      * Get port
      *
-     * @return integer 
+     * @return integer
      */
     public function getPort()
     {
@@ -228,7 +230,7 @@ class Machine
     /**
      * Get user
      *
-     * @return string 
+     * @return string
      */
     public function getUser()
     {
@@ -237,22 +239,22 @@ class Machine
 
     /**
      * Set filename of the private key
-     * 
-     * @param string $privateKeyFilename 
+     *
+     * @param string $privateKeyFilename
      */
     public function setPrivateKeyFilename($privateKeyFilename) {
         $this->privateKeyFilename = $privateKeyFilename;
     }
-    
+
     /**
      * Get filename of the private key
-     * 
-     * @return string 
+     *
+     * @return string
      */
     public function getPrivateKeyFilename() {
         return $this->privateKeyFilename;
     }
-    
+
     /**
      * Set publicKey
      *
@@ -266,7 +268,7 @@ class Machine
     /**
      * Get publicKey
      *
-     * @return string 
+     * @return string
      */
     public function getPublicKey()
     {
@@ -275,7 +277,7 @@ class Machine
 
     /**
      * Set password
-     * 
+     *
      * @param string $password
      */
     public function setPassword($password)
@@ -284,18 +286,18 @@ class Machine
     }
     /**
      * Get password
-     * 
+     *
      * @return string
      */
     public function getPassword()
     {
         return $this->password;
     }
-    
+
     /**
      * Set home
-     * 
-     * @param string $home 
+     *
+     * @param string $home
      */
     public function setHome($home)
     {
@@ -303,92 +305,92 @@ class Machine
     }
     /**
      * Get home
-     * 
+     *
      * @return string
      */
     public function getHome()
     {
         return $this->home;
     }
-    
+
     public function __toString() {
         return $this->user . '@' . $this->privateIp . ':' . $this->port;
     }
-    
+
     /**
      * Set the number of core on the server
-     * 
+     *
      * @param integer $nbCore
      */
     public function setNbCore($nbCore)
     {
         $this->nbCore = $nbCore;
     }
-    
+
     /**
      * Get the number of core on the server
-     * 
+     *
      * @return integer Number of core
      */
     public function getNbCore()
     {
         return $this->nbCore;
     }
-    
+
     public function retrieveNbCore()
-    {        
+    {
         return PHPSeclibWrapper::getFromMachineEntity($this)
                 ->exec('grep processor /proc/cpuinfo | wc -l');
     }
-    
+
     /**
      * Sets is 64 bit system
-     * 
+     *
      * @param integer $is64bit Is 64 bit system ?
-     * 
+     *
      * @return Machine
      */
     public function setIs64Bit($is64bit)
     {
         $this->is64bit = $is64bit;
-        
+
         return $this;
     }
-    
+
     /**
      * Gets is 64 bit system
-     * 
+     *
      * @return integer Is 64 bit system
      */
     public function getIs64Bit()
     {
         return $this->is64bit;
     }
-    
+
     public function updateCrontab($search, $replace)
     {
         $cmd  = 'crontab -l | awk \'BEGIN{search="' . $search . '"; replacement="' . $replace . '"}//';
         $cmd .= '{if ($6 == search) { print replacement; found=1} else { print }}';
         $cmd .= 'END{ if (!found) { print replacement }}\' | crontab -';
-        
+
         return PHPSeclibWrapper::getFromMachineEntity($this)
                 ->exec($cmd);
     }
-    
+
     public function removeFromCrontab($search)
     {
         $cmd  = 'crontab -l | awk \'BEGIN{search="' . $search . '"}//';
         $cmd .= '{if ($6 == search) { found=1} else { print }}\' | crontab -';
-        
+
         return PHPSeclibWrapper::getFromMachineEntity($this)
                 ->exec($cmd);
     }
-    
+
     public function fileExists($filepath)
     {
         return PHPSeclibWrapper::getFromMachineEntity($this)->fileExists($filepath);
     }
-    
+
     public function dirExists($dirpath)
     {
         return PHPSeclibWrapper::getFromMachineEntity($this)->dirExists($dirpath);

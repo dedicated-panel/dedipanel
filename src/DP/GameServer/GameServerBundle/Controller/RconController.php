@@ -29,11 +29,11 @@ abstract class RconController extends Controller
     abstract public function getEntityRepository();
     abstract public function getRconFromServer(GameServer $server);
     abstract public function getBaseRoute();
-    
+
     public function consoleJsonAction($id)
     {
         $server = $this->getEntityRepository()->find($id);
-        
+
         if (!$server) {
             throw $this->createNotFoundException('Unable to find GameServer entity.');
         }
@@ -41,23 +41,23 @@ abstract class RconController extends Controller
         $response = new Response;
         $response->setCharset('utf-8');
         $response->headers->set('Content-type', 'application/json');
-        
+
         $jsonResp = array();
         $trans = $this->get('translator');
-        
+
         if ($server->query->isOnline() && !$server->query->isBanned()) {
             $form = $this->createRconForm($this->getFormDefaultValues($server))->getForm();
             $request = $this->get('request');
-            
+
             if ($request->getMethod() == 'POST') {
-                $form->bindRequest($request);
+                $form->bind($request);
 
                 if ($form->isValid()) {
                     $data = $form->getData();
 
                     // Enregistrement du mdp rcon
                     $server = $this->saveServerData($server, $data);
-                    $em = $this->getDoctrine()->getEntityManager();        
+                    $em = $this->getDoctrine()->getEntityManager();
                     $em->persist($server);
                     $em->flush();
 
@@ -65,7 +65,7 @@ abstract class RconController extends Controller
                     $ret = $server
                                 ->setRcon($this->getRconFromServer($server))
                                 ->sendCmd($data['cmd']);
-                    
+
                     $jsonResp['log'] = '> ' . $data['cmd'] . "\n" . $ret . "\n";
                 }
             }
@@ -77,34 +77,34 @@ abstract class RconController extends Controller
         else {
             $jsonResp['error'] = $trans->trans('game.offline');
         }
-        
+
         $response->setContent(json_encode($jsonResp));
-        
+
         return $response;
     }
-    
+
     public function consoleAction($id)
     {
         $server = $this->getEntityRepository()->find($id);
-        
+
         if (!$server) {
             throw $this->createNotFoundException('Unable to find GameServer entity.');
         }
-        
+
         $log = '';
         $form = $this->createRconForm($this->getFormDefaultValues($server))->getForm();
-        
+
         if ($server->getQuery()->isOnline() && !$server->getQuery()->isBanned()) {
             $request = $this->get('request');
 
             if ($request->getMethod() == 'POST') {
-                $form->bindRequest($request);
+                $form->bind($request);
 
                 if ($form->isValid()) {
                     $data = $form->getData();
-                    
+
                     // Enregistrement du mot de passe rcon
-                    $server = $this->saveServerData($server, $data);                    
+                    $server = $this->saveServerData($server, $data);
                     $em = $this->getDoctrine()->getEntityManager();
                     $em->persist($server);
                     $em->flush();
@@ -118,36 +118,36 @@ abstract class RconController extends Controller
                 }
             }
         }
-        
+
         return $this->render('DPGameServerBundle:Rcon:console.html.twig', array(
-            'log' => $log, 
-            'form' => $form->createView(), 
-            'baseRoute' => $this->getBaseRoute(), 
-            'sid' => $server->getId(), 
-            'online' => $server->getQuery()->isOnline(), 
-            'banned' => $server->getQuery()->isBanned(), 
+            'log' => $log,
+            'form' => $form->createView(),
+            'baseRoute' => $this->getBaseRoute(),
+            'sid' => $server->getId(),
+            'online' => $server->getQuery()->isOnline(),
+            'banned' => $server->getQuery()->isBanned(),
         ));
     }
-    
+
     public function createRconForm(array $default = array())
     {
         $form = $this->createFormBuilder($default)
                     ->add('cmd', 'text', array('label' => 'game.rcon.command'))
                     ->add('password', 'text', array('label' => 'game.rcon.password'))
         ;
-        
+
         return $form;
     }
-    
+
     public function getFormDefaultValues(GameServer $server)
     {
         return array('password' => $server->getRconPassword());
     }
-    
+
     public function saveServerData(GameServer $server, array $data)
     {
         $server->setRconPassword($data['password']);
-        
+
         return $server;
     }
 }

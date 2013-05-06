@@ -33,7 +33,7 @@ use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({
- *      "steam" = "DP\GameServer\SteamServerBundle\Entity\SteamServer", 
+ *      "steam" = "DP\GameServer\SteamServerBundle\Entity\SteamServer",
  *      "minecraft" = "DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer"
  * })
  */
@@ -60,8 +60,10 @@ abstract class GameServer
      * @var integer $port
      *
      * @ORM\Column(name="port", type="integer")
-     * @Assert\Min(limit="1024", message="gameServer.assert.port")
-     * @Assert\Max(limit="65536", message="gameServer.assert.port")
+     * @Assert\Length(
+     *      min = 1024, minMessage = "gameServer.assert.port",
+     *      max = 65536, maxMessage = "gameServer.assert.port"
+     * )
      * @Assert\NotBlank(message="gameServer.assert.port")
      */
     protected $port;
@@ -85,17 +87,17 @@ abstract class GameServer
      * @var integer $maxplayers
      *
      * @ORM\Column(name="maxplayers", type="integer")
-     * @Assert\Min(limit="2", message="gameServer.assert.maxplayers")
+     * @Assert\Length(min = 2, minMessage = "gameServer.assert.maxplayers")
      */
     protected $maxplayers;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="DP\Core\MachineBundle\Entity\Machine", inversedBy="gameServers")
      * @ORM\JoinColumn(name="machineId", referencedColumnName="id")
      * @Assert\NotNull(message="gameServer.assert.machine")
      */
     protected $machine;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="DP\Core\GameBundle\Entity\Game", inversedBy="gameServers")
      * @ORM\JoinColumn(name="gameId", referencedColumnName="id")
@@ -109,25 +111,25 @@ abstract class GameServer
      * @ORM\Column(name="rconPassword", type="string", length=32, nullable=true)
      */
     protected $rconPassword;
-    
+
     protected $query;
     protected $rcon;
-    
+
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection $plugins
-     * 
-     * @ORM\ManyToMany(targetEntity="DP\Core\GameBundle\Entity\Plugin") 
+     *
+     * @ORM\ManyToMany(targetEntity="DP\Core\GameBundle\Entity\Plugin")
      * @ORM\JoinTable(name="gameserver_plugins",
      *      joinColumns={@ORM\JoinColumn(name="server_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="plugin_id", referencedColumnName="id")}
      * )
      */
     private $plugins;
-    
-    
+
+
     abstract public function changeStateServer($state);
-    
-    
+
+
     public function __construct()
     {
         $this->plugins = new \Doctrine\Common\Collections\ArrayCollection();
@@ -136,7 +138,7 @@ abstract class GameServer
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -176,7 +178,7 @@ abstract class GameServer
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -196,7 +198,7 @@ abstract class GameServer
     /**
      * Get port
      *
-     * @return integer 
+     * @return integer
      */
     public function getPort()
     {
@@ -216,7 +218,7 @@ abstract class GameServer
     /**
      * Get gameId
      *
-     * @return integer 
+     * @return integer
      */
     public function getGame()
     {
@@ -236,7 +238,7 @@ abstract class GameServer
     /**
      * Get installationStatus
      *
-     * @return integer 
+     * @return integer
      */
     public function getInstallationStatus()
     {
@@ -256,7 +258,7 @@ abstract class GameServer
     /**
      * Get dir
      *
-     * @return string 
+     * @return string
      */
     public function getDir()
     {
@@ -276,82 +278,82 @@ abstract class GameServer
     /**
      * Get maxplayers
      *
-     * @return integer 
+     * @return integer
      */
     public function getMaxplayers()
     {
         return $this->maxplayers;
     }
-    
+
     /**
      * Get absolute path of server installation directory
-     * 
+     *
      * @return string
      */
     public function getAbsoluteDir()
     {
         return $this->getMachine()->getHome() . '/' . $this->getDir() . '/';
     }
-    
+
     /**
      * Get absolute path of binaries directory
-     * 
+     *
      * @return string
      */
     protected function getAbsoluteBinDir()
-    {        
-        return $this->getAbsoluteDir() . $this->getGame()->getBinDir(); 
+    {
+        return $this->getAbsoluteDir() . $this->getGame()->getBinDir();
     }
-    
+
     /**
      * Get absolute path of game content directory
-     * 
+     *
      * @return string
      */
     protected function getAbsoluteGameContentDir()
     {
         return $this->getAbsoluteBinDir();
     }
-    
+
     protected function getScreenName()
     {
         $screenName = $this->getMachine()->getUser() . '-' . $this->getDir();
-        
+
         return $this->getScreenNameHash($screenName);
     }
-    
+
     protected function getInstallScreenName()
     {
         $screenName = $this->getMachine()->getUser() . '-install-' . $this->getDir();
-        
+
         return $this->getScreenNameHash($screenName);
     }
-    
+
     public function getPluginInstallScreenName($scriptName = '')
     {
         $screenName = $this->getMachine()->getUser() . '-plugin-install-' . $scriptName . '-' . $this->getDir();
-        
+
         return $this->getScreenNameHash($screenName);
     }
-    
+
     protected function getScreenNameHash($screenName, $hashLength = 20)
     {
         $screenName = sha1($screenName);
         $screenName = substr($screenName, 0, $hashLength);
-        
+
         return 'dp-' . $screenName;
     }
-    
+
     public function setQuery(QueryInterface $query)
     {
         $this->query = $query;
     }
-    
+
     public function getQuery()
     {
         return $this->query;
     }
-    
+
     /**
      * Set rconPassword
      *
@@ -365,42 +367,42 @@ abstract class GameServer
     /**
      * Get rconPassword
      *
-     * @return string 
+     * @return string
      */
     public function getRconPassword()
     {
         return $this->rconPassword;
     }
-    
+
     public function isEmptyRconPassword()
     {
         return empty($this->rconPassword);
     }
-    
+
     public function setRcon($rcon)
     {
         $this->rcon = $rcon;
-        
+
         return $this->rcon;
     }
-    
+
     public function getRcon()
     {
         return $this->rcon;
     }
-    
+
     public function getDirContent($path = '')
     {
         $path = $this->getAbsoluteGameContentDir() . $path;
         $sftp = PHPSeclibWrapper::getFromMachineEntity($this->getMachine())->getSFTP();
-        
+
         $dirContent = $sftp->rawlist($path);
         $dirs = array();
         $files = array();
-        
+
         foreach ($dirContent AS $key => $attr) {
             $attr['name'] = $key;
-            
+
             if ($attr['type'] == NET_SFTP_TYPE_DIRECTORY
                 && $key != '..' && $key != '.') {
                 $dirs[] = $attr;
@@ -409,56 +411,56 @@ abstract class GameServer
                 $files[] = $attr;
             }
         }
-        
+
         return array('files' => $files, 'dirs' => $dirs);
     }
-    
+
     public function getFileContent($path)
     {
         $path = $this->getAbsoluteGameContentDir() . $path;
-        
+
         return utf8_encode(PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
                 ->getRemoteFile($path));
     }
-    
+
     public function uploadFile($path, $content)
     {
         $path = $this->getAbsoluteGameContentDir() . $path;
-        
+
         return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
                 ->upload($path, $content, false);
     }
-    
+
     public function touch($file)
     {
         $path = $this->getAbsoluteGameContentDir() . $file;
-        
+
         return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
                 ->touch($path);
     }
-    
+
     /**
      * Add plugin
-     * 
-     * @param \DP\Core\GameBundle\Entity\Plugin $plugin 
+     *
+     * @param \DP\Core\GameBundle\Entity\Plugin $plugin
      */
     public function addPlugin(\DP\Core\GameBundle\Entity\Plugin $plugin)
     {
         $this->plugins[] = $plugin;
     }
-    
+
     /**
      * Remove a server plugin
-     * @param \DP\Core\GameBundle\Entity\Plugin $plugin 
+     * @param \DP\Core\GameBundle\Entity\Plugin $plugin
      */
     public function removePlugin(\DP\Core\GameBundle\Entity\Plugin $plugin)
     {
         $this->plugins->removeElement($plugin);
     }
-    
+
     /**
      * Get plugins recorded as "installed on the server"
-     * 
+     *
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getPlugins()
@@ -470,50 +472,50 @@ abstract class GameServer
             return $this->plugins;
         }
     }
-    
+
     public function getInstalledPlugins()
     {
         return $this->getPlugins();
     }
-    
+
     public function getNotInstalledPlugins()
     {
         $intersectCallback = function ($plugin1, $plugin2) {
             return $plugin1->getId() - $plugin2->getId();
         };
         $plugins = $this->getGame()->getPlugins()->getValues();
-        
+
         // On compare l'array contenant l'ensemble des plugins dispo pour le jeu
         // A ceux installés sur le serveur
         return array_udiff($plugins, $this->getPlugins(), $intersectCallback);
     }
-    
+
     public function fileExists($filepath)
     {
         $filepath = $this->getAbsoluteGameContentDir() . $filepath;
-        
+
         return $this->getMachine()->fileExists($filepath);
     }
-    
+
     public function dirExists($dirpath)
     {
         $dirpath = $this->getAbsoluteGameContentDir() . $dirpath;
-        
+
         return $this->getMachine()->dirExists($dirpath);
     }
-    
+
     public function remove($path)
     {
         $path = $this->getAbsoluteGameContentDir() . $path;
-        
+
         return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
                 ->remove($path);
     }
-    
+
     public function createDirectory($dirpath)
     {
         $dirpath = $this->getAbsoluteGameContentDir() . $dirpath;
-        
+
         return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
                 ->createDirectory($dirpath);
     }

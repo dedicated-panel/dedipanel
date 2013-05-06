@@ -31,27 +31,30 @@ class UserStep implements StepInterface
 {
     /**
      * @Assert\NotBlank(message="configurator.userCreation.username.blank")
-     * @Assert\MinLength(limit="2", message="configurator.userCreation.username.short")
-     * @Assert\MaxLength(limit="255", message="configurator.userCreation.username.long")
+     * @Assert\Length(
+     *      min = 2,    minMessage = "configurator.userCreation.username.short",
+     *      max = 255,  maxMessage = "configurator.userCreation.username.long"
+     * )
      */
     public $username;
-    
+
     /**
      * @Assert\NotBlank(message="configurator.userCreation.email.blank")
-     * @Assert\MinLength(limit="8", message="configurator.userCreation.email.short")
-     * @Assert\MaxLength(limit="255", message="configurator.userCreation.email.long")
+     * @Assert\Length(
+     *      min = 8,    minMessage = "configurator.userCreation.email.short",
+     *      max = 255,  maxMessage = "configurator.userCreation.email.long"
+     * )
      */
     public $email;
-    
+
     /**
-     * 
      * @Assert\NotBlank(message="configurator.userCreation.password.blank")
-     * @Assert\MinLength(limit="6", message="configurator.userCreation.password.short")
+     * @Assert\Length(min = 6, minMessage = "configurator.userCreation.password.short")
      */
     public $password;
-    
+
     private $container;
-    
+
     /**
      * @see StepInterface
      */
@@ -59,7 +62,7 @@ class UserStep implements StepInterface
     {
         $this->container = $container;
     }
-    
+
     /**
      * @see StepInterface
      */
@@ -67,7 +70,7 @@ class UserStep implements StepInterface
     {
         return new UserStepType();
     }
-    
+
     /**
      * @see StepInterface
      */
@@ -75,7 +78,7 @@ class UserStep implements StepInterface
     {
         return 'DPDistributionBundle:Configurator/Step:user.html.twig';
     }
-    
+
     /**
      * @see StepInterface
      */
@@ -83,14 +86,14 @@ class UserStep implements StepInterface
     {
         return 'configurator.userCreation.title';
     }
-    
+
     /**
      * @see StepInterface
      */
     public function run(StepInterface $data, $configType)
     {
         $userManager = $this->container->get('fos_user.user_manager');
-        
+
         $user = $userManager->createUser();
         $user->setUsername($data->username);
         $user->setEmail($data->email);
@@ -98,20 +101,20 @@ class UserStep implements StepInterface
         $user->setSuperAdmin(true);
         $user->setEnabled(true);
         $userManager->updateUser($user);
-        
+
         return array();
     }
-    
+
     public function isInstallStep()
     {
         return true;
     }
-    
+
     public function isUpdateStep()
     {
         return false;
     }
-    
+
     public function checkRequirements()
     {
         return array();
