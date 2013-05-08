@@ -164,9 +164,11 @@ class MinecraftServer extends GameServer
     {
         $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
 
+        /*
+         * Correction à venir de la verif de java
         if (!$sec->javaInstalled()) {
             throw new MissingPacketException($sec, 'oracle-java8-installer');
-        }
+        }*/
 
         $installDir = $this->getAbsoluteDir();
         $logPath = $installDir . 'install.log';
