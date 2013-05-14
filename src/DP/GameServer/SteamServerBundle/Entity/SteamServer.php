@@ -319,7 +319,7 @@ class SteamServer extends GameServer {
             'launchName' => $game->getLaunchName(), 'ip' => $this->getMachine()->getPublicIp(), 
             'port' => $this->getPort(), 'maxplayers' => $this->getMaxplayers(), 
             'startMap' => $game->getMap(), 'binDir' => $this->getAbsoluteBinDir(), 
-            'core' => $this->getCore(), 
+            'core' => $this->getCore() - 1, 
         ));
         
         $uploadHlds = $sec->upload($scriptPath, $hldsScript, 0750);
