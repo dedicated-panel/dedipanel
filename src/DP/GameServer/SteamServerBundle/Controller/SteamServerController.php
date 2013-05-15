@@ -99,7 +99,6 @@ class SteamServerController extends Controller
         $form    = $this->createForm(new AddSteamServerType(), $entity);
         $form->bind($request);
 
-
         if ($form->isValid()) {
             $alreadyInstalled = $form->get('alreadyInstalled')->getData();
             $twig = $this->get('twig');
