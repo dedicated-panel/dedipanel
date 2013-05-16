@@ -37,7 +37,10 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $cs->setOrangebox(false);
         $cs->setMap('de_dust2');
         $cs->setAvailable(true);
-        $cs->setBinDir('./');
+        $cs->setBinDir('');
+        $cs->setSteamCmd(true);
+        $cs->setAppId('90');
+        $cs->setAppMod('cstrike');
 //        $cs->setSourceImagesMaps('');
         $cs->setSource(false);
         $cs->setType('steam');
@@ -54,7 +57,10 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $cz->setOrangebox(false);
         $cz->setMap('de_dust2');
         $cz->setAvailable(true);
-        $cz->setBinDir('./');
+        $cs->setBinDir('');
+        $cs->setSteamCmd(true);
+        $cs->setAppId('90');
+        $cs->setAppMod('czero');
 //        $cz->setSourceImageMaps('');
         $cz->setType('steam');
         $cz->setSource(false);
@@ -71,7 +77,10 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $dod->setOrangebox(false);
         $dod->setMap('dod_anzio');
         $dod->setAvailable(true);
-        $dod->setBinDir('./');
+        $cs->setBinDir('');
+        $cs->setSteamCmd(true);
+        $cs->setAppId('90');
+        $cs->setAppMod('dod');
 //        $dod->setSourceImageMaps('');
         $dod->setType('steam');
         $dod->setSource(false);
@@ -88,7 +97,10 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $tfc->setOrangebox(false);
         $tfc->setMap('2fort');
         $tfc->setAvailable(true);
-        $tfc->setBinDir('./');
+        $cs->setBinDir('');
+        $cs->setSteamCmd(true);
+        $cs->setAppId('90');
+        $cs->setAppMod('tfc');
 //        $tfc->setSourceImageMaps('');
         $tfc->setType('steam');
         $tfc->setSource(false);
@@ -108,7 +120,9 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $css->setOrangebox(false);
         $css->setMap('de_dust2');
         $css->setAvailable(true);
-        $css->setBinDir('css/');
+        $cs->setBinDir('');
+        $cs->setSteamCmd(true);
+        $cs->setAppId('232330');
 //        $css->setSourceImageMaps('');
         $css->setType('steam');
         $css->setSource(true);
@@ -123,7 +137,9 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $tf->setOrangebox(true);
         $tf->setMap('ctf_2fort');
         $tf->setAvailable(true);
-        $tf->setBinDir('./');
+        $cs->setBinDir('');
+        $cs->setSteamCmd(true);
+        $cs->setAppId('232250');
 //        $tf->setSourceImageMaps('');
         $tf->setType('steam');
         $tf->setSource(false);
@@ -138,7 +154,9 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $dods->setOrangebox(true);
         $dods->setMap('dod_anzio');
         $dods->setAvailable(true);
-        $dods->setBinDir('./');
+        $cs->setBinDir('');
+        $cs->setSteamCmd(true);
+        $cs->setAppId('232290');
 //        $dods->setSourceImageMaps('');
         $dods->setType('steam');
         $dods->setSource(false);
@@ -146,7 +164,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
 //        $this->addReference('dods', $dods);
         
         /********************
-         * Orangebox/Source *
+         * Minecraft *
          ********************/
         $mc = new Game();
         $mc->setName('Minecraft');
