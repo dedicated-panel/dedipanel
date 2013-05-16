@@ -314,7 +314,17 @@ abstract class GameServer
     {
         return $this->getAbsoluteBinDir();
     }
-
+    
+    /**
+     * Get absolute path of steamcmd directory
+     * 
+     * @return string
+     */
+    public function getAbsoluteSteamCmd()
+    {
+        return $this->getMachine()->getHome() . '/steamcmd/';
+    }
+	
     protected function getScreenName()
     {
         $screenName = $this->getMachine()->getUser() . '-' . $this->getDir();

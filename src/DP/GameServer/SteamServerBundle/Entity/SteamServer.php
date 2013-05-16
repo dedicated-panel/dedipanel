@@ -187,21 +187,27 @@ class SteamServer extends GameServer {
         }
         
         $installDir = $this->getAbsoluteDir();
+        $steamCmdDir = $this->getAbsoluteSteamCmd();
         $scriptPath = $installDir . 'install.sh';
         $logPath = $installDir . 'install.log';
         $screenName = $this->getInstallScreenName();
+        $steamCmd = $this->game->getSteamCmd();
         $installName = $this->game->getInstallName();
-
-        $mkdirCmd = 'if [ ! -e ' . $installDir . ' ]; then mkdir -p ' . $installDir . '; fi';
+            
+        if($steamCmd != 0) {
+            $installName = '' . $this->game->getappId() . '.' . $this->game->getappMod() .'';
+        }
+        
+        $mkdirCmd = 'if [ ! -e ' . $installDir . ' ]; then mkdir ' . $installDir . '; fi';
         
         $pgrep = '`ps aux | grep SCREEN | grep "' . $screenName . ' " | grep -v grep | wc -l`';
         $screenCmd  = 'if [ ' . $pgrep . ' = "0" ]; then ';
-        $screenCmd .= 'screen -dmS "' . $screenName . '" ' . $scriptPath . ' "' . $installName . '"; ';
+        $screenCmd .= 'screen -dmS "' . $screenName . '" ' . $scriptPath . ' "' . $steamCmd . '" "' . $installName . '"; ';
         $screenCmd .= 'else echo "Installation is already in progress."; fi; ';
         
         $installScript = $twig->render(
             'DPSteamServerBundle:sh:install.sh.twig', 
-            array('installDir' => $installDir)
+            array('installDir'  => $installDir, 'steamCmdDir' => $steamCmdDir)
         );
         
         $sec->exec($mkdirCmd);

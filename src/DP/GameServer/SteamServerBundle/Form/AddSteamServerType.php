@@ -28,7 +28,7 @@ class AddSteamServerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-    		->add('machine', 'entity', array(
+        	->add('machine', 'entity', array(
                 'label' => 'game.selectMachine', 'class' => 'DPMachineBundle:Machine'))
             ->add('name', 'text', array('label' => 'game.name'))
             ->add('port', 'integer', array('label' => 'game.port'))
