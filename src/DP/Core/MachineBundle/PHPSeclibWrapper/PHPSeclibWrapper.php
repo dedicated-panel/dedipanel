@@ -417,7 +417,7 @@ class PHPSeclibWrapper {
     
     public function javaInstalled()
     {
-        return strlen($this->exec('java -version 2>/dev/null')) > 0;
+        return strlen($this->exec('`java -version` 2>/dev/null')) > 0;
     }
     
     
