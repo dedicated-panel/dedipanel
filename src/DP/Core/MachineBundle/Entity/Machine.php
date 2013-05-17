@@ -62,7 +62,7 @@ class Machine
      * @var integer $port
      *
      * @ORM\Column(name="port", type="integer")
-     * @Assert\Length(
+     * @Assert\Range(
      *      min = 1, minMessage = "machine.assert.port",
      *      max = 65536, maxMessage = "machine.assert.port"
      * )

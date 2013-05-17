@@ -40,7 +40,7 @@ class MinecraftServer extends GameServer
      * @var integer $queryPort
      *
      * @ORM\Column(name="queryPort", type="integer", nullable=true)
-     * @Assert\Length(
+     * @Assert\Range(
      *      min = 1024, minMessage = "minecraft.assert.queryPort.min",
      *      max = 65536, maxMessage = "minecraft.assert.queryPort.max"
      * )
@@ -51,7 +51,7 @@ class MinecraftServer extends GameServer
      * @var integer $rconPort
      *
      * @ORM\Column(name="rconPort", type="integer")
-     * @Assert\Length(
+     * @Assert\Range(
      *      min = 1024, minMessage = "minecraft.assert.rconPort.min",
      *      max = 65536, maxMessage = "minecraft.assert.rconPort.max"
      * )

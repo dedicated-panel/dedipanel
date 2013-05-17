@@ -60,7 +60,7 @@ abstract class GameServer
      * @var integer $port
      *
      * @ORM\Column(name="port", type="integer")
-     * @Assert\Length(
+     * @Assert\Range(
      *      min = 1024, minMessage = "gameServer.assert.port",
      *      max = 65536, maxMessage = "gameServer.assert.port"
      * )
@@ -87,7 +87,7 @@ abstract class GameServer
      * @var integer $maxplayers
      *
      * @ORM\Column(name="maxplayers", type="integer")
-     * @Assert\Length(min = 2, minMessage = "gameServer.assert.maxplayers")
+     * @Assert\Range(min = 2, minMessage = "gameServer.assert.maxplayers")
      */
     protected $maxplayers;
 
@@ -314,17 +314,17 @@ abstract class GameServer
     {
         return $this->getAbsoluteBinDir();
     }
-    
+
     /**
      * Get absolute path of steamcmd directory
-     * 
+     *
      * @return string
      */
     public function getAbsoluteSteamCmd()
     {
         return $this->getMachine()->getHome() . '/steamcmd/';
     }
-	
+
     protected function getScreenName()
     {
         $screenName = $this->getMachine()->getUser() . '-' . $this->getDir();
