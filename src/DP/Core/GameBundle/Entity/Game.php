@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DP\Core\GameBundle\Entity\Game
- * @author Albin Kerouanton 
+ * @author Albin Kerouanton
  *
  * @ORM\Table(name="game")
  * @ORM\Entity(repositoryClass="DP\Core\GameBundle\Entity\GameRepository")
@@ -56,14 +56,14 @@ class Game
      * @Assert\NotBlank(message="game.assert.installName")
      */
     private $installName;
-	
+
     /**
      * @var boolean $steamCmd
      *
      * @ORM\Column(name="steamCmd", type="boolean")
      */
     private $steamCmd = false; // default value
-    
+
     /**
      * @var string $launchName
      *
@@ -78,21 +78,21 @@ class Game
      * @ORM\Column(name="bin", type="string", length=24)
      */
     private $bin;
-    
+
     /**
      * @var integer $appId
      *
-     * @ORM\Column(name="appId", type="integer")
+     * @ORM\Column(name="appId", type="integer", nullable=true)
      */
     protected $appId;
-	
+
     /**
      * @var integer $appMod
      *
-     * @ORM\Column(name="appMod", type="string", length=20)
+     * @ORM\Column(name="appMod", type="string", length=20, nullable=true)
      */
     protected $appMod;
-	
+
 
     /**
      * @var boolean $orangebox
@@ -100,10 +100,10 @@ class Game
      * @ORM\Column(name="orangebox", type="boolean")
      */
     private $orangebox = false; // default value
-    
+
     /**
      * @var boolean $source
-     * 
+     *
      * @ORM\Column(name="source", type="boolean")
      */
     private $source = false; // default value, useful for source tv
@@ -122,59 +122,59 @@ class Game
      * @Assert\NotBlank(message="game.assert.available")
      */
     private $available = true;
-    
+
     /**
      * @var string $binDir
-     * 
+     *
      * @ORM\Column(name="binDir", type="string", length=20, nullable=true)
      */
     private $binDir;
-    
+
     /**
      * @ORM\Column(name="sourceImagesMaps", type="string", length=255, nullable=true)
      * @var string
      */
     private $sourceImagesMaps;
-    
-    /** 
+
+    /**
      * @var \Doctrine\Common\Collections\ArrayCollection $gameServers
-     * 
+     *
      * @ORM\OneToMany(targetEntity="DP\GameServer\GameServerBundle\Entity\GameServer", mappedBy="game")
      */
     private $gameServers;
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection $plugins
-     * 
+     *
      * @ORM\ManyToMany(targetEntity="DP\Core\GameBundle\Entity\Plugin", inversedBy="games")
-     * @ORM\JoinTable(name="game_plugin", 
-     *      joinColumns={@ORM\JoinColumn(name="game_id", referencedColumnName="id")}, 
+     * @ORM\JoinTable(name="game_plugin",
+     *      joinColumns={@ORM\JoinColumn(name="game_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="plugin_id", referencedColumnName="id")}
      * )
      */
-    private $plugins; 
-    
+    private $plugins;
+
     /**
      * @ORM\Column(name="type", type="string", length=32)
      * @Assert\Choice(choices={"steam", "minecraft"}, message="game.assert.type")
-     */    
+     */
     private $type;
-    
+
     /**
      * @ORM\Column(name="configTemplate", type="text", nullable=true)
      */
     private $configTemplate;
-    
+
 
     public function __construct()
     {
         $this->plugins = new \Doctrine\Common\Collections\ArrayCollection(array());
     }
-    
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -194,7 +194,7 @@ class Game
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -214,7 +214,7 @@ class Game
     /**
      * Get installName
      *
-     * @return string 
+     * @return string
      */
     public function getInstallName()
     {
@@ -234,7 +234,7 @@ class Game
     /**
      * Get launchName
      *
-     * @return string 
+     * @return string
      */
     public function getLaunchName()
     {
@@ -254,7 +254,7 @@ class Game
     /**
      * Get bin
      *
-     * @return string 
+     * @return string
      */
     public function getBin()
     {
@@ -274,26 +274,26 @@ class Game
     /**
      * Get orangebox
      *
-     * @return boolean 
+     * @return boolean
      */
     public function isOrangebox()
     {
         return $this->orangebox;
     }
-    
+
     /**
      * Set source
-     * 
-     * @param boolean $source 
+     *
+     * @param boolean $source
      */
     public function setSource($source)
     {
         $this->source = $source;
     }
-    
+
     /**
      * Get source
-     * 
+     *
      * @return boolean
      */
     public function isSource()
@@ -314,7 +314,7 @@ class Game
     /**
      * Get map
      *
-     * @return string 
+     * @return string
      */
     public function getMap()
     {
@@ -334,32 +334,32 @@ class Game
     /**
      * Get available
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getAvailable()
     {
         return $this->available;
     }
-    
+
     public function __toString()
     {
         return $this->name;
     }
-    
+
     /**
      * Set binary directory
-     * 
-     * @param string $binDir 
+     *
+     * @param string $binDir
      */
     public function setBinDir($binDir)
     {
         $binDir = trim($binDir, '/') . '/';
         $this->binDir = $binDir;
     }
-    
+
     /**
      * Get binary directory
-     * 
+     *
      * @return string
      */
     public function getBinDir()
@@ -374,76 +374,76 @@ class Game
             return $this->binDir;
         }
     }
-    
+
     /**
      * Set source of images maps
-     * 
-     * @param string $sourceImagesMaps 
+     *
+     * @param string $sourceImagesMaps
      */
     public function setSourceImagesMaps($sourceImagesMaps)
     {
         $this->sourceImagesMaps = $sourceImagesMaps;
     }
-    
+
     /**
      * Get source of images maps
-     * 
-     * @return string 
+     *
+     * @return string
      */
     public function getSourceImagesMaps()
     {
         return $this->sourceImagesMaps;
     }
-    
+
     /**
      * Add plugins
-     * 
+     *
      * @param  $plugin \Doctrine\Common\Collections\ArrayCollection
      */
     public function addPlugin(\DP\Core\GameBundle\Entity\Plugin $plugin)
     {
         $this->plugins[] = $plugin;
-        
+
         if (!$plugin->getGames()->contains($this)) {
             $plugin->addGame($this);
         }
     }
-    
+
     public function removePlugin(Plugin $plugin)
     {
         $this->plugins->removeElement($plugin);
     }
-    
+
     /**
      * Set plugin list
-     * 
-     * @param array $plugins 
+     *
+     * @param array $plugins
      */
     public function setPlugins(array $plugins = array())
     {
         $this->plugins = new \Doctrine\Common\Collections\ArrayCollection($plugins);
     }
-    
+
     /**
      * Get plugins
-     * 
+     *
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getPlugins()
     {
         return $this->plugins;
     }
-    
+
     /**
      * Set game type (steam or minecraft)
-     * 
-     * @param string $type 
+     *
+     * @param string $type
      */
     public function setType($type)
     {
         $this->type = $type;
     }
-    
+
     /**
      * @return string Game type
      */
@@ -451,24 +451,24 @@ class Game
     {
         return $this->type;
     }
-    
+
     public function isBukkit()
     {
         return $this->getInstallName() == 'bukkit';
     }
-    
+
     /**
      * Set the server config file template
-     * @param string|null $configTemplate 
+     * @param string|null $configTemplate
      */
     public function setConfigTemplate($configTemplate)
     {
         $this->configTemplate = $configTemplate;
     }
-    
+
     /**
      * Get the server config file template
-     * 
+     *
      * @return string
      */
     public function getConfigTemplate()
@@ -485,14 +485,14 @@ class Game
     public function setSteamCmd($steamCmd)
     {
         $this->steamCmd = $steamCmd;
-    
+
         return $this;
     }
 
     /**
      * Get steamCmd
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getSteamCmd()
     {
@@ -508,14 +508,14 @@ class Game
     public function setAppId($appId)
     {
         $this->appId = $appId;
-    
+
         return $this;
     }
 
     /**
      * Get appId
      *
-     * @return integer 
+     * @return integer
      */
     public function getAppId()
     {
@@ -531,14 +531,14 @@ class Game
     public function setAppMod($appMod)
     {
         $this->appMod = $appMod;
-    
+
         return $this;
     }
 
     /**
      * Get appMod
      *
-     * @return string 
+     * @return string
      */
     public function getAppMod()
     {
@@ -548,7 +548,7 @@ class Game
     /**
      * Get orangebox
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getOrangebox()
     {
@@ -558,7 +558,7 @@ class Game
     /**
      * Get source
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getSource()
     {
@@ -574,7 +574,7 @@ class Game
     public function addGameServer(\DP\GameServer\GameServerBundle\Entity\GameServer $gameServers)
     {
         $this->gameServers[] = $gameServers;
-    
+
         return $this;
     }
 
@@ -591,7 +591,7 @@ class Game
     /**
      * Get gameServers
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getGameServers()
     {
