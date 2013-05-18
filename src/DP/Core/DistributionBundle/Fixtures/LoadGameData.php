@@ -48,7 +48,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $cs->addPlugin($this->getReference('amxCs'));
         $manager->persist($cs);
 //        $this->addReference('cs', $cs);
-        
+
         $cz = new Game();
         $cz->setName('Counter-Strike: Condition Zéro');
         $cz->setInstallName('czero');
@@ -58,9 +58,9 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $cz->setMap('de_dust2');
         $cz->setAvailable(true);
         $cs->setBinDir('');
-        $cs->setSteamCmd(true);
-        $cs->setAppId('90');
-        $cs->setAppMod('czero');
+        $cz->setSteamCmd(true);
+        $cz->setAppId('90');
+        $cz->setAppMod('czero');
 //        $cz->setSourceImageMaps('');
         $cz->setType('steam');
         $cz->setSource(false);
@@ -68,7 +68,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $cz->addPlugin($this->getReference('amxCs'));
         $manager->persist($cz);
 //        $this->addReference('cz', $cz);
-        
+
         $dod = new Game();
         $dod->setName('Day of Defeat');
         $dod->setInstallName('dod');
@@ -77,10 +77,10 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $dod->setOrangebox(false);
         $dod->setMap('dod_anzio');
         $dod->setAvailable(true);
-        $cs->setBinDir('');
-        $cs->setSteamCmd(true);
-        $cs->setAppId('90');
-        $cs->setAppMod('dod');
+        $dod->setBinDir('');
+        $dod->setSteamCmd(true);
+        $dod->setAppId('90');
+        $dod->setAppMod('dod');
 //        $dod->setSourceImageMaps('');
         $dod->setType('steam');
         $dod->setSource(false);
@@ -88,7 +88,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $dod->addPlugin($this->getReference('amxDod'));
         $manager->persist($dod);
 //        $this->addReference('dod', $dod);
-        
+
         $tfc = new Game();
         $tfc->setName('Team Fortress Classic');
         $tfc->setInstallName('tfc');
@@ -97,10 +97,10 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $tfc->setOrangebox(false);
         $tfc->setMap('2fort');
         $tfc->setAvailable(true);
-        $cs->setBinDir('');
-        $cs->setSteamCmd(true);
-        $cs->setAppId('90');
-        $cs->setAppMod('tfc');
+        $tfc->setBinDir('');
+        $tfc->setSteamCmd(true);
+        $tfc->setAppId('90');
+        $tfc->setAppMod('tfc');
 //        $tfc->setSourceImageMaps('');
         $tfc->setType('steam');
         $tfc->setSource(false);
@@ -108,7 +108,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $tfc->addPlugin($this->getReference('amx'));
         $manager->persist($tfc);
 //        $this->addReference('tfc', $tfc);
-        
+
         /********************
          * Orangebox/Source *
          ********************/
@@ -120,15 +120,15 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $css->setOrangebox(false);
         $css->setMap('de_dust2');
         $css->setAvailable(true);
-        $cs->setBinDir('');
-        $cs->setSteamCmd(true);
-        $cs->setAppId('232330');
+        $css->setBinDir('');
+        $css->setSteamCmd(true);
+        $css->setAppId('232330');
 //        $css->setSourceImageMaps('');
         $css->setType('steam');
         $css->setSource(true);
         $manager->persist($css);
 //        $this->addReference('css', $css);
-        
+
         $tf = new Game();
         $tf->setName('Team Fortress 2');
         $tf->setInstallName('tf');
@@ -137,15 +137,15 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $tf->setOrangebox(true);
         $tf->setMap('ctf_2fort');
         $tf->setAvailable(true);
-        $cs->setBinDir('');
-        $cs->setSteamCmd(true);
-        $cs->setAppId('232250');
+        $tf->setBinDir('');
+        $tf->setSteamCmd(true);
+        $tf->setAppId('232250');
 //        $tf->setSourceImageMaps('');
         $tf->setType('steam');
         $tf->setSource(false);
         $manager->persist($tf);
 //        $this->addReference('tf', $tf);
-        
+
         $dods = new Game();
         $dods->setName('Day of Defeat: Source');
         $dods->setInstallName('dod');
@@ -154,15 +154,15 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $dods->setOrangebox(true);
         $dods->setMap('dod_anzio');
         $dods->setAvailable(true);
-        $cs->setBinDir('');
-        $cs->setSteamCmd(true);
-        $cs->setAppId('232290');
+        $dods->setBinDir('');
+        $dods->setSteamCmd(true);
+        $dods->setAppId('232290');
 //        $dods->setSourceImageMaps('');
         $dods->setType('steam');
         $dods->setSource(false);
         $manager->persist($dods);
 //        $this->addReference('dods', $dods);
-        
+
         /********************
          * Minecraft *
          ********************/
@@ -179,7 +179,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
 //        $mc->setSourceImagesMaps('');
         $mc->setType('minecraft');
         $manager->persist($mc);
-        
+
         $bukkit = new Game();
         $bukkit->setName('Minecraft Bukkit');
         $bukkit->setInstallName('bukkit');
@@ -193,10 +193,10 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
 //        $bukkit->setSourceImagesMaps('');
         $bukkit->setType('minecraft');
         $manager->persist($bukkit);
-        
+
         $manager->flush();
     }
-    
+
     public function getOrder()
     {
         return 2;
