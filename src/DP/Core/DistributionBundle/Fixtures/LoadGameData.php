@@ -134,7 +134,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $tf->setInstallName('tf');
         $tf->setLaunchName('tf');
         $tf->setBin('srcds_run');
-        $tf->setOrangebox(true);
+        $tf->setOrangebox(false);
         $tf->setMap('ctf_2fort');
         $tf->setAvailable(true);
         $tf->setBinDir('');
@@ -151,7 +151,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $dods->setInstallName('dod');
         $dods->setLaunchName('dod');
         $dods->setBin('srcds_run');
-        $dods->setOrangebox(true);
+        $dods->setOrangebox(false);
         $dods->setMap('dod_anzio');
         $dods->setAvailable(true);
         $dods->setBinDir('');
@@ -171,7 +171,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $csgo->setBinDir('');
         $csgo->setMap('de_dust2');
         $csgo->setSource(true);
-        $csgo->setOrangebox(true);
+        $csgo->setOrangebox(false);
         $csgo->setSteamCmd(true);
         $csgo->setAppId('740');
         $csgo->setType('steam');
