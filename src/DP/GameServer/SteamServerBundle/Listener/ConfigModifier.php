@@ -73,10 +73,17 @@ class ConfigModifier
         $entity = $args->getEntity();
         
         if ($entity instanceof SteamServer) {            
-            if ($args->hasChangedField('port') || $args->hasChangedField('maxplayers') 
-                || $args->hasChangedField('core') || $args->hasChangedField('mode')) {
+            if ($args->hasChangedField('port') 
+            || ($args->hasChangedField('maxplayers') && $entity->getGame()->getLaunchName() != "csgo") 
+            || $args->hasChangedField('core') || $args->hasChangedField('mode')) {
                 try {
                     $entity->uploadHldsScript($this->getTwig());
+                }
+                catch (\Exception $e) {}
+            }
+            if ($args->hasChangedField('maxplayers') && $entity->getGame()->getLaunchName() == "csgo") {
+                try {
+                    $entity->modifyGameModesCfg();
                 }
                 catch (\Exception $e) {}
             }
