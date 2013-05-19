@@ -47,7 +47,7 @@ class Game
      * @ORM\Column(name="name", type="string", length=32)
      * @Assert\NotBlank(message="game.assert.name")
      */
-    private $name;
+    private $name = '';
 
     /**
      * @var string $installName

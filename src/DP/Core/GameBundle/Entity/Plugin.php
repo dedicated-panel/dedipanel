@@ -46,7 +46,7 @@ class Plugin
      *
      * @ORM\Column(name="name", type="string", length=32)
      */
-    private $name;
+    private $name = '';
 
     /**
      * @var string $downloadUrl
