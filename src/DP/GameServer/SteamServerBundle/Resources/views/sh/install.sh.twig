@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# 
 # Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
 #
 # This program is free software; you can redistribute it and/or modify
@@ -22,85 +22,84 @@ CSP_DLURL="http://dl.redline-hosting.net/public/$CSP_FILE"
 if [ $# -eq 2 ]; then
     # Installation via steamCmd
     if [ $1 -eq 1 ]; then
-		# On verifie que steamCmd soit là
-		# Sinon on l'installe dans un dossier a part du jeu (home/steamcmd)
-    	if [ ! -e  {{ steamCmdDir }} ]; then
-            echo "Download steamcmd" >> {{ installDir }}install.log
-    		
-            mkdir {{ steamCmdDir }} && cd {{ steamCmdDir }}
-            # On commence par télécharger steamCmd
-	    	wget http://media.steampowered.com/client/steamcmd_linux.tar.gz
-	    	
-	    	# On decompresse et supprime le fichier dl
-	    	tar xvfz steamcmd_linux.tar.gz && rm -f tar xvfz steamcmd_linux.tar.gz
-	    	
-	    	chmod 755 ./steamcmd.sh && chown u+x ./steam.sh
-    	fi
-    	
-    	steamapp=$2
-		JEU=${steamapp%.*}
-		MOD=${steamapp#*.}
+        steamapp=$2
+        JEU=${steamapp%.*}
+        MOD=${steamapp#*.}
         
-        cd {{ steamCmdDir }} 
-    	
-	    # Et on lance l'install du jeu
-	    echo "Game install" >> {{ installDir }}install.log
-
+        # On verifie que steamCmd soit là
+        # Sinon on l'installe dans un dossier a part du jeu (home/steamcmd)
+        if [ ! -e {{ installDir }}steamcmd/ ]; then
+            echo "Download steamcmd" >> {{ installDir }}install.log
+            
+            mkdir {{ installDir }}steamcmd/ && cd {{ installDir }}steamcmd/
+            
+            # On commence par télécharger steamCmd
+            wget http://media.steampowered.com/client/steamcmd_linux.tar.gz
+            
+            # On decompresse et supprime le fichier compressé qu'on vient de télécharger.
+            tar xvfz steamcmd_linux.tar.gz && rm -f tar xvfz steamcmd_linux.tar.gz
+            
+            chmod 755 ./steamcmd.sh && chown u+x ./steam.sh
+        fi
+        
+        cd {{ installDir }}steamcmd/
+        
+        # Et on lance l'install du jeu
+        echo "Game install" >> {{ installDir }}install.log
+        
         if [ -n $MOD ]; then
             ./steamcmd.sh +login anonymous +force_install_dir {{ installDir }} +app_update $JEU +app_set_config $JEU mod $MOD +app_update $JEU +quit
         else
             ./steamcmd.sh +login anonymous +force_install_dir {{ installDir }} +app_update $JEU validate +quit 
-    	fi
-
-    	echo "Install ended" >> {{ installDir }}install.log
-	
-	# Installation via hldsupdatetool
-	else 
-	
-    	cd {{ installDir }}
-    	
-	    # S'il s'agit de cspromod, on installe css
-	    # sur lequel on ajoute le mod via une archive
-	    if [ "$2" = "cspromod" ]; then
-	        JEU="Counter-Strike Source"
-	    else
-	        JEU="$2"
-	    fi
-	
-	    # On commence par télécharger le hldsupdatetool.bin
-	    echo "DL hldsupdatetool.bin" > install.log
-	    wget http://storefront.steampowered.com/download/hldsupdatetool.bin
-	
-	    # On lui donne les droits et on l'exécute afin de récupérer l'updater steam
-	    chmod 750 ./hldsupdatetool.bin && ./hldsupdatetool.bin <<< "yes"
-	
-	    # Il ne sert plus, on le supprime
-	    rm -f hldsupdatetool.bin
-	
-	    # Puis on lance l'exécution de steam afin de mettre à jour l'exécutable
-	    echo "Steam updating" >> install.log
-	    ./steam
-	    sleep 1
-	    ./steam
-	    sleep 1
-	
-	    # Et on lance l'install du jeu
-	    echo "Game install" >> install.log
-	    ./steam -command update -game "$JEU" -dir . -verify_all -retry
-	
-	    # Si on souhaite installer cspromod, on telecharge l'archive du mod et on la decompresse
-	    if [ "$1" = "cspromod" ]; then
-	        mkdir orangebox && mv hl2 orangebox/
-	        ./steam -command update -game "orangebox" -dir . -verify_all -retry
-	        cd orangebox
-	        wget "$CSP_DLURL"
-	        unzip -u "$CSP_FILE"
-	        rm -f $CSP_FILE
-	    fi
-	    
-	    echo "Install ended" >> install.log
-	
+        fi
+        
+        echo "Install ended" >> {{ installDir }}install.log
+    
+    # Installation via hldsupdatetool
+    else	
+        cd {{ installDir }}
+        
+        # S'il s'agit de cspromod, on installe css
+        # sur lequel on ajoute le mod via une archive
+        if [ "$2" = "cspromod" ]; then
+            JEU="Counter-Strike Source"
+        else
+            JEU="$2"
+        fi
+    
+        # On commence par télécharger le hldsupdatetool.bin
+        echo "DL hldsupdatetool.bin" > install.log
+        wget http://storefront.steampowered.com/download/hldsupdatetool.bin
+    
+         # On lui donne les droits et on l'exécute afin de récupérer l'updater steam
+        chmod 750 ./hldsupdatetool.bin && ./hldsupdatetool.bin <<< "yes"
+    
+        # Il ne sert plus, on le supprime
+        rm -f hldsupdatetool.bin
+    
+        # Puis on lance l'exécution de steam afin de mettre à jour l'exécutable
+        echo "Steam updating" >> install.log
+        ./steam
+        sleep 1
+        ./steam
+        sleep 1
+    
+        # Et on lance l'install du jeu
+        echo "Game install" >> install.log
+        ./steam -command update -game "$JEU" -dir . -verify_all -retry
+    
+        # Si on souhaite installer cspromod, on telecharge l'archive du mod et on la decompresse
+        if [ "$1" = "cspromod" ]; then
+            mkdir orangebox && mv hl2 orangebox/
+            ./steam -command update -game "orangebox" -dir . -verify_all -retry
+            cd orangebox
+            wget "$CSP_DLURL"
+            unzip -u "$CSP_FILE"
+            rm -f $CSP_FILE
+        fi
+        
+        echo "Install ended" >> install.log
     fi
 else
-	echo "Usage: $0 game"
+    echo "Usage: $0 game"
 fi

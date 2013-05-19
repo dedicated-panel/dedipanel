@@ -187,7 +187,6 @@ class SteamServer extends GameServer {
         }
 
         $installDir = $this->getAbsoluteDir();
-        $steamCmdDir = $this->getAbsoluteSteamCmd();
         $scriptPath = $installDir . 'install.sh';
         $logPath = $installDir . 'install.log';
         $screenName = $this->getInstallScreenName();
@@ -207,7 +206,7 @@ class SteamServer extends GameServer {
 
         $installScript = $twig->render(
             'DPSteamServerBundle:sh:install.sh.twig',
-            array('installDir'  => $installDir, 'steamCmdDir' => $steamCmdDir)
+            array('installDir'  => $installDir)
         );
 
         $sec->exec($mkdirCmd);
@@ -332,17 +331,21 @@ class SteamServer extends GameServer {
         $game = $this->getGame();
 
         $scriptPath = $this->getAbsoluteHldsScriptPath();
+        $core = $this->getCore();
+        
+        if (!empty($core)) {
+            $core -= 1;
+        }
 
         $hldsScript = $twig->render('DPSteamServerBundle:sh:hlds.sh.twig', array(
             'screenName' => $this->getScreenName(), 'bin' => $game->getBin(),
             'launchName' => $game->getLaunchName(), 'ip' => $this->getMachine()->getPublicIp(),
             'port' => $this->getPort(), 'maxplayers' => $this->getMaxplayers(),
             'startMap' => $game->getMap(), 'binDir' => $this->getAbsoluteBinDir(),
-            'core' => $this->getCore() - 1,
+            'core' => $core,
         ));
 
         $uploadHlds = $sec->upload($scriptPath, $hldsScript, 0750);
-//        echo'<pre>'; print_r($sec->getSFTP()->getSFTPLog()); echo'</pre>';
 
         return $uploadHlds;
     }
