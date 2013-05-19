@@ -25,6 +25,7 @@ use DP\GameServer\GameServerBundle\Entity\GameServer;
 use DP\GameServer\SteamServerBundle\Entity\SteamServer;
 use DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer;
 use DP\GameServer\SteamServerBundle\SteamQuery\Exception\UnexpectedServerTypeException;
+use DP\GameServer\SteamServerBundle\SteamQuery\SteamQuery;
 
 /**
  * @author Albin Kerouanton 
@@ -45,9 +46,15 @@ class QueryInjector
         if ($entity instanceof GameServer) {
             // Détection du type de serveur pour appeler le query adéquat
             if ($entity instanceof SteamServer) {
+                $type = SteamQuery::TYPE_GOLDSRC;
+                if ($entity->getGame()->getSource() == true) {
+                    $type = SteamQuery::TYPE_SOURCE;    
+                }
+                
                 $query = $this->getSteamQueryService()->getServerQuery(
                     $entity->getMachine()->getPublicIp(), 
-                    $entity->getPort()
+                    $entity->getPort(),
+                    $type
                 );
             }
             elseif ($entity instanceof MinecraftServer) {

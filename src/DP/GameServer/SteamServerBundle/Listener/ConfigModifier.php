@@ -74,7 +74,7 @@ class ConfigModifier
         
         if ($entity instanceof SteamServer) {            
             if ($args->hasChangedField('port') || $args->hasChangedField('maxplayers') 
-                || $args->hasChangedField('core')) {
+                || $args->hasChangedField('core') || $args->hasChangedField('mode')) {
                 try {
                     $entity->uploadHldsScript($this->getTwig());
                 }

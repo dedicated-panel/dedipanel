@@ -21,12 +21,25 @@
 namespace DP\GameServer\SteamServerBundle\Form;
 
 use Symfony\Component\Form\FormBuilderInterface;
+use DP\GameServer\SteamServerBundle\Entity\SteamServer;
 
 class EditSteamServerType extends BaseSteamServerType
 {    
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
+        
+        if (isset($options['data'])) {
+            $entity = $options['data'];
+            
+            if ($entity->getGame()->getLaunchName('csgo')) {
+                $builder->add('mode', 'choice', array(
+                    'choices' => SteamServer::getModeList(), 
+                    'empty_value' => 'steam.chooseGameMode',
+                    'label' => 'steam.gameMode', 
+                ));
+            }
+        }
         
         $builder
             ->add('rconPassword', 'text', array('label' => 'game.rcon.password', 'required' => false))

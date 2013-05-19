@@ -44,9 +44,12 @@ class Socket
     private $socket;
     private $connected;
     
-    private $callback;
+    private $callbacks;
     
-//    const MTU = 1400;
+    const MTU = 1400;
+
+    const MULTI_DETECTOR = 'isMultiResp';
+    const MULTI_RECEIVER = 'recvMultiResp';
     
     /**
      * Constructor
@@ -58,21 +61,21 @@ class Socket
      * @param array $callbacks Array of callbacks
      */
     public function __construct(
-        $ip, $port, $type, array $timeout, $callback = null)
+        $ip, $port, $type, array $timeout, $callbacks = null)
     {
         $this->ip = $ip;
         $this->port = $port;
         $this->type = $type;
         $this->timeout = $timeout;
         $this->connected = false;
-        $this->callback = $callback;
+        $this->callbacks = $callbacks;
         
-        /*if (isset($callbacks['isMultiResp']) && is_callable($callbacks['isMultiResp'])) {
-            $this->callbacks['isMultiResp'] = $callbacks['isMultiResp'];
+        if (isset($callbacks[self::MULTI_DETECTOR]) && is_callable($callbacks[self::MULTI_DETECTOR])) {
+            $this->callbacks[self::MULTI_DETECTOR] = $callbacks[self::MULTI_DETECTOR];
         }
-        if (isset($callbacks['recvMultiResp']) && is_callable($callbacks['recvMultiResp'])) {
-            $this->callbacks['recvMultiResp'] = $callbacks['recvMultiResp'];
-        }*/
+        if (isset($callbacks[self::MULTI_RECEIVER]) && is_callable($callbacks[self::MULTI_RECEIVER])) {
+            $this->callbacks[self::MULTI_RECEIVER] = $callbacks[self::MULTI_RECEIVER];
+        }
     }
     
     /**
@@ -120,6 +123,8 @@ class Socket
         else {
             $this->connected = true;
         }
+        
+        return true;
     }
     
     /**
@@ -141,6 +146,9 @@ class Socket
      * Send a packet
      * 
      * @param Packet $packet
+     * 
+     * @return integer Data length sended 
+     * 
      * @throws NotConnectedException
      * @throws SendDataException 
      */
@@ -156,6 +164,8 @@ class Socket
         if ($send === null || $send != $len) {
             throw new SendDataException($this->getLastError());
         }
+        
+        return $send;
     }
     
     /**
@@ -167,7 +177,7 @@ class Socket
      * @throws RecvTimeoutException
      * @throws RecvDataException 
      */
-    public function recv($multiPacket = true, $packetLength = 1400)
+    public function recv($multiPacket = true, $packetLength = Socket::MTU)
     {
         if (!$this->connected) {
             throw new NotConnectedException('Can\'t recv data when the socket is disconnected.');
@@ -190,7 +200,7 @@ class Socket
         // Et on exécute les 2 callbacks de post réception si nécessaire (et si possible)
         // Ceux-ci servant à traiter les cas de réception multi-packets (notamment pour l'UDP)
         if ($select == 1) {
-            if ($packetLength > 1400) $packetLength = 1400;
+            if ($packetLength > Socket::MTU) $packetLength = Socket::MTU;
             
             $content = @socket_read($this->socket, $packetLength, PHP_BINARY_READ);
             
@@ -201,16 +211,15 @@ class Socket
             
             $read = new Packet($content);
 
-            if ($multiPacket && is_array($this->callback) && !empty($this->callback)) {
-                if (count($this->callback) == 2 && is_callable($this->callback[0]) && is_callable($this->callback[1])) {
-                    $isMultiPacketResp = call_user_func($this->callback[0], $read);
+            if ($multiPacket && is_array($this->callbacks) && !empty($this->callbacks)) {
+                if (count($this->callbacks) == 2 
+                && is_callable($this->callbacks[self::MULTI_DETECTOR]) 
+                && is_callable($this->callbacks[self::MULTI_RECEIVER])) {
+                    $isMultiPacketResp = call_user_func($this->callbacks[self::MULTI_DETECTOR], $read);
                     
                     if ($isMultiPacketResp) {
-                        $read = call_user_func($this->callback[1], $read, $this);
+                        $read = call_user_func($this->callbacks[self::MULTI_RECEIVER], $read, $this);
                     }
-                }
-                elseif (is_callable($this->callback[0])) {
-                    $read = call_user_func($this->callback[0], $read, $this);
                 }
             }
             

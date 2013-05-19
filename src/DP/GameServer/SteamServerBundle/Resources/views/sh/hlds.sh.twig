@@ -26,11 +26,22 @@ case "$1" in
             cd {{ binDir }}
             
             {% spaceless %}
-                {% if core is not empty %}
-                    {# Le numéro du core est stocké à partir de 1 en base; linux attend un bitmask représentant le core, commencant à 0 #}
-                    screen -dmS $SCREEN_NAME taskset -c {{ core }} ./{{ bin }} -game {{ launchName }} +ip {{ ip }} -port {{ port }} +maxplayers {{ maxplayers }} +map {{ startMap }} -autoupdate
+            	{% set args = '' %}
+            	
+                {% if isCsgo %}
+                	{% set args = './' ~ bin ~ ' -game ' ~ launchName ~ ' -autoupdate +map ' ~ startMap %}
+                	{% set args = args ~ ' -port ' ~ port ~ ' -ip ' ~ ip ~ ' -console -usercon +game_type ' ~ gameType %}
+                	{% set args = args ~ ' +game_mode ' ~ gameMode ~ ' +mapgroup ' ~ mapGroup %} 
                 {% else %}
-                    screen -dmS $SCREEN_NAME ./{{ bin }} -game {{ launchName }} +ip {{ ip }} -port {{ port }} +maxplayers {{ maxplayers }} +map {{ startMap }} -autoupdate
+                	{% set args = './' ~ bin ~ ' -game ' ~ launchName ~ ' -autoupdate +map ' ~ startMap %}
+                	{% set args = args ~ '-port ' ~ port ~ ' +ip ' ~ ip ~ ' +maxplayers ' ~ maxplayers %}
+                {% endif %}
+            
+                {% if core is not  empty %}
+                    {# Le numéro du core est stocké à partir de 1 en base; linux attend un bitmask représentant le core, commencant à 0 #}
+                    screen -dmS $SCREEN_NAME taskset -c {{ core }} {{ args }}
+                {% else %}
+                    screen -dmS $SCREEN_NAME {{ args }}
                 {% endif %}
             {% endspaceless %}
             
@@ -54,7 +65,7 @@ case "$1" in
     restart)
         $0 stop
         sleep 1
-        $0 start
+        $0 start $2 $3 $4
 
         exit ${?}
     ;;
@@ -68,7 +79,7 @@ case "$1" in
     ;;
     
     *)
-        echo "Usage: $0 {start|stop|restart|status}"
+    	echo "Usage: $0 {start|stop|restart|status}"
         exit ${?}
     ;;
 esac

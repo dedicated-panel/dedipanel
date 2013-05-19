@@ -46,7 +46,11 @@ class SteamQuery implements QueryInterface
     protected $players;
     protected $rules;
     protected $banned = null;
-    protected $isHltv;
+    protected $type;
+    
+    const TYPE_GOLDSRC = 1;
+    const TYPE_SOURCE  = 2;
+    const TYPE_HLTV    = 3;
     
     /**
      * Constructor
@@ -55,20 +59,21 @@ class SteamQuery implements QueryInterface
      * @param string $host
      * @param int $port
      */
-    public function __construct($container, $host, $port, $isHltv = false)
+    public function __construct($container, $host, $port, $type)
     {
-        $this->isHltv = $isHltv;
+        $this->type = $type;
         
         // On ne déclare pas les 2 callbacks simultanément
         // Puisque le 2nd fait appel au 1er
         $callbacks = array(
-            function ($packet) {
+            Socket::MULTI_DETECTOR => function ($packet) {
                 if (is_null($packet)) return false;
 
                 $val = $packet->getLong();
                 return $val == -2;
-            }); 
-        $callbacks[] = function(Packet $packet, Socket $socket) use($callbacks) {
+            }
+        ); 
+        $callbacks[Socket::MULTI_RECEIVER] = function(Packet $packet, Socket $socket) use ($callbacks, $type) {
             $splittedPackets = new PacketCollection();
             $respId = null;
 
@@ -85,25 +90,33 @@ class SteamQuery implements QueryInterface
                     continue;
                 }
 
-                $infosPacket = $packet->getByte();
-                $nbrePacket = $infosPacket & 0xF;
-                $packetId = $infosPacket >> 4;
+                if ($type == SteamQuery::TYPE_GOLDSRC || $type == SteamQuery::TYPE_HLTV) {
+                    $infosPacket = $packet->getByte();
+                    $nbrePacket = $infosPacket & 0xF;
+                    $packetId = $infosPacket >> 4;
+                }
+                else {
+                    $nbrePacket = $packet->getByte();
+                    $packetId = $packet->getByte();
+                    $size = $packet->getShort();
+                }
 
                 $splittedPackets[$packetId] = $packet;
 
                 // On remet à zéro le packet pour ne pas avoir de boucle infinie
                 $packet = null;
+                $isMultiResp = false;
                 if (count($splittedPackets) < $nbrePacket) {
                     $packet = $socket->recv(false);
+                    $isMultiResp = call_user_func($callbacks[Socket::MULTI_DETECTOR], $packet);
                 }
-                $isMultiResp = call_user_func($callbacks['isMultiResp'], $packet);
             } while (!empty($packet) && $isMultiResp == true);
 
             // Les réponses multi packet une fois réassemblé
             // Comence par l'entier -1
             $ret = $splittedPackets->reassemble();
             $ret->getLong();
-
+            
             return $ret;
         };
         
@@ -127,9 +140,10 @@ class SteamQuery implements QueryInterface
     public function verifyStatus()
     {
         $infos = $this->getServerInfos();
-        if (($this->isHltv && $infos['protocol'] != 0) || (!$this->isHltv && $infos['protocol'] == 0)) {
+        if (($this->type == SteamQuery::TYPE_HLTV && $infos['protocol'] != 0) 
+        ||  ($this->type != SteamQuery::TYPE_HLTV && $infos['protocol'] == 0)) {
             $this->latency = false;
-            throw new UnexpectedServerTypeException($this->isHltv);
+            throw new UnexpectedServerTypeException($this->type == SteamQuery::TYPE_HLTV);
         }
         
         return true;
@@ -180,7 +194,7 @@ class SteamQuery implements QueryInterface
                 elseif ($infos['edf'] & 0x020) {
                     $infos['keywords'] = $resp->getString();
                 }
-
+                
                 $this->serverInfos = $infos;
             }
             catch (RecvTimeoutException $e) {
@@ -275,12 +289,14 @@ class SteamQuery implements QueryInterface
                 
                 $rules = array();
                 $header = $resp->extract(
-                    array('header' => 'byte', 'nb_rules' => 'short'));
+                    array('header' => 'byte', 'nb_rules' => 'short')
+                );
 
                 if ($header['header'] == 69) {
                     for ($i = 0, $max = $header['nb_rules']; $i < $max; ++$i) {
                         $rules[$i] = $resp->extract(
-                            array('name' => 'string', 'value' => 'string'));
+                            array('name' => 'string', 'value' => 'string')
+                        );
                     }
 
                     $this->rules = $rules;

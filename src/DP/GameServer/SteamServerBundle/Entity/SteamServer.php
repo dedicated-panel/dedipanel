@@ -68,15 +68,26 @@ class SteamServer extends GameServer {
      * @ORM\Column(name="hltvPort", type="integer", nullable=true)
      */
     private $hltvPort;
+    
+    /**
+     * @var string $mode
+     * 
+     * @ORM\Column(name="mode", type="string", nullable=true)
+     */
+    private $mode;
 
     /**
      * Set rebootAt
      *
      * @param \DateTime $rebootAt
+     * 
+     * @return SteamServer
      */
     public function setRebootAt($rebootAt)
     {
         $this->rebootAt = $rebootAt;
+        
+        return $this;
     }
 
     /**
@@ -93,10 +104,14 @@ class SteamServer extends GameServer {
      * Set munin
      *
      * @param boolean $munin
+     * 
+     * @return SteamServer
      */
     public function setMunin($munin)
     {
         $this->munin = $munin;
+        
+        return $this;
     }
 
     /**
@@ -113,10 +128,14 @@ class SteamServer extends GameServer {
      * Set sv_passwd
      *
      * @param string $svPasswd
+     * 
+     * @return SteamServer
      */
     public function setSvPasswd($svPasswd)
     {
         $this->sv_passwd = $svPasswd;
+        
+        return $this;
     }
 
     /**
@@ -133,10 +152,14 @@ class SteamServer extends GameServer {
      * Set core
      *
      * @param integer $core
+     * 
+     * @return SteamServer
      */
     public function setCore($core)
     {
         $this->core = $core;
+        
+        return $this;
     }
 
     /**
@@ -153,10 +176,14 @@ class SteamServer extends GameServer {
      * Set HLTV/SRCTV Port
      *
      * @param integer $hltvPort
+     * 
+     * @return SteamServer
      */
     public function setHltvPort($hltvPort)
     {
         $this->hltvPort = $hltvPort;
+        
+        return $this;
     }
 
     /**
@@ -167,6 +194,41 @@ class SteamServer extends GameServer {
     public function getHltvPort()
     {
         return $this->hltvPort;
+    }
+    
+    /**
+     * Set game server mode 
+     * 
+     * @param string $mode
+     * 
+     * @return SteamServer
+     */
+    public function setMode($mode)
+    {
+        $this->mode = $mode;
+        
+        return $this;
+    }
+    
+    /**
+     * Get game server mode
+     * 
+     * @return string
+     */
+    public function getMode()
+    {
+        return $this->mode;
+    }
+    
+    public static function getModeList()
+    {
+        return array(
+            '0;0' => 'Classic Casual', 
+            '0;1' => 'Classic Competitive', 
+            '1;0' => 'Arms Race', 
+            '1;1' => 'Demolition', 
+            '1;2' => 'Deathmatch', 
+        );
     }
 
     /**
@@ -254,8 +316,6 @@ class SteamServer extends GameServer {
             $cmd = 'screen -S "' . $this->getInstallScreenName() . '" -X hardcopy ' . $tmpFile . '; sleep 1s;';
             $cmd .= 'if [ -e ' . $tmpFile . ' ]; then cat ' . $tmpFile . '; rm -f ' . $tmpFile . '; fi';
 
-            $isSteamCmd = $this->getGame()->getSteamCmd();
-
             $screenContent = $sec->exec($cmd);
 
             if ($screenContent == 'No screen session found.') return null;
@@ -271,7 +331,7 @@ class SteamServer extends GameServer {
 
                     $line = trim($line);
                     
-                    if ($isSteamCmd) {
+                    if ($this->getGame()->getSteamCmd()) {
                         $matches = array();
                         
                         if (preg_match('#^App state \(0x\d+\) downloading, progress: ([\d]+,[\d]+)#', $line ,$matches)) {
@@ -319,6 +379,10 @@ class SteamServer extends GameServer {
 
         // Création d'un ficier server.cfg vide (si celui-ci n'existe pas)
         $this->createDefaultServerCfgFile();
+        
+        if ($this->getGame()->getLaunchName() == 'csgo') {
+            $this->modifyGameModesCfg();
+        }
 
         $this->installationStatus = 101;
 
@@ -332,9 +396,36 @@ class SteamServer extends GameServer {
 
         $scriptPath = $this->getAbsoluteHldsScriptPath();
         $core = $this->getCore();
+        $isCsgo = $this->getGame()->getLaunchName() == 'csgo';
+        $gameType = '';
+        $gameMode = '';
+        $mapGroup = '';
         
         if (!empty($core)) {
             $core -= 1;
+        }
+        
+        if ($isCsgo) {
+            $mode = $this->getMode();
+            $mode = !(empty($mode)) ? $mode : '0;0';
+            
+            list($gameType, $gameMode) = explode(';', $mode);
+            
+            if ($gameType == 0 && $gameMode == 0) {
+                $mapGroup = 'mg_bomb';
+            }
+            elseif ($gameType == 0 && $gameMode == 1) {
+                $mapGroup = 'mg_bomb_se';
+            }
+            elseif ($gameType == 1 && $gameMode == 0) {
+                $mapGroup = 'mg_armsrace';
+            }
+            elseif ($gameType == 1 && $gameMode == 1) {
+                $mapGroup = 'mp_demolition';
+            }
+            elseif ($gameType == 1 && $gameMode == 2) {
+                $mapGroup = 'mg_allclassic';
+            }
         }
 
         $hldsScript = $twig->render('DPSteamServerBundle:sh:hlds.sh.twig', array(
@@ -342,7 +433,9 @@ class SteamServer extends GameServer {
             'launchName' => $game->getLaunchName(), 'ip' => $this->getMachine()->getPublicIp(),
             'port' => $this->getPort(), 'maxplayers' => $this->getMaxplayers(),
             'startMap' => $game->getMap(), 'binDir' => $this->getAbsoluteBinDir(),
-            'core' => $core,
+            'core' => $core, 'isCsgo' => $isCsgo, 'gameType' => $gameType, 'gameMode' => $gameMode, 
+            'mapGroup' => $mapGroup,  
+            ''
         ));
 
         $uploadHlds = $sec->upload($scriptPath, $hldsScript, 0750);
@@ -376,15 +469,19 @@ class SteamServer extends GameServer {
     public function createDefaultServerCfgFile()
     {
         $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $cfgPath = $this->getServerCfgPath();
 
-        // On upload un fichier server.cfg si aucun n'existe
-        $cfgPath = $this->getAbsoluteGameContentDir();
-        if ($this->getGame()->isSource() || $this->getGame()->isOrangebox()) {
-            $cfgPath .= 'cfg/';
+        if ($this->getGame()->getLaunchName() == 'csgo') {
+            $file = $this->getAbsoluteGameContentDir() . 'gamemodes_server.txt';
+            
+            $ret = $sec->exec('if [ ! -e ' . $file . ' ] && [ -e ' . $file . '.example ]; then mv ' . $file . '.example ' . $file . '; fi');
+            
+            return $ret;
         }
-        $cfgPath .= 'server.cfg';
-
-        return $sec->exec('if [ ! -e ' . $cfgPath . ' ]; then touch ' . $cfgPath . '; fi');
+        else {
+            // On créer un fichier server.cfg si aucun n'existe
+            return $sec->exec('if [ ! -e ' . $cfgPath . ' ]; then touch ' . $cfgPath . '; fi');
+        }
     }
 
     public function uploadDefaultServerCfgFile()
@@ -413,19 +510,34 @@ class SteamServer extends GameServer {
 
         $remoteFile = $sec->getRemoteFile($cfgPath);
         $fileLines = explode("\r\n", $remoteFile);
-
-        $pattern = '#^hostname "(.+)"$#';
-        $replacement = 'hostname "' . $this->getServerName() . '"';
+        
+        $patterns = array(
+            '#^hostname "(.+)"$#' => 'hostname "' . $this->getServerName() . '"',
+        );
+        $matched = array();
 
         foreach ($fileLines AS &$line) {
             if ($line == '' || substr($line, 0, 2) == '//') continue;
 
-            if (preg_match($pattern, $line)) {
-                $line = preg_replace($pattern, $replacement, $line);
+            // Vérifie tous les patterns fournis
+            foreach ($patterns AS $pattern => $replacement) {
+                // Si le pattern est trouvé, le replacement est effectué
+                // Et la ligne est ajouté à l'array des lignes détectés
+                if (preg_match($pattern, $line)) {
+                    $line = preg_replace($pattern, $replacement, $line);
+                    
+                    $matched[$pattern] = $replacement;
+                }
             }
         }
         // Suppression de la référence
         unset($line);
+        
+        // Ajoute les lignes non matchées
+        $delta = array_diff($patterns, $matched);
+        foreach ($delta AS $toAdd) {
+            $fileLines[] = $toAdd;
+        }
 
         // Upload du nouveau fichier
         return $sec->upload($cfgPath, implode("\r\n", $fileLines));
@@ -598,5 +710,26 @@ class SteamServer extends GameServer {
         $delCmd  = 'rm -Rf ' . $serverPath;
 
         return $sec->exec($delCmd);
+    }
+    
+    public function modifyGameModesCfg()
+    {
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $file = $this->getAbsoluteGameContentDir() . 'gamemodes_server.txt';
+        
+        $content = $sec->getRemoteFile($file);
+        $fileLines = explode("\r\n", $content);
+        
+        foreach ($fileLines AS &$line) {
+            // On ignore la ligne vide et les commentaires
+            if (empty($line) || substr($line, 0, 2) == '//') continue;
+            
+            if (preg_match('#"maxplayers"[ \t]+"[\d]+"#', $line)) {
+                $line = preg_replace('#^([ \t]+)"maxplayers"([ \t]+)"[\d]+"(.*)$#', '$1"maxplayers"$2"' . $this->maxplayers . '"$3', $line);
+            }
+        }
+        
+        // Upload du nouveau fichier
+        return $sec->upload($f, implode("\r\n", $fileLines));
     }
 }

@@ -142,7 +142,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $tf->setAppId('232250');
 //        $tf->setSourceImageMaps('');
         $tf->setType('steam');
-        $tf->setSource(false);
+        $tf->setSource(true);
         $manager->persist($tf);
 //        $this->addReference('tf', $tf);
 
@@ -159,9 +159,24 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $dods->setAppId('232290');
 //        $dods->setSourceImageMaps('');
         $dods->setType('steam');
-        $dods->setSource(false);
+        $dods->setSource(true);
         $manager->persist($dods);
 //        $this->addReference('dods', $dods);
+
+        $csgo = new Game();
+        $csgo->setName('Counter-Strike: Global Offensive');
+        $csgo->setInstallName('csgo');
+        $csgo->setLaunchName('csgo');
+        $csgo->setBin('srcds_run');
+        $csgo->setBinDir('');
+        $csgo->setMap('de_dust2');
+        $csgo->setSource(true);
+        $csgo->setOrangebox(true);
+        $csgo->setSteamCmd(true);
+        $csgo->setAppId('740');
+        $csgo->setType('steam');
+        $csgo->setAvailable(true);
+        $manager->persist($csgo);
 
         /********************
          * Minecraft *

@@ -322,6 +322,10 @@ class SteamServerController extends Controller
         // Régénération des scripts du panel
         $entity->uploadHldsScript($twig);
         $entity->uploadHltvScript($twig);
+        
+        if ($entity->getGame()->getLaunchName() == 'csgo') {
+            $this->modifyGameModesCfg();
+        }
 
         return $this->redirect($this->generateUrl('steam_show', array('id' => $id)));
     }

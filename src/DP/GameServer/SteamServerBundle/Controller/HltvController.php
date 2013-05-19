@@ -20,7 +20,7 @@
 
 namespace DP\GameServer\SteamServerBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
+use DP\GameServer\SteamServerBundle\SteamQuery\SteamQuery;
 use DP\GameServer\SteamServerBundle\SteamQuery\Exception\UnexpectedServerTypeException;
 
 class HltvController extends Controller
@@ -37,7 +37,7 @@ class HltvController extends Controller
         $hltv = $this->get('query.steam')->getServerQuery(
             $serv->getMachine()->getPublicIp(),
             $serv->getHltvPort(),
-            true
+            SteamQuery::TYPE_HLTV
         );
 
         // On vérifie le statut de l'hltv

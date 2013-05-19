@@ -61,7 +61,7 @@ class ConfigModifier
         $entity = $args->getEntity();
         
         if ($entity instanceof GameServer) {
-            if ($args->hasChangedField('machine') || $args->hasChangedField('game')) {
+            if ($args->hasChangedField('machine')) {
                 try {
                     $entity->installServer($this->getTwig());
                 }

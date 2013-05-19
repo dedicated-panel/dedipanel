@@ -83,7 +83,7 @@ class SourceRcon
         };*/
         $callbacks = array();
         // Permet de déterminé s'il s'agit d'une réponse multi-paquet
-        $callbacks[] = function(Packet $packet) {
+        $callbacks[Socket::MULTI_DETECTOR] = function(Packet $packet) {
             if (is_null($packet) || $packet->isEmpty()) return false;
             
             // Récupération de la longueur de la réponse
@@ -100,7 +100,7 @@ class SourceRcon
             }
         };
         // Permet de récupérer les différents paquets qui composent une réponse
-        $callbacks[] = function(Packet $packet, Socket $socket) {
+        $callbacks[Socket::MULTI_RECEIVER] = function(Packet $packet, Socket $socket) {
             if (is_null($packet) || $packet->isEmpty()) return false;
             
             // Récupération de la longueur de la réponse

@@ -34,10 +34,13 @@ abstract class BaseSteamServerType extends AbstractType
             ->add('name', 'text', array('label' => 'game.name'))
             ->add('port', 'integer', array('label' => 'game.port'))
             ->add('game', 'entity', array(
-                'label' => 'game.selectGame', 'class' => 'DPGameBundle:Game',
+                'label' => 'game.selectGame', 
+                'class' => 'DPGameBundle:Game',
                 'query_builder' => function($repo) {
                     return $repo->getQBAvailableSteamGames();
-                }))
+                }, 
+                'read_only' => true, 
+            ))
             ->add('dir', 'text', array('label' => 'game.dir'))
             ->add('maxplayers', 'integer', array('label' => 'game.maxplayers'))
         ;
