@@ -730,6 +730,6 @@ class SteamServer extends GameServer {
         }
         
         // Upload du nouveau fichier
-        return $sec->upload($f, implode("\r\n", $fileLines));
+        return $sec->upload($file, implode("\r\n", $fileLines));
     }
 }
