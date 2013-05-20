@@ -34,7 +34,7 @@ case "$1" in
                 	{% set args = args ~ ' +game_mode ' ~ gameMode ~ ' +mapgroup ' ~ mapGroup %} 
                 {% else %}
                 	{% set args = './' ~ bin ~ ' -game ' ~ launchName ~ ' -autoupdate +map ' ~ startMap %}
-                	{% set args = args ~ '-port ' ~ port ~ ' +ip ' ~ ip ~ ' +maxplayers ' ~ maxplayers %}
+                	{% set args = args ~ ' -port ' ~ port ~ ' +ip ' ~ ip ~ ' +maxplayers ' ~ maxplayers %}
                 {% endif %}
             
                 {% if core is not  empty %}
