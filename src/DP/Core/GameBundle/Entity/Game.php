@@ -353,7 +353,6 @@ class Game
      */
     public function setBinDir($binDir)
     {
-        $binDir = trim($binDir, '/') . '/';
         $this->binDir = $binDir;
     }
 
