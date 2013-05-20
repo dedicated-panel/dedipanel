@@ -29,12 +29,14 @@ case "$1" in
             	{% set args = '' %}
             	
                 {% if isCsgo %}
-                	{% set args = './' ~ bin ~ ' -game ' ~ launchName ~ ' -autoupdate +map ' ~ startMap %}
-                	{% set args = args ~ ' -port ' ~ port ~ ' -ip ' ~ ip ~ ' -console -usercon +game_type ' ~ gameType %}
-                	{% set args = args ~ ' +game_mode ' ~ gameMode ~ ' +mapgroup ' ~ mapGroup %} 
+                    {% set args = './' ~ bin ~ ' -steam_dir steamcmd/ -steamcmd_script steamcmd/steamcmd.sh ' %}
+                    {% set args = args ~ ' -game ' ~ launchName ~ ' -autoupdate +map ' ~ startMap %}
+                    {% set args = args ~ ' -port ' ~ port ~ ' -ip ' ~ ip ~ ' -console -usercon +game_type ' ~ gameType %}
+                    {% set args = args ~ ' +game_mode ' ~ gameMode ~ ' +mapgroup ' ~ mapGroup %} 
                 {% else %}
-                	{% set args = './' ~ bin ~ ' -game ' ~ launchName ~ ' -autoupdate +map ' ~ startMap %}
-                	{% set args = args ~ ' -port ' ~ port ~ ' +ip ' ~ ip ~ ' +maxplayers ' ~ maxplayers %}
+                    {% set args = './' ~ bin ~ ' -steam_dir steamcmd/ -steamcmd_script steamcmd/steamcmd.sh ' %}
+                    {% set args = args ~ ' -game ' ~ launchName ~ ' -autoupdate +map ' ~ startMap %}
+                    {% set args = args ~ ' -port ' ~ port ~ ' +ip ' ~ ip ~ ' +maxplayers ' ~ maxplayers %}
                 {% endif %}
             
                 {% if core is not  empty %}
