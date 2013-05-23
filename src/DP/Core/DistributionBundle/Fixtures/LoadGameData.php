@@ -41,7 +41,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $cs->setSteamCmd(true);
         $cs->setAppId('90');
         $cs->setAppMod('cstrike');
-//        $cs->setSourceImagesMaps('');
+        $cs->setSourceImagesMaps('http://image.www.gametracker.com/images/maps/160x120/cs/');
         $cs->setSource(false);
         $cs->setType('steam');
         $cs->addPlugin($this->getReference('metamod'));
@@ -61,7 +61,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $cz->setSteamCmd(true);
         $cz->setAppId('90');
         $cz->setAppMod('czero');
-//        $cz->setSourceImageMaps('');
+        $cz->setSourceImageMaps('http://image.www.gametracker.com/images/maps/160x120/czero/');
         $cz->setType('steam');
         $cz->setSource(false);
         $cz->addPlugin($this->getReference('metamod'));
@@ -81,7 +81,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $dod->setSteamCmd(true);
         $dod->setAppId('90');
         $dod->setAppMod('dod');
-//        $dod->setSourceImageMaps('');
+        $dod->setSourceImageMaps('http://image.www.gametracker.com/images/maps/160x120/dod/');
         $dod->setType('steam');
         $dod->setSource(false);
         $dod->addPlugin($this->getReference('metamod'));
@@ -101,7 +101,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $tfc->setSteamCmd(true);
         $tfc->setAppId('90');
         $tfc->setAppMod('tfc');
-//        $tfc->setSourceImageMaps('');
+        $tfc->setSourceImageMaps('http://image.www.gametracker.com/images/maps/160x120/tfc/');
         $tfc->setType('steam');
         $tfc->setSource(false);
         $tfc->addPlugin($this->getReference('metamod'));
@@ -123,7 +123,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $css->setBinDir('');
         $css->setSteamCmd(true);
         $css->setAppId('232330');
-//        $css->setSourceImageMaps('');
+        $css->setSourceImageMaps('http://image.www.gametracker.com/images/maps/160x120/css/');
         $css->setType('steam');
         $css->setSource(true);
         $manager->persist($css);
@@ -140,7 +140,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $tf->setBinDir('');
         $tf->setSteamCmd(true);
         $tf->setAppId('232250');
-//        $tf->setSourceImageMaps('');
+        $tf->setSourceImageMaps('http://image.www.gametracker.com/images/maps/160x120/tf2/');
         $tf->setType('steam');
         $tf->setSource(true);
         $manager->persist($tf);
@@ -157,7 +157,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $dods->setBinDir('');
         $dods->setSteamCmd(true);
         $dods->setAppId('232290');
-//        $dods->setSourceImageMaps('');
+        $dods->setSourceImageMaps('http://image.www.gametracker.com/images/maps/160x120/dods/');
         $dods->setType('steam');
         $dods->setSource(true);
         $manager->persist($dods);
@@ -173,10 +173,41 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $csgo->setSource(true);
         $csgo->setOrangebox(false);
         $csgo->setSteamCmd(true);
+        $csgo->setSourceImageMaps('http://image.www.gametracker.com/images/maps/160x120/l4d/');
         $csgo->setAppId('740');
         $csgo->setType('steam');
         $csgo->setAvailable(true);
         $manager->persist($csgo);
+
+        $l4d = new Game();
+        $l4d->setName('Left4Dead');
+        $l4d->setInstallName('left4dead');
+        $l4d->setLaunchName('left4dead');
+        $l4d->setBin('srcds_run');
+        $l4d->setOrangebox(true);
+        $l4d->setMap('l4d_hospital01_apartment');
+        $l4d->setAvailable(true);
+        $l4d->setBinDir('l4d/');
+        $l4d->setSourceImageMaps('http://image.www.gametracker.com/images/maps/160x120/l4d/');
+        $l4d->setType('steam');
+        $l4d2->setSource(true);
+        $manager->persist($l4d);
+//        $this->addReference('l4d', $l4d);
+
+        $l4d2 = new Game();
+        $l4d2->setName('Left4Dead 2');
+        $l4d2->setInstallName('left4dead2');
+        $l4d2->setLaunchName('left4dead2');
+        $l4d2->setBin('srcds_run');
+        $l4d2->setOrangebox(true);
+        $l4d2->setMap('c1m1_hotel');
+        $l4d2->setAvailable(true);
+        $l4d2->setBinDir('');
+        $l4d2->setSourceImageMaps('http://image.www.gametracker.com/images/maps/160x120/left4dead2/');
+        $l4d2->setType('steam');
+        $l4d2->setSource(true);
+        $manager->persist($l4d2);
+//        $this->addReference('l4d2', $l4d2);
 
         /********************
          * Minecraft *
@@ -191,7 +222,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $mc->setMap('world');
         $mc->setAvailable(true);
         $mc->setBinDir('./');
-//        $mc->setSourceImagesMaps('');
+        $mc->setSourceImageMaps('http://image.www.gametracker.com/images/maps/160x120/minecraft/');
         $mc->setType('minecraft');
         $manager->persist($mc);
 
@@ -205,7 +236,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $bukkit->setMap('world');
         $bukkit->setAvailable(true);
         $bukkit->setBinDir('./');
-//        $bukkit->setSourceImagesMaps('');
+        $bukkit->setSourceImageMaps('http://image.www.gametracker.com/images/maps/160x120/minecraft/');
         $bukkit->setType('minecraft');
         $manager->persist($bukkit);
 
