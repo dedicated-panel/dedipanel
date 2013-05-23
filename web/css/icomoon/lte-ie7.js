@@ -1,9 +1,9 @@
-/* Use this script if you need to support IE 7 and IE 6. */
+/* Load this script using conditional IE comments if you need to support IE 7 and IE 6. */
 
 window.onload = function() {
 	function addIcon(el, entity) {
 		var html = el.innerHTML;
-		el.innerHTML = '<span style="font-family: \'icomoon\'">' + entity + '</span>' + html;
+		el.innerHTML = '<span style="font-family: \'loops105\'">' + entity + '</span>' + html;
 	}
 	var icons = {
 			'icon-cabinet' : '&#x5f;',
@@ -69,12 +69,17 @@ window.onload = function() {
 			'icon-untitled-54' : '&#x24;',
 			'icon-untitled-55' : '&#x23;',
 			'icon-untitled-56' : '&#x22;',
-			'icon-untitled-57' : '&#x21;'
+			'icon-untitled-57' : '&#x21;',
+			'icon-camera' : '&#x60;',
+			'icon-resize' : '&#x61;'
 		},
 		els = document.getElementsByTagName('*'),
 		i, attr, html, c, el;
-	for (i = 0; i < els.length; i += 1) {
+	for (i = 0; ; i += 1) {
 		el = els[i];
+		if(!el) {
+			break;
+		}
 		attr = el.getAttribute('data-icon');
 		if (attr) {
 			addIcon(el, attr);
