@@ -32,7 +32,7 @@ class EditSteamServerType extends BaseSteamServerType
         if (isset($options['data'])) {
             $entity = $options['data'];
             
-            if ($entity->getGame()->getLaunchName('csgo')) {
+            if ($entity->getGame()->getLaunchName() == 'csgo') {
                 $builder->add('mode', 'choice', array(
                     'choices' => SteamServer::getModeList(), 
                     'empty_value' => 'steam.chooseGameMode',
