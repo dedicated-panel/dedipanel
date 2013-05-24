@@ -46,6 +46,8 @@ case "$1" in
             {% endspaceless %}
             
             echo "."
+        else
+            $0 restart
         fi
         
         exit ${?}
