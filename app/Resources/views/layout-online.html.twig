@@ -37,7 +37,7 @@
                 </a> 
             </div>
             <div class="user-profile">
-                    <img alt="vooOnnN !!!" src="http://icons.iconarchive.com/icons/double-j-design/origami-colored-pencil/256/blue-user-icon.png">
+                    <img alt="{{ app.user.username }}" src="{{ { asset('images/icones/blue-user-icon.png') }}">
                     <div class="user-info">
                             <a href="{{ path('sonata_user_profile_edit_authentication') }}">{{ app.user.username }}</a>
                             <em>
