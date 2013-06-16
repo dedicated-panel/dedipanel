@@ -74,6 +74,7 @@ game.plugin.noPluginForThatGame: Il n'y a pas de plugin de configuré pour ce je
 game.player: Joueur
 game.score: Score
 game.noPlayerConnected: Aucun joueur n'est connecté.
+game.serveurOffline: Serveur offline.
 
 game.general: Général
 
@@ -83,5 +84,6 @@ game.stop: Arrêter
 game.restart: Redémarrer
 
 game.regenerate: Régénérer les scripts
+game.offline: Status Offline
 
 game.missingPacket: Impossible de lancer l'installation du plugin "%plugin%". Vous devez d'abord installer le(s) paquet(s) %packet% sur votre système afin de pouvoir continuer.

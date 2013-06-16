@@ -73,6 +73,7 @@ game.plugin.noPluginForThatGame: There is no plugin configured for this game.
 game.player: Players
 game.score: Score
 game.noPlayerConnected: No player is connected.
+game.serveurOffline: Server offline
 
 game.general: General
 
@@ -82,3 +83,4 @@ game.stop: Stop
 game.restart: Restart
 
 game.regenerate: Régénérer les scripts
+game.offline: Status Offline

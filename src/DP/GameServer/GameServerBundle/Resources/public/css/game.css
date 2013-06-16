@@ -92,7 +92,97 @@
 .server-item .progress {
     margin-top: 15px;
 }
+.serveur-header-bg {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    margin: -11px 0 17px -19px;
+}
+.serveur-header-texture {
+    margin: 0px -30px 0 0;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.11);
+    background-position: center;
+    border-bottom: 1px solid rgb(165, 165, 165);
+}
+.serveur-header {
+    position: relative;
+    width: 94%;
+    margin: 0 auto;
+    padding-top: 24px;
+    height: 200px;
+}
+.serveur-header .serveur-header-image {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.serveur-header-info {
+    position: absolute;
+    right: 0;
+    top: 0;
+    text-align: right;
+}
+.serveur-header-content {
+    position: relative;
+    padding-left: 192px;
+    padding-right: 286px;
+    padding-top: 8px;
+    color: #898989;
+    font-size: 13px;
+}
+.serveur-header-image img {
+    width: 200px;
+    height: 160px;
+    border: 1px solid #545454;
+    border-radius: 3px;
+}
+.serveur-header-image .offline {
+    width: 200px;
+    height: 160px;
+    border: 1px solid rgba(179, 179, 179, 0.97);
+    border-radius: 3px;
+}
 
+.serveur-header .serveur-header-map {
+    line-height: 40px;
+    font-size: 24px;
+    color: rgba(0, 16, 80, 0.63);
+    font-family: 'Motiva Sans Thin',Arial,Helvetica,Verdana,sans-serif;
+}
+.serveur-header .serveur-header-map .offline {
+    line-height: 40px;
+    font-size: 24px;
+    color: rgba(224, 0, 0, 0.63);
+    font-family: 'Motiva Sans Thin',Arial,Helvetica,Verdana,sans-serif;
+}
+.serveur-header .serveur-header-name {
+    font-size: 20px;
+}
+.serveur-header .serveur-header-map {
+    height: 65px;
+    margin-top: 10px;
+}
+.serveur-header .serveur-header-summary {
+    line-height: 15px;
+    height: 160px;
+    overflow: hidden;
+    text-align: left;
+    margin-left: 30px;
+}
+.serveur-info-summary {
+    position: relative;
+    float: right;
+    text-align: right;
+    width: 50%;
+}
+.serveur-content{
+   min-height: 280px; 
+} 
+.serveur-content .serveur-players{
+    width: 45%;
+    float: left;
+}
 
 /* Details */
 .server-item .details {

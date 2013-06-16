@@ -28,33 +28,31 @@
 {% endblock %}
 
 {% block baseBody %}
-    <header>   
-        <nav class="clearfix">
-            <ul>
-                <li>
-                    <a href="{{ path('sonata_user_profile_edit_authentication') }}">
-                        <span data-icon="&#x58;"></span>
-                        {{ 'profil.profil'|trans }}
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ path('fos_user_security_logout') }}">
-                        <span data-icon="&#x57;"></span>
-                        {{ 'profil.logout'|trans }}
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </header>
 
     <div id="cols-container">
         <section id="sidebar">
             <div id="logo">
                 <a href="{{ path('_welcome') }}">
                     <img src="{{ asset('images/header/logo.png') }}" title="DediPanel" />
-                </a>
+                </a> 
             </div>
-
+            <div class="user-profile">
+                    <img alt="vooOnnN !!!" src="http://icons.iconarchive.com/icons/double-j-design/origami-colored-pencil/256/blue-user-icon.png">
+                    <div class="user-info">
+                            <a href="{{ path('sonata_user_profile_edit_authentication') }}">{{ app.user.username }}</a>
+                            <em>
+                            
+                            </em>
+                            <ul class="user-profile-actions">
+                                    <li><a href="{{ path('sonata_user_profile_edit_authentication') }}"> 
+                                            <span data-icon="&#x58;"></span>
+                                    </a></li>
+                                    <li><a href="{{ path('fos_user_security_logout') }}">
+                                        <span data-icon="&#x57;"></span>
+                                    </a></li>
+                            </ul>
+                    </div>
+            </div>
             <nav>
                 <ul>
                     <li class="home">
@@ -89,6 +87,24 @@
                     </li>
                 </ul>
             </nav>
+                
+            <footer>
+                <p>
+                    DediPanel {% spaceless %}
+                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            {{ dedipanel.current_version }}
+
+                            {% if dedipanel.update_available %}
+                                &nbsp;({{ 'updateAvailable'|trans({'%versionAvailable%': dedipanel.version_available}) }})
+                            {% endif %}
+                        {% endif %}
+                    {% endspaceless %} - Code & Design par Von et NiR<br />
+
+                            <a target="_blank" href="http://www.dedicated-panel.net">dedicated-panel.net</a> | 
+                            <a target="_blank" href="http://wiki.dedicated-panel.net">wiki</a> | 
+                            <a target="_blank" href="http://forum.dedicated-panel.net">forum</a>
+                </p>
+            </footer>
         </section>
 
         <section id="inner">
@@ -96,23 +112,6 @@
             
             <div id="page-content" class="clearfix">{% block body %}{% endblock %}</div>
 
-            <footer>
-                <p>
-                    DediPanel {% spaceless %}
-                        {% if is_granted('ROLE_SUPER_ADMIN') %}
-                            {{ dedipanel.current_version }}
-                            
-                            {% if dedipanel.update_available %}
-                                &nbsp;({{ 'updateAvailable'|trans({'%versionAvailable%': dedipanel.version_available}) }})
-                            {% endif %}
-                        {% endif %}
-                    {% endspaceless %} - Code & Design par Von et NiR<br />
-            
-		            <a target="_blank" href="http://www.dedicated-panel.net">dedicated-panel.net</a> | 
-		            <a target="_blank" href="http://wiki.dedicated-panel.net">wiki</a> | 
-		            <a target="_blank" href="http://forum.dedicated-panel.net">forum</a>
-                </p>
-            </footer>
         </section>
     </div>
 {% endblock %}
