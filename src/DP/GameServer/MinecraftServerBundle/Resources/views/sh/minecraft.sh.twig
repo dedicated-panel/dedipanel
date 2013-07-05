@@ -30,6 +30,8 @@ case "$1" in
             cd {{ binDir }}
             screen -dmS $SCREEN_NAME $INVOCATION
             echo "."
+        else
+            $0 restart
         fi
         
         exit ${?}
