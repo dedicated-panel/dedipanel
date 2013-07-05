@@ -87,3 +87,5 @@ game.regenerate: Régénérer les scripts
 game.offline: Status Offline
 
 game.missingPacket: Impossible de lancer l'installation du plugin "%plugin%". Vous devez d'abord installer le(s) paquet(s) %packet% sur votre système afin de pouvoir continuer.
+
+game.showLog: Voir les logs du serveur

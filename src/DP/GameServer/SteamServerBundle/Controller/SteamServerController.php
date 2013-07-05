@@ -329,4 +329,21 @@ class SteamServerController extends Controller
 
         return $this->redirect($this->generateUrl('steam_show', array('id' => $id)));
     }
+
+    public function showLogAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
+        
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find SteamServer entity.');
+        }
+        
+        $logs = $entity->getServerLogs();
+        
+        return $this->render('DPSteamServerBundle:SteamServer:logs.html.twig', array(
+            'entity' => $entity, 
+            'logs' => $logs, 
+        ));
+    }
 }

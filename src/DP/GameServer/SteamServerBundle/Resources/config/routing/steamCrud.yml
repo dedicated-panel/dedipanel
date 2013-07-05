@@ -61,3 +61,7 @@ steam_query:
 steam_regen:
     pattern: /{id}/regen
     defaults: { _controller: "DPSteamServerBundle:SteamServer:regen" }
+
+steam_screen_log:
+    pattern: /{id}/log
+    defaults: { _controller: "DPSteamServerBundle:SteamServer:showLog" }

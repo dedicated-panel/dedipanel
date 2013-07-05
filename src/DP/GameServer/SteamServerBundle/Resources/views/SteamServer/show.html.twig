@@ -54,6 +54,11 @@
                                                     {{ 'game.regenerate'|trans }}
                                                 </a>
                                             </li>
+                                            <li>
+                                                <a href="{{ path('steam_screen_log', { 'id': entity.id}) }}">
+                                                    {{ 'game.showLog'|trans }}
+                                                </a>
+                                            </li>
                                         </ul>
                                     {% endif %}
                             </div>

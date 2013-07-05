@@ -420,6 +420,18 @@ class PHPSeclibWrapper {
         return strlen($this->exec('`java -version` 2>/dev/null')) > 0;
     }
     
+    public function getScreenContent($screenName)
+    {
+        // Si on en est rendu au téléchargement des données,
+        // On récupère le pourcentage du dl dans le screen
+        // Pour l'afficher à l'utilisateur
+        $tmpFile = '/tmp/' . uniqid();
+        $cmd = 'screen -S "' . $screenName . '" -X hardcopy ' . $tmpFile . '; sleep 1s;';
+        $cmd .= 'if [ -e ' . $tmpFile . ' ]; then cat ' . $tmpFile . '; rm -f ' . $tmpFile . '; fi';
+
+        return $this->exec($cmd);
+    }
+    
     
     /**
      * Set host

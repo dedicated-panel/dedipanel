@@ -309,14 +309,7 @@ class SteamServer extends GameServer {
            return 100;
         }
         elseif (strpos($installLog, 'Game install') !== false) {
-            // Si on en est rendu au téléchargement des données,
-            // On récupère le pourcentage du dl dans le screen
-            // Pour l'afficher à l'utilisateur
-            $tmpFile = '/tmp/' . uniqid();
-            $cmd = 'screen -S "' . $this->getInstallScreenName() . '" -X hardcopy ' . $tmpFile . '; sleep 1s;';
-            $cmd .= 'if [ -e ' . $tmpFile . ' ]; then cat ' . $tmpFile . '; rm -f ' . $tmpFile . '; fi';
-
-            $screenContent = $sec->exec($cmd);
+            $screenContent = $sec->getScreenContent($this->getInstallScreenName());
 
             if ($screenContent == 'No screen session found.') return null;
             else {
@@ -731,5 +724,12 @@ class SteamServer extends GameServer {
         
         // Upload du nouveau fichier
         return $sec->upload($file, implode("\r\n", $fileLines));
+    }
+    
+    public function getServerLogs()
+    {
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        
+        return $sec->getScreenContent($this->getScreenName());
     }
 }
