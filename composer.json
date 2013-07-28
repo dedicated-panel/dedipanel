@@ -27,7 +27,7 @@
         "sonata-project/jquery-bundle": "1.8.*",
         "sonata-project/exporter": "*",
         "sonata-project/block-bundle": "2.1.*",
-        "knplabs/knp-menu-bundle": "*",
+        "knplabs/knp-menu-bundle": "1.1.*@dev",
         "friendsofsymfony/user-bundle": "*",
         "sonata-project/user-bundle": "2.1.*",
         "sonata-project/easy-extends-bundle": "*",
