@@ -45,9 +45,9 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $cs->setSource(false);
         $cs->setType('steam');
         $cs->addPlugin($this->getReference('metamod'));
-        $cs->addPlugin($this->getReference('amxCs'));
+        $cs->addPlugin($this->getReference('amxx'));
+        $cs->addPlugin($this->getReference('amxxCS'));
         $manager->persist($cs);
-//        $this->addReference('cs', $cs);
 
         $cz = new Game();
         $cz->setName('Counter-Strike: Condition Zéro');
@@ -65,9 +65,9 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $cz->setType('steam');
         $cz->setSource(false);
         $cz->addPlugin($this->getReference('metamod'));
-        $cz->addPlugin($this->getReference('amxCs'));
+        $cz->addPlugin($this->getReference('amxx'));
+        $cz->addPlugin($this->getReference('amxxCS'));
         $manager->persist($cz);
-//        $this->addReference('cz', $cz);
 
         $dod = new Game();
         $dod->setName('Day of Defeat');
@@ -85,9 +85,9 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $dod->setType('steam');
         $dod->setSource(false);
         $dod->addPlugin($this->getReference('metamod'));
-        $dod->addPlugin($this->getReference('amxDod'));
+        $dod->addPlugin($this->getReference('amxx'));
+        $dod->addPlugin($this->getReference('amxxDOD'));
         $manager->persist($dod);
-//        $this->addReference('dod', $dod);
 
         $tfc = new Game();
         $tfc->setName('Team Fortress Classic');
@@ -105,9 +105,9 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $tfc->setType('steam');
         $tfc->setSource(false);
         $tfc->addPlugin($this->getReference('metamod'));
-        $tfc->addPlugin($this->getReference('amx'));
+        $tfc->addPlugin($this->getReference('amxx'));
+        $tfc->addPlugin($this->getReference('amxxTFC'));
         $manager->persist($tfc);
-//        $this->addReference('tfc', $tfc);
 
         /********************
          * Orangebox/Source *
@@ -127,7 +127,6 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $css->setType('steam');
         $css->setSource(true);
         $manager->persist($css);
-//        $this->addReference('css', $css);
 
         $tf = new Game();
         $tf->setName('Team Fortress 2');
@@ -144,7 +143,6 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $tf->setType('steam');
         $tf->setSource(true);
         $manager->persist($tf);
-//        $this->addReference('tf', $tf);
 
         $dods = new Game();
         $dods->setName('Day of Defeat: Source');
@@ -161,7 +159,6 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $dods->setType('steam');
         $dods->setSource(true);
         $manager->persist($dods);
-//        $this->addReference('dods', $dods);
 
         $csgo = new Game();
         $csgo->setName('Counter-Strike: Global Offensive');
@@ -194,7 +191,6 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $l4d->setSourceImagesMaps('http://image.www.gametracker.com/images/maps/160x120/l4d/');
         $l4d->setType('steam');
         $manager->persist($l4d);
-//        $this->addReference('l4d', $l4d);
 
         $l4d2 = new Game();
         $l4d2->setName('Left4Dead 2');
@@ -211,7 +207,6 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $l4d2->setSourceImagesMaps('http://image.www.gametracker.com/images/maps/160x120/left4dead2/');
         $l4d2->setType('steam');
         $manager->persist($l4d2);
-//        $this->addReference('l4d2', $l4d2);
 
         /********************
          * Minecraft *

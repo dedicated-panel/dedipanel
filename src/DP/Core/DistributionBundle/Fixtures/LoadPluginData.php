@@ -36,39 +36,36 @@ class LoadPluginData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($metamod);
         
         $amxx = new Plugin();
-        $amxx->setName('AMX Mod X');
-        $amxx->setDownloadUrl('http://www.amxmodx.org/dl.php?filename=amxmodx-1.8.1-base.tar.gz');
+        $amxx->setName('AMX Mod X (Core Addon)');
+        $amxx->setDownloadUrl('http://www.amxmodx.org/dl.php?file_id=690&mirror_id=2');
         $amxx->setScriptName('amxmodx');
         $manager->persist($amxx);
         
-        $amxCs = new Plugin();
-        $amxCs->setName('AMX Mod (CS/CZ)');
-        $amxCs->setDownloadUrl('http://www.amxmod.net/amxfiles/amxmod_2010.1/amxmod_2010.1_cs-fr.zip');
-        $amxCs->setScriptName('amxmod');
-        $amxCs->setPacketDependencies(array('unzip'));
-        $manager->persist($amxCs);
+        $amxxCS = new Plugin();
+        $amxxCS->setName('AMX Mox X (Counter-Strike Addon)');
+        $amxxCS->setDownloadUrl('http://www.amxmodx.org/dl.php?file_id=692&mirror_id=2');
+        $amxxCS->setScriptName('amxmodx');
+        $manager->persist($amxxCS);
         
-        $amxDod = new Plugin();
-        $amxDod->setName('AMX Mod (DoD)');
-        $amxDod->setDownloadUrl('http://www.amxmod.net/amxfiles/amxmod_2010.1/amxmod_2010.1_dod-fr.zip');
-        $amxDod->setScriptName('amxmod');
-        $amxDod->setPacketDependencies(array('unzip'));
-        $manager->persist($amxDod);
+        $amxxDOD = new Plugin();
+        $amxxDOD->setName('AMX Mod X (Day of Defeat Addon)');
+        $amxxDOD->setDownloadUrl('http://www.amxmodx.org/dl.php?file_id=694&mirror_id=2');
+        $amxxDOD->setScriptName('amxmodx');
+        $manager->persist($amxxDOD);
         
-        $amx = new Plugin();
-        $amx->setName('AMX Mod (Lite)');
-        $amx->setDownloadUrl('http://www.amxmod.net/amxfiles/amxmod_2010.1/amxmod_2010.1_lite-fr.zip');
-        $amx->setScriptName('amxmod');
-        $amx->setPacketDependencies(array('unzip'));
-        $manager->persist($amx);
+        $amxxTFC = new Plugin();
+        $amxxTFC->setName('AMX Mod X (Team Fortress Classic Addon)');
+        $amxxTFC->setDownloadUrl('http://www.amxmodx.org/dl.php?file_id=700&mirror_id=2');
+        $amxxTFC->setScriptName('amxmodx');
+        $manager->persist($amxxTFC);
         
         $manager->flush();
         
         $this->addReference('metamod', $metamod);
         $this->addReference('amxx', $amxx);
-        $this->addReference('amxCs', $amxCs);
-        $this->addReference('amxDod', $amxDod);
-        $this->addReference('amx', $amx);
+        $this->addReference('amxxCS', $amxxCS);
+        $this->addReference('amxxDOD', $amxxDOD);
+        $this->addReference('amxxTFC', $amxxTFC);
     }
     
     public function getOrder()

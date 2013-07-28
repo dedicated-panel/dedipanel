@@ -26,39 +26,25 @@ case "$1" in
             exit 1
         fi
         
-        # On créer le dossier addons/metamod/dlls/ (si nécessaire)
-        if [ ! -d $DIR/addons/metamod/dlls ]; then
-            mkdir -p $DIR/addons/metamod/dlls
-        fi
-        
-        # Puis on télécharge l'archive, on la décompresse pour avoir le .so et on la supprime
-        wget -O metamod.tar.gz $2 && tar zxvf metamod.tar.gz && rm metamod.tar.gz
-        # On déplace le .so vers son dossier
-        mv metamod.so $DIR/addons/metamod/dlls/metamod.so
-
-        # On créer le fichier contenant la liste des plugins (si nécessaire)
-        if [ ! -f $DIR/addons/metamod/plugins.ini ]; then
-            touch $DIR/addons/metamod/plugins.ini
-        fi
+        # On télécharge l'archive et on la décompresse
+        wget -O amxmodx.tar.gz $2 && tar zxvf amxmodx.tar.gz && rm amxmodx.tar.gz
 
         `$0 activate`
     ;;
     
     uninstall)
         `$0 deactivate`
-        rm -Rf $DIR/addons/metamod/
+        rm -Rf $DIR/addons/amxmodx
     ;;
     
     activate)
-        # On modifie le liblist.gam 
-        # On commence par commenter la ligne concernant windows (si nécessaire)
-        sed -i '/^gamedll / s/gamedll/#gamedll/g' $DIR/liblist.gam
-        # Puis on modifie celle concernant linux
-        sed -i '/^gamedll_linux/ s/".\+"/"addons\/metamod\/dlls\/metamod.so"/' $DIR/liblist.gam
+    	if [ -z `grep "linux addons/amxmodx/dlls/amxmodx_mm_i386.so" $DIR/addons/metamod/plugins.ini` ]; then
+	        echo "linux addons/amxmodx/dlls/amxmodx_mm_i386.so" >> $DIR/addons/metamod/plugins.ini
+        fi
     ;;
     
     deactivate)
-        sed -i '/^gamedll_linux/ s/".\+"/"dlls\/cs_i386.so"/' $DIR/liblist.gam
+        grep -v "linux addons/amxmodx/dlls/amxmodx_mm_i386.so" $DIR/addons/metamod/plugins.ini > $DIR/addons/metamod/plugins.ini
     ;;
     
     *)
