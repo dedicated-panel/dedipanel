@@ -72,11 +72,12 @@
                                 <a href="{{ path('minecraft_install', {id: entity.id }) }}">{{ 'game.updateStatus'|trans }}</a>
                             </div>
                             
-                            <div class="progress progress-info progress-striped">
+                            <div id="installation-progress" class="progress" value="{{ entity.installationStatus }}"></div>
+                            {# <div class="progress progress-info progress-striped">
                                 <div class="bar" style="width: {{ entity.installationStatus }}%"></div>
 
                                 {{ entity.installationStatus }} %
-                            </div>
+                            </div> #}
                         </div>
                     </div>
                 {% else %}

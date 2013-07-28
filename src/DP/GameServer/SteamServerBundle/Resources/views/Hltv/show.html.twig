@@ -22,7 +22,7 @@
         <span class="icon" data-icon="&#x29;" title="{{ 'machine.back'|trans }}"></span>
     </a>
     
-    {{ 'steam.title'|trans }}
+    {{ 'steam.hltv.title'|trans }}
 {% endblock %}
 
 {% block content %}
@@ -30,9 +30,11 @@
 
     {% if status == true %}
         <p><a href="{{ path('steam_hltv_stop', {id: id}) }}">{{ 'steam.hltv.running'|trans }}.</a></p>
-    {% elseif notHltv == true %}
-        <p>{{ 'steam.hltv.portAlreadyUsed'|trans }}</p>
     {% else %}
+	    {% if notHltv == true %}
+	        <p class="alert alert-danger">{{ 'steam.hltv.portAlreadyUsed'|trans }}</p>
+	    {% endif %}
+	    
         <form action="{{ path('steam_hltv_start', {id: id}) }}" method="post">
             {% if banned %}
                 <p>{{ 'game.banned'|trans }}.</p>

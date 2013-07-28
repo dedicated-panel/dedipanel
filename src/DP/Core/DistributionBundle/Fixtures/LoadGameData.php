@@ -177,7 +177,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($csgo);
 
         $l4d = new Game();
-        $l4d->setName('Left4Dead');
+        $l4d->setName('Left 4 Dead');
         $l4d->setInstallName('left4dead');
         $l4d->setLaunchName('left4dead');
         $l4d->setBin('srcds_run');
@@ -193,7 +193,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($l4d);
 
         $l4d2 = new Game();
-        $l4d2->setName('Left4Dead 2');
+        $l4d2->setName('Left 4 Dead 2');
         $l4d2->setInstallName('left4dead2');
         $l4d2->setLaunchName('left4dead2');
         $l4d2->setBin('srcds_run');

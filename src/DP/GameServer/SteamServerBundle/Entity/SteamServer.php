@@ -683,7 +683,7 @@ class SteamServer extends GameServer {
 
     public function getServerName()
     {
-        return $this->getName();
+        return '[DediPanel] ' . $this->getName();
     }
 
     public function removeFromServer()
