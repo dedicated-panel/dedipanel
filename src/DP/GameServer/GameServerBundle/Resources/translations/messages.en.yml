@@ -61,6 +61,8 @@ game.ftp.deleteDir: Delete the folder
 game.ftp.deleteFile: Delete the file
 game.ftp.addDirectory: Add a folder
 game.ftp.dirname: Name of the folder
+game.ftp.path: Path: %path%
+game.ftp.invalidPath: Invalid directory path.
 
 game.plugin.title: Show plugins
 game.plugin.showTitle: Show server plugins

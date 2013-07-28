@@ -22,6 +22,7 @@ namespace DP\GameServer\GameServerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
+use DP\GameServer\GameServerBundle\Exception\InvalidPathException;
 
 abstract class FTPController extends Controller
 {
@@ -31,6 +32,8 @@ abstract class FTPController extends Controller
     public function showAction($id, $path)
     {
         $server = $this->getEntityRepository()->find($id);
+        $dirContent = array('files' => array(), 'dirs' => array());
+        $invalid = false;
         
         if (!$server) {
             throw $this->createNotFoundException('Unable to find GameServer entity.');
@@ -40,7 +43,12 @@ abstract class FTPController extends Controller
             $path .= '/';
         }
         
-        $dirContent = $server->getDirContent($path);
+        try {
+            $dirContent = $server->getDirContent($path);
+        }
+        catch (InvalidPathException $e) {
+            $invalid = true;
+        }
         
         return $this->render('DPGameServerBundle:FTP:show.html.twig', array(
             'sid' => $id, 
@@ -49,6 +57,7 @@ abstract class FTPController extends Controller
             'dirContent' => $dirContent, 
             'baseRoute' => $this->getBaseRoute(), 
             'del_form' => $this->createDeleteForm($id, $path)->createView(), 
+            'invalid' => $invalid, 
         ));
     }
     

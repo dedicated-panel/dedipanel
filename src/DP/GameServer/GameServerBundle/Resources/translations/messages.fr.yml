@@ -62,6 +62,8 @@ game.ftp.deleteDir: Supprimer le dossier
 game.ftp.deleteFile: Supprimer le fichier
 game.ftp.addDirectory: Ajouter un dossier
 game.ftp.dirname: Nom du dossier
+game.ftp.path: Chemin : %path%
+game.ftp.invalidPath: Répertoire invalide.
 
 game.plugin.title: Voir les plugins
 game.plugin.showTitle: Voir les plugins du serveur

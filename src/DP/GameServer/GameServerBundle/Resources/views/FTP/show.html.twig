@@ -49,7 +49,7 @@
         
         {# On ajoute un lien pour supprimer le dossier courant #}
         {# Si l'utilisateur n'est pas dans le dossier root du serveur #}
-        {% if currentPath is not empty %}
+        {% if currentPath is not empty and invalid == false %}
             <li>
                 <form action="{{ path(baseRoute ~ '_ftp_delete', {id: sid, path: currentPath}) }}" method="post" class="form-ftp">
                     {{ form_widget(del_form) }}
@@ -62,7 +62,11 @@
         {% endif %}
     </ul>
     
-    {{ currentPath }}
+    <p>{{ 'game.ftp.path'|trans({'%path%': '~/' ~ currentPath}) }}</p>
+    
+    {% if invalid == true %}
+    	<p class="alert alert-error">{{ 'game.ftp.invalidPath'|trans }}</p>
+    {% endif %}
     
     <ul>
         {# Affichage d'un lien ".." de retour vers le dossier parent #}

@@ -25,6 +25,7 @@ use DP\Core\MachineBundle\Entity\Machine;
 use Symfony\Component\Validator\Constraints as Assert;
 use DP\GameServer\GameServerBundle\Query\QueryInterface;
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
+use DP\GameServer\GameServerBundle\Exception\InvalidPathException;
 
 /**
  * DP\Core\GameServer\GameServerBundle\Entity\GameServer
@@ -399,6 +400,10 @@ abstract class GameServer
         $dirContent = $sftp->rawlist($path);
         $dirs = array();
         $files = array();
+        
+        if ($dirContent == false) {
+            throw new InvalidPathException();
+        }
 
         foreach ($dirContent AS $key => $attr) {
             $attr['name'] = $key;
