@@ -72,9 +72,10 @@ class ConfigModifier
     {
         $entity = $args->getEntity();
         
-        if ($entity instanceof MinecraftServer) { 
+        if ($entity instanceof MinecraftServer) {
             if ($args->hasChangedField('port') || $args->hasChangedField('maxplayers') 
-                || $args->hasChangedField('name')) {
+                || $args->hasChangedField('name') || $args->hasChangedField('queryPort') 
+                || $args->hasChangedField('rconPort') || $args->hasChangedField('rconPassword')) {
                 try {
                     $entity->modifyServerPropertiesFile();
                 }

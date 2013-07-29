@@ -293,7 +293,7 @@ class MinecraftServer extends GameServer
                 'rconPort'      => $this->getRconPort(),
                 'rconPassword'  => $this->getRconPassword(),
                 'maxPlayers'    => $this->getMaxplayers(),
-                'serverName'    => $this->getName(),
+                'motd'          => $this->getName(),
                 'ip'            => $this->getMachine()->getPublicIp(),
             ));
 
@@ -307,6 +307,7 @@ class MinecraftServer extends GameServer
     {
         // Variables à modifier dans le fichier server.properties
         $varToChange = array(
+            'motd'          => $this->getName(), 
             'server-port'   => $this->getPort(),
             'enable-query'  => 'true',
             'query.port'    => $this->getQueryPort(),

@@ -298,6 +298,10 @@ footer p {
     font-size: 11px;
     margin: 10px 0;
 }
+footer p a:hover {
+    color: white;
+    opacity: 0.85;
+}
 
 #inner #page-content ul {
     margin-top: 0;

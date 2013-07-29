@@ -29,6 +29,40 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
+        $mcConfigTemplate = <<<EOF
+#Minecraft server properties
+level-name=world
+motd={{ motd }}
+enable-rcon=true
+spawn-monsters=true
+white-list=false
+max-players={{ maxPlayers }}
+gamemode=0
+allow-flight=false
+generate-structures=true
+spawn-animals=true
+spawn-npcs=true
+max-build-height=256
+generator-settings=
+texture-pack=
+difficulty=1
+hardcore=false
+server-port={{ serverPort }}
+force-gamemode=false
+level-type=DEFAULT
+allow-nether=true
+enable-query=true
+view-distance=10
+online-mode=true
+server-ip={{ ip }}
+pvp=true
+snooper-enabled=true
+level-seed=
+rcon.password="{{ rconPassword }}"
+rcon.port={{ rconPort }}
+query.port={{ queryPort }}
+EOF;
+        
         $cs = new Game();
         $cs->setName('Counter Strike');
         $cs->setInstallName('cstrike');
@@ -223,6 +257,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $mc->setBinDir('./');
         $mc->setSourceImagesMaps('http://image.www.gametracker.com/images/maps/160x120/minecraft/');
         $mc->setType('minecraft');
+        $mc->setConfigTemplate($mcConfigTemplate);
         $manager->persist($mc);
 
         $bukkit = new Game();
@@ -237,6 +272,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $bukkit->setBinDir('./');
         $bukkit->setSourceImagesMaps('http://image.www.gametracker.com/images/maps/160x120/minecraft/');
         $bukkit->setType('minecraft');
+        $bukkit->setConfigTemplate($mcConfigTemplate);
         $manager->persist($bukkit);
 
         $manager->flush();
