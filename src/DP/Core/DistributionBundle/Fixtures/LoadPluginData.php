@@ -31,32 +31,37 @@ class LoadPluginData extends AbstractFixture implements OrderedFixtureInterface
     {
         $metamod = new Plugin();
         $metamod->setName('Metamod');
-        $metamod->setDownloadUrl('http://www.dedicated-panel.net/metamod.tar.gz');
+        $metamod->setDownloadUrl('http://www.dedicated-panel.net/metamod-1.21-am.tar.gz');
         $metamod->setScriptName('metamod');
+        $metamod->setVersion('1.21-am');
         $manager->persist($metamod);
         
         $amxx = new Plugin();
         $amxx->setName('AMX Mod X (Core Addon)');
         $amxx->setDownloadUrl('http://www.amxmodx.org/dl.php?file_id=690&mirror_id=2');
         $amxx->setScriptName('amxmodx');
+        $amxx->setVersion('1.8.2');
         $manager->persist($amxx);
         
         $amxxCS = new Plugin();
         $amxxCS->setName('AMX Mox X (Counter-Strike Addon)');
         $amxxCS->setDownloadUrl('http://www.amxmodx.org/dl.php?file_id=692&mirror_id=2');
         $amxxCS->setScriptName('amxmodx');
+        $amxxCS->setVersion('1.8.2');
         $manager->persist($amxxCS);
         
         $amxxDOD = new Plugin();
         $amxxDOD->setName('AMX Mod X (Day of Defeat Addon)');
         $amxxDOD->setDownloadUrl('http://www.amxmodx.org/dl.php?file_id=694&mirror_id=2');
         $amxxDOD->setScriptName('amxmodx');
+        $amxxDOD->setVersion('1.8.2');
         $manager->persist($amxxDOD);
         
         $amxxTFC = new Plugin();
         $amxxTFC->setName('AMX Mod X (Team Fortress Classic Addon)');
         $amxxTFC->setDownloadUrl('http://www.amxmodx.org/dl.php?file_id=700&mirror_id=2');
         $amxxTFC->setScriptName('amxmodx');
+        $amxxTFC->setVersion('1.8.2');
         $manager->persist($amxxTFC);
         
         $manager->flush();
