@@ -32,9 +32,10 @@ class PluginAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('name')
+            ->add('version')
             ->add('downloadUrl')
             ->add('scriptName')
-            ->add('packetDependencies')
+            // ->add('packetDependencies')
         ;
     }
     
@@ -42,10 +43,11 @@ class PluginAdmin extends Admin
     {
         $formMapper
             ->add('name')
+            ->add('version')
             ->add('downloadUrl')
             ->add('scriptName')
             ->add('games', 'sonata_type_model', array('required' => false, 'multiple' => true, 'expanded' => true, 'by_reference' => false))
-            ->add('packetDependencies')
+            // ->add('packetDependencies')
         ;
     }
 }

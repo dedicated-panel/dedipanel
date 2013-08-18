@@ -80,6 +80,13 @@ class Plugin
      */
     private $packetDependencies;
     
+    /**
+     * @var string $version
+     * 
+     * @ORM\Column(name="version", type="string", nullable=true)
+     */
+    private $version;
+    
     public function __construct()
     {
         $this->games = new \Doctrine\Common\Collections\ArrayCollection();
@@ -200,7 +207,14 @@ class Plugin
     
     public function __toString()
     {
-        return $this->getName();
+        $name = $this->getName();
+        $version = $this->getVersion();
+        
+        if (!empty($version)) {
+            $name .= ' v' . $version;
+        }
+        
+        return $name;
     }
     
     public function setPacketDependencies(array $packetDependencies)
@@ -213,5 +227,28 @@ class Plugin
     public function getPacketDependencies()
     {
         return $this->packetDependencies;
+    }
+    
+    /**
+     * Sets the plugin version
+     * 
+     * @param $vesion string Plugin vesion
+     * @return Plugin
+     */
+    public function setVersion($version)
+    {
+        $this->version = $version;
+        
+        return $this;
+    }
+    
+    /**
+     * Gets the plugin version 
+     *
+     * @return string Plugin version
+     */
+    public function getVersion()
+    {
+        return $this->version;
     }
 }
