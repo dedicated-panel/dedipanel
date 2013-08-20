@@ -303,7 +303,7 @@ abstract class GameServer
      */
     protected function getAbsoluteBinDir()
     {
-        return $this->getAbsoluteDir() . $this->getGame()->getBinDir();
+        return $this->getAbsoluteDir() . $this->getGame()->getBinDir() . '/';
     }
 
     /**
