@@ -64,6 +64,13 @@ class LoadPluginData extends AbstractFixture implements OrderedFixtureInterface
         $amxxTFC->setVersion('1.8.2');
         $manager->persist($amxxTFC);
         
+        $mmSource = new Plugin();
+        $mmSource->setName('Metamod:Source')
+                 ->setDownloadUrl('http://sourcemod.gameconnect.net/files/mmsource-1.9.2-linux.tar.gz')
+                 ->setScriptName('metamod_source')
+                 ->setVersion('1.9.2');
+        $manager->persist($mmSource);
+        
         $manager->flush();
         
         $this->addReference('metamod', $metamod);
@@ -71,6 +78,7 @@ class LoadPluginData extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('amxxCS', $amxxCS);
         $this->addReference('amxxDOD', $amxxDOD);
         $this->addReference('amxxTFC', $amxxTFC);
+        $this->addReference('mmSource', $mmSource);
     }
     
     public function getOrder()
