@@ -405,12 +405,21 @@ class PHPSeclibWrapper {
     
     public function hasCompatLib()
     {
-        return $this->isPacketInstalled('ia32-libs');
+        // On récupère la version du système debian utilisé
+        // puisque le paquet à vérifier diffère avec la debian wheezy
+        $os_version = floatval(trim($this->getSSH()->exec('cat /etc/debian_version')));
+        
+        if ($os_version >= 7) {
+            return $this->isPacketInstalled('libc6:i386');
+        }
+        else {
+            return $this->isPacketInstalled('ia32-libs');
+        }
     }
     
     public function isPacketInstalled($packet)
     {
-        $ret = trim($this->getSSH()->exec('dpkg-query -W --showformat=\'${Status}\n\' ' . $packet .' | grep \'install ok installed\''));
+        $ret = trim($this->getSSH()->exec('dpkg-query -W --showformat=\'${Status}\n\' ' . $packet . ' | grep \'install ok installed\''));
         
         return $ret == 'install ok installed';
     }
