@@ -161,6 +161,7 @@ EOF;
         $css->setType('steam');
         $css->setSource(true);
         $css->addPlugin($this->getReference('mmSource'));
+        $css->addPlugin($this->getReference('sourcemod'));
         $manager->persist($css);
 
         $tf = new Game();
@@ -178,6 +179,7 @@ EOF;
         $tf->setType('steam');
         $tf->setSource(true);
         $tf->addPlugin($this->getReference('mmSource'));
+        $tf->addPlugin($this->getReference('sourcemod'));
         $manager->persist($tf);
 
         $dods = new Game();
@@ -195,6 +197,7 @@ EOF;
         $dods->setType('steam');
         $dods->setSource(true);
         $dods->addPlugin($this->getReference('mmSource'));
+        $dods->addPlugin($this->getReference('sourcemod'));
         $manager->persist($dods);
 
         $csgo = new Game();
@@ -212,6 +215,7 @@ EOF;
         $csgo->setType('steam');
         $csgo->setAvailable(true);
         $csgo->addPlugin($this->getReference('mmSource'));
+        $csgo->addPlugin($this->getReference('sourcemod'));
         $manager->persist($csgo);
 
         $l4d = new Game();
@@ -229,6 +233,7 @@ EOF;
         $l4d->setSourceImagesMaps('http://image.www.gametracker.com/images/maps/160x120/l4d/');
         $l4d->setType('steam');
         $l4d->addPlugin($this->getReference('mmSource'));
+        $l4d->addPlugin($this->getReference('sourcemod'));
         $manager->persist($l4d);
 
         $l4d2 = new Game();
@@ -246,6 +251,7 @@ EOF;
         $l4d2->setSourceImagesMaps('http://image.www.gametracker.com/images/maps/160x120/left4dead2/');
         $l4d2->setType('steam');
         $l4d2->addPlugin($this->getReference('mmSource'));
+        $l4d2->addPlugin($this->getReference('sourcemod'));
         $manager->persist($l4d2);
 
         /********************

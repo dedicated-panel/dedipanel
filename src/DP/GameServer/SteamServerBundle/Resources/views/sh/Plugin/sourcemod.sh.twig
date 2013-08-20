@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+DIR='{{ gameDir }}'
+cd $DIR
+
+case "$1" in
+    install)
+        if [ $# -ne 2 ]; then
+            echo "Usage: $0 install downloadUrl"
+            exit 1
+        fi
+        
+        # On télécharge l'archive, on la décompresse pour avoir Sourcemod
+        # et on supprime l'archivé téléchargé
+        wget -O sourcemod.tar.gz $2 && tar zxvf sourcemod.tar.gz && rm sourcemod.tar.gz
+
+        `$0 activate`
+    ;;
+    
+    uninstall)
+        `$0 deactivate`
+        rm -Rf $DIR/addons/sourcemod/
+    ;;
+    
+    activate)
+    	# Créer le fichier addons/metamod/sourcemod.vdf contenant le chemin relatif vers le binaire sourcemod
+    	# si celui-ci n'existe pas
+    	if [ ! -e addons/metamod/sourcemod.vdf ]; then 
+    		echo "\"Metamod Plugin\"
+{
+    \"alias\"   \"sourcemod\"
+    \"file\"    \"addons/sourcemod/bin/sourcemod_mm\"
+}" > addons/metamod/sourcemod.vdf
+    	fi
+    ;;
+    
+    deactivate)
+    	if [ -e addons/metamod/sourcemod.vdf ]; then
+    		rm -f addons/metamod/sourcemod.vdf
+    	fi
+    ;;
+    
+    *)
+        echo "Usage: $0 {install downloadUrl|uninstall|activate|deactivate}"
+    ;;
+esac
