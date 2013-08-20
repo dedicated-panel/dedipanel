@@ -185,7 +185,7 @@ class MachineController extends Controller
             // Si l'utilisateur a précisé son mdp, on régénère une paire de clé
             $password = $entity->getPassword();
             if (!empty($password)) {
-                $sec = PHPSeclibWrapper::getFromMachineEntity($entity);
+                $sec = PHPSeclibWrapper::getFromMachineEntity($entity, false);
                 $test = $sec->connectionTest();
 
                 // Si le test de connexion à réussi, on génère la paire de clé
@@ -213,7 +213,7 @@ class MachineController extends Controller
                 // Sinon ajout d'un message d'erreur sur le formulaire
                 else {
                     $trans = $this->get('translator')->trans('machine.identNotGood');
-                    $form->addError(new FormError($trans));
+                    $editForm->addError(new FormError($trans));
                 }
             }
         }
