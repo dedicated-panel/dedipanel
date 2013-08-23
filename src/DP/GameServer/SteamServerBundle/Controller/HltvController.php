@@ -156,7 +156,7 @@ class HltvController extends Controller
         // Ajout d'un champ "Mdp RCON" pour les jeux Source,
         // Afin de pouvoir envoyer les requêtes RCON nécessaires
         if ($serv->getGame()->isSource() && $serv->isEmptyRconPassword()) {
-            $form->add('rconPasswd', 'text', array('label' => 'steam.rcon.password', 'required' => true));
+            $form->add('rconPasswd', 'text', array('label' => 'game.rcon.password', 'required' => true));
         }
 
         $form->add('servIp', 'text', array('label' => 'steam.hltv.serverAddress'))
