@@ -110,6 +110,8 @@ class Plugin
     public function setName($name)
     {
         $this->name = $name;
+        
+        return $this;
     }
 
     /**
@@ -130,6 +132,8 @@ class Plugin
     public function setDownloadUrl($downloadUrl)
     {
         $this->downloadUrl = $downloadUrl;
+        
+        return $this;
     }
 
     /**
@@ -150,6 +154,8 @@ class Plugin
     public function setScriptName($scriptName)
     {
         $this->scriptName = $scriptName;
+        
+        return $this;
     }
 
     /**
@@ -193,6 +199,8 @@ class Plugin
     public function setGames(array $games = array())
     {
         $this->games = new \Doctrine\Common\Collections\ArrayCollection($games);
+        
+        return $this;
     }
 
     /**
