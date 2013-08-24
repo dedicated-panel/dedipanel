@@ -29,39 +29,8 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $mcConfigTemplate = <<<EOF
-#Minecraft server properties
-level-name=world
-motd={{ motd }}
-enable-rcon=true
-spawn-monsters=true
-white-list=false
-max-players={{ maxPlayers }}
-gamemode=0
-allow-flight=false
-generate-structures=true
-spawn-animals=true
-spawn-npcs=true
-max-build-height=256
-generator-settings=
-texture-pack=
-difficulty=1
-hardcore=false
-server-port={{ serverPort }}
-force-gamemode=false
-level-type=DEFAULT
-allow-nether=true
-enable-query=true
-view-distance=10
-online-mode=true
-server-ip={{ ip }}
-pvp=true
-snooper-enabled=true
-level-seed=
-rcon.password="{{ rconPassword }}"
-rcon.port={{ rconPort }}
-query.port={{ queryPort }}
-EOF;
+        $mcConfigTemplate = file_get_contents(__DIR__ . '/cfg/minecraft.cfg');
+        $cssConfigTemplate = file_get_contents(__DIR__ . '/cfg/css.cfg');
         
         $cs = new Game();
         $cs->setName('Counter Strike');
@@ -160,6 +129,7 @@ EOF;
         $css->setSourceImagesMaps('http://image.www.gametracker.com/images/maps/160x120/css/');
         $css->setType('steam');
         $css->setSource(true);
+        $css->setConfigTemplate($cssConfigTemplate);
         $css->addPlugin($this->getReference('mmSource'));
         $css->addPlugin($this->getReference('sourcemod'));
         $manager->persist($css);
