@@ -45,7 +45,7 @@ abstract class RconController extends Controller
         $jsonResp = array();
         $trans = $this->get('translator');
 
-        if ($server->query->isOnline() && !$server->query->isBanned()) {
+        if ($server->getQuery()->isOnline() && !$server->getQuery()->isBanned()) {
             $form = $this->createRconForm($this->getFormDefaultValues($server))->getForm();
             $request = $this->get('request');
 
@@ -66,7 +66,8 @@ abstract class RconController extends Controller
                                 ->setRcon($this->getRconFromServer($server))
                                 ->sendCmd($data['cmd']);
 
-                    $jsonResp['log'] = '> ' . $data['cmd'] . "\n" . $ret . "\n";
+                    $jsonResp['cmd'] = $data['cmd'];
+                    $jsonResp['ret'] = $ret;
                 }
             }
 

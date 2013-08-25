@@ -20,7 +20,9 @@ $(function() {
     
     $('#rcon-form').bind('submit', function(e) {
         e.preventDefault();
+        
         var elt = $(this);
+        var textarea = elt.children('textarea');
         
         if (!rconQueryInProgress) {
             rconQueryInProgress = true;
@@ -33,23 +35,26 @@ $(function() {
                 success: function(data, status) {
                     // Récupération du contenu du textarea
                     // Et ajout des logs récupérés
-                    var textarea = elt.children('textarea');
                     var oldVal = textarea.val();
                     var newVal = '';
 
                     if (typeof data.error == "undefined") {
-                        newVal = data.log;
+                        newVal = data.ret;
                     }
                     else {
                         newVal = data.error;
                     }
 
                     // Suppression de la valeur actuelle, pour la remplacer par la nouvelle
-                    textarea.val('').val(oldVal + newVal);
+                    textarea.val('').val(oldVal + newVal + "\n");
                     
                     rconQueryInProgress = false;
                 }, 
                 beforeSend: function(jqXHR, settings) {
+                    var oldVal = textarea.val();
+                    var cmd = elt.find('input#form_cmd').val();
+                    
+                    textarea.val(oldVal + "> " + cmd + "\n");
                     elt.find('input#form_cmd').val('');
                 }, 
                 error: function(jqXHR, textStatus, errorThrown) {

@@ -218,6 +218,6 @@ form.form-ftp textarea#form_file {
     height: 200px;
 }
 form.form-rcon textarea {
-    width: 456px;
-    height: 200px;
+    width: 75%;
+    height: 300px;
 }

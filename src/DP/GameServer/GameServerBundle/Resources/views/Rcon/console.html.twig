@@ -38,7 +38,7 @@
     <h2>{{ 'game.rcon.title'|trans }}</h2>
     
     {% if online and not banned %}
-        <form action="{{ path(baseRoute ~ '_rcon_execute', {id: sid}) }}" method="post" class="form-rcon">
+        <form action="{{ path(baseRoute ~ '_rcon_execute', {id: sid}) }}" method="post" class="form-rcon" id="rcon-form">
             <textarea disabled="disabled">{{ log }}</textarea>
 
             {{ form_row(form.password) }}
