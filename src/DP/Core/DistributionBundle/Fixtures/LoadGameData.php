@@ -185,7 +185,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $csgo->setType('steam');
         $csgo->setAvailable(true);
         $csgo->addPlugin($this->getReference('mmSource'));
-        $csgo->addPlugin($this->getReference('sourcemod'));
+        //$csgo->addPlugin($this->getReference('sourcemod'));
         $manager->persist($csgo);
 
         $l4d = new Game();
