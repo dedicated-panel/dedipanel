@@ -252,18 +252,19 @@ class SteamServer extends GameServer {
         $scriptPath = $installDir . 'install.sh';
         $logPath = $installDir . 'install.log';
         $screenName = $this->getInstallScreenName();
-        $steamCmd = $this->game->getSteamCmd();
-        $installName = $this->game->getInstallName();
+        $steamCmd = $this->getGame()->getSteamCmd();
+        $installName = $this->getGame()->getInstallName();
+        $bin = $this->getGame()->getBin();
 
         if($steamCmd != 0) {
             $installName = '' . $this->game->getappId() . '.' . $this->game->getappMod() .'';
         }
 
         $mkdirCmd = 'if [ ! -e ' . $installDir . ' ]; then mkdir ' . $installDir . '; fi';
-
+        
         $pgrep = '`ps aux | grep SCREEN | grep "' . $screenName . ' " | grep -v grep | wc -l`';
         $screenCmd  = 'if [ ' . $pgrep . ' = "0" ]; then ';
-        $screenCmd .= 'screen -dmS "' . $screenName . '" ' . $scriptPath . ' "' . $steamCmd . '" "' . $installName . '"; ';
+        $screenCmd .= 'screen -dmS "' . $screenName . '" ' . $scriptPath . ' "' . $steamCmd . '" "' . $installName . '" "' . $bin . '"; ';
         $screenCmd .= 'else echo "Installation is already in progress."; fi; ';
 
         $installScript = $twig->render(
@@ -307,6 +308,9 @@ class SteamServer extends GameServer {
            // 100 = serveur installé
            // 101 = serveur installé + config uploadé
            return 100;
+        }
+        elseif (strpos($installLog, 'Install failed') !== false) {
+            return null;
         }
         elseif (strpos($installLog, 'Game install') !== false) {
             $screenContent = $sec->getScreenContent($this->getInstallScreenName());

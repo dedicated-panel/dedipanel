@@ -19,7 +19,7 @@
 CSP_FILE='cspromod_b108.zip'
 CSP_DLURL="http://dl.redline-hosting.net/public/$CSP_FILE"
 
-if [ $# -eq 2 ]; then
+if [ $# -eq 3 ]; then
     # Installation via steamCmd
     if [ $1 -eq 1 ]; then
         steamapp=$2
@@ -46,13 +46,17 @@ if [ $# -eq 2 ]; then
         echo "Game install" >> {{ installDir }}install.log
         
         if [ -n $MOD ]; then
-            ./steamcmd.sh +login anonymous +force_install_dir {{ installDir }} +app_update $JEU +app_set_config $JEU mod $MOD +app_update $JEU +quit 2>install.log
+            ./steamcmd.sh +login anonymous +force_install_dir {{ installDir }} +app_update $JEU +app_set_config $JEU mod $MOD +app_update $JEU +quit
         else
-            ./steamcmd.sh +login anonymous +force_install_dir {{ installDir }} +app_update $JEU validate +quit 2>./install.log
+            ./steamcmd.sh +login anonymous +force_install_dir {{ installDir }} +app_update $JEU validate +quit
         fi
         
-        echo "Install ended" >> {{ installDir }}install.log
-    
+        # Vérifie que l'installation s'est bien déroulé
+        if [ -e "{{ installDir }}/$3" ]; then
+        	echo "Install ended" >> {{ installDir }}install.log
+    	else
+    		echo "Install failed"
+		fi
     # Installation via hldsupdatetool
     else	
         cd {{ installDir }}
