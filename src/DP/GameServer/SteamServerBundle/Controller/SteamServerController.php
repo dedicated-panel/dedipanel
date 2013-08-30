@@ -245,21 +245,31 @@ class SteamServerController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find SteamServer entity.');
         }
-
+        
         $status = $entity->getInstallationStatus();
 
         // On upload le script du panel si l'install est terminé
-        if ($status >= 100) {
+        if ($status == 100) {
             $entity->uploadShellScripts($this->get('twig'));
+            $entity->uploadDefaultServerCfgFile();
+            
+            // Modifie le statut du serveur pour indiquer que l'installation de celui-ci
+            // est totalement finalisé
+            $entity->setInstallationStatus(101);
         }
         // On récupère le statut de l'installation que si celui-ci
         // N'est pas déjà indiqué comme terminé
         elseif ($status < 100) {
             $newStatus = $entity->getInstallationProgress();
             $entity->setInstallationStatus($newStatus);
-
+            
+            // Si l'installation du serveur est terminé
             if ($newStatus == 100) {
+                // On upload les scripts du panel ainsi que le server.cfg par défaut
                 $entity->uploadShellScripts($this->get('twig'));
+                $entity->uploadDefaultServerCfgFile();
+                
+                // Et on supprime les fichiers d'installation du serveur
                 $entity->removeInstallationFiles();
             }
             elseif ($newStatus === null) {
