@@ -26,8 +26,6 @@ if [ $# -eq 2 ]; then
         JEU=${steamapp%.*}
         MOD=${steamapp#*.}
         
-        # On verifie que steamCmd soit là
-        # Sinon on l'installe dans un dossier a part du jeu (home/steamcmd)
         if [ ! -e {{ installDir }}steamcmd/ ]; then
             echo "Download steamcmd" >> {{ installDir }}install.log
             
@@ -39,7 +37,7 @@ if [ $# -eq 2 ]; then
             # On decompresse et supprime le fichier compressé qu'on vient de télécharger.
             tar xvfz steamcmd_linux.tar.gz && rm -f tar xvfz steamcmd_linux.tar.gz
             
-            chmod 755 ./steamcmd.sh && chown u+x ./steam.sh
+            chmod 755 ./steamcmd.sh && chmod u+x ./steam.sh
         fi
         
         cd {{ installDir }}steamcmd/
@@ -48,9 +46,9 @@ if [ $# -eq 2 ]; then
         echo "Game install" >> {{ installDir }}install.log
         
         if [ -n $MOD ]; then
-            ./steamcmd.sh +login anonymous +force_install_dir {{ installDir }} +app_update $JEU +app_set_config $JEU mod $MOD +app_update $JEU +quit
+            ./steamcmd.sh +login anonymous +force_install_dir {{ installDir }} +app_update $JEU +app_set_config $JEU mod $MOD +app_update $JEU +quit 2>install.log
         else
-            ./steamcmd.sh +login anonymous +force_install_dir {{ installDir }} +app_update $JEU validate +quit 
+            ./steamcmd.sh +login anonymous +force_install_dir {{ installDir }} +app_update $JEU validate +quit 2>./install.log
         fi
         
         echo "Install ended" >> {{ installDir }}install.log
