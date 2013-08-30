@@ -66,16 +66,16 @@ class LoadPluginData extends AbstractFixture implements OrderedFixtureInterface
         
         $mmSource = new Plugin();
         $mmSource->setName('Metamod:Source')
-                 ->setDownloadUrl('http://sourcemod.gameconnect.net/files/mmsource-1.9.2-linux.tar.gz')
+                 ->setDownloadUrl('http://sourcemod.gameconnect.net/files/mmsource-1.10.0-linux.tar.gz')
                  ->setScriptName('metamod_source')
-                 ->setVersion('1.9.2');
+                 ->setVersion('1.10.0');
         $manager->persist($mmSource);
         
         $sourcemod = new Plugin();
         $sourcemod->setName('Sourcemod')
-            ->setDownloadUrl('http://sourcemod.gameconnect.net/files/sourcemod-1.4.7-linux.tar.gz')
+            ->setDownloadUrl('http://sourcemod.gameconnect.net/files/sourcemod-1.5.0-linux.tar.gz')
             ->setScriptName('sourcemod')
-            ->setVersion('1.4.7');
+            ->setVersion('1.5.0');
         $manager->persist($sourcemod);
         
         $manager->flush();
