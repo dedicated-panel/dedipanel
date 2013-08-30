@@ -103,7 +103,7 @@ class ConfigModifier
                     $entity->addAutoReboot();
                 }
             }
-            if ($args->hasChangedField('name')) {
+            if ($args->hasChangedField('name') || $args->hasChangedField('rconPassword')) {
                 try {
                     $entity->modifyServerCfgFile();
                 }

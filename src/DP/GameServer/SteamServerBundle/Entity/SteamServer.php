@@ -502,10 +502,11 @@ class SteamServer extends GameServer {
         $cfgPath = $this->getServerCfgPath();
 
         $remoteFile = $sec->getRemoteFile($cfgPath);
-        $fileLines = explode("\r\n", $remoteFile);
+        $fileLines = explode("\n", $remoteFile);
         
         $patterns = array(
-            '#^hostname "(.+)"$#' => 'hostname "' . $this->getServerName() . '"',
+            '#^hostname#' => 'hostname "' . $this->getServerName() . '"',
+            '#^rcon_password#' => 'rcon_password "' . $this->getRconPassword() . '"', 
         );
         $matched = array();
 
@@ -517,7 +518,7 @@ class SteamServer extends GameServer {
                 // Si le pattern est trouvé, le replacement est effectué
                 // Et la ligne est ajouté à l'array des lignes détectés
                 if (preg_match($pattern, $line)) {
-                    $line = preg_replace($pattern, $replacement, $line);
+                    $line = $replacement;
                     
                     $matched[$pattern] = $replacement;
                 }
@@ -533,7 +534,7 @@ class SteamServer extends GameServer {
         }
 
         // Upload du nouveau fichier
-        return $sec->upload($cfgPath, implode("\r\n", $fileLines));
+        return $sec->upload($cfgPath, implode("\n", $fileLines));
     }
 
     public function changeStateServer($state)
