@@ -31,6 +31,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
     {
         $mcConfigTemplate = file_get_contents(__DIR__ . '/cfg/minecraft.cfg');
         $cssConfigTemplate = file_get_contents(__DIR__ . '/cfg/css.cfg');
+        $tf2ConfigTemplate = file_get_contents(__DIR__ . '/cfg/tf2.cfg');
         
         $cs = new Game();
         $cs->setName('Counter Strike');
@@ -148,6 +149,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $tf->setSourceImagesMaps('http://image.www.gametracker.com/images/maps/160x120/tf2/');
         $tf->setType('steam');
         $tf->setSource(true);
+        $tf->setConfigTemplate($tf2ConfigTemplate);
         $tf->addPlugin($this->getReference('mmSource'));
         $tf->addPlugin($this->getReference('sourcemod'));
         $manager->persist($tf);
