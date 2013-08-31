@@ -140,7 +140,8 @@ class SteamQuery implements QueryInterface
     public function verifyStatus()
     {
         $infos = $this->getServerInfos();
-        if (($this->type == SteamQuery::TYPE_HLTV && $infos['protocol'] != 0) 
+        
+        if (empty($infos) || ($this->type == SteamQuery::TYPE_HLTV && $infos['protocol'] != 0) 
         ||  ($this->type != SteamQuery::TYPE_HLTV && $infos['protocol'] == 0)) {
             $this->latency = false;
             throw new UnexpectedServerTypeException($this->type == SteamQuery::TYPE_HLTV);
