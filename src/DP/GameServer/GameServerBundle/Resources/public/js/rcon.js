@@ -49,16 +49,18 @@ $(function() {
                     textarea.val('').val(oldVal + newVal + "\n");
                     
                     rconQueryInProgress = false;
+                    elt.find('input#form_cmd').val('').removeAttr('disabled');
                 }, 
                 beforeSend: function(jqXHR, settings) {
                     var oldVal = textarea.val();
                     var cmd = elt.find('input#form_cmd').val();
                     
                     textarea.val(oldVal + "> " + cmd + "\n");
-                    elt.find('input#form_cmd').val('');
+                    elt.find('input#form_cmd').val('').attr('disabled', 'disabled');
                 }, 
                 error: function(jqXHR, textStatus, errorThrown) {
                     rconQueryInProgress = false;
+                    elt.find('input#form_cmd').val('').removeAttr('disabled');
                 }
             });
         }
