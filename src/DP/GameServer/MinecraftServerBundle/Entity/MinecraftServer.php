@@ -294,7 +294,7 @@ class MinecraftServer extends GameServer
                 'rconPort'      => $this->getRconPort(),
                 'rconPassword'  => $this->getRconPassword(),
                 'maxPlayers'    => $this->getMaxplayers(),
-                'motd'          => $this->getName(),
+                'motd'          => $this->getServerName(),
                 'ip'            => $this->getMachine()->getPublicIp(),
             ));
 

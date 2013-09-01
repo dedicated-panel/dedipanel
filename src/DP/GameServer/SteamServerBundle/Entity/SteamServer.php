@@ -689,11 +689,6 @@ class SteamServer extends GameServer {
         return $cfgPath . 'server.cfg';
     }
 
-    public function getServerName()
-    {
-        return '[DediPanel] ' . $this->getName();
-    }
-
     public function removeFromServer()
     {
         $screenName = $this->getScreenName();

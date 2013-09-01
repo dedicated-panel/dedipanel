@@ -392,6 +392,11 @@ abstract class GameServer
     {
         return $this->rcon;
     }
+    
+    public function getServerName()
+    {
+        return '[DediPanel] ' . $this->getName();
+    }
 
     public function getDirContent($path = '')
     {
