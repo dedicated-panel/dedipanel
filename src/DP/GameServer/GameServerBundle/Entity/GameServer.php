@@ -109,7 +109,8 @@ abstract class GameServer
     /**
      * @var string $rcon
      *
-     * @ORM\Column(name="rconPassword", type="string", length=32, nullable=true)
+     * @ORM\Column(name="rconPassword", type="string", length=32)
+     * @Assert\NotNull(message="gameServer.assert.rconPassword")
      */
     protected $rconPassword;
 

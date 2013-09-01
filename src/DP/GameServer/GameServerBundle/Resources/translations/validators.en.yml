@@ -22,6 +22,7 @@ gameServer:
         maxplayers: Please specify the maximum number of players your server can support.
         machine: Please specify on which machine you want to install your server.
         game: Please specify your game.
+        rconPassword: Please specify the rcon password.
 
 game.ftp.dirAlreadyExists: This folder already exist.
 game.ftp.fileAlreadyExists: This file already exist.

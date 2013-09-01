@@ -19,3 +19,5 @@ minecraft.assert.queryPort.max: "The Query port must be bigger than %count%."
 
 minecraft.assert.rconPort.min: "The Rcon port must be bigger than %count%."
 minecraft.assert.rconPort.max: "The Rcon port must be bigger than à %count%."
+
+minecraft.assert.rconPort.null: Please specify the rcon port.

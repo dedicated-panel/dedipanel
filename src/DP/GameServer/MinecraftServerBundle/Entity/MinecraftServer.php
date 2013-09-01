@@ -51,6 +51,7 @@ class MinecraftServer extends GameServer
      * @var integer $rconPort
      *
      * @ORM\Column(name="rconPort", type="integer")
+     * @Assert\NotNull(message = "minecraft.assert.rconPort.null")
      * @Assert\Range(
      *      min = 1024, minMessage = "minecraft.assert.rconPort.min",
      *      max = 65536, maxMessage = "minecraft.assert.rconPort.max"
