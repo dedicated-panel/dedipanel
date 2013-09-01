@@ -492,6 +492,8 @@ class SteamServer extends GameServer {
             $env = new \Twig_Environment(new \Twig_Loader_String());
             $cfgFile = $env->render($template, array(
                 'hostname' => $this->getServerName(),
+                'rconPassword' => $this->getRconPassword(), 
+                'svPassword' => $this->getSvPassword(), 
             ));
 
             return $sec->upload($cfgPath, $cfgFile, 0750);
