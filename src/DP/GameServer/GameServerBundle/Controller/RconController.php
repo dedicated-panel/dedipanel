@@ -93,7 +93,7 @@ abstract class RconController extends Controller
         }
 
         $log = '';
-        $form = $this->createRconForm($this->getFormDefaultValues($server))->getForm();
+        $form = $this->createRconForm()->getForm();
 
         if ($server->getQuery()->isOnline() && !$server->getQuery()->isBanned()) {
             $request = $this->get('request');
@@ -104,16 +104,10 @@ abstract class RconController extends Controller
                 if ($form->isValid()) {
                     $data = $form->getData();
 
-                    // Enregistrement du mot de passe rcon
-                    $server = $this->saveServerData($server, $data);
-                    $em = $this->getDoctrine()->getEntityManager();
-                    $em->persist($server);
-                    $em->flush();
-
                     // Exécution de la commande
                     $ret = $server
-                                ->setRcon($this->getRconFromServer($server))
-                                ->sendCmd($data['cmd']);
+                        ->setRcon($this->getRconFromServer($server))
+                        ->sendCmd($data['cmd']);
 
                     $log = '> ' . $data['cmd'] . "\n" . $ret . "\n";
                 }
@@ -132,23 +126,8 @@ abstract class RconController extends Controller
 
     public function createRconForm(array $default = array())
     {
-        $form = $this->createFormBuilder($default)
-                    ->add('cmd', 'text', array('label' => 'game.rcon.command'))
-                    ->add('password', 'text', array('label' => 'game.rcon.password'))
-        ;
+        $form = $this->createFormBuilder($default)->add('cmd', 'text', array('label' => 'game.rcon.command'));
 
         return $form;
-    }
-
-    public function getFormDefaultValues(GameServer $server)
-    {
-        return array('password' => $server->getRconPassword());
-    }
-
-    public function saveServerData(GameServer $server, array $data)
-    {
-        $server->setRconPassword($data['password']);
-
-        return $server;
     }
 }
