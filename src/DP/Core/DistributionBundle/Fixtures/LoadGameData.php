@@ -37,6 +37,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $czConfigTemplate = file_get_contents(__DIR__ . '/cfg/cz.cfg');
         $dodConfigTemplate = file_get_contents(__DIR__ . '/cfg/dod.cfg');
         $dodsConfigTemplate = file_get_contents(__DIR_ . '/cfg/dods.cfg');
+        $tfcConfigTemplate = file_get_contenst(__DIR__ . '/cfg/tfc.cfg');
         
         $cs = new Game();
         $cs->setName('Counter Strike');
@@ -116,6 +117,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $tfc->setSourceImagesMaps('http://image.www.gametracker.com/images/maps/160x120/tfc/');
         $tfc->setType('steam');
         $tfc->setSource(false);
+        $tfc->setConfigTemplate($tfcConfigTemplate);
         $tfc->addPlugin($this->getReference('metamod'));
         $tfc->addPlugin($this->getReference('amxx'));
         $tfc->addPlugin($this->getReference('amxxTFC'));
