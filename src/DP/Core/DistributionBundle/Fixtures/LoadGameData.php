@@ -36,6 +36,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $csConfigTemplate = file_get_contents(__DIR__ . '/cfg/cs.cfg');
         $czConfigTemplate = file_get_contents(__DIR__ . '/cfg/cz.cfg');
         $dodConfigTemplate = file_get_contents(__DIR__ . '/cfg/dod.cfg');
+        $dodsConfigTemplate = file_get_contents(__DIR_ . '/cfg/dods.cfg');
         
         $cs = new Game();
         $cs->setName('Counter Strike');
@@ -175,6 +176,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $dods->setSourceImagesMaps('http://image.www.gametracker.com/images/maps/160x120/dods/');
         $dods->setType('steam');
         $dods->setSource(true);
+        $dods->setConfigTemplate($dodsConfigTemplate);
         $dods->addPlugin($this->getReference('mmSource'));
         $dods->addPlugin($this->getReference('sourcemod'));
         $manager->persist($dods);
