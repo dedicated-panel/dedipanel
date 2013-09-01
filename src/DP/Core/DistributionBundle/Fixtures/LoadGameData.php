@@ -32,6 +32,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $mcConfigTemplate = file_get_contents(__DIR__ . '/cfg/minecraft.cfg');
         $cssConfigTemplate = file_get_contents(__DIR__ . '/cfg/css.cfg');
         $tf2ConfigTemplate = file_get_contents(__DIR__ . '/cfg/tf2.cfg');
+        $csgoConfigTemplate = file_get_contents(__DIR__ . '/cfg/csgo.cfg');
         
         $cs = new Game();
         $cs->setName('Counter Strike');
@@ -186,6 +187,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $csgo->setAppId('740');
         $csgo->setType('steam');
         $csgo->setAvailable(true);
+        $csgo->setConfigTemplate($csgoConfigTemplate);
         $csgo->addPlugin($this->getReference('mmSource'));
         $csgo->addPlugin($this->getReference('sourcemod'));
         $manager->persist($csgo);
