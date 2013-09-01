@@ -35,6 +35,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $csgoConfigTemplate = file_get_contents(__DIR__ . '/cfg/csgo.cfg');
         $csConfigTemplate = file_get_contents(__DIR__ . '/cfg/cs.cfg');
         $czConfigTemplate = file_get_contents(__DIR__ . '/cfg/cz.cfg');
+        $dodConfigTemplate = file_get_contents(__DIR__ . '/cfg/dod.cfg');
         
         $cs = new Game();
         $cs->setName('Counter Strike');
@@ -93,6 +94,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $dod->setSourceImagesMaps('http://image.www.gametracker.com/images/maps/160x120/dod/');
         $dod->setType('steam');
         $dod->setSource(false);
+        $dod->setConfigTemplate($dodConfigTemplate);
         $dod->addPlugin($this->getReference('metamod'));
         $dod->addPlugin($this->getReference('amxx'));
         $dod->addPlugin($this->getReference('amxxDOD'));
