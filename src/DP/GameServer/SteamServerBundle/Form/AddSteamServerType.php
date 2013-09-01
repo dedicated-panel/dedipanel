@@ -41,14 +41,22 @@ class AddSteamServerType extends AbstractType
                 }
             ))
             ->add('dir', 'text', array('label' => 'game.dir'))
-            ->add('maxplayers', 'integer', array('label' => 'game.maxplayers'))
+            ->add('maxplayers', 'integer', array('label' => 'game.maxplayers'));
+            
+        /*$builder->add('mode', 'choice', array(
+            'choices' => SteamServer::getModeList(), 
+            'empty_value' => 'steam.chooseGameMode',
+            'label' => 'steam.gameMode', 
+        ));*/
+                
+        $builder
+            ->add('rconPassword', 'text', array('label' => 'game.rcon.password'))
             ->add('alreadyInstalled', 'choice', array(
                 'choices'   => array(1 => 'game.yes', 0 => 'game.no'), 
                 'label'     => 'game.isAlreadyInstalled', 
                 'mapped'    => false, 
                 'expanded'  => true
-            ))
-        ;
+            ));
     }
 
     public function getName()

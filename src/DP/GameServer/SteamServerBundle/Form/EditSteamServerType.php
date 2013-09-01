@@ -21,13 +21,29 @@
 namespace DP\GameServer\SteamServerBundle\Form;
 
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\AbstractType;
 use DP\GameServer\SteamServerBundle\Entity\SteamServer;
 
-class EditSteamServerType extends BaseSteamServerType
+class EditSteamServerType extends AbstractType
 {    
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
+        $builder
+            ->add('machine', 'entity', array(
+                'label' => 'game.selectMachine', 'class' => 'DPMachineBundle:Machine'))
+            ->add('name', 'text', array('label' => 'game.name'))
+            ->add('port', 'integer', array('label' => 'game.port'))
+            ->add('game', 'entity', array(
+                'label' => 'game.selectGame', 
+                'class' => 'DPGameBundle:Game',
+                'query_builder' => function($repo) {
+                    return $repo->getQBAvailableSteamGames();
+                }, 
+                'read_only' => true, 
+            ))
+            ->add('dir', 'text', array('label' => 'game.dir'))
+            ->add('maxplayers', 'integer', array('label' => 'game.maxplayers'))
+        ;
         
         if (isset($options['data'])) {
             $entity = $options['data'];
@@ -42,7 +58,7 @@ class EditSteamServerType extends BaseSteamServerType
         }
         
         $builder
-            ->add('rconPassword', 'text', array('label' => 'game.rcon.password', 'required' => false))
+            ->add('rconPassword', 'text', array('label' => 'game.rcon.password'))
             ->add('hltvPort', 'integer', array('label' => 'steam.hltv.port', 'required' => false))
         ;
         

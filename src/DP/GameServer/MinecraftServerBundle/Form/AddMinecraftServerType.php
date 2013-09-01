@@ -20,16 +20,30 @@
 
 namespace DP\GameServer\MinecraftServerBundle\Form;
 
-use DP\GameServer\MinecraftServerBundle\Form\BaseMinecraftServerType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\AbstractType;
 
-class AddMinecraftServerType extends BaseMinecraftServerType
+class AddMinecraftServerType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
-        
         $builder
+            ->add('machine', 'entity', array(
+                'label' => 'game.selectMachine', 'class' => 'DPMachineBundle:Machine'))
+            ->add('name', 'text', array('label' => 'game.name'))
+            ->add('port', 'integer', array('label' => 'game.port'))
+            ->add('queryPort', 'integer', array('label' => 'minecraft.queryPort', 'required' => false))
+            ->add('rconPort', 'integer', array('label' => 'minecraft.rcon.port'))
+            ->add('rconPassword', 'text', array('label' => 'game.rcon.password'))
+            ->add('game', 'entity', array(
+                'label' => 'game.selectGame', 'class' => 'DPGameBundle:Game', 
+                'query_builder' => function($repo) {
+                    return $repo->getQBAvailableMinecraftGames();
+                }))
+            ->add('dir', 'text', array('label' => 'game.dir'))
+            ->add('maxplayers', 'integer', array('label' => 'game.maxplayers'))
+            ->add('minHeap', 'integer', array('label' => 'minecraft.minHeap'))
+            ->add('maxHeap', 'integer', array('label' => 'minecraft.maxHeap'))
             ->add('alreadyInstalled', 'choice', array(
                 'choices'   => array(1 => 'game.yes', 0 => 'game.no'), 
                 'label'     => 'game.isAlreadyInstalled', 
