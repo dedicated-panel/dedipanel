@@ -129,6 +129,9 @@ class ConfiguratorController extends Controller
     {
         $configurator = $this->get('dp.webinstaller');
         $configurator->clean();
+        
+        // Supprime le contenu du fichier d'ip whitelist
+        file_put_contents($configurator->getWhitelistFilepath(), "127.0.0.1\n");
 
         return $this->render('DPDistributionBundle:Configurator:final.html.twig');
     }
@@ -140,7 +143,7 @@ class ConfiguratorController extends Controller
 
         if (is_writable($filepath)) {
             $content = file_get_contents($filepath);
-            $content = str_replace('app_dev.php', 'app.php', $content);
+            $content = str_replace('app_installer.php', 'app.php', $content);
 
             file_put_contents($filepath, $content);
         }

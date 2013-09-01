@@ -221,4 +221,9 @@ class Configurator
     {
         return $this->kernelDir.'/cache/parameters.yml';
     }
+    
+    public function getWhitelistFilepath()
+    {
+        return WHITELIST_FILEPATH;
+    }
 }
