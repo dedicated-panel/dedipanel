@@ -38,6 +38,8 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $dodConfigTemplate = file_get_contents(__DIR__ . '/cfg/dod.cfg');
         $dodsConfigTemplate = file_get_contents(__DIR_ . '/cfg/dods.cfg');
         $tfcConfigTemplate = file_get_contenst(__DIR__ . '/cfg/tfc.cfg');
+        $l4dConfigTemplate = file_get_contents(__DIR__ . '/cfg/l4d.cfg');
+        $l4d2ConfigTemplate = file_get_contents(__DIR__ . '/cfg/l4d2.cfg');
         
         $cs = new Game();
         $cs->setName('Counter Strike');
@@ -216,6 +218,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $l4d->setSteamCmd(false);
         $l4d->setSourceImagesMaps('http://image.www.gametracker.com/images/maps/160x120/l4d/');
         $l4d->setType('steam');
+        $l4d->setConfigTemplate($l4dConfigTemplate);
         $l4d->addPlugin($this->getReference('mmSource'));
         $l4d->addPlugin($this->getReference('sourcemod'));
         $manager->persist($l4d);
@@ -234,6 +237,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $l4d2->setSteamCmd(false);
         $l4d2->setSourceImagesMaps('http://image.www.gametracker.com/images/maps/160x120/left4dead2/');
         $l4d2->setType('steam');
+        $l4d2->setConfigTemplate($l4d2ConfigTemplate);
         $l4d2->addPlugin($this->getReference('mmSource'));
         $l4d2->addPlugin($this->getReference('sourcemod'));
         $manager->persist($l4d2);
