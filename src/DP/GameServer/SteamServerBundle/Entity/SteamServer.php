@@ -49,11 +49,11 @@ class SteamServer extends GameServer {
     private $munin;
 
     /**
-     * @var string $sv_passwd
+     * @var string $svPassword
      *
      * @ORM\Column(name="sv_passwd", type="string", length=16, nullable=true)
      */
-    private $sv_passwd;
+    private $svPassword;
 
     /**
      * @var integer $core
@@ -125,27 +125,27 @@ class SteamServer extends GameServer {
     }
 
     /**
-     * Set sv_passwd
+     * Set svPassword
      *
-     * @param string $svPasswd
+     * @param string $svPassword
      * 
      * @return SteamServer
      */
-    public function setSvPasswd($svPasswd)
+    public function setSvPassword($svPassword)
     {
-        $this->sv_passwd = $svPasswd;
+        $this->svPassword = $svPassword;
         
         return $this;
     }
 
     /**
-     * Get sv_passwd
+     * Get svPassword
      *
      * @return string
      */
-    public function getSvPasswd()
+    public function getSvPassword()
     {
-        return $this->sv_passwd;
+        return $this->svPassword;
     }
 
     /**
@@ -511,6 +511,7 @@ class SteamServer extends GameServer {
         $patterns = array(
             '#^hostname#' => 'hostname "' . $this->getServerName() . '"',
             '#^rcon_password#' => 'rcon_password "' . $this->getRconPassword() . '"', 
+            '#^sv_password#' => 'sv_password "' . $this->getSvPassword() . '"', 
         );
         $matched = array();
 

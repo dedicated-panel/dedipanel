@@ -59,6 +59,7 @@ class EditSteamServerType extends AbstractType
         
         $builder
             ->add('rconPassword', 'text', array('label' => 'game.rcon.password'))
+            ->add('svPassword', 'text', array('label' => 'steam.svPassword', 'required' => false))
             ->add('hltvPort', 'integer', array('label' => 'steam.hltv.port', 'required' => false))
         ;
         

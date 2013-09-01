@@ -26,7 +26,7 @@ steam.editTitle: Edit Steam Server
 
 steam.autoReboot: Auto Reboot at
 steam.munin: Munin Graphing ?
-steam.passwd: Server Password
+steam.svPassword: Server Password
 steam.core: Core ?
 
 steam.hltv.running: HLTV start
