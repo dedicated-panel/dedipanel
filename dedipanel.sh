@@ -6,7 +6,7 @@ if [ `id -u` -ne 0 ]; then
 fi
 
 verify_packet () {
-	# VÃ©rifie que tous les packets nÃ©cessaires sont installÃ©s
+	# Vérifie que tous les packets nécessaires sont installés
 	if [ `dpkg-query -W --showformat='${Status}\n' $1 | grep 'install ok installed' | wc -l` -ge 1 ]; then
 		echo 1
 	else
@@ -34,7 +34,7 @@ case "$1" in
 			service apache2 restart
 		fi
 		
-		# TÃ©lÃ©chargement des dÃ©pendances
+		# Téléchargement des dépendances
 		curl -s https://getcomposer.org/installer | php
 		php composer.phar install --optimize-autoloader --prefer-dist
 		
@@ -43,11 +43,11 @@ case "$1" in
 		php app/console cache:clear --env=installer --no-warmup
 		php app/console assets:install --env=installer
 		
-		# Modif des droits et du propriÃ©taire
+		# Modif des droits et du propriétaire
         chmod 775 ./
 		chown -R www-data:www-data ./
 		
-		echo "Il ne vous reste plus qu'Ã  indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accÃ©der Ã  l'installateur en ligne."
+		echo "Il ne vous reste plus qu'à indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accéder à l'installateur en ligne."
 
         exit ${?}
     ;;
@@ -60,11 +60,11 @@ case "$1" in
         # Puis on remet automatiquement le depot local a jour
         git reset --hard origin/master
 		
-		# Mise Ã  jour de composer et mise Ã  jour des dÃ©pendances
+		# Mise à jour de composer et mise à jour des dépendances
 		php composer.phar self-update
 		php composer.phar update --optimize-autoloader --prefer-dist
 		
-		# TÃ©lÃ©chargement des dÃ©pendances
+		# Téléchargement des dépendances
 		curl -s https://getcomposer.org/installer | php
 		php composer.phar install --optimize-autoloader --prefer-dist
 		
@@ -73,11 +73,11 @@ case "$1" in
 		php app/console cache:clear --env=installer --no-warmup
 		php app/console assets:install --env=installer
 		
-		# Modif des droits et du propriÃ©taire
+		# Modif des droits et du propriétaire
         chmod 775 ./
 		chown -R www-data:www-data ./
 		
-		echo "Il ne vous reste plus qu'Ã  indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accÃ©der Ã  l'installateur en ligne."
+		echo "Il ne vous reste plus qu'à indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accéder à l'installateur en ligne."
 
         exit ${?}
     ;;
@@ -86,7 +86,7 @@ case "$1" in
 		# Tableau contenant la liste des erreurs
 		errors=()
 		
-		# VÃ©rifie que tous les packets nÃ©cessaires sont installÃ©s
+		# Vérifie que tous les packets nécessaires sont installés
 		packets=('git' 'sqlite' 'mysql-server' 'php5-sqlite' 'apache2' 'php5' 'php5-mysql' 'curl' 'php5-intl' 'php-apc' 'phpmyadmin')
 		failed=()
 		
@@ -101,27 +101,27 @@ case "$1" in
 		done
 		
 		if [ ${#failed[@]} -ge 1 ]; then
-			echo "Packets nÃ©cessaires: ${packets[@]}."
+			echo "Packets nécessaires: ${packets[@]}."
 			echo "Packets manquants: ${failed[@]}."
 		fi
 		
-		# VÃ©rifie que le mode rewrite d'apache est activÃ©
+		# Vérifie que le mode rewrite d'apache est activé
 		if [ ! -e /etc/apache2/mods-enabled/rewrite.load ]; then
 			errors=("${errors[@]}" "mod_rewrite")
-			echo "Le mode rewrite d'apache doit Ãªtre activÃ© (a2enmod rewrite && service apache2 restart)."
+			echo "Le mode rewrite d'apache doit être activé (a2enmod rewrite && service apache2 restart)."
 		fi
 		
-		# VÃ©rifie la prÃ©sence de suhosin.executor.include.whitelist dans la config de php
+		# Vérifie la présence de suhosin.executor.include.whitelist dans la config de php
 		if [ -z "`sed -ne '/^suhosin.executor.include.whitelist/p' /etc/php5/cli/php.ini`" ]; then
 			errors=("${errors[@]}" "suhosin_phar")
 			echo "Vous devez la ligne suivante au fichier /etc/php5/cli/php.ini : suhosin.executor.include.whitelist = phar"
 		fi
 		
-		# VÃ©rifie s'il y a eu des erreurs d'enregistrÃ©es
+		# Vérifie s'il y a eu des erreurs d'enregistrées
 		if [ ${#errors[@]} -ge 1 ]; then
-			echo "Veuillez effectuer les opÃ©rations nÃ©cessaire afin d'installer le panel."
+			echo "Veuillez effectuer les opérations nécessaire afin d'installer le panel."
 		else
-			echo "Votre serveur est correctement configurÃ©. Vous pouvez y installer le panel."
+			echo "Votre serveur est correctement configuré. Vous pouvez y installer le panel."
 		fi
 	;;
 	
