@@ -20,7 +20,7 @@
 
 namespace DP\GameServer\MinecraftServerBundle\Service;
 
-use DP\GameServer\MinecraftServerBundle\MinecraftQuery\MinecraftQuery;
+use DP\GameServer\MinecraftServerBundle\MinecraftQuery\MinecraftRcon;
 
 class RconService
 {
@@ -36,10 +36,8 @@ class RconService
     {
         $key = $ip . ':' . $port;
         
-        if (!isset($this->rcon) || !array_key_exists($key, $this->rcon)) {
-            $rcon = $this->container->get('rcon.source')->getRcon($ip, $port, $pass);
-            
-            $this->rcon[$key] = $rcon;
+        if (!isset($this->rcon) || !array_key_exists($key, $this->rcon)) {            
+            $this->rcon[$key] = new MinecraftRcon($this->container, $ip, $port, $pass);
         }
         
         return $this->rcon[$key];
