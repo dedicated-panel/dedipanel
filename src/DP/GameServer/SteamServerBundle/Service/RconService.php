@@ -21,6 +21,8 @@
 namespace DP\GameServer\SteamServerBundle\Service;
 
 use DP\GameServer\SteamServerBundle\SteamQuery\SteamQuery;
+use DP\GameServer\SteamServerBundle\SteamQuery\GoldSrcRcon;
+use DP\GameServer\SteamServerBundle\SteamQuery\SourceRcon;
 
 class RconService
 {
