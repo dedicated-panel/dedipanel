@@ -95,8 +95,10 @@ case "$1" in
 			fi
 		done
 		
-		echo "Packets nécessaires: ${packets[@]}."
-		echo "Packets manquants: ${failed[@]}."
+		if [ ${#failed[@]} -ge 1 ]; then
+			echo "Packets nécessaires: ${packets[@]}."
+			echo "Packets manquants: ${failed[@]}."
+		fi
 		
 		# Vérifie que le mode rewrite d'apache est activé
 		if [ ! -e /etc/apache2/mods-enabled/rewrite.load ]; then
@@ -113,6 +115,8 @@ case "$1" in
 		# Vérifie s'il y a eu des erreurs d'enregistrées
 		if [ ${#errors[@]} -ge 1 ]; then
 			echo "Veuillez effectuer les opérations nécessaire afin d'installer le panel."
+		else
+			echo "Votre serveur est correctement configuré. Vous pouvez y installer le panel."
 		fi
 	;;
 	
