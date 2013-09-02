@@ -30,14 +30,6 @@ services:
         class: DP\GameServer\SteamServerBundle\Service\RconService
         arguments: [ @service_container ]
     
-    rcon.goldsrc:
-        class: DP\GameServer\SteamServerBundle\Service\GoldSrcRconFactory
-        arguments: [ @service_container ]
-    
-    rcon.source:
-        class: DP\GameServer\SteamServerBundle\Service\SourceRconFactory
-        arguments: [ @service_container ]
-    
     steam.listener.configModifier:
         class: DP\GameServer\SteamServerBundle\Listener\ConfigModifier
         arguments: [ @service_container ]

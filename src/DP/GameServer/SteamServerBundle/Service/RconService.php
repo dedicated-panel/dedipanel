@@ -36,22 +36,20 @@ class RconService
     {
         $key = $ip . ':' . $port;
         
-        if (!isset($this->rcon) || !array_key_exists($key, $this->rcon)) {
-            $rcon = $this->instanciateRcon($ip, $port, $pass, $type);
-            
-            $this->rcon[$key] = $rcon;
+        if (!isset($this->rcon) || !array_key_exists($key, $this->rcon)) {            
+            $this->rcon[$key] = $this->instanciateRcon($ip, $port, $pass, $type);
         }
         
         return $this->rcon[$key];
     }
     
-    public function instanciateRcon($ip, $port, $pass, $type)
+    protected function instanciateRcon($ip, $port, $pass, $type)
     {
         if ($type == SteamQuery::TYPE_GOLDSRC) {
-            $rconFactory = $this->container->get('rcon.source')->getRcon($ip, $port, $pass);
+            return new GoldSrcRcon($this->container, $ip, $port, $pass);
         }
         elseif ($type == SteamQuery::TYPE_SOURCE) {
-            return $this->container->get('rcon.goldsrc')->getRcon($ip, $port, $pass);
+            return new SourceRcon($this->container, $ip, $port, $pass);
         }
     }
 }
