@@ -204,7 +204,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $csgo->addPlugin($this->getReference('sourcemod'));
         $manager->persist($csgo);
 
-        $l4d = new Game();
+        /*$l4d = new Game();
         $l4d->setName('Left 4 Dead');
         $l4d->setInstallName('left4dead');
         $l4d->setLaunchName('left4dead');
@@ -241,7 +241,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $l4d2->setConfigTemplate($l4d2ConfigTemplate);
         $l4d2->addPlugin($this->getReference('mmSource'));
         $l4d2->addPlugin($this->getReference('sourcemod'));
-        $manager->persist($l4d2);
+        $manager->persist($l4d2);*/
 
         /********************
          * Minecraft *
