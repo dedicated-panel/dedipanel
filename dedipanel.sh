@@ -90,7 +90,7 @@ case "$1" in
 				failed=("${failed[@]}" $packet)
 				
 				if [[ ! ${errors[*]} =~ "packet" ]]; then
-					$errors=("${errors[@]}" "packet")
+					errors=("${errors[@]}" "packet")
 				fi
 			fi
 		done
