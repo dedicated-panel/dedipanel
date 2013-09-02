@@ -9,5 +9,5 @@ Allow from all
     #</IfModule>
 
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^(.*)$ app_dev.php [QSA,L]
+    RewriteRule ^(.*)$ app_installer.php [QSA,L]
 </IfModule>
