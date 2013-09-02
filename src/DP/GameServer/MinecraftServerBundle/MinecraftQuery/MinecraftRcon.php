@@ -158,12 +158,8 @@ class MinecraftRcon
             $id = null;
             $packet = $this->packetFactory->getCmdPacket($id, $cmd);
             
-            var_dump($packet);
-            
             $this->socket->send($packet);
             $resp = $this->recv();
-            
-            var_dump($resp);
             
             if ($resp == null) {
                 return false;
@@ -172,7 +168,9 @@ class MinecraftRcon
             $resp = $resp->rewind()->extract(array(
                 'size' => 'long', 
                 'id' => 'long', 
-                'type' => 'long', 
+                'type' => 'long',
+                'unknown1' => 'byte',
+                'unknown2' => 'byte', 
                 'body' => 'string', 
             ));
             
