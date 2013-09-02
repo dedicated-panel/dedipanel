@@ -135,13 +135,13 @@ class SourceRcon
      */
     protected function fullConstruct()
     {
+        $this->fullyConstructed = true;
+        
         try {
             $this->socket->connect();
             $this->auth();
         }
         catch (ConnectionFailedException $e) {}
-        
-        $this->fullyConstructed = true;
     }
     
     private function auth()
@@ -152,7 +152,8 @@ class SourceRcon
         
         if ($this->authenticated == null) {
             $id = null;
-            $packet = $this->packetFactory->getAuthPacket($id, $this->rconPassword);            
+            $packet = $this->packetFactory->getAuthPacket($id, $this->rconPassword);
+                        
             $this->socket->send($packet);
             $resp = $this->socket->recv(false);
             
@@ -199,8 +200,8 @@ class SourceRcon
         if ($this->authenticated) {
             $id = null;
             $packet = $this->packetFactory->getCmdPacket($id, $cmd);
-            $this->socket->send($packet);
             
+            $this->socket->send($packet);
             $resp = $this->recv();
             
             if ($resp == null) {
@@ -285,9 +286,11 @@ class SourceRcon
     {
         $id = null;
         $packet = $this->packetFactory->getEmptyResponsePacket($id);
-        $this->socket->send($packet);
         
-        if ($this->socket->recv(false) == $packet) {
+        $this->socket->send($packet);
+        $resp = $this->socket->recv(false);
+        
+        if ($resp == $packet) {
             $resp = $this->socket->recv(false);
             $resp->setPos(13);
             
