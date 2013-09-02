@@ -45,37 +45,6 @@ class RconController extends BaseRconController
         );
     }
     
-    public function createRconForm(array $default = array())
-    {
-        $form = parent::createRconForm($default);
-        
-        return $form
-                ->add('rconPort', 'integer', array('label' => 'minecraft.rcon.port'))
-        ;
-    }
-    
-    public function getFormDefaultValues(GameServer $server)
-    {
-        if (!$server instanceof MinecraftServer) {
-            throw new Exception('The requested server is not a MinecraftServer.');
-        }
-        
-        $default = parent::getFormDefaultValues($server);
-        
-        return $default + array('rconPort' => $server->getRconPort());
-    }
-    
-    public function saveServerData(GameServer $server, array $data)
-    {
-        if (!$server instanceof MinecraftServer) {
-            throw new Exception('The requested server is not a MinecraftServer.');
-        }
-        
-        $server->setRconPort($data['rconPort']);
-        
-        return parent::saveServerData($server, $data);
-    }
-    
     public function getBaseRoute()
     {
         return 'minecraft';

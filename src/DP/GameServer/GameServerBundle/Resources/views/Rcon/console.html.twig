@@ -40,12 +40,6 @@
     {% if online and not banned %}
         <form action="{{ path(baseRoute ~ '_rcon_execute', {id: sid}) }}" method="post" class="form-rcon" id="rcon-form">
             <textarea disabled="disabled">{{ log }}</textarea>
-
-            {{ form_row(form.password) }}
-
-            {% if form.rconPort is defined %}
-                {{ form_row(form.rconPort) }}
-            {% endif %}
             
             {{ form_row(form.cmd) }}
             {{ form_widget(form) }}
