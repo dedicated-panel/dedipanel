@@ -26,6 +26,10 @@ services:
         class: DP\GameServer\SteamServerBundle\Service\Query
         arguments: [ @service_container ]
     
+    rcon.steam:
+        class: DP\GameServer\SteamServerBundle\Service\RconService
+        arguments: [ @service_container ]
+    
     rcon.goldsrc:
         class: DP\GameServer\SteamServerBundle\Service\GoldSrcRconFactory
         arguments: [ @service_container ]
