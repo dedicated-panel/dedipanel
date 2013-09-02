@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ `id -u` -ne 0 ]; then
+	echo "Vous devez lancer ce script avec les droits root."
+	exit 1;
+fi
+
 verify_packet () {
 	# Vérifie que tous les packets nécessaires sont installés
 	if [ `dpkg-query -W --showformat='${Status}\n' $1 | grep 'install ok installed' | wc -l` -ge 1 ]; then
@@ -107,7 +112,7 @@ case "$1" in
 		fi
 		
 		# Vérifie la présence de suhosin.executor.include.whitelist dans la config de php
-		if [ ! `sed -ne '/^suhosin.executor.include.whitelist/=' /etc/php5/cli/php.ini` -ge 0 ]; then
+		if [ ! `sed -ne '/^suhosin.executor.include.whitelist/p' /etc/php5/cli/php.ini` = "" ]; then
 			errors=("${errors[@]}" "suhosin_phar")
 			echo "Vous devez la ligne suivante au fichier /etc/php5/cli/php.ini : suhosin.executor.include.whitelist = phar"
 		fi
