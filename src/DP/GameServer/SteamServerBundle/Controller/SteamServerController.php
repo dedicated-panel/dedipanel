@@ -253,6 +253,9 @@ class SteamServerController extends Controller
             $entity->uploadShellScripts($this->get('twig'));
             $entity->uploadDefaultServerCfgFile();
             
+            // Et on supprime les fichiers d'installation du serveur
+            $entity->removeInstallationFiles();
+            
             // Modifie le statut du serveur pour indiquer que l'installation de celui-ci
             // est totalement finalisé
             $entity->setInstallationStatus(101);
@@ -271,6 +274,10 @@ class SteamServerController extends Controller
                 
                 // Et on supprime les fichiers d'installation du serveur
                 $entity->removeInstallationFiles();
+                
+                // Modifie le statut du serveur pour indiquer que l'installation de celui-ci
+                // est totalement finalisé
+                $entity->setInstallationStatus(101);
             }
             elseif ($newStatus === null) {
                 $entity->installServer($this->get('twig'));

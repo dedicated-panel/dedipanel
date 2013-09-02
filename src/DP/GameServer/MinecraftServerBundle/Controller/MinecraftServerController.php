@@ -238,9 +238,14 @@ class MinecraftServerController extends Controller
         $status = $entity->getInstallationStatus();
         
         // On upload le script du panel si l'archive jar est téléchargé
-        if ($status >= 100) {
+        if ($status == 100) {
             $entity->uploadShellScripts($this->get('twig'));
-        }  
+            $entity->uploadDefaultServerPropertiesFile($this->get('twig'));
+            
+            // Modifie le statut du serveur pour indiquer que l'installation de celui-ci
+            // est totalement finalisé
+            $entity->setInstallationStatus(101);
+        }
         // On récupère le statut de l'installation que si celui-ci
         // N'est pas déjà indiqué comme terminé
         elseif ($status < 100) {
@@ -251,6 +256,10 @@ class MinecraftServerController extends Controller
             if ($newStatus == 100) {
                 $entity->uploadShellScripts($this->get('twig'));
                 $entity->uploadDefaultServerPropertiesFile($this->get('twig'));
+                
+                // Modifie le statut du serveur pour indiquer que l'installation de celui-ci
+                // est totalement finalisé
+                $entity->setInstallationStatus(101);
             }
             // Si celui-ci n'est pas lancé on le lance
             elseif ($newStatus === null) {
