@@ -31,7 +31,7 @@ case "$1" in
                 {% if isCsgo %}
                     {% set args = './' ~ bin ~ ' -game ' ~ launchName ~ ' +map ' ~ startMap %}
                     {% set args = args ~ ' -port ' ~ port ~ ' -ip ' ~ ip ~ ' -console -usercon +game_type ' ~ gameType %}
-                    {% set args = args ~ ' +game_mode ' ~ gameMode ~ ' +mapgroup ' ~ mapGroup %} 
+                    {% set args = args ~ ' +game_mode ' ~ gameMode ~ ' +mapgroup ' ~ mapGroup ~ ' -maxplayers_override ' ~ maxplayers %} 
                 {% else %}
                     {% set args = './' ~ bin ~ ' -game ' ~ launchName ~ ' +map ' ~ startMap %}
                     {% set args = args ~ ' -port ' ~ port ~ ' +ip ' ~ ip ~ ' +maxplayers ' ~ maxplayers %}
