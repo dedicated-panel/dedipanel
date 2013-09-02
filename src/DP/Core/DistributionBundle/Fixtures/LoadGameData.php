@@ -195,7 +195,7 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $csgo->setSource(true);
         $csgo->setOrangebox(false);
         $csgo->setSteamCmd(true);
-        $csgo->setSourceImagesMaps('http://image.www.gametracker.com/images/maps/160x120/l4d/');
+        $csgo->setSourceImagesMaps('http://image.www.gametracker.com/images/maps/160x120/csgo/');
         $csgo->setAppId('740');
         $csgo->setType('steam');
         $csgo->setAvailable(true);
@@ -234,7 +234,8 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $l4d2->setBinDir('left4dead2/');
         $l4d2->setSource(true);
         $l4d2->setOrangebox(false);
-        $l4d2->setSteamCmd(false);
+        $l4d2->setSteamCmd(true);
+        $l4d2->setAppId('222860');
         $l4d2->setSourceImagesMaps('http://image.www.gametracker.com/images/maps/160x120/left4dead2/');
         $l4d2->setType('steam');
         $l4d2->setConfigTemplate($l4d2ConfigTemplate);
