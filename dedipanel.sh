@@ -100,13 +100,13 @@ case "$1" in
 		
 		# Vérifie que le mode rewrite d'apache est activé
 		if [ ! -e /etc/apache2/mods-enabled/rewrite.load ]; then
-			$errors=("${errors[@]}" "mod_rewrite")
+			errors=("${errors[@]}" "mod_rewrite")
 			echo "Le mode rewrite d'apache doit être activé (a2enmod rewrite && service apache2 restart)."
 		fi
 		
 		# Vérifie la présence de suhosin.executor.include.whitelist dans la config de php
 		if [ `sed -ne '/^suhosin.executor.include.whitelist/=' /etc/php5/cli/php.ini` = ""]; then
-			$errors=("${errors[@]}" "suhosin_phar")
+			errors=("${errors[@]}" "suhosin_phar")
 			echo "Vous devez la ligne suivante au fichier /etc/php5/cli/php.ini : suhosin.executor.include.whitelist = phar"
 		fi
 		
