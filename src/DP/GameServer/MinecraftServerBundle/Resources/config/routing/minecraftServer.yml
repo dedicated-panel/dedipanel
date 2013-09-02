@@ -53,3 +53,11 @@ minecraft_changeState:
     pattern:  /{id}/{state}
     defaults: { _controller: "DPMinecraftServerBundle:MinecraftServer:changeState" }
     requirements: { state: "start|stop|restart" }
+
+minecraft_regen:
+    pattern: /{id}/regen
+    defaults: { _controller: "DPMinecraftServerBundle:MinecraftServer:regen" }
+
+minecraft_screen_log:
+    pattern: /{id}/log
+    defaults: { _controller: "DPMinecraftServerBundle:MinecraftServer:showLog" }

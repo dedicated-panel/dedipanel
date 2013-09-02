@@ -530,4 +530,11 @@ abstract class GameServer
         return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
                 ->createDirectory($dirpath);
     }
+    
+    public function getServerLogs()
+    {
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        
+        return $sec->getScreenContent($this->getScreenName());
+    }
 }

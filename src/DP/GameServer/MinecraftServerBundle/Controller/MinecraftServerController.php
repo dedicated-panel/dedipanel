@@ -295,4 +295,36 @@ class MinecraftServerController extends Controller
         
         return $this->redirect($this->generateUrl('minecraft'));
     }
+
+    public function regenAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $entity = $em->getRepository('DPMinecraftServerBundle:MinecraftServer')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Minecraft entity.');
+        }
+        
+        $entity->uploadShellScripts($this->get('twig'));
+        $entity->uploadDefaultServerPropertiesFile($this->get('twig'));
+
+        return $this->redirect($this->generateUrl('minecraft_show', array('id' => $id)));
+    }
+
+    public function showLogAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $entity = $em->getRepository('DPMinecraftServerBundle:MinecraftServer')->find($id);
+        
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find MinecraftBundle entity.');
+        }
+        
+        $logs = $entity->getServerLogs();
+        
+        return $this->render('DPMinecraftServerBundle:MinecraftServer:logs.html.twig', array(
+            'entity' => $entity, 
+            'logs' => $logs, 
+        ));
+    }
 }

@@ -50,12 +50,12 @@
                                  {% if entity.getInstallationStatus == 101 %}
                                         <ul>
                                             <li>
-                                                <a href="{{ path('steam_regen', { 'id': entity.id }) }}">
+                                                <a href="{{ path('minecraft_regen', { 'id': entity.id }) }}">
                                                     {{ 'game.regenerate'|trans }}
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="{{ path('steam_screen_log', { 'id': entity.id}) }}">
+                                                <a href="{{ path('minecraft_screen_log', { 'id': entity.id}) }}">
                                                     {{ 'game.showLog'|trans }}
                                                 </a>
                                             </li>
@@ -79,7 +79,7 @@
 
                     <div class="serveur-header-summary">
                         <div class="serveur-header-name">
-                            <a href="{{ path('steam_show', {id: entity.id}) }}">{{ entity.name }}</a>
+                            <a href="{{ path('minecraft_show', {id: entity.id}) }}">{{ entity.name }}</a>
                         </div>
                         <div class="serveur-header-map">
                         {% if online %}  
@@ -104,7 +104,7 @@
                                 <tr>
                                     <th>{{ 'game.installStatus'|trans }}</th>
                                     <td>
-                                        <a href="{{ path('steam_install', { 'id': entity.id }) }}">
+                                        <a href="{{ path('minecraft_install', { 'id': entity.id }) }}">
                                             {% spaceless %}
                                                 {% if entity.installationStatus is null %}
                                                     Buggued
