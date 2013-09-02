@@ -1,4 +1,5 @@
 <?php
+
 /*
 ** Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
 **
@@ -20,7 +21,6 @@
 namespace DP\GameServer\SteamServerBundle\Service;
 
 use DP\GameServer\SteamServerBundle\SteamQuery\SteamQuery;
-use DP\GameServer\SteamServerBundle\SteamQuery\SourceRcon;
 
 /**
  * Query Service
@@ -30,7 +30,6 @@ class Query
 {
     private $container;
     private $queries;
-    private $rcon;
     
     /**
      * Constructor

@@ -44,16 +44,24 @@ class QueryInjector
         $entity = $args->getEntity();
         
         if ($entity instanceof GameServer) {
-            // Détection du type de serveur pour appeler le query adéquat
+            // Détection du type de serveur pour appeler le query et le rcon adéquat
             if ($entity instanceof SteamServer) {
                 $type = SteamQuery::TYPE_GOLDSRC;
+                
                 if ($entity->getGame()->getSource() == true) {
-                    $type = SteamQuery::TYPE_SOURCE;    
+                    $type = SteamQuery::TYPE_SOURCE;
                 }
                 
                 $query = $this->getSteamQueryService()->getServerQuery(
                     $entity->getMachine()->getPublicIp(), 
                     $entity->getPort(),
+                    $type
+                );
+                
+                $rcon = $this->getSteamRconService()->getRcon(
+                    $entity->getMachine()->getPublicIp(), 
+                    $entity->getPort(), 
+                    $entity->getRconPassword(), 
                     $type
                 );
             }
@@ -62,6 +70,12 @@ class QueryInjector
                     $entity->getMachine()->getPublicIp(), 
                     $entity->getQueryPort()
                 );
+                
+                $rcon = $this->getMinecraftRconService()->getRcon(
+                    $entity->getMachine()->getPublicIp(), 
+                    $entity->getRconPort(), 
+                    $entity->getRconPassword()
+                );
             }
             
             try {               
@@ -69,7 +83,13 @@ class QueryInjector
             }
             catch (UnexpectedServerTypeException $e) {}
             
-            $entity->setQuery($query);
+            if (!empty($query)) {
+                $entity->setQuery($query);
+            }
+            
+            if (!empty($rcon)) {
+                $entity->setRcon($rcon);
+            }
         }
     }
     
@@ -99,7 +119,7 @@ class QueryInjector
     }
     
     /**
-     * Get steam query service
+     * Get minecraft query service
      * 
      * @return \DP\GameServer\MinecraftServerBundle\Service\Query
      * @throws Exception 
@@ -111,5 +131,35 @@ class QueryInjector
         }
         
         return $this->serviceContainer->get('query.minecraft');
+    }
+    
+    /**
+     * Get steam rcon service
+     * 
+     * @return \DP\GameServer\SteamServerBundle\Service\RconService
+     * @throws Exception
+     */
+    public function getSteamRconService()
+    {
+        if (is_null($this->serviceContainer)) {
+            throw new Exception('The service container is not yet set.');
+        }
+        
+        return $this->serviceContainer->get('rcon.steam');
+    }
+    
+    /**
+     * Get minecraft rcon service
+     * 
+     * @return \DP\GameServer\MinecraftServerBundle\Service\RconService
+     * @throws Exception
+     */
+    public function getMinecraftRconService()
+    {
+        if (is_null($this->serviceContainer)) {
+            throw new Exception('The service container is not yet set.');
+        }
+        
+        return $this->serviceContainer->get('rcon.minecraft');
     }
 }

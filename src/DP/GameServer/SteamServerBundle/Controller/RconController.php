@@ -37,18 +37,7 @@ class RconController extends BaseRconController
             throw new Exception('The requested server is not a SteamServer.');
         }
         
-        if ($server->getGame()->isSource()) {
-            $rconFactory = $this->get('rcon.source');
-        }
-        else {
-            $rconFactory = $this->get('rcon.goldsrc');
-        }
-        
-        return $rconFactory->getRcon(
-                $server->getMachine()->getPublicIp(), 
-                $server->getPort(), 
-                $server->getRconPassword()
-        );
+        return $server->getRcon();
     }
     
     public function getBaseRoute()

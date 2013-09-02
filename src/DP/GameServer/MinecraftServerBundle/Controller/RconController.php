@@ -38,11 +38,7 @@ class RconController extends BaseRconController
             throw new Exception('The requested server is not a MinecraftServer.');
         }
         
-        return $this->get('rcon.source')->getRcon(
-                $server->getMachine()->getPublicIp(), 
-                $server->getRconPort(), 
-                $server->getRconPassword()
-        );
+        return $server->getRcon();
     }
     
     public function getBaseRoute()
