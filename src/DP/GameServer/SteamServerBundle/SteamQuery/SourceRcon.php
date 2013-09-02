@@ -35,6 +35,7 @@ class SourceRcon
     private $packetFactory;
     private $rconPassword;
     private $authenticated = null;
+    private $fullyConstructed = false;
     
     public function __construct($container, $host, $port, $rconPassword)
     {
@@ -125,16 +126,30 @@ class SourceRcon
         $this->rconPassword = $rconPassword;
         $this->socket = $container->get('socket')->getTCPSocket($host, $port, $callbacks);
         $this->packetFactory = $container->get('packet.factory.rcon.source');
-        
+    }
+
+    /**
+     * Permet de ne finaliser la création du rcon qu'en cas d'utilisation de celui-ci
+     * Permet ainsi à la classe d'être instancié un certains nombre de fois sans pour autant être utilisé 
+     * (utile pour le QueryInjector)
+     */
+    protected function fullConstruct()
+    {
         try {
             $this->socket->connect();
             $this->auth();
         }
         catch (ConnectionFailedException $e) {}
+        
+        $this->fullyConstructed = true;
     }
     
     private function auth()
     {
+        if (!$this->fullyConstructed) {
+            $this->fullConstruct();
+        }
+        
         if ($this->authenticated == null) {
             $id = null;
             $packet = $this->packetFactory->getAuthPacket($id, $this->rconPassword);            
@@ -177,6 +192,10 @@ class SourceRcon
     
     public function sendCmd($cmd)
     {
+        if (!$this->fullyConstructed) {
+            $this->fullConstruct();
+        }
+        
         if ($this->authenticated) {
             $id = null;
             $packet = $this->packetFactory->getCmdPacket($id, $cmd);

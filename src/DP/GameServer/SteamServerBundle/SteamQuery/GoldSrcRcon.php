@@ -32,20 +32,37 @@ class GoldSrcRcon
     protected $packetFactory;
     protected $challenge;
     
+    protected $fullyConstructed = false;
+    
     public function __construct($container, $ip, $port, $password)
     {        
         $this->password = $password;
         $this->socket = $container->get('socket')->getUDPSocket($ip, $port);
         $this->packetFactory = $container->get('packet.factory.rcon.goldsrc');
+    }
+    
+    /**
+     * Permet de ne finaliser la création du rcon qu'en cas d'utilisation de celui-ci
+     * Permet ainsi à la classe d'être instancié un certains nombre de fois sans pour autant être utilisé 
+     * (utile pour le QueryInjector)
+     */
+    protected function fullConstruct()
+    {
         try {
             $this->socket->connect();
             $this->getChallenge();
         }
         catch (ConnectionFailedException $e) {}
+        
+        $this->fullyConstructed = true;
     }
     
     public function getChallenge()
     {
+        if (!$this->fullyConstructed) {
+            $this->fullConstruct();
+        }
+        
         if (!isset($this->challenge)) {
             $packet = $this->packetFactory->getChallengePacket();
             $this->socket->send($packet);
@@ -62,6 +79,10 @@ class GoldSrcRcon
     
     public function sendCmd($cmd)
     {
+        if (!$this->fullyConstructed) {
+            $this->fullConstruct();
+        }
+        
         $challenge = $this->getChallenge();
         $packet = $this->packetFactory->getExecCmdPacket($challenge, $this->password, $cmd);
         $this->socket->send($packet);
