@@ -16,7 +16,7 @@ case "$1" in
         cd $2
 		
         # Copie du fichier de config et des htaccess
-        cp app/config/parameters.ini.dist app/config/parameters.ini
+        cp app/config/parameters.yml.dist app/config/parameters.yml
 		cp web/.htaccess.dist web/.htaccess
 		cp .htaccess.dist .htaccess
 		
