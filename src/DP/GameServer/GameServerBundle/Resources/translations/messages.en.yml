@@ -86,3 +86,6 @@ game.restart: Restart
 
 game.regenerate: Régénérer les scripts
 game.offline: Status Offline
+
+steam.stateChanged.start: Server start in progress. This operation may take from 10 seconds to 1 minute.
+steam.stateChanged.restart: Server restart in progress. This operation may take from 10 seconds to 1 minute.

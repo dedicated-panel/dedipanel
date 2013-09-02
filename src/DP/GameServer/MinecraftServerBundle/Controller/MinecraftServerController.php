@@ -278,6 +278,10 @@ class MinecraftServerController extends Controller
             throw $this->createNotFoundException('Unable to find MinecraftServer entity.');
         }
         
+        if ($state == 'start' || $state == 'restart') {
+            $this->get('session')->getFlashBag()->add('stateChanged', 'steam.stateChanged.' . $state);
+        }
+        
         $entity->changeStateServer($state);
         
         return $this->redirect($this->generateUrl('minecraft'));

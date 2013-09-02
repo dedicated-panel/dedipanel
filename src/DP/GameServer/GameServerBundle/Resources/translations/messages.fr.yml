@@ -91,3 +91,6 @@ game.offline: Status Offline
 game.missingPacket: Impossible de lancer l'installation du plugin "%plugin%". Vous devez d'abord installer le(s) paquet(s) %packet% sur votre système afin de pouvoir continuer.
 
 game.showLog: Voir les logs du serveur
+
+steam.stateChanged.start: Démarrage du serveur en cours. Cette opération peut prendre d'une dizaine de secondes à une minute.
+steam.stateChanged.restart: Redémarrage du serveur en cours. Cette opération peut prendre d'une dizaine de secondes à une minute.
