@@ -71,6 +71,10 @@
                             {% endif %}
                             </div>
                         </div>
+                        
+                    	<div class="serveur-header-actionbar">
+                        	{% include 'DPSteamServerBundle:SteamServer:actionBar.html.twig' with {show: true, online: online, server: entity} %}
+						</div>
                     </div>
 
                     <div class="serveur-header-summary">

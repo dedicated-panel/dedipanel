@@ -163,6 +163,23 @@
     height: 65px;
     margin-top: 10px;
 }
+.serveur-header .serveur-header-actionbar {
+    font-size: 38px !important;
+    margin-top: 15px;
+}
+.serveur-header .serveur-header-actionbar a {
+    color: rgba(129, 129, 129, 0.9);
+    margin-right: -8px;
+    display: inline-block;
+}
+.serveur-header .serveur-header-actionbar a:hover {
+    color: rgba(0, 136, 204, 0.34);
+}
+.serveur-header .serveur-header-actionbar a, 
+.serveur-header .serveur-header-actionbar a span {
+    font-size: 38px;
+    width: 38px;
+}
 .serveur-header .serveur-header-summary {
     line-height: 15px;
     height: 160px;
