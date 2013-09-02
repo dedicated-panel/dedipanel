@@ -112,7 +112,7 @@ case "$1" in
 		fi
 		
 		# Vérifie la présence de suhosin.executor.include.whitelist dans la config de php
-		if [ ! `sed -ne '/^suhosin.executor.include.whitelist/p' /etc/php5/cli/php.ini` = "" ]; then
+		if [ -z "`sed -ne '/^suhosin.executor.include.whitelist/p' /etc/php5/cli/php.ini`" ]; then
 			errors=("${errors[@]}" "suhosin_phar")
 			echo "Vous devez la ligne suivante au fichier /etc/php5/cli/php.ini : suhosin.executor.include.whitelist = phar"
 		fi
