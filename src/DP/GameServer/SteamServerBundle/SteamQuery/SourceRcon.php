@@ -31,11 +31,11 @@ use DP\GameServer\SteamServerBundle\SteamQuery\Exception\ServerTimeoutException;
 
 class SourceRcon
 {
-    private $socket;
-    private $packetFactory;
-    private $rconPassword;
-    private $authenticated = null;
-    private $fullyConstructed = false;
+    protected $socket;
+    protected $packetFactory;
+    protected $rconPassword;
+    protected $authenticated = null;
+    protected $fullyConstructed = false;
     
     public function __construct($container, $host, $port, $rconPassword)
     {
