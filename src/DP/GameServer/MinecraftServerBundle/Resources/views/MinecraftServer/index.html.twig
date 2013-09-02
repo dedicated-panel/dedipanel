@@ -88,6 +88,9 @@
                         </div>
                     </div>
                 {% else %}
+                
+                {% set online = ( entity.query.online != false) %}
+                
                     <div class="principal clearfix">
                         <div class="game-image">
                             <a href="{{ path('minecraft_show', {'id': entity.id }) }}">
@@ -103,7 +106,7 @@
                             <div class="description">
                                 <span class="address">{{ entity.machine.publicIp }}:{{ entity.port }}</span>
 
-                                {% if entity.query.online %}
+                                {% if online %}
                                     <br />
                                     
                                     <span class="map">
@@ -119,48 +122,12 @@
                             </div>
                         </div>
                         
-                        <div class="actions clearfix">
-                            {% if entity.query.online %}
-                                <a href="{{ path('minecraft_changeState', { 'id': entity.id, 'state': 'stop' }) }}">
-                                    <span class="icon" data-icon="&#x24;" title="{{ 'game.stop'|trans }}"></span>
-                                </a>
-                                <a href="{{ path('minecraft_changeState', { 'id': entity.id, 'state': 'restart' }) }}">
-                                    <span class="icon" data-icon="&#x27;" title="{{ 'game.restart'|trans }}"></span>
-                                </a>
-                            {% else %}
-                                <a href="{{ path('minecraft_changeState', { 'id': entity.id, 'state': 'start' }) }}">
-                                    <span class="icon" data-icon="&#x22;" title="{{ 'game.start'|trans }}"></span>
-                                </a>
-                            {% endif %}
+                            {% include 'DPMinecraftServerBundle:MinecraftServer:actionBar.html.twig' with {show: true, online: online, server: entity} %}
 
-                            <a href="{{ path('minecraft_edit', {id: entity.id }) }}">
-                                <span class="icon" data-icon="&#x25;" title="{{ 'game.edit'|trans }}"></span>
-                            </a>
-
-                            {% if entity.game.isBukkit %}
-                                <a href="{{ path('minecraft_plugin_show', {id: entity.id }) }}">
-                                    <span class="icon" data-icon="&#x56;" title="{{ 'game.plugin.title'|trans }}"></span>
-                                </a>
-                            {% endif %}
-
-                            <a href="{{ path('minecraft_ftp_show', {id: entity.id }) }}">
-                                <span class="icon" data-icon="&#x26;" title="{{ 'game.ftp.title'|trans }}"></span>
-                            </a>
-                                
-                            <a href="{{ path('minecraft_rcon_show', {id: entity.id}) }}">
-                                <span class="icon" data-icon="&#x5e;" title="{{ 'game.rcon.title'|trans }}"></span>
-                            </a>
-
-                            {% if entity.query.online %}
-                                <a href="{{ path('minecraft_show', {id: entity.id}) }}" class="slide">
-                                    <span class="icon" data-icon="&#x21;" title="{{ 'minecraft.show'|trans }}"></span>
-                                </a>
-                            {% endif %}
-                        </div>
                     </div>
 
                     <div class="details" rel="{{ entity.id }}">
-                        {% if entity.query.online %}
+                        {% if online %}
                             <div class="map-image">
                             </div>
                             
