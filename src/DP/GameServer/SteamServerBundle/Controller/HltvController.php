@@ -27,34 +27,41 @@ class HltvController extends Controller
 {
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $this->redirect($this->generateUrl('steam'));
+        
+        /*$em = $this->getDoctrine()->getEntityManager();
         $serv = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
 
         if (!$serv) {
             throw $this->createNotFoundException('Unable to find SteamServer entity.');
         }
-
-        $hltv = $this->get('query.steam')->getServerQuery(
-            $serv->getMachine()->getPublicIp(),
-            $serv->getHltvPort(),
-            SteamQuery::TYPE_HLTV
-        );
-
-        // On vérifie le statut de l'hltv
-        // S'il n'est pas en ligne, on regarde sur le port du serv
-        // Si l'ip a été bannie
-        $status = $hltv->isOnline();
-        $banned = false;
-        if (!$status) {
-            $banned = $hltv->isBanned();
-        }
-
-        $notHltv = true;
-        try {
-            $notHltv = !$hltv->verifyStatus();
-        }
-        catch (UnexpectedServerTypeException $e) {
-            $status = false;
+        
+        $hltvPort = $serv->getHltvPort();
+        $status = false;
+        
+        if (!empty($hltvPort)) {
+            $hltv = $this->get('query.steam')->getServerQuery(
+                $serv->getMachine()->getPublicIp(),
+                $hltvPort,
+                SteamQuery::TYPE_HLTV
+            );
+    
+            // On vérifie le statut de l'hltv
+            // S'il n'est pas en ligne, on regarde sur le port du serv
+            // Si l'ip a été bannie
+            $status = $hltv->isOnline();
+            $banned = false;
+            if ($status) {
+                $banned = $hltv->isBanned();
+            }
+    
+            $notHltv = true;
+            try {
+                $notHltv = !$hltv->verifyStatus();
+            }
+            catch (UnexpectedServerTypeException $e) {
+                $status = false;
+            }
         }
 
         return $this->render('DPSteamServerBundle:Hltv:show.html.twig', array(
@@ -63,13 +70,14 @@ class HltvController extends Controller
             'banned' => $banned,
             'notHltv' => $notHltv,
             'form' => ($status ? null : $this->createStartForm($serv)->createView()),
-        ));
-
+        ));*/
     }
 
     public function startAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $this->redirect($this->generateUrl('steam'));
+        
+        /*$em = $this->getDoctrine()->getEntityManager();
         $serv = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
         $request = $this->get('request');
 
@@ -107,12 +115,14 @@ class HltvController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('steam_hltv_show', array('id' => $id)));
+        return $this->redirect($this->generateUrl('steam_hltv_show', array('id' => $id)));*/
     }
 
     public function stopAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $this->redirect($this->generateUrl('steam'));
+        
+        /*$em = $this->getDoctrine()->getEntityManager();
         $serv = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
 
         if (!$serv) {
@@ -131,12 +141,12 @@ class HltvController extends Controller
 
         $serv->stopHltv();
 
-        return $this->redirect($this->generateUrl('steam_hltv_show', array('id' => $id)));
+        return $this->redirect($this->generateUrl('steam_hltv_show', array('id' => $id)));*/
     }
 
     public function createStartForm(\DP\GameServer\SteamServerBundle\Entity\SteamServer $serv)
     {
-        $default = array(
+        /*$default = array(
             'ip' => $serv->getMachine()->getPublicIp(),
             'servIp' => $serv->getMachine()->getPublicIp(),
             'servPort' => $serv->getPort(),
@@ -169,6 +179,6 @@ class HltvController extends Controller
                     '1' => 'steam.hltv.no'
             )));
 
-        return $form->getForm();
+        return $form->getForm();*/
     }
 }
