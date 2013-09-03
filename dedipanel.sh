@@ -16,9 +16,10 @@ verify_packet () {
 
 case "$1" in
     install)
-        # Dl de la derniere maj
+        # Dl de la derniere maj du panel
         git clone http://github.com/NiR-/dedipanel.git $2
         cd $2
+		git checkout tags/b4
 		
         # Copie du fichier de config et des htaccess
         cp app/config/parameters.yml.dist app/config/parameters.yml
