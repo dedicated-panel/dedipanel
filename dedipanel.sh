@@ -6,7 +6,7 @@ if [ `id -u` -ne 0 ]; then
 fi
 
 verify_packet () {
-	# Vérifie que tous les packets nécessaires sont installés
+	# Vï¿½rifie que tous les packets nï¿½cessaires sont installï¿½s
 	if [ `dpkg-query -W --showformat='${Status}\n' $1 | grep 'install ok installed' | wc -l` -ge 1 ]; then
 		echo 1
 	else
@@ -28,14 +28,14 @@ case "$1" in
 		
 		# Ajout de la config apache du panel
 		if [ ! -e /etc/apache2/conf.d/dedipanel ]; then
-			echo "<Directory /var/www/>\
-					AllowOverride All\
+			echo -e "<Directory /var/www/>\n
+					AllowOverride All\n
 				</Directory>" > /etc/apache2/conf.d/dedipanel
 			
 			service apache2 restart
 		fi
 		
-		# Téléchargement des dépendances
+		# Tï¿½lï¿½chargement des dï¿½pendances
 		curl -s https://getcomposer.org/installer | php
 		php composer.phar install --optimize-autoloader --prefer-dist
 		
@@ -44,11 +44,11 @@ case "$1" in
 		php app/console cache:clear --env=installer --no-warmup
 		php app/console assets:install --env=installer
 		
-		# Modif des droits et du propriétaire
+		# Modif des droits et du propriï¿½taire
         chmod 775 ./
 		chown -R www-data:www-data ./
 		
-		echo "Il ne vous reste plus qu'à indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accéder à l'installateur en ligne."
+		echo "Il ne vous reste plus qu'ï¿½ indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accï¿½der ï¿½ l'installateur en ligne."
 
         exit ${?}
     ;;
@@ -61,11 +61,11 @@ case "$1" in
         # Puis on remet automatiquement le depot local a jour
         git reset --hard origin/master
 		
-		# Mise à jour de composer et mise à jour des dépendances
+		# Mise ï¿½ jour de composer et mise ï¿½ jour des dï¿½pendances
 		php composer.phar self-update
 		php composer.phar update --optimize-autoloader --prefer-dist
 		
-		# Téléchargement des dépendances
+		# Tï¿½lï¿½chargement des dï¿½pendances
 		curl -s https://getcomposer.org/installer | php
 		php composer.phar install --optimize-autoloader --prefer-dist
 		
@@ -74,11 +74,11 @@ case "$1" in
 		php app/console cache:clear --env=installer --no-warmup
 		php app/console assets:install --env=installer
 		
-		# Modif des droits et du propriétaire
+		# Modif des droits et du propriï¿½taire
         chmod 775 ./
 		chown -R www-data:www-data ./
 		
-		echo "Il ne vous reste plus qu'à indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accéder à l'installateur en ligne."
+		echo "Il ne vous reste plus qu'ï¿½ indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accï¿½der ï¿½ l'installateur en ligne."
 
         exit ${?}
     ;;
@@ -87,7 +87,7 @@ case "$1" in
 		# Tableau contenant la liste des erreurs
 		errors=()
 		
-		# Vérifie que tous les packets nécessaires sont installés
+		# Vï¿½rifie que tous les packets nï¿½cessaires sont installï¿½s
 		packets=('git' 'sqlite' 'mysql-server' 'php5-sqlite' 'apache2' 'php5' 'php5-mysql' 'curl' 'php5-intl' 'php-apc' 'phpmyadmin')
 		failed=()
 		
@@ -102,27 +102,27 @@ case "$1" in
 		done
 		
 		if [ ${#failed[@]} -ge 1 ]; then
-			echo "Packets nécessaires: ${packets[@]}."
+			echo "Packets nï¿½cessaires: ${packets[@]}."
 			echo "Packets manquants: ${failed[@]}."
 		fi
 		
-		# Vérifie que le mode rewrite d'apache est activé
+		# Vï¿½rifie que le mode rewrite d'apache est activï¿½
 		if [ ! -e /etc/apache2/mods-enabled/rewrite.load ]; then
 			errors=("${errors[@]}" "mod_rewrite")
-			echo "Le mode rewrite d'apache doit être activé (a2enmod rewrite && service apache2 restart)."
+			echo "Le mode rewrite d'apache doit ï¿½tre activï¿½ (a2enmod rewrite && service apache2 restart)."
 		fi
 		
-		# Vérifie la présence de suhosin.executor.include.whitelist dans la config de php
+		# Vï¿½rifie la prï¿½sence de suhosin.executor.include.whitelist dans la config de php
 		if [ -z "`sed -ne '/^suhosin.executor.include.whitelist/p' /etc/php5/cli/php.ini`" ]; then
 			errors=("${errors[@]}" "suhosin_phar")
 			echo "Vous devez la ligne suivante au fichier /etc/php5/cli/php.ini : suhosin.executor.include.whitelist = phar"
 		fi
 		
-		# Vérifie s'il y a eu des erreurs d'enregistrées
+		# Vï¿½rifie s'il y a eu des erreurs d'enregistrï¿½es
 		if [ ${#errors[@]} -ge 1 ]; then
-			echo "Veuillez effectuer les opérations nécessaire afin d'installer le panel."
+			echo "Veuillez effectuer les opï¿½rations nï¿½cessaire afin d'installer le panel."
 		else
-			echo "Votre serveur est correctement configuré. Vous pouvez y installer le panel."
+			echo "Votre serveur est correctement configurï¿½. Vous pouvez y installer le panel."
 		fi
 	;;
 	
