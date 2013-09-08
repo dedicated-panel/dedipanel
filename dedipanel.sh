@@ -5,6 +5,7 @@ if [ `id -u` -ne 0 ]; then
 	exit 1;
 fi
 
+# Cette fonction vérifie si le packet passé en argument est installé
 verify_packet () {
 	# Vérifie que tous les packets nécessaires sont installés
 	if [ `dpkg-query -W --showformat='${Status}\n' $1 | grep 'install ok installed' | wc -l` -ge 1 ]; then
@@ -14,11 +15,37 @@ verify_packet () {
 	fi
 }
 
+# Cette fonction affiche le message d'utilisation du script bash
+# et quitte le script
+usage () {
+    echo "Usage: $0 [install dir|update dir|verify] [-v]"
+    exit 1
+}
+
 case "$1" in
     install)
-        # Dl de la derniere maj du panel
-        git clone http://github.com/NiR-/dedipanel.git $2
-        cd $2
+        # Par défaut le retour des commandes utilisées dans le script est ignoré
+        DEBUG=0
+        
+        # 0n vérifie qu'il n'y ai pas d'erreur sur la position du flag de debug
+        # et que le nom du dossier d'installation est fourni
+        if [ $# -eq 3 -a "$3" = "-v" ]; then
+            DEBUG=1
+        elif [ $# -eq 1 -o "$1" = "-v" -o "$2" = "-v" ]; then
+            usage
+        fi
+        
+        # Désactive stdout et stderr si le mode debug n'est pas activé
+        # et créer un file descriptor qui sera utilisé pour afficher les messages destinés à l'utilisateur
+        if [ $DEBUG -eq 0 ]; then
+            exec 3>&1 &>/dev/null
+        else
+            exec 3>&1
+        fi
+        
+        # Dl de la dernière maj du panel
+        git clone http://github.com/NiR-/dedipanel.git "$2"
+        cd "$2"
         git checkout tags/b4.01
 
         # Copie du fichier de config et des htaccess
@@ -48,7 +75,7 @@ case "$1" in
         chmod 775 ./
         chown -R www-data:www-data ./
 
-        echo "Il ne vous reste plus qu'à indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accéder à l'installateur en ligne."
+        echo "Il ne vous reste plus qu'à indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accéder à l'installateur en ligne (http://wiki.dedicated-panel.net/b4:install, section \"Finaliser l'installation\")." >&3
 
         exit ${?}
     ;;
@@ -115,19 +142,18 @@ case "$1" in
 		# Vérifie la présence de suhosin.executor.include.whitelist dans la config de php
 		if [ -z "`sed -ne '/^suhosin.executor.include.whitelist/p' /etc/php5/cli/php.ini`" ]; then
 			errors=("${errors[@]}" "suhosin_phar")
-			echo "Vous devez la ligne suivante au fichier /etc/php5/cli/php.ini : suhosin.executor.include.whitelist = phar"
+			echo "Vous devez ajouter la ligne suivante au fichier /etc/php5/cli/php.ini : suhosin.executor.include.whitelist = phar"
 		fi
 
 		# Vérifie s'il y a eu des erreurs d'enregistrées
 		if [ ${#errors[@]} -ge 1 ]; then
-			echo "Veuillez effectuer les opérations nécessaire afin d'installer le panel."
+			echo "Veuillez effectuer les opérations préalablement nécessaire à l'installation du panel."
 		else
 			echo "Votre serveur est correctement configuré. Vous pouvez y installer le panel."
 		fi
 	;;
 
     *)
-        echo "Usage: $0 [install dir|update dir|verify]"
-        exit ${?}
+        usage
     ;;
 esac
