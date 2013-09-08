@@ -7,7 +7,9 @@ Communauté
 ----------
 
 [Site](http://www.dedicated-panel.net).
+
 [Forum](http://forum.dedicated-panel.net).
+
 [Wiki](http://wiki.dedicated-panel.net).
 
 
