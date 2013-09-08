@@ -6,7 +6,7 @@ if [ `id -u` -ne 0 ]; then
 fi
 
 verify_packet () {
-	# Vï¿½rifie que tous les packets nï¿½cessaires sont installï¿½s
+	# Vérifie que tous les packets nécessaires sont installés
 	if [ `dpkg-query -W --showformat='${Status}\n' $1 | grep 'install ok installed' | wc -l` -ge 1 ]; then
 		echo 1
 	else
@@ -19,81 +19,82 @@ case "$1" in
         # Dl de la derniere maj du panel
         git clone http://github.com/NiR-/dedipanel.git $2
         cd $2
-		
+        git checkout tags/b4.01
+
         # Copie du fichier de config et des htaccess
         cp app/config/parameters.yml.dist app/config/parameters.yml
-		cp web/.htaccess.dist web/.htaccess
-		cp .htaccess.dist .htaccess
-		
-		# Ajout de la config apache du panel
-		if [ ! -e /etc/apache2/conf.d/dedipanel ]; then
-			echo -e "<Directory /var/www/>\n
-					AllowOverride All\n
-				</Directory>" > /etc/apache2/conf.d/dedipanel
-			
-			service apache2 restart
-		fi
-		
-		# Tï¿½lï¿½chargement des dï¿½pendances
-		curl -s https://getcomposer.org/installer | php
-		php composer.phar install --optimize-autoloader --prefer-dist
-		
-		# Vidage du cache et installation des assets
-		php app/console cache:clear --env=prod --no-warmup
-		php app/console cache:clear --env=installer --no-warmup
-		php app/console assets:install --env=installer
-		
-		# Modif des droits et du propriï¿½taire
+        cp web/.htaccess.dist web/.htaccess
+        cp .htaccess.dist .htaccess
+
+        # Ajout de la config apache du panel
+        if [ ! -e /etc/apache2/conf.d/dedipanel ]; then
+            echo -e "<Directory /var/www/>\n
+                    AllowOverride All\n
+                </Directory>" > /etc/apache2/conf.d/dedipanel
+
+            service apache2 restart
+        fi
+
+        # Téléchargement des dépendances
+        curl -s https://getcomposer.org/installer | php
+        php composer.phar install --optimize-autoloader --prefer-dist
+
+        # Vidage du cache et installation des assets
+        php app/console cache:clear --env=prod --no-warmup
+        php app/console cache:clear --env=installer --no-warmup
+        php app/console assets:install --env=installer
+
+        # Modif des droits et du propriétaire
         chmod 775 ./
-		chown -R www-data:www-data ./
-		
-		echo "Il ne vous reste plus qu'ï¿½ indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accï¿½der ï¿½ l'installateur en ligne."
+        chown -R www-data:www-data ./
+
+        echo "Il ne vous reste plus qu'à indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accéder à l'installateur en ligne."
 
         exit ${?}
     ;;
-	
+
     update)
         cd $2
-		
+
         # On dl les derniers commits (sans merger)
         git fetch --all
         # Puis on remet automatiquement le depot local a jour
         git reset --hard origin/master
-		
-		# Mise ï¿½ jour de composer et mise ï¿½ jour des dï¿½pendances
+
+		# Mise à jour de composer et mise à jour des dépendances
 		php composer.phar self-update
 		php composer.phar update --optimize-autoloader --prefer-dist
-		
-		# Tï¿½lï¿½chargement des dï¿½pendances
+
+		# Téléchargement des dépendances
 		curl -s https://getcomposer.org/installer | php
 		php composer.phar install --optimize-autoloader --prefer-dist
-		
+
 		# Vidage du cache et installation des assets
 		php app/console cache:clear --env=prod --no-warmup
 		php app/console cache:clear --env=installer --no-warmup
 		php app/console assets:install --env=installer
-		
-		# Modif des droits et du propriï¿½taire
+
+		# Modif des droits et du propriétaire
         chmod 775 ./
 		chown -R www-data:www-data ./
-		
-		echo "Il ne vous reste plus qu'ï¿½ indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accï¿½der ï¿½ l'installateur en ligne."
+
+		echo "Il ne vous reste plus qu'à indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accéder à l'installateur en ligne."
 
         exit ${?}
     ;;
-	
+
 	verify)
 		# Tableau contenant la liste des erreurs
 		errors=()
-		
-		# Vï¿½rifie que tous les packets nï¿½cessaires sont installï¿½s
+
+		# Vérifie que tous les packets nécessaires sont installés
 		packets=('git' 'sqlite' 'mysql-server' 'php5-sqlite' 'apache2' 'php5' 'php5-mysql' 'curl' 'php5-intl' 'php-apc' 'phpmyadmin')
 		failed=()
-		
+
 		for packet in "${packets[@]}"; do
 			if [ $(verify_packet $packet) -eq 0 ]; then
 				failed=("${failed[@]}" $packet)
-				
+
 				if [[ ! ${errors[*]} =~ "packet" ]]; then
 					errors=("${errors[@]}" "packet")
 				fi
@@ -101,30 +102,30 @@ case "$1" in
 		done
 		
 		if [ ${#failed[@]} -ge 1 ]; then
-			echo "Packets nï¿½cessaires: ${packets[@]}."
+			echo "Packets nécessaires: ${packets[@]}."
 			echo "Packets manquants: ${failed[@]}."
 		fi
-		
-		# Vï¿½rifie que le mode rewrite d'apache est activï¿½
+
+		# Vérifie que le mode rewrite d'apache est activé
 		if [ ! -e /etc/apache2/mods-enabled/rewrite.load ]; then
 			errors=("${errors[@]}" "mod_rewrite")
-			echo "Le mode rewrite d'apache doit ï¿½tre activï¿½ (a2enmod rewrite && service apache2 restart)."
+			echo "Le mode rewrite d'apache doit être activé (a2enmod rewrite && service apache2 restart)."
 		fi
-		
-		# Vï¿½rifie la prï¿½sence de suhosin.executor.include.whitelist dans la config de php
+
+		# Vérifie la présence de suhosin.executor.include.whitelist dans la config de php
 		if [ -z "`sed -ne '/^suhosin.executor.include.whitelist/p' /etc/php5/cli/php.ini`" ]; then
 			errors=("${errors[@]}" "suhosin_phar")
 			echo "Vous devez la ligne suivante au fichier /etc/php5/cli/php.ini : suhosin.executor.include.whitelist = phar"
 		fi
-		
-		# Vï¿½rifie s'il y a eu des erreurs d'enregistrï¿½es
+
+		# Vérifie s'il y a eu des erreurs d'enregistrées
 		if [ ${#errors[@]} -ge 1 ]; then
-			echo "Veuillez effectuer les opï¿½rations nï¿½cessaire afin d'installer le panel."
+			echo "Veuillez effectuer les opérations nécessaire afin d'installer le panel."
 		else
-			echo "Votre serveur est correctement configurï¿½. Vous pouvez y installer le panel."
+			echo "Votre serveur est correctement configuré. Vous pouvez y installer le panel."
 		fi
 	;;
-	
+
     *)
         echo "Usage: $0 [install dir|update dir|verify]"
         exit ${?}
