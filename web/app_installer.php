@@ -5,7 +5,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 define('WHITELIST_FILEPATH', __DIR__ . '/../installer_whitelist.txt');
 
-$ip_list = explode("\n", file_get_contents(WHITELIST_FILEPATH));
+$ip_list = file_get_contents(WHITELIST_FILEPATH);
+$sep = (strpos($ip_list, "\r\n") ? "\r\n" : "\n");
+$ip_list = explode($sep, $ip_list);
 
 // This check prevents access to debug front controllers that are deployed by accident to production servers.
 // Feel free to remove this, extend it, or make something more sophisticated.
