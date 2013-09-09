@@ -147,6 +147,26 @@ class ConfiguratorController extends Controller
 
             file_put_contents($filepath, $content);
         }
+        
+        // Suppression "hard" du cache de prod (si présent) pour s'assurer qu'il contient bien les derniers paramètres
+        $cacheDir = $this->container->getParameter('kernel.root_dir') . '/cache/prod';
+        if (is_dir($cacheDir)) {
+            $files = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($cacheDir, \RecursiveDirectoryIterator::SKIP_DOTS),
+                \RecursiveIteratorIterator::CHILD_FIRST
+            );
+            
+            foreach ($files AS $fileinfo) {
+                if ($fileinfo->isDir()) {
+                    rmdir($fileinfo->getRealPath());
+                }
+                else {
+                    unlink($fileinfo->getRealPath());
+                }
+            }
+            
+            rmdir($cacheDir);
+        }
 
         return $this->redirect($this->generateUrl('_welcome'));
     }
