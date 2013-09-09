@@ -34,6 +34,7 @@ class Configurator
     protected $installSteps;
     protected $updateSteps;
     protected $parameters;
+    protected $kernelDir;
 
     public function __construct($kernelDir)
     {
@@ -225,5 +226,10 @@ class Configurator
     public function getWhitelistFilepath()
     {
         return WHITELIST_FILEPATH;
+    }
+    
+    public function getKernelDir()
+    {
+        return $this->kernelDir;
     }
 }

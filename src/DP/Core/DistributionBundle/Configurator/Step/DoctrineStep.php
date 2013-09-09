@@ -129,6 +129,12 @@ class DoctrineStep implements StepInterface
             if (!$configurator->write()) {
                 $errors[] = 'An error occured while writing the app/config/parameters.yml file.';
             }
+            
+            // Suppression "hard" du cache (sinon les nouveaux paramètres ne sont pas pris en compte)
+            $cacheFile = $configurator->getKernelDir() . '/cache/installer/appInstallerProjectContainer.php';
+            if (file_exists($cacheFile)) {
+                unlink($cacheFile);
+            }
         }
         else {
             $errors[] = 'Your app/config/parameters.yml is not writable.';
