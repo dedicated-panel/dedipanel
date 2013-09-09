@@ -43,6 +43,12 @@ case "$1" in
             exec 3>&1
         fi
         
+        $0 verify 1>/dev/null 2>&1
+        if [ !$? ]; then
+            echo "Merci d'effectuer les opérations préalablement nécessaire à l'installation du panel (utilisez la commande \"$0 verify\" pour vérifier la configuration de votre serveur)." >&3
+            exit 1
+        fi
+        
         # Dl de la dernière maj du panel
         git clone http://github.com/NiR-/dedipanel.git "$2"
         cd "$2"
@@ -55,7 +61,7 @@ case "$1" in
 
         # Ajout de la config apache du panel
         if [ ! -e /etc/apache2/conf.d/dedipanel ]; then
-            echo -e "<Directory /var/www/>\n
+            echo -e "<Directory /var/www/$2>\n
                     AllowOverride All\n
                 </Directory>" > /etc/apache2/conf.d/dedipanel
 
@@ -144,12 +150,16 @@ case "$1" in
 			errors=("${errors[@]}" "suhosin_phar")
 			echo "Vous devez ajouter la ligne suivante au fichier /etc/php5/cli/php.ini : suhosin.executor.include.whitelist = phar"
 		fi
+        
+        echo ""
 
 		# Vérifie s'il y a eu des erreurs d'enregistrées
 		if [ ${#errors[@]} -ge 1 ]; then
 			echo "Veuillez effectuer les opérations préalablement nécessaire à l'installation du panel."
+            exit 1
 		else
 			echo "Votre serveur est correctement configuré. Vous pouvez y installer le panel."
+            exit 0
 		fi
 	;;
 
