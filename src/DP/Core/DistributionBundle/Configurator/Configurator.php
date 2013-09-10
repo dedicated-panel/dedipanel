@@ -212,16 +212,6 @@ class Configurator
     {
         $this->parameters = array_merge($this->parameters, $parameters);
     }
-
-    /**
-     * getCacheFilename
-     *
-     * @return string
-     */
-    protected function getCacheFilename()
-    {
-        return $this->kernelDir.'/cache/parameters.yml';
-    }
     
     public function getWhitelistFilepath()
     {
