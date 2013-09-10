@@ -60,13 +60,11 @@ case "$1" in
         cp .htaccess.dist .htaccess
 
         # Ajout de la config apache du panel
-        if [ ! -e /etc/apache2/conf.d/dedipanel ]; then
-            echo -e "<Directory /var/www/$2>\n
-                    AllowOverride All\n
-                </Directory>" > /etc/apache2/conf.d/dedipanel
+        echo -e "<Directory /var/www/$2>\n
+                AllowOverride All\n
+            </Directory>" > /etc/apache2/conf.d/dedipanel
 
-            service apache2 restart
-        fi
+        service apache2 restart
 
         # Téléchargement des dépendances
         curl -s https://getcomposer.org/installer | php
