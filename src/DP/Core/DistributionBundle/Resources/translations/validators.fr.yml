@@ -18,6 +18,7 @@
 configurator.db.host.blank: Vous devez indiquer l'hôte de la base de données (son IP ou son nom).
 configurator.db.name.blank: Vous devez indiquer le nom de la base de données.
 configurator.db.user.blank: Vous devez indiquer l'utilisateur.
+configurator.db.connectionTest: Le test de connexion à la base de données a échoué. Veuillez vérifier vos identifiants ci-dessosus.
 
 
 # Création du SuperAdmin (étape 3 install)

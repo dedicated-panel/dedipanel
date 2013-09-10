@@ -18,6 +18,7 @@
 configurator.db.host.blank: You must specify the host for the database (the IP or the name).
 configurator.db.name.blank: You must specify the name for the database.
 configurator.db.user.blank: You must specify the username for the database.
+configurator.db.connectionTest: Connection test to the database failed. Please check your login.
 
 
 # Création du SuperAdmin (étape 3 install)

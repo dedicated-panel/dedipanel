@@ -14,6 +14,7 @@ namespace DP\Core\DistributionBundle\Configurator\Step;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use DP\Core\DistributionBundle\Configurator\Form\DoctrineStepType;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\DBAL\DriverManager;
 
 /**
  * Doctrine Step.
@@ -123,21 +124,47 @@ class DoctrineStep implements StepInterface
             $parameters['database_' . $key] = $value;
         }
         
-        if ($configurator->isFileWritable()) {
-            $configurator->mergeParameters($parameters);
+        // var_dump($data);
+        
+        // Vérifie les paramètres de bdd passés
+        $goodParams = false;
+        try {
+            $conn = DriverManager::getConnection(array(
+                'driver' => 'pdo_mysql',
+                'user' => $data->user, 
+                'password' => $data->password, 
+                'host' => $data->host, 
+                'port' => $data->port, 
+                'dbname' => $data->name, 
+            ));
+        
+            $conn->connect();
+            $conn->close();
             
-            if (!$configurator->write()) {
-                $errors[] = 'An error occured while writing the app/config/parameters.yml file.';
+            $goodParams = true;
+        }
+        catch (\Exception $e) {}
+        
+        if ($goodParams) {
+            if ($configurator->isFileWritable()) {
+                $configurator->mergeParameters($parameters);
+                
+                if (!$configurator->write()) {
+                    $errors[] = 'An error occured while writing the app/config/parameters.yml file.';
+                }
+                
+                // Suppression "hard" du cache (sinon les nouveaux paramètres ne sont pas pris en compte)
+                $cacheFile = $configurator->getKernelDir() . '/cache/installer/appInstallerProjectContainer.php';
+                if (file_exists($cacheFile)) {
+                    unlink($cacheFile);
+                }
             }
-            
-            // Suppression "hard" du cache (sinon les nouveaux paramètres ne sont pas pris en compte)
-            $cacheFile = $configurator->getKernelDir() . '/cache/installer/appInstallerProjectContainer.php';
-            if (file_exists($cacheFile)) {
-                unlink($cacheFile);
+            else {
+                $errors[] = 'Your app/config/parameters.yml is not writable.';
             }
         }
         else {
-            $errors[] = 'Your app/config/parameters.yml is not writable.';
+            $errors[] = 'configurator.db.connectionTest';
         }
         
         return $errors;
