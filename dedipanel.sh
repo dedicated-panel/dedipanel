@@ -44,7 +44,7 @@ case "$1" in
         fi
         
         $0 verify 1>/dev/null 2>&1
-        if [ !$? ]; then
+        if [ $? -ne 0 ]; then
             echo "Merci d'effectuer les opérations préalablement nécessaire à l'installation du panel (utilisez la commande \"$0 verify\" pour vérifier la configuration de votre serveur)." >&3
             exit 1
         fi
@@ -150,11 +150,10 @@ case "$1" in
 			errors=("${errors[@]}" "suhosin_phar")
 			echo "Vous devez ajouter la ligne suivante au fichier /etc/php5/cli/php.ini : suhosin.executor.include.whitelist = phar"
 		fi
-        
-        echo ""
 
 		# Vérifie s'il y a eu des erreurs d'enregistrées
 		if [ ${#errors[@]} -ge 1 ]; then
+            echo ""
 			echo "Veuillez effectuer les opérations préalablement nécessaire à l'installation du panel."
             exit 1
 		else
