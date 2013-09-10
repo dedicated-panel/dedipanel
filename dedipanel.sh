@@ -73,7 +73,6 @@ case "$1" in
         # Vidage du cache et installation des assets
         php app/console cache:clear --env=prod --no-warmup
         php app/console cache:clear --env=installer --no-warmup
-        php app/console assets:install --env=installer
 
         # Modif des droits et du propriétaire
         chmod 775 ./
