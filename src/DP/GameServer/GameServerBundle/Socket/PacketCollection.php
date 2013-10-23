@@ -120,7 +120,7 @@ class PacketCollection implements \SeekableIterator, \ArrayAccess, \Countable
      * @param int $key
      * @param \DP\GameServer\GameServerBundle\Socket\Packet $val 
      */
-    public function offsetSet($key, $val)
+    public function offsetSet($key, Packet $val)
     {
         $this->array[$key] = $val;
     }

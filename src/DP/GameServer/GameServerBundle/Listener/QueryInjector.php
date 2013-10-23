@@ -139,7 +139,7 @@ class QueryInjector
      * @return \DP\GameServer\SteamServerBundle\Service\RconService
      * @throws Exception
      */
-    public function getSteamRconService()
+    private function getSteamRconService()
     {
         if (is_null($this->serviceContainer)) {
             throw new Exception('The service container is not yet set.');
@@ -154,7 +154,7 @@ class QueryInjector
      * @return \DP\GameServer\MinecraftServerBundle\Service\RconService
      * @throws Exception
      */
-    public function getMinecraftRconService()
+    private function getMinecraftRconService()
     {
         if (is_null($this->serviceContainer)) {
             throw new Exception('The service container is not yet set.');

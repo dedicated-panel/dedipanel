@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
 use DP\Core\MachineBundle\Entity\Machine;
 use Symfony\Component\Validator\Constraints as Assert;
 use DP\GameServer\GameServerBundle\Query\QueryInterface;
+use DP\GameServer\GameServerBundle\Query\RconInterface;
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 use DP\GameServer\GameServerBundle\Exception\InvalidPathException;
 
@@ -381,7 +382,7 @@ abstract class GameServer
         return empty($this->rconPassword);
     }
 
-    public function setRcon($rcon)
+    public function setRcon(RconInterface $rcon)
     {
         $this->rcon = $rcon;
 
