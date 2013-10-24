@@ -45,7 +45,7 @@ security:
         admin:
             switch_user:        true
             context:            user
-            pattern:            /admin(.*)
+            pattern:            /
             form_login:
                 provider:       fos_userbundle
                 login_path:     /login
@@ -56,7 +56,6 @@ security:
             logout:
                 path:           /logout
                 target:         /login
-            anonymous:    true
         
         main:
             pattern: ^/
