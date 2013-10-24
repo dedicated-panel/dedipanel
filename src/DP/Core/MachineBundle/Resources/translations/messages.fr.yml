@@ -20,7 +20,7 @@ machine.editMachine: Modification d'une machine
 
 machine.new: Ajouter une machine
 machine.show: Voir
-machine.connectionTest: Test de connexion
+machine.connectionTest: Tester
 machine.edit: Modifier
 machine.del: Supprimer
 
