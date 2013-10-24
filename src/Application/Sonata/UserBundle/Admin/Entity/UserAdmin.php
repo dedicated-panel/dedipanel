@@ -2,55 +2,15 @@
 
 namespace Application\Sonata\UserBundle\Admin\Entity;
 
-use Sonata\AdminBundle\Admin\Admin;
-
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\UserBundle\Admin\Entity\UserAdmin as BaseUserAdmin;
 
-use FOS\UserBundle\Model\UserManagerInterface;
-
-class UserAdmin extends Admin
+class UserAdmin extends BaseUserAdmin
 {
     protected $formOptions = array(
         'validation_groups' => 'Profile'
     );
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureListFields(ListMapper $listMapper)
-    {
-        $listMapper
-            ->addIdentifier('username')
-            ->add('email')
-            ->add('groups')
-            ->add('enabled', null, array('editable' => true))
-            ->add('locked', null, array('editable' => true))
-            ->add('createdAt')
-        ;
-
-        if ($this->isGranted('ROLE_ALLOWED_TO_SWITCH')) {
-            $listMapper
-                ->add('impersonating', 'string', array('template' => 'SonataUserBundle:Admin:Field/impersonating.html.twig'))
-            ;
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureDatagridFilters(DatagridMapper $filterMapper)
-    {
-        $filterMapper
-            ->add('id')
-            ->add('username')
-            ->add('locked')
-            ->add('email')
-            ->add('groups')
-        ;
-    }
 
     /**
      * {@inheritdoc}
@@ -100,30 +60,5 @@ class UserAdmin extends Admin
             ;
         }
         ;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function preUpdate($user)
-    {
-        $this->getUserManager()->updateCanonicalFields($user);
-        $this->getUserManager()->updatePassword($user);
-    }
-
-    /**
-     * @param UserManagerInterface $userManager
-     */
-    public function setUserManager(UserManagerInterface $userManager)
-    {
-        $this->userManager = $userManager;
-    }
-
-    /**
-     * @return UserManagerInterface
-     */
-    public function getUserManager()
-    {
-        return $this->userManager;
     }
 }
