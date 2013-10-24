@@ -21,8 +21,9 @@
 namespace DP\GameServer\SteamServerBundle\SteamQuery;
 
 use DP\GameServer\GameServerBundle\Socket\Exception\ConnectionFailedException;
+use DP\GameServer\GameServerBundle\Query\RconInterface;
 
-class GoldSrcRcon
+class GoldSrcRcon implements RconInterface
 {
     protected $ip;
     protected $port;

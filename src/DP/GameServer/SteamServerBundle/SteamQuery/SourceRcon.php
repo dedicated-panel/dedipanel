@@ -28,8 +28,9 @@ use DP\GameServer\GameServerBundle\Socket\Exception\ConnectionFailedException;
 use DP\GameServer\GameServerBundle\Socket\Exception\NotConnectedException;
 use DP\GameServer\GameServerBundle\Socket\Exception\RecvTimeoutException;
 use DP\GameServer\SteamServerBundle\SteamQuery\Exception\ServerTimeoutException;
+use DP\GameServer\GameServerBundle\Query\RconInterface;
 
-class SourceRcon
+class SourceRcon implements RconInterface
 {
     protected $socket;
     protected $packetFactory;
