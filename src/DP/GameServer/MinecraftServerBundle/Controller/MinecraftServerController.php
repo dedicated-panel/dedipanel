@@ -228,7 +228,7 @@ class MinecraftServerController extends Controller
      */
     public function installAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('DPMinecraftServerBundle:MinecraftServer')->find($id);
         
         if (!$entity) {
@@ -280,7 +280,7 @@ class MinecraftServerController extends Controller
     
     public function changeStateAction($id, $state)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('DPMinecraftServerBundle:MinecraftServer')->find($id);
         
         if (!$entity) {
@@ -298,7 +298,7 @@ class MinecraftServerController extends Controller
 
     public function regenAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('DPMinecraftServerBundle:MinecraftServer')->find($id);
 
         if (!$entity) {
@@ -313,7 +313,7 @@ class MinecraftServerController extends Controller
 
     public function showLogAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('DPMinecraftServerBundle:MinecraftServer')->find($id);
         
         if (!$entity) {

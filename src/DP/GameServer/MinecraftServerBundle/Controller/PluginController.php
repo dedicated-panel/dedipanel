@@ -26,7 +26,7 @@ class PluginController extends AbstractPluginController
 {
     public function getServerEntity($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $server = $em->getRepository('DPMinecraftServerBundle:MinecraftServer')->find($id);
         
         if (!$server) {

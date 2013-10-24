@@ -57,7 +57,7 @@ abstract class RconController extends Controller
 
                     // Enregistrement du mdp rcon
                     $server = $this->saveServerData($server, $data);
-                    $em = $this->getDoctrine()->getEntityManager();
+                    $em = $this->getDoctrine()->getManager();
                     $em->persist($server);
                     $em->flush();
 

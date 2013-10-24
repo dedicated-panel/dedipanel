@@ -40,7 +40,7 @@ abstract class PluginController extends Controller
     
     public function installAction($id, $plugin)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $server = $this->getServerEntity($id);
         $plugin = $em->getRepository('DPGameBundle:Plugin')->find($plugin);
 
@@ -67,7 +67,7 @@ abstract class PluginController extends Controller
     
     public function uninstallAction($id, $plugin)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $server = $this->getServerEntity($id);
         $plugin = $em->getRepository('DPGameBundle:Plugin')->find($plugin);
         

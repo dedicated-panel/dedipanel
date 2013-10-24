@@ -41,7 +41,7 @@ class SteamServerController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('DPSteamServerBundle:SteamServer')->findAll();
 
@@ -56,7 +56,7 @@ class SteamServerController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
 
@@ -114,7 +114,7 @@ class SteamServerController extends Controller
                     $entity->uploadShellScripts($twig);
                 }
 
-                $em = $this->getDoctrine()->getEntityManager();
+                $em = $this->getDoctrine()->getManager();
                 $em->persist($entity);
                 $em->flush();
 
@@ -142,7 +142,7 @@ class SteamServerController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
 
@@ -167,7 +167,7 @@ class SteamServerController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
 
@@ -207,7 +207,7 @@ class SteamServerController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
 
             if (!$entity) {
@@ -239,7 +239,7 @@ class SteamServerController extends Controller
      */
     public function installAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
 
         if (!$entity) {
@@ -296,7 +296,7 @@ class SteamServerController extends Controller
 
     public function changeStateAction($id, $state)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
 
         if (!$entity) {
@@ -314,7 +314,7 @@ class SteamServerController extends Controller
 
     public function queryAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
 
         if (!$entity) {
@@ -328,7 +328,7 @@ class SteamServerController extends Controller
 
     public function regenAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
 
         if (!$entity) {
@@ -349,7 +349,7 @@ class SteamServerController extends Controller
 
     public function showLogAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
         
         if (!$entity) {

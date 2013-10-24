@@ -28,7 +28,7 @@ class RconController extends BaseRconController
 {
     public function getEntityRepository()
     {
-        return $this->getDoctrine()->getEntityManager()->getRepository('DPMinecraftServerBundle:MinecraftServer');
+        return $this->getDoctrine()->getManager()->getRepository('DPMinecraftServerBundle:MinecraftServer');
     }
     
     public function getRconFromServer(GameServer $server)

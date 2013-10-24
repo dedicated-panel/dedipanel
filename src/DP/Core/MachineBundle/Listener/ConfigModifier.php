@@ -63,7 +63,7 @@ class ConfigModifier
         if ($entity instanceof Machine) {
             // Réinstallation de la machine si l'IP privé ou l'utilisateur a été modifié
             if ($args->hasChangedField('privateIp') || $args->hasChangedField('user') || $args->hasChangedField('home')) {
-                $em = $args->getEntityManager();
+                $em = $args->getManager();
                 $uow = $em->getUnitOfWork();
                 $servers = $entity->getGameServers();
                 

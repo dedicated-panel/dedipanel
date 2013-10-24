@@ -29,7 +29,7 @@ class HltvController extends Controller
     {
         $this->redirect($this->generateUrl('steam'));
         
-        /*$em = $this->getDoctrine()->getEntityManager();
+        /*$em = $this->getDoctrine()->getManager();
         $serv = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
 
         if (!$serv) {
@@ -77,7 +77,7 @@ class HltvController extends Controller
     {
         $this->redirect($this->generateUrl('steam'));
         
-        /*$em = $this->getDoctrine()->getEntityManager();
+        /*$em = $this->getDoctrine()->getManager();
         $serv = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
         $request = $this->get('request');
 
@@ -122,7 +122,7 @@ class HltvController extends Controller
     {
         $this->redirect($this->generateUrl('steam'));
         
-        /*$em = $this->getDoctrine()->getEntityManager();
+        /*$em = $this->getDoctrine()->getManager();
         $serv = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
 
         if (!$serv) {

@@ -28,7 +28,7 @@ class RconController extends BaseRconController
 {
     public function getEntityRepository()
     {
-        return $this->getDoctrine()->getEntityManager()->getRepository('DPSteamServerBundle:SteamServer');
+        return $this->getDoctrine()->getManager()->getRepository('DPSteamServerBundle:SteamServer');
     }
     
     public function getRconFromServer(GameServer $server)

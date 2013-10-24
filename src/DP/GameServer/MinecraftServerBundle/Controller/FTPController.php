@@ -26,7 +26,7 @@ class FTPController extends BaseFTPController
 {
     public function getEntityRepository()
     {
-        return $this->get('doctrine')->getEntityManager()->getRepository('DPMinecraftServerBundle:MinecraftServer');
+        return $this->get('doctrine')->getManager()->getRepository('DPMinecraftServerBundle:MinecraftServer');
     }
     
     public function getBaseRoute()

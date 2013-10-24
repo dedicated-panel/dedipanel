@@ -115,7 +115,7 @@ class AutoInstallStep implements StepInterface
         $errors = array();
         
         // Création du schemaTool et récupération des metadatas relatives aux entités
-        $em = $this->container->get('doctrine')->getEntityManager();
+        $em = $this->container->get('doctrine')->getManager();
         $schemaTool = new SchemaTool($em);
         $metadatas = $em->getMetadataFactory()->getAllMetadata();
         

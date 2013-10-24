@@ -69,7 +69,7 @@ class ConfigModifier
                     $entity->setInstallationStatus(0);
                 }
                 
-                $em = $args->getEntityManager();
+                $em = $args->getManager();
                 $uow = $em->getUnitOfWork();
                 $meta = $em->getClassMetadata(get_class($entity));
                 $uow->recomputeSingleEntityChangeSet($meta, $entity);

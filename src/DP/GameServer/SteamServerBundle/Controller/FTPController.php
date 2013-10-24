@@ -27,7 +27,7 @@ class FTPController extends BaseFTPController
 {
     public function getEntityRepository()
     {
-        return $this->get('doctrine')->getEntityManager()->getRepository('DPSteamServerBundle:SteamServer');
+        return $this->get('doctrine')->getManager()->getRepository('DPSteamServerBundle:SteamServer');
     }
     
     public function getBaseRoute()
