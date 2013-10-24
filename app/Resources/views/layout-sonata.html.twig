@@ -90,30 +90,31 @@ file that was distributed with this source code.
                 {% endfor %}
             {% endfor %}
         {% endblock %}
-
-        <div style="float: right">
-            {% if _actions is not empty %}
-                <div class="span4 offset2">
-                    {{ _actions|raw }}
-                </div>
-            {% endif %}
-            {%block actions %}{% endblock %}
-        </div>
             
-        {% if _title is not empty %}
-            <div class="page-header">
-                <h1>{{ _title|raw }}</h1>
+        <div class="clearfix">
+            <div class="pull-left">
+                {% if _title is not empty %}
+                    <div class="page-header">
+                        <h1>{{ _title|raw }}</h1>
+                    </div>
+                {% elseif action is defined %}
+                    {% block title %}                
+                        {% for menu in admin.breadcrumbs(action) %}
+                            {% if not loop.last  %}
+                                {{ menu.label }}
+                            {% endif %}
+                            
+                        {% endfor %}
+                    {% endblock %}
+                {% endif %}
             </div>
-        {% elseif action is defined %}
-            {% block title %}                
-                {% for menu in admin.breadcrumbs(action) %}
-                    {% if not loop.last  %}
-                        {{ menu.label }}
-                    {% endif %}
-                    
-                {% endfor %}
-            {% endblock %}
-        {% endif %}
+    
+            <div class="pull-right" style="margin-top:30px">
+                {% if _actions is not empty %}
+                    {{ _actions|raw }}
+                {% endif %}
+            </div>
+        </div>
 
         <div class="row-fluid">
             {% if _side_menu is not empty %}
