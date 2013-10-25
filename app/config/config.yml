@@ -10,6 +10,8 @@ parameters:
     sonata.user.admin.group.class:              Sonata\UserBundle\Admin\Entity\GroupAdmin
     sonata.user.admin.group.controller:         SonataAdminBundle:CRUD
     sonata.user.admin.group.translation_domain: %sonata.user.admin.user.translation_domain%
+    
+    sonata.user.editable_role_builder.class: Application\Sonata\UserBundle\Security\EditableRolesBuilder
 
 framework:
     #esi:             ~
