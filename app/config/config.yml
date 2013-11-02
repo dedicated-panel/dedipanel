@@ -1,17 +1,6 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
-    
-parameters:
-    sonata.user.admin.user.class:              Application\Sonata\UserBundle\Admin\Entity\UserAdmin
-    sonata.user.admin.user.controller:         SonataAdminBundle:CRUD
-    sonata.user.admin.user.translation_domain: SonataUserBundle
-
-    sonata.user.admin.group.class:              Sonata\UserBundle\Admin\Entity\GroupAdmin
-    sonata.user.admin.group.controller:         SonataAdminBundle:CRUD
-    sonata.user.admin.group.translation_domain: %sonata.user.admin.user.translation_domain%
-    
-    sonata.user.editable_role_builder.class: Application\Sonata\UserBundle\Security\EditableRolesBuilder
 
 framework:
     #esi:             ~
@@ -83,57 +72,12 @@ swiftmailer:
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb'
     firewall_name: main
-    user_class: Application\Sonata\UserBundle\Entity\User
-    group:
-        group_class: Application\Sonata\UserBundle\Entity\Group
-    profile:  # Authentication Form
-      form:
-          type:               app_user_profile
-          name:               app_user_profile_form
-          validation_groups:  [Authentication] # Please note : this is not the default value
-
-sonata_user:
-    security_acl: true
-    impersonating_route: _welcome
-    class:
-        user:               Application\Sonata\UserBundle\Entity\User
-        group:              Application\Sonata\UserBundle\Entity\Group
-
-    profile:  # Profile Form (firstname, lastname, etc ...)
+    user_class: DP\Core\UserBundle\Entity\User
+    profile:
         form:
-            type:               sonata_user_profile
-            handler:            sonata.user.profile.form.handler.default
-            name:               sonata_user_profile_form
-            validation_groups:  [Profile]
-
-sonata_admin:
-    security:
-        handler: sonata.admin.security.handler.role
-        information:
-            EDIT: EDIT
-            LIST: LIST
-            CREATE: CREATE
-            VIEW: VIEW
-            DELETE: DELETE
-            EXPORT: EXPORT
-            OPERATOR: OPERATOR
-            MASTER: MASTER
-        # information:
-        # admin_permissions: [CREATE, LIST, DELETE, UNDELETE, OPERATOR, MASTER]
-        # permission related to the objects
-        # object_permissions: [VIEW, EDIT, DELETE, UNDELETE, OPERATOR, MASTER, OWNER]
-    templates:
-        layout: ::layout-sonata.html.twig
-#        layout: SonataAdminBundle::standard_layout.html.twig
-    dashboard:
-        groups:
-            sonata_user:
-                items: [sonata.user.admin.user, sonata.user.admin.group]
-                label: admin.group.user
-            dp_game:
-                items: [dp.game.admin.game, dp.game.admin.plugin]
-                label: admin.group.game
-    persist_filters: true
+            type: app_user_profile
+            name: app_user_profile
+            validation_groups: [ Authentication ]
 
 sonata_block:
     default_contexts: [cms]

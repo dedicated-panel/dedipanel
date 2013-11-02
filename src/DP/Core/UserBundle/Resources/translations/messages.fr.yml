@@ -14,22 +14,11 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-DPUserBundle:
-    resource: "@DPCoreUserBundle/Resources/config/routing.yml"
-    prefix:   /
+ROLE_USER: Utilisateur
+ROLE_SUPER_ADMIN: Super-Admin
+ROLE_ALLOWED_TO_SWITCH: Autoriser a switcher de compte
 
-DPGameServerBundle:
-    resource: "@DPGameServerBundle/Resources/config/routing.yml"
-    prefix:   /game/
-
-DPMachineBundle:
-    resource: "@DPMachineBundle/Resources/config/routing.yml"
-    prefix:   /machine/
-
-_welcome:
-    pattern: /
-
-# Internal routing configuration to handle ESI
-#_internal:
-#   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
-#   prefix:   /_internal
+admin: Administration
+machine_admin: Gestion des machines
+title_user_account: Compte
+title_user_edit_profile: Modification des identifiants

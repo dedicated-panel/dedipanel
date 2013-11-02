@@ -1,8 +1,8 @@
 <?php
 
-namespace Application\Sonata\UserBundle\Extension;
+namespace DP\Core\UserBundle\Extension;
 
-use Application\Sonata\UserBundle\Service\UpdateWatcherService;
+use DP\Core\UserBundle\Service\UpdateWatcherService;
 
 class UpdateWatcherExtension extends \Twig_Extension
 {

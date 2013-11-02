@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Sonata\UserBundle\Service;
+namespace DP\Core\UserBundle\Service;
 
 class UpdateWatcherService
 {

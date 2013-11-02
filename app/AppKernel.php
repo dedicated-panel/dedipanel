@@ -21,16 +21,11 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             
             new FOS\UserBundle\FOSUserBundle(),
-            new Sonata\UserBundle\SonataUserBundle('FOSUserBundle'),
-            new Sonata\AdminBundle\SonataAdminBundle(),
-            new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
-            new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
             new Sonata\jQueryBundle\SonatajQueryBundle(),
             new Sonata\BlockBundle\SonataBlockBundle(),
-            new Sonata\CacheBundle\SonataCacheBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             
-            new Application\Sonata\UserBundle\ApplicationSonataUserBundle(),
+            new DP\Core\UserBundle\DPCoreUserBundle(),
             new DP\Core\GameBundle\DPGameBundle(),
             new DP\Core\MachineBundle\DPMachineBundle(),
             

@@ -39,12 +39,12 @@
             <div class="user-profile">
                     <img alt="{{ app.user.username }}" src="{{ asset('images/icones/blue-user-icon.png') }}">
                     <div class="user-info">
-                            <a href="{{ path('sonata_user_profile_edit_authentication') }}">{{ app.user.username }}</a>
+                            <a href="{{ path('fos_user_profile_edit') }}">{{ app.user.username }}</a>
                             <em>
                             
                             </em>
                             <ul class="user-profile-actions">
-                                    <li><a href="{{ path('sonata_user_profile_edit_authentication') }}"> 
+                                    <li><a href="{{ path('fos_user_profile_edit') }}"> 
                                             <span data-icon="&#x58;"></span>
                                     </a></li>
                                     <li><a href="{{ path('fos_user_security_logout') }}">
@@ -79,12 +79,12 @@
                             <span class="menu-label">{{ 'menu.machine'|trans }}</span>
                         </a>
                     </li>
-                    <li class="admin">
+                    {# <li class="admin">
                         <a href="{{ path('sonata_admin_dashboard') }}">
                             <span data-icon="&#x25;" class="icon"></span>
                             <span class="menu-label">{{ 'menu.admin'|trans }}</span>
                         </a>
-                    </li>
+                    </li> #}
                 </ul>
             </nav>
                 

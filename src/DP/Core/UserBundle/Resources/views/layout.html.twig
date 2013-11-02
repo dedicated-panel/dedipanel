@@ -30,8 +30,11 @@
         </a>
     </header>
     
-    {% block title %}{% endblock %}
-    <div id="logbox">{% block body %}{% endblock %}</div>
+    <div id="logbox">
+        <h1 id="titre">Connexion</h1>
+        
+        {% block fos_user_content %}{% endblock %}
+    </div>
 
     <footer>
         <p>

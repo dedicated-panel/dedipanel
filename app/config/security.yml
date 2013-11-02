@@ -14,12 +14,9 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-parameters:
-    security.acl.permission.map.class: Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap
-
 security:   
     role_hierarchy:
-        ROLE_ADMIN:       [ROLE_USER, ROLE_SONATA_ADMIN]
+        ROLE_ADMIN:       [ROLE_USER, ROLE_DP_ADMIN]
         ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
     
     encoders:
@@ -27,10 +24,10 @@ security:
 
     providers:
         fos_userbundle:
-            id: fos_user.user_manager
+            id: fos_user.user_provider.username
     
-    firewalls:        
-        configurator:
+    firewalls:
+        installer:
             pattern: ^/installer
             anonymous: true
         
@@ -42,52 +39,15 @@ security:
             pattern: ^/(login$|register|resetting)
             anonymous: true
         
-        admin:
-            switch_user:        true
-            context:            user
-            pattern:            /
-            form_login:
-                provider:       fos_userbundle
-                login_path:     /login
-                use_forward:    false
-                check_path:     /login_check
-                failure_path:   null
-                use_referer:    true
-            logout:
-                path:           /logout
-                target:         /login
-        
         main:
             pattern: ^/
-            context: user
             form_login:
                 provider: fos_userbundle
-                remember_me: true
-                login_path:     /login                
-                use_forward:    false
-                check_path:     /login_check
-                failure_path:   null
-            remember_me:
-                key: %secret%                
-                lifetime:    3600
+                csrf_provider: form.csrf_provider
             anonymous: false
             logout: true
     
     access_control:
         - { path: ^/installer, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        # -> custom access control for the admin area of the URL
-        - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/login-check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        # -> end
-
-        # Secured part of the site
-        # This config requires being logged for the whole site and having the admin role for the admin part.
-        # Change these rules to adapt them to your needs
-        - { path: ^/admin, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
-        #- { path: ^/_internal, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
-
-    acl:
-        connection: default
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY } 
