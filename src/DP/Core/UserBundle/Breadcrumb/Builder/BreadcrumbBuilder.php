@@ -24,6 +24,7 @@ class BreadcrumbBuilder
             $itemOptions = array();
             
             $itemOptions['route']  = $item->getRoute();
+            $itemOptions['routeParameters'] = $item->getRouteParameters();
             $itemOptions['extras'] = $item->getExtras();
             
             $menu->addChild($item->getLabel(), $itemOptions);

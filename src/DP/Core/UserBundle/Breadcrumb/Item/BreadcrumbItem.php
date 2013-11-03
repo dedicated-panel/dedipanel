@@ -7,12 +7,14 @@ class BreadcrumbItem implements BreadcrumbItemInterface
     private $label;
     private $route;
     private $extras;
+    private $routeParameters;
     
     
-    public function __construct($label = null, $route = null, array $extras = array())
+    public function __construct($label = null, $route = null, array $routeParameters = array(), array $extras = array())
     {
         $this->label = $label;
         $this->route = $route;
+        $this->routeParameters = $routeParameters;
         $this->extras = $extras;
     }
     
@@ -38,6 +40,18 @@ class BreadcrumbItem implements BreadcrumbItemInterface
     public function getRoute()
     {
         return $this->route;
+    }
+    
+    public function setRouteParameters(array $parameters = array())
+    {
+        $this->routeParameters = $parameters;
+        
+        return $this;
+    }
+    
+    public function getRouteParameters()
+    {
+        return $this->routeParameters;
     }
     
     public function setExtras(array $extras)

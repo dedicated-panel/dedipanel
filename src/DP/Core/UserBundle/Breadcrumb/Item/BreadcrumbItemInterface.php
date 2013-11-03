@@ -35,6 +35,21 @@ interface BreadcrumbItemInterface
     public function getRoute();
     
     /**
+     * Set route parameters
+     * 
+     * @param array $parameters
+     * @return BreadcrumItemInterface
+     */
+    public function setRouteParameters(array $parameters = array());
+    
+    /**
+     * Get route parameters
+     * 
+     * @return arrray
+     */
+    public function getRouteParameters();
+    
+    /**
      * Set extras
      * 
      * @param array $extras
