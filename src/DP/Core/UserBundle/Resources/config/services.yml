@@ -14,3 +14,20 @@ services:
         arguments: [@app_user.update_watcher.service]
         tags:
             - { name: twig.extension }
+    
+    dp_menu.factory:
+        class: DP\Core\UserBundle\Menu\Factory\MenuFactory
+        arguments: [ "@router" ]
+    
+    app_user.menu_builder:
+        class: DP\Core\UserBundle\Menu\Builder\MenuBuilder
+        arguments: [ "@dp_menu.factory", "@router" ]
+    
+    app_user.menu.main:
+        class: DP\Core\Menu\MenuItem
+        factory_service: app_user.menu_builder
+        factory_method: createMainMenu
+        arguments: [ "@request" ]
+        scope: request
+        tags:
+            - { name: knp_menu.menu, alias: main }
