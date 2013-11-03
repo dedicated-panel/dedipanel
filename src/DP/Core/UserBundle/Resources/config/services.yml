@@ -21,7 +21,7 @@ services:
     
     app_user.menu_builder:
         class: DP\Core\UserBundle\Menu\Builder\MenuBuilder
-        arguments: [ "@dp_menu.factory", "@router" ]
+        arguments: [ "@dp_menu.factory" ]
     
     app_user.menu.main:
         class: DP\Core\Menu\MenuItem
@@ -31,3 +31,25 @@ services:
         scope: request
         tags:
             - { name: knp_menu.menu, alias: main }
+    
+    dp_breadcrumb.items_bag:
+        class: DP\Core\UserBundle\Breadcrumb\Bag\BreadcrumbItemsBag
+    
+    app_user.breadcrumb_builder:
+        class: DP\Core\UserBundle\Breadcrumb\Builder\BreadcrumbBuilder
+        arguments: [ "@knp_menu.factory" ]
+    
+    app_user.menu.breadcrumb:
+        class: Knp\Menu\MenuItem
+        factory_service: app_user.breadcrumb_builder
+        factory_method: createBreadcrumb
+        arguments: [ "@request", "@dp_breadcrumb.items_bag" ]
+        scope: request
+        tags:
+            - { name: knp_menu.menu, alias: breadcrumb}
+
+    dp_breadcrumb.extension:
+        class: DP\Core\UserBundle\Extension\BreadcrumbExtension
+        arguments: [ "@knp_menu.helper" ]
+        tags:
+            - { name: twig.extension }

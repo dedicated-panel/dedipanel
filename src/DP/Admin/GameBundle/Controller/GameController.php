@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use DP\Core\GameBundle\Entity\Game;
 use DP\Admin\GameBundle\Form\GameType;
+use DP\Core\UserBundle\Breadcrumb\Item\BreadcrumbItem;
 
 /**
  * Game controller.
@@ -24,6 +25,10 @@ class GameController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('DPGameBundle:Game')->findAll();
+        
+        $this->createBreadcrumb(array(
+            array('label' => 'menu.admin.game', 'route' => 'game_admin'), 
+        ));
 
         return $this->render('DPAdminGameBundle:Game:index.html.twig', array(
             'entities' => $entities,
@@ -219,5 +224,19 @@ class GameController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+    
+    private function createBreadcrumb(array $elements)
+    {
+        $items = array();
+        $items[] = new BreadcrumbItem('&#8962;', '_welcome', array('safe_label' => true));
+        
+        foreach ($elements AS $el) {
+            if (isset($el['label']) && !empty($el['label'])) {                
+                $items[] = new BreadcrumbItem($el['label'], $el['route']);
+            }
+        }
+        
+        $this->get('dp_breadcrumb.items_bag')->setItems($items);
     }
 }

@@ -1,4 +1,4 @@
-{% extends 'knp_menu.html.twig' %}
+{% extends 'DPCoreUserBundle::knp_menu.html.twig' %}
 
 {% macro attributes(attributes) %}
 {% for name, value in attributes %}
@@ -42,36 +42,10 @@
         {%- set childrenClasses = childrenClasses|merge(['menu_level_' ~ item.level]) %}
         {%- set listAttributes = item.childrenAttributes|merge({'class': childrenClasses|join(' ') }) %}
         {{ block('list') }}
+        
+        {%- if item.actsLikeLast == false%} 
+            <span class="divider">/</span>
+        {% endif %}
     </li>
 {% endif %}
-{% endblock %}
-
-{% block linkElement %}
-    <a href="{{ item.uri }}"{{ _self.attributes(item.linkAttributes) }}>
-        {% if item.getExtra('icon') is not null %}
-            <span data-icon="{{ item.getExtra('icon') }}" class="icon"></span>
-        {% endif %}
-        
-        {{ block('label') }}
-    </a>
-{% endblock %}
-
-{% block spanElement %}
-    <span{{ _self.attributes(item.labelAttributes) }}>
-        {% if item.getExtra('icon') is not null %}
-            <span data-icon="{{ item.getExtra('icon') }}" class="icon"></span>
-        {% endif %}
-        
-        {{ block('label') }}
-    </span>
-{% endblock %}
-
-{% block label %}
-    <span class="menu-label">
-        {% if options.allow_safe_labels and item.getExtra('safe_label', false) %}
-            {{ item.label|raw }}
-        {% else %}
-            {{ item.label|trans(item.getExtra('translation_params', {}), item.getExtra('translation_domain', 'messages')) }}
-        {% endif %}
-    </span>
 {% endblock %}

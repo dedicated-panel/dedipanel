@@ -79,8 +79,15 @@
         <section id="inner">
             <h1 id="title" class="clearfix">{% block title %}{% endblock %}</h1>
             
-            <div id="page-content" class="clearfix">{% block body %}{% endblock %}</div>
-
+            <div id="page-content" class="clearfix">
+                <div class="container-fluid">
+                    {% block breadcrumb %}
+                        {{ breadcrumb_render('breadcrumb') }}
+                    {% endblock %}
+                    
+                    {% block body %}{% endblock %}
+                </div>
+            </div>
         </section>
     </div>
 {% endblock %}
