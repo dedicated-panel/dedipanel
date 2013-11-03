@@ -44,8 +44,14 @@
         {% if required %}
             <span class="symfony-form-required" title="This field is required">*</span>
         {% endif %}
-        
-        <!-- &nbsp;<span>:</span> -->
     </label>
 {% endspaceless %}
 {% endblock form_label %}
+
+{% block button_row %}
+{% spaceless %}
+    <div class="well form-actions">
+        {{ form_widget(form) }}
+    </div>
+{% endspaceless %}
+{% endblock button_row %}

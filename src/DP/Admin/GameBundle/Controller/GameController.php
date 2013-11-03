@@ -26,12 +26,11 @@ class GameController extends Controller
 
         $entities = $em->getRepository('DPGameBundle:Game')->findAll();
         
-        $this->createBreadcrumb(array(
-            array('label' => 'menu.admin.game', 'route' => 'game_admin'), 
-        ));
+        $this->createBreadcrumb();
 
         return $this->render('DPAdminGameBundle:Game:index.html.twig', array(
             'entities' => $entities,
+            'csrf_token' => $this->getCsrfToken('game_admin.batch'), 
         ));
     }
     /**
@@ -93,27 +92,6 @@ class GameController extends Controller
     }
 
     /**
-     * Finds and displays a Game entity.
-     *
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('DPGameBundle:Game')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Game entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('DPAdminGameBundle:Game:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
-    }
-
-    /**
      * Displays a form to edit an existing Game entity.
      *
      */
@@ -129,6 +107,10 @@ class GameController extends Controller
 
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
+        
+        $this->createBreadcrumb(array(
+            array('label' => $entity->getName(), 'route' => 'game_admin_edit', 'params' => array('id' => $entity->getId())), 
+        ));
 
         return $this->render('DPAdminGameBundle:Game:edit.html.twig', array(
             'entity'      => $entity,
@@ -151,7 +133,7 @@ class GameController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('submit', 'submit', array('label' => 'admin.update', 'attr' => array('class' => 'btn btn-primary')));
 
         return $form;
     }
@@ -176,8 +158,12 @@ class GameController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('game_admin_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('game_admin'));
         }
+        
+        $this->createBreadcrumb(array(
+            array('label' => $entity->getName(), 'route' => 'game_admin_edit', 'params' => array('id' => $entity->getId())), 
+        ));
 
         return $this->render('DPAdminGameBundle:Game:edit.html.twig', array(
             'entity'      => $entity,
@@ -221,22 +207,37 @@ class GameController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('game_admin_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', 'submit', array('label' => 'admin.delete'))
             ->getForm()
         ;
     }
     
-    private function createBreadcrumb(array $elements)
+    private function createBreadcrumb(array $elements = array())
     {
         $items = array();
-        $items[] = new BreadcrumbItem('&#8962;', '_welcome', array('safe_label' => true));
+        $items[] = new BreadcrumbItem('&#8962;', '_welcome', array(), array('safe_label' => true));
+        $items[] = new BreadcrumbItem('menu.admin.game', 'game_admin');
         
         foreach ($elements AS $el) {
             if (isset($el['label']) && !empty($el['label'])) {                
-                $items[] = new BreadcrumbItem($el['label'], $el['route']);
+                $items[] = new BreadcrumbItem($el['label'], $el['route'], $el['params']);
             }
         }
         
         $this->get('dp_breadcrumb.items_bag')->setItems($items);
+    }
+
+    /**
+     * @param $intention
+     *
+     * @return string
+     */
+    public function getCsrfToken($intention)
+    {
+        if (!$this->container->has('form.csrf_provider')) {
+            return false;
+        }
+
+        return $this->container->get('form.csrf_provider')->generateCsrfToken($intention);
     }
 }

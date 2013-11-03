@@ -24,3 +24,11 @@ admin.group.game: Jeux & Plugins
 Dashboard: Administration
 
 updateAvailable: Version %versionAvailable% disponible !
+
+admin:
+    back: Retour à la liste
+    yes: Oui
+    no: Non
+    update: Mettre à jour
+    delete: Supprimer
+    edit_title: Editer "%name"

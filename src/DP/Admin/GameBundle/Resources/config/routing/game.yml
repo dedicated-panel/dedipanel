@@ -2,10 +2,6 @@ game_admin:
     pattern:  /
     defaults: { _controller: "DPAdminGameBundle:Game:index" }
 
-game_admin_show:
-    pattern:  /{id}/show
-    defaults: { _controller: "DPAdminGameBundle:Game:show" }
-
 game_admin_new:
     pattern:  /new
     defaults: { _controller: "DPAdminGameBundle:Game:new" }

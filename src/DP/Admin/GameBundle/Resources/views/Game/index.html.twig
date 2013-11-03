@@ -1,43 +1,43 @@
 {% extends '::layout-online.html.twig' %}
 
 {% block title %}
-    {{ 'game.list'|trans }}
+    {{ 'game_admin.list'|trans }}
 {% endblock %}
 
 {% block topActions %}
 {% endblock %}
 
 {% block body -%}
-    <h2>{{ 'game.list'|trans }}</h2>
+    <h2>{{ 'game_admin.list'|trans }}</h2>
     
     <ul id="top-nav" class="nav nav-tabs">
         <li>
             <a href="{{ path('game_admin_new') }}">
-                {{ 'game.add'|trans }}
+                {{ 'game_admin.add'|trans }}
             </a>
         </li>
     </ul>
     
     <form action="{{ path('game_admin_batch_delete') }}" method="post">
-        {# <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" /> #}
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
         
         <table class="table table-bordered table-striped records_list">
             <thead>
                 <tr>
                     <th><input type="checkbox" id="batch_all" /></th>
-                    <th>{{ 'game_admin.name'|trans }}</th>
-                    <th>{{ 'game_admin.launchName'|trans }}</th>
-                    <th>{{ 'game_admin.type'|trans }}</th>
-                    <th>{{ 'game_admin.bin'|trans }}</th>
-                    <th>{{ 'game_admin.map'|trans }}</th>
-                    <th>{{ 'game_admin.available'|trans }}</th>
+                    <th>{{ 'game_admin.fields.name'|trans }}</th>
+                    <th>{{ 'game_admin.fields.launchName'|trans }}</th>
+                    <th>{{ 'game_admin.fields.type'|trans }}</th>
+                    <th>{{ 'game_admin.fields.bin'|trans }}</th>
+                    <th>{{ 'game_admin.fields.map'|trans }}</th>
+                    <th>{{ 'game_admin.fields.available'|trans }}</th>
                 </tr>
             </thead>
             <tbody>
             {% for entity in entities %}
                 <tr>
                     <td><input type="checkbox" name="idx[]" value="{{ entity.id }}" /></td>
-                    <td><a href="{{ path('game_admin_show', { 'id': entity.id }) }}">{{ entity.name }}</a></td>
+                    <td><a href="{{ path('game_admin_edit', { 'id': entity.id }) }}">{{ entity.name }}</a></td>
                     <td>{{ entity.launchName }}</td>
                     <td>{{ entity.type }}</td>
                     <td>{{ entity.bin }}</td>
@@ -45,10 +45,10 @@
                     <td>
                         {% if entity.available == true %}
                             <i class="icon-ok-circle"></i> 
-                            oui
+                            {{ 'admin.yes'|trans }}
                         {% else %}
                             <i class="icon-ban-circle"></i>
-                            non
+                            {{ 'admin.no'|trans }}
                         {% endif %}
                     </td>
                 </tr>
@@ -59,7 +59,7 @@
                     <th colspan="7">
                         <div class="form-inline">
                             <select name="action">
-                                <option name="delete">{{ 'game_admin.delete'|trans }}</option>
+                                <option name="delete">{{ 'admin.delete'|trans }}</option>
                             </select>
                             
                             <input type="submit" value="OK" class="btn btn-primary btn-small" />

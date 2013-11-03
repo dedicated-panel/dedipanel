@@ -1,16 +1,20 @@
 {% extends '::layout-online.html.twig' %}
 
+{% block title %}
+    {{ 'game_admin.edit'|trans }}
+{% endblock %}
+
 {% block body -%}
-    <h1>Game edit</h1>
+    <h2>{{ 'admin.edit_title'|trans({ '%name': entity.name }) }}</h2>
+    
+    <ul id="top-nav" class="nav nav-tabs">
+        <li>{{ form(delete_form) }}</li>
+        <li>
+            <a href="{{ path('game_admin') }}">
+                {{ 'admin.back'|trans }}
+            </a>
+        </li>
+    </ul>
 
     {{ form(edit_form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('game_admin') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
 {% endblock %}

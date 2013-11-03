@@ -119,7 +119,7 @@ class Game
      * @var boolean $available
      *
      * @ORM\Column(name="available", type="boolean")
-     * @Assert\NotBlank(message="game.assert.available")
+     * @Assert\NotNull(message="game.assert.available")
      */
     private $available = true;
 
