@@ -10,4 +10,18 @@ $(function() {
             });
         });
     }
+    
+    if ($('#batch_all').length > 0) {
+        var el = $('#batch_all');
+        var checkboxes = el.parents('form').find('input[name^=idx]');
+        
+        el.bind('click', function () {
+            if (el.attr('checked')) {
+                checkboxes.attr('checked', 'checked');
+            }
+            else {
+                checkboxes.removeAttr('checked');
+            }
+        });
+    }
 });

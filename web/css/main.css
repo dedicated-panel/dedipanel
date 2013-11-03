@@ -289,14 +289,26 @@ body {
     min-height: 155px;
 }
 
+#inner #page-content .container-fluid {
+    padding-left: 10px;
+}
+
+#inner #page-content .container-fluid .breadcrumb {
+    margin: 0 0 10px 0;
+}
+
+#inner #page-content .container-fluid .inner-body {
+    padding-left: 10px;
+}
+
 #inner #page-content h2 {
     font-size: 18px;
     font-weight: normal;
-    margin: 0 0 20px;
+    margin: 0 0 30px 0;
     border-bottom: 1px solid #ddd;
 }
 #inner #page-content #top-nav {
-    margin: -58px 10px 0 0;
+    margin: -68px 0 0 0;
     float: right;    
 }
 #inner #page-content #top-nav li a:hover, 
@@ -404,11 +416,6 @@ input[type="checkbox"] + label > .symfony-form-required/*,
     margin-left: 10px;
 }
 
-/* Empêche le flotement du label "Par page" sur l'action list (en bas de la liste) */
-.sonata-ba-list tbody:nth-of-type(2) .form-inline .pull-right .control-label {
-    float: none;
-}
-
 .template-server-cfg {
     width: 350px;
     height: 250px;
@@ -417,4 +424,8 @@ input[type="checkbox"] + label > .symfony-form-required/*,
 form ul[id*="roles"].unstyled li label {
     width: auto;
     float: none;
+}
+
+form table.records_list tfoot select {
+    width: auto;
 }

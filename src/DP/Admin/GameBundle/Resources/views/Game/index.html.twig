@@ -4,72 +4,69 @@
     {{ 'game.list'|trans }}
 {% endblock %}
 
+{% block topActions %}
+{% endblock %}
+
 {% block body -%}
-    <div class="page-header">
-        <h1>{{ 'game.list'|trans }}</h1>
-    </div>
-
-    <table class="records_list">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Installname</th>
-                <th>Steamcmd</th>
-                <th>Launchname</th>
-                <th>Bin</th>
-                <th>Appid</th>
-                <th>Appmod</th>
-                <th>Orangebox</th>
-                <th>Source</th>
-                <th>Map</th>
-                <th>Available</th>
-                <th>Bindir</th>
-                <th>Sourceimagesmaps</th>
-                <th>Type</th>
-                <th>Configtemplate</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('game_admin_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.name }}</td>
-                <td>{{ entity.installName }}</td>
-                <td>{{ entity.steamCmd }}</td>
-                <td>{{ entity.launchName }}</td>
-                <td>{{ entity.bin }}</td>
-                <td>{{ entity.appId }}</td>
-                <td>{{ entity.appMod }}</td>
-                <td>{{ entity.orangebox }}</td>
-                <td>{{ entity.source }}</td>
-                <td>{{ entity.map }}</td>
-                <td>{{ entity.available }}</td>
-                <td>{{ entity.binDir }}</td>
-                <td>{{ entity.sourceImagesMaps }}</td>
-                <td>{{ entity.type }}</td>
-                <td>{{ entity.configTemplate }}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('game_admin_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('game_admin_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <ul>
+    <h2>{{ 'game.list'|trans }}</h2>
+    
+    <ul id="top-nav" class="nav nav-tabs">
         <li>
             <a href="{{ path('game_admin_new') }}">
-                Create a new entry
+                {{ 'game.add'|trans }}
             </a>
         </li>
     </ul>
+    
+    <form action="{{ path('game_admin_batch_delete') }}" method="post">
+        {# <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" /> #}
+        
+        <table class="table table-bordered table-striped records_list">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="batch_all" /></th>
+                    <th>{{ 'game_admin.name'|trans }}</th>
+                    <th>{{ 'game_admin.launchName'|trans }}</th>
+                    <th>{{ 'game_admin.type'|trans }}</th>
+                    <th>{{ 'game_admin.bin'|trans }}</th>
+                    <th>{{ 'game_admin.map'|trans }}</th>
+                    <th>{{ 'game_admin.available'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for entity in entities %}
+                <tr>
+                    <td><input type="checkbox" name="idx[]" value="{{ entity.id }}" /></td>
+                    <td><a href="{{ path('game_admin_show', { 'id': entity.id }) }}">{{ entity.name }}</a></td>
+                    <td>{{ entity.launchName }}</td>
+                    <td>{{ entity.type }}</td>
+                    <td>{{ entity.bin }}</td>
+                    <td>{{ entity.map }}</td>
+                    <td>
+                        {% if entity.available == true %}
+                            <i class="icon-ok-circle"></i> 
+                            oui
+                        {% else %}
+                            <i class="icon-ban-circle"></i>
+                            non
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="7">
+                        <div class="form-inline">
+                            <select name="action">
+                                <option name="delete">{{ 'game_admin.delete'|trans }}</option>
+                            </select>
+                            
+                            <input type="submit" value="OK" class="btn btn-primary btn-small" />
+                        </div>
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
 {% endblock %}

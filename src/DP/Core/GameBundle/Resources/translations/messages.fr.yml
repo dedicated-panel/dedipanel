@@ -19,7 +19,6 @@ game.list: Liste des jeux
 game.add: Ajouter un jeu
 game.show: Voir
 game.edit: Modifier
-game.del: Supprimer
 game.back: Retour à la liste
 
 game.id: ID

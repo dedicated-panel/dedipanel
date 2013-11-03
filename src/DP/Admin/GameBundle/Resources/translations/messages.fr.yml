@@ -1,0 +1,15 @@
+game_admin:
+    name: Nom
+    installName: Nom utilisé par l'installateur
+    launchName: Nom utilisé pour le lancement
+    bin: Binaire
+    available: Disponible ?
+    binDir: Répertoire contenant le binaire (depuis la racine du jeu)
+    map: Map de lancement
+    sourceImagesMaps: URL source pour les images de map
+    configTemplate: Fichier de config par défaut (server.cfg)
+    type: Type
+    orangebox: Orangebox
+    steamCmd: SteamCmd
+    source: Source
+    delete: Supprimer
