@@ -19,12 +19,6 @@ layout.website: Site web
 profil.profil: Profil
 profil.logout: Déconnexion
 
-menu.home: Accueil
-menu.machine: Gestion des machines
-menu.steam: Serveurs Steam
-menu.minecraft: Serveurs Minecraft
-menu.admin: Administration
-
 admin.group.user: Utilisateurs
 admin.group.game: Jeux & Plugins
 Dashboard: Administration

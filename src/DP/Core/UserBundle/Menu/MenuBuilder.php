@@ -16,6 +16,10 @@ class MenuBuilder extends ContainerAware
         $menu->addChild('menu.minecraft', array('route' => 'minecraft', 'extras' => array('icon' => 'R')));
         $menu->addChild('menu.machine', array('route' => 'machine', 'extras' => array('icon' => 'Q')));
         
+        $admin = $builder->createItem('menu.admin.admin', array('extras' => array('icon' => '%')));
+        $admin->addChild('menu.admin.game', array('route' => 'game_admin'));
+        $menu->addChild($admin);
+        
         $menu->setCurrentUri($this->container->get('request')->getRequestUri());
         
         return $menu;

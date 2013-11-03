@@ -182,13 +182,19 @@ body {
 }
 #sidebar nav li {
     display: block;
-    height: 40px;
+    min-height: 40px;
     border-top: 1px solid #1A1A1A;
     border-bottom: 1px solid #292929;
-    padding: 0 0 0 10px;
     background: #222;
+    padding-left: 10px;
+    overflow: hidden;
 }
-#sidebar nav li a {
+#sidebar nav li.tree.open ul {
+    display: block;
+}
+#sidebar nav li a, 
+#sidebar nav li > span, 
+#sidebar nav li.current_ancestor.in > span{
     text-decoration: none;
     height: 40px;
     font-size: 15px;
@@ -197,23 +203,52 @@ body {
     transition: color 0.4s ease-out;
     -moz-transition: color 0.4s ease-out;
     -webkit-transition: color 0.4s ease-out;
+    border: 0;
+}
+#sidebar nav li > span {
+    cursor: pointer;
 }
 #sidebar nav li.current a, 
-#sidebar nav li a:hover {
+#sidebar nav li a:hover, 
+#sidebar nav li.current > span, 
+#sidebar nav li > span:hover, 
+#sidebar nav li.current_ancestor > span, 
+#sidebar nav li.current_ancestor.in > span:hover {
     border-right: 5px solid #4cb0ff;
     color: #4cb0ff;
     transition: color 0.2s ease-out;
     -moz-transition: color 0.2s ease-out;
     -webkit-transition: color 0.2s ease-out;
 }
-#sidebar nav li a .icon {
+#sidebar nav li.current_ancestor.in > span {
+    transition: border 0.4s ease-out;
+    -moz-transition: border 0.4s ease-out;
+    -webkit-transition: border 0.4s ease-out;
+    border: 0;
+}
+#sidebar nav li a .icon, 
+#sidebar nav li > span .icon {
     float: left;
     margin: 8px 11px 0 20px;
     font-size: 24px;
 }
-#sidebar nav li a .menu-label {
+#sidebar nav li a .menu-label, 
+#sidebar nav li > span .menu-label {
     float: left;
     margin: 11px 0 0 0;
+}
+#sidebar nav li > ul {
+    border-bottom: 0;
+    display: none;
+}
+#sidebar nav li.current_ancestor > ul {
+    display: block;
+}
+#sidebar nav li > ul li {
+    padding-left: 55px;
+}
+#sidebar nav li > ul li:last-child {
+    border-bottom: 0;
 }
 
 /* Inner */

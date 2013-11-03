@@ -18,8 +18,16 @@ ROLE_USER: Utilisateur
 ROLE_SUPER_ADMIN: Super-Admin
 ROLE_ALLOWED_TO_SWITCH: Autoriser a switcher de compte
 
-admin: Administration
 machine_admin: Gestion des machines
 title_user_account: Compte
 title_user_edit_profile: Modification des identifiants
 forgotten_password: Mot de passe oublié !
+
+menu:
+    home: Accueil
+    machine: Gestion des machines
+    steam: Serveurs Steam
+    minecraft: Serveurs Minecraft
+    admin: 
+        admin: Administration
+        game: Gestion des jeux
