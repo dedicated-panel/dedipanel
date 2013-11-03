@@ -1,0 +1,23 @@
+{% extends 'knp_menu.html.twig' %}
+
+{% macro attributes(attributes) %}
+{% for name, value in attributes %}
+    {%- if value is not none and value is not sameas(false) -%}
+        {{- ' %s="%s"'|format(name, value is sameas(true) ? name|e : value|e)|raw -}}
+    {%- endif -%}
+{%- endfor -%}
+{% endmacro %}
+
+{% block linkElement %}        
+    <a href="{{ item.uri }}"{{ _self.attributes(item.linkAttributes) }}>
+        {% if item.getExtra('icon') is not null %}
+            <span data-icon="{{ item.getExtra('icon') }}" class="icon"></span>
+        {% endif %}
+        
+        {{ block('label') }}
+    </a>
+{% endblock %}
+
+{% block label %}
+    <span class="menu-label">{{ item.label|trans(item.getExtra('translation_params', {}), item.getExtra('translation_domain', 'messages')) }}</span>
+{% endblock %}

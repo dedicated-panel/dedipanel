@@ -54,38 +54,7 @@
                     </div>
             </div>
             <nav>
-                <ul>
-                    <li class="home">
-                        <a href="{{ path('_welcome') }}">
-                            <span data-icon="&#x50;" class="icon"></span>
-                            <span class="menu-label">{{ 'menu.home'|trans }}</span>
-                        </a>
-                    </li>
-                    <li class="steam">
-                        <a href="{{ path('steam') }}">
-                            <span data-icon="&#x6f;" class="icon"></span>
-                            <span class="menu-label">{{ 'menu.steam'|trans }}</span>
-                        </a>
-                    </li>
-                    <li class="minecraft">
-                        <a href="{{ path('minecraft') }}">
-                            <span data-icon="&#x52;" class="icon"></span>
-                            <span class="menu-label">{{ 'menu.minecraft'|trans }}</span>
-                        </a>
-                    </li>                
-                    <li class="machine">
-                        <a href="{{ path('machine') }}">
-                            <span data-icon="&#x51;" class="icon"></span>
-                            <span class="menu-label">{{ 'menu.machine'|trans }}</span>
-                        </a>
-                    </li>
-                    {# <li class="admin">
-                        <a href="{{ path('sonata_admin_dashboard') }}">
-                            <span data-icon="&#x25;" class="icon"></span>
-                            <span class="menu-label">{{ 'menu.admin'|trans }}</span>
-                        </a>
-                    </li> #}
-                </ul>
+                {{ knp_menu_render('DPCoreUserBundle:MenuBuilder:mainMenu') }}
             </nav>
                 
             <footer>

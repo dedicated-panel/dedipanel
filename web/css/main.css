@@ -198,9 +198,9 @@ body {
     -moz-transition: color 0.4s ease-out;
     -webkit-transition: color 0.4s ease-out;
 }
+#sidebar nav li.current a, 
 #sidebar nav li a:hover {
     border-right: 5px solid #4cb0ff;
-
     color: #4cb0ff;
     transition: color 0.2s ease-out;
     -moz-transition: color 0.2s ease-out;
