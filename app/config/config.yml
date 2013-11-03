@@ -76,8 +76,15 @@ fos_user:
     profile:
         form:
             type: app_user_profile
-            name: app_user_profile
-            validation_groups: [ Authentication ]
+            name: app_user_profile_form
+            validation_groups: [ Profile, Default, Authentication ]
+    group:
+        group_class: DP\Core\UserBundle\Entity\Group
+        group_manager: fos_user.group_manager.default
+        form:
+            type: fos_user_group
+            name: fos_user_group_form
+            validation_groups: [ Registration, Default ]
 
 sonata_block:
     default_contexts: [cms]
