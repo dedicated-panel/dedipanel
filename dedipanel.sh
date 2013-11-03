@@ -116,6 +116,10 @@ case "$1" in
 	verify)
 		# Tableau contenant la liste des erreurs
 		errors=()
+		
+		# Fais un apt-get update pour être sur que les éventuelles installations 
+		# de paquets consécutives à ce verify fonctionne correctement
+		apt-get update >/dev/null
 
 		# Vérifie que tous les packets nécessaires sont installés
 		packets=('git' 'sqlite' 'mysql-server' 'php5-sqlite' 'apache2' 'php5' 'php5-mysql' 'curl' 'php5-intl' 'php-apc' 'phpmyadmin')
