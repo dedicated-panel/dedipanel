@@ -22,3 +22,4 @@ admin: Administration
 machine_admin: Gestion des machines
 title_user_account: Compte
 title_user_edit_profile: Modification des identifiants
+forgotten_password: Mot de passe oublié !

@@ -2,34 +2,41 @@
 
 {% trans_default_domain 'FOSUserBundle' %}
 
+{% block title %}
+    {{ 'resetting.title'|trans }}
+{% endblock %}
+
 {% block fos_user_content %}
-{% if error %}
-    <div>{{ error|trans }}</div>
-{% endif %}
-
-<form action="{{ path("fos_user_security_check") }}" method="post">
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-
-    <div class="input-prepend">
-        <span class="add-on">
-            <i class="icon-user"></i>
-        </span>
-        <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" placeholder="{{ 'security.login.username'|trans }}" />
-    </div>
-
-    <div class="input-prepend">
-        <span class="add-on">
-            <i class="icon-lock"></i>
-        </span>
-        <input type="password" id="password" name="_password" required="required" placeholder="{{ 'security.login.password'|trans }}" />
-    </div>
-
-    <div class="actions">
-        <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-        <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+    {% if error %}
+        <div class="alert alert-danger">{{ error|trans }}</div>
+    {% endif %}
+    
+    <form action="{{ path("fos_user_security_check") }}" method="post">
+        <div class="input-prepend">
+            <span class="add-on">
+                <i class="icon-user"></i>
+            </span>
+            <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" placeholder="{{ 'security.login.username'|trans }}" />
+        </div>
+    
+        <div class="input-prepend last">
+            <span class="add-on">
+                <i class="icon-lock"></i>
+            </span>
+            <input type="password" id="password" name="_password" required="required" placeholder="{{ 'security.login.password'|trans }}" />
+        </div>
+    
+        <div class="actions">
+            <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+            <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+            
+            <br />
+            <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" class="btn btn-primary btn-medium" />
+            
+            <br /><br />
+            <a href="{{ path("fos_user_resetting_request") }}">{{ 'resetting.link'|trans({}, 'FOSUserBundle') }}</a>
+        </div>
         
-        <br /><br />
-        <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" class="btn btn-primary btn-medium" />
-    </div>
-</form>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+    </form>
 {% endblock fos_user_content %}

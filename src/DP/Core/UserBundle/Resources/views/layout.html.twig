@@ -31,7 +31,7 @@
     </header>
     
     <div id="logbox">
-        <h1 id="titre">Connexion</h1>
+        <h1 id="titre">{% block title %}{% endblock %}</h1>
         
         {% block fos_user_content %}{% endblock %}
     </div>
