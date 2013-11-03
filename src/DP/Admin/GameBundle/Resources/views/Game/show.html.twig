@@ -1,0 +1,88 @@
+{% extends '::layout-online.html.twig' %}
+
+{% block body -%}
+    <h1>Game</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ entity.name }}</td>
+            </tr>
+            <tr>
+                <th>Installname</th>
+                <td>{{ entity.installName }}</td>
+            </tr>
+            <tr>
+                <th>Steamcmd</th>
+                <td>{{ entity.steamCmd }}</td>
+            </tr>
+            <tr>
+                <th>Launchname</th>
+                <td>{{ entity.launchName }}</td>
+            </tr>
+            <tr>
+                <th>Bin</th>
+                <td>{{ entity.bin }}</td>
+            </tr>
+            <tr>
+                <th>Appid</th>
+                <td>{{ entity.appId }}</td>
+            </tr>
+            <tr>
+                <th>Appmod</th>
+                <td>{{ entity.appMod }}</td>
+            </tr>
+            <tr>
+                <th>Orangebox</th>
+                <td>{{ entity.orangebox }}</td>
+            </tr>
+            <tr>
+                <th>Source</th>
+                <td>{{ entity.source }}</td>
+            </tr>
+            <tr>
+                <th>Map</th>
+                <td>{{ entity.map }}</td>
+            </tr>
+            <tr>
+                <th>Available</th>
+                <td>{{ entity.available }}</td>
+            </tr>
+            <tr>
+                <th>Bindir</th>
+                <td>{{ entity.binDir }}</td>
+            </tr>
+            <tr>
+                <th>Sourceimagesmaps</th>
+                <td>{{ entity.sourceImagesMaps }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ entity.type }}</td>
+            </tr>
+            <tr>
+                <th>Configtemplate</th>
+                <td>{{ entity.configTemplate }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('game_admin') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('game_admin_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

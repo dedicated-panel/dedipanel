@@ -1,0 +1,16 @@
+{% extends '::layout-online.html.twig' %}
+
+{% block body -%}
+    <h1>Game edit</h1>
+
+    {{ form(edit_form) }}
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('game_admin') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}
