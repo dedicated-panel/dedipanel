@@ -48,8 +48,12 @@ class GameController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('game_admin_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('game_admin'));
         }
+        
+        $this->createBreadcrumb(array(
+            array('label' => 'game_admin.add', 'route' => 'game_admin_new'), 
+        ));
 
         return $this->render('DPAdminGameBundle:Game:new.html.twig', array(
             'entity' => $entity,
@@ -84,6 +88,10 @@ class GameController extends Controller
     {
         $entity = new Game();
         $form   = $this->createCreateForm($entity);
+        
+        $this->createBreadcrumb(array(
+            array('label' => 'game_admin.add', 'route' => 'game_admin_new'), 
+        ));
 
         return $this->render('DPAdminGameBundle:Game:new.html.twig', array(
             'entity' => $entity,
@@ -219,8 +227,10 @@ class GameController extends Controller
         $items[] = new BreadcrumbItem('menu.admin.game', 'game_admin');
         
         foreach ($elements AS $el) {
-            if (isset($el['label']) && !empty($el['label'])) {                
-                $items[] = new BreadcrumbItem($el['label'], $el['route'], $el['params']);
+            if (isset($el['label']) && !empty($el['label'])) {
+                $params = isset($el['params']) ? $el['params'] : array();
+                
+                $items[] = new BreadcrumbItem($el['label'], $el['route'], $params);
             }
         }
         

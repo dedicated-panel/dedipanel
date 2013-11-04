@@ -32,7 +32,7 @@
     {%- endif %}
 {# displaying the item #}
     <li{{ _self.attributes(attributes) }}>
-        {%- if item.uri is not empty and (not item.current or options.currentAsLink) %}
+        {%- if item.uri is not empty and (not item.actsLikeLast or options.currentAsLink) %}
         {{ block('linkElement') }}
         {%- else %}
         {{ block('spanElement') }}
