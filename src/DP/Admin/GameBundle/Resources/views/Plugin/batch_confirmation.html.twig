@@ -5,13 +5,13 @@
 
     <ul id="top-nav" class="nav nav-tabs">
         <li>
-            <a href="{{ path('plugin_admin') }}">
+            <a href="{{ path(baseRoute ~ '_admin') }}">
                 {{ 'admin.back'|trans }}
             </a>
         </li>
     </ul>
     
-    <form action="{{ path('plugin_admin_batch_delete') }}" method="post">
+    <form action="{{ path(baseRoute ~ '_admin_batch_delete') }}" method="post">
         <input type="hidden" name="_method" value="DELETE" />
         <input type="hidden" name="confirmation" value="ok" />
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
@@ -25,7 +25,7 @@
         <div class="well form-actions">
             <input type="submit" class="btn btn-danger" value="{{ 'admin.execute_btn'|trans }}" />
             {{ 'admin.or'|trans }}
-            <a class="btn btn-success" href="{{ path('plugin_admin') }}">{{ 'admin.go_back'|trans }}</a>
+            <a class="btn btn-success" href="{{ path(baseRoute ~ '_admin') }}">{{ 'admin.go_back'|trans }}</a>
         </div>
     </form>
 {% endblock %}

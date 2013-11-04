@@ -5,7 +5,7 @@
     
     <ul id="top-nav" class="nav nav-tabs">
         <li>
-            <a href="{{ path('plugin_admin_new') }}">
+            <a href="{{ path(baseRoute ~ '_admin_new') }}">
                 {{ 'plugin_admin.add'|trans }}
             </a>
         </li>
@@ -20,7 +20,7 @@
         {% endfor %}
     {% endfor %}
     
-    <form action="{{ path('plugin_admin_batch_delete') }}" method="post">
+    <form action="{{ path(baseRoute ~ '_admin_batch_delete') }}" method="post">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
         
         <table class="table table-bordered table-striped records_list">
@@ -37,7 +37,7 @@
             {% for entity in entities %}
                 <tr>
                     <td><input type="checkbox" name="idx[]" value="{{ entity.id }}" /></td>
-                    <td><a href="{{ path('plugin_admin_edit', { 'id': entity.id }) }}">{{ entity.name }}</a></td>
+                    <td><a href="{{ path(baseRoute ~ '_admin_edit', { 'id': entity.id }) }}">{{ entity.name }}</a></td>
                     <td>{{ entity.version }}</td>
                     <td>{{ entity.downloadUrl }}</td>
                     <td>{{ entity.scriptName }}</td>

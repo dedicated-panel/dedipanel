@@ -1,7 +1,7 @@
 {% extends '::layout-online.html.twig' %}
 
 {% block title %}
-    {{ 'game_admin.edit'|trans }}
+    {{ baseRoute ~ '_admin.edit'|trans }}
 {% endblock %}
 
 {% block body -%}
@@ -10,7 +10,7 @@
     <ul id="top-nav" class="nav nav-tabs">
         <li>{{ form(delete_form) }}</li>
         <li>
-            <a href="{{ path('game_admin') }}">
+            <a href="{{ path(baseRoute ~ '_admin') }}">
                 {{ 'admin.back'|trans }}
             </a>
         </li>

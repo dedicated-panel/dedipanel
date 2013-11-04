@@ -5,17 +5,17 @@
 {% endblock %}
 
 {% block body %}
-    <h2>{{ 'game_admin.batch_title'|trans }}</h2>
+    <h2>{{ baseRoute ~ '_admin.batch_title'|trans }}</h2>
 
     <ul id="top-nav" class="nav nav-tabs">
         <li>
-            <a href="{{ path('game_admin') }}">
+            <a href="{{ path(baseRoute ~ '_admin') }}">
                 {{ 'admin.back'|trans }}
             </a>
         </li>
     </ul>
     
-    <form action="{{ path('game_admin_batch_delete') }}" method="post">
+    <form action="{{ path(baseRoute ~ '_admin_batch_delete') }}" method="post">
         <input type="hidden" name="_method" value="DELETE" />
         <input type="hidden" name="confirmation" value="ok" />
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
@@ -29,7 +29,7 @@
         <div class="well form-actions">
             <input type="submit" class="btn btn-danger" value="{{ 'admin.execute_btn'|trans }}" />
             {{ 'admin.or'|trans }}
-            <a class="btn btn-success" href="{{ path('game_admin') }}">{{ 'admin.go_back'|trans }}</a>
+            <a class="btn btn-success" href="{{ path(baseRoute ~ '_admin') }}">{{ 'admin.go_back'|trans }}</a>
         </div>
     </form>
 {% endblock %}

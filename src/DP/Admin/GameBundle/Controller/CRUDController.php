@@ -17,7 +17,7 @@ abstract class CRUDController extends Controller
     
     
     /**
-     * Lists all Game entities.
+     * Lists all entities.
      *
      */
     public function indexAction()
@@ -34,7 +34,7 @@ abstract class CRUDController extends Controller
     }
 
     /**
-     * Displays a form to create a new Game entity.
+     * Displays a form to create a new entity.
      *
      */
     public function newAction()
@@ -56,7 +56,7 @@ abstract class CRUDController extends Controller
     }
     
     /**
-     * Creates a new Game entity.
+     * Creates a new entity.
      *
      */
     public function createAction(Request $request)
@@ -89,7 +89,7 @@ abstract class CRUDController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing Game entity.
+     * Displays a form to edit an existing entity.
      *
      */
     public function editAction($id)
@@ -117,7 +117,7 @@ abstract class CRUDController extends Controller
     }
     
     /**
-     * Edits an existing Game entity.
+     * Edits an existing entity.
      *
      */
     public function updateAction(Request $request, $id)
@@ -155,7 +155,7 @@ abstract class CRUDController extends Controller
     }
     
     /**
-     * Deletes a Game entity.
+     * Deletes a entity.
      *
      */
     public function deleteAction(Request $request, $id)
@@ -229,7 +229,7 @@ abstract class CRUDController extends Controller
         
             return $this->render('DPAdminGameBundle:' . $this->getTplDir() . ':batch_confirmation.html.twig', array(
                 'elements' => $elements, 
-                'csrf_token' => $this->getCsrfToken('game_admin.batch'), 
+                'csrf_token' => $this->getCsrfToken($baseRoute . '_admin.batch'), 
                 'baseRoute' => $this->getBaseRoute(), 
             ));
         }
@@ -290,9 +290,9 @@ abstract class CRUDController extends Controller
     }
 
     /**
-    * Creates a form to create a Game entity.
+    * Creates a form to create an entity.
     *
-    * @param Game $entity The entity
+    * @param $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
@@ -309,7 +309,7 @@ abstract class CRUDController extends Controller
     }
 
     /**
-    * Creates a form to edit a Game entity.
+    * Creates a form to edit a entity.
     *
     * @param $entity The entity
     *
@@ -328,7 +328,7 @@ abstract class CRUDController extends Controller
     }
 
     /**
-     * Creates a form to delete a Game entity by id.
+     * Creates a form to delete a entity by id.
      *
      * @param mixed $id The entity id
      *
