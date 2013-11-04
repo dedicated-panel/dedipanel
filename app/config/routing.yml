@@ -18,8 +18,8 @@ DPUserBundle:
     resource: "@DPCoreUserBundle/Resources/config/routing.yml"
     prefix:   /
 
-DPAdminGameBundle:
-    resource: "@DPAdminGameBundle/Resources/config/routing.yml"
+DPAdminBundle:
+    resource: "@DPAdminBundle/Resources/config/routing.yml"
     prefix:   /admin/
 
 DPGameServerBundle:

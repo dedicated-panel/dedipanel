@@ -1,0 +1,7 @@
+DPAdminGameBundle:
+    resource: "@DPAdminGameBundle/Resources/config/routing.yml"
+    prefix:   /
+
+dp_admin_user:
+    resource: "@DPAdminUserBundle/Resources/config/routing.yml"
+    prefix:   /
