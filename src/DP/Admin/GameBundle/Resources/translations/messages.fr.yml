@@ -2,6 +2,7 @@ game_admin:
     list: Liste des jeux
     add: Ajouter un jeu
     edit: Modifier un jeu
+    batch_title: Action de masse sur les jeux
     
     fields:
         name: Nom

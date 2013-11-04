@@ -19,13 +19,13 @@ game_admin_update:
     pattern:  /{id}/update
     defaults: { _controller: "DPAdminGameBundle:Game:update" }
     requirements: { _method: post|put }
-
-game_admin_delete:
-    pattern:  /{id}/delete
-    defaults: { _controller: "DPAdminGameBundle:Game:delete" }
-    requirements: { _method: post|delete }
     
 game_admin_batch_delete:
     pattern:  /batch/delete
     defaults: { _controller: "DPAdminGameBundle:Game:batchDelete" }
+    requirements: { _method: post|delete }
+
+game_admin_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "DPAdminGameBundle:Game:delete" }
     requirements: { _method: post|delete }

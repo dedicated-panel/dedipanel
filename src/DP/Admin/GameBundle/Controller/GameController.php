@@ -4,7 +4,7 @@ namespace DP\Admin\GameBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use DP\Core\GameBundle\Entity\Game;
 use DP\Admin\GameBundle\Form\GameType;
 use DP\Core\UserBundle\Breadcrumb\Item\BreadcrumbItem;
@@ -249,5 +249,73 @@ class GameController extends Controller
         }
 
         return $this->container->get('form.csrf_provider')->generateCsrfToken($intention);
+    }
+
+    /**
+     * Validate CSRF token for action with out form
+     *
+     * @param string $intention
+     *
+     * @throws \RuntimeException
+     */
+    public function validateCsrfToken($intention)
+    {
+        if (!$this->container->has('form.csrf_provider')) {
+            return;
+        }
+
+        if (!$this->container->get('form.csrf_provider')->isCsrfTokenValid($intention, $this->get('request')->request->get('_csrf_token', false))) {
+            throw new HttpException(400, "The csrf token is not valid, CSRF attack ?");
+        }
+    }
+    
+    public function batchDeleteAction(Request $request)
+    {
+        $this->validateCsrfToken('game_admin.batch');
+        
+        $confirmation = $request->get('confirmation', false) == 'ok';
+        $elements = $request->get('idx');
+        
+        if (empty($elements)) {
+            $this->get('session')->getFlashBag()->add('dp_flash_info', 'admin.batch.empty');
+            
+            return $this->redirect($this->generateUrl('game_admin'));
+        }
+        
+        if ($confirmation) {
+            $em   = $this->getDoctrine()->getManager();
+            $repo = $em->getRepository('DPGameBundle:Game');
+            $i = 0;
+            
+            foreach ($elements AS $el) {
+                $entity = $repo->find($el);
+                $em->remove($entity);
+                
+                ++$i;
+                
+                // Vide le cache de l'ORM afin de ne pas consommer trop de mémoire
+                if (($i % 50) == 0) {
+                    $em->flush();
+                    $em->clear();
+                }
+            }
+            
+            $em->flush();
+            $em->clear();
+            
+            $this->get('session')->getFlashBag()->add('dp_flash_info', 'admin.batch.delete_succeed');
+            
+            return $this->redirect($this->generateUrl('game_admin'));
+        }
+        else {
+            $this->createBreadcrumb(array(
+                array('label' => 'admin.batch.title', 'route' => 'game_admin_batch_delete'), 
+            ));
+        
+            return $this->render('DPAdminGameBundle:Game:batch_confirmation.html.twig', array(
+                'elements' => $elements, 
+                'csrf_token' => $this->getCsrfToken('game_admin.batch'), 
+            ));
+        }
     }
 }

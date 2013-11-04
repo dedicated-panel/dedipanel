@@ -4,9 +4,6 @@
     {{ 'game_admin.list'|trans }}
 {% endblock %}
 
-{% block topActions %}
-{% endblock %}
-
 {% block body -%}
     <h2>{{ 'game_admin.list'|trans }}</h2>
     
@@ -17,6 +14,15 @@
             </a>
         </li>
     </ul>
+    
+    {% for notice_level in ['success','error','info', 'warning'] %}
+        {% set session_var = 'dp_flash_' ~ notice_level %}
+        {% for flash in app.session.flashbag.get(session_var) %}
+            <div class="alert {{ 'alert-' ~ notice_level }}">
+                {{ flash|trans }}
+            </div>
+        {% endfor %}
+    {% endfor %}
     
     <form action="{{ path('game_admin_batch_delete') }}" method="post">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
