@@ -3,6 +3,9 @@ game_admin:
     add: Ajouter un jeu
     edit: Modifier un jeu
     batch_title: Action de masse sur les jeux
+    creation_succeed: Le jeu a été créé avec succès.
+    update_succeed: Le jeu a été mis à jour avec succès.
+    delete_succeed: Le jeu a été supprimé avec succès.
     
     fields:
         name: Nom

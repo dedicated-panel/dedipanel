@@ -47,6 +47,8 @@ class GameController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
+            
+            $this->get('session')->getFlashBag()->add('dp_flash_info', 'game_admin.creation_succeed');
 
             return $this->redirect($this->generateUrl('game_admin'));
         }
@@ -75,7 +77,7 @@ class GameController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', array('label' => 'admin.create', 'attr' => array('class' => 'btn btn-primary')));
 
         return $form;
     }
@@ -165,6 +167,8 @@ class GameController extends Controller
 
         if ($editForm->isValid()) {
             $em->flush();
+            
+            $this->get('session')->getFlashBag()->add('dp_flash_info', 'game_admin.update_succeed');
 
             return $this->redirect($this->generateUrl('game_admin'));
         }
@@ -198,6 +202,8 @@ class GameController extends Controller
 
             $em->remove($entity);
             $em->flush();
+            
+            $this->get('session')->getFlashBag()->add('dp_flash_info', 'game_admin.delete_succeed');
         }
 
         return $this->redirect($this->generateUrl('game_admin'));

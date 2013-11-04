@@ -30,6 +30,7 @@ admin:
     go_back: Retourner à la liste
     yes: Oui
     no: Non
+    create: Créer
     update: Mettre à jour
     delete: Supprimer
     edit_title: Editer "%name"
