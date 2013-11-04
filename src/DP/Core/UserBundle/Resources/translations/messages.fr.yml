@@ -31,3 +31,4 @@ menu:
     admin: 
         admin: Administration
         game: Gestion des jeux
+        plugin: Gestion des plugins

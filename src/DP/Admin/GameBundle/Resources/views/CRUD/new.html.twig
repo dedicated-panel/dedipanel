@@ -1,0 +1,19 @@
+{% extends '::layout-online.html.twig' %}
+
+{% block title %}
+    {{ (baseRoute ~ '_admin.add')|trans }}
+{% endblock %}
+
+{% block body -%}
+    <h2>{{ (baseRoute ~ '_admin.add')|trans }}</h2>
+
+    <ul id="top-nav" class="nav nav-tabs">
+        <li>
+            <a href="{{ path(baseRoute ~ '_admin') }}">
+                {{ 'admin.back'|trans }}
+            </a>
+        </li>
+    </ul>
+
+    {{ form(form) }}
+{% endblock %}

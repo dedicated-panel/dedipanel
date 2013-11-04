@@ -26,6 +26,7 @@ class MenuBuilder
         
         $admin = $this->factory->createItem('menu.admin.admin', array('extras' => array('icon' => '%')));
         $admin->addChild('menu.admin.game', array('route' => 'game_admin'));
+        $admin->addChild('menu.admin.plugin', array('route' => 'plugin_admin'));
         $menu->addChild($admin);
         
         $menu->setCurrentUri($request->getRequestUri());

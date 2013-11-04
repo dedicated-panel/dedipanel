@@ -1,0 +1,31 @@
+plugin_admin:
+    pattern:  /
+    defaults: { _controller: "DPAdminGameBundle:Plugin:index" }
+
+plugin_admin_new:
+    pattern:  /new
+    defaults: { _controller: "DPAdminGameBundle:Plugin:new" }
+
+plugin_admin_create:
+    pattern:  /create
+    defaults: { _controller: "DPAdminGameBundle:Plugin:create" }
+    requirements: { _method: post }
+
+plugin_admin_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "DPAdminGameBundle:Plugin:edit" }
+
+plugin_admin_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "DPAdminGameBundle:Plugin:update" }
+    requirements: { _method: post|put }
+    
+plugin_admin_batch_delete:
+    pattern:  /batch/delete
+    defaults: { _controller: "DPAdminGameBundle:Plugin:batchDelete" }
+    requirements: { _method: post|delete }
+
+plugin_admin_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "DPAdminGameBundle:Plugin:delete" }
+    requirements: { _method: post|delete }
