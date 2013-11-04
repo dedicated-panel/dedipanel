@@ -4,6 +4,7 @@ namespace DP\Admin\GameBundle\Controller;
 
 use DP\Core\GameBundle\Entity\Plugin;
 use DP\Admin\GameBundle\Form\PluginType;
+use DP\Admin\AdminBundle\Controller\CRUDController;
 
 class PluginController extends CRUDController
 {

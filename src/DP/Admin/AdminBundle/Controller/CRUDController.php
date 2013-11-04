@@ -1,6 +1,6 @@
 <?php
 
-namespace DP\Admin\GameBundle\Controller;
+namespace DP\Admin\AdminBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

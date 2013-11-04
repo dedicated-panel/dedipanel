@@ -1,9 +1,9 @@
 <?php
-
 namespace DP\Admin\GameBundle\Controller;
 
 use DP\Core\GameBundle\Entity\Game;
 use DP\Admin\GameBundle\Form\GameType;
+use DP\Admin\AdminBundle\Controller\CRUDController;
 
 /**
  * Game controller.
