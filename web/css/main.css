@@ -437,6 +437,10 @@ form ul[id*="roles"].unstyled li label {
     float: none;
 }
 
+form table.records_list .batch-selector {
+    width: 24px;
+}
+
 form table.records_list tfoot select {
     width: auto;
 }

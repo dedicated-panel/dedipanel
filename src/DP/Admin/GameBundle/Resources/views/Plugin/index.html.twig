@@ -26,7 +26,7 @@
         <table class="table table-bordered table-striped records_list">
             <thead>
                 <tr>
-                    <th><input type="checkbox" id="batch_all" /></th>
+                    <th class="batch-selector"><input type="checkbox" id="batch_all" /></th>
                     <th>{{ (descriptor.name ~ '.fields.name')|trans }}</th>
                     <th>{{ (descriptor.name ~ '.fields.version')|trans }}</th>
                     <th>{{ (descriptor.name ~ '.fields.download_url')|trans }}</th>
@@ -36,7 +36,7 @@
             <tbody>
             {% for entity in entities %}
                 <tr>
-                    <td><input type="checkbox" name="idx[]" value="{{ entity.id }}" /></td>
+                    <td class="batch-selector"><input type="checkbox" name="idx[]" value="{{ entity.id }}" /></td>
                     <td><a href="{{ path(descriptor.routes.edit, { 'id': entity.id }) }}">{{ entity.name }}</a></td>
                     <td>{{ entity.version }}</td>
                     <td>{{ entity.downloadUrl }}</td>
