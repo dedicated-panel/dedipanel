@@ -1,12 +1,12 @@
 {% extends 'DPAdminBundle:CRUD:index.html.twig' %}
 
 {% block body -%}
-    <h2>{{ 'plugin_admin.list'|trans }}</h2>
+    <h2>{{ (descriptor.name ~ '.list')|trans }}</h2>
     
     <ul id="top-nav" class="nav nav-tabs">
         <li>
-            <a href="{{ path(baseRoute ~ '_admin_new') }}">
-                {{ 'plugin_admin.add'|trans }}
+            <a href="{{ path(descriptor.routes.new) }}">
+                {{ (descriptor.name ~ '.add')|trans }}
             </a>
         </li>
     </ul>
@@ -20,24 +20,24 @@
         {% endfor %}
     {% endfor %}
     
-    <form action="{{ path(baseRoute ~ '_admin_batch_delete') }}" method="post">
+    <form action="{{ path(descriptor.routes.batch_delete) }}" method="post">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
         
         <table class="table table-bordered table-striped records_list">
             <thead>
                 <tr>
                     <th><input type="checkbox" id="batch_all" /></th>
-                    <th>{{ 'plugin_admin.fields.name'|trans }}</th>
-                    <th>{{ 'plugin_admin.fields.version'|trans }}</th>
-                    <th>{{ 'plugin_admin.fields.download_url'|trans }}</th>
-                    <th>{{ 'plugin_admin.fields.install_script'|trans }}</th>
+                    <th>{{ (descriptor.name ~ '.fields.name')|trans }}</th>
+                    <th>{{ (descriptor.name ~ '.fields.version')|trans }}</th>
+                    <th>{{ (descriptor.name ~ '.fields.download_url')|trans }}</th>
+                    <th>{{ (descriptor.name ~ '.fields.install_script')|trans }}</th>
                 </tr>
             </thead>
             <tbody>
             {% for entity in entities %}
                 <tr>
                     <td><input type="checkbox" name="idx[]" value="{{ entity.id }}" /></td>
-                    <td><a href="{{ path(baseRoute ~ '_admin_edit', { 'id': entity.id }) }}">{{ entity.name }}</a></td>
+                    <td><a href="{{ path(descriptor.routes.edit, { 'id': entity.id }) }}">{{ entity.name }}</a></td>
                     <td>{{ entity.version }}</td>
                     <td>{{ entity.downloadUrl }}</td>
                     <td>{{ entity.scriptName }}</td>

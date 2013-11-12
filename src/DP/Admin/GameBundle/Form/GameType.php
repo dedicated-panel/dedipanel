@@ -51,6 +51,6 @@ class GameType extends AbstractType
      */
     public function getName()
     {
-        return 'dp_core_gamebundle_game';
+        return 'dp_admin_gamebundle_game';
     }
 }

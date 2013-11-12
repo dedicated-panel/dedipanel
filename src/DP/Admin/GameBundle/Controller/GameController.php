@@ -1,8 +1,6 @@
 <?php
 namespace DP\Admin\GameBundle\Controller;
 
-use DP\Core\GameBundle\Entity\Game;
-use DP\Admin\GameBundle\Form\GameType;
 use DP\Admin\AdminBundle\Controller\CRUDController;
 
 /**
@@ -11,28 +9,8 @@ use DP\Admin\AdminBundle\Controller\CRUDController;
  */
 class GameController extends CRUDController
 {
-    protected function createEntity()
+    protected function getDescriptor()
     {
-        return new Game();
-    }
-    
-    protected function getRepository()
-    {
-        return $this->getDoctrine()->getManager()->getRepository('DPGameBundle:Game');
-    }
-    
-    protected function getBaseRoute()
-    {
-        return 'game';
-    }
-    
-    protected function getTplDir()
-    {
-        return 'Game';
-    }
-    
-    protected function getFormType()
-    {
-        return new GameType();
+        return $this->get('dp.descriptor.game_admin');
     }
 }

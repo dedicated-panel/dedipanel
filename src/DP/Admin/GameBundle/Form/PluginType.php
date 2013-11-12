@@ -25,7 +25,7 @@ class PluginType extends AbstractType
             ->add('version', null, array('label' => 'plugin_admin.fields.version'))
             ->add('download_url', null, array('label' => 'plugin_admin.fields.download_url'))
             ->add('scriptName', null, array('label' => 'plugin_admin.fields.install_script'))
-            ->add('games', null, array('label' => 'plugin_admin.fields.games'))
+            ->add('games', null, array('label' => 'plugin_admin.fields.games', 'by_reference' => false))
         ;
     }
 

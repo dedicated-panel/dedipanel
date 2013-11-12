@@ -9,12 +9,7 @@ use DP\Core\UserBundle\Breadcrumb\Item\BreadcrumbItem;
 
 abstract class CRUDController extends Controller
 {
-    abstract protected function createEntity();
-    abstract protected function getRepository();
-    abstract protected function getBaseRoute();
-    abstract protected function getTplDir();
-    abstract protected function getFormType();
-    
+    abstract protected function getDescriptor();
     
     /**
      * Lists all entities.
@@ -22,14 +17,14 @@ abstract class CRUDController extends Controller
      */
     public function indexAction()
     {
-        $entities = $this->getRepository()->findAll();
+        $descriptor = $this->getDescriptor();
         
         $this->createBreadcrumb();
 
-        return $this->render('DPAdminGameBundle:' . $this->getTplDir() . ':index.html.twig', array(
-            'entities' => $entities,
-            'csrf_token' => $this->getCsrfToken($this->getBaseRoute() . '_admin.batch'), 
-            'baseRoute' => $this->getBaseRoute(), 
+        return $this->render($descriptor->getTemplate('index'), array(
+            'entities' => $descriptor->getRepository()->findAll(),
+            'csrf_token' => $this->getCsrfToken($descriptor->getName() . '.batch'),
+            'descriptor' => $descriptor, 
         ));
     }
 
@@ -39,19 +34,19 @@ abstract class CRUDController extends Controller
      */
     public function newAction()
     {
-        $entity    = $this->createEntity();
-        $baseRoute = $this->getBaseRoute();
+        $descriptor = $this->getDescriptor();
+        $entity     = $descriptor->getFactory()->createEntity();
         
         $form   = $this->createCreateForm($entity);
         
         $this->createBreadcrumb(array(
-            array('label' => $baseRoute . '_admin.add', 'route' => $baseRoute . '_admin_new'), 
+            array('label' => $descriptor->getName() . '.add', 'route' => $descriptor->getRoute('new')), 
         ));
 
-        return $this->render('DPAdminGameBundle:' . $this->getTplDir() . ':new.html.twig', array(
+        return $this->render($descriptor->getTemplate('new'), array(
             'entity' => $entity,
-            'form'   => $form->createView(),
-            'baseRoute' => $this->getBaseRoute(), 
+            'form'   => $form->createView(), 
+            'descriptor' => $descriptor, 
         ));
     }
     
@@ -61,30 +56,28 @@ abstract class CRUDController extends Controller
      */
     public function createAction(Request $request)
     {
-        $entity    = $this->createEntity();
-        $baseRoute = $this->getBaseRoute();
+        $descriptor = $this->getDescriptor();
+        $entity     = $descriptor->getFactory()->createEntity();
         
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+            $this->getDescriptor()->getProcessor()->createProcess($entity);
             
-            $this->get('session')->getFlashBag()->add('dp_flash_info', $baseRoute . '_admin.creation_succeed');
+            $this->get('session')->getFlashBag()->add('dp_flash_info', $descriptor->getName() . '.creation_succeed');
 
-            return $this->redirect($this->generateUrl($baseRoute . '_admin'));
+            return $this->redirect($this->generateUrl($descriptor->getRoute('index')));
         }
         
         $this->createBreadcrumb(array(
-            array('label' => $baseRoute . '_admin.add', 'route' => $baseRoute . '_admin_new'), 
+            array('label' => $descriptor->getName() . '.add', 'route' => $descriptor->getRoute('new')), 
         ));
 
-        return $this->render('DPAdminGameBundle:' . $this->getTplDir() . ':new.html.twig', array(
+        return $this->render($descriptor->getTemplate('new'), array(
             'entity' => $entity,
-            'form'   => $form->createView(),
-            'baseRoute' => $this->getBaseRoute(), 
+            'form'   => $form->createView(), 
+            'descriptor' => $descriptor, 
         ));
     }
 
@@ -94,8 +87,8 @@ abstract class CRUDController extends Controller
      */
     public function editAction($id)
     {
-        $entity    = $this->getRepository()->find($id);
-        $baseRoute = $this->getBaseRoute(); 
+        $descriptor = $this->getDescriptor();
+        $entity     = $descriptor->getRepository()->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find entity.');
@@ -105,26 +98,27 @@ abstract class CRUDController extends Controller
         $deleteForm = $this->createDeleteForm($id);
         
         $this->createBreadcrumb(array(
-            array('label' => $entity->getName(), 'route' => $baseRoute . '_admin_edit', 'params' => array('id' => $entity->getId())), 
+            array('label' => $entity, 'route' => $descriptor->getRoute('edit'), 'params' => array('id' => $entity->getId())), 
         ));
 
-        return $this->render('DPAdminGameBundle:' . $this->getTplDir() . ':edit.html.twig', array(
+        return $this->render($descriptor->getTemplate('edit'), array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'baseRoute' => $this->getBaseRoute(), 
+            'descriptor' => $descriptor, 
         ));
     }
     
     /**
-     * Edits an existing entity.
+     * Edits an existing Game entity.
      *
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $entity = $this->getRepository()->find($id);
-        $baseRoute = $this->getBaseRoute();
+        
+        $descriptor = $this->getDescriptor();
+        $entity     = $descriptor->getRepository()->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find entity.');
@@ -135,58 +129,57 @@ abstract class CRUDController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $em->flush();
+            $this->getDescriptor()->getProcessor()->updateProcess($entity);
             
-            $this->get('session')->getFlashBag()->add('dp_flash_info', $baseRoute . '_admin.update_succeed');
+            $this->get('session')->getFlashBag()->add('dp_flash_info', $descriptor->getName() . '.update_succeed');
 
-            return $this->redirect($this->generateUrl($baseRoute . '_admin'));
+            return $this->redirect($this->generateUrl($descriptor->getRoute('index')));
         }
         
         $this->createBreadcrumb(array(
-            array('label' => $entity->getName(), 'route' => $baseRoute . '_admin_edit', 'params' => array('id' => $entity->getId())), 
+            array('label' => $entity->getName(), 'route' => $descriptor->getRoute('edit'), 'params' => array('id' => $entity->getId())), 
         ));
 
-        return $this->render('DPAdminGameBundle:' . $this->getTplDir() . ':edit.html.twig', array(
+        return $this->render($descriptor->getTemplate('edit'), array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'baseRoute' => $this->getBaseRoute(), 
+            'descriptor' => $descriptor, 
         ));
     }
     
     /**
-     * Deletes a entity.
+     * Deletes a Game entity.
      *
      */
     public function deleteAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
-        
-        $baseRoute = $this->getBaseRoute();
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $this->getRepository()->find($id);
+            
+            $descriptor = $this->getDescriptor();
+            $entity     = $descriptor->getRepository()->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find entity.');
             }
 
-            $em->remove($entity);
-            $em->flush();
+            $this->getDescriptor()->getProcessor()->deleteProcess($entity);
             
-            $this->get('session')->getFlashBag()->add('dp_flash_info', $baseRoute . '_admin.delete_succeed');
+            $this->get('session')->getFlashBag()->add('dp_flash_info', $descriptor->getName() . '.delete_succeed');
         }
 
-        return $this->redirect($this->generateUrl($baseRoute . '_admin'));
+        return $this->redirect($this->generateUrl($descriptor->getRoute('index')));
     }
     
     public function batchDeleteAction(Request $request)
     {
-        $baseRoute = $this->getBaseRoute();
+        $descriptor = $this->getDescriptor();
         
-        $this->validateCsrfToken($baseRoute . '_admin.batch');
+        $this->validateCsrfToken($descriptor->getName() . '.batch');
         
         $confirmation = $request->get('confirmation', false) == 'ok';
         $elements = $request->get('idx');
@@ -194,57 +187,35 @@ abstract class CRUDController extends Controller
         if (empty($elements)) {
             $this->get('session')->getFlashBag()->add('dp_flash_info', 'admin.batch.empty');
             
-            return $this->redirect($this->generateUrl($baseRoute . '_admin'));
+            return $this->redirect($this->generateUrl($descriptor->getRoute('index')));
         }
         
         if ($confirmation) {
-            $em   = $this->getDoctrine()->getManager();
-            $repo = $this->getRepository();
-            $i = 0;
+            $this->getDescriptor()->getProcessor()->batchDeleteProcess($elements);
             
-            foreach ($elements AS $el) {
-                $entity = $repo->find($el);
-                $em->remove($entity);
-                
-                ++$i;
-                
-                // Vide le cache de l'ORM afin de ne pas consommer trop de mémoire
-                if (($i % 50) == 0) {
-                    $em->flush();
-                    $em->clear();
-                }
-            }
+            $this->get('session')->getFlashBag()->add('dp_flash_info', 'admin.batch.delete.succeed');
             
-            $em->flush();
-            $em->clear();
-            
-            $this->get('session')->getFlashBag()->add('dp_flash_info', 'admin.batch.delete_succeed');
-            
-            return $this->redirect($this->generateUrl($baseRoute . '_admin'));
+            return $this->redirect($this->generateUrl($descriptor->getRoute('index')));
         }
-        else {
-            $this->createBreadcrumb(array(
-                array('label' => 'admin.batch.title', 'route' => $baseRoute . '_admin_batch_delete'), 
-            ));
         
-            return $this->render('DPAdminGameBundle:' . $this->getTplDir() . ':batch_confirmation.html.twig', array(
-                'elements' => $elements, 
-                'csrf_token' => $this->getCsrfToken($baseRoute . '_admin.batch'), 
-                'baseRoute' => $this->getBaseRoute(), 
-            ));
-        }
+        $this->createBreadcrumb(array(
+            array('label' => 'admin.batch.title', 'route' => $descriptor->getName() . '_batch_delete'), 
+        ));
+    
+        return $this->render($descriptor->getTemplate('batch_confirmation'), array(
+            'elements' => $elements, 
+            'csrf_token' => $this->getCsrfToken($descriptor->getName() . '.batch'), 
+            'descriptor' => $descriptor, 
+        ));
     }
-    
-    
-    
     
     protected function createBreadcrumb(array $elements = array())
     {
-        $baseRoute = $this->getBaseRoute();
+        $descriptor = $this->getDescriptor();
         
         $items = array();
         $items[] = new BreadcrumbItem('&#8962;', '_welcome', array(), array('safe_label' => true));
-        $items[] = new BreadcrumbItem('menu.admin.' . $baseRoute, $baseRoute . '_admin');
+        $items[] = new BreadcrumbItem('menu.admin.' . $descriptor->getName(), $descriptor->getRoute('index'));
         
         foreach ($elements AS $el) {
             if (isset($el['label']) && !empty($el['label'])) {
@@ -290,16 +261,18 @@ abstract class CRUDController extends Controller
     }
 
     /**
-    * Creates a form to create an entity.
+    * Creates a form to create a Game entity.
     *
-    * @param $entity The entity
+    * @param Game $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
     private function createCreateForm($entity)
     {
-        $form = $this->createForm($this->getFormType(), $entity, array(
-            'action' => $this->generateUrl($this->getBaseRoute() . '_admin_create'),
+        $descriptor = $this->getDescriptor();
+        
+        $form = $this->createForm($descriptor->getForm('add'), $entity, array(
+            'action' => $this->generateUrl($descriptor->getRoute('create')),
             'method' => 'POST',
         ));
 
@@ -317,8 +290,10 @@ abstract class CRUDController extends Controller
     */
     private function createEditForm($entity)
     {
-        $form = $this->createForm($this->getFormType(), $entity, array(
-            'action' => $this->generateUrl($this->getBaseRoute() . '_admin_update', array('id' => $entity->getId())),
+        $descriptor = $this->getDescriptor();
+        
+        $form = $this->createForm($descriptor->getForm('edit'), $entity, array(
+            'action' => $this->generateUrl($descriptor->getRoute('update'), array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -337,7 +312,7 @@ abstract class CRUDController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl($this->getBaseRoute() . '_admin_delete', array('id' => $id)))
+            ->setAction($this->generateUrl($this->getDescriptor()->getRoute('delete'), array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'admin.delete'))
             ->getForm()

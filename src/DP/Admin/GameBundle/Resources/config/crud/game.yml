@@ -1,3 +1,43 @@
 parameters:
-
+    dp.descriptor.game_admin.routes:
+        index:        game_admin
+        new:          game_admin_new
+        create:       game_admin_create
+        edit:         game_admin_edit
+        update:       game_admin_update
+        delete:       game_admin_delete
+        batch_delete: game_admin_batch_delete
+    
+    dp.descriptor.game_admin.templates:
+        index:              "DPAdminGameBundle:Game:index.html.twig"
+        new:                "DPAdminBundle:CRUD:new.html.twig"
+        edit:               "DPAdminBundle:CRUD:edit.html.twig"
+        batch_confirmation: "DPAdminBundle:CRUD:batch_confirmation.html.twig"
 services:
+    dp.repository.game:
+        class: DP\Core\GameBundle\Entity\GameRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: [ 'DPGameBundle:Game' ]
+    
+    dp.entity_factory.game:
+        class: DP\Core\GameBundle\Entity\Factory\GameFactory
+    
+    dp.form.game:
+        class: DP\Admin\GameBundle\Form\GameType
+    
+    dp.processor.game:
+        class: DP\Admin\AdminBundle\Processor\CRUDProcessor
+        arguments: [ @doctrine.orm.default_entity_manager, @dp.descriptor.game_admin ]
+    
+    dp.descriptor.game_admin:
+        class: DP\Admin\AdminBundle\Descriptor\Descriptor
+        calls:
+            - [ setName, [ "game_admin" ] ]
+            - [ setRoutes, [ %dp.descriptor.game_admin.routes% ] ]
+            - [ setTemplates, [ %dp.descriptor.game_admin.templates% ] ]
+            - [ setForms, [ { add: @dp.form.game, edit: @dp.form.game } ] ]
+            - [ setEntityFactory, [ @dp.entity_factory.game ] ]
+            - [ setEntityRepository, [ @dp.repository.game ] ]
+            - [ setProcessor, [ @dp.processor.game ] ]
+            

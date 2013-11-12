@@ -1,0 +1,43 @@
+parameters:
+    dp.descriptor.plugin_admin.routes:
+        index:        plugin_admin
+        new:          plugin_admin_new
+        create:       plugin_admin_create
+        edit:         plugin_admin_edit
+        update:       plugin_admin_update
+        delete:       plugin_admin_delete
+        batch_delete: plugin_admin_batch_delete
+    
+    dp.descriptor.plugin_admin.templates:
+        index:              "DPAdminGameBundle:Plugin:index.html.twig"
+        new:                "DPAdminBundle:CRUD:new.html.twig"
+        edit:               "DPAdminBundle:CRUD:edit.html.twig"
+        batch_confirmation: "DPAdminBundle:CRUD:batch_confirmation.html.twig"
+services:
+    dp.repository.plugin:
+        class: DP\Core\GameBundle\Entity\PluginRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: [ 'DPGameBundle:Plugin' ]
+    
+    dp.entity_factory.plugin:
+        class: DP\Core\GameBundle\Entity\Factory\PluginFactory
+    
+    dp.form.plugin:
+        class: DP\Admin\GameBundle\Form\PluginType
+    
+    dp.processor.plugin:
+        class: DP\Admin\AdminBundle\Processor\CRUDProcessor
+        arguments: [ @doctrine.orm.default_entity_manager, @dp.descriptor.plugin_admin ]
+    
+    dp.descriptor.plugin_admin:
+        class: DP\Admin\AdminBundle\Descriptor\Descriptor
+        calls:
+            - [ setName, [ "plugin_admin" ] ]
+            - [ setRoutes, [ %dp.descriptor.plugin_admin.routes% ] ]
+            - [ setTemplates, [ %dp.descriptor.plugin_admin.templates% ] ]
+            - [ setForms, [ { add: @dp.form.plugin, edit: @dp.form.plugin } ] ]
+            - [ setEntityFactory, [ @dp.entity_factory.plugin ] ]
+            - [ setEntityRepository, [ @dp.repository.plugin ] ]
+            - [ setProcessor, [ @dp.processor.plugin ] ]
+            

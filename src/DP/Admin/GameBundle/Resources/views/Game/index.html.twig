@@ -1,16 +1,19 @@
 {% extends 'DPAdminBundle:CRUD:index.html.twig' %}
+<<<<<<< HEAD
 
 {% block title %}
     {{ 'game_admin.list'|trans }}
 {% endblock %}
+=======
+>>>>>>> 3276391... Modif de l'AdminGameBundle pour utiliser les éléments (controlleur, descripteur et processeur) de l'AdminBundle précédemment créé.
 
 {% block body -%}
-    <h2>{{ 'game_admin.list'|trans }}</h2>
+    <h2>{{ (descriptor.name ~ '.list')|trans }}</h2>
     
     <ul id="top-nav" class="nav nav-tabs">
         <li>
-            <a href="{{ path(baseRoute ~ '_admin_new') }}">
-                {{ 'game_admin.add'|trans }}
+            <a href="{{ path(descriptor.routes.new) }}">
+                {{ (descriptor.name ~ '.add')|trans }}
             </a>
         </li>
     </ul>
@@ -23,27 +26,27 @@
             </div>
         {% endfor %}
     {% endfor %}
-    
-    <form action="{{ path(baseRoute ~ '_admin_batch_delete') }}" method="post">
+
+    <form action="{{ path(descriptor.routes.batch_delete) }}" method="post">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
         
         <table class="table table-bordered table-striped records_list">
             <thead>
                 <tr>
                     <th><input type="checkbox" id="batch_all" /></th>
-                    <th>{{ 'game_admin.fields.name'|trans }}</th>
-                    <th>{{ 'game_admin.fields.launchName'|trans }}</th>
-                    <th>{{ 'game_admin.fields.type'|trans }}</th>
-                    <th>{{ 'game_admin.fields.bin'|trans }}</th>
-                    <th>{{ 'game_admin.fields.map'|trans }}</th>
-                    <th>{{ 'game_admin.fields.available'|trans }}</th>
+                    <th>{{ (descriptor.name ~ '.fields.name')|trans }}</th>
+                    <th>{{ (descriptor.name ~ '.fields.launchName')|trans }}</th>
+                    <th>{{ (descriptor.name ~ '.fields.type')|trans }}</th>
+                    <th>{{ (descriptor.name ~ '.fields.bin')|trans }}</th>
+                    <th>{{ (descriptor.name ~ '.fields.map')|trans }}</th>
+                    <th>{{ (descriptor.name ~ '.fields.available')|trans }}</th>
                 </tr>
             </thead>
             <tbody>
             {% for entity in entities %}
                 <tr>
                     <td><input type="checkbox" name="idx[]" value="{{ entity.id }}" /></td>
-                    <td><a href="{{ path(baseRoute ~ '_admin_edit', { 'id': entity.id }) }}">{{ entity.name }}</a></td>
+                    <td><a href="{{ path(descriptor.routes.edit, { 'id': entity.id }) }}">{{ entity.name }}</a></td>
                     <td>{{ entity.launchName }}</td>
                     <td>{{ entity.type }}</td>
                     <td>{{ entity.bin }}</td>
