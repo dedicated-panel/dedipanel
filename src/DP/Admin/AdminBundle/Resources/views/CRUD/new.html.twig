@@ -1,15 +1,15 @@
 {% extends '::layout-online.html.twig' %}
 
 {% block title %}
-    {{ (baseRoute ~ '_admin.add')|trans }}
+    {{ (descriptor.name ~ '.add')|trans }}
 {% endblock %}
 
 {% block body -%}
-    <h2>{{ (baseRoute ~ '_admin.add')|trans }}</h2>
+    <h2>{{ (descriptor.name ~ '.add')|trans }}</h2>
 
     <ul id="top-nav" class="nav nav-tabs">
         <li>
-            <a href="{{ path(baseRoute ~ '_admin') }}">
+            <a href="{{ path(descriptor.routes.index) }}">
                 {{ 'admin.back'|trans }}
             </a>
         </li>

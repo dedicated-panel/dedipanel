@@ -1,0 +1,18 @@
+admin:
+    back: Retour à la liste
+    go_back: Retourner à la liste
+    yes: Oui
+    no: Non
+    create: Créer
+    update: Mettre à jour
+    delete: Supprimer
+    edit_title: Editer "%name"
+    execute_btn: Oui, exécuter
+    or: ou
+    
+    batch:
+        title: Action de masse
+        empty: Aucun élément n'a été sélectionné.
+        delete:
+            confirmation: Êtes-vous sûr de vouloir confirmer la suppression de cet élément ?|Êtes-vous sûr de vouloir confirmer la suppression de ces %count% éléments ?
+            succeed: Suppression de masse réussie.
