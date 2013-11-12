@@ -1,0 +1,76 @@
+{% extends 'DPAdminBundle:CRUD:index.html.twig' %}
+
+{% block body -%}
+    <h2>{{ (descriptor.name ~ '.list')|trans }}</h2>
+    
+    <ul id="top-nav" class="nav nav-tabs">
+        <li>
+            <a href="{{ path(descriptor.routes.new) }}">
+                {{ (descriptor.name ~ '.add')|trans }}
+            </a>
+        </li>
+    </ul>
+    
+    {% for notice_level in ['success','error','info', 'warning'] %}
+        {% set session_var = 'dp_flash_' ~ notice_level %}
+        {% for flash in app.session.flashbag.get(session_var) %}
+            <div class="alert {{ 'alert-' ~ notice_level }}">
+                {{ flash|trans }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    
+    <form action="{{ path(descriptor.routes.batch_delete) }}" method="post">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+        
+        <table class="table table-bordered table-striped records_list">
+            <thead>
+                <tr>
+                    <th class="batch-selector"><input type="checkbox" id="batch_all" /></th>
+                    <th>{{ (descriptor.name ~ '.fields.username')|trans }}</th>
+                    <th>{{ (descriptor.name ~ '.fields.email')|trans }}</th>
+                    <th>{{ (descriptor.name ~ '.fields.enabled')|trans }}</th>
+                    <th>{{ (descriptor.name ~ '.fields.createdAt')|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for entity in entities %}
+                <tr>
+                    <td class="batch-selector"><input type="checkbox" name="idx[]" value="{{ entity.id }}" /></td>
+                    <td><a href="{{ path(descriptor.routes.edit, { 'id': entity.id }) }}">{{ entity.username }}</a></td>
+                    <td>{{ entity.email }}</td>
+                    <td>
+                        {% if entity.enabled == true %}
+                            <a href="{{ path(descriptor.routes.change_status, { 'id': entity.id, newStatus: 'disabled' }) }}">
+                                <i class="icon-ok-circle"></i> 
+                                {{ 'admin.yes'|trans }}
+                            </a>
+                        {% else %}
+                            <a href="{{ path(descriptor.routes.change_status, { 'id': entity.id, newStatus: 'enabled' }) }}">
+                                <i class="icon-ban-circle"></i>
+                                {{ 'admin.no'|trans }}
+                            </a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ entity.createdAt|date('d-m-Y H:i:s') }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="7">
+                        <div class="form-inline">
+                            <select name="action">
+                                <option name="delete">{{ 'admin.delete'|trans }}</option>
+                            </select>
+                            
+                            <input type="submit" value="OK" class="btn btn-primary btn-small" />
+                        </div>
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+{% endblock %}

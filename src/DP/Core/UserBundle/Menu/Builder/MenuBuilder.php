@@ -25,6 +25,8 @@ class MenuBuilder
         $menu->addChild('menu.machine', array('route' => 'machine', 'extras' => array('icon' => 'Q')));
         
         $admin = $this->factory->createItem('menu.admin.admin', array('extras' => array('icon' => '%')));
+        $admin->addChild('menu.admin.user', array('route' => 'user_admin'));
+        $admin->addChild('menu.admin.group', array('route' => 'group_admin'));
         $admin->addChild('menu.admin.game', array('route' => 'game_admin'));
         $admin->addChild('menu.admin.plugin', array('route' => 'plugin_admin'));
         $menu->addChild($admin);

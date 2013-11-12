@@ -1,55 +1,30 @@
+imports:
+    - { resource: services/update.yml }
+    - { resource: services/menu.yml }
+    - { resource: services/breadcrumb.yml }
+    
 services:
-    app_user.auth.form.type:
-        class: DP\Core\UserBundle\Form\Type\ProfileFormType
-        arguments: [ %fos_user.model.user.class% ]
-        tags:
-            - { name: form.type, alias: app_user_profile }
+    dp.repository.user:
+        class: DP\Core\UserBundle\Entity\UserRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: [ 'DPCoreUserBundle:User' ]
     
-    app_user.update_watcher.service:
-        class: DP\Core\UserBundle\Service\UpdateWatcherService
-        arguments: [0.4]
+    dp.entity_factory.user:
+        class: DP\Core\UserBundle\Entity\Factory\UserFactory
+        arguments: [ @fos_user.user_manager ]
 
-    app_user.update_watcher.extension:
-        class: DP\Core\UserBundle\Extension\UpdateWatcherExtension
-        arguments: [@app_user.update_watcher.service]
+    dp.repository.group:
+        class: DP\Core\UserBundle\Entity\GroupRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: [ 'DPCoreUserBundle:Group' ]
+    
+    dp.entity_factory.group:
+        class: DP\Core\UserBundle\Entity\Factory\GroupFactory
+        arguments: [ @fos_user.group_manager ]
+    
+    dp.listener.user.registration:
+        class: DP\Core\UserBundle\Listener\UserRegistrationListener
         tags:
-            - { name: twig.extension }
-    
-    dp_menu.factory:
-        class: DP\Core\UserBundle\Menu\Factory\MenuFactory
-        arguments: [ "@router" ]
-    
-    app_user.menu_builder:
-        class: DP\Core\UserBundle\Menu\Builder\MenuBuilder
-        arguments: [ "@dp_menu.factory" ]
-    
-    app_user.menu.main:
-        class: DP\Core\Menu\MenuItem
-        factory_service: app_user.menu_builder
-        factory_method: createMainMenu
-        arguments: [ "@request" ]
-        scope: request
-        tags:
-            - { name: knp_menu.menu, alias: main }
-    
-    dp_breadcrumb.items_bag:
-        class: DP\Core\UserBundle\Breadcrumb\Bag\BreadcrumbItemsBag
-    
-    app_user.breadcrumb_builder:
-        class: DP\Core\UserBundle\Breadcrumb\Builder\BreadcrumbBuilder
-        arguments: [ "@knp_menu.factory" ]
-    
-    app_user.menu.breadcrumb:
-        class: Knp\Menu\MenuItem
-        factory_service: app_user.breadcrumb_builder
-        factory_method: createBreadcrumb
-        arguments: [ "@request", "@dp_breadcrumb.items_bag" ]
-        scope: request
-        tags:
-            - { name: knp_menu.menu, alias: breadcrumb}
-
-    dp_breadcrumb.extension:
-        class: DP\Core\UserBundle\Extension\BreadcrumbExtension
-        arguments: [ "@knp_menu.helper" ]
-        tags:
-            - { name: twig.extension }
+            - { name: doctrine.event_listener, event: prePersist }

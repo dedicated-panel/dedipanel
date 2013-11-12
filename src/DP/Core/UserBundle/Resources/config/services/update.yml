@@ -1,0 +1,16 @@
+services:
+    app_user.auth.form.type:
+        class: DP\Core\UserBundle\Form\Type\ProfileFormType
+        arguments: [ %fos_user.model.user.class% ]
+        tags:
+            - { name: form.type, alias: app_user_profile }
+    
+    app_user.update_watcher.service:
+        class: DP\Core\UserBundle\Service\UpdateWatcherService
+        arguments: [0.4]
+
+    app_user.update_watcher.extension:
+        class: DP\Core\UserBundle\Extension\UpdateWatcherExtension
+        arguments: [@app_user.update_watcher.service]
+        tags:
+            - { name: twig.extension }

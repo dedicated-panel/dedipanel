@@ -1,0 +1,35 @@
+parameters:
+    dp.descriptor.user_admin.routes:
+        index:        user_admin
+        new:          user_admin_new
+        create:       user_admin_create
+        edit:         user_admin_edit
+        update:       user_admin_update
+        delete:       user_admin_delete
+        batch_delete: user_admin_batch_delete
+        change_status: user_admin_change_status
+    
+    dp.descriptor.user_admin.templates:
+        index:              "DPAdminUserBundle:User:index.html.twig"
+        new:                "DPAdminBundle:CRUD:new.html.twig"
+        edit:               "DPAdminBundle:CRUD:edit.html.twig"
+        batch_confirmation: "DPAdminBundle:CRUD:batch_confirmation.html.twig"
+services:    
+    dp.form.user:
+        class: DP\Admin\UserBundle\Form\UserType
+    
+    dp.processor.user:
+        class: DP\Admin\UserBundle\Processor\UserProcessor
+        arguments: [ @doctrine.orm.default_entity_manager, @dp.descriptor.user_admin, @fos_user.user_manager ]
+    
+    dp.descriptor.user_admin:
+        class: DP\Admin\AdminBundle\Descriptor\Descriptor
+        calls:
+            - [ setName, [ "user_admin" ] ]
+            - [ setRoutes, [ %dp.descriptor.user_admin.routes% ] ]
+            - [ setTemplates, [ %dp.descriptor.user_admin.templates% ] ]
+            - [ setForms, [ { add: @dp.form.user, edit: @dp.form.user } ] ]
+            - [ setEntityFactory, [ @dp.entity_factory.user ] ]
+            - [ setEntityRepository, [ @dp.repository.user ] ]
+            - [ setProcessor, [ @dp.processor.user ] ]
+            

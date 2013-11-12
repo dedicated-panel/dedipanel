@@ -1,0 +1,3 @@
+imports:
+    - { resource: crud/user.yml }
+    - { resource: crud/group.yml }

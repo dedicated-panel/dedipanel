@@ -21,6 +21,10 @@ DPUserBundle:
 DPAdminBundle:
     resource: "@DPAdminBundle/Resources/config/routing.yml"
     prefix:   /admin/
+    
+DPAdminUserBundle:
+    resource: "@DPAdminUserBundle/Resources/config/routing.yml"
+    prefix:   /admin/
 
 DPGameServerBundle:
     resource: "@DPGameServerBundle/Resources/config/routing.yml"

@@ -4,12 +4,14 @@ namespace DP\Core\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Entity\Group as BaseGroup;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Group
  * 
  * @ORM\Table(name="fos_user_group")
  * @ORM\Entity
+ * @UniqueEntity(fields="name", message="group_admin.name.unique")
  */
 class Group extends BaseGroup
 {
@@ -31,5 +33,10 @@ class Group extends BaseGroup
     public function getId()
     {
         return $this->id;
-    } 
+    }
+    
+    public function __toString()
+    {
+        return $this->name;
+    }
 }

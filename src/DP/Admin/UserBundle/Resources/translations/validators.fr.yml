@@ -1,0 +1,13 @@
+user_admin:
+    username:
+        empty: Veuillez renseigner le nom d'utilisateur.
+        unique: Ce nom d'utilisateur est déjà utilisé
+    email:
+        empty: Veuillez renseigner l'adresse email de l'utilisateur.
+        unique: Cette adresse email est déjà utilisé.
+    password:
+        empty: Veuillez renseigner le mot de passe de l'utilisateur.
+
+group_admin:
+    name:
+        unique: Veuillez indiquer un nom de groupe unique.

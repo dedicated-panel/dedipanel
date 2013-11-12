@@ -1,0 +1,8 @@
+DPAdminUserBundle_user:
+    resource: "@DPAdminUserBundle/Resources/config/routing/user.yml"
+    prefix:   /user
+    
+DPAdminUserBundle_group:
+    resource: "@DPAdminUserBundle/Resources/config/routing/group.yml"
+    prefix:   /group
+
