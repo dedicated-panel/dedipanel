@@ -67,6 +67,13 @@
     {% endfor %}
     </div>
     
+    {% if form|length > 0 %} 
+        <div class="dp-security-roles-toggler">
+            <input type="checkbox" name="all-roles-toggler" id="all-roles-togler-{{ form.vars.name }}" />
+            <label for="all-roles-togler-{{ form.vars.name }}">Tout cocher/décocher</label>
+        </div>
+    {% endif %}
+    
     <script type="text/javascript">
         $(function () {
             $('.dp-security-roles .role input[type=checkbox]').bind('click', function () {
@@ -81,6 +88,19 @@
                         });
                     }
                 }
+            });
+            
+            $('.dp-security-roles-toggler input[type=checkbox]').bind('click', function () {
+                var checked = this.checked;
+                
+                $(this).parent().prev('div').find('input[type=checkbox]').each(function (id, el) {
+                    if (checked) {
+                        $(el).attr('checked', checked);
+                    }
+                    else {
+                        $(el).removeAttr('checked');
+                    }
+                });
             });
         });
     </script>
