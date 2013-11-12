@@ -40,3 +40,8 @@ services:
             - [ setServiceContainer, [ @service_container ] ]
         tags:
             - { name: doctrine.event_listener, event: preUpdate, method: preUpdate }
+    
+    dp.game.role_builder:
+        class: DP\GameServer\GameServerBundle\Security\GameRoleBuilder
+        tags:
+            - { name: dp.role_builder, children_builder_tag: dp.game_role_builder }

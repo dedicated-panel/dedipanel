@@ -33,3 +33,8 @@ services:
             - [ setServiceContainer, [ @service_container ] ]
         tags:
             - { name: doctrine.event_listener, event: preUpdate, method: preUpdate }
+    
+    dp.minecraft.role_builder:
+        class: DP\GameServer\MinecraftServerBundle\Security\MinecraftRoleBuilder
+        tags:
+            - { name: dp.game_role_builder }
