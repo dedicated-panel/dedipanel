@@ -31,6 +31,7 @@ class UserType extends AbstractType
                 'multiple' => true,  
                 'required' => false, 
             ))
+            ->add('roles', 'dp_security_roles')
         ;
         
         // Ajout d'un EventSubscriber permettant de gérer 

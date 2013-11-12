@@ -14,9 +14,10 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-ROLE_USER: Utilisateur
-ROLE_SUPER_ADMIN: Super-Admin
-ROLE_ALLOWED_TO_SWITCH: Autoriser a switcher de compte
+user:
+    role:
+        ROLE_ADMIN: Admin
+        ROLE_SUPER_ADMIN: Super-Admin
 
 machine_admin: Gestion des machines
 title_user_account: Compte

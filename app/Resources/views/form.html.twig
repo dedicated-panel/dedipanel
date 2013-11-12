@@ -55,3 +55,34 @@
     </div>
 {% endspaceless %}
 {% endblock button_row %}
+
+{% block dp_security_roles_widget %}
+{% spaceless %}
+    <div {{ block('widget_container_attributes') }}>
+    {% for child in form %}
+        <div class="role" data-children="{{ attribute(role_hierarchy, child.vars.value)|json_encode() }}">
+            {{ form_widget(child) }}
+            {{ form_label(child) }}
+        </div>
+    {% endfor %}
+    </div>
+    
+    <script type="text/javascript">
+        $(function () {
+            $('.dp-security-roles .role input[type=checkbox]').bind('click', function () {
+                var el = $(this);
+                
+                if (this.checked) {
+                    if (el.parent().attr('data-children').length > 0) {
+                        var children = $.parseJSON(el.parent().attr('data-children'));
+                        
+                        children.forEach(function (el, id) {
+                            $('input[type=checkbox][value=' + el + ']').attr('checked', 'checked');
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+{% endspaceless %}
+{% endblock dp_security_roles_widget %}

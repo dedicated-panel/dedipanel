@@ -393,6 +393,7 @@ label {
 input[type="radio"], input[type="checkbox"] {
     margin: 4px 5px 0;
     float: left;
+    clear: both;
 }
 input[type="radio"] + label, input[type="checkbox"] + label {
     width: auto;
@@ -443,4 +444,8 @@ form table.records_list .batch-selector {
 
 form table.records_list tfoot select {
     width: auto;
+}
+
+.dp-security-roles {
+    margin-left: 80px;
 }

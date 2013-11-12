@@ -32,5 +32,5 @@ user_admin_delete:
 
 user_admin_change_status:
     pattern: /{id}/{newStatus}
-    defaults: { _controller: "DPAdminUserBundle:User:changeStatus" }
+    defaults: { _controller: "DPAdminUserBundle:User:changeStatus" }
     requirements: { newStatus: "enabled|disabled" }

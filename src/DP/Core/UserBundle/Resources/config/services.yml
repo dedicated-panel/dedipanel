@@ -28,3 +28,13 @@ services:
         class: DP\Core\UserBundle\Listener\UserRegistrationListener
         tags:
             - { name: doctrine.event_listener, event: prePersist }
+    
+    dp.form.modifier.security_roles:
+        class: DP\Core\UserBundle\Form\Modifier\SecurityRolesModifier
+        arguments: [ @security.role_hierarchy, %security.role_hierarchy.roles% ]
+    
+    dp.form.security_roles_type:
+        class: DP\Core\UserBundle\Form\Type\SecurityRolesType
+        arguments: [ @dp.form.modifier.security_roles, %security.role_hierarchy.roles% ]
+        tags:
+            - { name: form.type, alias: dp_security_roles }

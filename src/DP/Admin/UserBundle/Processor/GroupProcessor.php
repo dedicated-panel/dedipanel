@@ -29,7 +29,7 @@ class GroupProcessor implements CRUDProcessorInterface
     
     public function deleteProcess($entity)
     {
-        $this->maanger->deleteGroup($entity);
+        $this->manager->deleteGroup($entity);
     }
     
     public function batchDeleteProcess($elements)
