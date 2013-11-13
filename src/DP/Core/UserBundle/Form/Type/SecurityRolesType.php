@@ -22,7 +22,7 @@ class SecurityRolesType extends AbstractType
     
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // $builder->addEventSubscriber($this->formModifier);
+        $builder->addEventSubscriber($this->formModifier);
     }
     
     public function buildView(FormView $view, FormInterface $form, array $options)

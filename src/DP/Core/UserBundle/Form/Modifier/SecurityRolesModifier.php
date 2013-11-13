@@ -22,26 +22,38 @@ class SecurityRolesModifier implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            FormEvents::PRE_SET_DATA => 'completeRolesByDepth', 
+            // FormEvents::PRE_SET_DATA => 'completeRolesFieldsByDepth',
+            FormEvents::SUBMIT       => 'completeEntityRolesByDepth', 
         );
     }
     
-    public function completeRolesByDepth(FormEvent $event)
+    public function completeRolesFieldsByDepth(FormEvent $event)
     {
-        $form = $event->getForm();
-        $entity = $form->getParent()->getData();
+        $entity = $event->getForm()->getParent()->getData();
         
         $selectedRoles = array();
         $hierarchy = $this->getHierarchy();
         
         foreach ($this->roles AS $role) {            
             if ($entity->hasRole($role)) {
-                $selectedRoles[] = $role;
-                $selectedRoles = array_merge($selectedRoles, $hierarchy[$role]);
+                $selectedRoles = array_merge($selectedRoles, array($role), $hierarchy[$role]);
             }
         }
         
         $event->setData(array_unique($selectedRoles));
+    }
+    
+    public function completeEntityRolesByDepth(FormEvent $event)
+    {
+        $entity = $event->getForm()->getParent()->getData();
+        $hierarchy = $this->getHierarchy();
+        $roles = array();
+        
+        foreach ($entity->getRoles() AS $role) {
+            $roles = array_merge($roles, array($role), $hierarchy[$role]);
+        }
+        
+        $event->setData(array_unique($roles));
     }
     
     public function getHierarchy()
