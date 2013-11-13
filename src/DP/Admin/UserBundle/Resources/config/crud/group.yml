@@ -31,4 +31,9 @@ services:
             - [ setEntityFactory, [ @dp.entity_factory.group ] ]
             - [ setEntityRepository, [ @dp.repository.group ] ]
             - [ setProcessor, [ @dp.processor.group ] ]
+    
+    dp.role_builde.group_adminr:
+        class: DP\Admin\UserBundle\Security\GroupRoleBuilder
+        tags:
+            - { name: dp.admin_role_builder }
             

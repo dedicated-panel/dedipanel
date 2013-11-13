@@ -40,7 +40,7 @@ class AddDedipanelRolesCompilerPass implements CompilerPassInterface
             
             // Vérifie que le service récupéré est bien un RoleBuilder du panel
             // et que le nom du tag des RoleBuilder enfant est fourni
-            if ($service instanceof RoleBuilderInterface) {                
+            if ($service instanceof RoleBuilderInterface) {
                 $adminRole = $service->getBaseRole() . '_ADMIN';
                 $hierarchy = $service->getRoleHierarchy();
                 

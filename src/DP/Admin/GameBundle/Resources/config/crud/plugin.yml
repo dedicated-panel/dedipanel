@@ -40,4 +40,9 @@ services:
             - [ setEntityFactory, [ @dp.entity_factory.plugin ] ]
             - [ setEntityRepository, [ @dp.repository.plugin ] ]
             - [ setProcessor, [ @dp.processor.plugin ] ]
+    
+    dp.role_builder.plugin_admin:
+        class: DP\Admin\GameBundle\Security\PluginRoleBuilder
+        tags:
+            - { name: dp.admin_role_builder }
             
