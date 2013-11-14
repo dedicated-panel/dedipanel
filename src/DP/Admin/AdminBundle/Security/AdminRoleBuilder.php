@@ -23,9 +23,15 @@ class AdminRoleBuilder implements RoleBuilderInterface
         $roles = array();
         
         foreach ($this->children AS $children) {
-            if ($children instanceof ChildRoleBuilder) {
-                $roles[] = $children->getRole();
+            if ($children instanceof ChildRoleBuilderInterface) {
+                $role = $children->getRole();
+                $roles[$role] = array($role);
             }
+        }
+        
+        if (!empty($roles)) {
+            $role = $this->getBaseRole();
+            $roles[$role] = array_keys($roles);
         }
         
         return $roles;

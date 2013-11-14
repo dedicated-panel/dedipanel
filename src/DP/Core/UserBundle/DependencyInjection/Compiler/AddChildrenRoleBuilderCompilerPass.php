@@ -20,7 +20,6 @@ class AddChildrenRoleBuilderCompilerPass implements CompilerPassinterface
             && $attrs[0]['children_builder_tag']) {
                 $tag = $attrs[0]['children_builder_tag'];
                 
-                $definition = $container->getDefinition($id);
                 $children = array_keys($container->findTaggedServiceIds($tag));
                 $params = array();
                 
@@ -28,12 +27,11 @@ class AddChildrenRoleBuilderCompilerPass implements CompilerPassinterface
                     $params[] = new Reference($child);
                 }
                 
+                $definition = $container->getDefinition($id);
                 $definition->setArguments(array($params));
                 
                 $container->removeDefinition($id);
                 $container->setDefinition($id, $definition);
-                
-                $service = $container->get($id);
             }
         }
     }
