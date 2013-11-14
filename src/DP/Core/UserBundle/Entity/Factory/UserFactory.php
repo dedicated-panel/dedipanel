@@ -16,6 +16,9 @@ class UserFactory implements FactoryInterface
     
     public function createEntity()
     {
-        return $this->manager->createUser();
+        $user = $this->manager->createUser();
+        $user->setEnabled(true);
+        
+        return $user;
     }
 }
