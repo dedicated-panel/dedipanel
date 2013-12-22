@@ -40,6 +40,6 @@ user_admin_edit_roles:
     defaults: { _controller: "DPAdminUserBundle:User:editRoles" }
 
 user_admin_update_roles:
-    pattern:  /{id}/edit-roles
+    pattern:  /{id}/update-roles
     defaults: { _controller: "DPAdminUserBundle:User:updateRoles" }
     requirements: { _method: post|put }

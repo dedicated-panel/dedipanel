@@ -5,6 +5,7 @@ namespace DP\Admin\UserBundle\Controller;
 use DP\Admin\AdminBundle\Controller\CRUDController;
 use DP\Admin\AdminBundle\Processor\CRUDProcessor;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends CRUDController
 {
@@ -116,7 +117,7 @@ class UserController extends CRUDController
         $descriptor = $this->getDescriptor();
         
         $form = $this->createForm($descriptor->getForm('editRoles'), $entity, array(
-            'action' => $this->generateUrl($descriptor->getRoute('update'), array('id' => $entity->getId())),
+            'action' => $this->generateUrl($descriptor->getRoute('updateRoles'), array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
