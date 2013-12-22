@@ -110,12 +110,12 @@ class MachineController extends Controller
 
                 if ($is64Bit) {
                     if (!$sec->hasCompatLib()) {
-                        $this->get('session')->setFlash('compatLib', 'machine.compatLibNotInstalled');
+                        $this->get('session')->getFlashBag()->set('compatLib', 'machine.compatLibNotInstalled');
                     }
                 }
 
                 if (!$sec->javaInstalled()) {
-                    $this->get('session')->setFlash('compatLib', 'machine.javaNotInstalled');
+                    $this->get('session')->getFlashBag()->set('compatLib', 'machine.javaNotInstalled');
                 }
 
                 $em = $this->getDoctrine()->getManager();
@@ -197,12 +197,12 @@ class MachineController extends Controller
 
                     if ($is64Bit) {
                         if (!$sec->hasCompatLib()) {
-                            $this->get('session')->setFlash('compatLib', 'machine.compatLibNotInstalled');
+                            $this->get('session')->getFlashBag()->set('compatLib', 'machine.compatLibNotInstalled');
                         }
                     }
 
                     if (!$sec->javaInstalled()) {
-                        $this->get('session')->setFlash('compatLib', 'machine.javaNotInstalled');
+                        $this->get('session')->getFlashBag()->set('compatLib', 'machine.javaNotInstalled');
                     }
 
                     $em->persist($entity);

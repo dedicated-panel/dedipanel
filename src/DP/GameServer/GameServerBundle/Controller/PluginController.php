@@ -59,7 +59,7 @@ abstract class PluginController extends Controller
         catch (MissingPacketException $e) {
             $trans = $this->get('translator')->trans('game.missingPacket', array('%plugin%' => strval($plugin), '%packet%' => $e->getPacketList()));
             
-            $this->get('session')->setFlash('missingPacket', $trans);
+            $this->get('session')->getFlashBag()->set('missingPacket', $trans);
         }
         
         return $this->redirect($this->generateUrl($this->getBaseRoute() . '_plugin_show', array('id' => $id)));
