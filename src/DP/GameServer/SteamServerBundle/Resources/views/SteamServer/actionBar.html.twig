@@ -1,42 +1,55 @@
 {% set sid = server.id %}
 
-<div class="actions clearfix">                        
-    {% if online %}
-        <a href="{{ path('steam_changeState', { 'id': sid, 'state': 'stop' }) }}">
-            <span class="icon" data-icon="&#x24;" title="{{ 'game.stop'|trans }}"></span>
-        </a>
-        
-        <a href="{{ path('steam_changeState', { 'id': sid, 'state': 'restart' }) }}">
-            <span class="icon" data-icon="&#x27;" title="{{ 'game.restart'|trans }}"></span>
-        </a>
-    {% else %}
-        <a href="{{ path('steam_changeState', { 'id': sid, 'state': 'start' }) }}">
-            <span class="icon" data-icon="&#x22;" title="{{ 'game.start'|trans }}"></span>
-        </a>
+<div class="actions clearfix">
+    {% if is_granted('ROLE_DP_STEAM_STATE') and entity.installationStatus == 101 %}
+        {% if online %}
+            <a href="{{ path('steam_changeState', { 'id': sid, 'state': 'stop' }) }}">
+                <span class="icon" data-icon="&#x24;" title="{{ 'game.stop'|trans }}"></span>
+            </a>
+            
+            <a href="{{ path('steam_changeState', { 'id': sid, 'state': 'restart' }) }}">
+                <span class="icon" data-icon="&#x27;" title="{{ 'game.restart'|trans }}"></span>
+            </a>
+        {% else %}
+            <a href="{{ path('steam_changeState', { 'id': sid, 'state': 'start' }) }}">
+                <span class="icon" data-icon="&#x22;" title="{{ 'game.start'|trans }}"></span>
+            </a>
+        {% endif %}
     {% endif %}
 
-    <a href="{{ path('steam_edit', {id: sid}) }}">
-        <span class="icon" data-icon="&#x25;" title="{{ 'game.edit'|trans }}"></span>
-    </a>
-    
-    <a href="{{ path('steam_plugin_show', {id: sid}) }}">
-        <span class="icon" data-icon="&#x56;" title="{{ 'game.plugin.title'|trans }}"></span>
-    </a>
-    
-    {% if online == true and server.game.source == true %}
-        {# <a href="{{ path('steam_hltv_show', {id: sid}) }}">
-            <span class="icon" data-icon="&#x60;" title="{{ 'steam.hltv.title'|trans }}"></span>
-        </a> #}
+    {% if is_granted('ROLE_DP_STEAM_EDIT') %}
+        <a href="{{ path('steam_edit', {id: sid}) }}">
+            <span class="icon" data-icon="&#x25;" title="{{ 'game.edit'|trans }}"></span>
+        </a>
     {% endif %}
     
-    <a href="{{ path('steam_ftp_show', {id: sid}) }}">
-        <span class="icon" data-icon="&#x26;" title="{{ 'game.ftp.title'|trans }}"></span>
-    </a>
     
-    <a href="{{ path('steam_rcon_show', {id: sid}) }}">
-        <span class="icon" data-icon="&#x5e;" title="{{ 'game.rcon.title'|trans }}"></span>
-    </a>
-
+    {% if is_granted('ROLE_DP_STEAM_PLUGIN') %}
+        <a href="{{ path('steam_plugin_show', {id: sid}) }}">
+            <span class="icon" data-icon="&#x56;" title="{{ 'game.plugin.title'|trans }}"></span>
+        </a>
+    {% endif %}
+    
+    {% if is_granted('ROLE_DP_STEAM_HLTV') %}
+        {% if online == true and server.game.source == true %}
+            {# <a href="{{ path('steam_hltv_show', {id: sid}) }}">
+                <span class="icon" data-icon="&#x60;" title="{{ 'steam.hltv.title'|trans }}"></span>
+            </a> #}
+        {% endif %}
+    {% endif %}
+    
+    {% if is_granted('ROLE_DP_STEAM_FTP') %}    
+        <a href="{{ path('steam_ftp_show', {id: sid}) }}">
+            <span class="icon" data-icon="&#x26;" title="{{ 'game.ftp.title'|trans }}"></span>
+        </a>
+    {% endif %}
+    
+    {% if is_granted('ROLE_DP_STEAM_RCON') %}
+        <a href="{{ path('steam_rcon_show', {id: sid}) }}">
+            <span class="icon" data-icon="&#x5e;" title="{{ 'game.rcon.title'|trans }}"></span>
+        </a>
+    {% endif %}
+    
     {% if show and online %}
         <a href="{{ path('steam_show', {id: sid}) }}" class="slide">
             <span class="icon" data-icon="&#x21;" title="{{ 'steam.show'|trans }}"></span>

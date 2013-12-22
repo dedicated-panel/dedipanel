@@ -80,21 +80,27 @@
                                 {{ entity.machine.publicIp }}:{{ entity.port }}
                             </div>
                         </div>
-
-                        <div class="installation">
-                            <div class="update-status">
-                                <img src="{{ asset('images/icones/serveur/install.png') }}" alt="{{ 'game.updateStatus'|trans }}" />
-                                <a href="{{ path('steam_install', {id: entity.id }) }}">{{ 'game.updateStatus'|trans }}</a>
+                        
+                        {% if is_granted('ROLE_DP_STEAM_EDIT') %}
+                            <div class="installation">
+                                <div class="update-status">
+                                    <img src="{{ asset('images/icones/serveur/install.png') }}" alt="{{ 'game.updateStatus'|trans }}" />
+                                    <a href="{{ path('steam_install', {id: entity.id }) }}">{{ 'game.updateStatus'|trans }}</a>
+                                </div>
+                                
+                                <div id="installation-progress" class="progress" value="{{ entity.installationStatus }}"></div>
+                                
+                                {# <div class="progress progress-info progress-striped">
+                                    <div class="bar" style="width: {{ entity.installationStatus }}%"></div>
+    
+                                    {{ entity.installationStatus }} %
+                                </div> #}
                             </div>
-                            
-                            <div id="installation-progress" class="progress" value="{{ entity.installationStatus }}"></div>
-                            
-                            {# <div class="progress progress-info progress-striped">
-                                <div class="bar" style="width: {{ entity.installationStatus }}%"></div>
-
-                                {{ entity.installationStatus }} %
-                            </div> #}
-                        </div>
+                        {% else %}
+                            <div class="installation">
+                                <p>{{ 'game.installInProgress'|trans }}</p>
+                            </div>
+                        {% endif %}
                     </div>
                 {% else %}
                     {% set banned = (entity.query.isBanned(true) == true) %}                    

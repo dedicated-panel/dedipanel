@@ -39,6 +39,7 @@ game.addButton: Ajouter
 game.installNotStarted: Installation non démarré
 game.installEnded: Installation terminé
 game.installAlreadyStarted: "Un serveur est déjà en cours d'installation dans ce dossier."
+game.installInProgress: Installation en cours.
 
 game.isAlreadyInstalled: Serv. déjà installé ?
 game.yes: Oui

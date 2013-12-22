@@ -12,7 +12,7 @@ abstract class GameChildrenRoleBuilder
     protected function getRoleHierarchy()
     {
         return array(
-            // 'SHOW'   => array('SHOW'), 
+            'SHOW'   => array('SHOW'), 
             'ADD'    => array('SHOW', 'ADD'), 
             'EDIT'   => array('SHOW', 'EDIT'), 
             'DELETE' => array('SHOW', 'DELETE'), 

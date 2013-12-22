@@ -84,6 +84,11 @@
     font-size: 15px;
     color: #0684CA; 
     margin: 0 0 0 8px;
+    float: left;
+}
+.server-item .installation p {
+    margin: 15px 0 0 15px;
+    color: #535353;
 }
 .server-item .installation-status {
     padding: 9px;
