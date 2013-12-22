@@ -13,7 +13,10 @@ abstract class GameChildrenRoleBuilder
     {
         return array(
             // 'SHOW'   => array('SHOW'), 
+            'ADD'    => array('SHOW', 'ADD'), 
             'EDIT'   => array('SHOW', 'EDIT'), 
+            'DELETE' => array('SHOW', 'DELETE'), 
+            'STATE'  => array('SHOW', 'STATE'), 
             'FTP'    => array('SHOW', 'FTP'), 
             'PLUGIN' => array('SHOW', 'PLUGIN'), 
             'RCON'   => array('SHOW', 'RCON'),  

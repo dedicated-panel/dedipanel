@@ -28,6 +28,7 @@ use DP\GameServer\SteamServerBundle\Form\EditSteamServerType;
 use Symfony\Component\Form\FormError;
 use DP\GameServer\SteamServerBundle\Exception\InstallAlreadyStartedException;
 use PHPSeclibWrapper\Exception\MissingPacketException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * SteamServer controller.
@@ -41,6 +42,10 @@ class SteamServerController extends Controller
      */
     public function indexAction()
     {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_STEAM_SHOW')) {
+            throw new AccessDeniedException;
+        }
+        
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('DPSteamServerBundle:SteamServer')->findAll();
@@ -56,6 +61,10 @@ class SteamServerController extends Controller
      */
     public function showAction($id)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_STEAM_SHOW')) {
+            throw new AccessDeniedException;
+        }
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
@@ -79,6 +88,10 @@ class SteamServerController extends Controller
      */
     public function newAction()
     {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_STEAM_ADD')) {
+            throw new AccessDeniedException;
+        }
+        
         $entity = new SteamServer();
         $form   = $this->createForm(new AddSteamServerType(), $entity);
 
@@ -94,6 +107,10 @@ class SteamServerController extends Controller
      */
     public function createAction()
     {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_STEAM_ADD')) {
+            throw new AccessDeniedException;
+        }
+        
         $entity  = new SteamServer();
         $request = $this->getRequest();
         $form    = $this->createForm(new AddSteamServerType(), $entity);
@@ -142,6 +159,10 @@ class SteamServerController extends Controller
      */
     public function editAction($id)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_STEAM_EDIT')) {
+            throw new AccessDeniedException;
+        }
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
@@ -167,6 +188,10 @@ class SteamServerController extends Controller
      */
     public function updateAction($id)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_STEAM_EDIT')) {
+            throw new AccessDeniedException;
+        }
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
@@ -201,6 +226,10 @@ class SteamServerController extends Controller
      */
     public function deleteAction($id, $fromMachine)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_STEAM_DELETE')) {
+            throw new AccessDeniedException;
+        }
+        
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
@@ -239,6 +268,10 @@ class SteamServerController extends Controller
      */
     public function installAction($id)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_STEAM_EDIT')) {
+            throw new AccessDeniedException;
+        }
+        
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
 
@@ -296,6 +329,10 @@ class SteamServerController extends Controller
 
     public function changeStateAction($id, $state)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_STEAM_STATE')) {
+            throw new AccessDeniedException;
+        }
+        
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
 
@@ -312,22 +349,12 @@ class SteamServerController extends Controller
         return $this->redirect($this->generateUrl('steam'));
     }
 
-    public function queryAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find SteamServer entity.');
-        }
-
-        return $this->render('DPSteamServerBundle:SteamServer:query.html.twig', array(
-            'entity' => $entity
-        ));
-    }
-
     public function regenAction($id)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_STEAM_EDIT')) {
+            throw new AccessDeniedException;
+        }
+        
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
 
@@ -346,9 +373,13 @@ class SteamServerController extends Controller
 
         return $this->redirect($this->generateUrl('steam_show', array('id' => $id)));
     }
-
+    
     public function showLogAction($id)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_STEAM_EDIT')) {
+            throw new AccessDeniedException;
+        }
+        
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('DPSteamServerBundle:SteamServer')->find($id);
         

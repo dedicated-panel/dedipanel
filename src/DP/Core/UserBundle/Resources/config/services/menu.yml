@@ -5,7 +5,7 @@ services:
     
     app_user.menu_builder:
         class: DP\Core\UserBundle\Menu\Builder\MenuBuilder
-        arguments: [ "@dp_menu.factory" ]
+        arguments: [ @dp_menu.factory, @security.context ]
     
     app_user.menu.main:
         class: DP\Core\Menu\MenuItem

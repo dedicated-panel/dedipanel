@@ -93,7 +93,7 @@
             $('.dp-security-roles-toggler input[type=checkbox]').bind('click', function () {
                 var checked = this.checked;
                 
-                $(this).parent().prev('div').find('input[type=checkbox]').each(function (id, el) {
+                $(this).parent().prev('div').find('input[type=checkbox]:not([disabled=disabled])').each(function (id, el) {
                     if (checked) {
                         $(el).attr('checked', checked);
                     }
