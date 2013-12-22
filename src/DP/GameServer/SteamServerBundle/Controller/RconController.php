@@ -44,4 +44,9 @@ class RconController extends BaseRconController
     {
         return 'steam';
     }
+    
+    protected function isGranted()
+    {
+        return $this->get('security.context')->isGranted('ROLE_DP_STEAM_RCON');
+    }
 }

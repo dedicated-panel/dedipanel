@@ -40,4 +40,9 @@ class PluginController extends AbstractPluginController
     {
         return 'steam';
     }
+    
+    protected function isGranted()
+    {
+        return $this->get('security.context')->isGranted('ROLE_DP_STEAM_PLUGIN');
+    }
 }

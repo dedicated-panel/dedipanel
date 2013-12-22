@@ -22,14 +22,20 @@ namespace DP\GameServer\GameServerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use PHPSeclibWrapper\Exception\MissingPacketException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 abstract class PluginController extends Controller
 {
     abstract public function getServerEntity($id);
     abstract public function getBaseRoute();
+    abstract public function isGranted();
     
     public function showServerAction($id)
     {
+        if (!$this->isGranted()) {
+            throw new AccessDeniedException;
+        }
+        
         $server = $this->getServerEntity($id);
         
         return $this->render('DPGameServerBundle:Plugin:show.html.twig', array(
@@ -40,6 +46,10 @@ abstract class PluginController extends Controller
     
     public function installAction($id, $plugin)
     {
+        if (!$this->isGranted()) {
+            throw new AccessDeniedException;
+        }
+        
         $em = $this->getDoctrine()->getManager();
         $server = $this->getServerEntity($id);
         $plugin = $em->getRepository('DPGameBundle:Plugin')->find($plugin);
@@ -67,6 +77,10 @@ abstract class PluginController extends Controller
     
     public function uninstallAction($id, $plugin)
     {
+        if (!$this->isGranted()) {
+            throw new AccessDeniedException;
+        }
+        
         $em = $this->getDoctrine()->getManager();
         $server = $this->getServerEntity($id);
         $plugin = $em->getRepository('DPGameBundle:Plugin')->find($plugin);

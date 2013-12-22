@@ -23,14 +23,20 @@ namespace DP\GameServer\GameServerBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
 use DP\GameServer\GameServerBundle\Exception\InvalidPathException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 abstract class FTPController extends Controller
 {
     abstract public function getEntityRepository();
     abstract public function getBaseRoute();
+    abstract protected function isGranted();
     
     public function showAction($id, $path)
     {
+        if (!$this->isGranted()) {
+            throw new AccessDeniedException;
+        }
+        
         $server = $this->getEntityRepository()->find($id);
         $dirContent = array('files' => array(), 'dirs' => array());
         $invalid = false;
@@ -63,6 +69,10 @@ abstract class FTPController extends Controller
     
     public function editFileAction($id, $path)
     {
+        if (!$this->isGranted()) {
+            throw new AccessDeniedException;
+        }
+        
         $server = $this->getEntityRepository()->find($id);
         
         if (!$server) {
@@ -96,6 +106,10 @@ abstract class FTPController extends Controller
     
     public function createFileAction($id, $path = '')
     {
+        if (!$this->isGranted()) {
+            throw new AccessDeniedException;
+        }
+        
         $server = $this->getEntityRepository()->find($id);
         
         if (!$server) {
@@ -136,6 +150,10 @@ abstract class FTPController extends Controller
     
     public function deleteAction($id, $path)
     {
+        if (!$this->isGranted()) {
+            throw new AccessDeniedException;
+        }
+        
         $server = $this->getEntityRepository()->find($id);
         
         if (!$server) {
@@ -153,6 +171,10 @@ abstract class FTPController extends Controller
     
     public function createDirectoryAction($id, $path = '')
     {
+        if (!$this->isGranted()) {
+            throw new AccessDeniedException;
+        }
+        
         $server = $this->getEntityRepository()->find($id);
         
         if (!$server) {

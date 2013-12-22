@@ -23,15 +23,21 @@ namespace DP\GameServer\GameServerBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use DP\GameServer\GameServerBundle\Entity\GameServer;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 abstract class RconController extends Controller
 {
     abstract public function getEntityRepository();
     abstract public function getRconFromServer(GameServer $server);
     abstract public function getBaseRoute();
+    abstract public function isGranted();
 
     public function consoleJsonAction($id)
     {
+        if (!$this->isGranted()) {
+            throw new AccessDeniedException;
+        }
+        
         $server = $this->getEntityRepository()->find($id);
 
         if (!$server) {
@@ -86,6 +92,10 @@ abstract class RconController extends Controller
 
     public function consoleAction($id)
     {
+        if (!$this->isGranted()) {
+            throw new AccessDeniedException;
+        }
+        
         $server = $this->getEntityRepository()->find($id);
 
         if (!$server) {
