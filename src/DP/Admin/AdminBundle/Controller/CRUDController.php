@@ -137,7 +137,7 @@ abstract class CRUDController extends Controller
         }
         
         $this->createBreadcrumb(array(
-            array('label' => $entity->getName(), 'route' => $descriptor->getRoute('edit'), 'params' => array('id' => $entity->getId())), 
+            array('label' => $entity, 'route' => $descriptor->getRoute('edit'), 'params' => array('id' => $entity->getId())), 
         ));
 
         return $this->render($descriptor->getTemplate('edit'), array(
@@ -267,7 +267,7 @@ abstract class CRUDController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createCreateForm($entity)
+    protected function createCreateForm($entity)
     {
         $descriptor = $this->getDescriptor();
         
@@ -288,7 +288,7 @@ abstract class CRUDController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm($entity)
+    protected function createEditForm($entity)
     {
         $descriptor = $this->getDescriptor();
         
@@ -309,7 +309,7 @@ abstract class CRUDController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
+    protected function createDeleteForm($id)
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl($this->getDescriptor()->getRoute('delete'), array('id' => $id)))

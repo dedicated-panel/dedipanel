@@ -124,8 +124,6 @@ class DoctrineStep implements StepInterface
             $parameters['database_' . $key] = $value;
         }
         
-        // var_dump($data);
-        
         // Vérifie les paramètres de bdd passés
         $goodParams = false;
         try {

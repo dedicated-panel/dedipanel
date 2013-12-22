@@ -1,0 +1,25 @@
+{% extends '::layout-online.html.twig' %}
+
+{% block title %}
+    {{ (descriptor.name ~ '.edit')|trans }}
+{% endblock %}
+
+{% block body -%}
+    <h2>{{ 'admin.edit_title'|trans({ '%name': entity.__toString }) }}</h2>
+    
+    <ul id="top-nav" class="nav nav-tabs">
+        <li>{{ form(delete_form) }}</li>
+        <li>
+            <a href="{{ path(descriptor.routes.editRoles, {id: entity.id}) }}">
+                {{ 'user_admin.editRoles'|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path(descriptor.routes.index) }}">
+                {{ 'admin.back'|trans }}
+            </a>
+        </li>
+    </ul>
+
+    {{ form(edit_form) }}
+{% endblock %}

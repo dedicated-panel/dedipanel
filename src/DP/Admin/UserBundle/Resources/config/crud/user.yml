@@ -1,22 +1,29 @@
 parameters:
     dp.descriptor.user_admin.routes:
-        index:        user_admin
-        new:          user_admin_new
-        create:       user_admin_create
-        edit:         user_admin_edit
-        update:       user_admin_update
-        delete:       user_admin_delete
-        batch_delete: user_admin_batch_delete
-        change_status: user_admin_change_status
+        index:          user_admin
+        new:            user_admin_new
+        create:         user_admin_create
+        edit:           user_admin_edit
+        update:         user_admin_update
+        delete:         user_admin_delete
+        batch_delete:   user_admin_batch_delete
+        change_status:  user_admin_change_status
+        editRoles:      user_admin_edit_roles
+        updateRoles:    user_admin_update_roles
     
     dp.descriptor.user_admin.templates:
         index:              "DPAdminUserBundle:User:index.html.twig"
         new:                "DPAdminBundle:CRUD:new.html.twig"
-        edit:               "DPAdminBundle:CRUD:edit.html.twig"
+        edit:               "DPAdminUserBundle:User:edit.html.twig"
         batch_confirmation: "DPAdminBundle:CRUD:batch_confirmation.html.twig"
+        editRoles:          "DPAdminUserBundle:User:editRoles.html.twig"
+        
 services:    
     dp.form.user:
         class: DP\Admin\UserBundle\Form\UserType
+    
+    dp.form.user.editRoles:
+        class: DP\Admin\UserBundle\Form\UserRolesType
     
     dp.processor.user:
         class: DP\Admin\UserBundle\Processor\UserProcessor
@@ -28,7 +35,7 @@ services:
             - [ setName, [ "user_admin" ] ]
             - [ setRoutes, [ %dp.descriptor.user_admin.routes% ] ]
             - [ setTemplates, [ %dp.descriptor.user_admin.templates% ] ]
-            - [ setForms, [ { add: @dp.form.user, edit: @dp.form.user } ] ]
+            - [ setForms, [ { add: @dp.form.user, edit: @dp.form.user, editRoles: @dp.form.user.editRoles } ] ]
             - [ setEntityFactory, [ @dp.entity_factory.user ] ]
             - [ setEntityRepository, [ @dp.repository.user ] ]
             - [ setProcessor, [ @dp.processor.user ] ]

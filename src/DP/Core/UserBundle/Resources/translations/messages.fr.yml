@@ -26,6 +26,8 @@ title_user_account: Compte
 title_user_edit_profile: Modification des identifiants
 forgotten_password: Mot de passe oublié !
 
+user.rolesAssociatedToGroup: Rôle associé au groupe : %groups%.|Rôle associé aux groupes : %groups%.
+
 menu:
     home: Accueil
     machine: Gestion des machines

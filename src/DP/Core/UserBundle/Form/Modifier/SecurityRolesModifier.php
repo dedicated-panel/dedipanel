@@ -49,8 +49,12 @@ class SecurityRolesModifier implements EventSubscriberInterface
         $hierarchy = $this->getHierarchy();
         $roles = array();
         
-        foreach ($entity->getRoles() AS $role) {
-            $roles = array_merge($roles, array($role), $hierarchy[$role]);
+        foreach ($event->getData() AS $role) {
+            $roles = array_merge($roles, array($role));
+            
+            if (isset($hierarchy[$role])) {
+                $roles = array_merge($roles, $hierarchy[$role]);
+            }
         }
         
         $event->setData(array_unique($roles));

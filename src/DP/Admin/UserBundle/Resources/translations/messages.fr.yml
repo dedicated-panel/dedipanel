@@ -2,6 +2,8 @@ user_admin:
     list: Liste des utilisateurs
     add: Ajouter un utilisateur
     edit: Modifier un utilisateur
+    editUser: Modifier l'utilisateur
+    editRoles: Modifier les droits d'accès
     batch_title: Action de masse sur les utilisateurs
     creation_succeed: L'utilisateur a été créé avec succès.
     update_succeed: L'utilisateur a été mis à jour avec succès.

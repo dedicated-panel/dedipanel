@@ -19,6 +19,7 @@
 */
 
 namespace DP\Core\UserBundle\Controller;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**

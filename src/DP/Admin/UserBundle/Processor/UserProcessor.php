@@ -25,7 +25,7 @@ class UserProcessor implements CRUDProcessorInterface
     }
     
     public function updateProcess($entity)
-    {
+    {        
         $this->manager->updateUser($entity);
     }
     
