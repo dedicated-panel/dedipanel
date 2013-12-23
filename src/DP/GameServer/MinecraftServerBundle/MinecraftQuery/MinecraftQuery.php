@@ -78,6 +78,9 @@ class MinecraftQuery implements QueryInterface
                 if ($data['sessionId'] == $sessionId) {
                     $this->challenge = $data['challenge'];
                 }
+                else {
+                    throw new Exception\SessionIdNotMatchException;
+                }
             }
             catch (RecvTimeoutException $e) {
                 throw new Exception\ServerTimeoutException;
@@ -157,6 +160,7 @@ class MinecraftQuery implements QueryInterface
     
     public function isOnline()
     {
+        var_dump($this->online);
         return $this->online;
     }
     
