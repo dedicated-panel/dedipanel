@@ -77,7 +77,15 @@
                             </div>
 
                             <div class="description">
-                                {{ entity.machine.publicIp }}:{{ entity.port }}
+                                <span class="address">
+                                    {{ entity.machine.publicIp }}:{{ entity.port }}
+                                </span>
+                                
+                                {% if not is_granted('ROLE_DP_STEAM_EDIT') %}
+                                    <span class="install-in-progress">
+                                        {{ 'game.installInProgress'|trans }}
+                                    </span>
+                                {% endif %}
                             </div>
                         </div>
                         
@@ -95,10 +103,6 @@
     
                                     {{ entity.installationStatus }} %
                                 </div> #}
-                            </div>
-                        {% else %}
-                            <div class="installation">
-                                <p>{{ 'game.installInProgress'|trans }}</p>
                             </div>
                         {% endif %}
                     </div>

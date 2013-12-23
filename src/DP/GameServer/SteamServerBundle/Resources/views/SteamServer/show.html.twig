@@ -47,7 +47,7 @@
                     
                     <div class="serveur-header-info">
                         <div class="serveur-header-name">
-                            {% if entity.installationStatus == 101 %}
+                            {% if is_granted('ROLE_DP_STEAM_EDIT') and entity.installationStatus == 101 %}
                                 <ul>
                                     <li>
                                         <a href="{{ path('steam_regen', { 'id': entity.id }) }}">

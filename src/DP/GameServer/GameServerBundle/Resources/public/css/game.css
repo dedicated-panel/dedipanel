@@ -50,7 +50,8 @@
 }
 .server-item .infos .description .players, 
 .server-item .infos .description .banned, 
-.server-item .infos .description .offline {
+.server-item .infos .description .offline, 
+.server-item .infos .description .install-in-progress {
     font-weight: bold;
     margin-left: 10px;
 }
@@ -85,10 +86,6 @@
     color: #0684CA; 
     margin: 0 0 0 8px;
     float: left;
-}
-.server-item .installation p {
-    margin: 15px 0 0 15px;
-    color: #535353;
 }
 .server-item .installation-status {
     padding: 9px;
