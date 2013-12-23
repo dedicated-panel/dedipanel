@@ -30,10 +30,6 @@
     <h2>{{ 'machine.connectionTest'|trans }}</h2>
     
     {% if result %}
-        <div class="alert alert-block alert-success machine-test">
-            <p class="alert-heading">{{ 'machine.test.successful'|trans }}</p>
-        </div>
-        
         {% if machine.is64Bit == true and hasCompatLib == false %}
             <div class="alert alert-block alert-warning compat-lib">
                 <p class="alert-heading">{% autoescape false %}{{ 'machine.compatLibNotInstalled'|trans }}{% endautoescape %}</p>
@@ -45,6 +41,10 @@
                 <p class="alert-heading">{% autoescape false %}{{ 'machine.javaNotInstalled'|trans }}{% endautoescape %}</p>
             </div>
         {% endif %}
+        
+        <div class="alert alert-block alert-success machine-test">
+            <p class="alert-heading">{{ 'machine.test.successful'|trans }}</p>
+        </div>
     {% else %}
         <div class="alert alert-block alert-error machine-test">
             <p class="alert-heading">{{ 'machine.test.failed'|trans }}</p>
