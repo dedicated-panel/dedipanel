@@ -27,6 +27,7 @@ use DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer;
 use DP\GameServer\MinecraftServerBundle\Form\AddMinecraftServerType;
 use DP\GameServer\MinecraftServerBundle\Form\EditMinecraftServerType;
 use PHPSeclibWrapper\Exception\MissingPacketException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * MinecraftServer controller.
@@ -40,6 +41,10 @@ class MinecraftServerController extends Controller
      */
     public function indexAction()
     {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_MINECRAFT_SHOW')) {
+            throw new AccessDeniedException;
+        }
+        
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('DPMinecraftServerBundle:MinecraftServer')->findAll();
@@ -55,6 +60,10 @@ class MinecraftServerController extends Controller
      */
     public function showAction($id)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_MINECRAFT_SHOW')) {
+            throw new AccessDeniedException;
+        }
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('DPMinecraftServerBundle:MinecraftServer')->find($id);
@@ -78,6 +87,10 @@ class MinecraftServerController extends Controller
      */
     public function newAction()
     {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_MINECRAFT_ADD')) {
+            throw new AccessDeniedException;
+        }
+        
         $entity = new MinecraftServer();
         $form   = $this->createForm(new AddMinecraftServerType(), $entity);
 
@@ -93,6 +106,10 @@ class MinecraftServerController extends Controller
      */
     public function createAction(Request $request)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_MINECRAFT_ADD')) {
+            throw new AccessDeniedException;
+        }
+        
         $entity  = new MinecraftServer();
         $form = $this->createForm(new AddMinecraftServerType(), $entity);
         $form->bind($request);
@@ -134,6 +151,10 @@ class MinecraftServerController extends Controller
      */
     public function editAction($id)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_MINECRAFT_EDIT')) {
+            throw new AccessDeniedException;
+        }
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('DPMinecraftServerBundle:MinecraftServer')->find($id);
@@ -159,6 +180,10 @@ class MinecraftServerController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_MINECRAFT_EDIT')) {
+            throw new AccessDeniedException;
+        }
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('DPMinecraftServerBundle:MinecraftServer')->find($id);
@@ -192,6 +217,10 @@ class MinecraftServerController extends Controller
      */
     public function deleteAction(Request $request, $id, $fromMachine)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_MINECRAFT_DELETE')) {
+            throw new AccessDeniedException;
+        }
+        
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 
@@ -228,6 +257,10 @@ class MinecraftServerController extends Controller
      */
     public function installAction($id)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_MINECRAFT_EDIT')) {
+            throw new AccessDeniedException;
+        }
+        
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('DPMinecraftServerBundle:MinecraftServer')->find($id);
         
@@ -280,6 +313,10 @@ class MinecraftServerController extends Controller
     
     public function changeStateAction($id, $state)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_MINECRAFT_STATE')) {
+            throw new AccessDeniedException;
+        }
+        
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('DPMinecraftServerBundle:MinecraftServer')->find($id);
         
@@ -298,6 +335,10 @@ class MinecraftServerController extends Controller
 
     public function regenAction($id)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_MINECRAFT_EDIT')) {
+            throw new AccessDeniedException;
+        }
+        
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('DPMinecraftServerBundle:MinecraftServer')->find($id);
 
@@ -313,6 +354,10 @@ class MinecraftServerController extends Controller
 
     public function showLogAction($id)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_MINECRAFT_EDIT')) {
+            throw new AccessDeniedException;
+        }
+        
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('DPMinecraftServerBundle:MinecraftServer')->find($id);
         

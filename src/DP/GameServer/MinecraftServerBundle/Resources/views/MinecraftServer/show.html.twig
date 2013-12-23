@@ -65,8 +65,8 @@
                         </a>
                         <div class="serveur-header-map">
                             <div class="serveur-header-player">
-                                {% if online %}  
-                                    {{ entity.query.serverInfos['players'] }} / 
+                                {% if online %}
+                                    {{ entity.query.serverInfos['numplayers'] }} / 
                                     {{ entity.query.serverInfos['maxPlayers'] }} 
                                 {% endif %}
                             </div>

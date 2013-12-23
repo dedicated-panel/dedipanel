@@ -31,7 +31,7 @@ class MenuBuilder
         ;
         $menu
             ->addChild('menu.minecraft', array('route' => 'minecraft', 'extras' => array('icon' => 'R')))
-            // ->setDisplay($this->context->isGranted('ROLE_DP_MINECRAFT_SHOW'))
+            ->setDisplay($this->context->isGranted('ROLE_DP_MINECRAFT_SHOW'))
         ;
         $menu
             ->addChild('menu.machine', array('route' => 'machine', 'extras' => array('icon' => 'Q')))

@@ -1,36 +1,44 @@
 {% set sid = server.id %}
 
 <div class="actions clearfix">
-    {% if online %}
-        <a href="{{ path('minecraft_changeState', { 'id': sid, 'state': 'stop' }) }}">
-            <span class="icon" data-icon="&#x24;" title="{{ 'game.stop'|trans }}"></span>
-        </a>
-        <a href="{{ path('minecraft_changeState', { 'id': sid, 'state': 'restart' }) }}">
-            <span class="icon" data-icon="&#x27;" title="{{ 'game.restart'|trans }}"></span>
-        </a>
-    {% else %}
-        <a href="{{ path('minecraft_changeState', { 'id': sid, 'state': 'start' }) }}">
-            <span class="icon" data-icon="&#x22;" title="{{ 'game.start'|trans }}"></span>
-        </a>
+    {% if is_granted('ROLE_DP_MINECRAFT_STATE') %}
+        {% if online %}
+            <a href="{{ path('minecraft_changeState', { 'id': sid, 'state': 'stop' }) }}">
+                <span class="icon" data-icon="&#x24;" title="{{ 'game.stop'|trans }}"></span>
+            </a>
+            <a href="{{ path('minecraft_changeState', { 'id': sid, 'state': 'restart' }) }}">
+                <span class="icon" data-icon="&#x27;" title="{{ 'game.restart'|trans }}"></span>
+            </a>
+        {% else %}
+            <a href="{{ path('minecraft_changeState', { 'id': sid, 'state': 'start' }) }}">
+                <span class="icon" data-icon="&#x22;" title="{{ 'game.start'|trans }}"></span>
+            </a>
+        {% endif %}
     {% endif %}
 
+    {% if is_granted('ROLE_DP_MINECRAFT_EDIT') %}
         <a href="{{ path('minecraft_edit', {id: sid }) }}">
             <span class="icon" data-icon="&#x25;" title="{{ 'game.edit'|trans }}"></span>
         </a>
+    {% endif %}
 
-    {% if entity.game.isBukkit %}
+    {% if is_granted('ROLE_DP_MINECRAFT_PLUGIN') and entity.game.isBukkit %}
         <a href="{{ path('minecraft_plugin_show', {id: sid }) }}">
             <span class="icon" data-icon="&#x56;" title="{{ 'game.plugin.title'|trans }}"></span>
         </a>
     {% endif %}
 
+    {% if is_granted('ROLE_DP_MINECRAFT_FTP') %}
         <a href="{{ path('minecraft_ftp_show', {id: sid }) }}">
             <span class="icon" data-icon="&#x26;" title="{{ 'game.ftp.title'|trans }}"></span>
         </a>
+    {% endif %}
 
+    {% if is_granted('ROLE_DP_MINECRAFT_RCON') %}
         <a href="{{ path('minecraft_rcon_show', {id: sid}) }}">
             <span class="icon" data-icon="&#x5e;" title="{{ 'game.rcon.title'|trans }}"></span>
         </a>
+    {% endif %}
 
     {% if online %}
         <a href="{{ path('minecraft_show', {id: sid}) }}" class="slide">
