@@ -65,7 +65,7 @@ class MinecraftQuery implements QueryInterface
     {
         if (!isset($this->challenge)) {      
             try {
-                $sessionId = rand();
+                $sessionId = $this->generateSessionId();
                 $this->socket->send($this->packetFactory->handshake($sessionId));
             
                 $resp = $this->socket->recv();
@@ -94,7 +94,7 @@ class MinecraftQuery implements QueryInterface
     {
         if (!isset($this->serverInfos)) {
             try {
-                $sessionId = rand();
+                $sessionId = $this->generateSessionId();
                 $this->socket->send($this->packetFactory->stat($sessionId, $this->getChallenge()));
                 
                 $resp = $this->socket->recv();
@@ -124,7 +124,7 @@ class MinecraftQuery implements QueryInterface
     public function getPlayers()
     {
         if (!isset($this->players)) {
-            $sessionId = rand();
+            $sessionId = $this->generateSessionId();
             $this->socket->send($this->packetFactory->fullStat($sessionId, $this->getChallenge()));
             
             // 1 octet + 1 int + string "splitnum\x00\x80\x00" (2 + 4 + 11 = 16)
@@ -160,7 +160,6 @@ class MinecraftQuery implements QueryInterface
     
     public function isOnline()
     {
-        var_dump($this->online);
         return $this->online;
     }
     
@@ -176,5 +175,10 @@ class MinecraftQuery implements QueryInterface
         }
         
         return $this->plugins;
+    }
+    
+    private function generateSessionId()
+    {
+        return rand(0, 100) & 0x0F0F0F0F;
     }
 }
