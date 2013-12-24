@@ -28,7 +28,7 @@ abstract class PluginController extends Controller
 {
     abstract public function getServerEntity($id);
     abstract public function getBaseRoute();
-    abstract public function isGranted();
+    abstract protected function isGranted();
     
     public function showServerAction($id)
     {

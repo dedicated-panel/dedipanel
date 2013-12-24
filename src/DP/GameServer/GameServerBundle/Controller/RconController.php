@@ -30,7 +30,7 @@ abstract class RconController extends Controller
     abstract public function getEntityRepository();
     abstract public function getRconFromServer(GameServer $server);
     abstract public function getBaseRoute();
-    abstract public function isGranted();
+    abstract protected function isGranted();
 
     public function consoleJsonAction($id)
     {
