@@ -37,6 +37,8 @@ if [ $# -eq 3 ]; then
             # On decompresse et supprime le fichier compressé qu'on vient de télécharger.
             tar xvfz steamcmd_linux.tar.gz && rm -f tar xvfz steamcmd_linux.tar.gz
             
+            cd {{ installDir }}steamcmd/
+            
             chmod 755 ./steamcmd.sh && chmod u+x ./steam.sh
         fi
         
