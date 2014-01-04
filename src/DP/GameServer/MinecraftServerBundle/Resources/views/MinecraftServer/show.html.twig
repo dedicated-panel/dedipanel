@@ -47,20 +47,20 @@
                     </div>
                     <div class="serveur-header-info">
                             <div class="serveur-header-name">
-                                 {% if entity.getInstallationStatus == 101 %}
-                                        <ul>
-                                            <li>
-                                                <a href="{{ path('minecraft_regen', { 'id': entity.id }) }}">
-                                                    {{ 'game.regenerate'|trans }}
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ path('minecraft_screen_log', { 'id': entity.id}) }}">
-                                                    {{ 'game.showLog'|trans }}
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    {% endif %}
+                                {% if is_granted('ROLE_DP_MINECRAFT_ADMIN') and entity.getInstallationStatus == 101 %}
+                                    <ul>
+                                        <li>
+                                            <a href="{{ path('minecraft_regen', { 'id': entity.id }) }}">
+                                                {{ 'game.regenerate'|trans }}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('minecraft_screen_log', { 'id': entity.id}) }}">
+                                                {{ 'game.showLog'|trans }}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                {% endif %}
                             </div>
                         </a>
                         <div class="serveur-header-map">
@@ -125,95 +125,104 @@
             </div>
         </div>
     </div>
-        <div class="serveur-content">
+    
+    <div class="serveur-content">
         <div class="serveur-players">
-                <table class="table table-hover players">
-                    <thead>
-                        <tr>
-                            <th>{{ 'game.player'|trans }}</th>
-                            <th>{{ 'game.score'|trans }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if online %} 
-                            {% for player in entity.query.players %}
-                                <tr>
-                                    <td>{{ player.nom }}</td>
-                                    <td>{{ player.score }}</td>
-                                </tr>
-                            {% else %}
-                                <tr><th colspan="2" class="empty">
-                                    {{ 'game.noPlayerConnected'|trans }}
-                                </th></tr>
-                            {% endfor %}
+            <table class="table table-hover players">
+                <thead>
+                    <tr>
+                        <th>{{ 'game.player'|trans }}</th>
+                        <th>{{ 'game.score'|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if online %} 
+                        {% for player in entity.query.players %}
+                            <tr>
+                                <td>{{ player.nom }}</td>
+                                <td>{{ player.score }}</td>
+                            </tr>
                         {% else %}
                             <tr><th colspan="2" class="empty">
-                            {{ 'game.serveurOffline'|trans }}
-                            </th></tr>                 
-                        {% endif %}                
-                    </tbody>
-                </table>
-            </div>
-            <div class="serveur-info-summary">
-                <table class="table table-striped table-condensed">
-                    <tbody>
-                        <tr>
-                            <th>{{ 'game.id'|trans }}</th>
-                            <td>{{ entity.id }}</td>
-                        </tr>
-                        <tr>
-                            <th>{{ 'game.dir'|trans }}</th>
-                            <td>{{ entity.dir }}</td>
-                        </tr>
-                        <tr>
-                            <th>{{ 'game.rcon.password'|trans }}</th>
-                            <td>{{ entity.rconPassword }}</td>
-                        </tr>
-                        <tr>
-                            <th>{{ 'game.dir'|trans }}</th>
-                            <td>{{ entity.dir }}</td>
-                        </tr>
-                        <tr>
-                            <th>{{ 'game.maxplayers'|trans }}</th>
-                            <td>{{ entity.maxplayers }}</td>
-                        </tr>
-                        <tr>
-                            <th>{{ 'minecraft.queryPort'|trans }}</th>
-                            <td>{{ entity.queryPort }}</td>
-                        </tr>
-                        <tr>
-                            <th>{{ 'minecraft.rcon.port'|trans }}</th>
-                            <td>{{ entity.rconPort }}</td>
-                        </tr>
-                        <tr>
-                            <th>{{ 'minecraft.minHeap'|trans }}</th>
-                            <td>{{ entity.minHeap }}</td>
-                        </tr>
-                        <tr>
-                            <th>{{ 'minecraft.maxHeap'|trans }}</th>
-                            <td>{{ entity.maxHeap }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                                {{ 'game.noPlayerConnected'|trans }}
+                            </th></tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr><th colspan="2" class="empty">
+                        {{ 'game.serveurOffline'|trans }}
+                        </th></tr>                 
+                    {% endif %}                
+                </tbody>
+            </table>
         </div>
+        
+        <div class="serveur-info-summary">
+            <table class="table table-striped table-condensed">
+                <tbody>
+                    <tr>
+                        <th>{{ 'game.id'|trans }}</th>
+                        <td>{{ entity.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ 'game.dir'|trans }}</th>
+                        <td>{{ entity.dir }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ 'game.rcon.password'|trans }}</th>
+                        <td>{{ entity.rconPassword }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ 'game.dir'|trans }}</th>
+                        <td>{{ entity.dir }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ 'game.maxplayers'|trans }}</th>
+                        <td>{{ entity.maxplayers }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ 'minecraft.queryPort'|trans }}</th>
+                        <td>{{ entity.queryPort }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ 'minecraft.rcon.port'|trans }}</th>
+                        <td>{{ entity.rconPort }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ 'minecraft.minHeap'|trans }}</th>
+                        <td>{{ entity.minHeap }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ 'minecraft.maxHeap'|trans }}</th>
+                        <td>{{ entity.maxHeap }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+        
+    {% if is_granted('ROLE_DP_MINECRAFT_EDIT') or is_granted('ROLE_DP_MINECRAFT_DELETE') %}
         <div class="form-group clearfix">
-            <form action="{{ path('minecraft_edit', { 'id': entity.id }) }}" method="post" class="form-edit">          
-                <div class="form-actions">
-                    <button type="submit"  class="btn btn-primary">{{ 'game.edit'|trans }}</button>
-                </div>
-            </form>
-
-            <form action="{{ path('minecraft_delete', { 'id': entity.id }) }}" method="post" class="form-delete">
-            {{ form_widget(delete_form) }}
-
-                <button type="submit"  class="btn btn-danger">{{ 'game.del'|trans }}</button>
-            </form>
-
-            <form action="{{ path('minecraft_delete', { 'id': entity.id, fromMachine: true }) }}" method="post" class="form-delete">
-            {{ form_widget(delete_all_form) }}
-
+            {% if is_granted('ROLE_DP_MINECRAFT_EDIT') %}
+                <form action="{{ path('minecraft_edit', { 'id': entity.id }) }}" method="post" class="form-edit">          
+                    <div class="form-actions">
+                        <button type="submit"  class="btn btn-primary">{{ 'game.edit'|trans }}</button>
+                    </div>
+                </form>
+            {% endif %}
+            
+            {% if is_granted('ROLE_DP_MINECRAFT_DELETE') %}
+                <form action="{{ path('minecraft_delete', { 'id': entity.id }) }}" method="post" class="form-delete">
+                    {{ form_widget(delete_form) }}
+                    
+                    <button type="submit"  class="btn btn-danger">{{ 'game.del'|trans }}</button>
+                </form>
+    
+                <form action="{{ path('minecraft_delete', { 'id': entity.id, fromMachine: true }) }}" method="post" class="form-delete">
+                    {{ form_widget(delete_all_form) }}
+                    
                     <button type="submit"  class="btn btn-danger">{{ 'game.delAll'|trans }}</button>
-            </form> 
+                </form>
+            {% endif %}
         </div>
+    {% endif %}
 {% endblock %}

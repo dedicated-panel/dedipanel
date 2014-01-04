@@ -47,13 +47,15 @@
                     
                     <div class="serveur-header-info">
                         <div class="serveur-header-name">
-                            {% if is_granted('ROLE_DP_STEAM_EDIT') and entity.installationStatus == 101 %}
+                            {% if is_granted('ROLE_DP_STEAM_ADMIN') %}
                                 <ul>
-                                    <li>
-                                        <a href="{{ path('steam_regen', { 'id': entity.id }) }}">
-                                            {{ 'game.regenerate'|trans }}
-                                        </a>
-                                    </li>
+                                    {% if entity.installationStatus == 101 %}
+                                        <li>
+                                            <a href="{{ path('steam_regen', { 'id': entity.id }) }}">
+                                                {{ 'game.regenerate'|trans }}
+                                            </a>
+                                        </li>
+                                    {% endif %}
                                     
                                     <li>
                                         <a href="{{ path('steam_screen_log', { 'id': entity.id}) }}">
@@ -84,13 +86,19 @@
                         </div>
                         
                         <div class="serveur-header-map">
-                            {% if online %}  
-                                {{ 'game.map'|trans({'%map%': entity.query.serverInfos['map']}) }}
+                            {% if entity.installationStatus == 101 %}
+                                {% if online %}  
+                                    {{ 'game.map'|trans({'%map%': entity.query.serverInfos['map']}) }}
+                                {% else %}
+                                    <div class="offline">
+                                        {{ 'game.offline'|trans }}
+                                    </div>
+                                {% endif %}                            
                             {% else %}
                                 <div class="offline">
-                                    {{ 'game.offline'|trans }}
+                                    {{ 'game.installInProgress'|trans }}
                                 </div>
-                            {% endif %}                            
+                            {% endif %}
                         </div>
                         
                         <div class="profile_summary">

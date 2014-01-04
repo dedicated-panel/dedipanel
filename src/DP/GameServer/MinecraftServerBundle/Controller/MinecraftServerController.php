@@ -257,7 +257,8 @@ class MinecraftServerController extends Controller
      */
     public function installAction($id)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_DP_MINECRAFT_EDIT')) {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_MINECRAFT_ADD')
+        && !$this->get('security.context')->isGranted('ROLE_DP_MINECRAFT_EDIT')) {
             throw new AccessDeniedException;
         }
         
@@ -335,7 +336,7 @@ class MinecraftServerController extends Controller
 
     public function regenAction($id)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_DP_MINECRAFT_EDIT')) {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_MINECRAFT_ADMIN')) {
             throw new AccessDeniedException;
         }
         
@@ -354,7 +355,7 @@ class MinecraftServerController extends Controller
 
     public function showLogAction($id)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_DP_MINECRAFT_EDIT')) {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_MINECRAFT_ADMIN')) {
             throw new AccessDeniedException;
         }
         

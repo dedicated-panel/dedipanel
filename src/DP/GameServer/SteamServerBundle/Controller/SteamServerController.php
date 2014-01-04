@@ -268,7 +268,8 @@ class SteamServerController extends Controller
      */
     public function installAction($id)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_DP_STEAM_EDIT')) {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_STEAM_ADD')
+        && !$this->get('security.context')->isGranted('ROLE_DP_STEAM_EDIT')) {
             throw new AccessDeniedException;
         }
         
@@ -351,7 +352,7 @@ class SteamServerController extends Controller
 
     public function regenAction($id)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_DP_STEAM_EDIT')) {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_STEAM_ADMIN')) {
             throw new AccessDeniedException;
         }
         
@@ -376,7 +377,7 @@ class SteamServerController extends Controller
     
     public function showLogAction($id)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_DP_STEAM_EDIT')) {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_STEAM_ADMIN')) {
             throw new AccessDeniedException;
         }
         

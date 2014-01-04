@@ -47,6 +47,20 @@ tail -f app/logs/prod.log
 tail -f app/logs/dev.log
 ````
 
+Droits d'accès
+-------
+Roles :
+  * ROLE_DP_STEAM_* / ROLE_DP_MINECRAFT_* :
+    * ROLE_DP_STEAM_ADMIN: Affichage des logs, régénération des scripts du panel. Hérité des autres rôles. 
+    * ROLE_DP_STEAM_SHOW: Affichage de la liste des serveurs, affichage des détails d'un serveurs.
+    * ROLE_DP_STEAM_ADD: Création de serveurs. Peux mettre à jour/relance une installation.
+    * ROLE_DP_STEAM_EDIT: Modification des serveurs. Peux mettre à jour/relancer une installation.
+    * ROLE_DP_STEAM_STATE: Peux démarrer/arrêter/redémarrer les serveurs.
+    * ROLE_DP_STEAM_FTP: Accès à la partie ftp des serveurs.
+    * ROLE_DP_STEAM_PLUGIN: Gestion des plugins des serveurs.
+    * ROLE_DP_STEAM_RCON: Accès à la console rcon.
+    * ROLE_DP_STEAM_HLTV: Gestion de la HLTV.
+
 
 Auteur
 -------

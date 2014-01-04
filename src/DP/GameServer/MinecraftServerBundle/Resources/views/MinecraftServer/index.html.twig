@@ -36,14 +36,16 @@
 
 {% block content %}
     <h2>{{ 'minecraft.list'|trans }}</h2>
-
-    <ul id="top-nav" class="nav nav-tabs">
-        <li>
-            <a href="{{ path('minecraft_new') }}">
-                {{ 'minecraft.add'|trans }}
-            </a>
-        </li>
-    </ul>
+    
+    {% if is_granted('ROLE_DP_MINECRAFT_ADD') %}
+        <ul id="top-nav" class="nav nav-tabs">
+            <li>
+                <a href="{{ path('minecraft_new') }}">
+                    {{ 'minecraft.add'|trans }}
+                </a>
+            </li>
+        </ul>
+    {% endif %}
     
     {% for message in app.session.flashbag.get('stateChanged') %}
         <div class="alert alert-info">
@@ -81,7 +83,7 @@
                             </div>
                         </div>
 
-                        {% if is_granted('ROLE_DP_MINECRAFT_EDIT') %}
+                        {% if is_granted('ROLE_DP_MINECRAFT_ADD') or is_granted('ROLE_DP_MINECRAFT_EDIT') %}
                             <div class="installation">
                                 <div class="update-status">
                                     <img src="{{ asset('images/icones/serveur/install.png') }}" alt="{{ 'game.updateStatus'|trans }}" />
