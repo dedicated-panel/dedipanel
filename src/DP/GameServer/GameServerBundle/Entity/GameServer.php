@@ -538,4 +538,11 @@ abstract class GameServer
         
         return $sec->getScreenContent($this->getScreenName());
     }
+    
+    public function getInstallLogs()
+    {
+        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        
+        return $sec->getScreenContent($this->getInstallScreenName());
+    }
 }

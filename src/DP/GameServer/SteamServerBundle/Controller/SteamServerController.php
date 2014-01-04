@@ -388,7 +388,12 @@ class SteamServerController extends Controller
             throw $this->createNotFoundException('Unable to find SteamServer entity.');
         }
         
-        $logs = $entity->getServerLogs();
+        if ($entity->getInstallationStatus() == 101) {
+            $logs = $entity->getServerLogs();
+        }
+        else {
+            $logs = $entity->getInstallLogs();
+        }
         
         return $this->render('DPSteamServerBundle:SteamServer:logs.html.twig', array(
             'entity' => $entity, 
