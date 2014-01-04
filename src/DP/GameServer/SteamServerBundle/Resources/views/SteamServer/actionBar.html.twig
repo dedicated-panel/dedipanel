@@ -1,7 +1,7 @@
 {% set sid = server.id %}
 
 <div class="actions clearfix">
-    {% if is_granted('ROLE_DP_STEAM_STATE') and entity.installationStatus == 101 %}
+    {% if is_granted('ROLE_DP_STEAM_STATE') %}
         {% if online %}
             <a href="{{ path('steam_changeState', { 'id': sid, 'state': 'stop' }) }}">
                 <span class="icon" data-icon="&#x24;" title="{{ 'game.stop'|trans }}"></span>

@@ -150,7 +150,9 @@
                             </div>
                         </div>
                         
-                        {% include 'DPSteamServerBundle:SteamServer:actionBar.html.twig' with {show: true, online: online, server: entity} %}
+                        {% if entity.installationStatus == 101 %}
+                            {% include 'DPSteamServerBundle:SteamServer:actionBar.html.twig' with {show: true, online: online, server: entity} %}
+                        {% endif %}
                     </div>
 
                     <div class="details clearfix">

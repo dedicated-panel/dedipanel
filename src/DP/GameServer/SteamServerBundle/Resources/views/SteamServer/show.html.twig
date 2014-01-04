@@ -75,11 +75,13 @@
                             </div>
                         </div>
                         
-                    	<div class="serveur-header-actionbar">
-                        	{% include 'DPSteamServerBundle:SteamServer:actionBar.html.twig' with {show: true, online: online, server: entity} %}
-						</div>
+                        {% if entity.installationStatus == 101 %}
+                            <div class="serveur-header-actionbar">
+                                {% include 'DPSteamServerBundle:SteamServer:actionBar.html.twig' with {show: true, online: online, server: entity} %}
+                            </div>
+                        {% endif %}
                     </div>
-
+                    
                     <div class="serveur-header-summary">
                         <div class="serveur-header-name">
                             <a href="{{ path('steam_show', {id: entity.id}) }}">{{ entity.name }}</a>

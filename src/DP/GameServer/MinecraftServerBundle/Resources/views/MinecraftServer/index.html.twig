@@ -134,7 +134,9 @@
                             </div>
                         </div>
                         
-                        {% include 'DPMinecraftServerBundle:MinecraftServer:actionBar.html.twig' with {show: true, online: online, server: entity} %}
+                        {% if entity.installationStatus == 101 %}
+                            {% include 'DPMinecraftServerBundle:MinecraftServer:actionBar.html.twig' with {show: true, online: online, server: entity} %}
+                        {% endif %}
                     </div>
 
                     <div class="details" rel="{{ entity.id }}">
