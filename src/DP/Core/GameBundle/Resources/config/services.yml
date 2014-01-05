@@ -15,31 +15,5 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 parameters:
-    dp.game.admin.game.entity: DP\Core\GameBundle\Entity\Game
-    dp.game.admin.game.class: DP\Core\GameBundle\Admin\GameAdmin
-    dp.game.admin.game.controller: SonataAdminBundle:CRUD
-    dp.game.admin.game.translation_domain: Admin
-    
-    dp.game.admin.plugin.entity: DP\Core\GameBundle\Entity\Plugin
-    dp.game.admin.plugin.class: DP\Core\GameBundle\Admin\PluginAdmin
-    dp.game.admin.plugin.controller: SonataAdminBundle:CRUD
-    dp.game.admin.plugin.translation_domain: %dp.game.admin.game.translation_domain%
-    
-    dp.game.admin.groupname: gameAdmin
 
 services:
-    dp.game.admin.game:
-        class: %dp.game.admin.game.class%
-        arguments: [null, %dp.game.admin.game.entity%, %dp.game.admin.game.controller%]
-        calls:
-            - [ setTranslationDomain, [ %dp.game.admin.game.translation_domain% ] ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: "Game Admin", label: "Game" }
-    
-    dp.game.admin.plugin:
-        class: %dp.game.admin.plugin.class%
-        arguments: [null, %dp.game.admin.plugin.entity%, %dp.game.admin.plugin.controller%]
-        calls:
-            - [ setTranslationDomain, [ %dp.game.admin.plugin.translation_domain%] ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: "Game Admin", label: "Plugin" }
