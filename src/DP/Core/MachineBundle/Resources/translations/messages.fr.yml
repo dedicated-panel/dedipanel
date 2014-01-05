@@ -14,32 +14,31 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-machine.machine: Machine
-machine.add: Ajouter une machine
-machine.list: Liste des machines
-machine.editMachine: Modification d'une machine
+machine.title.machine: Machine
+machine.title.index: Liste des machines
+machine.title.show: Voir une machine
+machine.title.add: Ajouter une machine
+machine.title.edit: Modifier une machine
+machine.title.connection_test: Test de connexion avec une machine
 
-machine.connection_test: Tester
+machine.actions.add: Ajouter une machine
+machine.actions.connection_test: Tester
+machine.actions.retry: Réessayer
 
-machine.id: ID
-machine.privateIp: IP Privée
-machine.publicIp: IP Publique
-machine.port: Port
-machine.user: Utilisateur
-machine.actions: Actions
-machine.passwd: Mot de passe
-machine.back: Retour à la liste
-machine.home: Répertoire home
-machine.genPrivKey: Clé privée générée ?
-machine.yes: Oui
-machine.no: Non
+machine.fields.id: ID
+machine.fields.private_ip: IP Privée
+machine.fields.public_ip: IP Publique
+machine.fields.port: Port
+machine.fields.user: Utilisateur
+machine.fields.actions: Actions
+machine.fields.password: Mot de passe
+machine.fields.home: Répertoire home
+machine.fields.is_priv_key_already_generated: Clé privée générée ?
+machine.fields.nb_core: Nombre de core détecté(s)
+machine.fields.is_64bit: Système 64 bits ?
 
-machine.test.successful: Test de connexion réussi !
+machine.test.succeeded: Test de connexion réussi !
 machine.test.failed: Test de connexion échoué !
-machine.test.retry: Réessayer
 
-machine.nbCore: Nombre de core détecté(s)
-
-machine.is64BitSystem: Système 64 bits ?
-machine.compatLibNotInstalled: "Vous utilisez un système 64bits. Nous vous recommandons vivement d'installer les librairies de compatibilités 32bits (<a href=\"http://www.dedicated-panel.net/faq#systeme-64b\">voir notre F.A.Q.</a>)."
-machine.javaNotInstalled: "Java ne semble pas être installé sur cette machine. Vous devriez l'installer (<a href=\"http://www.dedicated-panel.net/faq#installation-java\">voir notre F.A.Q.</a>) afin d'utiliser des serveurs Minecraft dessus."
+machine.compat_lib_not_installed: "Vous utilisez un système 64bits. Nous vous recommandons vivement d'installer les librairies de compatibilités 32bits (<a href=\"http://www.dedicated-panel.net/faq#systeme-64b\">voir notre F.A.Q.</a>)."
+machine.java_not_installed: "Java ne semble pas être installé sur cette machine. Vous devriez l'installer (<a href=\"http://www.dedicated-panel.net/faq#installation-java\">voir notre F.A.Q.</a>) afin d'utiliser des serveurs Minecraft dessus."

@@ -32,5 +32,9 @@ sylius.edit: Modifier
 sylius.save_changes: Mettre à jour
 sylius.delete: Supprimer
 sylius.cancel: Annuler
-sylius.confirm: Confirmer
 sylius.back: Retour
+
+dedipanel.yes: Oui
+dedipanel.no: Non
+dedipanel.title.confirm_delete: Confirmer la suppression
+dedipanel.actions.confirm_delete: Confirmer

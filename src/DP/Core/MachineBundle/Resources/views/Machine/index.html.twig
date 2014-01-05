@@ -1,19 +1,8 @@
 {#
- Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
-
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- GNU General Public License for more details.
- 
- You should have received a copy of the GNU General Public License along
- with this program; if not, write to the Free Software Foundation, Inc.,
- 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+    (c) Dedipanel <http://www.dedicated-panel.net>
+    
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
 #}
 
 {% extends "::layout.html.twig" %}
@@ -26,27 +15,27 @@
 {% endblock %}
 
 {% block title %}
-    {{ dedipanel_buttons.back(path('_welcome'), 'machine.machine'|trans) }}
+    {{ dedipanel_buttons.back(path('_welcome'), 'machine.title.machine'|trans) }}
 {% endblock %}
 
 {% block content %}
-    <h2>{{ 'machine.machine'|trans }}</h2>
+    <h2>{{ 'machine.title.index'|trans }}</h2>
 
     <ul id="top-nav" class="nav nav-tabs">
         <li>
-            {{ sylius_buttons.edit(path('dedipanel_machine_create'), 'sylius.add'|trans) }}
+            {{ sylius_buttons.edit(path('dedipanel_machine_create'), 'machine.actions.add'|trans) }}
         </li>
     </ul>
     
     <table class="table table-striped machine-list">
         <thead>
             <tr>
-                <th>{{ 'machine.id'|trans }}</th>
-                <th>{{ 'machine.privateIp'|trans }}</th>
-                <th>{{ 'machine.publicIp'|trans }}</th>
-                <th>{{ 'machine.port'|trans }}</th>
-                <th>{{ 'machine.user'|trans }}</th>
-                <th>{{ 'machine.actions'|trans }}</th>
+                <th>{{ 'machine.fields.id'|trans }}</th>
+                <th>{{ 'machine.fields.private_ip'|trans }}</th>
+                <th>{{ 'machine.fields.public_ip'|trans }}</th>
+                <th>{{ 'machine.fields.port'|trans }}</th>
+                <th>{{ 'machine.fields.user'|trans }}</th>
+                <th>{{ 'machine.fields.actions'|trans }}</th>
             </tr>
         </thead>
         <tbody>
@@ -62,7 +51,7 @@
                         <div class="btn-group">
                             {{ sylius_buttons.show(path('dedipanel_machine_show', {'id': machine.id})) }}
                             {{ sylius_buttons.edit(path('dedipanel_machine_update', {'id': machine.id})) }}
-                            {{ sylius_buttons.manage(path('dedipanel_machine_connection_test', {'id': machine.id}), 'machine.connection_test'|trans) }}
+                            {{ sylius_buttons.manage(path('dedipanel_machine_connection_test', {'id': machine.id}), 'machine.actions.connection_test'|trans) }}
                         </div>
                     </td>
                 </tr>  
