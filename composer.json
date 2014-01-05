@@ -26,7 +26,8 @@
         "doctrine/migrations": "*",
         "doctrine/doctrine-migrations-bundle": "*",
         "doctrine/data-fixtures": "*",
-        "doctrine/doctrine-fixtures-bundle": "*"
+        "doctrine/doctrine-fixtures-bundle": "*",
+        "sylius/resource-bundle": "0.6.*"
     },
     "scripts": {
         "post-install-cmd": [
