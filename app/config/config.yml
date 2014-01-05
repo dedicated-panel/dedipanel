@@ -101,3 +101,12 @@ knp_menu:
         template: DPCoreUserBundle::knp_menu.html.twig
     templating: false # if true, enables the helper for PHP templates
     default_renderer: twig # The renderer to use, list is also available by default
+
+sylius_resource:
+    resources:
+        dedipanel.machine:
+            driver: doctrine/orm
+            templates: DPMachineBundle:Machine
+            classes:
+                model: DPMachineBundle:Machine
+                controller: DP\Core\MachineBundle\Controller\MachineController

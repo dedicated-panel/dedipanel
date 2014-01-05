@@ -1,0 +1,9 @@
+{% from 'SyliusResourceBundle:Macros:buttons.html.twig' import edit %}
+
+{% macro back(url, message) %}
+    <a href="{{ url }}">
+        <span class="icon" data-icon="&#x29;" title="{{ 'sylius.back'|trans }}"></span>
+    </a>
+    
+    {{ message }}
+{% endmacro %}

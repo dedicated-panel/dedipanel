@@ -232,7 +232,7 @@ class PHPSeclibWrapper {
     public function connectionTest()
     {
         try {
-            $echo = $this->exec('echo dedipanel');
+            $echo = @$this->exec('echo dedipanel');
             
             if (empty($echo) || $echo != 'dedipanel') {
                 return false;

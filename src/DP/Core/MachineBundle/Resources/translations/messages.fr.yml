@@ -15,14 +15,11 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 machine.machine: Machine
+machine.add: Ajouter une machine
 machine.list: Liste des machines
 machine.editMachine: Modification d'une machine
 
-machine.new: Ajouter une machine
-machine.show: Voir
-machine.connectionTest: Tester
-machine.edit: Modifier
-machine.del: Supprimer
+machine.connection_test: Tester
 
 machine.id: ID
 machine.privateIp: IP Privée
@@ -31,7 +28,6 @@ machine.port: Port
 machine.user: Utilisateur
 machine.actions: Actions
 machine.passwd: Mot de passe
-machine.add: Ajouter
 machine.back: Retour à la liste
 machine.home: Répertoire home
 machine.genPrivKey: Clé privée générée ?
@@ -43,8 +39,6 @@ machine.test.failed: Test de connexion échoué !
 machine.test.retry: Réessayer
 
 machine.nbCore: Nombre de core détecté(s)
-
-machine.identNotGood: "Impossible de se connecter au serveur. Veuillez vérifier l'adresse ip, le port ainsi que le nom d'utilisateur et le mot de passe."
 
 machine.is64BitSystem: Système 64 bits ?
 machine.compatLibNotInstalled: "Vous utilisez un système 64bits. Nous vous recommandons vivement d'installer les librairies de compatibilités 32bits (<a href=\"http://www.dedicated-panel.net/faq#systeme-64b\">voir notre F.A.Q.</a>)."

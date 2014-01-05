@@ -14,9 +14,11 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-machine.assert:
-  - privateIp: Vous devez indiquer une adresse IP valide.
-  - publicIp: Vous devez indiquer une adresse IP publique valide.
-  - port: Vous devez indiquer un port compris entre 1 et 65536.
-  - user: Vous devez indiquer un nom d'utilisateur
-  - passwd: Vous devez indiquer le mot de passe de cet utilisateur.
+machine:
+  assert:
+    privateIp: Vous devez indiquer une adresse IP valide.
+    publicIp: Vous devez indiquer une adresse IP publique valide.
+    port: Vous devez indiquer un port compris entre 1 et 65536.
+    user: Vous devez indiquer un nom d'utilisateur
+    password: Vous devez indiquer le mot de passe de cet utilisateur.
+    bad_credentials: "Impossible de se connecter au serveur. Veuillez vérifier l'adresse ip, le port ainsi que le nom d'utilisateur et le mot de passe."

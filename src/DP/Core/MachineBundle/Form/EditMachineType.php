@@ -36,6 +36,6 @@ class EditMachineType extends BaseMachineType
 
     public function getName()
     {
-        return 'dp_machinebundle_machinetype_editmachinetype';
+        return 'dedipanel_machine_edit';
     }
 }

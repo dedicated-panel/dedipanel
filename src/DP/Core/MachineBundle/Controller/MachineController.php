@@ -20,300 +20,31 @@
 
 namespace DP\Core\MachineBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-use DP\Core\MachineBundle\Entity\Machine;
-use DP\Core\MachineBundle\Form\AddMachineType;
-use DP\Core\MachineBundle\Form\EditMachineType;
-use Symfony\Component\Form\FormError;
+use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
+use DP\Core\MachineBundle\Entity\Machine;
 
 /**
  * Machine controller.
  *
  */
-class MachineController extends Controller
+class MachineController extends ResourceController
 {
-    /**
-     * Lists all Machine entities.
-     *
-     */
-    public function indexAction()
+    public function testConnectionAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $config = $this->getConfiguration();
+        $machine = $this->findOr404();
 
-        $entities = $em->getRepository('DPMachineBundle:Machine')->findAll();
-
-        return $this->render('DPMachineBundle:Machine:index.html.twig', array(
-            'entities' => $entities
-        ));
-    }
-
-    /**
-     * Finds and displays a Machine entity.
-     *
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('DPMachineBundle:Machine')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Machine entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('DPMachineBundle:Machine:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-
-        ));
-    }
-
-    /**
-     * Displays a form to create a new Machine entity.
-     *
-     */
-    public function newAction()
-    {
-        $entity = new Machine();
-        $form   = $this->createForm(new AddMachineType(), $entity);
-
-        return $this->render('DPMachineBundle:Machine:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView()
-        ));
-    }
-
-    /**
-     * Creates a new Machine entity.
-     *
-     */
-    public function createAction()
-    {
-        $entity  = new Machine();
-        $request = $this->getRequest();
-        $form    = $this->createForm(new AddMachineType(), $entity);
-        $form->bind($request);
-
-        if ($form->isValid()) {
-            $sec = PHPSeclibWrapper::getFromMachineEntity($entity);
-            $test = $sec->connectionTest();
-
-            if ($test) {
-                $this->generateKeyPair($entity);
-
-                $this->getMachineInfos($sec, $entity);
-                $is64Bit = $entity->getIs64Bit();
-
-                if ($is64Bit) {
-                    if (!$sec->hasCompatLib()) {
-                        $this->get('session')->getFlashBag()->set('compatLib', 'machine.compatLibNotInstalled');
-                    }
-                }
-
-                if (!$sec->javaInstalled()) {
-                    $this->get('session')->getFlashBag()->set('compatLib', 'machine.javaNotInstalled');
-                }
-
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($entity);
-                $em->flush();
-
-                return $this->redirect($this->generateUrl('machine_show', array('id' => $entity->getId())));
-            }
-            else {
-                $trans = $this->get('translator')->trans('machine.identNotGood');
-                $form->addError(new FormError($trans));
-            }
-        }
-
-        return $this->render('DPMachineBundle:Machine:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView()
-        ));
-    }
-
-    /**
-     * Displays a form to edit an existing Machine entity.
-     *
-     */
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('DPMachineBundle:Machine')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Machine entity.');
-        }
-
-        $editForm = $this->createForm(new EditMachineType(), $entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('DPMachineBundle:Machine:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    /**
-     * Edits an existing Machine entity.
-     *
-     */
-    public function updateAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('DPMachineBundle:Machine')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Machine entity.');
-        }
-
-        $editForm   = $this->createForm(new EditMachineType(), $entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        $request = $this->getRequest();
-
-        $editForm->bind($request);
-
-        if ($editForm->isValid()) {
-            // Si l'utilisateur a précisé son mdp, on régénère une paire de clé
-            $password = $entity->getPassword();
-            if (!empty($password)) {
-                $sec = PHPSeclibWrapper::getFromMachineEntity($entity, false);
-                $test = $sec->connectionTest();
-
-                // Si le test de connexion à réussi, on génère la paire de clé
-                if ($test) {
-                    $this->generateKeyPair($entity);
-
-                    $this->getMachineInfos($sec, $entity);
-                    $is64Bit = $entity->getIs64Bit();
-
-                    if ($is64Bit) {
-                        if (!$sec->hasCompatLib()) {
-                            $this->get('session')->getFlashBag()->set('compatLib', 'machine.compatLibNotInstalled');
-                        }
-                    }
-
-                    if (!$sec->javaInstalled()) {
-                        $this->get('session')->getFlashBag()->set('compatLib', 'machine.javaNotInstalled');
-                    }
-
-                    $em->persist($entity);
-                    $em->flush();
-
-                    return $this->redirect($this->generateUrl('machine'));
-                }
-                // Sinon ajout d'un message d'erreur sur le formulaire
-                else {
-                    $trans = $this->get('translator')->trans('machine.identNotGood');
-                    $editForm->addError(new FormError($trans));
-                }
-            }
-        }
-
-        return $this->render('DPMachineBundle:Machine:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    private function generateKeyPair(Machine $entity, $delete = false)
-    {
-        $secure = PHPSeclibWrapper::getFromMachineEntity($entity, false);
-        $secure->setPasswd($entity->getPassword());
-
-        if ($delete) $secure->deleteKeyPair($entity->getPublicKey());
-
-        $privkeyFilename = uniqid('', true);
-        $pubKey = $secure->createKeyPair($privkeyFilename);
-
-        $entity->setPrivateKeyFilename($privkeyFilename);
-        $entity->setPublicKey($pubKey);
-
-        $this->getMachineInfos($secure, $entity);
-
-        return true;
-    }
-
-    protected function getMachineInfos(PHPSeclibWrapper $secure, Machine $entity)
-    {
-        $entity->setHome($secure->getHome());
-        $entity->setNbCore($entity->retrieveNbCore());
-        $entity->setIs64bit($secure->is64bitSystem());
-    }
-
-    /**
-     * Deletes a Machine entity.
-     *
-     */
-    public function deleteAction($id)
-    {
-        $form = $this->createDeleteForm($id);
-        $request = $this->getRequest();
-
-        $form->bind($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('DPMachineBundle:Machine')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Machine entity.');
-            }
-
-            try {
-                $secure = PHPSeclibWrapper::getFromMachineEntity($entity);
-                $secure->deleteKeyPair($entity->getPublicKey());
-            }
-            catch (\Exception $e) {}
-
-            foreach ($entity->getGameServers() AS $srv) {
-                $entity->getGameServers()->removeElement($srv);
-                $em->remove($srv);
-            }
-
-            $em->remove($entity);
-            $em->flush();
-        }
-
-        return $this->redirect($this->generateUrl('machine'));
-    }
-
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
-            ->getForm()
-        ;
-    }
-
-    public function connectionTestAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('DPMachineBundle:Machine')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Machine entity.');
-        }
-
-        $is64Bit = false;
+        $test = false;
         $compatLib = false;
+        $javaInstalled = false;
 
         try {
-            $secure = PHPSeclibWrapper::getFromMachineEntity($entity);
+            $secure = PHPSeclibWrapper::getFromMachineEntity($machine);
             $test = $secure->connectionTest();
 
-            $this->getMachineInfos($secure, $entity);
-            $is64Bit = $entity->getIs64Bit();
+            $this->getMachineInfos($secure, $machine);
+            $is64Bit = $machine->getIs64Bit();
 
             if ($is64Bit) {
                 $compatLib = $secure->hasCompatLib();
@@ -321,18 +52,28 @@ class MachineController extends Controller
 
             $javaInstalled = $secure->javaInstalled();
 
-            $em->persist($entity);
-            $em->flush($entity);
+            $this->persistAndFlush($machine);
         }
-        catch (PHPSeclibWrapper\Exception\ConnectionErrorException $e) {
-            $test = false;
-        }
+        catch (PHPSeclibWrapper\Exception\ConnectionErrorException $e) {}
+        
+        $view = $this
+            ->view()
+            ->setTemplate($config->getTemplate('connection_test.html'))
+            ->setData(array(
+                $config->getResourceName() => $machine,
+                'result' => $test,
+                'hasCompatLib' => $compatLib,
+                'javaInstalled' => $javaInstalled,
+            ))
+        ;
 
-        return $this->render('DPMachineBundle:Machine:connectionTest.html.twig', array(
-            'machine' => $entity,
-            'result' => $test,
-            'hasCompatLib' => $compatLib,
-            'javaInstalled' => $javaInstalled,
-        ));
+        return $this->handleView($view);
+    }
+    
+    private function getMachineInfos(PHPSeclibWrapper $secure, Machine $machine)
+    {
+        $machine->setHome($secure->getHome());
+        $machine->setNbCore($machine->retrieveNbCore());
+        $machine->setIs64bit($secure->is64bitSystem());
     }
 }

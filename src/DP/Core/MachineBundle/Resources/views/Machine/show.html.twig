@@ -18,12 +18,11 @@
 
 {% extends "::layout.html.twig" %}
 
+{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
+{% import '::buttons.html.twig' as dedipanel_buttons %}
+
 {% block title %}
-    <a href="{{ path('machine') }}"> 
-        <span class="icon" data-icon="&#x29;" title="{{ 'machine.back'|trans }}"></span>
-    </a>
-    
-    {{ 'machine.machine'|trans }}
+    {{ dedipanel_buttons.back(path('dedipanel_machine_index'), 'machine.machine'|trans) }}
 {% endblock %}
 
 {% block content %}
@@ -45,20 +44,20 @@
         </thead>   
         <tbody>
             <tr>
-                <td>{{ entity.id }}</td>
-                <td>{{ entity.privateIp }}</td>
-                <td>{{ entity.publicIp }}</td>
-                <td>{{ entity.port }}</td> 
-                <td>{{ entity.user }}</td>
-                <td>{{ entity.home }}</td>                
-                <td>{% if entity.privateKeyFilename|length > 0 %}
+                <td>{{ machine.id }}</td>
+                <td>{{ machine.privateIp }}</td>
+                <td>{{ machine.publicIp }}</td>
+                <td>{{ machine.port }}</td> 
+                <td>{{ machine.user }}</td>
+                <td>{{ machine.home }}</td>                
+                <td>{% if machine.privateKeyFilename|length > 0 %}
                         {{ 'machine.yes'|trans }}
                     {% else %}
                         {{ 'machine.no'|trans }}
                     {% endif %}
                 </td>
-                <td>{{ entity.nbCore }}</td>
-                <td>{% if entity.is64Bit == true %}
+                <td>{{ machine.nbCore }}</td>
+                <td>{% if machine.is64Bit == true %}
                         {{ 'machine.yes'|trans }}
                     {% else %}
                         {{ 'machine.no'|trans }}
@@ -68,20 +67,9 @@
         </tbody>
     </table>
 
-    <div class="form-group clearfix">        
-        <form action="{{ path('machine_edit', { 'id': entity.id }) }}" method="post" class="form-float">          
-            <div class="form-actions">
-                <button type="submit" class="btn" form="form-test">{{ 'machine.connectionTest'|trans }}</button>
-                <button type="submit" class="btn btn-primary">{{ 'machine.edit'|trans }}</button>
-                <button type="submit" class="btn btn-danger" form="form-delete">{{ 'machine.del'|trans }}</button>
-            </div>
-        </form>
-        
-        <form action="{{ path('machine_connectionTest', { 'id': entity.id }) }}" method="get" id="form-test">
-        </form>
-    
-	    <form action="{{ path('machine_delete', { 'id': entity.id }) }}" method="post" id="form-delete">
-	        {{ form_widget(delete_form) }}
-	    </form>
+    <div class="form-group clearfix">
+        {{ sylius_buttons.edit(path('dedipanel_machine_update', {'id': machine.id})) }}
+        {{ sylius_buttons.delete(path('dedipanel_machine_delete', {'id': machine.id})) }}
+        {{ sylius_buttons.manage(path('dedipanel_machine_connection_test', {'id': machine.id}), 'machine.connection_test'|trans) }}
     </div>
 {% endblock %}

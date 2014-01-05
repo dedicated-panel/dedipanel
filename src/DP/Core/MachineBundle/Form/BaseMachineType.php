@@ -23,7 +23,7 @@ namespace DP\Core\MachineBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class BaseMachineType extends AbstractType
+abstract class BaseMachineType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -33,10 +33,5 @@ class BaseMachineType extends AbstractType
             ->add('port', 'number', array('label' => 'machine.port'))
             ->add('user', 'text', array('label' => 'machine.user'))
         ;
-    }
-
-    public function getName()
-    {
-        return 'dp_machinebundle_machinetype';
     }
 }

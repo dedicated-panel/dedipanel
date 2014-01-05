@@ -18,23 +18,18 @@
 
 {% extends "::layout.html.twig" %}
 
+{% import 'SyliusResourceBundle:Macros:actions.html.twig' as actions %}
+{% import '::buttons.html.twig' as dedipanel_buttons %}
+
 {% block title %}
-    <a href="{{ path('machine') }}"> 
-        <span class="icon" data-icon="&#x29;" title="{{ 'machine.back'|trans }}"></span>
-    </a>
-    
-    {{ 'machine.machine'|trans }}
+    {{ dedipanel_buttons.back(path('dedipanel_machine_index'), 'machine.machine'|trans) }}
 {% endblock %}
 
 {% block content %}
-    {% form_theme form "::form.html.twig" %}
-    <h2>{{ 'machine.new'|trans }}</h2>
+    <h2>{{ 'machine.add'|trans }}</h2>
 
-    <form action="{{ path('machine_create') }}" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('dedipanel_machine_create') }}" method="post">
         {{ form_widget(form) }}
-        
-        <div class="form-actions">
-            <input type="submit" name="submit" class="btn btn-primary" value="{{ 'machine.add'|trans }}" />
-        </div>
+        {{ actions.create() }}
     </form>
 {% endblock %}

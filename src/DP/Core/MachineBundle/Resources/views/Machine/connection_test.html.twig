@@ -18,16 +18,14 @@
 
 {% extends "::layout.html.twig" %}
 
+{% import '::buttons.html.twig' as dedipanel_buttons %}
+
 {% block title %}
-    <a href="{{ path('machine_show', { id: machine.id } ) }}"> 
-        <span class="icon" data-icon="&#x29;" title="{{ 'machine.back'|trans }}"></span>
-    </a>
-    
-    {{ 'machine.machine'|trans }}
+    {{ dedipanel_buttons.back(path('dedipanel_machine_show', {'id': machine.id}), 'machine.machine'|trans) }}
 {% endblock %}
         
 {% block content %}
-    <h2>{{ 'machine.connectionTest'|trans }}</h2>
+    <h2>{{ 'machine.connection_test_title'|trans }}</h2>
     
     {% if result %}
         {% if machine.is64Bit == true and hasCompatLib == false %}

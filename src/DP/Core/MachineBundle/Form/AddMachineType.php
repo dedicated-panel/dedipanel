@@ -36,6 +36,6 @@ class AddMachineType extends BaseMachineType
 
     public function getName()
     {
-        return 'dp_machinebundle_machinetype_addmachinetype';
+        return 'dedipanel_machine_add';
     }
 }

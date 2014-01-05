@@ -34,7 +34,7 @@ class MenuBuilder
             ->setDisplay($this->context->isGranted('ROLE_DP_MINECRAFT_SHOW'))
         ;
         $menu
-            ->addChild('menu.machine', array('route' => 'machine', 'extras' => array('icon' => 'Q')))
+            ->addChild('menu.machine', array('route' => 'dedipanel_machine_index', 'extras' => array('icon' => 'Q')))
         ;
         
         $admin = $this->factory->createItem('menu.admin.admin', array('extras' => array('icon' => '%')));

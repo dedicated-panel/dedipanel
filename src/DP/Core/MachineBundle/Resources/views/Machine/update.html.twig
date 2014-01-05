@@ -18,27 +18,22 @@
 
 {% extends "::layout.html.twig" %}
 
-{% block title %}
-    <a href="{{ path('machine_show', { id: entity.id }) }}"> 
-        <span class="icon" data-icon="&#x29;" title="{{ 'machine.back'|trans }}"></span>
-    </a>
+{% import 'SyliusResourceBundle:Macros:actions.html.twig' as actions %}
+{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
+{% import '::buttons.html.twig' as dedipanel_buttons %}
 
-    {{ 'machine.machine'|trans }}
+{% block title %}
+    {{ dedipanel_buttons.back(path('dedipanel_machine_show', {'id': machine.id}), 'machine.machine'|trans) }}
 {% endblock %}
 
 {% block content %}
     <h2>{{ 'machine.editMachine'|trans }}</h2>
 
-    <form action="{{ path('machine_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} class="form-edit">    
-        {{ form_widget(edit_form) }}
+    <form action="{{ path('dedipanel_machine_update', { 'id': machine.id }) }}" method="post" class="form-edit">    
+        {{ form_widget(form) }}
 
-        <div class="form-actions contain-delete">
-            <button type="submit" class="btn btn-primary">{{ 'machine.edit'|trans }}</button>
-            <button type="submit" class="btn btn-danger" form="form-delete">{{ 'machine.del'|trans }}</button>
-        </div>    
+        {{ actions.update(path('dedipanel_machine_show', {'id': machine.id})) }}    
     </form>
     
-    <form action="{{ path('machine_delete', { 'id': entity.id }) }}" method="post" id="form-delete">
-        {{ form_widget(delete_form) }}
-    </form>
+    {{ sylius_buttons.delete(path('dedipanel_machine_delete', {'id': machine.id})) }}
 {% endblock %}

@@ -14,38 +14,42 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-machine:
+dedipanel_machine_index:
   pattern:  /
-  defaults: { _controller: "DPMachineBundle:Machine:index" }
+  defaults: 
+    _controller: dedipanel.controller.machine:indexAction
+    _sylius:
+        paginate: false
 
-machine_show:
+dedipanel_machine_show:
   pattern:  /{id}/show
-  defaults: { _controller: "DPMachineBundle:Machine:show" }
+  defaults:
+      _controller: dedipanel.controller.machine:showAction
 
-machine_new:
+dedipanel_machine_create:
   pattern:  /new
-  defaults: { _controller: "DPMachineBundle:Machine:new" }
+  methods: [GET, POST]
+  defaults:
+      _controller: dedipanel.controller.machine:createAction
+      _sylius:
+          form: dedipanel_machine_add
 
-machine_create:
-  pattern:  /create
-  defaults: { _controller: "DPMachineBundle:Machine:create" }
-  requirements: { _method: post }
-
-machine_edit:
+dedipanel_machine_update:
   pattern:  /{id}/edit
-  defaults: { _controller: "DPMachineBundle:Machine:edit" }
+  methods: [GET, POST]
+  defaults:
+      _controller: dedipanel.controller.machine:updateAction
+      _sylius:
+          form: dedipanel_machine_edit
 
-machine_update:
-  pattern:  /{id}/update
-  defaults: { _controller: "DPMachineBundle:Machine:update" }
-  requirements: { _method: post }
-
-machine_delete:
+dedipanel_machine_delete:
   pattern:  /{id}/delete
-  defaults: { _controller: "DPMachineBundle:Machine:delete" }
-  requirements: { _method: post }
+  methods: [DELETE]
+  defaults:
+      _controller: dedipanel.controller.machine:deleteAction
+      template: DPMachineBundle:Machine:delete.html.twig
 
-machine_connectionTest:
+dedipanel_machine_connection_test:
   pattern:  /{id}/connectionTest
-  defaults: { _controller: "DPMachineBundle:Machine:connectionTest" }
-  requirements: { id: \d+ }
+  defaults:
+      _controller: dedipanel.controller.machine:testConnectionAction

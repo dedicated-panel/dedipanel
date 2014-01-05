@@ -18,16 +18,15 @@
 
 {% extends "::layout.html.twig" %}
 
+{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
+{% import '::buttons.html.twig' as dedipanel_buttons %}
+
 {% block bundleStylesheets %}
     <link rel="stylesheet" media="screen" href="{{ asset('bundles/dpmachine/css/machine.css') }}" />
 {% endblock %}
 
 {% block title %}
-    <a href="{{ path('_welcome') }}"> 
-        <span class="icon" data-icon="&#x29;" title="{{ 'machine.back'|trans }}"></span>
-    </a>
-    
-    {{ 'machine.machine'|trans }}
+    {{ dedipanel_buttons.back(path('_welcome'), 'machine.machine'|trans) }}
 {% endblock %}
 
 {% block content %}
@@ -35,9 +34,7 @@
 
     <ul id="top-nav" class="nav nav-tabs">
         <li>
-            <a href="{{ path('machine_new') }}">
-                {{ 'machine.new'|trans }}
-            </a>
+            {{ sylius_buttons.edit(path('dedipanel_machine_create'), 'sylius.add'|trans) }}
         </li>
     </ul>
     
@@ -53,19 +50,19 @@
             </tr>
         </thead>
         <tbody>
-            {% for entity in entities %}
+            {% for machine in machines %}
                 <tr>
-                    <td>{{ entity.id }}</td>
-                    <td>{{ entity.privateIp }}</td>
-                    <td>{{ entity.publicIp }}</td>
-                    <td>{{ entity.port }}</td>
-                    <td>{{ entity.user }}</td>
+                    <td>{{ machine.id }}</td>
+                    <td>{{ machine.privateIp }}</td>
+                    <td>{{ machine.publicIp }}</td>
+                    <td>{{ machine.port }}</td>
+                    <td>{{ machine.user }}</td>
 
                     <td> 
                         <div class="btn-group">
-                            <a href="{{ path('machine_show', { 'id': entity.id }) }}" class="btn">{{ 'machine.show'|trans }}</a>
-                            <a href="{{ path('machine_edit', { 'id': entity.id }) }}" class="btn">{{ 'machine.edit'|trans }}</a>
-                            <a href="{{ path('machine_connectionTest', { 'id': entity.id }) }}" class="btn">{{ 'machine.connectionTest'|trans }}</a>
+                            {{ sylius_buttons.show(path('dedipanel_machine_show', {'id': machine.id})) }}
+                            {{ sylius_buttons.edit(path('dedipanel_machine_update', {'id': machine.id})) }}
+                            {{ sylius_buttons.manage(path('dedipanel_machine_connection_test', {'id': machine.id}), 'machine.connection_test'|trans) }}
                         </div>
                     </td>
                 </tr>  

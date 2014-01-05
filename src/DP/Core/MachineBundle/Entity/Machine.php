@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 use DP\GameServer\GameServerBundle\Entity\GameServer;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
  * DP\Core\MachineBundle\Entity\Machine
@@ -46,7 +47,6 @@ class Machine
      * @var bigint $privateIp
      *
      * @ORM\Column(name="privateIp", type="string", length=15, nullable=true)
-     * @Assert\Ip(message="machine.assert.privateIp")
      */
     private $privateIp;
 
@@ -54,7 +54,6 @@ class Machine
      * @var bigint $publicIp
      *
      * @ORM\Column(name="publicIp", type="string", length=15, nullable=true)
-     * @Assert\Ip(message="machine.assert.publicIp")
      */
     private $publicIp;
 
@@ -62,10 +61,6 @@ class Machine
      * @var integer $port
      *
      * @ORM\Column(name="port", type="integer")
-     * @Assert\Range(
-     *      min = 1, minMessage = "machine.assert.port",
-     *      max = 65536, maxMessage = "machine.assert.port"
-     * )
      */
     private $port = 22;
 
@@ -73,7 +68,6 @@ class Machine
      * @var string $user
      *
      * @ORM\Column(name="user", type="string", length=16)
-     * @Assert\NotBlank(message="machine.assert.user")
      */
     private $user;
 
@@ -394,5 +388,22 @@ class Machine
     public function dirExists($dirpath)
     {
         return PHPSeclibWrapper::getFromMachineEntity($this)->dirExists($dirpath);
+    }
+    
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('privateIp', new Assert\Ip(array('message' => 'machine.assert.privateIp')));
+        $metadata->addPropertyConstraint('publicIp', new Assert\Ip(array('message' => 'machine.assert.publicIp')));
+        $metadata->addPropertyConstraint('port', new Assert\Range(array(
+            'min' => 1, 
+            'minMessage' => 'machine.assert.port', 
+            'max' => 65536, 
+            'maxMessage' => 'machine.assert.port', 
+        )));
+        $metadata->addPropertyConstraint('user', new Assert\NotBlank(array('message' => 'machine.assert.user')));
+        $metadata->addConstraint(new Assert\Callback(array('methods' => array(
+            array('DP\Core\MachineBundle\Validator', 'validateNotEmptyPassword'),
+            array('DP\Core\MachineBundle\Validator', 'validateCredentials'),  
+        ))));
     }
 }

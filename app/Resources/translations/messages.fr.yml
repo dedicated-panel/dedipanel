@@ -24,3 +24,13 @@ admin.group.game: Jeux & Plugins
 Dashboard: Administration
 
 updateAvailable: Version %versionAvailable% disponible !
+
+sylius.add: Ajouter
+sylius.create: Créer
+sylius.show: Voir
+sylius.edit: Modifier
+sylius.save_changes: Mettre à jour
+sylius.delete: Supprimer
+sylius.cancel: Annuler
+sylius.confirm: Confirmer
+sylius.back: Retour
