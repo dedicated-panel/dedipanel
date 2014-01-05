@@ -33,7 +33,7 @@ services:
             - [ setProcessor, [ @dp.processor.group ] ]
             - [ setRoleBuilder, [ @dp.role_builder.group_admin ] ]
     
-    dp.role_builde.group_adminr:
+    dp.role_builder.group_admin:
         class: DP\Admin\UserBundle\Security\GroupRoleBuilder
         tags:
             - { name: dp.admin_role_builder }
