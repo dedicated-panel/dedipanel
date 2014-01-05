@@ -13,6 +13,7 @@ parameters:
         new:                "DPAdminBundle:CRUD:new.html.twig"
         edit:               "DPAdminBundle:CRUD:edit.html.twig"
         batch_confirmation: "DPAdminBundle:CRUD:batch_confirmation.html.twig"
+    
 services:
     dp.repository.game:
         class: DP\Core\GameBundle\Entity\GameRepository
@@ -40,6 +41,7 @@ services:
             - [ setEntityFactory, [ @dp.entity_factory.game ] ]
             - [ setEntityRepository, [ @dp.repository.game ] ]
             - [ setProcessor, [ @dp.processor.game_admin ] ]
+            - [ setRoleBuilder, [ @dp.role_builder.game_admin ] ]
     
     dp.role_builder.game_admin:
         class: DP\Admin\GameBundle\Security\GameRoleBuilder

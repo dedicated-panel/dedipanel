@@ -39,6 +39,7 @@ services:
             - [ setEntityFactory, [ @dp.entity_factory.user ] ]
             - [ setEntityRepository, [ @dp.repository.user ] ]
             - [ setProcessor, [ @dp.processor.user ] ]
+            - [ setRoleBuilder, [ @dp.role_builder.user_admin ] ]
     
     dp.role_builder.user_admin:
         class: DP\Admin\UserBundle\Security\UserRoleBuilder

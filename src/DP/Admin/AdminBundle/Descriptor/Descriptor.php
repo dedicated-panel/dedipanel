@@ -5,6 +5,7 @@ namespace DP\Admin\AdminBundle\Descriptor;
 use DP\Admin\AdminBundle\Entity\Factory\FactoryInterface;
 use Doctrine\ORM\EntityRepository;
 use DP\Admin\AdminBundle\Processor\CRUDProcessorInterface;
+use DP\Admin\AdminBundle\Security\ChildRoleBuilderInterface;
 
 class Descriptor
 {
@@ -15,6 +16,7 @@ class Descriptor
     private $entityFactory;
     private $entityRepository;
     private $processor;
+    private $roleBuilder;
     
     
     public function setName($name)
@@ -137,4 +139,16 @@ class Descriptor
     {
         return $this->processor;
     }
+    
+    public function setRoleBuilder(ChildRoleBuilderInterface $roleBuilder = null)
+    {
+        $this->roleBuilder = $roleBuilder;
+        
+        return $this;
+    }
+    
+    public function getRoleBuilder()
+    {
+        return $this->roleBuilder;
+    } 
 }
