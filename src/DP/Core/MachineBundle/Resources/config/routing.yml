@@ -19,7 +19,7 @@ dedipanel_machine_index:
   defaults: 
     _controller: dedipanel.controller.machine:indexAction
     _sylius:
-        role: SHOW
+        role: ROLE_DP_ADMIN_MACHINE_SHOW
         paginate: false
 
 dedipanel_machine_show:
