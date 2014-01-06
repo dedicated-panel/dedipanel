@@ -14,11 +14,10 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-security:   
-    role_hierarchy:
-        ROLE_ADMIN:       [ROLE_USER, ROLE_DP_ADMIN]
-        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
-    
+imports:
+    - { resource: roles.yml }
+
+security:
     encoders:
         "FOS\UserBundle\Model\UserInterface": sha512
 

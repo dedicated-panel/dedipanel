@@ -107,6 +107,7 @@ sylius_resource:
         dedipanel.machine:
             driver: doctrine/orm
             templates: DPMachineBundle:Machine
+            role_prefix: ROLE_DP_ADMIN_MACHINE
             classes:
                 model: DPMachineBundle:Machine
                 controller: DP\Core\MachineBundle\Controller\MachineController
