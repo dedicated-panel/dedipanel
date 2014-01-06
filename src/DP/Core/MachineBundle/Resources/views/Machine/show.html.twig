@@ -57,8 +57,14 @@
     </table>
 
     <div class="form-group clearfix">
-        {{ sylius_buttons.edit(path('dedipanel_machine_update', {'id': machine.id})) }}
-        {{ sylius_buttons.delete(path('dedipanel_machine_delete', {'id': machine.id})) }}
+        {% if is_granted('ROLE_DP_ADMIN_MACHINE_UPDATE') %}
+            {{ sylius_buttons.edit(path('dedipanel_machine_update', {'id': machine.id})) }}
+        {% endif %}
+        
+        {% if is_granted('ROLE_DP_ADMIN_MACHINE_DELETE') %}
+            {{ sylius_buttons.delete(path('dedipanel_machine_delete', {'id': machine.id})) }}
+        {% endif %}
+        
         {{ sylius_buttons.manage(path('dedipanel_machine_connection_test', {'id': machine.id}), 'machine.actions.connection_test'|trans) }}
     </div>
 {% endblock %}

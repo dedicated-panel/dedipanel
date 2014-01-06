@@ -32,6 +32,10 @@ class MachineController extends ResourceController
 {
     public function testConnectionAction($id)
     {
+        if ($this->enableRoleCheck) {
+            $this->isGrantedOr403('SHOW');
+        }
+
         $config = $this->getConfiguration();
         $machine = $this->findOr404();
 

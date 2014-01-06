@@ -22,9 +22,11 @@
     <h2>{{ 'machine.title.index'|trans }}</h2>
 
     <ul id="top-nav" class="nav nav-tabs">
-        <li>
-            {{ sylius_buttons.edit(path('dedipanel_machine_create'), 'machine.actions.add'|trans) }}
-        </li>
+        {% if is_granted('ROLE_DP_ADMIN_MACHINE_CREATE') %}
+            <li>
+                {{ sylius_buttons.edit(path('dedipanel_machine_create'), 'machine.actions.add'|trans) }}
+            </li>
+        {% endif %}
     </ul>
     
     <table class="table table-striped machine-list">
@@ -49,9 +51,17 @@
 
                     <td> 
                         <div class="btn-group">
-                            {{ sylius_buttons.show(path('dedipanel_machine_show', {'id': machine.id})) }}
-                            {{ sylius_buttons.edit(path('dedipanel_machine_update', {'id': machine.id})) }}
-                            {{ sylius_buttons.manage(path('dedipanel_machine_connection_test', {'id': machine.id}), 'machine.actions.connection_test'|trans) }}
+                            {% if is_granted('ROLE_DP_ADMIN_MACHINE_SHOW') %}
+                                {{ sylius_buttons.show(path('dedipanel_machine_show', {'id': machine.id})) }}
+                            {% endif %}
+                            
+                            {% if is_granted('ROLE_DP_ADMIN_MACHINE_UPDATE') %}
+                                {{ sylius_buttons.edit(path('dedipanel_machine_update', {'id': machine.id})) }}
+                            {% endif %}
+                            
+                            {% if is_granted('ROLE_DP_ADMIN_MACHINE_SHOW') %}
+                                {{ sylius_buttons.manage(path('dedipanel_machine_connection_test', {'id': machine.id}), 'machine.actions.connection_test'|trans) }}
+                            {% endif %}
                         </div>
                     </td>
                 </tr>  
