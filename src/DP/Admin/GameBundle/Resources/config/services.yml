@@ -1,3 +1,2 @@
 imports:
-    - { resource: crud/game.yml }
     - { resource: crud/plugin.yml }

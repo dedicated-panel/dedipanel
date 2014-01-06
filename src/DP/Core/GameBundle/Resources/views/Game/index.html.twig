@@ -1,0 +1,73 @@
+{#
+    (c) Dedipanel <http://www.dedicated-panel.net>
+    
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+#}
+
+{% extends '::layout-online.html.twig' %}
+
+{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
+{% import '::buttons.html.twig' as dedipanel_buttons %}
+
+{% block title %}
+    {{ dedipanel_buttons.back(path('_welcome'), 'game.title.game'|trans) }}
+{% endblock %}
+
+{% block body -%}
+    <h2>{{ 'game.title.index'|trans }}</h2>
+    
+    <ul id="top-nav" class="nav nav-tabs">
+        <li>
+            {{ sylius_buttons.edit(path('dedipanel_game_create'), 'game.actions.add'|trans) }}
+        </li>
+    </ul>
+    
+    {% for notice_level in ['success','error','info', 'warning'] %}
+        {% set session_var = 'dp_flash_' ~ notice_level %}
+        {% for flash in app.session.flashbag.get(session_var) %}
+            <div class="alert {{ 'alert-' ~ notice_level }}">
+                {{ flash|trans }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+        
+    <table class="table table-striped game-list">
+        <thead>
+            <tr>
+                <th>{{ 'game.fields.name'|trans }}</th>
+                <th>{{ 'game.fields.type'|trans }}</th>
+                <th>{{ 'game.fields.bin'|trans }}</th>
+                <th>{{ 'game.fields.map'|trans }}</th>
+                <th>{{ 'game.fields.available'|trans }}</th>
+                <th>{{ 'game.fields.actions'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for game in games %}
+                <tr>
+                    <td>{{ game.name }}</td>
+                    <td>{{ game.type }}</td>
+                    <td>{{ game.bin }}</td>
+                    <td>{{ game.map }}</td>
+                    <td>
+                        {% if game.available == true %}
+                            <i class="icon-ok-circle"></i> 
+                            {{ 'dedipanel.yes'|trans }}
+                        {% else %}
+                            <i class="icon-ban-circle"></i>
+                            {{ 'dedipanel.no'|trans }}
+                        {% endif %}
+                    </td>
+                    <td> 
+                        <div class="btn-group">
+                            {{ sylius_buttons.show(path('dedipanel_game_show', {'id': game.id})) }}
+                            {{ sylius_buttons.edit(path('dedipanel_game_update', {'id': game.id})) }}
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,128 @@
+{#
+    (c) Dedipanel <http://www.dedicated-panel.net>
+    
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+#}
+
+{% extends "::layout.html.twig" %}
+
+{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
+{% import '::buttons.html.twig' as dedipanel_buttons %}
+
+{% block title %}
+    {{ dedipanel_buttons.back(path('dedipanel_game_index'), 'game.title.game'|trans) }}
+{% endblock %}
+
+{% block content %}
+    <h2>{{ 'game.title.show'|trans }}</h2>
+
+    <table class="table table-striped show-game"> 
+        <tbody>
+            <tr>
+                <th>{{ 'game.fields.name'|trans }}</th>
+                <td>{{ game.name }}</td>
+            </tr>
+            
+            <tr>
+                <th>{{ 'game.fields.installName'|trans }}</th>
+                <td>{{ game.installName }}</td>
+            </tr>
+            
+            <tr>
+                <th>{{ 'game.fields.app_id'|trans }}</th>
+                <td>{{ game.appId }}</td>
+            </tr>
+            
+            <tr>
+                <th>{{ 'game.fields.app_mod'|trans }}</th>
+                <td>{{ game.appMod }}</td>
+            </tr>
+            
+            <tr>
+                <th>{{ 'game.fields.launchName'|trans }}</th>
+                <td>{{ game.launchName }}</td>
+            </tr>
+            
+            <tr>
+                <th>{{ 'game.fields.steamcmd'|trans }}</th>
+                <td>
+                    {% if game.steamcmd == true %}
+                        <i class="icon-ok-circle"></i> 
+                        {{ 'dedipanel.yes'|trans }}
+                    {% else %}
+                        <i class="icon-ban-circle"></i>
+                        {{ 'dedipanel.no'|trans }}
+                    {% endif %}
+                </td>
+            </tr>
+            
+            <tr>
+                <th>{{ 'game.fields.source'|trans }}</th>
+                <td>
+                    {% if game.source == true %}
+                        <i class="icon-ok-circle"></i> 
+                        {{ 'dedipanel.yes'|trans }}
+                    {% else %}
+                        <i class="icon-ban-circle"></i>
+                        {{ 'dedipanel.no'|trans }}
+                    {% endif %}
+                </td>
+            </tr>
+            
+            <tr>
+                <th>{{ 'game.fields.orangebox'|trans }}</th>
+                <td>
+                    {% if game.source == true %}
+                        <i class="icon-ok-circle"></i> 
+                        {{ 'dedipanel.yes'|trans }}
+                    {% else %}
+                        <i class="icon-ban-circle"></i>
+                        {{ 'dedipanel.no'|trans }}
+                    {% endif %}
+                </td>
+            </tr>
+            
+            <tr>
+                <th>{{ 'game.fields.type'|trans }}</th>
+                <td>
+                    {% if game.available == true %}
+                        <i class="icon-ok-circle"></i> 
+                        {{ 'dedipanel.yes'|trans }}
+                    {% else %}
+                        <i class="icon-ban-circle"></i>
+                        {{ 'dedipanel.no'|trans }}
+                    {% endif %}
+                </td>
+            </tr>
+            
+            <tr>
+                <th>{{ 'game.fields.bin'|trans }}</th>
+                <td>{{ game.bin }}</td>
+            </tr>
+            
+            <tr>
+                <th>{{ 'game.fields.map'|trans }}</th>
+                <td>{{ game.map }}</td>
+            </tr>
+            
+            <tr>
+                <th>{{ 'game.fields.available'|trans }}</th>
+                <td>
+                    {% if game.available == true %}
+                        <i class="icon-ok-circle"></i> 
+                        {{ 'dedipanel.yes'|trans }}
+                    {% else %}
+                        <i class="icon-ban-circle"></i>
+                        {{ 'dedipanel.no'|trans }}
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="form-group clearfix">
+        {{ sylius_buttons.edit(path('dedipanel_game_update', {'id': game.id})) }}
+        {{ sylius_buttons.delete(path('dedipanel_game_delete', {'id': game.id})) }}
+    </div>
+{% endblock %}

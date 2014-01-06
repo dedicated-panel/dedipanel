@@ -111,3 +111,9 @@ sylius_resource:
             classes:
                 model: DPMachineBundle:Machine
                 controller: DP\Core\MachineBundle\Controller\MachineController
+        dedipanel.game:
+            driver: doctrine/orm
+            templates: DPGameBundle:Game
+            role_prefix: ROLE_DP_ADMIN_GAME
+            classes:
+                model: DPGameBundle:Game

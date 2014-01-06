@@ -1,50 +1,49 @@
-# Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
-game.game: Jeu
-game.show: Voir
-game.back: Retour à la liste
-
-game.id: ID
-game.name: Nom
-game.installName: Nom d'installation
-game.launchName: Nom de lancement
-game.bin: Binaire
-game.binDir: Dossier contenant les binaires
-game.orangebox: Jeu Orangebox ?
-game.map: Map de démarrage
-game.available: Disponible ?
-game.actions: Actions
-steam.offline: Serveur déconnecté
-
-game.yes: Oui
-game.no: Non
-
-game.addButton: Ajouter
-game.editGame: Modification d'un jeu
-game.sourceImagesMaps: Dossier contenant les images de cartes
-game.plugins: Plugins associés au jeu
-game.pluginManagement: Gestion des plugins
-game.associatedPlugins: Plugins associés
-
-plugin.list: Liste des plugins
-plugin.add: Ajouter un plugin
-plugin.edit: Edition d'un plugin
-
-plugin.downloadUrl: Adresse de téléchargement du plugin
-plugin.scriptName: Script utilisé par le panel
-plugin.back: Retour à la gestion des jeux
-plugin.associatedGames: Jeux associés
+game:
+    creation_succeed: Le jeu a été créé avec succès.
+    update_succeed: Le jeu a été mis à jour avec succès.
+    delete_succeed: Le jeu a été supprimé avec succès.
+    
+    title:
+        game: Jeux
+        index: Liste des jeux
+        show: Voir un jeu
+        add: Ajouter un jeu
+        edit: Modifier un jeu
+        delete: supprimer un jeu
+    
+    actions:
+        add: Ajouter un jeu
+    
+    fields:
+        name: Nom
+        installName: Nom utilisé par l'installateur
+        launchName: Nom utilisé pour le lancement
+        bin: Binaire
+        available: Disponible ?
+        binDir: Répertoire contenant le binaire (depuis la racine du jeu)
+        map: Map de lancement
+        sourceImagesMaps: URL source pour les images de map
+        configTemplate: Fichier de config par défaut (server.cfg)
+        type: Type
+        isOrangebox: Jeu Orangebox ?
+        isSteamCmd: Steam Application ?
+        source: Source
+        plugins: Plugins
+        appId: Identifiant Steam Application
+        appMod: Mod Steam Application
+        
+plugin_admin:
+    list: Liste des plugins
+    add: Ajouter un plugin
+    edit: Modifier un plugin
+    batch_title: Action de masse sur les plugins
+    creation_succeed: Le plugin a été créé avec succès.
+    update_succeed: Le plugin a été mis à jour avec succès.
+    delete_succeed: Le plugin a été supprimé avec succès.
+    
+    fields:
+        name: Nom
+        version: Version
+        download_url: Adresse de téléchargement
+        install_script: Script d'installation
+        games: Jeux
