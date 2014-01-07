@@ -10,7 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * Group
  * 
  * @ORM\Table(name="fos_user_group")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="DP\Core\UserBundle\Entity\GroupRepository")
  * @UniqueEntity(fields="name", message="group_admin.name.unique")
  */
 class Group extends BaseGroup

@@ -1,0 +1,48 @@
+{#
+    (c) Dedipanel <http://www.dedicated-panel.net>
+    
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+#}
+
+{% extends "::layout.html.twig" %}
+
+{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
+{% import '::buttons.html.twig' as dedipanel_buttons %}
+
+{% block title %}
+    {{ dedipanel_buttons.back(path('_welcome'), 'group.title.group'|trans) }}
+{% endblock %}
+
+{% block content %}
+    <h2>{{ 'group.title.index'|trans }}</h2>
+
+    <ul id="top-nav" class="nav nav-tabs">
+        <li>
+            {{ sylius_buttons.edit(path('dedipanel_group_create'), 'group.actions.add'|trans) }}
+        </li>
+    </ul>
+    
+    <table class="table table-striped group-list">
+        <thead>
+            <tr>
+                <th>{{ 'group.fields.name'|trans }}</th>
+                <th>{{ 'dedipanel.fields.actions'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for group in groups %}
+                <tr>
+                    <td>{{ group.name }}</td>
+
+                    <td>
+                        <div class="btn-group">
+                            {{ sylius_buttons.show(path('dedipanel_group_show', {'id': group.id})) }}
+                            {{ sylius_buttons.edit(path('dedipanel_group_update', {'id': group.id})) }}
+                        </div>
+                    </td>
+                </tr>  
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

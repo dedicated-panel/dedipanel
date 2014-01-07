@@ -4,6 +4,17 @@ imports:
     - { resource: services/breadcrumb.yml }
     
 services:
+    app_user.auth.form.type:
+        class: DP\Core\UserBundle\Form\Type\ProfileFormType
+        arguments: [ %fos_user.model.user.class% ]
+        tags:
+            - { name: form.type, alias: app_user_profile }
+    
+    dedipanel.form.group_admin:
+        class: DP\Core\UserBundle\Form\Type\GroupType
+        tags:
+            - { name: form.type, alias: dedipanel_group }
+    
     dp.repository.user:
         class: DP\Core\UserBundle\Entity\UserRepository
         factory_service: doctrine.orm.default_entity_manager
@@ -13,16 +24,6 @@ services:
     dp.entity_factory.user:
         class: DP\Core\UserBundle\Entity\Factory\UserFactory
         arguments: [ @fos_user.user_manager ]
-
-    dp.repository.group:
-        class: DP\Core\UserBundle\Entity\GroupRepository
-        factory_service: doctrine.orm.default_entity_manager
-        factory_method: getRepository
-        arguments: [ 'DPCoreUserBundle:Group' ]
-    
-    dp.entity_factory.group:
-        class: DP\Core\UserBundle\Entity\Factory\GroupFactory
-        arguments: [ @fos_user.group_manager ]
     
     dp.listener.user.registration:
         class: DP\Core\UserBundle\Listener\UserRegistrationListener

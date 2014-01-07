@@ -11,6 +11,9 @@ use DP\Core\UserBundle\Form\Modifier\SecurityRolesModifier;
 use DP\Core\UserBundle\Entity\User;
 use Symfony\Component\Translation\TranslatorInterface;
 
+/**
+ * Form type used for displaying a list of checkboxes corresponding to each role
+ */
 class SecurityRolesType extends AbstractType
 {
     private $formModifier;

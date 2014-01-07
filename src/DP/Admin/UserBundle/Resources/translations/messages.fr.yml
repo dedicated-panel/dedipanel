@@ -19,15 +19,3 @@ user_admin:
         password: Mot de passe
         repeat_password: Ressaisir
         groups: Groupes
-
-group_admin:
-    list: Liste des groupes
-    add: Ajouter un groupe
-    edit: Modifier un groupe
-    batch_title: Action de masse sur les groupes
-    creation_succeed: Le groupe a été créé avec succès.
-    update_succeed: Le groupe a été mis à jour avec succès.
-    delete_succeed: Le groupe a été supprimé avec succès.
-    
-    fields:
-        name: Nom

@@ -39,3 +39,22 @@ menu:
         plugin: Gestion des plugins
         user: Gestion des utilisateurs
         group: Gestion des groupes
+
+group:
+    creation_succeed: Le groupe a été créé avec succès.
+    update_succeed: Le groupe a été mis à jour avec succès.
+    delete_succeed: Le groupe a été supprimé avec succès.
+    
+    title:
+        group: Groupe
+        index: Liste des groupes
+        show: Voir un group
+        add: Ajouter un groupe
+        edit: Modifier un groupe
+    
+    actions:
+        add: Ajouter un groupe
+    
+    fields:
+        id: ID
+        name: Nom

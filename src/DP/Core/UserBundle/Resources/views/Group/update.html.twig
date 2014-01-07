@@ -1,0 +1,27 @@
+{#
+    (c) Dedipanel <http://www.dedicated-panel.net>
+    
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+#}
+
+{% extends "::layout.html.twig" %}
+
+{% import 'SyliusResourceBundle:Macros:actions.html.twig' as sylius_actions %}
+{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
+{% import '::buttons.html.twig' as dedipanel_buttons %}
+
+{% block title %}
+    {{ dedipanel_buttons.back(path('dedipanel_group_show', {'id': group.id}), 'group.title.group'|trans) }}
+{% endblock %}
+
+{% block content %}
+    <h2>{{ 'group.title.edit'|trans }}</h2>
+
+    <form action="{{ path('dedipanel_group_update', { 'id': group.id }) }}" method="post" class="form-edit">    
+        {{ form_widget(form) }}
+        {{ sylius_actions.update(path('dedipanel_group_show', {'id': group.id})) }}    
+    </form>
+    
+    {{ sylius_buttons.delete(path('dedipanel_group_delete', {'id': group.id})) }}
+{% endblock %}

@@ -104,6 +104,13 @@ knp_menu:
 
 sylius_resource:
     resources:
+        dedipanel.group:
+            driver: doctrine/orm
+            templates: DPCoreUserBundle:Group
+            role_prefix: ROLE_DP_ADMIN_GROUP
+            classes:
+                model: DPCoreUserBundle:Group
+                repository: DP\Core\UserBundle\Entity\GroupRepository
         dedipanel.machine:
             driver: doctrine/orm
             templates: DPMachineBundle:Machine
