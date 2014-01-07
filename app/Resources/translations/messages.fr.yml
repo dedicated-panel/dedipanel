@@ -38,3 +38,4 @@ dedipanel.yes: Oui
 dedipanel.no: Non
 dedipanel.title.confirm_delete: Confirmer la suppression
 dedipanel.actions.confirm_delete: Confirmer
+dedipanel.fields.actions: Actions

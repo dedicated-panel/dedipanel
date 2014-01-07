@@ -117,3 +117,9 @@ sylius_resource:
             role_prefix: ROLE_DP_ADMIN_GAME
             classes:
                 model: DPGameBundle:Game
+        dedipanel.plugin:
+            driver: doctrine/orm
+            templates: DPGameBundle:Plugin
+            role_prefix: ROLE_DP_ADMIN_PLUGIN
+            classes:
+                model: DPGameBundle:Plugin

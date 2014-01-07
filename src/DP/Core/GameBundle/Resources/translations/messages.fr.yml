@@ -9,7 +9,6 @@ game:
         show: Voir un jeu
         add: Ajouter un jeu
         edit: Modifier un jeu
-        delete: supprimer un jeu
     
     actions:
         add: Ajouter un jeu
@@ -32,18 +31,23 @@ game:
         appId: Identifiant Steam Application
         appMod: Mod Steam Application
         
-plugin_admin:
-    list: Liste des plugins
-    add: Ajouter un plugin
-    edit: Modifier un plugin
-    batch_title: Action de masse sur les plugins
+plugin:
     creation_succeed: Le plugin a été créé avec succès.
     update_succeed: Le plugin a été mis à jour avec succès.
     delete_succeed: Le plugin a été supprimé avec succès.
+    
+    title:
+        plugin: Plugin
+        index: Liste des plugins
+        show: Voir un plugin
+        add: Ajouter un plugin
+        edit: Modifier un plugin
+    
+    actions:
+        add: Ajouter un plugin
     
     fields:
         name: Nom
         version: Version
         download_url: Adresse de téléchargement
-        install_script: Script d'installation
         games: Jeux

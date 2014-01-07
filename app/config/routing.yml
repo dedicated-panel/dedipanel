@@ -22,9 +22,9 @@ DPAdminBundle:
     resource: "@DPAdminBundle/Resources/config/routing.yml"
     prefix:   /admin/
     
-DPAdminUserBundle:
-    resource: "@DPAdminUserBundle/Resources/config/routing.yml"
-    prefix:   /admin/
+DPGameBundle:
+    resource: "@DPGameBundle/Resources/config/routing.yml"
+    prefix:   /admin
 
 DPGameServerBundle:
     resource: "@DPGameServerBundle/Resources/config/routing.yml"
@@ -36,8 +36,3 @@ DPMachineBundle:
 
 _welcome:
     pattern: /
-
-# Internal routing configuration to handle ESI
-#_internal:
-#   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
-#   prefix:   /_internal

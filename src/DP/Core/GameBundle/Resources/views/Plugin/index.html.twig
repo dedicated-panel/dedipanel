@@ -1,0 +1,59 @@
+{#
+    (c) Dedipanel <http://www.dedicated-panel.net>
+    
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+#}
+
+{% extends '::layout-online.html.twig' %}
+
+{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
+{% import '::buttons.html.twig' as dedipanel_buttons %}
+
+{% block title %}
+    {{ dedipanel_buttons.back(path('_welcome'), 'plugin.title.plugin'|trans) }}
+{% endblock %}
+
+{% block body -%}
+    <h2>{{ 'plugin.title.index'|trans }}</h2>
+    
+    <ul id="top-nav" class="nav nav-tabs">
+        <li>
+            {{ sylius_buttons.edit(path('dedipanel_plugin_create'), 'plugin.actions.add'|trans) }}
+        </li>
+    </ul>
+    
+    {% for notice_level in ['success','error','info', 'warning'] %}
+        {% set session_var = 'dp_flash_' ~ notice_level %}
+        {% for flash in app.session.flashbag.get(session_var) %}
+            <div class="alert {{ 'alert-' ~ notice_level }}">
+                {{ flash|trans }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+        
+    <table class="table table-striped plugin-list">
+        <thead>
+            <tr>
+                <th>{{ 'plugin.fields.name'|trans }}</th>
+                <th>{{ 'plugin.fields.version'|trans }}</th>
+                <th>{{ 'dedipanel.fields.actions'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for plugin in plugins %}
+                <tr>
+                    <td>{{ plugin.name }}</td>
+                    <td>{{ plugin.version }}</td>
+                    <td> 
+                        <div class="btn-group">
+                            {{ sylius_buttons.show(path('dedipanel_plugin_show', {'id': plugin.id})) }}
+                            {{ sylius_buttons.edit(path('dedipanel_plugin_update', {'id': plugin.id})) }}
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

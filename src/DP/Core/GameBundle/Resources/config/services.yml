@@ -17,7 +17,12 @@
 parameters:
 
 services:
-    form.game.add_edit:
+    dedipanel.game.form.add_edit:
         class: DP\Core\GameBundle\Form\GameType
         tags:
-            - {name: form.type, alias: dedipanel_game }
+            - { name: form.type, alias: dedipanel_game }
+    
+    dedipanel.plugin.form.add_edit:
+        class: DP\Core\GameBundle\Form\PluginType
+        tags:
+            - { name: form.type, alias: dedipanel_plugin }

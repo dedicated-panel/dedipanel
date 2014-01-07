@@ -15,24 +15,24 @@ class GameType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', null, array('label' => 'game_admin.fields.name'))
-            ->add('installName', null, array('label' => 'game_admin.fields.installName'))
-            ->add('launchName', null, array('label' => 'game_admin.fields.launchName'))
-            ->add('bin', null, array('label' => 'game_admin.fields.bin'))
-            ->add('binDir', null, array('label' => 'game_admin.fields.binDir'))
-            ->add('orangebox', null, array('label' => 'game_admin.fields.isOrangebox', 'required' => false))
-            ->add('source', null, array('label' => 'game_admin.fields.source', 'required' => false))
-            ->add('steamCmd', null, array('label' => 'game_admin.fields.isSteamCmd', 'required' => false))
-            ->add('appId', null, array('label' => 'game_admin.fields.appId'))
-            ->add('appMod', null, array('label' => 'game_admin.fields.appMod'))
-            ->add('map', null, array('label' => 'game_admin.fields.map'))
-            ->add('configTemplate', null, array('label' => 'game_admin.fields.configTemplate'))
-            ->add('sourceImagesMaps', null, array('label' => 'game_admin.fields.sourceImagesMaps'))
-            ->add('plugins', null, array('label' => 'game_admin.fields.plugins'))
+            ->add('name', null, array('label' => 'game.fields.name'))
+            ->add('installName', null, array('label' => 'game.fields.installName'))
+            ->add('launchName', null, array('label' => 'game.fields.launchName'))
+            ->add('bin', null, array('label' => 'game.fields.bin'))
+            ->add('binDir', null, array('label' => 'game.fields.binDir'))
+            ->add('orangebox', null, array('label' => 'game.fields.isOrangebox', 'required' => false))
+            ->add('source', null, array('label' => 'game.fields.source', 'required' => false))
+            ->add('steamCmd', null, array('label' => 'game.fields.isSteamCmd', 'required' => false))
+            ->add('appId', null, array('label' => 'game.fields.appId'))
+            ->add('appMod', null, array('label' => 'game.fields.appMod'))
+            ->add('map', null, array('label' => 'game.fields.map'))
+            ->add('configTemplate', null, array('label' => 'game.fields.configTemplate'))
+            ->add('sourceImagesMaps', null, array('label' => 'game.fields.sourceImagesMaps'))
+            ->add('plugins', null, array('label' => 'game.fields.plugins'))
             ->add('type', 'choice', array(
                 'choices' => array('steam' => 'Steam', 'minecraft' => 'Minecraft'), 
-                'label' => 'game_admin.fields.type', 
-            ))->add('available', null, array('label' => 'game_admin.fields.available', 'required' => false))
+                'label' => 'game.fields.type', 
+            ))->add('available', null, array('label' => 'game.fields.available', 'required' => false))
         ;
     }
     

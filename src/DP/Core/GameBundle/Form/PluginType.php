@@ -1,6 +1,6 @@
 <?php
 
-namespace DP\Admin\GameBundle\Form;
+namespace DP\Core\GameBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,11 +21,11 @@ class PluginType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', null, array('label' => 'plugin_admin.fields.name'))
-            ->add('version', null, array('label' => 'plugin_admin.fields.version'))
-            ->add('download_url', null, array('label' => 'plugin_admin.fields.download_url'))
-            ->add('scriptName', null, array('label' => 'plugin_admin.fields.install_script'))
-            ->add('games', null, array('label' => 'plugin_admin.fields.games', 'by_reference' => false))
+            ->add('name', null, array('label' => 'plugin.fields.name'))
+            ->add('version', null, array('label' => 'plugin.fields.version'))
+            ->add('download_url', null, array('label' => 'plugin.fields.download_url'))
+            ->add('scriptName', null, array('label' => 'plugin.fields.install_script'))
+            ->add('games', null, array('label' => 'plugin.fields.games', 'by_reference' => false))
         ;
     }
 
@@ -34,6 +34,6 @@ class PluginType extends AbstractType
      */
     public function getName()
     {
-        return 'dp_core_gamebundle_plugin';
+        return 'dedipanel_plugin';
     }
 }

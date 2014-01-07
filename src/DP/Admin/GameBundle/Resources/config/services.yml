@@ -1,2 +1,0 @@
-imports:
-    - { resource: crud/plugin.yml }

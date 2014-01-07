@@ -1,4 +1,0 @@
-DPAdminGameBundle_plugin:
-    resource: "@DPAdminGameBundle/Resources/config/routing/plugin.yml"
-    prefix:   /plugin
-

@@ -30,7 +30,6 @@ machine.fields.private_ip: IP Privée
 machine.fields.public_ip: IP Publique
 machine.fields.port: Port
 machine.fields.user: Utilisateur
-machine.fields.actions: Actions
 machine.fields.password: Mot de passe
 machine.fields.home: Répertoire home
 machine.fields.is_priv_key_already_generated: Clé privée générée ?

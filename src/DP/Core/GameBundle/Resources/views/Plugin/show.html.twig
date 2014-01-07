@@ -1,0 +1,43 @@
+{#
+    (c) Dedipanel <http://www.dedicated-panel.net>
+    
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+#}
+
+{% extends "::layout.html.twig" %}
+
+{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
+{% import '::buttons.html.twig' as dedipanel_buttons %}
+
+{% block title %}
+    {{ dedipanel_buttons.back(path('dedipanel_plugin_index'), 'plugin.title.plugin'|trans) }}
+{% endblock %}
+
+{% block content %}
+    <h2>{{ 'plugin.title.show'|trans }}</h2>
+
+    <table class="table table-striped show-plugin"> 
+        <tbody>
+            <tr>
+                <th>{{ 'plugin.fields.name'|trans }}</th>
+                <td>{{ plugin.name }}</td>
+            </tr>
+            
+            <tr>
+                <th>{{ 'plugin.fields.version'|trans }}</th>
+                <td>{{ plugin.version }}</td>
+            </tr>
+            
+            <tr>
+                <th>{{ 'plugin.fields.download_url'|trans }}</th>
+                <td>{{ plugin.downloadUrl }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="form-group clearfix">
+        {{ sylius_buttons.edit(path('dedipanel_plugin_update', {'id': plugin.id})) }}
+        {{ sylius_buttons.delete(path('dedipanel_plugin_delete', {'id': plugin.id})) }}
+    </div>
+{% endblock %}
