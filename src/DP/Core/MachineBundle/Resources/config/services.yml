@@ -13,27 +13,24 @@
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
-parameters:
-    socket.timeout: [1, 0]
     
 services:
-    form.machine.add:
+    dedipanel.form.machine.add:
         class: DP\Core\MachineBundle\Form\AddMachineType
         tags:
             - {name: form.type, alias: dedipanel_machine_add }
     
-    form.machine.edit:
+    dedipanel.form.machine.edit:
         class: DP\Core\MachineBundle\Form\EditMachineType
         tags:
             - {name: form.type, alias: dedipanel_machine_edit }
     
-    machine.subscriber:
+    dedipanel.machine.subscriber:
         class: DP\Core\MachineBundle\EventListener\MachineListener
         tags:
             - { name: kernel.event_subscriber }
     
-    machine.listener.configModifier:
+    dedipanel.machine.listener.configModifier:
         class: DP\Core\MachineBundle\Listener\ConfigModifier
         arguments: [ @service_container ]
         calls:
