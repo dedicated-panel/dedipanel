@@ -14,14 +14,6 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-user_menu:
-    pattern: /
-    defaults: { _controller: DPCoreUserBundle:User:homeMenu }
-
-config_menu:
-    pattern: /menu/config
-    defaults: { _controller: DPCoreUserBundle:User:configMenu }
-
 # FOSUserBundle
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"

@@ -36,3 +36,6 @@ DPMachineBundle:
 
 _welcome:
     pattern: /
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: '::layout.html.twig'
