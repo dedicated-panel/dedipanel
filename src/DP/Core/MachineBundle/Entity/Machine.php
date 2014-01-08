@@ -30,7 +30,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
  * DP\Core\MachineBundle\Entity\Machine
  *
  * @ORM\Table(name="machine")
- * @ORM\Entity(repositoryClass="DP\Core\MachineBundle\Entity\MachineRepository")
+ * @ORM\Entity
  */
 class Machine
 {

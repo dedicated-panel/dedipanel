@@ -28,7 +28,7 @@ use DP\Core\GameBundle\Entity\Game;
  * @author Albin Kerouanton 
  *
  * @ORM\Table(name="plugin")
- * @ORM\Entity(repositoryClass="DP\Core\GameBundle\Entity\PluginRepository")
+ * @ORM\Entity
  */
 class Plugin
 {
