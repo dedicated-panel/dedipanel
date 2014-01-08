@@ -40,6 +40,38 @@ menu:
         user: Gestion des utilisateurs
         group: Gestion des groupes
 
+user:
+    creation_succeed: L'utilisateur a été créé avec succès.
+    update_succeed: L'utilisateur a été mis à jour avec succès.
+    delete_succeed: L'utilisateur a été supprimé avec succès.
+    enabled_succeed: Activation réussie.
+    disabled_succeed: Désactivation réussie.
+    
+    title:
+        user: Utilisateur
+        index: Liste des utilisateurs
+        show: Voir un utilisateur
+        add: Ajouter un utilisateur
+        edit: Modifier un utilisateur
+        edit_user: Modifier l'utilisateur
+        edit_roles: Modifier les droits d'accès
+    
+    actions:
+        add: Ajouter un utilisateur
+        edit: Modifier les informations de l'utilisateur
+        edit_roles: Modifier les droits d'accès
+    
+    fields:
+        id: ID
+        username: Nom d'utilisateur
+        email: Adresse email
+        enabled: Activé
+        createdAt: Créé le
+        password: Mot de passe
+        repeat_password: Ressaisir
+        groups: Groupes
+        roles: Rôles
+
 group:
     creation_succeed: Le groupe a été créé avec succès.
     update_succeed: Le groupe a été mis à jour avec succès.

@@ -1,0 +1,52 @@
+{#
+    (c) Dedipanel <http://www.dedicated-panel.net>
+    
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+#}
+
+{% extends "::layout.html.twig" %}
+
+{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
+{% import '::buttons.html.twig' as dedipanel_buttons %}
+
+{% block title %}
+    {{ dedipanel_buttons.back(path('_welcome'), 'user.title.user'|trans) }}
+{% endblock %}
+
+{% block content %}
+    <h2>{{ 'user.title.index'|trans }}</h2>
+
+    <ul id="top-nav" class="nav nav-tabs">
+        <li>
+            {{ sylius_buttons.edit(path('dedipanel_user_create'), 'user.actions.add'|trans) }}
+        </li>
+    </ul>
+    
+    <table class="table table-striped user-list">
+        <thead>
+            <tr>
+                <th>{{ 'user.fields.username'|trans }}</th>
+                <th>{{ 'user.fields.email'|trans }}</th>
+                <th>{{ 'user.fields.enabled'|trans }}</th>
+                <th>{{ 'dedipanel.fields.actions'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ dedipanel_buttons.yes_no(user.enabled) }}</td>
+
+                    <td>
+                        <div class="btn-group">
+                            {{ sylius_buttons.show(path('dedipanel_user_show', {'id': user.id})) }}
+                            {{ sylius_buttons.edit(path('dedipanel_user_update', {'id': user.id})) }}
+                        </div>
+                    </td>
+                </tr>  
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -10,6 +10,16 @@ services:
         tags:
             - { name: form.type, alias: app_user_profile }
     
+    dedipanel.form.user_admin.add_edit:
+        class: DP\Core\UserBundle\Form\Type\UserType
+        tags:
+            - { name: form.type, alias: dedipanel_user }
+    
+    dedipanel.form.user_admin.edit_roles:
+        class: DP\Core\UserBundle\Form\Type\EditRolesType
+        tags:
+            - { name: form.type, alias: dedipanel_user_update_roles }
+    
     dedipanel.form.group_admin:
         class: DP\Core\UserBundle\Form\Type\GroupType
         tags:
@@ -20,10 +30,6 @@ services:
         factory_service: doctrine.orm.default_entity_manager
         factory_method: getRepository
         arguments: [ 'DPCoreUserBundle:User' ]
-    
-    dp.entity_factory.user:
-        class: DP\Core\UserBundle\Entity\Factory\UserFactory
-        arguments: [ @fos_user.user_manager ]
     
     dp.listener.user.registration:
         class: DP\Core\UserBundle\Listener\UserRegistrationListener
@@ -39,3 +45,9 @@ services:
         arguments: [ @dp.form.modifier.security_roles, %security.role_hierarchy.roles%, @translator ]
         tags:
             - { name: form.type, alias: dp_security_roles }
+    
+    dedipanel.user.subscriber:
+        class: DP\Core\UserBundle\EventListener\UserAdminListener
+        arguments: [ "@fos_user.user_manager" ]
+        tags:
+            - { name: kernel.event_subscriber }

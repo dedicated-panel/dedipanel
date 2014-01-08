@@ -1,0 +1,53 @@
+# (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
+# 
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+
+dedipanel_user_index:
+    pattern: /
+    defaults:
+        _controller: dedipanel.controller.user:indexAction
+        _sylius:
+            role: ROLE_DP_ADMIN_USER_ADMIN
+
+dedipanel_user_show:
+    pattern: /{id}/show
+    defaults:
+        _controller: dedipanel.controller.user:showAction
+        _sylius:
+            role: ROLE_DP_ADMIN_USER_ADMIN
+
+dedipanel_user_create:
+    pattern: /new
+    methods: [GET, POST]
+    defaults:
+        _controller: dedipanel.controller.user:createAction
+        _sylius:
+            role: ROLE_DP_ADMIN_USER_ADMIN
+
+dedipanel_user_update:
+    pattern: /{id}/edit
+    methods: [GET, POST]
+    defaults:
+        _controller: dedipanel.controller.user:updateAction
+        _sylius:
+            role: ROLE_DP_ADMIN_USER_ADMIN
+
+dedipanel_user_delete:
+    pattern: /{id}/delete
+    methods: [DELETE]
+    defaults:
+        _controller: dedipanel.controller.user:deleteAction
+        template: DPCoreUserBundle:Group:delete.html.twig
+        _sylius:
+            role: ROLE_DP_ADMIN_USER_ADMIN
+
+dedipanel_user_update_roles:
+    pattern: /{id}/edit-roles
+    methods: [GET, POST]
+    defaults:
+        _controller: dedipanel.controller.user:updateAction
+        _sylius:
+            role: ROLE_DP_ADMIN_USER_ADMIN
+            form: dedipanel_user_update_roles
+            template: DPCoreUserBundle:User:update_roles.html.twig

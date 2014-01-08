@@ -74,9 +74,11 @@ class SecurityRolesType extends AbstractType
             
             foreach ($groups AS $group) {
                 $groupRoles = $group->getRoles();
-                $groupRoles = array_combine($groupRoles, array_fill(0, count($groupRoles), array($group->getName())));  
                 
-                $roles = array_merge_recursive($roles, $groupRoles);
+                if (count($groupRoles) > 0) {
+                    $groupRoles = array_combine($groupRoles, array_fill(0, count($groupRoles), array($group->getName())));
+                    $roles = array_merge_recursive($roles, $groupRoles);
+                }
             }
             
             foreach ($view->children AS &$roleCheckbox) {

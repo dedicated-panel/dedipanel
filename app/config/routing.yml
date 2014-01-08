@@ -16,11 +16,7 @@
 
 DPUserBundle:
     resource: "@DPCoreUserBundle/Resources/config/routing.yml"
-    prefix:   /
-
-DPAdminBundle:
-    resource: "@DPAdminBundle/Resources/config/routing.yml"
-    prefix:   /admin/
+    prefix:   /admin
     
 DPGameBundle:
     resource: "@DPGameBundle/Resources/config/routing.yml"
@@ -28,14 +24,26 @@ DPGameBundle:
 
 DPGameServerBundle:
     resource: "@DPGameServerBundle/Resources/config/routing.yml"
-    prefix:   /game/
+    prefix:   /game
 
 DPMachineBundle:
     resource: "@DPMachineBundle/Resources/config/routing.yml"
-    prefix:   /machine/
+    prefix:   /machine
 
 _welcome:
     pattern: /
     defaults:
         _controller: FrameworkBundle:Template:template
         template: '::layout.html.twig'
+
+# FOSUserBundle
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+fos_user_profile:
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+    prefix: /profile
+
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /resetting

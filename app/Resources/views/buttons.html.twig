@@ -5,3 +5,13 @@
     
     {{ message }}
 {% endmacro %}
+
+{% macro yes_no(cond) %}
+    {% if cond == true %}
+        <i class="icon-ok-circle"></i> 
+        {{ 'dedipanel.yes'|trans }}
+    {% else %}
+        <i class="icon-ban-circle"></i>
+        {{ 'dedipanel.no'|trans }}
+    {% endif %}
+{% endmacro %}

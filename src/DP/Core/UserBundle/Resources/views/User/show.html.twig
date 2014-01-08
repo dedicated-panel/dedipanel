@@ -1,0 +1,61 @@
+{#
+    (c) Dedipanel <http://www.dedicated-panel.net>
+    
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+#}
+
+{% extends "::layout.html.twig" %}
+
+{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
+{% import '::buttons.html.twig' as dedipanel_buttons %}
+
+{% block title %}
+    {{ dedipanel_buttons.back(path('dedipanel_user_index'), 'user.title.user'|trans) }}
+{% endblock %}
+
+{% block content %}
+    <h2>{{ 'user.title.show'|trans }}</h2>
+    
+    <ul id="top-nav" class="nav nav-tabs">
+        <li>
+            {{ sylius_buttons.edit(path('dedipanel_user_update_roles', {'id': user.id}), 'user.actions.edit_roles'|trans) }}
+        </li>
+    </ul>
+
+    <table class="table table-striped show-user">
+        <tbody>
+            <tr>
+                <th>{{ 'user.fields.id'|trans }}</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'user.fields.username'|trans }}</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'user.fields.email'|trans }}</td>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'user.fields.createdAt'|trans }}</th>
+                <td>
+                    {% if user.createdAt is not null %}
+                        {{ user.createdAt|date('d/m/Y H:i:s') }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ 'user.fields.groups'|trans }}</th>
+                <td>{{ user.groups|join(', ') }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="form-user clearfix">
+        {{ sylius_buttons.edit(path('dedipanel_user_update', {'id': user.id})) }}
+        {{ sylius_buttons.delete(path('dedipanel_user_delete', {'id': user.id})) }}
+    </div>
+{% endblock %}

@@ -10,7 +10,7 @@ class Validator
 {
     public function validateNotEmptyPassword(Machine $machine, ExecutionContextInterface $context)
     {
-        if (null === $machine->getId()) {
+        if (null === $machine->getId() && null === $machine->getPassword()) {
             $context->addViolation('machine.assert.password');
         }
     }

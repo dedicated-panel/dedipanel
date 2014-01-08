@@ -52,13 +52,7 @@
                     <td>{{ game.bin }}</td>
                     <td>{{ game.map }}</td>
                     <td>
-                        {% if game.available == true %}
-                            <i class="icon-ok-circle"></i> 
-                            {{ 'dedipanel.yes'|trans }}
-                        {% else %}
-                            <i class="icon-ban-circle"></i>
-                            {{ 'dedipanel.no'|trans }}
-                        {% endif %}
+                        {{ dedipanel_buttons.yes_no(game.available) }}
                     </td>
                     <td> 
                         <div class="btn-group">

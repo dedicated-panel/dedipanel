@@ -38,7 +38,7 @@ class MenuBuilder
         ;
         
         $admin = $this->factory->createItem('menu.admin.admin', array('extras' => array('icon' => '%')));
-        $admin->addChild('menu.admin.user', array('route' => 'user_admin'));
+        $admin->addChild('menu.admin.user', array('route' => 'dedipanel_user_index'));
         $admin->addChild('menu.admin.group', array('route' => 'dedipanel_group_index'));
         $admin->addChild('menu.admin.game', array('route' => 'dedipanel_game_index'));
         $admin->addChild('menu.admin.plugin', array('route' => 'dedipanel_plugin_index'));

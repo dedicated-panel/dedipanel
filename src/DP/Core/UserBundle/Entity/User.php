@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * User
  *
  * @ORM\Table(name="fos_user_user")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="DP\Core\UserBundle\Entity\UserRepository")
  * @UniqueEntity(fields="username", message="user_admin.username.unique")
  * @UniqueEntity(fields="email", message="user_admin.email.unique")
  */

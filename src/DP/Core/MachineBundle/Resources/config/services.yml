@@ -27,6 +27,7 @@ services:
     
     dedipanel.machine.subscriber:
         class: DP\Core\MachineBundle\EventListener\MachineListener
+        arguments: [ @doctrine.orm.default_entity_manager ]
         tags:
             - { name: kernel.event_subscriber }
     

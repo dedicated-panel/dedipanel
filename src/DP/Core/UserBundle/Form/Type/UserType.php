@@ -1,11 +1,11 @@
 <?php
 
-namespace DP\Admin\UserBundle\Form;
+namespace DP\Core\UserBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use DP\Admin\UserBundle\Form\EventListener\UserPasswordSubscriber;
+use DP\Core\UserBundle\EventListener\UserPasswordSubscriber;
 
 class UserType extends AbstractType
 {
@@ -16,17 +16,17 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', null, array('label' => 'user_admin.fields.username'))
-            ->add('email', 'email', array('label' => 'user_admin.fields.email'))
+            ->add('username', null, array('label' => 'user.fields.username'))
+            ->add('email', 'email', array('label' => 'user.fields.email'))
             ->add('plainPassword', 'repeated', array(
                 'type' => 'password',
                 'required' => false,
-                'first_options' => array('label' => 'user_admin.fields.password'),
-                'second_options' => array('label' => 'user_admin.fields.repeat_password'),
+                'first_options' => array('label' => 'user.fields.password'),
+                'second_options' => array('label' => 'user.fields.repeat_password'),
             ))
-            ->add('enabled', null, array('label' => 'user_admin.fields.enabled', 'required' => false))
+            ->add('enabled', null, array('label' => 'user.fields.enabled', 'required' => false))
             ->add('groups', 'entity', array(
-                'label' => 'user_admin.fields.groups', 
+                'label' => 'user.fields.groups', 
                 'class' => 'DPCoreUserBundle:Group', 
                 'multiple' => true,  
                 'required' => false, 
@@ -54,6 +54,6 @@ class UserType extends AbstractType
      */
     public function getName()
     {
-        return 'dp_admin_userbundle_user';
+        return 'dedipanel_user';
     }
 }

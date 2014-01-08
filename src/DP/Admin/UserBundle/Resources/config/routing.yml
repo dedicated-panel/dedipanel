@@ -1,4 +1,0 @@
-DPAdminUserBundle_user:
-    resource: "@DPAdminUserBundle/Resources/config/routing/user.yml"
-    prefix:   /user
-

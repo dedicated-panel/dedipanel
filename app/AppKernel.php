@@ -34,7 +34,6 @@ class AppKernel extends Kernel
             new DP\Core\MachineBundle\DPMachineBundle(),
             
             new DP\Admin\AdminBundle\DPAdminBundle(),
-            new DP\Admin\UserBundle\DPAdminUserBundle(),
             
             new DP\GameServer\GameServerBundle\DPGameServerBundle(),
             new DP\GameServer\SteamServerBundle\DPSteamServerBundle(),

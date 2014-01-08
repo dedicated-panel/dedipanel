@@ -47,52 +47,28 @@
             <tr>
                 <th>{{ 'game.fields.steamcmd'|trans }}</th>
                 <td>
-                    {% if game.steamcmd == true %}
-                        <i class="icon-ok-circle"></i> 
-                        {{ 'dedipanel.yes'|trans }}
-                    {% else %}
-                        <i class="icon-ban-circle"></i>
-                        {{ 'dedipanel.no'|trans }}
-                    {% endif %}
+                    {{ dedipanel_buttons.yes_no(game.steamcmd) }}
                 </td>
             </tr>
             
             <tr>
                 <th>{{ 'game.fields.source'|trans }}</th>
                 <td>
-                    {% if game.source == true %}
-                        <i class="icon-ok-circle"></i> 
-                        {{ 'dedipanel.yes'|trans }}
-                    {% else %}
-                        <i class="icon-ban-circle"></i>
-                        {{ 'dedipanel.no'|trans }}
-                    {% endif %}
+                    {{ dedipanel_buttons.yes_no(game.source) }}
                 </td>
             </tr>
             
             <tr>
                 <th>{{ 'game.fields.orangebox'|trans }}</th>
                 <td>
-                    {% if game.source == true %}
-                        <i class="icon-ok-circle"></i> 
-                        {{ 'dedipanel.yes'|trans }}
-                    {% else %}
-                        <i class="icon-ban-circle"></i>
-                        {{ 'dedipanel.no'|trans }}
-                    {% endif %}
+                    {{ dedipanel_buttons.yes_no(game.orangebox) }}
                 </td>
             </tr>
             
             <tr>
                 <th>{{ 'game.fields.type'|trans }}</th>
                 <td>
-                    {% if game.available == true %}
-                        <i class="icon-ok-circle"></i> 
-                        {{ 'dedipanel.yes'|trans }}
-                    {% else %}
-                        <i class="icon-ban-circle"></i>
-                        {{ 'dedipanel.no'|trans }}
-                    {% endif %}
+                    {{ game.type|capitalize }}
                 </td>
             </tr>
             
@@ -109,13 +85,7 @@
             <tr>
                 <th>{{ 'game.fields.available'|trans }}</th>
                 <td>
-                    {% if game.available == true %}
-                        <i class="icon-ok-circle"></i> 
-                        {{ 'dedipanel.yes'|trans }}
-                    {% else %}
-                        <i class="icon-ban-circle"></i>
-                        {{ 'dedipanel.no'|trans }}
-                    {% endif %}
+                    {{ dedipanel_buttons.yes_no(game.available) }}
                 </td>
             </tr>
         </tbody>
