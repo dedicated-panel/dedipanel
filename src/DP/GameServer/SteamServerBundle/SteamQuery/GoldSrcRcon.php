@@ -60,10 +60,6 @@ class GoldSrcRcon implements RconInterface
     
     public function getChallenge()
     {
-        if (!$this->fullyConstructed) {
-            $this->fullConstruct();
-        }
-        
         if (!isset($this->challenge)) {
             $packet = $this->packetFactory->getChallengePacket();
             $this->socket->send($packet);
