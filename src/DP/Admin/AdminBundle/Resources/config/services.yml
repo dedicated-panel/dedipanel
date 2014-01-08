@@ -1,5 +1,0 @@
-services:
-    dp.admin.role_builder:
-        class: DP\Admin\AdminBundle\Security\AdminRoleBuilder
-        tags:
-            - { name: dp.role_builder, children_builder_tag: dp.admin_role_builder }
