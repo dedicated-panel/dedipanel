@@ -29,13 +29,13 @@
 {% block content %}
     <h2>{{ 'game.plugin.showTitle'|trans }}</h2>
     
-    {% if app.session.hasFlash('missingPacket') %}
+    {# {% if app.session.hasFlash('missingPacket') %}
         <div class="alert alert-warning"><ul>
             {% autoescape false %}
                 <li>{{ app.session.flash('missingPacket') }}</li>
             {% endautoescape %}
         </ul></div>
-    {% endif %}
+    {% endif %} #}
     
     <table>
         <tr>

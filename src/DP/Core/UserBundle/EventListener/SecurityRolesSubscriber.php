@@ -1,6 +1,6 @@
 <?php
 
-namespace DP\Core\UserBundle\Form\Modifier;
+namespace DP\Core\UserBundle\EventListener;
 
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
