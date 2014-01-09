@@ -12,6 +12,7 @@ class UserRepository extends EntityRepository
         
         $new = new $className;
         $new->setEnabled(true);
+        $new->setCreatedAt(new \DateTime);
         
         return $new;
     }

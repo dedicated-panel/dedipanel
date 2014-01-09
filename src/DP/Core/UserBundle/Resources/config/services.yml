@@ -31,8 +31,3 @@ services:
         class: DP\Core\UserBundle\Form\Type\GroupType
         tags:
             - { name: form.type, alias: dedipanel_group }
-    
-    dp.listener.user.registration:
-        class: DP\Core\UserBundle\Listener\UserRegistrationListener
-        tags:
-            - { name: doctrine.event_listener, event: prePersist }
