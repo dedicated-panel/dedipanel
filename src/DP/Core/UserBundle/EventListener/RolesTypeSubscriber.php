@@ -47,11 +47,12 @@ class RolesTypeSubscriber implements EventSubscriberInterface
     
     public function completeEntityRolesByDepth(FormEvent $event)
     {
+        $data = array_unique($event->getData());
         $entity = $event->getForm()->getParent()->getData();
         $hierarchy = $this->getHierarchy();
         $roles = array();
         
-        foreach ($event->getData() AS $role) {
+        foreach ($data AS $role) {
             $roles = array_merge($roles, array($role));
             
             if (isset($hierarchy[$role])) {
