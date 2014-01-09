@@ -7,31 +7,23 @@ dedipanel_plugin_index:
     pattern: /
     defaults:
         _controller: dedipanel.controller.plugin:indexAction
-        _sylius:
-            role: ROLE_DP_ADMIN_PLUGIN_ADMIN
 
 dedipanel_plugin_show:
     pattern: /{id}/show
     defaults:
         _controller: dedipanel.controller.plugin:showAction
-        _sylius:
-            role: ROLE_DP_ADMIN_PLUGIN_ADMIN
 
 dedipanel_plugin_create:
     pattern: /new
     methods: [GET, POST]
     defaults:
         _controller: dedipanel.controller.plugin:createAction
-        _sylius:
-            role: ROLE_DP_ADMIN_PLUGIN_ADMIN
 
 dedipanel_plugin_update:
     pattern: /{id}/edit
     methods: [GET, POST]
     defaults:
         _controller: dedipanel.controller.plugin:updateAction
-        _sylius:
-            role: ROLE_DP_ADMIN_PLUGIN_ADMIN
 
 dedipanel_plugin_delete:
     pattern: /{id}/delete
@@ -39,5 +31,3 @@ dedipanel_plugin_delete:
     defaults:
         _controller: dedipanel.controller.plugin:deleteAction
         template: DPGameBundle:Plugin:delete.html.twig
-        _sylius:
-            role: ROLE_DP_ADMIN_PLUGIN_ADMIN
