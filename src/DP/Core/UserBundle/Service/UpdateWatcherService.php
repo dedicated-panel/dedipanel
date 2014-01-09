@@ -34,7 +34,7 @@ class UpdateWatcherService
     {
         $context = stream_context_create(array(
             'http' => array(
-                'timeout' => 5, 
+                'timeout' => 1, 
             )
         ));
         
