@@ -8,9 +8,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use Symfony\Component\Security\Core\Role\Role;
 
-class SecurityRolesModifier implements EventSubscriberInterface
+class RolesTypeSubscriber implements EventSubscriberInterface
 {
+    /** @var RoleHierarchyInterface Définit la hiérarchisation des rôles **/
     private $roleHierarchy;
+    /** @var array Contient une liste flat des rôles disponibles **/
     private $roles;
     
     public function __construct(RoleHierarchyInterface $roleHierarchy, array $roles)

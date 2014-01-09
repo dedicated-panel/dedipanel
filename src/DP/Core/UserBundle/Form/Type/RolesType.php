@@ -7,34 +7,34 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use DP\Core\UserBundle\Form\Modifier\SecurityRolesModifier;
+use DP\Core\UserBundle\EventListener\RolesTypeSubscriber;
 use DP\Core\UserBundle\Entity\User;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Form type used for displaying a list of checkboxes corresponding to each role
  */
-class SecurityRolesType extends AbstractType
+class RolesType extends AbstractType
 {
-    private $formModifier;
+    private $subscriber;
     private $roles;
     private $translator;
     
-    public function __construct(SecurityRolesModifier $modifier, array $roles, TranslatorInterface $translator)
+    public function __construct(RolesTypeSubscriber $subscriber, array $roles, TranslatorInterface $translator)
     {
-        $this->formModifier = $modifier;
+        $this->subscriber = $subscriber;
         $this->roles = array_keys($roles);
         $this->translator = $translator;
     }    
     
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addEventSubscriber($this->formModifier);
+        $builder->addEventSubscriber($this->subscriber);
     }
     
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $view->vars['role_hierarchy'] = $this->formModifier->getHierarchy();
+        $view->vars['role_hierarchy'] = $this->subscriber->getHierarchy();
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
