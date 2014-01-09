@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace DP\Core\UserBundle\Form\Type;
+namespace DP\Core\UserBundle\Form;
 
-use FOS\UserBundle\Form\Type\ProfileFormType as BaseProfileFormType;
+use FOS\UserBundle\Form\ProfileFormType as BaseProfileFormType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class ProfileFormType extends BaseProfileFormType

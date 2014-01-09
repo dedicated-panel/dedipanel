@@ -6,18 +6,18 @@ imports:
 
 services:
     app_user.auth.form.type:
-        class: DP\Core\UserBundle\Form\Type\ProfileFormType
+        class: DP\Core\UserBundle\Form\ProfileFormType
         arguments: [ %fos_user.model.user.class% ]
         tags:
             - { name: form.type, alias: app_user_profile }
     
     dedipanel.form.user_admin.add_edit:
-        class: DP\Core\UserBundle\Form\Type\UserType
+        class: DP\Core\UserBundle\Form\UserType
         tags:
             - { name: form.type, alias: dedipanel_user }
     
     dedipanel.form.user_admin.edit_roles:
-        class: DP\Core\UserBundle\Form\Type\EditRolesType
+        class: DP\Core\UserBundle\Form\EditRolesType
         tags:
             - { name: form.type, alias: dedipanel_user_update_roles }
     
@@ -28,6 +28,6 @@ services:
             - { name: kernel.event_subscriber }
     
     dedipanel.form.group_admin.add_edit:
-        class: DP\Core\UserBundle\Form\Type\GroupType
+        class: DP\Core\UserBundle\Form\GroupType
         tags:
             - { name: form.type, alias: dedipanel_group }

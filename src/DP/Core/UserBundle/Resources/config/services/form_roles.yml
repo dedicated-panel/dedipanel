@@ -1,6 +1,6 @@
 services:    
     dedipanel.security.form.roles_type:
-        class: DP\Core\UserBundle\Form\Type\RolesType
+        class: DP\Core\UserBundle\Form\RolesType
         arguments: [ @dedipanel.security.form.roles_type.subscriber, %security.role_hierarchy.roles%, @translator ]
         tags:
             - { name: form.type, alias: dp_security_roles }
