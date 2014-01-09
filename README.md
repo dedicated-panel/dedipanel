@@ -60,6 +60,12 @@ Roles :
     * ROLE_DP_STEAM_PLUGIN: Gestion des plugins des serveurs.
     * ROLE_DP_STEAM_RCON: Accès à la console rcon.
     * ROLE_DP_STEAM_HLTV: Gestion de la HLTV.
+  * ROLE_DP_ADMIN_* :
+    * ROLE_DP_ADMIN_USER_ADMIN: Gestion des utilisateurs
+    * ROLE_DP_ADMIN_GROUP_ADMIN: Gestion des groupes
+    * ROLE_DP_ADMIN_GAME_ADMIN: Gestion des jeux
+    * ROLE_DP_ADMIN_PLUGIN_ADMIN: Gestion des plugins
+    * ROLE_DP_ADMIN_MACHINE_ADMIN: Gestion des machines
 
 
 Auteur
