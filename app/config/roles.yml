@@ -19,7 +19,7 @@ security:
             - ROLE_DP_ADMIN_USER_DELETE
             - ROLE_USER
         ROLE_DP_ADMIN_GROUP_ADMIN: 
-            - ROLE_DP_ADMIN_USER_INDEX
+            - ROLE_DP_ADMIN_GROUP_INDEX
             - ROLE_DP_ADMIN_GROUP_SHOW
             - ROLE_DP_ADMIN_GROUP_CREATE
             - ROLE_DP_ADMIN_GROUP_UPDATE
