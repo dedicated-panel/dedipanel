@@ -22,6 +22,8 @@ namespace DP\Core\GameBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\ExecutionContextInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * DP\Core\GameBundle\Entity\Game
@@ -29,6 +31,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="game")
  * @ORM\Entity(repositoryClass="DP\Core\GameBundle\Entity\GameRepository")
+ * @Assert\Callback(methods={"validateAppId"})
+ * @UniqueEntity(fields="name", message="game.assert.name.unique")
+ * @UniqueEntity(fields={"appId","appMod"}, message="game.assert.unique_id_mod")
  */
 class Game
 {
@@ -45,7 +50,7 @@ class Game
      * @var string $name
      *
      * @ORM\Column(name="name", type="string", length=32)
-     * @Assert\NotBlank(message="game.assert.name")
+     * @Assert\NotBlank(message="game.assert.name.needed")
      */
     private $name = '';
 
@@ -76,6 +81,7 @@ class Game
      * @var string $bin
      *
      * @ORM\Column(name="bin", type="string", length=24)
+     * @Assert\NotBlank(message="game.assert.bin")
      */
     private $bin;
 
@@ -595,5 +601,17 @@ class Game
     public function getGameServers()
     {
         return $this->gameServers;
+    }
+    
+    public function validateAppId(ExecutionContextInterface $context)
+    {
+        $appId = $this->getAppId();
+        
+        if (true === $this->getSteamCmd() && empty($appId)) {
+            $context->addViolationAt('appId', 'game.assert.appId.needed');
+        }
+        elseif (false === $this->getSteamCmd() && !empty($appId)) {
+            $context->addViolationAt('appId', 'game.assert.appId.not_needed');
+        }
     }
 }

@@ -22,13 +22,13 @@ namespace DP\Core\GameBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use DP\Core\GameBundle\Entity\Game;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * DP\Core\GameBundle\Entity\Plugin
- * @author Albin Kerouanton 
- *
  * @ORM\Table(name="plugin")
  * @ORM\Entity
+ * @UniqueEntity(fields={"name","version"}, message="plugin.assert.version.unique")
  */
 class Plugin
 {
@@ -45,6 +45,7 @@ class Plugin
      * @var string $name
      *
      * @ORM\Column(name="name", type="string", length=32)
+     * @Assert\NotBlank(message="plugin.assert.name")
      */
     private $name = '';
 
@@ -52,6 +53,7 @@ class Plugin
      * @var string $downloadUrl
      *
      * @ORM\Column(name="downloadUrl", type="string", length=128)
+     * @Assert\NotBlank(message="plugin.assert.download_url")
      */
     private $downloadUrl;
 
@@ -59,6 +61,7 @@ class Plugin
      * @var string $scriptName
      *
      * @ORM\Column(name="scriptName", type="string", length=32)
+     * @Assert\NotBlank(message="plugin.assert.script_name")
      */
     private $scriptName;
     
@@ -84,6 +87,7 @@ class Plugin
      * @var string $version
      * 
      * @ORM\Column(name="version", type="string", nullable=true)
+     * @Assert\NotBlank(message="plugin.assert.version.needed")
      */
     private $version;
     

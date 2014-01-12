@@ -26,7 +26,7 @@ game:
         type: Type
         isOrangebox: Jeu Orangebox ?
         isSteamCmd: Steam Application ?
-        source: Source
+        isSource: Source
         plugins: Plugins
         appId: Identifiant Steam Application
         appMod: Mod Steam Application
@@ -50,4 +50,5 @@ plugin:
         name: Nom
         version: Version
         download_url: Adresse de téléchargement
+        install_script: Nom du script d'installation
         games: Jeux

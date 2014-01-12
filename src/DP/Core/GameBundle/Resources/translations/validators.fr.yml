@@ -14,7 +14,25 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-game.assert.name: Veuillez spécifier un nom au jeu.
-game.assert.installName: Veuillez spéciier le nom utilisé par l'installateur pour ce jeu.
-game.assert.launchName: Veuillez spécifier le nom utilisé par le lanceur automatique.
-game.assert.available: Veuillez indiquer si ce jeu est disponible ou non.
+game:
+    assert:
+        name:
+            needed: Veuillez spécifier le nom du jeu.
+            unique: Veuillez spécifier un nom de jeu unique.
+        installName: Veuillez spécifier le nom utilisé par l'installateur pour ce jeu.
+        launchName: Veuillez spécifier le nom utilisé par le lanceur automatique.
+        bin: Veuillez indiquer le binaire de ce jeu.
+        available: Veuillez indiquer si ce jeu est disponible ou non.
+        unique_id_mod: Cet id d'application et ce mod sont déjà utilisés pour un autre jeu.
+        appId:
+            needed: Veuillez spécifier l'id de l'application steam.
+            not_needed: L'identifiant de l'application n'est nécessaire que si vous indiquer qu'il s'agit d'une "Steam Application".
+
+plugin:
+    assert:
+        name: Veuillez spécifier le nom du plugin.
+        version:
+            needed: Veuillez spécifier la version du plugin.
+            unique: Cette version de ce jeu existe déjà.
+        download_url: Veuillez spécifier l'adresse de téléchargement du plugin.
+        script_name: Veuillez spécifier le nom du script d'installation.
