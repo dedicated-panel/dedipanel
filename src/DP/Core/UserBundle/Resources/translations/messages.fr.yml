@@ -14,19 +14,13 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-user:
-    security:
-        roles: Rôles
-    role:
-        ROLE_ADMIN: Admin
-        ROLE_SUPER_ADMIN: Super-Admin
-
 machine_admin: Gestion des machines
 title_user_account: Compte
 title_user_edit_profile: Modification des identifiants
 forgotten_password: Mot de passe oublié !
-
-user.rolesAssociatedToGroup: Rôle associé au groupe : %groups%.|Rôle associé aux groupes : %groups%.
+    
+ROLE_ADMIN: Admin
+ROLE_SUPER_ADMIN: Super-Admin
 
 menu:
     home: Accueil
@@ -46,6 +40,8 @@ user:
     delete_succeed: L'utilisateur a été supprimé avec succès.
     enabled_succeed: Activation réussie.
     disabled_succeed: Désactivation réussie.
+    
+    rolesAssociatedToGroup: Rôle associé au groupe : %groups%.|Rôle associé aux groupes : %groups%.
     
     title:
         user: Utilisateur
@@ -90,3 +86,4 @@ group:
     fields:
         id: ID
         name: Nom
+        roles: Rôles

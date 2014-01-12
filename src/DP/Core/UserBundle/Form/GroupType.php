@@ -16,7 +16,7 @@ class GroupType extends AbstractType
     {        
         $builder
             ->add('name')
-            ->add('roles', 'dp_security_roles') 
+            ->add('roles', 'dp_security_roles', array('label' => 'user.fields.roles')) 
         ;
     }
     

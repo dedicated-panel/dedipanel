@@ -12,8 +12,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="fos_user_user")
  * @ORM\Entity(repositoryClass="DP\Core\UserBundle\Entity\UserRepository")
- * @UniqueEntity(fields="username", message="user_admin.username.unique")
- * @UniqueEntity(fields="email", message="user_admin.email.unique")
+ * @UniqueEntity(fields="username", message="user_admin.assert.username.unique")
+ * @UniqueEntity(fields="email", message="user_admin.assert.email.unique")
  */
 class User extends BaseUser
 {
@@ -29,19 +29,20 @@ class User extends BaseUser
     /**
      * @var string
      * 
-     * @Assert\NotBlank(message="user_admin.username.empty")
+     * @Assert\NotBlank(message="user_admin.assert.username.empty")
      */
     protected $username;
 
     /**
      * @var string
      * 
-     * @Assert\NotBlank(message="user_admin.email.empty")
+     * @Assert\NotBlank(message="user_admin.assert.email.empty")
+     * @Assert\Email(message="user_admin.assert.email.valid")
      */
     protected $email;
     
     /**
-     * @Assert\NotNull(message="user_admin.password.empty")
+     * @Assert\NotNull(message="user_admin.assert.password.empty")
      */
     protected $password;
     

@@ -5,13 +5,14 @@ namespace DP\Core\UserBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Entity\Group as BaseGroup;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Group
  * 
  * @ORM\Table(name="fos_user_group")
  * @ORM\Entity(repositoryClass="DP\Core\UserBundle\Entity\GroupRepository")
- * @UniqueEntity(fields="name", message="group_admin.name.unique")
+ * @UniqueEntity(fields="name", message="group_admin.assert.name.unique")
  */
 class Group extends BaseGroup
 {
@@ -23,6 +24,13 @@ class Group extends BaseGroup
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+    
+    /**
+     * @var string
+     * 
+     * @Assert\NotBlank(message="group_admin.assert.name.empty")
+     */
+    protected $name;
     
     
     /**
