@@ -29,7 +29,7 @@ class AppKernel extends Kernel
             new Sylius\Bundle\ResourceBundle\SyliusResourceBundle(),
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             
-            new DP\Core\UserBundle\DPCoreUserBundle(),
+            new DP\Core\UserBundle\DPUserBundle(),
             new DP\Core\GameBundle\DPGameBundle(),
             new DP\Core\MachineBundle\DPMachineBundle(),
             

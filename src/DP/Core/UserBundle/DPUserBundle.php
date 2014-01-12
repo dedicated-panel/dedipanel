@@ -8,7 +8,7 @@ use DP\Core\UserBundle\DependencyInjection\Compiler\AddChildrenRoleBuilderCompil
 use DP\Core\UserBundle\DependencyInjection\Compiler\AddDedipanelRolesCompilerPass;
 use DP\Core\UserBundle\DependencyInjection\Compiler\RemoveTopRoleBuilderCompilerPass;
 
-class DPCoreUserBundle extends Bundle
+class DPUserBundle extends Bundle
 {
     public function build(ContainerBuilder $builder)
     {

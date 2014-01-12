@@ -16,9 +16,9 @@
 
 # Admin
 user_admin:
-    resource: "@DPCoreUserBundle/Resources/config/routing/user_admin.yml"
+    resource: "@DPUserBundle/Resources/config/routing/user_admin.yml"
     prefix: /user
 
 group_admin:
-    resource: "@DPCoreUserBundle/Resources/config/routing/group_admin.yml"
+    resource: "@DPUserBundle/Resources/config/routing/group_admin.yml"
     prefix: /group

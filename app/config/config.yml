@@ -98,7 +98,7 @@ sonata_block:
           
 knp_menu:
     twig:  # use "twig: false" to disable the Twig extension and the TwigRenderer
-        template: DPCoreUserBundle::knp_menu.html.twig
+        template: DPUserBundle::knp_menu.html.twig
     templating: false # if true, enables the helper for PHP templates
     default_renderer: twig # The renderer to use, list is also available by default
 
@@ -106,17 +106,17 @@ sylius_resource:
     resources:
         dedipanel.user:
             driver: doctrine/orm
-            templates: DPCoreUserBundle:User
+            templates: DPUserBundle:User
             role_prefix: ROLE_DP_ADMIN_USER
             classes:
-                model: DPCoreUserBundle:User
+                model: DPUserBundle:User
                 repository: DP\Core\UserBundle\Entity\UserRepository
         dedipanel.group:
             driver: doctrine/orm
-            templates: DPCoreUserBundle:Group
+            templates: DPUserBundle:Group
             role_prefix: ROLE_DP_ADMIN_GROUP
             classes:
-                model: DPCoreUserBundle:Group
+                model: DPUserBundle:Group
                 repository: DP\Core\UserBundle\Entity\GroupRepository
         dedipanel.machine:
             driver: doctrine/orm

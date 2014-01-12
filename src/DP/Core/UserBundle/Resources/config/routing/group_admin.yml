@@ -30,4 +30,4 @@ dedipanel_group_delete:
     methods: [DELETE]
     defaults:
         _controller: dedipanel.controller.group:deleteAction
-        template: DPCoreUserBundle:Group:delete.html.twig
+        template: DPUserBundle:Group:delete.html.twig

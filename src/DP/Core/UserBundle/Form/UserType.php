@@ -27,7 +27,7 @@ class UserType extends AbstractType
             ->add('enabled', null, array('label' => 'user.fields.enabled', 'required' => false))
             ->add('groups', 'entity', array(
                 'label' => 'user.fields.groups', 
-                'class' => 'DPCoreUserBundle:Group', 
+                'class' => 'DPUserBundle:Group', 
                 'multiple' => true,  
                 'required' => false, 
             ))

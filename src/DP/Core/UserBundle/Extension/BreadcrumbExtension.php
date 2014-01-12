@@ -36,7 +36,7 @@ class BreadcrumbExtension extends \Twig_Extension
         $options = array_merge($options, array(
             'allow_safe_labels' => true, 
             'currentAsLink' => false, 
-            'template' => 'DPCoreUserBundle::breadcrumb.html.twig', 
+            'template' => 'DPUserBundle::breadcrumb.html.twig', 
             'currentClass' => 'active', 
         ));
         
