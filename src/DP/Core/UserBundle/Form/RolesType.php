@@ -44,7 +44,7 @@ class RolesType extends AbstractType
             'multiple' => true, 
             'expanded' => true, 
             'choices' => array_combine($this->roles, array_map(function ($role) {
-                return 'user.role.' . $role;
+                return 'roles.' . $role;
             }, $this->roles)), 
             'attr' => array('class' => 'dp-security-roles'), 
             'required' => false, 

@@ -18,9 +18,36 @@ machine_admin: Gestion des machines
 title_user_account: Compte
 title_user_edit_profile: Modification des identifiants
 forgotten_password: Mot de passe oublié !
-    
-ROLE_ADMIN: Admin
-ROLE_SUPER_ADMIN: Super-Admin
+
+roles:
+    ROLE_SUPER_ADMIN: Super-Admin
+    ROLE_ADMIN: Admin
+    ROLE_DP_ADMIN_USER_ADMIN: Gestion des utilisateurs
+    ROLE_DP_ADMIN_GROUP_ADMIN: Gestion des groupes
+    ROLE_DP_ADMIN_MACHINE_ADMIN: Gestion des machines
+    ROLE_DP_ADMIN_GAME_ADMIN: Gestion des jeux
+    ROLE_DP_ADMIN_PLUGIN_ADMIN: Gestion des plugins
+    ROLE_DP_GAME_ADMIN: Gestion de tous les serveurs de jeux
+    ROLE_DP_STEAM_SHOW: Voir les serveurs steam
+    ROLE_DP_STEAM_ADD: Ajouter des serveurs steam
+    ROLE_DP_STEAM_EDIT: Modifier les serveurs steam
+    ROLE_DP_STEAM_DELETE: Supprimer des serveurs steam
+    ROLE_DP_STEAM_STATE: Modifier l'état d'un serveur steam (démarrage/redémarrage/arrêt)
+    ROLE_DP_STEAM_FTP: Accès à l'explorateur FTP pour les serveurs steam
+    ROLE_DP_STEAM_PLUGIN: Configuration des plugins des serveurs steam
+    ROLE_DP_STEAM_RCON: Accès à la console RCON des serveurs steam
+    ROLE_DP_STEAM_HLTV: Contrôle des HLTV des serveurs steam
+    ROLE_DP_STEAM_ADMIN: Administration des serveurs steam
+    ROLE_DP_MINECRAFT_SHOW: Voir les serveurs minecraft
+    ROLE_DP_MINECRAFT_ADD: Ajouter des serveurs minecraft
+    ROLE_DP_MINECRAFT_EDIT: Modifier les serveurs minecraft
+    ROLE_DP_MINECRAFT_DELETE: Supprimer des serveurs minecraft
+    ROLE_DP_MINECRAFT_STATE: Modifier l'état d'un serveur minecraft (démarrage/redémarrage/arrêt)
+    ROLE_DP_MINECRAFT_FTP: Accès à l'explorateur FTP pour les serveurs minecraft
+    ROLE_DP_MINECRAFT_PLUGIN: Configuration des plugins des serveurs minecraft
+    ROLE_DP_MINECRAFT_RCON: Accès à la console RCON des serveurs minecraft
+    ROLE_DP_MINECRAFT_HLTV: Contrôle des HLTV des serveurs minecraft
+    ROLE_DP_MINECRAFT_ADMIN: Administration des serveurs minecraft
 
 menu:
     home: Accueil
