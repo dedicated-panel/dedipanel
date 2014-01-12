@@ -1,12 +1,12 @@
 <?php
 
-namespace DP\Core\MachineBundle;
+namespace DP\Core\MachineBundle\Validator;
 
 use DP\Core\MachineBundle\Entity\Machine;
 use Symfony\Component\Validator\ExecutionContextInterface;
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 
-class Validator
+class MachineValidator
 {
     public function validateNotEmptyPassword(Machine $machine, ExecutionContextInterface $context)
     {

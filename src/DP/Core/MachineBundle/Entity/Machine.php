@@ -402,8 +402,8 @@ class Machine
         )));
         $metadata->addPropertyConstraint('user', new Assert\NotBlank(array('message' => 'machine.assert.user')));
         $metadata->addConstraint(new Assert\Callback(array('methods' => array(
-            array('DP\Core\MachineBundle\Validator', 'validateNotEmptyPassword'),
-            array('DP\Core\MachineBundle\Validator', 'validateCredentials'),  
+            array('DP\Core\MachineBundle\Validator\MachineValidator', 'validateNotEmptyPassword'),
+            array('DP\Core\MachineBundle\Validator\MachineValidator', 'validateCredentials'),  
         ))));
     }
 }
