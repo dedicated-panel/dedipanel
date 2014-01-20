@@ -728,4 +728,14 @@ class SteamServer extends GameServer {
         // Upload du nouveau fichier
         return $sec->upload($file, implode("\r\n", $fileLines));
     }
+    
+    public function regenerateScripts(\Twig_Environment $twig)
+    {
+        $this->uploadHldsScript($twig);
+        $this->uploadHltvScript($twig);
+        
+        if ($this->getGame()->getLaunchName() == 'csgo') {
+            $this->modifyGameModesCfg();
+        }
+    }
 }

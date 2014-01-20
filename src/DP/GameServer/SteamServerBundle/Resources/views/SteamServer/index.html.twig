@@ -1,22 +1,14 @@
-{# 
- Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
-
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- GNU General Public License for more details.
- 
- You should have received a copy of the GNU General Public License along
- with this program; if not, write to the Free Software Foundation, Inc.,
- 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+{#
+    (c) Dedipanel <http://www.dedicated-panel.net>
+    
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
 #}
 
 {% extends "::layout.html.twig" %}
+
+{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
+{% import '::buttons.html.twig' as dedipanel_buttons %}
 
 {% block bundleStylesheets %}
     <link rel="stylesheet" href="{{ asset('bundles/dpgameserver/css/game.css') }}" />
@@ -30,20 +22,16 @@
 {% endblock %}
 
 {% block title %}
-    <a href="{{ path('DPGameServerBundle_menu') }}"> 
-        <span class="icon" data-icon="&#x29;" title="{{ 'steam.back'|trans }}"></span>
-    </a>
-    
-    {{ 'steam.title'|trans }}
+    {{ dedipanel_buttons.back(path('_welcome'), 'steam.title.steam'|trans) }}
 {% endblock %}
 
 {% block content %}
-    <h2>{{ 'steam.title'|trans }}</h2>
+    <h2>{{ 'steam.title.index'|trans }}</h2>
     
     {% if is_granted('ROLE_DP_STEAM_ADD') %}
         <ul id="top-nav" class="nav nav-tabs">
             <li>
-                <a href="{{ path('steam_new') }}">
+                <a href="{{ path('dedipanel_steam_create') }}">
                     {{ 'steam.add'|trans }}
                 </a>
             </li>
@@ -58,9 +46,9 @@
     {% endfor %}
 
     <div id="steam" class="server-list">
-        {% for entity in entities %}
+        {% for entity in steams %}
             <div class="server-item clearfix">
-                {% if entity.getInstallationStatus < 101 %}
+                {% if entity.isInstalled %}
                     <div class="principal clearfix">
                         <div class="game-image">
                             {% set gameImg = entity.game.installname %}
@@ -68,14 +56,14 @@
                                 {% set gameImg = 'css' %}
                             {% endif %}
 
-                            <a href="{{ path('steam_show', {'id': entity.id }) }}">
+                            <a href="{{ path('dedipanel_steam_show', {'id': entity.id }) }}">
                                 <img src="{{ asset('images/serveur/viewer/' ~ gameImg ~ '.png') }}" alt="{{ entity.game }}" />
                             </a>
                         </div>
 
                         <div class="infos">
                             <div class="titre">
-                                <a href="{{ path('steam_show', {id: entity.id}) }}">{{ entity.name }}</a>
+                                <a href="{{ path('dedipanel_steam_show', {id: entity.id}) }}">{{ entity.name }}</a>
                             </div>
 
                             <div class="description">
@@ -95,7 +83,7 @@
                             <div class="installation">
                                 <div class="update-status">
                                     <img src="{{ asset('images/icones/serveur/install.png') }}" alt="{{ 'game.updateStatus'|trans }}" />
-                                    <a href="{{ path('steam_install', {id: entity.id }) }}">{{ 'game.updateStatus'|trans }}</a>
+                                    <a href="{{ path('dedipanel_steam_install', {id: entity.id }) }}">{{ 'game.updateStatus'|trans }}</a>
                                 </div>
                                 
                                 <div id="installation-progress" class="progress" value="{{ entity.installationStatus }}"></div>
@@ -119,14 +107,14 @@
                                 {% set gameImg = 'css' %}
                             {% endif %}
 
-                            <a href="{{ path('steam_show', {'id': entity.id }) }}">
+                            <a href="{{ path('dedipanel_steam_show', {'id': entity.id }) }}">
                                 <img src="{{ asset('images/serveur/viewer/' ~ gameImg ~ '.png') }}" alt="{{ entity.game }}" />
                             </a>
                         </div>
 
                         <div class="infos">
                             <div class="titre">
-                                <a href="{{ path('steam_show', {id: entity.id}) }}">{{ entity.name }}</a>
+                                <a href="{{ path('dedipanel_steam_show', {id: entity.id}) }}">{{ entity.name }}</a>
                             </div>
 
                             <div class="description">

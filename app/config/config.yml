@@ -137,3 +137,9 @@ sylius_resource:
             role_prefix: ROLE_DP_ADMIN_PLUGIN
             classes:
                 model: DPGameBundle:Plugin
+        dedipanel.steam:
+            driver: doctrine/orm
+            templates: DPSteamServerBundle:SteamServer
+            classes:
+                model: DPSteamServerBundle:SteamServer
+                controller: DP\GameServer\GameServerBundle\Controller\GameServerController

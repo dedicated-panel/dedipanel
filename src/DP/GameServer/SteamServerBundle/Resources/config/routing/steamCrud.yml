@@ -14,50 +14,52 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-steam:
-    pattern:  /
-    defaults: { _controller: "DPSteamServerBundle:SteamServer:index" }
+dedipanel_steam_index:
+    pattern: /
+    defaults:
+        _controller: dedipanel.controller.steam:indexAction
+        _sylius:
+            paginate: false
 
-steam_show:
-    pattern:  /{id}/show
-    defaults: { _controller: "DPSteamServerBundle:SteamServer:show" }
+dedipanel_steam_show:
+    pattern: /{id}/show
+    defaults:
+        _controller: dedipanel.controller.steam:showAction
+        _sylius:
+            paginate: false
 
-steam_new:
-    pattern:  /new
-    defaults: { _controller: "DPSteamServerBundle:SteamServer:new" }
+dedipanel_steam_create:
+    pattern: /new
+    methods: [GET, POST]
+    defaults:
+        _controller: dedipanel.controller.steam:createAction
 
-steam_create:
-    pattern:  /create
-    defaults: { _controller: "DPSteamServerBundle:SteamServer:create" }
-    requirements: { _method: post }
+dedipanel_steam_update:
+    pattern: /{id}/edit
+    methods: [GET, POST]
+    defaults:
+        _controller: dedipanel.controller.steam:editAction
 
-steam_edit:
-    pattern:  /{id}/edit
-    defaults: { _controller: "DPSteamServerBundle:SteamServer:edit" }
+dedipanel_steam_delete:
+    pattern: /{id}/delete
+    methods: [DELETE]
+    defaults:
+        _controller: dedipanel.controller.steam:deleteAction
 
-steam_update:
-    pattern:  /{id}/update
-    defaults: { _controller: "DPSteamServerBundle:SteamServer:update" }
-    requirements: { _method: post }
+dedipanel_steam_install:
+    pattern: /{id}/install
+    methods: [GET]
+    defaults:
+        _controller: dedipanel.controller.steam:installAction
 
-steam_delete:
-    pattern:  /{id}/delete/{fromMachine}
-    defaults: { _controller: "DPSteamServerBundle:SteamServer:delete", fromMachine: false }
-    requirements: { _method: post }
-
-steam_install:
-    pattern:  /{id}/install
-    defaults: { _controller: "DPSteamServerBundle:SteamServer:install" }
-
-steam_changeState:
-    pattern:  /{id}/{state}
-    defaults: { _controller: "DPSteamServerBundle:SteamServer:changeState" }
-    requirements: { state: "start|stop|restart" }
-
-steam_regen:
+dedipanel_steam_regen:
     pattern: /{id}/regen
-    defaults: { _controller: "DPSteamServerBundle:SteamServer:regen" }
+    methods: [GET]
+    defaults:
+        _controller: dedipanel.controller.steam.regenAction
 
-steam_screen_log:
-    pattern: /{id}/log
-    defaults: { _controller: "DPSteamServerBundle:SteamServer:showLog" }
+dedipanel_steam_logs:
+    pattern: /{id}/logs
+    methods: [GET]
+    defaults:
+        _controller: dedipanel.controller.steam:logsAction

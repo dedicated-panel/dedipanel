@@ -1,7 +1,7 @@
 {% set sid = server.id %}
 
 <div class="actions clearfix">
-    {% if is_granted('ROLE_DP_STEAM_STATE') %}
+    {# {% if is_granted('ROLE_DP_STEAM_STATE') %}
         {% if online %}
             <a href="{{ path('steam_changeState', { 'id': sid, 'state': 'stop' }) }}">
                 <span class="icon" data-icon="&#x24;" title="{{ 'game.stop'|trans }}"></span>
@@ -15,10 +15,10 @@
                 <span class="icon" data-icon="&#x22;" title="{{ 'game.start'|trans }}"></span>
             </a>
         {% endif %}
-    {% endif %}
+    {% endif %} #}
 
     {% if is_granted('ROLE_DP_STEAM_EDIT') %}
-        <a href="{{ path('steam_edit', {id: sid}) }}">
+        <a href="{{ path('dedipanel_steam_update', {id: sid}) }}">
             <span class="icon" data-icon="&#x25;" title="{{ 'game.edit'|trans }}"></span>
         </a>
     {% endif %}
@@ -51,7 +51,7 @@
     {% endif %}
     
     {% if show and online %}
-        <a href="{{ path('steam_show', {id: sid}) }}" class="slide">
+        <a href="{{ path('dedipanel_steam_show', {id: sid}) }}" class="slide">
             <span class="icon" data-icon="&#x21;" title="{{ 'steam.show'|trans }}"></span>
         </a>
     {% endif %}

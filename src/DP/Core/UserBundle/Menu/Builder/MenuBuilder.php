@@ -26,7 +26,7 @@ class MenuBuilder
             ->addChild('menu.home', array('route' => '_welcome', 'extras' => array('icon' => 'P'), 'pattern_strict' => true))
         ;
         $menu
-            ->addChild('menu.steam', array('route' => 'steam', 'extras' => array('icon' => 'o')))
+            ->addChild('menu.steam', array('route' => 'dedipanel_steam_index', 'extras' => array('icon' => 'o')))
             ->setDisplay($this->context->isGranted('ROLE_DP_STEAM_SHOW'))
         ;
         $menu

@@ -545,4 +545,25 @@ abstract class GameServer
         
         return $sec->getScreenContent($this->getInstallScreenName());
     }
+    
+    public function isInstalled()
+    {
+        return $this->installationStatus >= 101;
+    }
+    
+    public function finalizeInstallation(\Twig_Environment $twig)
+    {
+        $this->uploadShellScripts($twig);
+        $this->uploadDefaultServerCfgFile();
+        $this->removeInstallationFiles();
+        
+        $this->setInstallationStatus(101);
+    }
+    
+    /*
+    abstract public function uploadShellScripts(\Twig_Environment $twig);
+    abstract public function uploadDefaultServerCfgFile();
+    abstract public function removeInstallationFiles();
+    abstract public function regenerateScripts();
+    */
 }
