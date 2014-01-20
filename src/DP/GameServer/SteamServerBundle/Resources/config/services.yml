@@ -42,3 +42,13 @@ services:
         class: DP\GameServer\SteamServerBundle\Security\SteamRoleBuilder
         tags:
             - { name: dp.game_role_builder }
+    
+    dedipanel.steam.form.add:
+        class: DP\GameServer\SteamServerBundle\Form\AddSteamServerType
+        tags:
+            - { name: form.type, alias: dedipanel_steam_add }
+    
+    dedipanel.steam.form.edit:
+        class: DP\GameServer\SteamServerBundle\Form\EditSteamServerType
+        tags:
+            - { name: form.type, alias: dedipanel_steam_edit }

@@ -1,37 +1,25 @@
-{# 
- Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
-
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- GNU General Public License for more details.
- 
- You should have received a copy of the GNU General Public License along
- with this program; if not, write to the Free Software Foundation, Inc.,
- 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+{#
+    (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
+    
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
 #}
 
 {% extends "::layout.html.twig" %}
+
+{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
+{% import '::buttons.html.twig' as dedipanel_buttons %}
 
 {% block bundleStylesheets %}
     <link rel="stylesheet" href="{{ asset('bundles/dpgameserver/css/game.css') }}" />
 {% endblock %}
 
 {% block title %}
-    <a href="{{ path('steam') }}"> 
-        <span class="icon" data-icon="&#x29;" title="{{ 'steam.back'|trans }}"></span>
-    </a>
-
-    {{ 'steam.title'|trans }}
+    {{ dedipanel_buttons.back(path('dedipanel_steam_index'), 'steam.title.steam'|trans) }}
 {% endblock %}
 
 {% block content %}
-    {% set online = (entity.query.latency != false) %}
+    {% set online = (steam.query.latency != false) %}
 
     <div class="serveur-header-bg">
         <div class="serveur-header-texture">
@@ -39,7 +27,7 @@
                 <div class="serveur-header-content">
                     <div class="serveur-header-image">
                         {% if online %}
-                            <img src="{{ entity.game.sourceImagesMaps }}{{ entity.query.serverInfos['map'] }}.jpg" alt="{{ entity.query.serverInfos['map'] }}" />
+                            <img src="{{ steam.game.sourceImagesMaps }}{{ steam.query.serverInfos['map'] }}.jpg" alt="{{ steam.query.serverInfos['map'] }}" />
                         {% else %}
                             <img class="offline" src=" {{ asset('images/serveur/viewer/offline.jpg') }}"/>
                         {% endif %}
@@ -49,16 +37,16 @@
                         <div class="serveur-header-name">
                             {% if is_granted('ROLE_DP_STEAM_ADMIN') %}
                                 <ul>
-                                    {% if entity.installationStatus == 101 %}
+                                    {% if steam.installationStatus == 101 %}
                                         <li>
-                                            <a href="{{ path('steam_regen', { 'id': entity.id }) }}">
+                                            <a href="{{ path('steam_regen', { 'id': steam.id }) }}">
                                                 {{ 'game.regenerate'|trans }}
                                             </a>
                                         </li>
                                     {% endif %}
                                     
                                     <li>
-                                        <a href="{{ path('steam_screen_log', { 'id': entity.id}) }}">
+                                        <a href="{{ path('dedipanel_steam_logs', { 'id': steam.id}) }}">
                                             {{ 'game.showLog'|trans }}
                                         </a>
                                     </li>
@@ -69,28 +57,28 @@
                         <div class="serveur-header-map">
                             <div class="serveur-header-player">
                               {% if online %}  
-                                {{ entity.query.serverInfos['players'] }} / 
-                                {{ entity.query.serverInfos['maxPlayers'] }} 
+                                {{ steam.query.serverInfos['players'] }} / 
+                                {{ steam.query.serverInfos['maxPlayers'] }} 
                             {% endif %}
                             </div>
                         </div>
                         
-                        {% if entity.installationStatus == 101 %}
+                        {% if steam.installationStatus == 101 %}
                             <div class="serveur-header-actionbar">
-                                {% include 'DPSteamServerBundle:SteamServer:actionBar.html.twig' with {show: true, online: online, server: entity} %}
+                                {% include 'DPSteamServerBundle:SteamServer:actionBar.html.twig' with {show: true, online: online, server: steam} %}
                             </div>
                         {% endif %}
                     </div>
                     
                     <div class="serveur-header-summary">
                         <div class="serveur-header-name">
-                            <a href="{{ path('steam_show', {id: entity.id}) }}">{{ entity.name }}</a>
+                            <a href="{{ path('dedipanel_steam_show', {id: steam.id}) }}">{{ steam.name }}</a>
                         </div>
                         
                         <div class="serveur-header-map">
-                            {% if entity.installationStatus == 101 %}
+                            {% if steam.installationStatus == 101 %}
                                 {% if online %}  
-                                    {{ 'game.map'|trans({'%map%': entity.query.serverInfos['map']}) }}
+                                    {{ 'game.map'|trans({'%map%': steam.query.serverInfos['map']}) }}
                                 {% else %}
                                     <div class="offline">
                                         {{ 'game.offline'|trans }}
@@ -108,35 +96,35 @@
                             <tbody>
                                 <tr>
                                     <th>{{ 'game.IPAddress'|trans }}</th>
-                                    <td>{{ entity.machine.publicIp }}:{{ entity.port }}</td>
+                                    <td>{{ steam.machine.publicIp }}:{{ steam.port }}</td>
                                 </tr>
                                 <tr>
                                     <th>{{ 'game.game'|trans }}</th>
-                                    <td>{{ entity.game }}</td>
+                                    <td>{{ steam.game }}</td>
                                 </tr>
                                 <tr>
                                     <th>{{ 'game.installStatus'|trans }}</th>
                                     <td>
                                         {% if is_granted('ROLE_DP_STEAM_EDIT') %}
-                                            <a href="{{ path('steam_install', { 'id': entity.id }) }}">
+                                            <a href="{{ path('dedipanel_steam_install', { 'id': steam.id }) }}">
                                                 {% spaceless %}
-                                                    {% if entity.installationStatus is null %}
+                                                    {% if steam.installationStatus is null %}
                                                         Buggued
-                                                    {% elseif entity.installationStatus == 101 %}
+                                                    {% elseif steam.installationStatus == 101 %}
                                                         {{ 'game.installEnded'|trans }}
                                                     {% else %}
-                                                        {{ entity.installationStatus }}%
+                                                        {{ steam.installationStatus }}%
                                                     {% endif %}
                                                 {% endspaceless %}
                                             </a>
                                         {% else %}
                                             {% spaceless %}
-                                                {% if entity.installationStatus is null %}
+                                                {% if steam.installationStatus is null %}
                                                     Buggued
-                                                {% elseif entity.installationStatus == 101 %}
+                                                {% elseif steam.installationStatus == 101 %}
                                                     {{ 'game.installEnded'|trans }}
                                                 {% else %}
-                                                    {{ entity.installationStatus }}%
+                                                    {{ steam.installationStatus }}%
                                                 {% endif %}
                                             {% endspaceless %}
                                         {% endif %}
@@ -161,8 +149,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% if online %} 
-                        {% for player in entity.query.players %}
+                    {% if online %}
+                        {% for player in steam.query.players %}
                             <tr>
                                 <td>{{ player.nom }}</td>
                                 <td>{{ player.score }}</td>
@@ -176,7 +164,7 @@
                         <tr><th colspan="2" class="empty">
                         {{ 'game.serveurOffline'|trans }}
                         </th></tr>                 
-                    {% endif %}                
+                    {% endif %}
                 </tbody>
             </table>
         </div>
@@ -185,7 +173,7 @@
     {% if is_granted('ROLE_DP_STEAM_EDIT') or is_granted('ROLE_DP_STEAM_DELETE') %}
         <div class="form-group clearfix">
             {% if is_granted('ROLE_DP_STEAM_EDIT') %}
-                <form action="{{ path('steam_edit', { 'id': entity.id }) }}" method="get" class="form-edit">          
+                <form action="{{ path('dedipanel_steam_update', { 'id': steam.id }) }}" method="get" class="form-edit">          
                     <div class="form-actions">
                         <button type="submit"  class="btn btn-primary">{{ 'game.edit'|trans }}</button>
                     </div>
@@ -193,17 +181,8 @@
             {% endif %}
             
             {% if is_granted('ROLE_DP_STEAM_DELETE') %}
-                <form action="{{ path('steam_delete', { 'id': entity.id }) }}" method="post" class="form-delete">
-                    {{ form_widget(delete_form) }}
-                    
-                    <button type="submit"  class="btn btn-danger">{{ 'game.del'|trans }}</button>
-                </form>
-                
-                <form action="{{ path('steam_delete', { 'id': entity.id, fromMachine: true }) }}" method="post" class="form-delete">
-                    {{ form_widget(delete_all_form) }}
-                    
-                    <button type="submit"  class="btn btn-danger">{{ 'game.delAll'|trans }}</button>
-                </form>
+                {{ sylius_buttons.delete(path('dedipanel_steam_delete', {'id': steam.id})) }}
+                {{ sylius_buttons.delete(path('dedipanel_steam_delete', {'id': steam.id, 'fromMachine': true})) }}
             {% endif %}
         </div>
     {% endif %}

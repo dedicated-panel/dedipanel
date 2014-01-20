@@ -546,7 +546,7 @@ abstract class GameServer
         return $sec->getScreenContent($this->getInstallScreenName());
     }
     
-    public function isInstalled()
+    public function isInstallationEnded()
     {
         return $this->installationStatus >= 101;
     }

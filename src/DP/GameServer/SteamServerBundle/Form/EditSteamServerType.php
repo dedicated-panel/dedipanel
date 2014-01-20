@@ -85,6 +85,6 @@ class EditSteamServerType extends AbstractType
 
     public function getName()
     {
-        return 'dp_gameserver_steamserverbundle_steamservertype_editsteamservertype';
+        return 'dedipanel_steam_edit';
     }
 }

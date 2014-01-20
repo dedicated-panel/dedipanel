@@ -62,6 +62,6 @@ class AddSteamServerType extends AbstractType
 
     public function getName()
     {
-        return 'dp_gameserver_steamserverbundle_addsteamservertype';
+        return 'dedipanel_steam_add';
     }
 }

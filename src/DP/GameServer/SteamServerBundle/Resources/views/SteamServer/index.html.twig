@@ -48,7 +48,7 @@
     <div id="steam" class="server-list">
         {% for entity in steams %}
             <div class="server-item clearfix">
-                {% if entity.isInstalled %}
+                {% if not entity.isInstallationEnded %}
                     <div class="principal clearfix">
                         <div class="game-image">
                             {% set gameImg = entity.game.installname %}

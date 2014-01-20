@@ -33,12 +33,16 @@ dedipanel_steam_create:
     methods: [GET, POST]
     defaults:
         _controller: dedipanel.controller.steam:createAction
+        _sylius:
+            form: dedipanel_steam_add
 
 dedipanel_steam_update:
     pattern: /{id}/edit
     methods: [GET, POST]
     defaults:
         _controller: dedipanel.controller.steam:editAction
+        _sylius:
+            form: dedipanel_steam_edit
 
 dedipanel_steam_delete:
     pattern: /{id}/delete
@@ -62,4 +66,4 @@ dedipanel_steam_logs:
     pattern: /{id}/logs
     methods: [GET]
     defaults:
-        _controller: dedipanel.controller.steam:logsAction
+        _controller: dedipanel.controller.steam:showLogsAction

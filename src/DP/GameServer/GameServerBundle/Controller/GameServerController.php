@@ -44,8 +44,10 @@ class GameServerController extends ResourceController
             $server->installServer($this->get('twig'));
         }
 
-        $em->persist($server);
-        $em->flush();
+        $event = $this->dispatchEvent('pre_install', $server);
+        if (!$event->isStopped()) {
+            $this->persistAndFlush($server, 'install');
+        }
 
         return $this->redirectToIndex();
     }
@@ -74,7 +76,7 @@ class GameServerController extends ResourceController
         return $this->redirectTo($server);
     }
     
-    public function showLogAction($id)
+    public function showLogsAction($id)
     {
         $this->isGrantedOr403('ADMIN');
         
