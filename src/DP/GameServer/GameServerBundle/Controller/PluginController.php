@@ -30,20 +30,6 @@ abstract class PluginController extends Controller
     abstract public function getBaseRoute();
     abstract protected function isGranted();
     
-    public function showServerAction($id)
-    {
-        if (!$this->isGranted()) {
-            throw new AccessDeniedException;
-        }
-        
-        $server = $this->getServerEntity($id);
-        
-        return $this->render('DPGameServerBundle:Plugin:show.html.twig', array(
-            'server'    => $server, 
-            'baseRoute' => $this->getBaseRoute(), 
-        ));
-    }
-    
     public function installAction($id, $plugin)
     {
         if (!$this->isGranted()) {

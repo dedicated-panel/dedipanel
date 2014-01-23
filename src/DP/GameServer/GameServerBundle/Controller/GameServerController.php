@@ -144,14 +144,15 @@ class GameServerController extends ResourceController
         return $this->handleView($view);
     }
 
-    public function consoleAction(Request $request)
+    public function rconAction(Request $request)
     {
         $config = $this->getConfiguration();
         
         $this->isGrantedOr403('RCON');
         $server = $this->findOr404();
         
-        $log = '';
+        $logs = $server->getServerLogs() . "\n";
+        $ret = '';
         $form = $this->createRconForm();
         
         $online = $server->getQuery()->isOnline();
@@ -160,24 +161,26 @@ class GameServerController extends ResourceController
         if ($request->isMethod('POST') && $form->bind($request)->isValid()) {
             if ($online && !$banned) {
                 $data = $form->getData();
+                $cmd = $data['cmd'];
                 
                 // Exécution de la commande
                 $ret = $server
                     ->setRcon($server->getRcon())
-                    ->sendCmd($data['cmd'])
+                    ->sendCmd($cmd)
                 ;
 
-                $log = '> ' . $data['cmd'] . "\n" . $ret . "\n";
+                $logs .= '> ' . $cmd . "\n" . $ret . "\n";
+                
+                if ($config->isApiRequest()) {
+                    return $this->handleView($this->view(array('log' => $logs, 'cmd' => $cmd, 'ret' => $ret)));
+                }
             }
             else {
                 $this->setFlash('error', 'server offline');
             }
         }
-
-        if ($config->isApiRequest() && $request->isMethod('POST')) {
-            return $this->handleView($this->view(array('log' => $log)));
-        }
-        elseif ($config->isApiRequest() && $request->isMethod('GET')) {
+        
+        if ($config->isApiRequest()) {
             return $this->handleView($this->view($form));
         }
 
@@ -187,7 +190,7 @@ class GameServerController extends ResourceController
             ->setData(array(
                 $config->getResourceName() => $resource,
                 'form'                     => $form->createView(), 
-                'log'                      => $log,
+                'log'                      => $logs,
             ))
         ;
 
