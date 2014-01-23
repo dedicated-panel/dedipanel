@@ -128,6 +128,9 @@ abstract class GameServer
      * )
      */
     private $plugins;
+    
+    /** @var boolean $isAlreadyInstalled **/
+    private $isAlreadyInstalled;
 
 
     abstract public function changeStateServer($state);
@@ -397,6 +400,30 @@ abstract class GameServer
     public function getServerName()
     {
         return '[DediPanel] ' . $this->getName();
+    }
+    
+    /**
+     * Set whether is already already installed
+     * 
+     * @param boolean $isAlreadyInstalled
+     * 
+     * @return GameServer
+     */
+    public function setIsAlreadyInstalled($isAlreadyInstalled)
+    {
+        $this->isAlreadyInstalled = $isAlreadyInstalled;
+        
+        return $this;
+    }
+    
+    /**
+     * Is already installed ? (from form)
+     * 
+     * @return boolean
+     */
+    public function isAlreadyInstalled()
+    {
+        return $this->isAlreadyInstalled;
     }
 
     public function getDirContent($path = '')

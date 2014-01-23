@@ -68,3 +68,9 @@ dedipanel_steam_logs:
     methods: [GET]
     defaults:
         _controller: dedipanel.controller.steam:showLogsAction
+
+dedipanel_steam_rcon:
+    pattern: /{id}/rcon
+    methods: [GET, POST]
+    defaults:
+        _controller: dedipanel.controller.steam:rconAction

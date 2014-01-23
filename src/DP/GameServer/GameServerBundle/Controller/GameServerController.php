@@ -32,7 +32,7 @@ class GameServerController extends ResourceController
     public function installAction()
     {
         if ($this->enableRoleCheck) {
-            if (!$this->isGranted('ADD') && !$this->isGranted('EDIT')) {
+            if (!$this->isGranted('CREATE') && !$this->isGranted('UPDATE')) {
                 throw new AccessDeniedException;
             }
         }
@@ -140,5 +140,65 @@ class GameServerController extends ResourceController
         ;
 
         return $this->handleView($view);
+    }
+
+    public function consoleAction(Request $request)
+    {
+        $config = $this->getConfiguration();
+        
+        $this->isGrantedOr403('RCON');
+        $server = $this->findOr404();
+        
+        $log = '';
+        $form = $this->createRconForm();
+        
+        $online = $server->getQuery()->isOnline();
+        $banned = $server->getQuery()->isBanned();
+        
+        if ($request->isMethod('POST') && $form->bind($request)->isValid()) {
+            if ($online && !$banned) {
+                $data = $form->getData();
+                
+                // Exécution de la commande
+                $ret = $server
+                    ->setRcon($server->getRcon())
+                    ->sendCmd($data['cmd'])
+                ;
+
+                $log = '> ' . $data['cmd'] . "\n" . $ret . "\n";
+            }
+            else {
+                $this->setFlash('error', 'server offline');
+            }
+        }
+
+        if ($config->isApiRequest() && $request->isMethod('POST')) {
+            return $this->handleView($this->view(array('log' => $log)));
+        }
+        elseif ($config->isApiRequest() && $request->isMethod('GET')) {
+            return $this->handleView($this->view($form));
+        }
+
+        $view = $this
+            ->view()
+            ->setTemplate($config->getTemplate('console.html'))
+            ->setData(array(
+                $config->getResourceName() => $resource,
+                'form'                     => $form->createView(), 
+                'log'                      => $log,
+            ))
+        ;
+
+        return $this->handleView($view);
+    }
+    
+    public function createRconForm(array $default = array())
+    {
+        $form = $this
+            ->createFormBuilder($default)
+            ->add('cmd', 'text', array('label' => 'game.rcon.command'))
+        ;
+
+        return $form->getForm();
     }
 }
