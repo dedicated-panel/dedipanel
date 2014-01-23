@@ -25,13 +25,13 @@ use DP\GameServer\GameServerBundle\Entity\GameServer;
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 use PHPSeclibWrapper\Exception\MissingPacketException;
 use DP\Core\GameBundle\Entity\Plugin;
-use DP\GameServer\SteamServerBundle\Exception\InstallAlreadyStartedException;
+use DP\GameServer\GameServerBundle\Exception\InstallAlreadyStartedException;
 
 /**
  * DP\GameServer\SteamServerBundle\Entity\SteamServer
  *
  * @ORM\Table(name="steam_server")
- * @ORM\Entity(repositoryClass="DP\GameServer\SteamServerBundle\Entity\SteamServerRepository")
+ * @ORM\Entity()
  */
 class SteamServer extends GameServer {
     /**

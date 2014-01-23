@@ -12,6 +12,8 @@ namespace DP\GameServer\GameServerBundle\Controller;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use DP\GameServer\GameServerBundle\Entity\GameServer;
+use DP\GameServer\GameServerBundle\Exception\InstallAlreadyStartedException;
+use PHPSeclibWrapper\Exception\MissingPacketException;
 
 class GameServerController extends ResourceController
 {
