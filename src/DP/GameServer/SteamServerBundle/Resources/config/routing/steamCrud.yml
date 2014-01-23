@@ -35,6 +35,7 @@ dedipanel_steam_create:
         _controller: dedipanel.controller.steam:createAction
         _sylius:
             form: dedipanel_steam_add
+            redirect: dedipanel_steam_install
 
 dedipanel_steam_update:
     pattern: /{id}/edit

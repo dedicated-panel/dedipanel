@@ -20,7 +20,7 @@ imports:
 security:
     encoders:
         "FOS\UserBundle\Model\UserInterface": sha512
-
+    
     providers:
         fos_userbundle:
             id: fos_user.user_provider.username
@@ -33,7 +33,7 @@ security:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
+        
         login:
             pattern: ^/(login$|register|resetting)
             anonymous: true

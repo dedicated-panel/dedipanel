@@ -5,7 +5,6 @@ security:
             - ROLE_ALLOWED_TO_SWITCH
         ROLE_ADMIN: 
             - ROLE_USER
-            - ROLE_DP_ADMIN
             - ROLE_DP_ADMIN_USER_ADMIN
             - ROLE_DP_ADMIN_GROUP_ADMIN
             - ROLE_DP_ADMIN_MACHINE_ADMIN

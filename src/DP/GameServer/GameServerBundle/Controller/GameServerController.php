@@ -15,6 +15,20 @@ use DP\GameServer\GameServerBundle\Entity\GameServer;
 
 class GameServerController extends ResourceController
 {
+    public function create($resource)
+    {
+        if ($resource->isAlreadyInstalled()) {
+            $resource->setInstallationStatus(100);
+        }
+        
+        $event = $this->dispatchEvent('pre_create', $resource);
+        if (!$event->isStopped()) {
+            $this->persistAndFlush($resource);
+        }
+        
+        return $event;
+    }
+        
     public function installAction()
     {
         if ($this->enableRoleCheck) {
@@ -26,52 +40,79 @@ class GameServerController extends ResourceController
         $server = $this->findOr404();
         $status = $server->getInstallationStatus();
         
-        if ($status == 100) {
-            $server->finalizeInstallation($this->get('twig'));
-        }
-        elseif ($status < 100) {
-            $newStatus = $server->getInstallationProgress();
-            $server->setInstallationStatus($newStatus);
-            
-            if ($newStatus == 100) {
+        try {
+            if ($status == 100) {
                 $server->finalizeInstallation($this->get('twig'));
             }
-            elseif ($newStatus === null) {
+            elseif ($status < 100) {
+                $status = $server->getInstallationProgress();
+                $server->setInstallationStatus($newStatus);
+                
+                if ($status == 100) {
+                    $server->finalizeInstallation($this->get('twig'));
+                }
+            }
+            
+            if ($status === null) {
                 $server->installServer($this->get('twig'));
             }
         }
-        elseif ($status === null) {
-            $server->installServer($this->get('twig'));
+        catch (InstallAlreadyStartedException $e) {
+            $trans = $this->get('translator')->trans('game.installAlreadyStarted');
+            $trans;
+        }
+        catch (MissingPacketException $e) {
+            $trans = $this->get('translator')->trans('steam.missingCompatLib');
+            $this->set('error', $trans);
         }
 
         $event = $this->dispatchEvent('pre_install', $server);
-        if (!$event->isStopped()) {
+        if ($event->isStopped()) {
+            $this->setFlash($event->getMessageType(), $event->getMessage(), $event->getMessageParams());
+        }
+        else {
             $this->persistAndFlush($server, 'install');
         }
-
+        
         return $this->redirectToIndex();
     }
-
+    
     public function changeStateAction($state)
     {
         $this->isGrantedOr403('STATE');
         
         $server = $this->findOr404();
-        $server->changeStateServer($state);
+        
+        $event = $this->dispatchEvent('pre_change_state', $server);
+        if ($event->isStopped()) {
+            $this->setFlash($event->getMessageType(), $event->getMessage(), $event->getMessageParams());
+        }
+        else {
+            $this->dispatchEvent('change_state', $resource);
+            $server->changeStateServer($state);
+            $this->dispatchEvent('post_change_state', $resource);
+        }
         
         $this->get('session')->getFlashBag()->add('stateChanged', 'steam.stateChanged.' . $state);
         
         return $this->redirectToIndex();
     }
-
+    
     public function regenAction()
     {
         $this->isGrantedOr403('ADMIN');
         
         $server = $this->findOr404();
-
-        $twig = $this->get('twig');
-        $server->regenerateScripts($twig);
+        
+        $event = $this->dispatchEvent('pre_regen', $server);
+        if ($event->isStopped()) {
+            $this->setFlash($event->getMessageType(), $event->getMessage(), $event->getMessageParams());
+        }
+        else {
+            $this->dispatchEvent('regen', $resource);
+            $server->regenerateScripts($this->get('twig'));
+            $this->dispatchEvent('post_regen', $resource);
+        }
         
         return $this->redirectTo($server);
     }
