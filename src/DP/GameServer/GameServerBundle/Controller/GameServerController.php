@@ -14,6 +14,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use DP\GameServer\GameServerBundle\Entity\GameServer;
 use DP\GameServer\GameServerBundle\Exception\InstallAlreadyStartedException;
 use PHPSeclibWrapper\Exception\MissingPacketException;
+use Sylius\Bundle\ResourceBundle\Event\ResourceEvent;
 
 class GameServerController extends ResourceController
 {
@@ -42,37 +43,37 @@ class GameServerController extends ResourceController
         $server = $this->findOr404();
         $status = $server->getInstallationStatus();
         
-        try {
-            if ($status == 100) {
-                $server->finalizeInstallation($this->get('twig'));
-            }
-            elseif ($status < 100) {
-                $status = $server->getInstallationProgress();
-                $server->setInstallationStatus($newStatus);
-                
-                if ($status == 100) {
-                    $server->finalizeInstallation($this->get('twig'));
-                }
-            }
-            
-            if ($status === null) {
-                $server->installServer($this->get('twig'));
-            }
-        }
-        catch (InstallAlreadyStartedException $e) {
-            $trans = $this->get('translator')->trans('game.installAlreadyStarted');
-            $trans;
-        }
-        catch (MissingPacketException $e) {
-            $trans = $this->get('translator')->trans('steam.missingCompatLib');
-            $this->set('error', $trans);
-        }
-
         $event = $this->dispatchEvent('pre_install', $server);
         if ($event->isStopped()) {
             $this->setFlash($event->getMessageType(), $event->getMessage(), $event->getMessageParams());
         }
         else {
+            try {
+                if ($status == 100) {
+                    $server->finalizeInstallation($this->get('twig'));
+                }
+                elseif ($status < 100) {
+                    $status = $server->getInstallationProgress();
+                    $server->setInstallationStatus($status);
+                    
+                    if ($status == 100) {
+                        $server->finalizeInstallation($this->get('twig'));
+                    }
+                }
+                
+                if ($status === null) {
+                    $server->installServer($this->get('twig'));
+                }
+            }
+            catch (InstallAlreadyStartedException $e) {
+                $trans = $this->get('translator')->trans('game.installAlreadyStarted');
+                $this->setFlash('error', $trans);
+            }
+            catch (MissingPacketException $e) {
+                $trans = $this->get('translator')->trans('steam.missingCompatLib');
+                $this->setFlash('error', $trans);
+            }
+            
             $this->persistAndFlush($server, 'install');
         }
         
@@ -90,8 +91,8 @@ class GameServerController extends ResourceController
             $this->setFlash($event->getMessageType(), $event->getMessage(), $event->getMessageParams());
         }
         else {
-            $this->dispatchEvent('change_state', $resource);
             $server->changeStateServer($state);
+            $this->dispatchEvent('change_state', $resource);
             $this->dispatchEvent('post_change_state', $resource);
         }
         
@@ -205,5 +206,86 @@ class GameServerController extends ResourceController
         ;
 
         return $form->getForm();
+    }
+    
+    public function pluginAction(Request $request)
+    {
+        $config = $this->getConfiguration();
+        
+        $this->isGrantedOr403('PLUGIN');
+        $server = $this->findOr404();
+        
+        $pluginId = $this->getRequest()->get('plugin');
+        $action   = $this->getRequest()->get('action');
+        
+        if ($pluginId && $action) {
+            $em = $this->getDoctrine()->getEntityManager();
+            $plugin = $em->getRepository('DPGameBundle:Plugin')->findOneBy(array('id' => $pluginId));
+            
+            if (!$plugin) {
+                throw new NotFoundHttpException('Requested plugin does not exist.');
+            }
+            
+            if ($action == 'install') {
+                $this->installPlugin($server, $plugin);
+            }
+            else {
+               $this->uninstallPlugin($server, $plugin); 
+            }
+            
+            if (!$event->isStopped()) {
+                $this->setFlash('success', 'plugin_' . $action);
+            
+                return $this->redirectToRoute(
+                    $config->getRedirectRoute('plugin'),
+                    array('id' => $server->getId())
+                );
+            }
+
+            $this->setFlash($event->getMessageType(), $event->getMessage(), $event->getMessageParams());
+        }
+        
+        $view = $this
+            ->view()
+            ->setTemplate($config->getTemplate('plugn.html'))
+            ->setData(array(
+                $config->getResourceName() => $resource,
+                'form'                     => $form->createView(), 
+                'log'                      => $logs,
+            ))
+        ;
+
+        return $this->handleView($view);
+    }
+    
+    protected function installPlugin(GameServer $server, Plugin $plugin)
+    {
+        $event = $this->dispatchEvent('pre_install_plugin', $resource);
+        
+        if (!$event->isStopped()) {
+            try {
+                $server->installPlugin($this->get('twig'), $plugin);
+                $server->addPlugin($plugin);
+            }
+            catch (MissingPacketException $e) {
+                $event->stop('game.missingPacket', ResourceEvent::TYPE_ERROR, array('%plugin%' => strval($plugin), '%packet%' => $e->getPacketList()));
+            }
+        }
+        
+        return $event;
+    }
+    
+    protected function uninstallPlugin(GameServer $server, Plugin $plugin)
+    {
+        $event = $this->dispatchEvent('pre_create', $resource);
+        
+        if (!$event->isStopped()) {
+            $server->uninstallPlugin($this->get('twig'), $plugin);
+            $server->removePlugin($plugin);
+        
+            $this->persistAndFlush($resource);
+        }
+        
+        return $event;
     }
 }

@@ -74,3 +74,24 @@ dedipanel_steam_rcon:
     methods: [GET, POST]
     defaults:
         _controller: dedipanel.controller.steam:rconAction
+
+dedipanel_steam_plugin:
+    pattern: /{id}/plugin
+    methods: [GET]
+    defaults:
+        _controller: dedipanel.controller.steam:showAction
+        _sylius:
+            template: DPGameServerBundle:Plugin:show.html.twig
+
+dedipanel_steam_plugin_install:
+    pattern: /{id}/plugin/{plugin}/install
+    methods: [GET]
+    defaults:
+        _controller: dedipanel.controller.steam:installPluginAction
+
+dedipanel_steam_plugin_uninstall:
+    pattern: /{id}/plugin/{plugin}/{action}
+    methods: [GET]
+    defaults:
+        action: install|uninstall
+        _controller: dedipanel.controller.steam:uninstallPluginAction

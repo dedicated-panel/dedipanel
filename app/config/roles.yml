@@ -59,3 +59,4 @@ security:
             - ROLE_DP_ADMIN_STEAM_DELETE
             - ROLE_DP_ADMIN_STEAM_STATE
             - ROLE_DP_ADMIN_STEAM_RCON
+            - ROLE_DP_ADMIN_STEAM_PLUGIN

@@ -592,5 +592,7 @@ abstract class GameServer
     abstract public function uploadDefaultServerCfgFile();
     abstract public function removeInstallationFiles();
     abstract public function regenerateScripts();
+    abstract public function installPlugin();
+    abstract public function uninstallPlugin();
     */
 }

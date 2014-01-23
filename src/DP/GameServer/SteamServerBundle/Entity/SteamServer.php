@@ -549,11 +549,21 @@ class SteamServer extends GameServer {
         return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
                 ->exec($this->getAbsoluteHldsScriptPath() . ' ' . $state);
     }
+    
+    public function installPluginScript(\Twig_Environment $twig, Plugin $plugin)
+    {
+        return $this->execPluginScript($twig, $plugin, 'install');
+    }
+    
+    public function uninstallPluginScript(\Twig_Environment $twig, Plugin $plugin)
+    {
+        return $this->execPluginScript($twig, $plugin, 'uninstall');
+    }
 
     public function execPluginScript(\Twig_Environment $twig, Plugin $plugin, $action)
     {
         if ($action != 'install' && $action != 'uninstall' && $action != 'activate' && $action != 'deactivate') {
-            throw new BadMethodCallException('Only actions available for SteamServers plugin scripts are : install, uninstall, activate and deactivate.');
+            throw new \BadMethodCallException('Only actions available for SteamServers plugin scripts are : install, uninstall, activate and deactivate.');
         }
 
         $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
