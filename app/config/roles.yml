@@ -5,6 +5,9 @@ security:
             - ROLE_ALLOWED_TO_SWITCH
         ROLE_ADMIN: 
             - ROLE_USER
+            - ROLE_DP_ADMIN_CONFIG
+            - ROLE_DP_ADMIN_GAME
+        ROLE_DP_ADMIN_CONFIG:
             - ROLE_DP_ADMIN_USER_ADMIN
             - ROLE_DP_ADMIN_GROUP_ADMIN
             - ROLE_DP_ADMIN_MACHINE_ADMIN
@@ -45,3 +48,14 @@ security:
             - ROLE_DP_ADMIN_PLUGIN_UPDATE
             - ROLE_DP_ADMIN_PLUGIN_DELETE
             - ROLE_USER
+        ROLE_DP_ADMIN_GAME:
+            - ROLE_DP_ADMIN_STEAM_ADMIN
+            - ROLE_DP_ADMIN_MINECRAFT_ADMIN
+        ROLE_DP_ADMIN_STEAM_ADMIN:
+            - ROLE_DP_ADMIN_STEAM_INDEX
+            - ROLE_DP_ADMIN_STEAM_SHOW
+            - ROLE_DP_ADMIN_STEAM_CREATE
+            - ROLE_DP_ADMIN_STEAM_UPDATE
+            - ROLE_DP_ADMIN_STEAM_DELETE
+            - ROLE_DP_ADMIN_STEAM_STATE
+            - ROLE_DP_ADMIN_STEAM_RCON
