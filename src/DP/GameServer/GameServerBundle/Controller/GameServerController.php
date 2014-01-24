@@ -16,6 +16,7 @@ use DP\GameServer\GameServerBundle\Exception\InstallAlreadyStartedException;
 use PHPSeclibWrapper\Exception\MissingPacketException;
 use Sylius\Bundle\ResourceBundle\Event\ResourceEvent;
 use DP\GameServer\GameServerBundle\Exception\NotImplementedException;
+use Symfony\Component\HttpFoundation\Request;
 
 class GameServerController extends ResourceController
 {
@@ -81,11 +82,12 @@ class GameServerController extends ResourceController
         return $this->redirectToIndex();
     }
     
-    public function changeStateAction($state)
+    public function changeStateAction(Request $request)
     {
         $this->isGrantedOr403('STATE');
         
         $server = $this->findOr404();
+        $state = $request->get('state');
         
         $event = new ResourceEvent($server, array('state' => $state));
         $this->dispatchEvent('pre_change_state', $event);
@@ -126,13 +128,22 @@ class GameServerController extends ResourceController
     {
         $this->isGrantedOr403('ADMIN');
         
+        $config = $this->getConfiguration();   
         $server = $this->findOr404();
+        
+        $event = $this->dispatchEvent('pre_show_log', $server);
         
         if ($server->getInstallationStatus() == 101) {
             $logs = $server->getServerLogs();
         }
         else {
             $logs = $server->getInstallLogs();
+            
+            // Met automatiquement les logs à jour dans le cas d'une installation
+            $status = $server->getInstallationProgress();
+            $server->setInstallationStatus($status);
+            
+            $this->persistAndFlush($server, 'show_log');
         }
         
         $view = $this
@@ -149,9 +160,9 @@ class GameServerController extends ResourceController
 
     public function rconAction(Request $request)
     {
-        $config = $this->getConfiguration();
-        
         $this->isGrantedOr403('RCON');
+        
+        $config = $this->getConfiguration();
         $server = $this->findOr404();
         
         $logs = $server->getServerLogs() . "\n";
@@ -188,7 +199,7 @@ class GameServerController extends ResourceController
 
         $view = $this
             ->view()
-            ->setTemplate($config->getTemplate('console.html'))
+            ->setTemplate($config->getTemplate('rcon.html'))
             ->setData(array(
                 $config->getResourceName() => $server,
                 'form'                     => $form->createView(), 
@@ -211,9 +222,9 @@ class GameServerController extends ResourceController
     
     public function pluginAction()
     {
-        $config = $this->getConfiguration();
-        
         $this->isGrantedOr403('PLUGIN');
+        
+        $config = $this->getConfiguration();
         $server = $this->findOr404();
         
         $pluginId = $this->getRequest()->get('pluginId');
@@ -253,7 +264,7 @@ class GameServerController extends ResourceController
             ->view()
             ->setTemplate($config->getTemplate('plugn.html'))
             ->setData(array(
-                'server' => $server,
+                $config->getResourceName() => $server,
             ))
         ;
 

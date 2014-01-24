@@ -130,8 +130,8 @@ abstract class GameServer
      */
     private $plugins;
     
-    /** @var boolean $isAlreadyInstalled **/
-    private $isAlreadyInstalled;
+    /** @var boolean $alreadyInstalled Used by the add form, and the create process **/
+    private $alreadyInstalled;
 
 
     abstract public function changeStateServer($state);
@@ -406,13 +406,13 @@ abstract class GameServer
     /**
      * Set whether is already already installed
      * 
-     * @param boolean $isAlreadyInstalled
+     * @param boolean $alreadyInstalled
      * 
      * @return GameServer
      */
-    public function setIsAlreadyInstalled($isAlreadyInstalled)
+    public function setAlreadyInstalled($alreadyInstalled)
     {
-        $this->isAlreadyInstalled = $isAlreadyInstalled;
+        $this->alreadyInstalled = $alreadyInstalled;
         
         return $this;
     }
@@ -424,7 +424,7 @@ abstract class GameServer
      */
     public function isAlreadyInstalled()
     {
-        return $this->isAlreadyInstalled;
+        return $this->alreadyInstalled;
     }
 
     public function getDirContent($path = '')
