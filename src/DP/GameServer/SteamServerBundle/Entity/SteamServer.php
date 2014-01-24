@@ -76,7 +76,8 @@ class SteamServer extends GameServer
      * @ORM\Column(name="mode", type="string", nullable=true)
      */
     private $mode;
-
+    
+    
     /**
      * Set rebootAt
      *
@@ -332,7 +333,7 @@ class SteamServer extends GameServer
                     if ($this->getGame()->getSteamCmd()) {
                         $matches = array();
                         
-                        if (preg_match('#^App state \(0x\d+\) downloading, progress: ([\d]+,[\d]+)#', $line ,$matches)) {
+                        if (preg_match('#^App state \(0x\d+\) downloading|installed, progress: ([\d]+,[\d]+)#', $line ,$matches)) {
                             return $matches[1];
                         }
                     }
