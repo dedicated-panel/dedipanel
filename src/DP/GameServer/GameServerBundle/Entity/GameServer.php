@@ -27,6 +27,7 @@ use DP\GameServer\GameServerBundle\Query\QueryInterface;
 use DP\GameServer\GameServerBundle\Query\RconInterface;
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 use DP\GameServer\GameServerBundle\Exception\InvalidPathException;
+use DP\GameServer\GameServerBundle\Exception\NotImplementedException;
 
 /**
  * DP\Core\GameServer\GameServerBundle\Entity\GameServer
@@ -585,6 +586,16 @@ abstract class GameServer
         $this->removeInstallationFiles();
         
         $this->setInstallationStatus(101);
+    }
+    
+    public function installPlugin()
+    {
+        throw new NotImplementedException();
+    }
+    
+    public function uninstallPlugin()
+    {
+        throw new NotImplementedException();
     }
     
     /*
