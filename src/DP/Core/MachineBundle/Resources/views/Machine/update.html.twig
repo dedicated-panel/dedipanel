@@ -23,7 +23,7 @@
         {{ sylius_actions.update(path('dedipanel_machine_show', {'id': machine.id})) }}    
     </form>
     
-    {% if is_granted('DELETE') %}
+    {% if is_granted('ROLE_DP_ADMIN_MACHINE_DELETE') %}
         {{ sylius_buttons.delete(path('dedipanel_machine_delete', {'id': machine.id})) }}
     {% endif %}
 {% endblock %}
