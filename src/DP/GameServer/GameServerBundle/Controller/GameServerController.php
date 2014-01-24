@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (c) Dedipanel <http://www.dedicated-panel.net>
+ * (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
  *  
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -209,12 +209,15 @@ class GameServerController extends ResourceController
         return $form->getForm();
     }
     
-    public function pluginAction($serverId, $plugin, $action)
+    public function pluginAction()
     {
         $config = $this->getConfiguration();
         
         $this->isGrantedOr403('PLUGIN');
         $server = $this->findOr404();
+        
+        $pluginId = $this->getRequest()->get('pluginId');
+        $action   = $this->getRequest()->get('action');
         
         if ($pluginId && $action) {
             $em = $this->getDoctrine()->getEntityManager();

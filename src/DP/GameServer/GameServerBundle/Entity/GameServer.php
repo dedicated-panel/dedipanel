@@ -588,12 +588,12 @@ abstract class GameServer
         $this->setInstallationStatus(101);
     }
     
-    public function installPlugin()
+    public function installPlugin(\Twig_Environment $twig, Plugin $plugin)
     {
         throw new NotImplementedException();
     }
     
-    public function uninstallPlugin()
+    public function uninstallPlugin(\Twig_Environment $twig, Plugin $plugin)
     {
         throw new NotImplementedException();
     }

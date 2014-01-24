@@ -33,7 +33,8 @@ use DP\GameServer\GameServerBundle\Exception\InstallAlreadyStartedException;
  * @ORM\Table(name="steam_server")
  * @ORM\Entity()
  */
-class SteamServer extends GameServer {
+class SteamServer extends GameServer
+{
     /**
      * @var integer $rebootAt
      *
@@ -550,12 +551,12 @@ class SteamServer extends GameServer {
                 ->exec($this->getAbsoluteHldsScriptPath() . ' ' . $state);
     }
     
-    public function installPluginScript(\Twig_Environment $twig, Plugin $plugin)
+    public function installPlugin(\Twig_Environment $twig, Plugin $plugin)
     {
         return $this->execPluginScript($twig, $plugin, 'install');
     }
     
-    public function uninstallPluginScript(\Twig_Environment $twig, Plugin $plugin)
+    public function uninstallPlugin(\Twig_Environment $twig, Plugin $plugin)
     {
         return $this->execPluginScript($twig, $plugin, 'uninstall');
     }
