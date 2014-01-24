@@ -35,11 +35,11 @@
                     
                     <div class="serveur-header-info">
                         <div class="serveur-header-name">
-                            {% if is_granted('ROLE_DP_STEAM_ADMIN') %}
+                            {% if is_granted('ROLE_DP_GAME_STEAM_ADMIN') %}
                                 <ul>
                                     {% if steam.installationStatus == 101 %}
                                         <li>
-                                            <a href="{{ path('steam_regen', { 'id': steam.id }) }}">
+                                            <a href="{{ path('dedipanel_steam_regen', { 'id': steam.id }) }}">
                                                 {{ 'game.regenerate'|trans }}
                                             </a>
                                         </li>
@@ -105,7 +105,7 @@
                                 <tr>
                                     <th>{{ 'game.installStatus'|trans }}</th>
                                     <td>
-                                        {% if is_granted('ROLE_DP_STEAM_EDIT') %}
+                                        {% if is_granted('ROLE_DP_GAME_STEAM_UPDATE') %}
                                             <a href="{{ path('dedipanel_steam_install', { 'id': steam.id }) }}">
                                                 {% spaceless %}
                                                     {% if steam.installationStatus is null %}
@@ -170,9 +170,9 @@
         </div>
     </div>
     
-    {% if is_granted('ROLE_DP_STEAM_EDIT') or is_granted('ROLE_DP_STEAM_DELETE') %}
+    {% if is_granted('ROLE_DP_GAME_STEAM_UPDATE') or is_granted('ROLE_DP_GAME_STEAM_DELETE') %}
         <div class="form-group clearfix">
-            {% if is_granted('ROLE_DP_STEAM_EDIT') %}
+            {% if is_granted('ROLE_DP_GAME_STEAM_UPDATE') %}
                 <form action="{{ path('dedipanel_steam_update', { 'id': steam.id }) }}" method="get" class="form-edit">          
                     <div class="form-actions">
                         <button type="submit"  class="btn btn-primary">{{ 'game.edit'|trans }}</button>
@@ -180,7 +180,7 @@
                 </form>
             {% endif %}
             
-            {% if is_granted('ROLE_DP_STEAM_DELETE') %}
+            {% if is_granted('ROLE_DP_GAME_STEAM_DELETE') %}
                 {{ sylius_buttons.delete(path('dedipanel_steam_delete', {'id': steam.id})) }}
                 {{ sylius_buttons.delete(path('dedipanel_steam_delete', {'id': steam.id, 'fromMachine': true})) }}
             {% endif %}

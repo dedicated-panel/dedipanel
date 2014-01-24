@@ -17,11 +17,6 @@
 DPSteamServerBundle_CRUD:
     resource: "@DPSteamServerBundle/Resources/config/routing/steamCrud.yml"
     prefix:   /
-
-DPSteamServerBundle_Plugin:
-    resource: "@DPSteamServerBundle/Resources/config/routing/plugin.yml"
-    prefix: /{id}/plugins/
-    requirements: {id: \d+}
   
 DPSteamServerBundle_FTP:
     resource: "@DPSteamServerBundle/Resources/config/routing/ftp.yml"
@@ -31,9 +26,4 @@ DPSteamServerBundle_FTP:
 DPSteamServerBundle_Hltv:
     resource: "@DPSteamServerBundle/Resources/config/routing/hltv.yml"
     prefix: /{id}/hltv/
-    requirements: {id: \d+}
-
-DPSteamServerBundle_Rcon:
-    resource: "@DPSteamServerBundle/Resources/config/routing/rcon.yml"
-    prefix: /{id}/rcon/
     requirements: {id: \d+}

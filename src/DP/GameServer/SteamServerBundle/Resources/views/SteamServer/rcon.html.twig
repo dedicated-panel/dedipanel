@@ -1,0 +1,48 @@
+{#
+    (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
+    
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+#}
+
+{% extends "::layout.html.twig" %}
+
+{% import '::buttons.html.twig' as dedipanel_buttons %}
+
+{% block bundleStylesheets %}
+    <link rel="stylesheet" media="screen" href="{{ asset('bundles/dpgameserver/css/game.css') }}" />
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('bundles/dpgameserver/js/rcon.js') }}"></script>
+{% endblock %}
+
+{% block title %}
+    {{ dedipanel_buttons.back(path('dedipanel_steam_index'), 'steam.title.steam'|trans) }}
+{% endblock %}
+
+{% block content %}
+    <h2>{{ 'steam.rcon.title'|trans }}</h2>
+    
+    {% set online = (steam.query.latency != false) %}
+    {% set banned = (steam.query.isBanned(true) == true) %}
+    
+    {% if online and not banned %}
+        <form action="{{ path('dedipanel_steam_rcon', {id: steam.id}) }}" method="post" class="form-rcon" id="rcon-form">
+            <textarea disabled="disabled">{{ log }}</textarea>
+            
+            {{ form_row(form.cmd) }}
+            {{ form_widget(form) }}
+
+            <div class="form-actions">
+                <button class="btn btn-primary">
+                    {{ 'game.rcon.send'|trans }}
+                </button>
+            </div>
+        </form>
+    {% elseif banned %}
+        {{ 'game.banned'|trans }}
+    {% else %}
+        {{ 'game.offline'|trans }}
+    {% endif %}
+{% endblock %}

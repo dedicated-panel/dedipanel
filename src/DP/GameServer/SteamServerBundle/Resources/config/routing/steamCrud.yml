@@ -41,7 +41,7 @@ dedipanel_steam_update:
     pattern: /{id}/edit
     methods: [GET, POST]
     defaults:
-        _controller: dedipanel.controller.steam:editAction
+        _controller: dedipanel.controller.steam:updateAction
         _sylius:
             form: dedipanel_steam_edit
 
@@ -50,6 +50,7 @@ dedipanel_steam_delete:
     methods: [DELETE]
     defaults:
         _controller: dedipanel.controller.steam:deleteAction
+        template: DPSteamServerBundle:SteamServer:delete.html.twig
 
 dedipanel_steam_install:
     pattern: /{id}/install
@@ -69,6 +70,12 @@ dedipanel_steam_logs:
     defaults:
         _controller: dedipanel.controller.steam:showLogsAction
 
+dedipanel_steam_change_state:
+    pattern: /{id}/change-state
+    methods: [GET]
+    defaults:
+        _controller: dedipanel.controller.steam:changeStateAction
+
 dedipanel_steam_rcon:
     pattern: /{id}/rcon
     methods: [GET, POST]
@@ -81,7 +88,7 @@ dedipanel_steam_plugin:
     defaults:
         _controller: dedipanel.controller.steam:showAction
         _sylius:
-            template: DPGameServerBundle:Plugin:show.html.twig
+            template: DPSteamServerBundle:SteamServer:plugin.html.twig
 
 dedipanel_steam_plugin_install:
     pattern: /{id}/plugin/{plugin}/install

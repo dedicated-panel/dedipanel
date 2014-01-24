@@ -28,7 +28,7 @@
 {% block content %}
     <h2>{{ 'steam.title.index'|trans }}</h2>
     
-    {% if is_granted('ROLE_DP_STEAM_ADD') %}
+    {% if is_granted('ROLE_DP_GAME_STEAM_CREATE') %}
         <ul id="top-nav" class="nav nav-tabs">
             <li>
                 <a href="{{ path('dedipanel_steam_create') }}">
@@ -71,7 +71,7 @@
                                     {{ entity.machine.publicIp }}:{{ entity.port }}
                                 </span>
                                 
-                                {% if not is_granted('ROLE_DP_STEAM_EDIT') %}
+                                {% if not is_granted('ROLE_DP_GAME_STEAM_UPDATE') %}
                                     <span class="install-in-progress">
                                         {{ 'game.installInProgress'|trans }}
                                     </span>
@@ -79,7 +79,7 @@
                             </div>
                         </div>
                         
-                        {% if is_granted('ROLE_DP_STEAM_ADD') or is_granted('ROLE_DP_STEAM_EDIT') %}
+                        {% if is_granted('ROLE_DP_GAME_STEAM_CREATE') or is_granted('ROLE_DP_GAME_STEAM_UPDATE') %}
                             <div class="installation">
                                 <div class="update-status">
                                     <img src="{{ asset('images/icones/serveur/install.png') }}" alt="{{ 'game.updateStatus'|trans }}" />

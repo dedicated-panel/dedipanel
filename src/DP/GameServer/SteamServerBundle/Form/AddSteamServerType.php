@@ -52,7 +52,7 @@ class AddSteamServerType extends AbstractType
         $builder
             ->add('rconPassword', 'text', array('label' => 'game.rcon.password'))
             ->add('svPassword', 'text', array('label' => 'steam.svPassword', 'required' => false))
-            ->add('isAlreadyInstalled', 'choice', array(
+            ->add('alreadyInstalled', 'choice', array(
                 'choices'   => array(1 => 'game.yes', 0 => 'game.no'), 
                 'label'     => 'game.isAlreadyInstalled', 
                 'mapped'    => true, 

@@ -1,0 +1,46 @@
+{#
+    (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
+    
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+#}
+
+{% extends "::layout.html.twig" %}
+{% import '::buttons.html.twig' as dedipanel_buttons %}
+
+{% block title %}
+    {{ dedipanel_buttons.back(path('dedipanel_steam_index'), 'steam.title.steam'|trans) }}
+{% endblock %}
+
+{% block content %}
+    <h2>{{ 'game.plugin.title.show'|trans }}</h2>
+    
+    <table>
+        <tr>
+            <th>{{ 'game.plugin.name'|trans }}</th>
+            <th>{{ 'game.plugin.status'|trans }}</th>
+        </tr>
+        
+        {% for plugin in steam.installedPlugins %}
+            <tr>
+                <th>{{ plugin.name }}</th>
+                <td><a href="{{ path('dedipanel_steam_plugin_uninstall', {'id': steam.id, 'plugin': plugin.id}) }}">
+                    {{ 'game.plugin.installed'|trans }}
+                </a></td>
+            </tr>
+        {% endfor %}
+            
+        {% for plugin in steam.notInstalledPlugins %}
+            <tr>
+                <th>{{ plugin.name }}</th>
+                <td><a href="{{ path('dedipanel_steam_plugin_install', {'id': steam.id, 'plugin': plugin.id}) }}">
+                    {{ 'game.plugin.notInstalled'|trans }}
+                </a></td>
+            </tr>
+        {% endfor %}
+            
+        {% if steam.installedPlugins is empty and steam.notInstalledPlugins is empty %}
+            <tr><th colspan="2">{{ 'game.plugin.noPluginForThatGame'|trans }}</th></tr>
+        {% endif %}
+    </table>
+{% endblock %}
