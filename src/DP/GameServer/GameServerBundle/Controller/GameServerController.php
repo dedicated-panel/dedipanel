@@ -17,6 +17,7 @@ use PHPSeclibWrapper\Exception\MissingPacketException;
 use Sylius\Bundle\ResourceBundle\Event\ResourceEvent;
 use DP\GameServer\GameServerBundle\Exception\NotImplementedException;
 use Symfony\Component\HttpFoundation\Request;
+use DP\GameServer\GameServerBundle\Exception\InvalidPathException;
 
 class GameServerController extends ResourceController
 {
@@ -131,7 +132,7 @@ class GameServerController extends ResourceController
         $config = $this->getConfiguration();   
         $server = $this->findOr404();
         
-        $event = $this->dispatchEvent('pre_show_log', $server);
+        $this->dispatchEvent('pre_show_log', $server);
         
         if ($server->getInstallationStatus() == 101) {
             $logs = $server->getServerLogs();

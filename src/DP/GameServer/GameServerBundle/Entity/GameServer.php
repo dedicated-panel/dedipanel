@@ -28,6 +28,9 @@ use DP\GameServer\GameServerBundle\Query\RconInterface;
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 use DP\GameServer\GameServerBundle\Exception\InvalidPathException;
 use DP\GameServer\GameServerBundle\Exception\NotImplementedException;
+use DP\GameServer\GameServerBundle\FTP\AbstractItem;
+use DP\GameServer\GameServerBundle\FTP\File;
+use DP\GameServer\GameServerBundle\FTP\Directory;
 
 /**
  * DP\Core\GameServer\GameServerBundle\Entity\GameServer
@@ -307,7 +310,7 @@ abstract class GameServer
      *
      * @return string
      */
-    protected function getAbsoluteBinDir()
+    public function getAbsoluteBinDir()
     {
         return $this->getAbsoluteDir() . $this->getGame()->getBinDir() . '/';
     }
@@ -317,19 +320,19 @@ abstract class GameServer
      *
      * @return string
      */
-    protected function getAbsoluteGameContentDir()
+    public function getAbsoluteGameContentDir()
     {
         return $this->getAbsoluteBinDir();
     }
 
-    protected function getScreenName()
+    public function getScreenName()
     {
         $screenName = $this->getMachine()->getUser() . '-' . $this->getDir();
 
         return $this->getScreenNameHash($screenName);
     }
 
-    protected function getInstallScreenName()
+    public function getInstallScreenName()
     {
         $screenName = $this->getMachine()->getUser() . '-install-' . $this->getDir();
 
@@ -343,7 +346,7 @@ abstract class GameServer
         return $this->getScreenNameHash($screenName);
     }
 
-    protected function getScreenNameHash($screenName, $hashLength = 20)
+    public function getScreenNameHash($screenName, $hashLength = 20)
     {
         $screenName = sha1($screenName);
         $screenName = substr($screenName, 0, $hashLength);
@@ -425,6 +428,21 @@ abstract class GameServer
     public function isAlreadyInstalled()
     {
         return $this->alreadyInstalled;
+    }
+    
+    public function getContent(AbstractItem $item)
+    {
+        $fullpath = $item->getFullpath();
+        
+        if ($item instanceof Directory) {
+            return $this->getDirContent($fullpath);
+        }
+        elseif ($item instanceof File) {
+            return $this->getFileContent($fullpath);
+        }
+        else {
+            throw new \RuntimeException('Not supported ftp resource type.');
+        }
     }
 
     public function getDirContent($path = '')
@@ -550,6 +568,14 @@ abstract class GameServer
 
         return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
                 ->remove($path);
+    }
+
+    public function rename($oldName, $newName)
+    {
+        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
+                ->getSFTP()
+                ->rename($oldName, $newName)
+        ;
     }
 
     public function createDirectory($dirpath)

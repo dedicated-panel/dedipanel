@@ -1,241 +1,471 @@
 <?php
 
-/*
-** Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
-**
-** This program is free software; you can redistribute it and/or modify
-** it under the terms of the GNU General Public License as published by
-** the Free Software Foundation; either version 2 of the License, or
-** (at your option) any later version.
-**
-** This program is distributed in the hope that it will be useful,
-** but WITHOUT ANY WARRANTY; without even the implied warranty of
-** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-** GNU General Public License for more details.
-**
-** You should have received a copy of the GNU General Public License along
-** with this program; if not, write to the Free Software Foundation, Inc.,
-** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+/**
+ * (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
+ *  
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace DP\GameServer\GameServerBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\FormError;
+use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use DP\GameServer\GameServerBundle\FTP\File;
+use DP\GameServer\GameServerBundle\FTP\Directory;
+use DP\GameServer\GameServerBundle\FTP\AbstractItem;
 use DP\GameServer\GameServerBundle\Exception\InvalidPathException;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 
-abstract class FTPController extends Controller
+/**
+ * @todo: Apply criteria & sorting
+ */
+class FTPController extends ResourceController
 {
-    abstract public function getEntityRepository();
-    abstract public function getBaseRoute();
-    abstract protected function isGranted();
+    /** @var \DP\GameServer\GameServerBundle\Entity\GameServer $server **/
+    private $server;
     
-    public function showAction($id, $path)
+    const TYPE_FILE = 'file';
+    const TYPE_DIRECTORY  = 'directory';
+    
+    
+    /**
+     * {@inheritdoc}
+     * 
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
+    public function indexAction()
     {
-        if (!$this->isGranted()) {
-            throw new AccessDeniedException;
+        throw new NotFoundHttpException();
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function showAction(Request $request)
+    {
+        $this->isGrantedOr403('FTP');
+        
+        $config = $this->getConfiguration();
+        $this->server = $this->findOr404();
+        
+        $path = $this->getRequest()->get('path');
+        $resource = $this->getResource($path);
+        $content = $resource->getContent();
+        
+        if ($resource instanceof Directory) {
+            $files = array_filter($content, function ($el) {
+                return $el instanceof File;
+            });
+            $dirs = array_filter($content, function ($el) {
+                return $el instanceof Directory;
+            });
+            
+            $content = array('files' => $files, 'dirs' => $dirs);
         }
         
-        $server = $this->getEntityRepository()->find($id);
-        $dirContent = array('files' => array(), 'dirs' => array());
-        $invalid = false;
-        
-        if (!$server) {
-            throw $this->createNotFoundException('Unable to find GameServer entity.');
+        $view = $this
+            ->view()
+            ->setTemplate($config->getTemplate('show.html'))
+            ->setData(array(
+                'server' => $this->server,
+                'path' => $resource->getFullPath(), 
+                'content' => $content, 
+                'invalid' => $resource->isInvalid(), 
+                'previous_path' => dirname($resource->getFullPath()), 
+                'type' => ($resource instanceof File) ? self::TYPE_FILE : self::TYPE_DIRECTORY, 
+            ))
+        ;
+
+        return $this->handleView($view);
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function createAction(Request $request)
+    {
+        if ($this->enableRoleCheck) {
+            $this->isGrantedOr403('CREATE');
         }
         
-        if (!empty($path) && strrpos($path, '/') != strlen($path)-1) {
-            $path .= '/';
+        $config = $this->getConfiguration();
+        $this->server = $this->findOr404();
+        
+        $type = $this->getRequest()->get('type');
+        $path = $this->getRequest()->get('path');
+        
+        $resource = $this->createResource($path, $type);
+        $form     = $this->getForm($resource);
+        
+        if ($resource->isInvalid()) {
+            throw new NotFoundHttpException(sprintf('Requested %s does not exist', $resource->getFullPath()));
         }
+        
+        if ($request->isMethod('POST') && $form->bind($request)->isValid()) {
+            $event = $this->create($resource);
+            if (!$event->isStopped()) {
+                $this->setFlash('success', 'create');
+                
+                return $this->redirectTo($resource);
+            }
+            
+            $this->setFlash($event->getMessageType(), $event->getMessage(), $event->getMessageParams());
+        }
+        
+        if ($config->isApiRequest()) {
+            return $this->handleView($this->view($form));
+        }
+        
+        $view = $this
+            ->view()
+            ->setTemplate($config->getTemplate('create.html'))
+            ->setData(array(
+                'server' => $this->server,
+                'form'   => $form->createView(), 
+                'path'   => $path, 
+                'type'   => $type, 
+                'previous_path' => dirname($path), 
+            ))
+        ;
+        
+        return $this->handleView($view);
+    }
+
+    /**
+     * Display the form for editing or update the resource.
+     */
+    public function updateAction(Request $request)
+    {
+        if ($this->enableRoleCheck) {
+            $this->isGrantedOr403('UPDATE');
+        }
+
+        $config = $this->getConfiguration();
+        $this->server = $this->findOr404();
+        
+        $path = $this->getRequest()->get('path');
+        $resource = $this->getResource($path);
+        $form     = $this->getForm($resource);
+        $oldPath  = '';
+        
+        if ($resource->isInvalid()) {
+            throw new NotFoundHttpException(sprintf('Requested %s does not exist', $resource->getFullPath()));
+        }
+        else {
+            $oldPath = $resource->getFullPath();
+        }
+        
+        if (($request->isMethod('PUT') || $request->isMethod('POST')) && $form->bind($request)->isValid()) {
+            $event = $this->update($resource, $oldPath);
+            if (!$event->isStopped()) {
+                $this->setFlash('success', 'update');
+
+                return $this->redirectTo($resource);
+            }
+
+            $this->setFlash($event->getMessageType(), $event->getMessage(), $event->getMessageParams());
+        }
+
+        if ($config->isApiRequest()) {
+            return $this->handleView($this->view($form));
+        }
+
+        $view = $this
+            ->view()
+            ->setTemplate($config->getTemplate('update.html'))
+            ->setData(array(
+                'server'  => $this->server,
+                'form'    => $form->createView(), 
+                'path'    => $path,  
+                'invalid' => $resource->isInvalid(),  
+                'type'    => ($resource instanceof File ? self::TYPE_FILE : self::TYPE_DIRECTORY), 
+                'previous_path' => dirname($path),
+            ))
+        ;
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * Delete resource.
+     */
+    public function deleteAction(Request $request)
+    {
+        if ($this->enableRoleCheck) {
+            $this->isGrantedOr403('DELETE');
+        }
+        
+        $this->server = $this->findOr404();
+        
+        $path = $this->getRequest()->get('path');
+        $resource = $this->getResource($path);
+        
+        if ($resource->isInvalid()) {
+            throw new NotFoundHttpException(sprintf('Requested %s does not exist', $resource->getFullPath()));
+        }
+        
+        if ($request->request->get('confirmed', false)) {
+            $event = $this->delete($resource);
+
+            if ($request->isXmlHttpRequest()) {
+                return JsonResponse::create(array('id' => $request->get('id')));
+            }
+
+            if ($event->isStopped()) {
+                $this->setFlash($event->getMessageType(), $event->getMessage(), $event->getMessageParams());
+
+                return $this->redirectTo($resource);
+            }
+
+            $this->setFlash('success', 'delete');
+
+            $config = $this->getConfiguration();
+            $parameters = $config->getRedirectParameters();
+            
+            if (empty($parameters)) {
+                $parameters['id'] = $this->server->getId();
+                $parameters['path'] = $resource->getPath();
+            }
+            
+            return $this->redirectToRoute(
+                $config->getRedirectRoute('show'),
+                $parameters
+            );
+        }
+
+        if ($request->isXmlHttpRequest()) {
+            throw new AccessDeniedHttpException;
+        }
+
+        $view = $this
+            ->view()
+            ->setTemplate($request->attributes->get('template', 'SyliusWebBundle:Backend/Misc:delete.html.twig'))
+            ->setData(array(
+                'server'  => $this->server, 
+                'invalid' => $resource->isInvalid(), 
+                'previous_path' => dirname($path), 
+            ))
+        ;
+
+        return $this->handleView($view);
+    }
+    
+    public function createResource($path, $type)
+    {
+        $item = null;
+        
+        if ($type == self::TYPE_FILE) {
+            $item = new File($path);
+        }
+        elseif ($type == self::TYPE_DIRECTORY) {
+            $item = new Directory($path);
+        }
+        else {
+            throw new \RuntimeException('Not supported ftp resource type.');
+        }
+        
+        return $item;
+    }
+    
+    /**
+     * Get the ressource from its type, path and name
+     * If a full path (path + name) is provided, 
+     * the file/directory content is retrieved from the server
+     * 
+     * @param string      $type TYPE_FILE|TYPE_DIR
+     * @param string      $path
+     */
+    public function getResource($path)
+    {
+        $name = null;
+        $type = null;
+        $item = null;
+        
+        list($path, $name, $type) = $this->retrievePathStat($path);
+        
+        if ($type == self::TYPE_FILE) {
+            $item = new File($path, $name);
+        }
+        elseif ($type == self::TYPE_DIRECTORY) {
+            $item = new Directory($path, $name);
+        }
+        else {
+            throw new \RuntimeException('Not supported ftp resource type.');
+        }
+        
+        $this->retrieveContent($item);
+        
+        return $item;
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function getForm($resource = null)
+    {
+        if ($resource instanceof File) {
+            $formType = 'dedipanel_game_ftp_file';
+        }
+        elseif ($resource instanceof Directory) {
+            $formType = 'dedipanel_game_ftp_directory';
+        }
+        else {
+            throw new \RuntimeException('Not supported ftp resource type.');
+        }
+        
+        return $this->createForm($formType, $resource);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function create($resource)
+    {
+        $event = $this->dispatchEvent('pre_create', $resource);
+        if (!$event->isStopped()) {
+            $manager = $this->getManager();
+            
+            $this->dispatchEvent('create', $resource);
+            
+            if ($resource instanceof File) {
+                $this->server->uploadFile($resource->getFullPath(), $resource->getContent());
+            }
+            elseif ($resource instanceof Directory) {
+                $this->server->createDirectory($resource->getFullPath());
+            }
+            else {
+                throw new \RuntimeException('Not supported ftp resource type.');
+            }
+            
+            $this->dispatchEvent('post_create', $resource);
+        }
+
+        return $event;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function update($resource, $oldPath)
+    {
+        $event = $this->dispatchEvent('pre_update', $resource);
+        if (!$event->isStopped()) {
+            $manager = $this->getManager();
+            
+            $this->dispatchEvent('update', $resource);
+            
+            $oldPath = $this->server->getAbsoluteGameContentDir() . $oldPath;
+            $newPath = $this->server->getAbsoluteGameContentDir() . $resource->getFullpath();
+            
+            if ($oldPath != $newPath) {
+                $this->server->rename($oldPath, $newPath);
+            }
+            
+            if ($resource instanceof File) {
+                $this->server->uploadFile($resource->getFullPath(), $resource->getContent());
+            }
+            
+            $this->dispatchEvent('post_update', $resource);
+        }
+
+        return $event;
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function delete($resource)
+    {
+        $event = $this->dispatchEvent('pre_delete', $resource);
+        if (!$event->isStopped()) {
+            $manager = $this->getManager();
+            
+            $this->dispatchEvent('delete', $resource);
+            
+            $this->server->remove($resource->getFullPath());
+            
+            $this->dispatchEvent('post_delete', $resource);
+        }
+
+        return $event;
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function redirectTo($resource)
+    {
+        $config = $this->getConfiguration();
+        $parameters = $config->getRedirectParameters();
+        
+        if (empty($parameters)) {
+            $parameters['id'] = $this->server->getId();
+            $parameters['path'] = $resource->getFullPath();
+            
+            if ($resource instanceof File) {
+                $parameters['path'] = $resource->getPath();
+            }
+        }
+
+        return $this->redirectToRoute(
+            $config->getRedirectRoute('show'),
+            $parameters
+        );
+    }
+    
+    public function retrievePathStat($path)
+    {
+        $sftp = PHPSeclibWrapper::getFromMachineEntity($this->server->getMachine())->getSFTP();
+        $stat = $sftp->stat($this->server->getAbsoluteGameContentDir() . $path);
+        
+        $type = null;
+        $name = null;
+        
+        if (!empty($stat)) {
+            $type = ($stat['type'] == 1) ? self::TYPE_FILE : self::TYPE_DIRECTORY;
+            
+            $pathinfo = pathinfo($path);
+            
+            $path = $pathinfo['dirname'];
+            $name = $pathinfo['basename'];
+        }
+        else {
+            return false;
+        }
+        
+        return array($path, $name, $type);
+    }
+    
+    public function retrieveContent(AbstractItem $item)
+    {
+        $content = '';
         
         try {
-            $dirContent = $server->getDirContent($path);
+            $content = $this->server->getContent($item);
+            
+            if ($item instanceof Directory) {
+                $temp = array();
+                
+                foreach ($content['files'] AS $file) {
+                    $file = new File($item->getFullPath(), $file['name']);
+                    $temp[] = $file;
+                }
+                foreach ($content['dirs'] AS $dir) {
+                    $dir = new Directory($item->getFullPath(), $dir['name']);
+                    $temp[] = $dir;
+                }
+                
+                $content = $temp;
+            }
         }
         catch (InvalidPathException $e) {
-            $invalid = true;
+            $item->setInvalid(true);
         }
         
-        return $this->render('DPGameServerBundle:FTP:show.html.twig', array(
-            'sid' => $id, 
-            'currentPath' => $path, 
-            'prevDirPath' => dirname($path), 
-            'dirContent' => $dirContent, 
-            'baseRoute' => $this->getBaseRoute(), 
-            'del_form' => $this->createDeleteForm($id, $path)->createView(), 
-            'invalid' => $invalid, 
-        ));
-    }
-    
-    public function editFileAction($id, $path)
-    {
-        if (!$this->isGranted()) {
-            throw new AccessDeniedException;
-        }
+        $item->setContent($content);
         
-        $server = $this->getEntityRepository()->find($id);
-        
-        if (!$server) {
-            throw $this->createNotFoundException('Unable to find GameServer entity.');
-        }
-        
-        $filename = basename($path);
-        $fileContent = $server->getFileContent($path);
-        
-        $form = $this->createEditFileForm(array('filename' => $filename, 'file' => $fileContent));
-        
-        $request = $this->get('request');
-        if ($request->getMethod() == 'POST') {
-            $form->bind($request);
-            
-            if ($form->isValid()) {
-                $data = $form->getData();
-                $server->uploadFile($path, $data['file']);
-            }
-        }
-        
-        return $this->render('DPGameServerBundle:FTP:editFile.html.twig', array(
-            'sid' => $id, 
-            'form' => $form->createView(), 
-            'path' => $path, 
-            'dirPath' => dirname($path), 
-            'baseRoute' => $this->getBaseRoute(), 
-            'del_form' => $this->createDeleteForm($id, $path)->createView(), 
-        ));
-    }
-    
-    public function createFileAction($id, $path = '')
-    {
-        if (!$this->isGranted()) {
-            throw new AccessDeniedException;
-        }
-        
-        $server = $this->getEntityRepository()->find($id);
-        
-        if (!$server) {
-            throw $this->createNotFoundException('Unable to find GameServer entity.');
-        }
-        
-        $form = $this->createEditFileForm(array('filename' => '', 'file' => ''));
-        
-        $request = $this->get('request');
-        if ($request->getMethod() == 'POST') {
-            $form->bind($request);
-            
-            if ($form->isValid()) {
-                $data = $form->getData();
-                $filepath = $path . $data['filename'];
-                
-                if (!$server->fileExists($filepath)) {
-                    $server->uploadFile($filepath, $data['file']);
-
-                    return $this->redirect($this->generateUrl(
-                            $this->getBaseRoute() . '_ftp_show', 
-                            array('id' => $id, 'path' => $path)
-                    ));
-                }
-                else {
-                    $form->get('filename')->addError(new FormError('game.ftp.fileAlreadyExists'));
-                }
-            }
-        }
-        
-        return $this->render('DPGameServerBundle:FTP:addFile.html.twig', array(
-            'sid' => $id, 
-            'form' => $form->createView(), 
-            'path' => $path, 
-            'baseRoute' => $this->getBaseRoute(), 
-        ));
-    }
-    
-    public function deleteAction($id, $path)
-    {
-        if (!$this->isGranted()) {
-            throw new AccessDeniedException;
-        }
-        
-        $server = $this->getEntityRepository()->find($id);
-        
-        if (!$server) {
-            throw $this->createNotFoundException('Unable to find GameServer entity.');
-        }
-        
-        // Suppression du fichier/dossier
-        $server->remove($path);
-        
-        return $this->redirect($this->generateUrl(
-                $this->getBaseRoute() . '_ftp_show', 
-                array('id' => $id, 'path' => dirname($path))
-        ));
-    }
-    
-    public function createDirectoryAction($id, $path = '')
-    {
-        if (!$this->isGranted()) {
-            throw new AccessDeniedException;
-        }
-        
-        $server = $this->getEntityRepository()->find($id);
-        
-        if (!$server) {
-            throw $this->createNotFoundException('Unable to find GameServer entity.');
-        }
-        
-        $form = $this->createAddDirForm(array('dirname' => ''));
-        
-        $request = $this->get('request');
-        if ($request->getMethod() == 'POST') {
-            $form->bind($request);
-            
-            if ($form->isValid()) {
-                $data = $form->getData();
-                $dirpath = $path . $data['dirname'];
-                
-                if (!$server->dirExists($dirpath)) {
-                    $server->createDirectory($dirpath);
-
-                    return $this->redirect($this->generateUrl(
-                            $this->getBaseRoute() . '_ftp_show', 
-                            array('id' => $id, 'path' => $dirpath)
-                    ));
-                }
-                else {
-                    $form->get('dirname')->addError(new FormError('game.ftp.dirAlreadyExists'));
-                }
-            }
-        }
-        
-        return $this->render('DPGameServerBundle:FTP:addDirectory.html.twig', array(
-            'sid' => $id, 
-            'form' => $form->createView(), 
-            'path' => $path, 
-            'baseRoute' => $this->getBaseRoute(), 
-        ));
-    }
-    
-    private function createEditFileForm(array $default = array())
-    {
-        return $this->createFormBuilder($default)
-            ->add('filename', 'text', array('label' => 'game.ftp.filename'))
-            ->add('file', 'textarea', array('label' => 'game.ftp.content'))
-            ->getForm()
-        ;
-    }
-
-    private function createDeleteForm($id, $path)
-    {
-        return $this->createFormBuilder(array('id' => $id, 'path' => $path))
-            ->add('id', 'hidden')
-            ->add('path', 'hidden')
-            ->getForm()
-        ;
-    }
-    
-    private function createAddDirForm()
-    {
-        return $this->createFormBuilder(array())
-            ->add('dirname', 'text', array('label' => 'game.ftp.dirname'))
-            ->getForm()
-        ;
+        return $item;
     }
 }

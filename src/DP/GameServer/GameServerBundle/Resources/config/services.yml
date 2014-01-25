@@ -45,3 +45,13 @@ services:
         class: DP\GameServer\GameServerBundle\Security\GameRoleBuilder
         tags:
             - { name: dp.role_builder, children_builder_tag: dp.game_role_builder }
+    
+    dedipanel.game.ftp.form.file:
+        class: DP\GameServer\GameServerBundle\Form\FTPFileType
+        tags:
+            - { name: form.type, alias: dedipanel_game_ftp_file }
+    
+    dedipanel.game.ftp.form.directory:
+        class: DP\GameServer\GameServerBundle\Form\FTPDirectoryType
+        tags:
+            - { name: form.type, alias: dedipanel_game_ftp_directory }
