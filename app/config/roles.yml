@@ -60,6 +60,7 @@ security:
             - ROLE_DP_GAME_STEAM_STATE
             - ROLE_DP_GAME_STEAM_RCON
             - ROLE_DP_GAME_STEAM_PLUGIN
+            - ROLE_DP_GAME_STEAM_FTP
             - ROLE_USER
         ROLE_DP_GAME_MINECRAFT_ADMIN:
             - ROLE_DP_GAME_MINECRAFT_INDEX
@@ -70,4 +71,5 @@ security:
             - ROLE_DP_GAME_MINECRAFT_STATE
             - ROLE_DP_GAME_MINECRAFT_RCON
             - ROLE_DP_GAME_MINECRAFT_PLUGIN
+            - ROLE_DP_GAME_MINECRAFT_FTP
             - ROLE_USER
