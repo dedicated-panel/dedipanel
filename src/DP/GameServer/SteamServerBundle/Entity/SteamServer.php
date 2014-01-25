@@ -665,7 +665,7 @@ class SteamServer extends GameServer
         }
     }
 
-    protected function getAbsoluteGameContentDir()
+    public function getAbsoluteGameContentDir()
     {
         return $this->getAbsoluteBinDir() . $this->game->getLaunchName() . '/';
     }

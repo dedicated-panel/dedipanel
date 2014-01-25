@@ -45,7 +45,7 @@
     {% endif %}
     
     {% if is_granted('ROLE_DP_GAME_STEAM_FTP') %}    
-        <a href="{{ path('steam_ftp_show', {id: sid}) }}">
+        <a href="{{ path('dedipanel_steam_ftp_show', {id: sid}) }}">
             <span class="icon" data-icon="&#x26;" title="{{ 'game.ftp.title'|trans }}"></span>
         </a>
     {% endif %}

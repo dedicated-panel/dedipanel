@@ -14,33 +14,47 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-steam_ftp_edit:
-    pattern: /edit/{path}
-    defaults: { _controller: "DPSteamServerBundle:FTP:editFile" }
-    requirements:
-        path: .+
-
-steam_ftp_add_dir:
-    pattern: /add/dir/{path}
-    defaults: { _controller: "DPSteamServerBundle:FTP:createDirectory", path: ''}
-    requirements:
-        path: .*
-
-steam_ftp_add:
-    pattern: /add/{path}
-    defaults: { _controller: "DPSteamServerBundle:FTP:createFile", path: ''}
-    requirements:
-        path: .*
-
-steam_ftp_delete:
-    pattern: /delete/{path}
-    defaults: { _controller: "DPSteamServerBundle:FTP:delete" }
-    requirements:
-        path: .+
-        _method: POST
-
-steam_ftp_show:
+dedipanel_steam_ftp_show:
     pattern: /show/{path}
-    defaults: { _controller: "DPSteamServerBundle:FTP:show", path: '' }
     requirements:
-        path: .*
+        path: .+
+    defaults:
+        path: /
+        type: directory
+        _controller: dedipanel.steam.controller.ftp:showAction
+        _sylius:
+            role: ROLE_DP_GAME_STEAM_FTP
+
+dedipanel_steam_ftp_create:
+    pattern: /{type}/new/{path}
+    methods: [GET, POST]
+    requirements:
+        type: file|directory
+        path: .+
+    defaults:
+        _controller: dedipanel.steam.controller.ftp:createAction
+        _sylius:
+            form: dedipanel_game_ftp_add
+            role: ROLE_DP_GAME_STEAM_FTP
+
+dedipanel_steam_ftp_update:
+    pattern: /edit/{path}
+    methods: [GET, POST]
+    requirements:
+        path: .+
+    defaults:
+        _controller: dedipanel.steam.controller.ftp:updateAction
+        _sylius:
+            form: dedipanel_game_ftp_edit
+            role: ROLE_DP_GAME_STEAM_FTP
+
+dedipanel_steam_ftp_delete:
+    pattern: /delete/{path}
+    methods: [DELETE]
+    requirements:
+        path: .+
+    defaults:
+        template: DPSteamServerBundle:FTP:delete.html.twig
+        _controller: dedipanel.steam.controller.ftp:deleteAction
+        _sylius:
+            role: ROLE_DP_GAME_STEAM_FTP
