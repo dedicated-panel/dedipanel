@@ -50,6 +50,6 @@ class EditMinecraftServerType extends AbstractType
 
     public function getName()
     {
-        return 'dp_gameserver_minecraftserverbundle_editminecraftservertype';
+        return 'dedipanel_minecraft_edit';
     }
 }

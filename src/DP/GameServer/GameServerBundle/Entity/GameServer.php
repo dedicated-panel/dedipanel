@@ -608,7 +608,7 @@ abstract class GameServer
     public function finalizeInstallation(\Twig_Environment $twig)
     {
         $this->uploadShellScripts($twig);
-        $this->uploadDefaultServerCfgFile();
+        $this->uploadDefaultServerConfigurationFile();
         $this->removeInstallationFiles();
         
         $this->setInstallationStatus(101);
@@ -624,12 +624,11 @@ abstract class GameServer
         throw new NotImplementedException();
     }
     
-    /*
     abstract public function uploadShellScripts(\Twig_Environment $twig);
-    abstract public function uploadDefaultServerCfgFile();
+    
+    abstract public function uploadDefaultServerConfigurationFile();
+    
     abstract public function removeInstallationFiles();
-    abstract public function regenerateScripts();
-    abstract public function installPlugin();
-    abstract public function uninstallPlugin();
-    */
+    
+    abstract public function regenerateScripts(\Twig_Environment $twig);
 }

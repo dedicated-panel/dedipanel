@@ -45,7 +45,7 @@ class Query
      * 
      * @param string $ip
      * @param int $port
-     * @return \DP\GameServer\SteamServerBundle\SteamQuery\SteamQuery
+     * @return \DP\GameServer\MinecraftServerBundle\MinecraftQuery\MinecraftQuery
      */
     public function getServerQuery($ip, $port)
     {

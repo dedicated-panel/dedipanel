@@ -73,7 +73,7 @@
                                 
                                 {% if not is_granted('ROLE_DP_GAME_STEAM_UPDATE') %}
                                     <span class="install-in-progress">
-                                        {{ 'game.installInProgress'|trans }}
+                                        {{ 'game.installation_in_progress'|trans }}
                                     </span>
                                 {% endif %}
                             </div>
@@ -82,8 +82,8 @@
                         {% if is_granted('ROLE_DP_GAME_STEAM_CREATE') or is_granted('ROLE_DP_GAME_STEAM_UPDATE') %}
                             <div class="installation">
                                 <div class="update-status">
-                                    <img src="{{ asset('images/icones/serveur/install.png') }}" alt="{{ 'game.updateStatus'|trans }}" />
-                                    <a href="{{ path('dedipanel_steam_install', {id: entity.id }) }}">{{ 'game.updateStatus'|trans }}</a>
+                                    <img src="{{ asset('images/icones/serveur/install.png') }}" alt="{{ 'game.update_status'|trans }}" />
+                                    <a href="{{ path('dedipanel_steam_install', {id: entity.id }) }}">{{ 'game.update_status'|trans }}</a>
                                 </div>
                                 
                                 <div id="installation-progress" class="progress" value="{{ entity.installationStatus }}"></div>
@@ -138,7 +138,7 @@
                             </div>
                         </div>
                         
-                        {% if entity.installationStatus == 101 %}
+                        {% if entity.isInstallationEnded %}
                             {% include 'DPSteamServerBundle:SteamServer:actionBar.html.twig' with {show: true, online: online, server: entity} %}
                         {% endif %}
                     </div>

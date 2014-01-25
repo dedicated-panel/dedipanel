@@ -1,0 +1,72 @@
+{#
+    (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
+    
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+#}
+
+{% extends "::layout.html.twig" %}
+
+{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
+{% import '::buttons.html.twig' as dedipanel_buttons %}
+
+{% block title %}
+    {{ dedipanel_buttons.back(path('dedipanel_minecraft_ftp_show', {'id': server.id, 'path': previous_path}), 'minecraft.title.minecraft'|trans) }}
+{% endblock %}
+
+{% block content %}
+    <h2>{{ 'game.ftp.title.show'|trans }}</h2>
+    
+    <ul id="top-nav" class="nav nav-tabs">
+        <li>
+            <a href="{{ path('dedipanel_minecraft_ftp_create', {'id': server.id, 'type': 'file', 'path': path}) }}">
+                {{ 'game.ftp.create_file'|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('dedipanel_minecraft_ftp_create', {'id': server.id, 'type': 'directory', 'path': path}) }}">
+                {{ 'game.ftp.create_directory'|trans }}
+            </a>
+        </li>
+        
+        {# On ajoute un lien pour supprimer le dossier courant #}
+        {# Si l'utilisateur n'est pas dans le dossier root du serveur #}
+        {% if path is not empty and invalid == false %}
+            <li>
+                {{ sylius_buttons.delete(path('dedipanel_minecraft_ftp_delete', {'id': server.id, path: path})) }}
+            </li>
+        {% endif %}
+    </ul>
+    
+    <p>{{ 'game.ftp.path'|trans({'%path%': '~' ~ path}) }}</p>
+    
+    {% if invalid == true %}
+    	<p class="alert alert-error">{{ 'game.ftp.invalid_path'|trans }}</p>
+    {% endif %}
+    
+    <ul>
+        {# Affichage d'un lien ".." de retour vers le dossier parent #}
+        {% if path is not empty and path != previous_path %}
+            <li class="dir">
+                <a href="{{ path('dedipanel_minecraft_ftp_show', {'id': server.id, 'path': previous_path}) }}">..</a>
+            </li>
+        {% endif %}
+        
+        {# Affichage de la liste des dossiers #}
+        {% for dir in content['dirs'] %}
+            <li class="dir">
+                <a href="{{ path('dedipanel_minecraft_ftp_show', {'id': server.id, 'path': dir.fullPath }) }}">
+                    {{ dir.name }}
+                </a>
+            </li>
+        {% endfor %}
+        {# Affichage de la liste des fichiers #}
+        {% for file in content['files'] %}
+            <li class="file">
+                <a href="{{ path('dedipanel_minecraft_ftp_update', {id: server.id, path: file.fullPath}) }}">
+                    {{ file.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

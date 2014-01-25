@@ -31,7 +31,7 @@ use PHPSeclibWrapper\Exception\MissingPacketException;
  * DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer
  *
  * @ORM\Table(name="minecraft_server")
- * @ORM\Entity(repositoryClass="DP\GameServer\MinecraftServerBundle\Entity\MinecraftServerRepository")
+ * @ORM\Entity()
  */
 class MinecraftServer extends GameServer
 {
@@ -187,21 +187,15 @@ class MinecraftServer extends GameServer
         $this->installationStatus = 0;
     }
 
-    public function getInstallationProgress(\Twig_Environment $twig)
+    public function getInstallationProgress()
     {
         $installDir = $this->getAbsoluteDir();
         $logPath = $installDir . 'install.log';
         $binPath = $installDir . $this->getGame()->getBin();
-
+        
+        $statusCmd = "if [ -d $installDir ]; then if [ -e $logPath ]; then echo 1; elif [ -e $binPath ]; then echo 2; else echo 0; fi; else echo 0; fi;"; 
+        
         $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
-
-        // On détermine si le log d'installation est présent
-        // Si ce n'est pas le cas mais que le binaire est là, c'est que l'install est déjà terminé
-        $statusCmd = $twig->render('DPMinecraftServerBundle:sh:installStatus.sh.twig', array(
-            'installDir'    => $installDir,
-            'logPath'       => $logPath,
-            'binPath'       => $binPath,
-        ));
         $status = intval($sec->exec($statusCmd));
 
         if ($status == 2) {
@@ -267,6 +261,11 @@ class MinecraftServer extends GameServer
 
         return true;
     }
+    
+    public function regenerateScripts(\Twig_Environment $twig)
+    {
+        return $this->uploadShellScripts($twig);
+    }
 
     public function changeStateServer($state)
     {
@@ -276,7 +275,7 @@ class MinecraftServer extends GameServer
                 ->exec($scriptPath . ' ' . $state);
     }
 
-    public function uploadDefaultServerPropertiesFile()
+    public function uploadDefaultServerConfigurationFile()
     {
         $template = $this->getGame()->getConfigTemplate();
 
@@ -397,5 +396,14 @@ class MinecraftServer extends GameServer
         $delCmd  = 'rm -Rf ' . $serverDir . ';';
 
         return $sec->exec($delCmd);
+    }
+
+    public function removeInstallationFiles()
+    {
+        $installDir = $this->getAbsoluteDir();
+        $logPath = $installDir . 'install.log';
+
+        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
+                ->exec('rm -f ' . $logPath);
     }
 }

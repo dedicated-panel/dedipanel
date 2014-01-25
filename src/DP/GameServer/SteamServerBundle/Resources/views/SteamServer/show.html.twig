@@ -37,7 +37,7 @@
                         <div class="serveur-header-name">
                             {% if is_granted('ROLE_DP_GAME_STEAM_ADMIN') %}
                                 <ul>
-                                    {% if steam.installationStatus == 101 %}
+                                    {% if entity.isInstallationEnded %}
                                         <li>
                                             <a href="{{ path('dedipanel_steam_regen', { 'id': steam.id }) }}">
                                                 {{ 'game.regenerate'|trans }}
@@ -63,7 +63,7 @@
                             </div>
                         </div>
                         
-                        {% if steam.installationStatus == 101 %}
+                        {% if steam.isInstallationEnded %}
                             <div class="serveur-header-actionbar">
                                 {% include 'DPSteamServerBundle:SteamServer:actionBar.html.twig' with {show: true, online: online, server: steam} %}
                             </div>
@@ -76,7 +76,7 @@
                         </div>
                         
                         <div class="serveur-header-map">
-                            {% if steam.installationStatus == 101 %}
+                            {% if steam.isInstallationEnded %}
                                 {% if online %}  
                                     {{ 'game.map'|trans({'%map%': steam.query.serverInfos['map']}) }}
                                 {% else %}
@@ -86,7 +86,7 @@
                                 {% endif %}                            
                             {% else %}
                                 <div class="offline">
-                                    {{ 'game.installInProgress'|trans }}
+                                    {{ 'game.installation_in_progress'|trans }}
                                 </div>
                             {% endif %}
                         </div>
@@ -110,8 +110,8 @@
                                                 {% spaceless %}
                                                     {% if steam.installationStatus is null %}
                                                         Buggued
-                                                    {% elseif steam.installationStatus == 101 %}
-                                                        {{ 'game.installEnded'|trans }}
+                                                    {% elseif steam.isInstallationEnded %}
+                                                        {{ 'game.installation_ended'|trans }}
                                                     {% else %}
                                                         {{ steam.installationStatus }}%
                                                     {% endif %}
@@ -121,7 +121,7 @@
                                             {% spaceless %}
                                                 {% if steam.installationStatus is null %}
                                                     Buggued
-                                                {% elseif steam.installationStatus == 101 %}
+                                                {% elseif steam.isInstallationEnded %}
                                                     {{ 'game.installEnded'|trans }}
                                                 {% else %}
                                                     {{ steam.installationStatus }}%
@@ -173,11 +173,7 @@
     {% if is_granted('ROLE_DP_GAME_STEAM_UPDATE') or is_granted('ROLE_DP_GAME_STEAM_DELETE') %}
         <div class="form-group clearfix">
             {% if is_granted('ROLE_DP_GAME_STEAM_UPDATE') %}
-                <form action="{{ path('dedipanel_steam_update', { 'id': steam.id }) }}" method="get" class="form-edit">          
-                    <div class="form-actions">
-                        <button type="submit"  class="btn btn-primary">{{ 'game.edit'|trans }}</button>
-                    </div>
-                </form>
+                {{ sylius_buttons.edit(path('dedipanel_steam_update', {'id': machine.id})) }}
             {% endif %}
             
             {% if is_granted('ROLE_DP_GAME_STEAM_DELETE') %}

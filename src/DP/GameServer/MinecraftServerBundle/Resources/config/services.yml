@@ -38,3 +38,14 @@ services:
         class: DP\GameServer\MinecraftServerBundle\Security\MinecraftRoleBuilder
         tags:
             - { name: dp.game_role_builder }
+    
+    dedipanel.minecraft.form.add:
+        class: DP\GameServer\MinecraftServerBundle\Form\AddMinecraftServerType
+        tags:
+            - { name: form.type, alias: dedipanel_minecraft_add }
+    
+    dedipanel.minecraft.form.edit:
+        class: DP\GameServer\MinecraftServerBundle\Form\EditMinecraftServerType
+        tags:
+            - { name: form.type, alias: dedipanel_minecraft_edit }
+

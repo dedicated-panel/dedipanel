@@ -14,33 +14,47 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-minecraft_ftp_edit:
-    pattern: /edit/{path}
-    defaults: { _controller: "DPMinecraftServerBundle:FTP:editFile" }
-    requirements:
-        path: .+
-
-minecraft_ftp_add_dir:
-    pattern: /add/dir/{path}
-    defaults: { _controller: "DPMinecraftServerBundle:FTP:createDirectory", path: ''}
-    requirements:
-        path: .*
-
-minecraft_ftp_add:
-    pattern: /add/{path}
-    defaults: { _controller: "DPMinecraftServerBundle:FTP:createFile", path: ''}
-    requirements:
-        path: .*
-
-minecraft_ftp_delete:
-    pattern: /delete/{path}
-    defaults: { _controller: "DPMinecraftServerBundle:FTP:delete" }
-    requirements:
-        path: .+
-        _method: POST
-
-minecraft_ftp_show:
+dedipanel_minecraft_ftp_show:
     pattern: /show/{path}
-    defaults: { _controller: "DPMinecraftServerBundle:FTP:show", path: '' }
     requirements:
-        path: .*
+        path: .+
+    defaults:
+        path: /
+        type: directory
+        _controller: dedipanel.minecraft.controller.ftp:showAction
+        _sylius:
+            role: ROLE_DP_GAME_MINECRAFT_FTP
+
+dedipanel_minecraft_ftp_create:
+    pattern: /{type}/new/{path}
+    methods: [GET, POST]
+    requirements:
+        type: file|directory
+        path: .+
+    defaults:
+        _controller: dedipanel.minecraft.controller.ftp:createAction
+        _sylius:
+            form: dedipanel_game_ftp_add
+            role: ROLE_DP_GAME_MINECRAFT_FTP
+
+dedipanel_minecraft_ftp_update:
+    pattern: /edit/{path}
+    methods: [GET, POST]
+    requirements:
+        path: .+
+    defaults:
+        _controller: dedipanel.minecraft.controller.ftp:updateAction
+        _sylius:
+            form: dedipanel_game_ftp_edit
+            role: ROLE_DP_GAME_MINECRAFT_FTP
+
+dedipanel_minecraft_ftp_delete:
+    pattern: /delete/{path}
+    methods: [DELETE]
+    requirements:
+        path: .+
+    defaults:
+        template: DPMinecraftServerBundle:FTP:delete.html.twig
+        _controller: dedipanel.minecraft.controller.ftp:deleteAction
+        _sylius:
+            role: ROLE_DP_GAME_MINECRAFT_FTP

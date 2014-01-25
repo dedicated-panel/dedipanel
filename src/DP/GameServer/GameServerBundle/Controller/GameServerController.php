@@ -134,7 +134,7 @@ class GameServerController extends ResourceController
         
         $this->dispatchEvent('pre_show_log', $server);
         
-        if ($server->getInstallationStatus() == 101) {
+        if ($server->isInstallationEnded()) {
             $logs = $server->getServerLogs();
         }
         else {

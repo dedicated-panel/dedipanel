@@ -55,6 +55,6 @@ class AddMinecraftServerType extends AbstractType
 
     public function getName()
     {
-        return 'dp_gameserver_minecraftserverbundle_addminecraftservertype';
+        return 'dedipanel_minecraft_add';
     }
 }

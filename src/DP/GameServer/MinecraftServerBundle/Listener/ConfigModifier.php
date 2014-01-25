@@ -42,9 +42,8 @@ class ConfigModifier
     }
     
     /**
-     * Get steam query service
+     * Get twig
      * 
-     * @return \DP\GameServer\SteamServerBundle\Service\Query
      * @throws Exception 
      */
     protected function getTwig()

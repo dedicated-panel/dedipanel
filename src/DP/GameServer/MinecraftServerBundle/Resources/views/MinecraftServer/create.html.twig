@@ -7,10 +7,11 @@
 
 {% extends "::layout.html.twig" %}
 
+{% import 'SyliusResourceBundle:Macros:actions.html.twig' as sylius_actions %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
 
-{% block bundleStylesheets %}
-    <link rel="stylesheet" href="{{ asset('bundles/dpgameserver/css/game.css') }}" />
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('bundles/dpminecraftserver/js/add.js') }}"></script>
 {% endblock %}
 
 {% block title %}
@@ -18,7 +19,10 @@
 {% endblock %}
 
 {% block content %}
-    <form width="100%" height="100%">
-        <textarea width="100%" height="100%">{{ logs }}</textarea>
+    <h2>{{ 'minecraft.title.add'|trans }}</h2>
+    
+    <form action="{{ path('dedipanel_minecraft_create') }}" method="post" {{ form_enctype(form) }} id="form-edit">
+        {{ form_widget(form) }}
+        {{ sylius_actions.create() }}
     </form>
 {% endblock %}

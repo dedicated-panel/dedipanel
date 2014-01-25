@@ -150,3 +150,16 @@ sylius_resource:
             classes:
                 model: DPSteamServerBundle:SteamServer
                 controller: DP\GameServer\GameServerBundle\Controller\FTPController
+        dedipanel.minecraft:
+            driver: doctrine/orm
+            templates: DPMinecraftServerBundle:MinecraftServer
+            role_prefix: ROLE_DP_GAME_MINECRAFT
+            classes:
+                model: DPMinecraftServerBundle:MinecraftServer
+                controller: DP\GameServer\GameServerBundle\Controller\GameServerController
+        dedipanel.minecraft.ftp:
+            driver: doctrine/orm
+            templates: DPMinecraftServerBundle:FTP
+            classes:
+                model: DPMinecraftServerBundle:MinecraftServer
+                controller: DP\GameServer\GameServerBundle\Controller\FTPController

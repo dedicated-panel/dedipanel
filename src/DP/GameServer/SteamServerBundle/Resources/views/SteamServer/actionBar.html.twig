@@ -36,13 +36,13 @@
         </a>
     {% endif %}
     
-    {% if is_granted('ROLE_DP_GAME_STEAM_HLTV') %}
+    {# {% if is_granted('ROLE_DP_GAME_STEAM_HLTV') %}
         {% if online == true and server.game.source == true %}
-            {# <a href="{{ path('steam_hltv_show', {id: sid}) }}">
+            # <a href="{{ path('steam_hltv_show', {id: sid}) }}">
                 <span class="icon" data-icon="&#x60;" title="{{ 'steam.hltv.title'|trans }}"></span>
-            </a> #}
+            </a> #
         {% endif %}
-    {% endif %}
+    {% endif %} #}
     
     {% if is_granted('ROLE_DP_GAME_STEAM_FTP') %}    
         <a href="{{ path('dedipanel_steam_ftp_show', {id: sid}) }}">

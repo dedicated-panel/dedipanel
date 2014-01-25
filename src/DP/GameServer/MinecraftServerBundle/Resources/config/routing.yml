@@ -14,20 +14,94 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-DPMinecraftServerBundle:
-    resource: "@DPMinecraftServerBundle/Resources/config/routing/minecraftServer.yml"
-    prefix: /
+dedipanel_minecraft_index:
+    pattern: /
+    defaults:
+        _controller: dedipanel.controller.minecraft:indexAction
+        _sylius:
+            paginate: false
 
-DPMinecraftServerBundle_Plugin:
-    resource: "@DPMinecraftServerBundle/Resources/config/routing/plugin.yml"
-    prefix: /{id}/plugins/
-    requirements: {id: \d+}
+dedipanel_minecraft_show:
+    pattern: /{id}/show
+    defaults:
+        _controller: dedipanel.controller.minecraft:showAction
+        _sylius:
+            paginate: false
 
-DPMinecraftServerBundle_Rcon:
-    resource: "@DPMinecraftServerBundle/Resources/config/routing/rcon.yml"
-    prefix: /{id}/rcon/
-    requirements: {id: \d+}
+dedipanel_minecraft_create:
+    pattern: /new
+    methods: [GET, POST]
+    defaults:
+        _controller: dedipanel.controller.minecraft:createAction
+        _sylius:
+            form: dedipanel_minecraft_add
+            redirect: dedipanel_minecraft_install
 
+dedipanel_minecraft_update:
+    pattern: /{id}/edit
+    methods: [GET, POST]
+    defaults:
+        _controller: dedipanel.controller.minecraft:updateAction
+        _sylius:
+            form: dedipanel_minecraft_edit
+
+dedipanel_minecraft_delete:
+    pattern: /{id}/delete
+    methods: [DELETE]
+    defaults:
+        _controller: dedipanel.controller.minecraft:deleteAction
+
+dedipanel_minecraft_install:
+    pattern: /{id}/install
+    methods: [GET]
+    defaults:
+        _controller: dedipanel.controller.minecraft:installAction
+
+dedipanel_minecraft_regen:
+    pattern: /{id}/regen
+    methods: [GET]
+    defaults:
+        _controller: dedipanel.controller.minecraft.regenAction
+
+dedipanel_minecraft_logs:
+    pattern: /{id}/logs
+    methods: [GET]
+    defaults:
+        _controller: dedipanel.controller.minecraft:showLogsAction
+
+dedipanel_minecraft_change_state:
+    pattern: /{id}/change-state
+    methods: [GET]
+    defaults:
+        _controller: dedipanel.controller.minecraft:changeStateAction
+
+dedipanel_minecraft_rcon:
+    pattern: /{id}/rcon
+    methods: [GET, POST]
+    defaults:
+        _controller: dedipanel.controller.minecraft:rconAction
+
+dedipanel_minecraft_plugin:
+    pattern: /{id}/plugin
+    methods: [GET]
+    defaults:
+        _controller: dedipanel.controller.minecraft:showAction
+        _sylius:
+            template: DPGameServerBundle:Plugin:show.html.twig
+
+dedipanel_minecraft_plugin_install:
+    pattern: /{id}/plugin/{plugin}/install
+    methods: [GET]
+    defaults:
+        _controller: dedipanel.controller.minecraft:installPluginAction
+
+dedipanel_minecraft_plugin_uninstall:
+    pattern: /{id}/plugin/{plugin}/{action}
+    methods: [GET]
+    defaults:
+        action: install|uninstall
+        _controller: dedipanel.controller.minecraft:uninstallPluginAction
+  
 DPMinecraftServerBundle_FTP:
     resource: "@DPMinecraftServerBundle/Resources/config/routing/ftp.yml"
     prefix: /{id}/ftp/

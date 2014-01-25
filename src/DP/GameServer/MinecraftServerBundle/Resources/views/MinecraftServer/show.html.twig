@@ -1,38 +1,25 @@
-{# 
- Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
-
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- GNU General Public License for more details.
- 
- You should have received a copy of the GNU General Public License along
- with this program; if not, write to the Free Software Foundation, Inc.,
- 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+{#
+    (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
+    
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
 #}
 
 {% extends "::layout.html.twig" %}
+
+{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
+{% import '::buttons.html.twig' as dedipanel_buttons %}
 
 {% block bundleStylesheets %}
     <link rel="stylesheet" href="{{ asset('bundles/dpgameserver/css/game.css') }}" />
 {% endblock %}
 
-    
 {% block title %}
-    <a href="{{ path('minecraft') }}"> 
-        <span class="icon" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></span>
-    </a>
-    
-    {{ 'minecraft.title'|trans }}
+    {{ dedipanel_buttons.back(path('dedipanel_minecraft_index'), 'minecraft.title.minecraft'|trans) }}
 {% endblock %}
 
 {% block content %}
-    {% set online = (entity.query.online != false) %}  
+    {% set online = (minecraft.query.online != false) %}  
 
     <div class="serveur-header-bg">
         <div class="serveur-header-texture">
@@ -40,22 +27,25 @@
                 <div class="serveur-header-content">
                     <div class="serveur-header-image">
                         {% if online %}
-                            <img src="{{ entity.game.sourceImagesMaps }}{{ entity.query.serverInfos['map'] }}.jpg" alt="{{ entity.query.serverInfos['map'] }}" />
+                            <img src="{{ minecraft.game.sourceImagesMaps }}{{ minecraft.query.serverInfos['map'] }}.jpg" alt="{{ minecraft.query.serverInfos['map'] }}" />
                         {% else %}
                             <img class="offline" src=" {{ asset('images/serveur/viewer/offline.jpg') }}"/>
                         {% endif %}
                     </div>
                     <div class="serveur-header-info">
                             <div class="serveur-header-name">
-                                {% if is_granted('ROLE_DP_MINECRAFT_ADMIN') and entity.getInstallationStatus == 101 %}
+                                {% if is_granted('ROLE_DP_GAME_MINECRAFT_ADMIN') %}
                                     <ul>
+                                        {% if minecraft.isInstallationEnded %}
+                                            <li>
+                                                <a href="{{ path('dedipanel_minecraft_regen', { 'id': minecraft.id }) }}">
+                                                    {{ 'game.regenerate'|trans }}
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                        
                                         <li>
-                                            <a href="{{ path('minecraft_regen', { 'id': entity.id }) }}">
-                                                {{ 'game.regenerate'|trans }}
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ path('minecraft_screen_log', { 'id': entity.id}) }}">
+                                            <a href="{{ path('dedipanel_minecraft_logs', { 'id': minecraft.id}) }}">
                                                 {{ 'game.showLog'|trans }}
                                             </a>
                                         </li>
@@ -66,26 +56,26 @@
                         <div class="serveur-header-map">
                             <div class="serveur-header-player">
                                 {% if online %}
-                                    {{ entity.query.serverInfos['numplayers'] }} / 
-                                    {{ entity.query.serverInfos['maxplayers'] }} 
+                                    {{ minecraft.query.serverInfos['numplayers'] }} / 
+                                    {{ minecraft.query.serverInfos['maxplayers'] }} 
                                 {% endif %}
                             </div>
                         </div>
                         
-                        {% if entity.installationStatus == 101 %}
+                        {% if minecraft.isInstallationEnded %}
                             <div class="serveur-header-actionbar">
-                                {% include 'DPMinecraftServerBundle:MinecraftServer:actionBar.html.twig' with {show: true, online: online, server: entity} %}
+                                {% include 'DPMinecraftServerBundle:MinecraftServer:actionBar.html.twig' with {show: true, online: online, server: minecraft} %}
                             </div>
                         {% endif %}
                     </div>
 
                     <div class="serveur-header-summary">
                         <div class="serveur-header-name">
-                            <a href="{{ path('minecraft_show', {id: entity.id}) }}">{{ entity.name }}</a>
+                            <a href="{{ path('dedipanel_minecraft_show', {id: minecraft.id}) }}">{{ minecraft.name }}</a>
                         </div>
                         <div class="serveur-header-map">
                         {% if online %}  
-                            {{ 'game.map'|trans({'%map%': entity.query.serverInfos['map']}) }}
+                            {{ 'game.map'|trans({'%map%': minecraft.query.serverInfos['map']}) }}
                         {% else %}
                             <div class="offline">
                                 {{ 'game.offline'|trans }}
@@ -97,23 +87,23 @@
                             <tbody>
                                 <tr>
                                     <th>{{ 'game.IPAddress'|trans }}</th>
-                                    <td>{{ entity.machine.publicIp }}:{{ entity.port }}</td>
+                                    <td>{{ minecraft.machine.publicIp }}:{{ minecraft.port }}</td>
                                 </tr>
                                 <tr>
                                     <th>{{ 'game.game'|trans }}</th>
-                                    <td>{{ entity.game }}</td>
+                                    <td>{{ minecraft.game }}</td>
                                 </tr>
                                 <tr>
                                     <th>{{ 'game.installStatus'|trans }}</th>
                                     <td>
-                                        <a href="{{ path('minecraft_install', { 'id': entity.id }) }}">
+                                        <a href="{{ path('dedipanel_minecraft_install', { 'id': minecraft.id }) }}">
                                             {% spaceless %}
-                                                {% if entity.installationStatus is null %}
+                                                {% if minecraft.installationStatus is null %}
                                                     Buggued
-                                                {% elseif entity.installationStatus == 101 %}
-                                                    {{ 'game.installEnded'|trans }}
+                                                {% elseif minecraft.isInstallationEnded %}
+                                                    {{ 'game.installation_ended'|trans }}
                                                 {% else %}
-                                                    {{ entity.installationStatus }}%
+                                                    {{ minecraft.installationStatus }}%
                                                 {% endif %}
                                             {% endspaceless %}
                                         </a>
@@ -139,19 +129,19 @@
                 </thead>
                 <tbody>
                     {% if online %} 
-                        {% for player in entity.query.players %}
+                        {% for player in minecraft.query.players %}
                             <tr>
                                 <td>{{ player.nom }}</td>
                                 <td>{{ player.score }}</td>
                             </tr>
                         {% else %}
                             <tr><th colspan="2" class="empty">
-                                {{ 'game.noPlayerConnected'|trans }}
+                                {{ 'game.no_player_connected'|trans }}
                             </th></tr>
                         {% endfor %}
                     {% else %}
                         <tr><th colspan="2" class="empty">
-                        {{ 'game.serveurOffline'|trans }}
+                        {{ 'game.offline_server'|trans }}
                         </th></tr>                 
                     {% endif %}                
                 </tbody>
@@ -159,28 +149,15 @@
         </div>
     </div>
         
-    {% if is_granted('ROLE_DP_MINECRAFT_EDIT') or is_granted('ROLE_DP_MINECRAFT_DELETE') %}
+    {% if is_granted('ROLE_DP_GAME_MINECRAFT_UPDATE') or is_granted('ROLE_DP_MINECRAFT_DELETE') %}
         <div class="form-group clearfix">
-            {% if is_granted('ROLE_DP_MINECRAFT_EDIT') %}
-                <form action="{{ path('minecraft_edit', { 'id': entity.id }) }}" method="post" class="form-edit">          
-                    <div class="form-actions">
-                        <button type="submit"  class="btn btn-primary">{{ 'game.edit'|trans }}</button>
-                    </div>
-                </form>
+            {% if is_granted('ROLE_DP_GAME_MINECRAFT_UPDATE') %}
+                {{ sylius_buttons.edit(path('dedipanel_minecraft_update', {'id': machine.id})) }}
             {% endif %}
             
             {% if is_granted('ROLE_DP_MINECRAFT_DELETE') %}
-                <form action="{{ path('minecraft_delete', { 'id': entity.id }) }}" method="post" class="form-delete">
-                    {{ form_widget(delete_form) }}
-                    
-                    <button type="submit"  class="btn btn-danger">{{ 'game.del'|trans }}</button>
-                </form>
-    
-                <form action="{{ path('minecraft_delete', { 'id': entity.id, fromMachine: true }) }}" method="post" class="form-delete">
-                    {{ form_widget(delete_all_form) }}
-                    
-                    <button type="submit"  class="btn btn-danger">{{ 'game.delAll'|trans }}</button>
-                </form>
+                {{ sylius_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id})) }}
+                {{ sylius_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id, 'fromMachine': true})) }}
             {% endif %}
         </div>
     {% endif %}

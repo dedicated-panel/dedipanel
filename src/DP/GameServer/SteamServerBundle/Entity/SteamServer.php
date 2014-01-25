@@ -483,7 +483,7 @@ class SteamServer extends GameServer
         }
     }
 
-    public function uploadDefaultServerCfgFile()
+    public function uploadDefaultServerConfigurationFile()
     {
         $template = $this->getGame()->getConfigTemplate();
 

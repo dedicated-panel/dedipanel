@@ -1,22 +1,14 @@
-{# 
- Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
-
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- GNU General Public License for more details.
- 
- You should have received a copy of the GNU General Public License along
- with this program; if not, write to the Free Software Foundation, Inc.,
- 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+{#
+    (c) Dedipanel <http://www.dedicated-panel.net>
+    
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
 #}
 
 {% extends "::layout.html.twig" %}
+
+{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
+{% import '::buttons.html.twig' as dedipanel_buttons %}
 
 {% block bundleStylesheets %}
     <link rel="stylesheet" media="screen" href="{{ asset('bundles/dpgameserver/css/game.css') }}" />
@@ -25,22 +17,18 @@
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('bundles/dpgameserver/js/details.js') }}"></script>
 {% endblock %}
-    
+
 {% block title %}
-    <a href="{{ path('DPGameServerBundle_menu') }}"> 
-        <span class="icon" data-icon="&#x29;" title="{{ 'game.back'|trans }}"></span>
-    </a>
-    
-    {{ 'minecraft.title'|trans }}
+    {{ dedipanel_buttons.back(path('_welcome'), 'minecraft.title.minecraft'|trans) }}
 {% endblock %}
 
 {% block content %}
-    <h2>{{ 'minecraft.list'|trans }}</h2>
+    <h2>{{ 'minecraft.title.index'|trans }}</h2>
     
-    {% if is_granted('ROLE_DP_MINECRAFT_ADD') %}
+    {% if is_granted('ROLE_DP_GAME_MINECRAFT_CREATE') %}
         <ul id="top-nav" class="nav nav-tabs">
             <li>
-                <a href="{{ path('minecraft_new') }}">
+                <a href="{{ path('dedipanel_minecraft_create') }}">
                     {{ 'minecraft.add'|trans }}
                 </a>
             </li>
@@ -55,19 +43,19 @@
     {% endfor %}
 
     <div id="minecraft" class="server-list">
-        {% for entity in entities %}
+        {% for entity in minecrafts %}
             <div class="server-item clearfix">
-                {% if entity.getInstallationStatus < 101 %}
+                {% if not entity.isInstallationEnded %}
                     <div class="principal clearfix">
                         <div class="game-image">
-                            <a href="{{ path('minecraft_show', {'id': entity.id }) }}">
+                            <a href="{{ path('dedipanel_minecraft_show', {'id': entity.id }) }}">
                                 <img src="{{ asset('images/serveur/viewer/' ~ entity.game.installname ~ '.png') }}" alt="{{ entity.game }}" />
                             </a>
                         </div>
                         
                         <div class="infos">
                             <div class="titre">
-                                <a href="{{ path('minecraft_show', {id: entity.id}) }}">{{ entity.name }}</a>
+                                <a href="{{ path('dedipanel_minecraft_show', {id: entity.id}) }}">{{ entity.name }}</a>
                             </div>
 
                             <div class="description">
@@ -75,22 +63,23 @@
                                     {{ entity.machine.publicIp }}:{{ entity.port }}
                                 </span>
                                 
-                                {% if not is_granted('ROLE_DP_MINECRAFT_EDIT') %}
+                                {% if not is_granted('ROLE_DP_GAME_MINECRAFT_UPDATE') %}
                                     <span class="install-in-progress">
-                                        {{ 'game.installInProgress'|trans }}
+                                        {{ 'game.installation_in_progress'|trans }}
                                     </span>
                                 {% endif %}
                             </div>
                         </div>
 
-                        {% if is_granted('ROLE_DP_MINECRAFT_ADD') or is_granted('ROLE_DP_MINECRAFT_EDIT') %}
+                        {% if is_granted('ROLE_DP_GAME_MINECRAFT_CREATE') or is_granted('ROLE_DP_GAME_MINECRAFT_UPDATE') %}
                             <div class="installation">
                                 <div class="update-status">
-                                    <img src="{{ asset('images/icones/serveur/install.png') }}" alt="{{ 'game.updateStatus'|trans }}" />
-                                    <a href="{{ path('minecraft_install', {id: entity.id }) }}">{{ 'game.updateStatus'|trans }}</a>
+                                    <img src="{{ asset('images/icones/serveur/install.png') }}" alt="{{ 'game.update_status'|trans }}" />
+                                    <a href="{{ path('dedipanel_minecraft_install', {id: entity.id }) }}">{{ 'game.update_status'|trans }}</a>
                                 </div>
                                 
                                 <div id="installation-progress" class="progress" value="{{ entity.installationStatus }}"></div>
+                                
                                 {# <div class="progress progress-info progress-striped">
                                     <div class="bar" style="width: {{ entity.installationStatus }}%"></div>
     
@@ -100,19 +89,19 @@
                         {% endif %}
                     </div>
                 {% else %}
-                
-                {% set online = ( entity.query.online != false) %}
-                
+                    {% set banned = (entity.query.isBanned(true) == true) %} 
+                    {% set online = (entity.query.online != false) %}
+                    
                     <div class="principal clearfix">
                         <div class="game-image">
-                            <a href="{{ path('minecraft_show', {'id': entity.id }) }}">
+                            <a href="{{ path('dedipanel_minecraft_show', {'id': entity.id }) }}">
                                 <img src="{{ asset('images/serveur/viewer/' ~ entity.game.installname ~ '.png') }}" alt="{{ entity.game }}" />
                             </a>
                         </div>
 
                         <div class="infos">
                             <div class="titre">
-                                <a href="{{ path('minecraft_show', {id: entity.id}) }}">{{ entity.name }}</a>
+                                <a href="{{ path('dedipanel_minecraft_show', {id: entity.id}) }}">{{ entity.name }}</a>
                             </div>
 
                             <div class="description">
@@ -128,13 +117,15 @@
                                         {{ entity.query.serverInfos['numplayers'] }} / 
                                         {{ entity.query.serverInfos['maxplayers'] }}
                                     </span>
+                                {% elseif banned %}
+                                        <span class="banned">{{ 'game.banned'|trans }}</span>
                                 {% else %}
                                     <span class="offline">{{ 'game.offline'|trans }}</span>
                                 {% endif %}	
                             </div>
                         </div>
                         
-                        {% if entity.installationStatus == 101 %}
+                        {% if entity.isInstallationEnded %}
                             {% include 'DPMinecraftServerBundle:MinecraftServer:actionBar.html.twig' with {show: true, online: online, server: entity} %}
                         {% endif %}
                     </div>
