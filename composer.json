@@ -33,7 +33,7 @@
         "doctrine/doctrine-migrations-bundle": "2.1.*@dev",
         "doctrine/data-fixtures": "1.0.*@dev",
         "doctrine/doctrine-fixtures-bundle": "2.2.*@dev",
-        "sylius/resource-bundle": "dev-roles-support"
+        "sylius/resource-bundle": "dev-dedipanel"
     },
     "scripts": {
         "post-install-cmd": [
