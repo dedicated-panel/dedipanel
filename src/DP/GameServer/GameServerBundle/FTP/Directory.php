@@ -53,7 +53,7 @@ class Directory extends AbstractItem implements \Iterator
      */
     public function rewind()
     {
-        $this->position = 0;
+        $this->pos = 0;
         
         return $this;
     }

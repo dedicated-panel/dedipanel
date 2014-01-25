@@ -148,14 +148,12 @@ class FTPController extends ResourceController
         $path = $this->getRequest()->get('path');
         $resource = $this->getResource($path);
         $form     = $this->getForm($resource);
-        $oldPath  = '';
         
         if ($resource->isInvalid()) {
             throw new NotFoundHttpException(sprintf('Requested %s does not exist', $resource->getFullPath()));
         }
-        else {
-            $oldPath = $resource->getFullPath();
-        }
+        
+        $oldPath = $resource->getFullPath();
         
         if (($request->isMethod('PUT') || $request->isMethod('POST')) && $form->bind($request)->isValid()) {
             $event = $this->update($resource, $oldPath);
@@ -254,19 +252,16 @@ class FTPController extends ResourceController
     
     public function createResource($path, $type)
     {
-        $item = null;
-        
-        if ($type == self::TYPE_FILE) {
-            $item = new File($path);
-        }
-        elseif ($type == self::TYPE_DIRECTORY) {
-            $item = new Directory($path);
-        }
-        else {
+        if ($type != self::TYPE_FILE && $type == self::TYPE_DIRECTORY) {
             throw new \RuntimeException('Not supported ftp resource type.');
         }
         
-        return $item;
+        if ($type == self::TYPE_FILE) {
+            return new File($path);
+        }
+        else {
+            return new Directory($path);
+        }
     }
     
     /**
@@ -279,6 +274,10 @@ class FTPController extends ResourceController
      */
     public function getResource($path)
     {
+        if ($type != self::TYPE_FILE && $type != self::TYPE_DIRECTORY) {
+            throw new \RuntimeException('Not supported ftp resource type.');
+        }
+        
         $name = null;
         $type = null;
         $item = null;
@@ -288,11 +287,8 @@ class FTPController extends ResourceController
         if ($type == self::TYPE_FILE) {
             $item = new File($path, $name);
         }
-        elseif ($type == self::TYPE_DIRECTORY) {
-            $item = new Directory($path, $name);
-        }
         else {
-            throw new \RuntimeException('Not supported ftp resource type.');
+            $item = new Directory($path, $name);
         }
         
         $this->retrieveContent($item);
@@ -325,8 +321,6 @@ class FTPController extends ResourceController
     {
         $event = $this->dispatchEvent('pre_create', $resource);
         if (!$event->isStopped()) {
-            $manager = $this->getManager();
-            
             $this->dispatchEvent('create', $resource);
             
             if ($resource instanceof File) {
@@ -352,8 +346,6 @@ class FTPController extends ResourceController
     {
         $event = $this->dispatchEvent('pre_update', $resource);
         if (!$event->isStopped()) {
-            $manager = $this->getManager();
-            
             $this->dispatchEvent('update', $resource);
             
             $oldPath = $this->server->getAbsoluteGameContentDir() . $oldPath;
@@ -380,8 +372,6 @@ class FTPController extends ResourceController
     {
         $event = $this->dispatchEvent('pre_delete', $resource);
         if (!$event->isStopped()) {
-            $manager = $this->getManager();
-            
             $this->dispatchEvent('delete', $resource);
             
             $this->server->remove($resource->getFullPath());
