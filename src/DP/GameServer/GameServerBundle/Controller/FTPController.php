@@ -274,15 +274,15 @@ class FTPController extends ResourceController
      */
     public function getResource($path)
     {
-        if ($type != self::TYPE_FILE && $type != self::TYPE_DIRECTORY) {
-            throw new \RuntimeException('Not supported ftp resource type.');
-        }
-        
         $name = null;
         $type = null;
         $item = null;
         
         list($path, $name, $type) = $this->retrievePathStat($path);
+        
+        if ($type != self::TYPE_FILE && $type != self::TYPE_DIRECTORY) {
+            throw new \RuntimeException('Not supported ftp resource type.');
+        }
         
         if ($type == self::TYPE_FILE) {
             $item = new File($path, $name);
