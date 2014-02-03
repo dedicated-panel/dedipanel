@@ -114,3 +114,5 @@ group:
         id: ID
         name: Nom
         roles: Rôles
+        parent: Parent
+        children: Enfants

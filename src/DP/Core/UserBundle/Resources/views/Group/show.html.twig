@@ -27,6 +27,18 @@
                 <th>{{ 'group.fields.name'|trans }}</th>
                 <td>{{ group.name }}</td>
             </tr>
+            <tr>
+                <th>{{ 'group.fields.parent'|trans }}</th>
+                <td>{{ group.parent }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'group.fields.children'|trans }}</th>
+                <td><ul>
+                    {% for group in group.children %}
+                        <li>{{ group }}</li>
+                    {% endfor %}
+                </ul></td>
+            </tr>
         </tbody>
     </table>
 

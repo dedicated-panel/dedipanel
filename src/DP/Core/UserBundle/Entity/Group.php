@@ -6,6 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Entity\Group as BaseGroup;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Tree\Traits\NestedSetEntity;
 
 /**
  * Group
@@ -13,9 +16,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="fos_user_group")
  * @ORM\Entity(repositoryClass="DP\Core\UserBundle\Entity\GroupRepository")
  * @UniqueEntity(fields="name", message="group_admin.assert.name.unique")
+ * @Gedmo\Tree(type="nested")
  */
 class Group extends BaseGroup
 {
+    use NestedSetEntity;
+    
     /**
      * @var integer
      * 
@@ -32,6 +38,31 @@ class Group extends BaseGroup
      */
     protected $name;
     
+    /**
+     * @var Group
+     * 
+     * @Gedmo\TreeParent
+     * @ORM\ManyToOne(targetEntity="DP\Core\UserBundle\Entity\Group", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    protected $parent;
+    
+    /**
+     * @var Group
+     * 
+     * @ORM\OneToMany(targetEntity="DP\Core\UserBundle\Entity\Group", mappedBy="parent")
+     */
+    protected $children;
+    
+    protected $roles = array();
+    
+    
+    public function __construct($name, $roles = array())
+    {
+        parent::__construct($name, $roles);
+        
+        $this->children = new ArrayCollection();
+    }
     
     /**
      * Get id
@@ -46,5 +77,47 @@ class Group extends BaseGroup
     public function __toString()
     {
         return $this->name;
+    }
+    
+    public function setParent(Group $parent = null)
+    {
+        $this->parent = $parent;
+        
+        return $this;
+    }
+    
+    public function getParent()
+    {
+        return $this->parent;
+    }
+    
+    public function setChildren(array $children = array())
+    {
+        if (is_null($children)) {
+            $children = array();
+        }
+        
+        $this->children = new ArrayCollection($children);
+        
+        return $this;
+    }
+    
+    public function addChildren(Group $child)
+    {
+        $this->children[] = $child;
+        
+        return $this;
+    }
+    
+    public function removeChildren(Group $child)
+    {
+        $this->children->removeElement($child);
+        
+        return $this;
+    }
+    
+    public function getChildren()
+    {
+        return $this->children;
     }
 }

@@ -33,7 +33,9 @@
         "doctrine/doctrine-migrations-bundle": "2.1.*@dev",
         "doctrine/data-fixtures": "1.0.*@dev",
         "doctrine/doctrine-fixtures-bundle": "2.2.*@dev",
-        "sylius/resource-bundle": "dev-dedipanel"
+        "sylius/resource-bundle": "dev-dedipanel",
+        "stof/doctrine-extensions-bundle": "~1.1", 
+        "gedmo/doctrine-extensions": "2.3.*@dev"
     },
     "scripts": {
         "post-install-cmd": [
