@@ -31,3 +31,14 @@ services:
         class: DP\Core\UserBundle\Form\GroupType
         tags:
             - { name: form.type, alias: dedipanel_group }
+    
+    dedipanel.security.access.group_voter:
+        class: DP\Core\UserBundle\Voter\GroupVoter
+        arguments: [ "@logger" ]
+        tags:
+            - { name: security.voter }
+    
+    dedipanel.security.listener.admin_security_listener:
+        class: DP\Core\UserBundle\EventListener\AdminSecurityListener
+        tags:
+            - { name: kernel.event_subscriber }
