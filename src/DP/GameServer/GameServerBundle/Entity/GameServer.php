@@ -31,6 +31,7 @@ use DP\GameServer\GameServerBundle\Exception\NotImplementedException;
 use DP\GameServer\GameServerBundle\FTP\AbstractItem;
 use DP\GameServer\GameServerBundle\FTP\File;
 use DP\GameServer\GameServerBundle\FTP\Directory;
+use DP\Core\GameBundle\Entity\Plugin;
 
 /**
  * DP\Core\GameServer\GameServerBundle\Entity\GameServer
