@@ -20,8 +20,8 @@ class MachineListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            'dedipanel.machine.create'      => 'createKeyPair', 
-            'dedipanel.machine.update'      => 'createKeyPair', 
+            'dedipanel.machine.pre_create'  => 'createKeyPair', 
+            'dedipanel.machine.pre_update'  => 'createKeyPair', 
             'dedipanel.machine.pre_delete'  => 'deleteKeyPair', 
         );
     }

@@ -8,14 +8,14 @@ use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 
 class MachineValidator
 {
-    public function validateNotEmptyPassword(Machine $machine, ExecutionContextInterface $context)
+    public static function validateNotEmptyPassword(Machine $machine, ExecutionContextInterface $context)
     {
         if (null === $machine->getId() && null === $machine->getPassword()) {
             $context->addViolation('machine.assert.password');
         }
     }
     
-    public function validateCredentials(Machine $machine, ExecutionContextInterface $context)
+    public static function validateCredentials(Machine $machine, ExecutionContextInterface $context)
     {
         // N'exécute pas la validation des identifiants
         // s'il y a déjà eu des erreurs
