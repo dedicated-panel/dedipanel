@@ -32,10 +32,11 @@ class MenuBuilder
     {
         $menu = $this->factory->createItem('root');
         
-        $this->addRootMenuItems($menu);
-        
         $admin = $this->factory->createItem('menu.admin.admin', array('extras' => array('icon' => '%')));
         $this->addAdminMenuItems($admin);
+        $admin->setDisplay($admin->hasChildren());
+        
+        $this->addRootMenuItems($menu);
         $menu->addChild($admin);
         
         $menu->setCurrentUri($request->getRequestUri());
