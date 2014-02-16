@@ -86,20 +86,15 @@ class DoctrineStep implements StepInterface
 
         $messages['configurator.pdoMandatory'] = true;
         $messages['configurator.mysqlExtensionMandatory'] = true;
-        $messages['configurator.sqliteExtensionMandatory'] = true;
         
         if (!class_exists('\PDO')) {
              $messages['configurator.pdoMandatory'] = false;
              $messages['configurator.mysqlExtensionMandatory'] = false;
-             $messages['configurator.sqliteExtensionMandatory'] = false;
         } else {
             $drivers = \PDO::getAvailableDrivers();
             
             if (!in_array('mysql', $drivers)) {
                 $messages['configurator.mysqlExtensionMandatory'] = false;
-            }
-            if (!in_array('sqlite', $drivers)) {
-                $messages['configurator.sqliteExtensionMandatory'] = false;
             }
         }
 

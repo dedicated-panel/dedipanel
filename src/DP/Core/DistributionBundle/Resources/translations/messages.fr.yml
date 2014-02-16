@@ -24,7 +24,6 @@ configurator.step: Étape
 
 configurator.pdoMandatory: Extension PHP pdo
 configurator.mysqlExtensionMandatory: Extension PHP pdo_mysql
-configurator.sqliteExtensionMandatory: Extension PHP pdo_sqlite
 configurator.db.title: Configuration de la base de donnée
 configurator.db.description: Cette étape vous permet d'indiquer vos identifiants de connexion à la base de données mysql que vous utilisez.
 configurator.db.host: Hôte

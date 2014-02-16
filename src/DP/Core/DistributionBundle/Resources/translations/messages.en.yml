@@ -24,7 +24,6 @@ configurator.step: Step
 
 configurator.pdoMandatory: Extension PHP pdo
 configurator.mysqlExtensionMandatory: Extension PHP pdo_mysql
-configurator.sqliteExtensionMandatory: Extension PHP pdo_sqlite
 configurator.db.title: Configure your Database
 configurator.db.description: If your website needs a database connection, please configure it here.
 configurator.db.host: Host

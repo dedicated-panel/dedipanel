@@ -162,11 +162,6 @@ class ConfiguratorController extends Controller
             
             rmdir($cacheDir);
         }
-        
-        // Supprime le contenu du fichier d'ip whitelist de l'installer
-        if (is_writable($configurator->getWhitelistFilepath())) {
-            file_put_contents($configurator->getWhitelistFilepath(), "127.0.0.1\n");
-        }
 
         return $this->redirect($this->generateUrl('_welcome'));
     }
