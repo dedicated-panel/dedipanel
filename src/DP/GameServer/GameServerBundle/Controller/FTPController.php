@@ -35,7 +35,7 @@ class FTPController extends ResourceController
      * 
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         throw new NotFoundHttpException();
     }
