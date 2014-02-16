@@ -1,5 +1,6 @@
 $host_name = "dedipanel.dev"
 
+user { 'dedipanel': ensure => present, password => sha1('dedipanel') }
 group { 'puppet': ensure => present }
 Exec { path => [ '/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/' ] }
 File { owner => 0, group => 0, mode => 0644 }
