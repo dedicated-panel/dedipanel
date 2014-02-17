@@ -35,12 +35,10 @@ class GameServerController extends ResourceController
         return $event;
     }
         
-    public function installAction()
+    public function installAction(Request $request)
     {
-        if ($this->enableRoleCheck) {
-            if (!$this->isGranted('CREATE') && !$this->isGranted('UPDATE')) {
-                throw new AccessDeniedException;
-            }
+        if (!$this->isGranted('CREATE', $this->find($request)) && !$this->isGranted('UPDATE', $this->find($request))) {
+            throw new AccessDeniedException;
         }
         
         $server = $this->findOr404();

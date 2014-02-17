@@ -23,6 +23,7 @@ namespace DP\Core\MachineBundle\Controller;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 use DP\Core\MachineBundle\Entity\Machine;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Machine controller.
@@ -30,14 +31,12 @@ use DP\Core\MachineBundle\Entity\Machine;
  */
 class MachineController extends ResourceController
 {
-    public function testConnectionAction($id)
+    public function testConnectionAction(Request $request)
     {
-        if ($this->enableRoleCheck) {
-            $this->isGrantedOr403('SHOW');
-        }
+        $this->isGrantedOr403('SHOW', $this->find($request));
 
         $config = $this->getConfiguration();
-        $machine = $this->findOr404();
+        $machine = $this->findOr404($request);
 
         $test = false;
         $compatLib = false;

@@ -86,9 +86,7 @@ class FTPController extends ResourceController
      */
     public function createAction(Request $request)
     {
-        if ($this->enableRoleCheck) {
-            $this->isGrantedOr403('CREATE');
-        }
+        $this->isGrantedOr403('CREATE');
         
         $config = $this->getConfiguration();
         $this->server = $this->findOr404();
@@ -138,9 +136,7 @@ class FTPController extends ResourceController
      */
     public function updateAction(Request $request)
     {
-        if ($this->enableRoleCheck) {
-            $this->isGrantedOr403('UPDATE');
-        }
+        $this->isGrantedOr403('UPDATE', $this->find($request));
 
         $config = $this->getConfiguration();
         $this->server = $this->findOr404();
@@ -191,9 +187,7 @@ class FTPController extends ResourceController
      */
     public function deleteAction(Request $request)
     {
-        if ($this->enableRoleCheck) {
-            $this->isGrantedOr403('DELETE');
-        }
+        $this->isGrantedOr403('DELETE', $this->find($request));
         
         $this->server = $this->findOr404();
         
