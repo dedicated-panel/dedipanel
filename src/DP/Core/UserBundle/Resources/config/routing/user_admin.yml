@@ -7,6 +7,9 @@ dedipanel_user_index:
     pattern: /
     defaults:
         _controller: dedipanel.controller.user:indexAction
+        _sylius:
+            criteria:
+                groups: @dedipanel.resolver.user_group:getAccessibleGroupsId
 
 dedipanel_user_show:
     pattern: /{id}/show
