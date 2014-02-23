@@ -55,7 +55,7 @@ class MachineController extends ResourceController
 
             $javaInstalled = $secure->javaInstalled();
 
-            $this->persistAndFlush($machine);
+            $this->domainManager->update($machine);
         }
         catch (PHPSeclibWrapper\Exception\ConnectionErrorException $e) {}
         

@@ -29,7 +29,7 @@ class GameServerController extends ResourceController
         
         $event = $this->dispatchEvent('pre_create', $resource);
         if (!$event->isStopped()) {
-            $this->persistAndFlush($resource);
+            $this->domainManager->update($resource);
         }
         
         return $event;
@@ -44,7 +44,6 @@ class GameServerController extends ResourceController
         $server = $this->findOr404();
         $status = $server->getInstallationStatus();
         
-        $event = $this->dispatchEvent('pre_install', $server);
         if ($event->isStopped()) {
             $this->setFlash($event->getMessageType(), $event->getMessage(), $event->getMessageParams());
         }
@@ -75,7 +74,7 @@ class GameServerController extends ResourceController
                 $this->setFlash('error', $trans);
             }
             
-            $this->persistAndFlush($server, 'install');
+            $this->domainManager->update($server);
         }
         
         return $this->redirectToIndex();
@@ -130,8 +129,6 @@ class GameServerController extends ResourceController
         $config = $this->getConfiguration();   
         $server = $this->findOr404();
         
-        $this->dispatchEvent('pre_show_log', $server);
-        
         if ($server->isInstallationEnded()) {
             $logs = $server->getServerLogs();
         }
@@ -142,7 +139,7 @@ class GameServerController extends ResourceController
             $status = $server->getInstallationProgress();
             $server->setInstallationStatus($status);
             
-            $this->persistAndFlush($server, 'show_log');
+            $this->domainManager->update($server);
         }
         
         $view = $this
