@@ -59,3 +59,9 @@ services:
     dedipanel.resolver.user_group:
         class: DP\Core\UserBundle\Service\UserGroupResolver
         arguments: [ @dedipanel.repository.group.nested_tree, @security.context ]
+    
+    dedipanel.form.group_assignement.type:
+        class: DP\Core\UserBundle\Form\GroupAssignementType
+        arguments: [ @dedipanel.resolver.user_group ]
+        tags:
+            - { name: form.type, alias: dedipanel_group_assignement }

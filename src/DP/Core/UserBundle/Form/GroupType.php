@@ -14,14 +14,13 @@ class GroupType extends AbstractType
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {        
+    {
         $builder
             ->add('name', null, array('label' => 'group.fields.name'))
-            ->add('parent', null, array( 
-                'label' => 'group.fields.parent', 
-                'query_builder' => function (GroupRepository $repo) use ($builder) {
-                    return $repo->getQBFindIsNot($builder->getData());
-                }, 
+            ->add('parent', 'dedipanel_group_assignement', array(
+                'label'    => 'group.fields.parent', 
+                'multiple' => false, 
+                'required' => true, 
             ))
             ->add('roles', 'dp_security_roles', array('label' => 'user.fields.roles'))
         ;
