@@ -42,3 +42,10 @@ services:
         class: DP\Core\UserBundle\EventListener\AdminSecurityListener
         tags:
             - { name: kernel.event_subscriber }
+    
+    dedipanel.kernel.controller.service_args:
+        class: DP\Core\UserBundle\EventListener\RoutingServiceArgsListener
+        calls: 
+            - [ setContainer, [ @service_container ] ]
+        tags: 
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
