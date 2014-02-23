@@ -55,3 +55,7 @@ services:
         factory_service: doctrine.orm.default_entity_manager
         factory_method: getRepository
         arguments: ['DPUserBundle:Group']
+    
+    dedipanel.resolver.user_group:
+        class: DP\Core\UserBundle\Service\UserGroupResolver
+        arguments: [ @dedipanel.repository.group.nested_tree, @security.context ]
