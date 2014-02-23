@@ -2,18 +2,11 @@
 
 namespace DP\Core\UserBundle\Entity;
 
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
+use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 use DP\Core\UserBundle\Entity\Group;
 
-class GroupRepository extends EntityRepository
+class GroupRepository extends NestedTreeRepository
 {
-    public function createNew()
-    {
-        $className = $this->getClassName();
-
-        return new $className('');
-    }
-    
     public function getQBFindIsNot(Group $group)
     {
         $qb = $this->getQueryBuilder();
@@ -24,5 +17,22 @@ class GroupRepository extends EntityRepository
         }
         
         return $qb;
+    }
+    
+    public function getAccessibleGroupsOrAll($groups = array())
+    {
+        $accessibleGroups = array();
+                
+        if (empty($groups) || count($groups) == 0) {
+            return $this->getChildren(null, false, null, "asc", true);
+        }
+        
+        foreach ($groups AS $group) {
+            $children = $this->getChildren($group, false, null, "asc", true);
+            
+            $accessibleGroups = array_merge($accessibleGroups, $children);
+        }
+        
+        return array_unique($accessibleGroups);
     }
 }

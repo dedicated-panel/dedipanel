@@ -49,3 +49,9 @@ services:
             - [ setContainer, [ @service_container ] ]
         tags: 
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+    
+    dedipanel.repository.group.nested_tree:
+        class: DP\Core\UserBundle\Entity\Repository\GroupRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: ['DPUserBundle:Group']
