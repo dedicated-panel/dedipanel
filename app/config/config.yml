@@ -127,7 +127,6 @@ sylius_resource:
             role_prefix: ROLE_DP_ADMIN_GROUP
             classes:
                 model: DPUserBundle:Group
-                repository: DP\Core\UserBundle\Entity\GroupRepository
         dedipanel.machine:
             driver: doctrine/orm
             templates: DPMachineBundle:Machine
@@ -135,6 +134,7 @@ sylius_resource:
             classes:
                 model: DPMachineBundle:Machine
                 controller: DP\Core\MachineBundle\Controller\MachineController
+                repository: DP\Core\MachineBundle\Entity\MachineRepository
         dedipanel.game:
             driver: doctrine/orm
             templates: DPGameBundle:Game

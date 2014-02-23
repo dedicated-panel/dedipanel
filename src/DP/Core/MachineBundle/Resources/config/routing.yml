@@ -19,6 +19,8 @@ dedipanel_machine_index:
     defaults: 
         _controller: dedipanel.controller.machine:indexAction
         _sylius:
+            criteria:
+                groups: @dedipanel.resolver.user_group:getAccessibleGroupsId
             paginate: false
 
 dedipanel_machine_show:

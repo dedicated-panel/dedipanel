@@ -25,12 +25,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 use DP\GameServer\GameServerBundle\Entity\GameServer;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * DP\Core\MachineBundle\Entity\Machine
  *
  * @ORM\Table(name="machine")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="DP\Core\MachineBundle\Entity\MachineRepository")
  */
 class Machine
 {
@@ -42,87 +43,97 @@ class Machine
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
+    
     /**
      * @var bigint $privateIp
      *
      * @ORM\Column(name="privateIp", type="string", length=15, nullable=true)
      */
     private $privateIp;
-
+    
     /**
      * @var bigint $publicIp
      *
      * @ORM\Column(name="publicIp", type="string", length=15, nullable=true)
      */
     private $publicIp;
-
+    
     /**
      * @var integer $port
      *
      * @ORM\Column(name="port", type="integer")
      */
     private $port = 22;
-
+    
     /**
      * @var string $user
      *
      * @ORM\Column(name="user", type="string", length=16)
      */
     private $user;
-
+    
     /**
      * @var string $password
      */
     private $password;
-
+    
     /**
      * @var string $privateKey
      *
      * @ORM\Column(name="privateKey", type="string", length=23)
      */
     private $privateKeyFilename;
-
+    
     /**
      * @var string $publicKey
      *
      * @ORM\Column(name="publicKey", type="string", length=255, nullable=true)
      */
     private $publicKey;
-
+    
     /**
      * @var string $home
      *
      * @ORM\Column(name="home", type="string", length=255, nullable=true)
      */
     private $home;
-
+    
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection $gameServers
      *
      * @ORM\OneToMany(targetEntity="DP\GameServer\GameServerBundle\Entity\GameServer", mappedBy="machine", cascade={"persist"})
      */
     private $gameServers;
-
+    
     /**
      * @var integer
      *
      * @ORM\Column(name="nbCore", type="integer", nullable=true)
      */
     private $nbCore;
-
+    
     /**
      * @var boolean
      *
      * @ORM\Column(name="is64bit", type="boolean")
      */
     private $is64bit = false;
-
-
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="DP\Core\UserBundle\Entity\Group")
+     * @ORM\JoinTable(name="machine_to_groups",
+     *      joinColumns={@ORM\JoinColumn(name="machine_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
+     * )
+     */
+    protected $groups;
+    
+    
     public function __construct()
     {
-        $this->gameServers = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->voipServers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->gameServers = new ArrayCollection();
+        $this->voipServers = new ArrayCollection();
+        $this->groups      = new ArrayCollection();
     }
 
     public function addGameServer(GameServer $srv)
@@ -359,6 +370,48 @@ class Machine
     public function getIs64Bit()
     {
         return $this->is64bit;
+    }
+    /**
+     * Gets the groups granted to the user.
+     *
+     * @return Collection
+     */
+    public function getGroups()
+    {
+        return $this->groups ?: $this->groups = new ArrayCollection();
+    }
+
+    public function getGroupNames()
+    {
+        $names = array();
+        foreach ($this->getGroups() as $group) {
+            $names[] = $group->getName();
+        }
+
+        return $names;
+    }
+
+    public function hasGroup($name)
+    {
+        return in_array($name, $this->getGroupNames());
+    }
+
+    public function addGroup(GroupInterface $group)
+    {
+        if (!$this->getGroups()->contains($group)) {
+            $this->getGroups()->add($group);
+        }
+
+        return $this;
+    }
+
+    public function removeGroup(GroupInterface $group)
+    {
+        if ($this->getGroups()->contains($group)) {
+            $this->getGroups()->removeElement($group);
+        }
+
+        return $this;
     }
 
     public function updateCrontab($search, $replace)

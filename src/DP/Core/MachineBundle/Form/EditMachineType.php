@@ -31,6 +31,7 @@ class EditMachineType extends BaseMachineType
         
         $builder
             ->add('password', 'password', array('label' => 'machine.passwd', 'required' => false))
+            ->add('groups', 'dedipanel_group_assignement')
         ;
     }
 
