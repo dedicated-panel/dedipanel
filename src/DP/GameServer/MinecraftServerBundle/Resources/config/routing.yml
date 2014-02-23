@@ -20,6 +20,8 @@ dedipanel_minecraft_index:
         _controller: dedipanel.controller.minecraft:indexAction
         _sylius:
             paginate: false
+            criteria:
+                groups: @dedipanel.resolver.user_group:getAccessibleGroupsIdOrEmpty
 
 dedipanel_minecraft_show:
     pattern: /{id}/show

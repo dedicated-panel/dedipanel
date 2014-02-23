@@ -31,7 +31,7 @@ use PHPSeclibWrapper\Exception\MissingPacketException;
  * DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer
  *
  * @ORM\Table(name="minecraft_server")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="DP\GameServer\GameServerBundle\Entity\GameServerRepository")
  */
 class MinecraftServer extends GameServer
 {

@@ -168,6 +168,7 @@ sylius_resource:
             classes:
                 model: DPMinecraftServerBundle:MinecraftServer
                 controller: DP\GameServer\GameServerBundle\Controller\GameServerController
+                repository: DP\GameServer\GameServerBundle\Entity\GameServerRepository
         dedipanel.minecraft.ftp:
             driver: doctrine/orm
             templates: DPMinecraftServerBundle:FTP
