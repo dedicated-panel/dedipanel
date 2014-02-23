@@ -19,11 +19,11 @@ class GroupRepository extends NestedTreeRepository
         return $qb;
     }
     
-    public function getAccessibleGroupsOrAll($groups = array())
+    public function getAccessibleGroups($groups = array(), $retrieveAll = false)
     {
         $accessibleGroups = array();
                 
-        if (empty($groups) || count($groups) == 0) {
+        if ($retrieveAll) {
             return $this->getChildren(null, false, null, "asc", true);
         }
         

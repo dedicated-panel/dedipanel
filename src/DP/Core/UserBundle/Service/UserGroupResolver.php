@@ -20,13 +20,15 @@ class UserGroupResolver
     {
         $groups = $this->context->getToken()->getUser()->getGroups();
         
-        return $this->repo->getAccessibleGroupsOrAll($groups);
+        return $this->repo->getAccessibleGroups($groups, $this->context->isGranted('ROLE_SUPER_ADMIN'));
     }
     
-    public function getAccessibleGroupsId()
+    public function getAccessibleGroupsIdOrEmpty()
     {
         $ids = array();
-        $groups = $this->getAccessibleGroups();
+        
+        $groups = $this->context->getToken()->getUser()->getGroups();
+        $groups = $this->repo->getAccessibleGroups($groups);
         
         foreach ($groups AS $group) {
             $ids[] = $group->getId();

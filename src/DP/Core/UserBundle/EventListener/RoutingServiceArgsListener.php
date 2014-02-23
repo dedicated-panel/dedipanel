@@ -22,12 +22,17 @@ class RoutingServiceArgsListener extends ContainerAware
     
     public function convertServiceArgs($criteria = array())
     {
-        foreach ($criteria AS &$crit) {
+        foreach ($criteria AS $key => $crit) {
             if (preg_match('#^\@(.+)\:(.+)$#', $crit, $matches)) {
                 $service = $this->container->get($matches[1]);
                 $value = $service->{$matches[2]}();
                 
-                $crit = $value;
+                if (is_array($value) && empty($value)) {
+                    unset($criteria[$key]);
+                }
+                else {
+                    $criteria[$key] = $value;
+                }
             }
         }
         
