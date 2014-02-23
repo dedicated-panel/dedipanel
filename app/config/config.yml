@@ -154,6 +154,7 @@ sylius_resource:
             classes:
                 model: DPSteamServerBundle:SteamServer
                 controller: DP\GameServer\GameServerBundle\Controller\GameServerController
+                repository: DP\GameServer\GameServerBundle\Entity\GameServerRepository
         dedipanel.steam.ftp:
             driver: doctrine/orm
             templates: DPSteamServerBundle:FTP

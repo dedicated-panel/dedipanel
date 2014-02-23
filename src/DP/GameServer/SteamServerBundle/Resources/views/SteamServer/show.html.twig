@@ -37,7 +37,7 @@
                         <div class="serveur-header-name">
                             {% if is_granted('ROLE_DP_GAME_STEAM_ADMIN') %}
                                 <ul>
-                                    {% if entity.isInstallationEnded %}
+                                    {% if steam.isInstallationEnded %}
                                         <li>
                                             <a href="{{ path('dedipanel_steam_regen', { 'id': steam.id }) }}">
                                                 {{ 'game.regenerate'|trans }}
@@ -173,7 +173,7 @@
     {% if is_granted('ROLE_DP_GAME_STEAM_UPDATE') or is_granted('ROLE_DP_GAME_STEAM_DELETE') %}
         <div class="form-group clearfix">
             {% if is_granted('ROLE_DP_GAME_STEAM_UPDATE') %}
-                {{ sylius_buttons.edit(path('dedipanel_steam_update', {'id': machine.id})) }}
+                {{ sylius_buttons.edit(path('dedipanel_steam_update', {'id': steam.id})) }}
             {% endif %}
             
             {% if is_granted('ROLE_DP_GAME_STEAM_DELETE') %}

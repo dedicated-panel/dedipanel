@@ -20,6 +20,8 @@ dedipanel_steam_index:
         _controller: dedipanel.controller.steam:indexAction
         _sylius:
             paginate: false
+            criteria:
+                groups: @dedipanel.resolver.user_group:getAccessibleGroupsIdOrEmpty
 
 dedipanel_steam_show:
     pattern: /{id}/show

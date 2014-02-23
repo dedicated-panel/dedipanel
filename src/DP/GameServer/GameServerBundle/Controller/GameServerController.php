@@ -34,6 +34,18 @@ class GameServerController extends ResourceController
         
         return $event;
     }
+    
+    public function isGranted($roleName, $resource = null)
+    {
+        $config = $this->getConfiguration();
+        $roleName = $config->getRole($roleName);
+        
+        if ($roleName !== false && !$this->get('security.context')->isGranted($roleName, $resource)) {
+            return false;
+        }
+        
+        return true;
+    }
         
     public function installAction(Request $request)
     {
@@ -41,43 +53,38 @@ class GameServerController extends ResourceController
             throw new AccessDeniedException;
         }
         
-        $server = $this->findOr404();
+        $server = $this->findOr404($request);
         $status = $server->getInstallationStatus();
         
-        if ($event->isStopped()) {
-            $this->setFlash($event->getMessageType(), $event->getMessage(), $event->getMessageParams());
-        }
-        else {
-            try {
+        try {
+            if ($status == 100) {
+                $server->finalizeInstallation($this->get('twig'));
+            }
+            elseif ($status < 100) {
+                $status = $server->getInstallationProgress();
+                $server->setInstallationStatus($status);
+                
                 if ($status == 100) {
                     $server->finalizeInstallation($this->get('twig'));
                 }
-                elseif ($status < 100) {
-                    $status = $server->getInstallationProgress();
-                    $server->setInstallationStatus($status);
-                    
-                    if ($status == 100) {
-                        $server->finalizeInstallation($this->get('twig'));
-                    }
-                }
-                
-                if ($status === null) {
-                    $server->installServer($this->get('twig'));
-                }
-            }
-            catch (InstallAlreadyStartedException $e) {
-                $trans = $this->get('translator')->trans('game.installAlreadyStarted');
-                $this->setFlash('error', $trans);
-            }
-            catch (MissingPacketException $e) {
-                $trans = $this->get('translator')->trans('steam.missingCompatLib');
-                $this->setFlash('error', $trans);
             }
             
-            $this->domainManager->update($server);
+            if ($status === null) {
+                $server->installServer($this->get('twig'));
+            }
+        }
+        catch (InstallAlreadyStartedException $e) {
+            $trans = $this->get('translator')->trans('game.installAlreadyStarted');
+            $this->setFlash('error', $trans);
+        }
+        catch (MissingPacketException $e) {
+            $trans = $this->get('translator')->trans('steam.missingCompatLib');
+            $this->setFlash('error', $trans);
         }
         
-        return $this->redirectToIndex();
+        $this->domainManager->update($server);
+        
+        return $this->redirectHandler->redirectToIndex();
     }
     
     public function changeStateAction(Request $request)
@@ -100,7 +107,7 @@ class GameServerController extends ResourceController
         
         $this->get('session')->getFlashBag()->add('stateChanged', 'steam.stateChanged.' . $state);
         
-        return $this->redirectToIndex();
+        return $this->redirectHandler->redirectToIndex();
     }
     
     public function regenAction()

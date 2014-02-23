@@ -31,7 +31,7 @@ use DP\GameServer\GameServerBundle\Exception\InstallAlreadyStartedException;
  * DP\GameServer\SteamServerBundle\Entity\SteamServer
  *
  * @ORM\Table(name="steam_server")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="DP\GameServer\GameServerBundle\Entity\GameServerRepository")
  */
 class SteamServer extends GameServer
 {
