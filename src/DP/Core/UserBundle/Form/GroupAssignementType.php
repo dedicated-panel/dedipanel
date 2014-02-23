@@ -15,10 +15,6 @@ class GroupAssignementType extends AbstractType
         $this->groupResolver = $groupResolver;
     }
     
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver

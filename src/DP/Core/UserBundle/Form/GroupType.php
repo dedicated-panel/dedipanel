@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use DP\Core\UserBundle\Entity\GroupRepository;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class GroupType extends AbstractType
 {
@@ -24,6 +26,18 @@ class GroupType extends AbstractType
             ))
             ->add('roles', 'dp_security_roles', array('label' => 'user.fields.roles'))
         ;
+        
+        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
+            $form  = $event->getForm();
+            $field = $form->get('parent');
+            
+            $parent      = $field->getData();
+            $fieldValues = $field->getConfig()->getOption('choices');
+            
+            if (!in_array($parent, $fieldValues)) {
+                $form->remove('parent');
+            }
+        });
     }
     
     /**
