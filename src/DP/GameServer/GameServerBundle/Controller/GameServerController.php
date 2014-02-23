@@ -75,11 +75,11 @@ class GameServerController extends ResourceController
         }
         catch (InstallAlreadyStartedException $e) {
             $trans = $this->get('translator')->trans('game.installAlreadyStarted');
-            $this->setFlash('error', $trans);
+            $this->flashHelper->setFlash('error', $trans);
         }
         catch (MissingPacketException $e) {
             $trans = $this->get('translator')->trans('steam.missingCompatLib');
-            $this->setFlash('error', $trans);
+            $this->flashHelper->setFlash('error', $trans);
         }
         
         $this->domainManager->update($server);
@@ -97,7 +97,7 @@ class GameServerController extends ResourceController
         $event = new ResourceEvent($server, array('state' => $state));
         $this->dispatchEvent('pre_change_state', $event);
         if ($event->isStopped()) {
-            $this->setFlash($event->getMessageType(), $event->getMessage(), $event->getMessageParams());
+            $this->flashHelper->setFlash($event->getMessageType(), $event->getMessage(), $event->getMessageParams());
         }
         else {
             $server->changeStateServer($state);
@@ -118,7 +118,7 @@ class GameServerController extends ResourceController
         
         $event = $this->dispatchEvent('pre_regen', $server);
         if ($event->isStopped()) {
-            $this->setFlash($event->getMessageType(), $event->getMessage(), $event->getMessageParams());
+            $this->flashHelper->setFlash($event->getMessageType(), $event->getMessage(), $event->getMessageParams());
         }
         else {
             $this->dispatchEvent('regen', $server);
@@ -192,7 +192,7 @@ class GameServerController extends ResourceController
                 }
             }
             else {
-                $this->setFlash('error', 'server offline');
+                $this->flashHelper->setFlash('error', 'server offline');
             }
         }
         
@@ -252,7 +252,7 @@ class GameServerController extends ResourceController
             }
             
             if (!$event->isStopped()) {
-                $this->setFlash('success', 'plugin_' . $action);
+                $this->flashHelper->setFlash('success', 'plugin_' . $action);
             
                 return $this->redirectToRoute(
                     $config->getRedirectRoute('plugin'),
@@ -260,7 +260,7 @@ class GameServerController extends ResourceController
                 );
             }
 
-            $this->setFlash($event->getMessageType(), $event->getMessage(), $event->getMessageParams());
+            $this->flashHelper->setFlash($event->getMessageType(), $event->getMessage(), $event->getMessageParams());
         }
         
         $view = $this
