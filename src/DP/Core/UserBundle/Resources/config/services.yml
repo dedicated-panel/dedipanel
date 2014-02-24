@@ -32,11 +32,19 @@ services:
         tags:
             - { name: form.type, alias: dedipanel_group }
     
-    dedipanel.security.access.group_voter:
+    dedipanel.security.voter.group_voter:
         class: DP\Core\UserBundle\Voter\GroupVoter
-        arguments: [ "@logger" ]
+        arguments: [ @dedipanel.repository.group.nested_tree ]
+        public: false
         tags:
-            - { name: security.voter }
+            - { name: security.voter, priority: -255 }
+    
+    dedipanel.security.voter.group_assignable_voter:
+        class: DP\Core\UserBundle\Voter\GroupAssignableVoter
+        arguments: [ @dedipanel.repository.group.nested_tree ]
+        public: false
+        tags:
+            - { name: security.voter, priority: -255 }
     
     dedipanel.security.listener.admin_security_listener:
         class: DP\Core\UserBundle\EventListener\AdminSecurityListener

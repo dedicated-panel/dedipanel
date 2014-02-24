@@ -273,7 +273,7 @@ class GameServerController extends ResourceController
 
         return $this->handleView($view);
     }
-        
+    
     protected function installPlugin(GameServer $server, Plugin $plugin)
     {
         $event = new ResourceEvent($server, array('plugin' => $plugin));

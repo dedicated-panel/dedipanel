@@ -6,7 +6,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use DP\Core\UserBundle\Entity\GroupRepository;
 
-class GroupVoter implements VoterInterface
+class GroupAssignableVoter implements VoterInterface
 {
     protected $repo;
     
@@ -22,13 +22,20 @@ class GroupVoter implements VoterInterface
     
     public function supportsClass($class)
     {
-        return $class == 'DP\Core\UserBundle\Entity\Group';
+        return in_array($class, array(
+            'DP\Core\UserBundle\Entity\User', 
+            'DP\Core\MachineBundle\Entity\Machine', 
+        ));
     }
     
     public function vote(TokenInterface $token, $object, array $attributes)
     {
         if ($this->supportsClass(get_class($object))) {
-            if (in_array($object, $this->repo->getAccessibleGroups($token->getUser()->getGroups()))) {
+            $roles = array_map(function ($el) {
+                return $el->getRole();
+            }, $token->getRoles());
+            
+            if (array_intersect(iterator_to_array($object->getGroups()), $this->repo->getAccessibleGroups($token->getUser()->getGroups())) !== array() || in_array('ROLE_SUPER_ADMIN', $roles)) {
                 return VoterInterface::ACCESS_GRANTED;
             }
             else {

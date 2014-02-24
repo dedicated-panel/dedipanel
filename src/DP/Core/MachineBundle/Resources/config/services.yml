@@ -38,3 +38,10 @@ services:
             - [ setServiceContainer, [ @service_container ] ]
         tags:
             - { name: doctrine.event_listener, event: preUpdate, method: preUpdate }
+    
+    dedipanel.security.voter.machine_assignable_voter:
+        class: DP\Core\MachineBundle\Voter\MachineAssignableVoter
+        arguments: [ @dedipanel.repository.group.nested_tree ]
+        public: false
+        tags:
+            - { name: security.voter, priority: -255 }
