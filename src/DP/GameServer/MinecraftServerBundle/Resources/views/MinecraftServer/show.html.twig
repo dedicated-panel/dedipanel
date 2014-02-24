@@ -152,7 +152,7 @@
     {% if is_granted('ROLE_DP_GAME_MINECRAFT_UPDATE') or is_granted('ROLE_DP_MINECRAFT_DELETE') %}
         <div class="form-group clearfix">
             {% if is_granted('ROLE_DP_GAME_MINECRAFT_UPDATE') %}
-                {{ sylius_buttons.edit(path('dedipanel_minecraft_update', {'id': machine.id})) }}
+                {{ sylius_buttons.edit(path('dedipanel_minecraft_update', {'id': minecraft.id})) }}
             {% endif %}
             
             {% if is_granted('ROLE_DP_MINECRAFT_DELETE') %}
