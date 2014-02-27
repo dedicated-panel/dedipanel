@@ -25,7 +25,10 @@
         "sonata-project/block-bundle": "~2.2",
         "knplabs/knp-menu-bundle": "1.1.*@dev",
         "friendsofsymfony/user-bundle": "1.3.*",
-        "sylius/resource-bundle": "dev-dedipanel"
+        "sylius/resource-bundle": "dev-dedipanel", 
+        
+        "dedipanel/phpseclib-wrapper-bundle": "dev-master", 
+        "phpseclib/phpseclib": "dev-php5"
     },
     "scripts": {
         "post-install-cmd": [

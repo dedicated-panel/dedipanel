@@ -380,19 +380,6 @@ class PHPSeclibWrapper {
         return $this->getSSH()->exec('touch ' . $file);
     }
     
-    public function fileExists($filepath)
-    {
-        $cmd = 'if [ -f ' . $filepath . ']; then echo 1; else echo 0; fi';
-        
-        return intval($this->getSSH()->exec($cmd));
-    }
-    
-    public function dirExists($dirpath)
-    {
-        $cmd = 'if [ -d ' . $dirpath . ' ]; then echo 1; else echo 0; fi';
-        return (bool) intval($this->getSSH()->exec($cmd));
-    }
-    
     public function createDirectory($dirpath)
     {
         return $this->getSSH()->exec('mkdir ' . $dirpath);

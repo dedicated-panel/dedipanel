@@ -683,11 +683,13 @@ class SteamServer extends GameServer
         $crontabLine  = $rebootTime->format('i H') . ' * * * ' . $hldsScriptPath;
         $crontabLine .= ' restart >> ' . $this->getAbsoluteDir() . 'cron-dp.log';
 
+        // @todo: refacto
         return $this->getMachine()->updateCrontab($hldsScriptPath, $crontabLine);
     }
 
     public function removeAutoReboot()
     {
+        // @todo: refacto
         return $this->getMachine()->removeFromCrontab($this->getAbsoluteHldsScriptPath());
     }
 

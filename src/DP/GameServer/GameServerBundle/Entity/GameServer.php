@@ -549,20 +549,6 @@ abstract class GameServer
         return array_udiff($plugins, $this->getPlugins(), $intersectCallback);
     }
 
-    public function fileExists($filepath)
-    {
-        $filepath = $this->getAbsoluteGameContentDir() . $filepath;
-
-        return $this->getMachine()->fileExists($filepath);
-    }
-
-    public function dirExists($dirpath)
-    {
-        $dirpath = $this->getAbsoluteGameContentDir() . $dirpath;
-
-        return $this->getMachine()->dirExists($dirpath);
-    }
-
     public function remove($path)
     {
         $path = $this->getAbsoluteGameContentDir() . $path;

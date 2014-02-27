@@ -52,7 +52,7 @@ class MachineListener implements EventSubscriberInterface
     private function getMachineInfos(PHPSeclibWrapper $secure, Machine $machine)
     {
         $machine->setHome($secure->getHome());
-        $machine->setNbCore($machine->retrieveNbCore());
+        $machine->setNbCore($machine->retrieveNbCore()); // @todo: refacto retrieveNbCore
         $machine->setIs64bit($secure->is64bitSystem());
     }
     

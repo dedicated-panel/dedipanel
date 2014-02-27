@@ -22,11 +22,11 @@ namespace DP\Core\MachineBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 use DP\GameServer\GameServerBundle\Entity\GameServer;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\GroupInterface;
+use Dedipanel\PHPSeclibWrapperBundle\Server\AbstractServer;
 
 /**
  * DP\Core\MachineBundle\Entity\Machine
@@ -34,7 +34,7 @@ use FOS\UserBundle\Model\GroupInterface;
  * @ORM\Table(name="machine")
  * @ORM\Entity(repositoryClass="DP\Core\MachineBundle\Entity\MachineRepository")
  */
-class Machine
+class Machine extends AbstractServer
 {
     /**
      * @var integer $id
@@ -67,11 +67,11 @@ class Machine
     private $port = 22;
     
     /**
-     * @var string $user
+     * @var string $username
      *
-     * @ORM\Column(name="user", type="string", length=16)
+     * @ORM\Column(name="username", type="string", length=16)
      */
-    private $user;
+    private $username;
     
     /**
      * @var string $password
@@ -133,19 +133,7 @@ class Machine
     public function __construct()
     {
         $this->gameServers = new ArrayCollection();
-        $this->voipServers = new ArrayCollection();
         $this->groups      = new ArrayCollection();
-    }
-
-    public function addGameServer(GameServer $srv)
-    {
-        $srv->setMachine($this);
-        $this->gameServers[] = $srv;
-    }
-
-    public function getGameServers()
-    {
-        return $this->gameServers;
     }
 
     /**
@@ -198,49 +186,8 @@ class Machine
         if (empty($this->publicIp)) {
             return $this->privateIp;
         }
-        else {
-            return $this->publicIp;
-        }
-    }
-
-    /**
-     * Set port
-     *
-     * @param integer $port
-     */
-    public function setPort($port)
-    {
-        $this->port = $port;
-    }
-
-    /**
-     * Get port
-     *
-     * @return integer
-     */
-    public function getPort()
-    {
-        return $this->port;
-    }
-
-    /**
-     * Set user
-     *
-     * @param string $user
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-    }
-
-    /**
-     * Get user
-     *
-     * @return string
-     */
-    public function getUser()
-    {
-        return $this->user;
+        
+        return $this->publicIp;
     }
 
     /**
@@ -281,46 +228,19 @@ class Machine
         return $this->publicKey;
     }
 
-    /**
-     * Set password
-     *
-     * @param string $password
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
-    }
-    /**
-     * Get password
-     *
-     * @return string
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
-     * Set home
-     *
-     * @param string $home
-     */
-    public function setHome($home)
-    {
-        $this->home = $home;
-    }
-    /**
-     * Get home
-     *
-     * @return string
-     */
-    public function getHome()
-    {
-        return $this->home;
-    }
-
     public function __toString() {
         return $this->user . '@' . $this->privateIp . ':' . $this->port;
+    }
+
+    public function addGameServer(GameServer $srv)
+    {
+        $srv->setMachine($this);
+        $this->gameServers[] = $srv;
+    }
+
+    public function getGameServers()
+    {
+        return $this->gameServers;
     }
 
     /**
@@ -341,12 +261,6 @@ class Machine
     public function getNbCore()
     {
         return $this->nbCore;
-    }
-
-    public function retrieveNbCore()
-    {
-        return PHPSeclibWrapper::getFromMachineEntity($this)
-                ->exec('grep processor /proc/cpuinfo | wc -l');
     }
 
     /**
@@ -372,6 +286,7 @@ class Machine
     {
         return $this->is64bit;
     }
+    
     /**
      * Gets the groups granted to the user.
      *
@@ -413,35 +328,6 @@ class Machine
         }
 
         return $this;
-    }
-
-    public function updateCrontab($search, $replace)
-    {
-        $cmd  = 'crontab -l | awk \'BEGIN{search="' . $search . '"; replacement="' . $replace . '"}//';
-        $cmd .= '{if ($6 == search) { print replacement; found=1} else { print }}';
-        $cmd .= 'END{ if (!found) { print replacement }}\' | crontab -';
-
-        return PHPSeclibWrapper::getFromMachineEntity($this)
-                ->exec($cmd);
-    }
-
-    public function removeFromCrontab($search)
-    {
-        $cmd  = 'crontab -l | awk \'BEGIN{search="' . $search . '"}//';
-        $cmd .= '{if ($6 == search) { found=1} else { print }}\' | crontab -';
-
-        return PHPSeclibWrapper::getFromMachineEntity($this)
-                ->exec($cmd);
-    }
-
-    public function fileExists($filepath)
-    {
-        return PHPSeclibWrapper::getFromMachineEntity($this)->fileExists($filepath);
-    }
-
-    public function dirExists($dirpath)
-    {
-        return PHPSeclibWrapper::getFromMachineEntity($this)->dirExists($dirpath);
     }
     
     public static function loadValidatorMetadata(ClassMetadata $metadata)
