@@ -328,21 +328,21 @@ abstract class GameServer
 
     public function getScreenName()
     {
-        $screenName = $this->getMachine()->getUser() . '-' . $this->getDir();
+        $screenName = $this->getMachine()->getUsername() . '-' . $this->getDir();
 
         return $this->getScreenNameHash($screenName);
     }
 
     public function getInstallScreenName()
     {
-        $screenName = $this->getMachine()->getUser() . '-install-' . $this->getDir();
+        $screenName = $this->getMachine()->getUsername() . '-install-' . $this->getDir();
 
         return $this->getScreenNameHash($screenName);
     }
 
     public function getPluginInstallScreenName($scriptName = '')
     {
-        $screenName = $this->getMachine()->getUser() . '-plugin-install-' . $scriptName . '-' . $this->getDir();
+        $screenName = $this->getMachine()->getUsername() . '-plugin-install-' . $scriptName . '-' . $this->getDir();
 
         return $this->getScreenNameHash($screenName);
     }

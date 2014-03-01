@@ -165,6 +165,14 @@ class Machine extends AbstractServer
     {
         return $this->privateIp;
     }
+    
+    /**
+     * @{inheritDoc}
+     */
+    public function getServerIP()
+    {
+        return $this->privateIp;
+    }
 
     /**
      * Set publicIp
@@ -229,7 +237,7 @@ class Machine extends AbstractServer
     }
 
     public function __toString() {
-        return $this->user . '@' . $this->privateIp . ':' . $this->port;
+        return $this->username . '@' . $this->privateIp . ':' . $this->port;
     }
 
     public function addGameServer(GameServer $srv)
