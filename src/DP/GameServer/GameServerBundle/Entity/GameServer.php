@@ -25,7 +25,6 @@ use DP\Core\MachineBundle\Entity\Machine;
 use Symfony\Component\Validator\Constraints as Assert;
 use DP\GameServer\GameServerBundle\Query\QueryInterface;
 use DP\GameServer\GameServerBundle\Query\RconInterface;
-use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 use DP\GameServer\GameServerBundle\Exception\InvalidPathException;
 use DP\GameServer\GameServerBundle\Exception\NotImplementedException;
 use DP\GameServer\GameServerBundle\FTP\AbstractItem;
@@ -430,73 +429,6 @@ abstract class GameServer
     {
         return $this->alreadyInstalled;
     }
-    
-    public function getContent(AbstractItem $item)
-    {
-        $fullpath = $item->getFullpath();
-        
-        if ($item instanceof Directory) {
-            return $this->getDirContent($fullpath);
-        }
-        elseif ($item instanceof File) {
-            return $this->getFileContent($fullpath);
-        }
-        else {
-            throw new \RuntimeException('Not supported ftp resource type.');
-        }
-    }
-
-    public function getDirContent($path = '')
-    {
-        $path = $this->getAbsoluteGameContentDir() . $path;
-        $sftp = PHPSeclibWrapper::getFromMachineEntity($this->getMachine())->getSFTP();
-
-        $dirContent = $sftp->rawlist($path);
-        $dirs = array();
-        $files = array();
-        
-        if ($dirContent == false) {
-            throw new InvalidPathException();
-        }
-
-        foreach ($dirContent AS $key => $attr) {
-            $attr['name'] = $key;
-
-            if ($attr['type'] == NET_SFTP_TYPE_DIRECTORY
-                && $key != '..' && $key != '.') {
-                $dirs[] = $attr;
-            }
-            elseif ($attr['type'] == NET_SFTP_TYPE_REGULAR) {
-                $files[] = $attr;
-            }
-        }
-
-        return array('files' => $files, 'dirs' => $dirs);
-    }
-
-    public function getFileContent($path)
-    {
-        $path = $this->getAbsoluteGameContentDir() . $path;
-
-        return utf8_encode(PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
-                ->getRemoteFile($path));
-    }
-
-    public function uploadFile($path, $content)
-    {
-        $path = $this->getAbsoluteGameContentDir() . $path;
-
-        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
-                ->upload($path, $content, false);
-    }
-
-    public function touch($file)
-    {
-        $path = $this->getAbsoluteGameContentDir() . $file;
-
-        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
-                ->touch($path);
-    }
 
     /**
      * Add plugin
@@ -548,43 +480,15 @@ abstract class GameServer
         // A ceux installés sur le serveur
         return array_udiff($plugins, $this->getPlugins(), $intersectCallback);
     }
-
-    public function remove($path)
-    {
-        $path = $this->getAbsoluteGameContentDir() . $path;
-
-        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
-                ->remove($path);
-    }
-
-    public function rename($oldName, $newName)
-    {
-        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
-                ->getSFTP()
-                ->rename($oldName, $newName)
-        ;
-    }
-
-    public function createDirectory($dirpath)
-    {
-        $dirpath = $this->getAbsoluteGameContentDir() . $dirpath;
-
-        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
-                ->createDirectory($dirpath);
-    }
     
     public function getServerLogs()
     {
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
-        
-        return $sec->getScreenContent($this->getScreenName());
+        return $this->getMachine()->getConnection()->getScreenContent($this->getScreenName());
     }
     
     public function getInstallLogs()
     {
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
-        
-        return $sec->getScreenContent($this->getInstallScreenName());
+        return $this->getMachine()->getConnection()->getScreenContent($this->getInstallScreenName());
     }
     
     public function isInstallationEnded()
@@ -601,6 +505,9 @@ abstract class GameServer
         $this->setInstallationStatus(101);
     }
     
+    /**
+     * @todo: refacto domain logic
+     */
     public function installPlugin(\Twig_Environment $twig, Plugin $plugin)
     {
         throw new NotImplementedException();

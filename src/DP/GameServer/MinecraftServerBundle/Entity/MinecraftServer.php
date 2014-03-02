@@ -32,6 +32,9 @@ use PHPSeclibWrapper\Exception\MissingPacketException;
  *
  * @ORM\Table(name="minecraft_server")
  * @ORM\Entity(repositoryClass="DP\GameServer\GameServerBundle\Entity\GameServerRepository")
+ * 
+ * @todo: refacto phpseclib
+ * @todo: refacto domain logic
  */
 class MinecraftServer extends GameServer
 {
@@ -163,26 +166,23 @@ class MinecraftServer extends GameServer
      */
     public function installServer()
     {
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $conn = $this->getMachine()->getConnection();
 
-        if (!$sec->javaInstalled()) {
-            throw new MissingPacketException($sec, 'oracle-java8-installer');
+        if (!$conn->isJavaInstalled()) {
+            throw new MissingPacketException($conn, 'oracle-java8-installer');
         }
 
         $installDir = $this->getAbsoluteDir();
         $logPath = $installDir . 'install.log';
 
-        $mkdirCmd = 'if [ ! -e ' . $installDir . ' ]; then mkdir -p ' . $installDir . '; fi';
+        $conn->exec('if [ ! -e ' . $installDir . ' ]; then mkdir -p ' . $installDir . '; fi');
 
         $dlUrl = 'https://s3.amazonaws.com/MinecraftDownload/launcher/minecraft_server.jar';
         if ($this->game->getInstallName() == 'bukkit') {
             $dlUrl = 'http://dl.bukkit.org/latest-rb/craftbukkit.jar';
         }
 
-        $dlCmd = 'cd ' . $installDir . ' && wget -N -o ' . $logPath . ' ' . $dlUrl . ' &';
-
-        $sec->exec($mkdirCmd);
-        $sec->exec($dlCmd);
+        $conn->exec('cd ' . $installDir . ' && wget -N -o ' . $logPath . ' ' . $dlUrl . ' &');
 
         $this->installationStatus = 0;
     }
@@ -192,25 +192,21 @@ class MinecraftServer extends GameServer
         $installDir = $this->getAbsoluteDir();
         $logPath = $installDir . 'install.log';
         $binPath = $installDir . $this->getGame()->getBin();
+        $conn    = $this->getMachine()->getConnection();
         
-        $statusCmd = "if [ -d $installDir ]; then if [ -e $logPath ]; then echo 1; elif [ -e $binPath ]; then echo 2; else echo 0; fi; else echo 0; fi;"; 
-        
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
-        $status = intval($sec->exec($statusCmd));
+        $status = $conn->exec("if [ -d $installDir ]; then if [ -e $logPath ]; then echo 1; elif [ -e $binPath ]; then echo 2; else echo 0; fi; else echo 0; fi;");
 
         if ($status == 2) {
             return 100;
-        }
-        if ($status == 1) {
+        } elseif ($status == 1) {
             // On récupère les 20 dernières lignes du fichier afin de déterminer le pourcentage
-            $tailCmd = 'tail -n 20 ' . $logPath;
-            $installLog = $sec->exec($tailCmd);
-            $percent = $this->getPercentFromInstallLog($installLog);
+            $installLog = $conn->exec('tail -n 20 ' . $logPath);
+            $percent    = $this->getPercentFromInstallLog($installLog);
 
             if (!empty($percent)) {
                 // Suppression du fichier de log si le dl est terminé
                 if ($percent == 100) {
-                    $sec->exec('rm ' . $logPath);
+                    $conn->exec('rm ' . $logPath);
                 }
 
                 return $percent;
@@ -242,7 +238,7 @@ class MinecraftServer extends GameServer
 
     public function uploadShellScripts(\Twig_Environment $twig)
     {
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $conn = $this->getMachine()->getConnection();
         $game = $this->getGame();
 
         $scriptPath = $this->getAbsoluteDir() . 'minecraft.sh';
@@ -253,7 +249,7 @@ class MinecraftServer extends GameServer
             'parallelThreads' => 1, 'binDir' => $this->getAbsoluteBinDir(),
         ));
 
-        if (!$sec->upload($scriptPath, $minecraftScript, 0750)) {
+        if (!$conn->upload($scriptPath, $minecraftScript, 0750)) {
             return false;
         }
 
@@ -271,8 +267,7 @@ class MinecraftServer extends GameServer
     {
         $scriptPath = $this->getAbsoluteDir() . 'minecraft.sh';
 
-        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
-                ->exec($scriptPath . ' ' . $state);
+        return $this->getMachine()->getConnection()->exec($scriptPath . ' ' . $state);
     }
 
     public function uploadDefaultServerConfigurationFile()
@@ -280,11 +275,11 @@ class MinecraftServer extends GameServer
         $template = $this->getGame()->getConfigTemplate();
 
         if (!empty($template)) {
-            $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+            $conn = $this->getMachine()->getConnection();
             $cfgPath = $this->getAbsoluteDir() . 'server.properties';
 
             // Supression du fichier s'il existe déjà
-            $sec->exec('if [ -e ' . $cfgPath . ']; then rm ' . $cfgPath . '; fi');
+            $conn->exec('if [ -e ' . $cfgPath . ']; then rm ' . $cfgPath . '; fi');
 
             $env = new \Twig_Environment(new \Twig_Loader_String());
             $cfgFile = $env->render($template, array(
@@ -297,7 +292,7 @@ class MinecraftServer extends GameServer
                 'ip'            => $this->getMachine()->getPublicIp(),
             ));
 
-            return $sec->upload($cfgPath, $cfgFile, 0750);
+            return $conn->upload($cfgPath, $cfgFile, 0750);
         }
 
         return false;
@@ -319,10 +314,10 @@ class MinecraftServer extends GameServer
         );
 
         // Récupération du fichier server.properties distant
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $conn = $this->getMachine()->getConnection();
         $cfgPath = $this->getAbsoluteDir() . 'server.properties';
 
-        $remoteFile = $sec->getRemoteFile($cfgPath);
+        $remoteFile = $conn->getRemoteFile($cfgPath);
         $fileLines = explode("\n", $remoteFile);
 
         foreach ($fileLines AS &$line) {
@@ -352,7 +347,7 @@ class MinecraftServer extends GameServer
         }
 
         // Upload du nouveau fichier
-        return $sec->upload($cfgPath, implode("\n", $fileLines));
+        return $conn->upload($cfgPath, implode("\n", $fileLines));
     }
 
     public function execPluginScript(\Twig_Environment $twig, Plugin $plugin, $action)
@@ -360,23 +355,23 @@ class MinecraftServer extends GameServer
         if ($action != 'install' && $action != 'uninstall') {
             throw new BadMethodCallException('Only actions available for MinecraftServers plugin script are : install and uninstall.');
         }
-
+        
+        $conn = $this->getMachine->getConnection();
+        
         $dir = $this->getAbsoluteDir();
         $scriptPath = $dir . 'plugin.sh';
-
+        $pluginScript = $twig->render('DPMinecraftServerBundle:sh:plugin.sh.twig', array('gameDir' => $dir . 'plugins'));
+            
+        $conn->upload($scriptPath, $pluginScript);
+        
         $screenName = $this->getPluginInstallScreenName();
         $screenCmd  = 'screen -dmS ' . $screenName . ' ' . $scriptPath . ' ' . $action;
-
+        
         if ($action == 'install') {
             $screenCmd .= ' "' . $plugin->getDownloadUrl () . '"';
         }
-
-        $pluginScript = $twig->render(
-            'DPMinecraftServerBundle:sh:plugin.sh.twig', array('gameDir' => $dir . 'plugins'));
-
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
-        $sec->upload($scriptPath, $pluginScript);
-        $sec->exec($screenCmd);
+        
+        $conn->exec($screenCmd);
     }
 
     public function removeFromServer()
@@ -384,26 +379,22 @@ class MinecraftServer extends GameServer
         $screenName = $this->getScreenName();
         $serverDir = $this->getAbsoluteDir();
         $scriptPath = $serverDir . 'minecraft.sh';
-
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        
+        $conn = $this->getMachine->getConnection();
 
         // On commence par vérifier que le serveur n'est pas lancé (sinon on l'arrête)
         $pgrep   = '`ps aux | grep SCREEN | grep "' . $screenName . ' " | grep -v grep | wc -l`';
         $stopCmd = 'if [ ' . $pgrep . ' != "0" ]; then ' . $scriptPath . ' stop; fi;';
-        $sec->exec($stopCmd);
+        $conn->exec($stopCmd);
 
         // Puis on supprime complètement le dossier du serveur
-        $delCmd  = 'rm -Rf ' . $serverDir . ';';
-
-        return $sec->exec($delCmd);
+        return $conn->remove($serverDir);
     }
 
     public function removeInstallationFiles()
     {
-        $installDir = $this->getAbsoluteDir();
-        $logPath = $installDir . 'install.log';
+        $logPath = $this->getAbsoluteDir() . 'install.log';
 
-        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
-                ->exec('rm -f ' . $logPath);
+        return $this->getMachine()->getConnection()->remove($logPath);
     }
 }

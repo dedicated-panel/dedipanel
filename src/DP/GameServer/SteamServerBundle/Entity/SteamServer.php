@@ -32,6 +32,9 @@ use DP\GameServer\GameServerBundle\Exception\InstallAlreadyStartedException;
  *
  * @ORM\Table(name="steam_server")
  * @ORM\Entity(repositoryClass="DP\GameServer\GameServerBundle\Entity\GameServerRepository")
+ * 
+ * @todo: refacto phpseclib
+ * @todo: refacto domain logic
  */
 class SteamServer extends GameServer
 {
@@ -240,13 +243,13 @@ class SteamServer extends GameServer
      */
     public function installServer(\Twig_Environment $twig)
     {
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $conn = $this->getMachine()->getConnection();
 
         // S'il s'agit d'un serveur 64 bits on commence par vérifier si le paquet ia32-libs est présent
         // (nécessaire pour l'utilisation de l'installateur steam)
         if ($this->machine->getIs64Bit() === true) {
-            if ($sec->hasCompatLib() == false) {
-                throw new MissingPacketException($sec, 'ia32-libs');
+            if ($conn->hasCompatLib() == false) {
+                throw new MissingPacketException($conn, 'ia32-libs');
             }
         }
 
@@ -262,21 +265,20 @@ class SteamServer extends GameServer
             $installName = '' . $this->game->getappId() . '.' . $this->game->getappMod() .'';
         }
 
-        $mkdirCmd = 'if [ ! -e ' . $installDir . ' ]; then mkdir ' . $installDir . '; fi';
-        
-        $pgrep = '`ps aux | grep SCREEN | grep "' . $screenName . ' " | grep -v grep | wc -l`';
-        $screenCmd  = 'if [ ' . $pgrep . ' = "0" ]; then ';
-        $screenCmd .= 'screen -dmS "' . $screenName . '" ' . $scriptPath . ' "' . $steamCmd . '" "' . $installName . '" "' . $bin . '"; ';
-        $screenCmd .= 'else echo "Installation is already in progress."; fi; ';
+        $conn->exec('if [ ! -e ' . $installDir . ' ]; then mkdir ' . $installDir . '; fi');
 
         $installScript = $twig->render(
             'DPSteamServerBundle:sh:install.sh.twig',
             array('installDir'  => $installDir)
         );
 
-        $sec->exec($mkdirCmd);
-        $sec->upload($scriptPath, $installScript);
-        $result = $sec->exec($screenCmd);
+        $conn->upload($scriptPath, $installScript);
+        
+        $pgrep = '`ps aux | grep SCREEN | grep "' . $screenName . ' " | grep -v grep | wc -l`';
+        $screenCmd  = 'if [ ' . $pgrep . ' = "0" ]; then ';
+        $screenCmd .= 'screen -dmS "' . $screenName . '" ' . $scriptPath . ' "' . $steamCmd . '" "' . $installName . '" "' . $bin . '"; ';
+        $screenCmd .= 'else echo "Installation is already in progress."; fi; ';
+        $result = $conn->exec($screenCmd);
 
         if ($result == 'Installation is already in progress.') {
             throw new InstallAlreadyStartedException();
@@ -291,8 +293,7 @@ class SteamServer extends GameServer
         $scriptPath = $installDir . 'install.sh';
         $logPath = $installDir . 'install.log';
 
-        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
-                ->exec('rm -f ' . $scriptPath . ' ' . $logPath);
+        return $this->getMachine()->getConnection()->exec('rm -f ' . $scriptPath . ' ' . $logPath);
     }
 
     public function getInstallationProgress()
@@ -301,12 +302,12 @@ class SteamServer extends GameServer
         $logPath = $absDir . 'install.log';
         $logCmd = 'if [ -f ' . $logPath . ' ]; then cat ' . $logPath . '; else echo "File not found exception."; fi; ';
 
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
-        $installLog = $sec->exec($logCmd);
+        $conn = $this->getMachine()->getConnection();
+        $installLog = $conn->exec($logCmd);
 
         if (strpos($installLog, 'Install ended') !== false) {
             // Si l'installation est terminé, on supprime le fichier de log et le script
-            $sec->exec('rm -f ' . $absDir . 'install.log ' . $absDir . 'install.sh');
+            $conn->exec('rm -f ' . $absDir . 'install.log ' . $absDir . 'install.sh');
            // 100 = serveur installé
            // 101 = serveur installé + config uploadé
            return 100;
@@ -315,7 +316,7 @@ class SteamServer extends GameServer
             return null;
         }
         elseif (strpos($installLog, 'Game install') !== false) {
-            $screenContent = $sec->getScreenContent($this->getInstallScreenName());
+            $screenContent = $conn->getScreenContent($this->getInstallScreenName());
 
             if ($screenContent == 'No screen session found.') return null;
             else {
@@ -390,7 +391,7 @@ class SteamServer extends GameServer
 
     public function uploadHldsScript(\Twig_Environment $twig)
     {
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $conn = $this->getMachine()->getConnection();
         $game = $this->getGame();
 
         $scriptPath = $this->getAbsoluteHldsScriptPath();
@@ -437,18 +438,16 @@ class SteamServer extends GameServer
             ''
         ));
 
-        $uploadHlds = $sec->upload($scriptPath, $hldsScript, 0750);
-
-        return $uploadHlds;
+        return $conn->upload($scriptPath, $hldsScript, 0750);
     }
 
     public function uploadHltvScript(\Twig_Environment $twig)
     {
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $conn = $this->getMachine()->getConnection();
         $scriptPath = $this->getAbsoluteDir() . 'hltv.sh';
 
         // Supression du fichier (s'il exsite déjà)
-        $sec->exec('if [ -e ' . $scriptPath . ' ]; then rm ' . $scriptPath . '; fi');
+        $conn->exec('if [ -e ' . $scriptPath . ' ]; then rm ' . $scriptPath . '; fi');
 
         // Création du fichier hltv.sh (uniquement si c'est un jeu GoldSrc)
         if ($this->getGame()->getBin() == 'hlds_run') {
@@ -456,7 +455,7 @@ class SteamServer extends GameServer
                 'binDir' => $this->getAbsoluteBinDir(),
                 'screenName' => $this->getHltvScreenName(),
             ));
-            $uploadHltv = $sec->upload($scriptPath, $hltvScript, 0750);
+            $uploadHltv = $conn->upload($scriptPath, $hltvScript, 0750);
         }
         else {
             $uploadHltv = true;
@@ -467,19 +466,17 @@ class SteamServer extends GameServer
 
     public function createDefaultServerCfgFile()
     {
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $conn = $this->getMachine()->getConnection();
         $cfgPath = $this->getServerCfgPath();
 
         if ($this->getGame()->getLaunchName() == 'csgo') {
             $file = $this->getAbsoluteGameContentDir() . 'gamemodes_server.txt';
             
-            $ret = $sec->exec('if [ ! -e ' . $file . ' ] && [ -e ' . $file . '.example ]; then mv ' . $file . '.example ' . $file . '; fi');
-            
-            return $ret;
+            return $conn->exec('if [ ! -e ' . $file . ' ] && [ -e ' . $file . '.example ]; then mv ' . $file . '.example ' . $file . '; fi');
         }
         else {
             // On créer un fichier server.cfg si aucun n'existe
-            return $sec->exec('if [ ! -e ' . $cfgPath . ' ]; then touch ' . $cfgPath . '; fi');
+            return $conn->exec('if [ ! -e ' . $cfgPath . ' ]; then touch ' . $cfgPath . '; fi');
         }
     }
 
@@ -488,7 +485,7 @@ class SteamServer extends GameServer
         $template = $this->getGame()->getConfigTemplate();
 
         if (!empty($template)) {
-            $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+            $conn = $this->getMachine()->getConnection();
             $cfgPath = $this->getServerCfgPath();
 
             $env = new \Twig_Environment(new \Twig_Loader_String());
@@ -498,7 +495,7 @@ class SteamServer extends GameServer
                 'svPassword' => $this->getSvPassword(), 
             ));
 
-            return $sec->upload($cfgPath, $cfgFile, 0750);
+            return $conn->upload($cfgPath, $cfgFile, 0750);
         }
 
         return false;
@@ -506,10 +503,10 @@ class SteamServer extends GameServer
 
     public function modifyServerCfgFile()
     {
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $conn = $this->getMachine()->getConnection();
         $cfgPath = $this->getServerCfgPath();
 
-        $remoteFile = $sec->getRemoteFile($cfgPath);
+        $remoteFile = $conn->getRemoteFile($cfgPath);
         $fileLines = explode("\n", $remoteFile);
         
         $patterns = array(
@@ -543,13 +540,16 @@ class SteamServer extends GameServer
         }
 
         // Upload du nouveau fichier
-        return $sec->upload($cfgPath, implode("\n", $fileLines));
+        return $conn->upload($cfgPath, implode("\n", $fileLines));
     }
 
     public function changeStateServer($state)
     {
-        return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
-                ->exec($this->getAbsoluteHldsScriptPath() . ' ' . $state);
+        return $this
+                ->getMachine()
+                ->getConnection()
+                ->exec($this->getAbsoluteHldsScriptPath() . ' ' . $state)
+        ;
     }
     
     public function installPlugin(\Twig_Environment $twig, Plugin $plugin)
@@ -568,7 +568,7 @@ class SteamServer extends GameServer
             throw new \BadMethodCallException('Only actions available for SteamServers plugin scripts are : install, uninstall, activate and deactivate.');
         }
 
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $conn = $this->getMachine()->getConnection();
 
         // En cas d'installation, vérification des dépendances du plugin
         if ($action == 'install') {
@@ -578,13 +578,13 @@ class SteamServer extends GameServer
                 $missingPackets = array();
 
                 foreach ($packetDependencies AS $dep) {
-                    if (!$sec->isPacketInstalled($dep)) {
+                    if (!$conn->isPacketInstalled($dep)) {
                         $missingPackets[] = $dep;
                     }
                 }
 
                 if (!empty($missingPackets)) {
-                    throw new MissingPacketException($sec, $missingPackets);
+                    throw new MissingPacketException($conn, $missingPackets);
                 }
             }
         }
@@ -593,18 +593,18 @@ class SteamServer extends GameServer
         $scriptName = $plugin->getScriptName();
         $scriptPath = $dir . $scriptName . '.sh';
 
+        $pluginScript = $twig->render(
+            'DPSteamServerBundle:sh:Plugin/' . $scriptName . '.sh.twig', array('gameDir' => $dir));
+        $conn->upload($scriptPath, $pluginScript);
+
         $screenName = $this->getPluginInstallScreenName($scriptName);
         $screenCmd  = 'screen -dmS ' . $screenName . ' ' . $scriptPath . ' ' . $action;
 
         if ($action == 'install') {
-            $screenCmd .= ' "' . $plugin->getDownloadUrl () . '"';
+            $screenCmd .= ' "' . $plugin->getDownloadUrl() . '"';
         }
 
-        $pluginScript = $twig->render(
-            'DPSteamServerBundle:sh:Plugin/' . $scriptName . '.sh.twig', array('gameDir' => $dir));
-
-        $sec->upload($scriptPath, $pluginScript);
-        $sec->exec($screenCmd);
+        $conn->exec($screenCmd);
     }
 
     public function getHltvScreenName()
@@ -616,11 +616,13 @@ class SteamServer extends GameServer
 
     public function getHltvStatus()
     {
-        $status = PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
-                ->getSSH()->exec($this->getAbsoluteBinDir() . 'hltv.sh status');
+        $status = $this->getMachine()->getConnection()->exec($this->getAbsoluteBinDir() . 'hltv.sh status');
 
-        if (trim($status) == 'HLTV running.') return true;
-        else return false;
+        if (trim($status) == 'HLTV running.') {
+            return true;
+        }
+        
+        return false;
     }
 
     public function startHltv($servIp, $servPort, $password = null, $record = null, $reload = false)
@@ -649,8 +651,7 @@ class SteamServer extends GameServer
                 $cmd .= ' ' . $record;
             }
 
-            return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
-                ->getSSH()->exec($cmd);
+            return $this->getMachine()->getConnection()->exec($cmd);
         }
     }
 
@@ -660,8 +661,7 @@ class SteamServer extends GameServer
             return $this->getRcon()->sendCmd('tv_enable 0; tv_stop');
         }
         else {
-            return PHPSeclibWrapper::getFromMachineEntity($this->getMachine())
-                ->exec($this->getAbsoluteBinDir() . 'hltv.sh stop');
+            return $this->getMachine()->getConnection()->exec($this->getAbsoluteBinDir() . 'hltv.sh stop');
         }
     }
 
@@ -709,25 +709,25 @@ class SteamServer extends GameServer
         $scriptPath = $this->getAbsoluteHldsScriptPath();
         $serverPath = $this->getAbsoluteDir();
 
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $conn = $this->getMachine()->getConnection();
 
         // On commence par vérifier que le serveur n'est pas lancé (sinon on l'arrête)
         $pgrep   = '`ps aux | grep SCREEN | grep "' . $screenName . ' " | grep -v grep | wc -l`';
         $stopCmd = 'if [ ' . $pgrep . ' != "0" ]; then ' . $scriptPath . ' stop; fi; ';
-        $sec->exec($stopCmd);
+        $conn->exec($stopCmd);
 
         // Puis on supprime complètement le dossier du serveur
         $delCmd  = 'rm -Rf ' . $serverPath;
 
-        return $sec->exec($delCmd);
+        return $conn->exec($delCmd);
     }
     
     public function modifyGameModesCfg()
     {
-        $sec = PHPSeclibWrapper::getFromMachineEntity($this->getMachine());
+        $conn = $this->getMachine()->getConnection();
         $file = $this->getAbsoluteGameContentDir() . 'gamemodes_server.txt';
         
-        $content = $sec->getRemoteFile($file);
+        $content = $conn->download($file);
         $fileLines = explode("\r\n", $content);
         
         foreach ($fileLines AS &$line) {
@@ -740,7 +740,7 @@ class SteamServer extends GameServer
         }
         
         // Upload du nouveau fichier
-        return $sec->upload($file, implode("\r\n", $fileLines));
+        return $conn->upload($file, implode("\r\n", $fileLines));
     }
     
     public function regenerateScripts(\Twig_Environment $twig)

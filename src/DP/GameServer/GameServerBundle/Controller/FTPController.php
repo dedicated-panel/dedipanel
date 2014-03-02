@@ -16,10 +16,10 @@ use DP\GameServer\GameServerBundle\FTP\File;
 use DP\GameServer\GameServerBundle\FTP\Directory;
 use DP\GameServer\GameServerBundle\FTP\AbstractItem;
 use DP\GameServer\GameServerBundle\Exception\InvalidPathException;
-use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 
 /**
  * @todo: Apply criteria & sorting
+ * @todo: refacto phpseclib
  */
 class FTPController extends ResourceController
 {
@@ -401,7 +401,7 @@ class FTPController extends ResourceController
     
     public function retrievePathStat($path)
     {
-        $sftp = PHPSeclibWrapper::getFromMachineEntity($this->server->getMachine())->getSFTP();
+        $sftp = $this->server->getMachine()->getConnection()->getSFTP();
         $stat = $sftp->stat($this->server->getAbsoluteGameContentDir() . $path);
         
         $type = null;
