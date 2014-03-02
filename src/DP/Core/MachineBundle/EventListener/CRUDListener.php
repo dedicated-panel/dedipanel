@@ -8,6 +8,10 @@ use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 use DP\Core\MachineBundle\Entity\Machine;
 use Doctrine\Common\Persistence\ObjectManager;
 
+/**
+ * @todo: refacto phpseclib
+ * @todo: refacto getMachineInfos (cf MachineController)
+ */
 class CRUDListener implements EventSubscriberInterface
 {
     private $em;

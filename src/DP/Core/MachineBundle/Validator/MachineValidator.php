@@ -22,6 +22,7 @@ class MachineValidator
         if ($context->getViolations() === 0) {
             $havePassword = null !== $machine->getPassword();
             
+            // @todo: refacto phpseclib
             $secure = PHPSeclibWrapper::getFromMachineEntity($machine, !$havePassword);
             
             if ($havePassword) {

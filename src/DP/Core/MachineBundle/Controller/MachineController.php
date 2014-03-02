@@ -21,13 +21,13 @@
 namespace DP\Core\MachineBundle\Controller;
 
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
-use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 use DP\Core\MachineBundle\Entity\Machine;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Machine controller.
- *
+ * 
+ * @todo: refacto retrieveNbCore
  */
 class MachineController extends ResourceController
 {
@@ -41,23 +41,20 @@ class MachineController extends ResourceController
         $test = false;
         $compatLib = false;
         $javaInstalled = false;
-
-        try {
-            $secure = PHPSeclibWrapper::getFromMachineEntity($machine);
-            $test = $secure->connectionTest();
-
-            $this->getMachineInfos($secure, $machine);
-            $is64Bit = $machine->getIs64Bit();
-
-            if ($is64Bit) {
+        
+        $test = $machine->getConnection()->connectionTest();
+        
+        if ($test == true) {
+            $this->getMachineInfos($machine);
+    
+            if ($machine->getIs64Bit()) {
                 $compatLib = $secure->hasCompatLib();
             }
-
+    
             $javaInstalled = $secure->javaInstalled();
-
+    
             $this->domainManager->update($machine);
         }
-        catch (PHPSeclibWrapper\Exception\ConnectionErrorException $e) {}
         
         $view = $this
             ->view()
@@ -73,10 +70,12 @@ class MachineController extends ResourceController
         return $this->handleView($view);
     }
     
-    private function getMachineInfos(PHPSeclibWrapper $secure, Machine $machine)
+    private function getMachineInfos(Machine $machine)
     {
-        $machine->setHome($secure->getHome());
-        $machine->setNbCore($machine->retrieveNbCore()); // @todo: refacto retrieveNbCore
-        $machine->setIs64bit($secure->is64bitSystem());
+        $conn = $machine->getConnection();
+        
+        $machine->setHome($conn->getHome());
+        $machine->setNbCore($conn->retrieveNbCore()); // @todo: refacto retrieveNbCore
+        $machine->setIs64bit($conn->is64bitSystem());
     }
 }
