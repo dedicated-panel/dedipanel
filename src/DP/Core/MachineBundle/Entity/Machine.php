@@ -27,6 +27,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\GroupInterface;
 use Dedipanel\PHPSeclibWrapperBundle\Server\AbstractServer;
+use Dedipanel\PHPSeclibWrapperBundle\Connection\ConnectionInterface;
 
 /**
  * DP\Core\MachineBundle\Entity\Machine
@@ -128,6 +129,11 @@ class Machine extends AbstractServer
      * )
      */
     protected $groups;
+    
+    /**
+     * @var \Dedipanel\PHPSeclibWrapperBundle\Connection\ConnectionInterface $connection
+     */
+    private $connection;
     
     
     public function __construct()
@@ -336,6 +342,18 @@ class Machine extends AbstractServer
         }
 
         return $this;
+    }
+    
+    public function setConnection(ConnectionInterface $connection)
+    {
+        $this->connection = $connection;
+        
+        return $this;
+    }
+    
+    public function getConnection()
+    {
+        return $this->connection;
     }
     
     public static function loadValidatorMetadata(ClassMetadata $metadata)

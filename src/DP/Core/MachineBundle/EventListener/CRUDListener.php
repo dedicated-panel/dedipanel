@@ -8,7 +8,7 @@ use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 use DP\Core\MachineBundle\Entity\Machine;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class MachineListener implements EventSubscriberInterface
+class CRUDListener implements EventSubscriberInterface
 {
     private $em;
     
