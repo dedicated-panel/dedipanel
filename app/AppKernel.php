@@ -30,6 +30,8 @@ class AppKernel extends Kernel
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             
+            new Dedipanel\PHPSeclibWrapperBundle\DedipanelPHPSeclibWrapperBundle(), 
+            
             new DP\Core\UserBundle\DPUserBundle(),
             new DP\Core\GameBundle\DPGameBundle(),
             new DP\Core\MachineBundle\DPMachineBundle(),
