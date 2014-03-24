@@ -5,6 +5,7 @@ namespace DP\Core\UserBundle\Voter;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use DP\Core\UserBundle\Entity\GroupRepository;
+use DP\Core\UserBundle\Entity\Group;
 
 class GroupAssignableVoter implements VoterInterface
 {
@@ -35,7 +36,17 @@ class GroupAssignableVoter implements VoterInterface
                 return $el->getRole();
             }, $token->getRoles());
             
-            if (array_intersect(iterator_to_array($object->getGroups()), $this->repo->getAccessibleGroups($token->getUser()->getGroups())) !== array() || in_array('ROLE_SUPER_ADMIN', $roles)) {
+            $groups = array();
+            
+            if ($object instanceof Group) {
+                $groups = array($object);
+            }
+            else {
+                $groups = iterator_to_array($object->getGroups());
+            }
+            
+            if (array_intersect($groups, $this->repo->getAccessibleGroups($token->getUser()->getGroups())) !== array() 
+            || in_array('ROLE_SUPER_ADMIN', $roles)) {
                 return VoterInterface::ACCESS_GRANTED;
             }
             else {

@@ -32,13 +32,6 @@ services:
         tags:
             - { name: form.type, alias: dedipanel_group }
     
-    dedipanel.security.voter.group_voter:
-        class: DP\Core\UserBundle\Voter\GroupVoter
-        arguments: [ @dedipanel.repository.group.nested_tree ]
-        public: false
-        tags:
-            - { name: security.voter, priority: -255 }
-    
     dedipanel.security.voter.group_assignable_voter:
         class: DP\Core\UserBundle\Voter\GroupAssignableVoter
         arguments: [ @dedipanel.repository.group.nested_tree ]
