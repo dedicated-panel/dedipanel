@@ -47,7 +47,7 @@ services:
             - { name: security.voter, priority: -255 }
     
     dedipanel.machine.listener.model:
-        class: DP\GameServer\GameServerBundle\EventListener\ModelListener
+        class: DP\Core\MachineBundle\EventListener\ModelListener
         arguments: [ @dedipanel.connection_manager ]
         tags: 
             - { name: doctrine.event_listener, event: postLoad, method: postLoad }
