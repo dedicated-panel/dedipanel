@@ -26,7 +26,7 @@ use DP\GameServer\GameServerBundle\Entity\GameServer;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\GroupInterface;
-use Dedipanel\PHPSeclibWrapperBundle\Server\AbstractServer;
+use Dedipanel\PHPSeclibWrapperBundle\Server\Server;
 use Dedipanel\PHPSeclibWrapperBundle\Connection\ConnectionInterface;
 
 /**
@@ -35,7 +35,7 @@ use Dedipanel\PHPSeclibWrapperBundle\Connection\ConnectionInterface;
  * @ORM\Table(name="machine")
  * @ORM\Entity(repositoryClass="DP\Core\MachineBundle\Entity\MachineRepository")
  */
-class Machine extends AbstractServer
+class Machine extends Server
 {
     /**
      * @var integer $id
@@ -44,82 +44,82 @@ class Machine extends AbstractServer
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
     
     /**
      * @var bigint $privateIp
      *
      * @ORM\Column(name="privateIp", type="string", length=15, nullable=true)
      */
-    private $privateIp;
+    protected $privateIp;
     
     /**
      * @var bigint $publicIp
      *
      * @ORM\Column(name="publicIp", type="string", length=15, nullable=true)
      */
-    private $publicIp;
+    protected $publicIp;
     
     /**
      * @var integer $port
      *
      * @ORM\Column(name="port", type="integer")
      */
-    private $port = 22;
+    protected $port = 22;
     
     /**
      * @var string $username
      *
      * @ORM\Column(name="username", type="string", length=16)
      */
-    private $username;
+    protected $username;
     
     /**
      * @var string $password
      */
-    private $password;
+    protected $password;
     
     /**
      * @var string $privateKey
      *
      * @ORM\Column(name="privateKey", type="string", length=23)
      */
-    private $privateKeyFilename;
+    protected $privateKey;
     
     /**
      * @var string $publicKey
      *
      * @ORM\Column(name="publicKey", type="string", length=255, nullable=true)
      */
-    private $publicKey;
+    protected $publicKey;
     
     /**
      * @var string $home
      *
      * @ORM\Column(name="home", type="string", length=255, nullable=true)
      */
-    private $home;
+    protected $home;
     
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection $gameServers
      *
      * @ORM\OneToMany(targetEntity="DP\GameServer\GameServerBundle\Entity\GameServer", mappedBy="machine", cascade={"persist"})
      */
-    private $gameServers;
+    protected $gameServers;
     
     /**
      * @var integer
      *
      * @ORM\Column(name="nbCore", type="integer", nullable=true)
      */
-    private $nbCore;
+    protected $nbCore;
     
     /**
      * @var boolean
      *
      * @ORM\Column(name="is64bit", type="boolean")
      */
-    private $is64bit = false;
+    protected $is64bit = false;
     
     /**
      * @ORM\ManyToMany(targetEntity="DP\Core\UserBundle\Entity\Group")
@@ -133,7 +133,7 @@ class Machine extends AbstractServer
     /**
      * @var \Dedipanel\PHPSeclibWrapperBundle\Connection\ConnectionInterface $connection
      */
-    private $connection;
+    protected $connection;
     
     
     public function __construct()
@@ -153,34 +153,6 @@ class Machine extends AbstractServer
     }
 
     /**
-     * Set privateIp
-     *
-     * @param bigint $privateIp
-     */
-    public function setPrivateIp($privateIp)
-    {
-        $this->privateIp = $privateIp;
-    }
-
-    /**
-     * Get privateIp
-     *
-     * @return bigint
-     */
-    public function getPrivateIp()
-    {
-        return $this->privateIp;
-    }
-    
-    /**
-     * @{inheritDoc}
-     */
-    public function getServerIP()
-    {
-        return $this->privateIp;
-    }
-
-    /**
      * Set publicIp
      *
      * @param bigint $publicIp
@@ -197,29 +169,7 @@ class Machine extends AbstractServer
      */
     public function getPublicIp()
     {
-        if (empty($this->publicIp)) {
-            return $this->privateIp;
-        }
-        
         return $this->publicIp;
-    }
-
-    /**
-     * Set filename of the private key
-     *
-     * @param string $privateKeyFilename
-     */
-    public function setPrivateKeyFilename($privateKeyFilename) {
-        $this->privateKeyFilename = $privateKeyFilename;
-    }
-
-    /**
-     * Get filename of the private key
-     *
-     * @return string
-     */
-    public function getPrivateKeyFilename() {
-        return $this->privateKeyFilename;
     }
 
     /**
@@ -241,11 +191,7 @@ class Machine extends AbstractServer
     {
         return $this->publicKey;
     }
-
-    public function __toString() {
-        return $this->username . '@' . $this->privateIp . ':' . $this->port;
-    }
-
+    
     public function addGameServer(GameServer $srv)
     {
         $srv->setMachine($this);
@@ -368,8 +314,8 @@ class Machine extends AbstractServer
         )));
         $metadata->addPropertyConstraint('user', new Assert\NotBlank(array('message' => 'machine.assert.user')));
         $metadata->addConstraint(new Assert\Callback(array('methods' => array(
-            array('DP\Core\MachineBundle\Validator\MachineValidator', 'validateNotEmptyPassword'),
-            array('DP\Core\MachineBundle\Validator\MachineValidator', 'validateCredentials'),  
+            array($this, 'validateNotEmptyPassword'),
+            array($this, 'validateCredentials'),  
         ))));
     }
 }

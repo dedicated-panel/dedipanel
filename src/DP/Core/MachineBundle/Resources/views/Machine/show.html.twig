@@ -24,7 +24,7 @@
                 <th>{{ 'machine.fields.private_ip'|trans }}</th>
                 <th>{{ 'machine.fields.public_ip'|trans }}</th>
                 <th>{{ 'machine.fields.port'|trans }}</th>
-                <th>{{ 'machine.fields.user'|trans }}</th>
+                <th>{{ 'machine.fields.username'|trans }}</th>
                 <th>{{ 'machine.fields.home'|trans }}</th>
                 <th>{{ 'machine.fields.is_priv_key_already_generated'|trans }}</th>
                 <th>{{ 'machine.fields.nb_core'|trans }}</th>
@@ -37,7 +37,7 @@
                 <td>{{ machine.privateIp }}</td>
                 <td>{{ machine.publicIp }}</td>
                 <td>{{ machine.port }}</td> 
-                <td>{{ machine.user }}</td>
+                <td>{{ machine.username }}</td>
                 <td>{{ machine.home }}</td>                
                 <td>{% if machine.privateKeyFilename|length > 0 %}
                         {{ 'dedipanel.yes'|trans }}

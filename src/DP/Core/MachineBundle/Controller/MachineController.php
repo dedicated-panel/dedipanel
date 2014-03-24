@@ -45,7 +45,11 @@ class MachineController extends ResourceController
         $test = $machine->getConnection()->connectionTest();
         
         if ($test == true) {
-            $this->getMachineInfos($machine);
+            $conn = $machine->getConnection();
+            
+            $machine->setHome($conn->getHome());
+            $machine->setNbCore($conn->retrieveNbCore()); // @todo: refacto retrieveNbCore
+            $machine->setIs64bit($conn->is64bitSystem());
     
             if ($machine->getIs64Bit()) {
                 $compatLib = $secure->hasCompatLib();
@@ -68,14 +72,5 @@ class MachineController extends ResourceController
         ;
 
         return $this->handleView($view);
-    }
-    
-    private function getMachineInfos(Machine $machine)
-    {
-        $conn = $machine->getConnection();
-        
-        $machine->setHome($conn->getHome());
-        $machine->setNbCore($conn->retrieveNbCore()); // @todo: refacto retrieveNbCore
-        $machine->setIs64bit($conn->is64bitSystem());
     }
 }
