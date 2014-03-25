@@ -35,8 +35,6 @@ class CRUDListener implements EventSubscriberInterface
         $machine = $event->getSubject();
         
         if ($machine->getPassword() !== null) {
-            $secure = PHPSeclibWrapper::getFromMachineEntity($machine, false);
-            
             if ($machine->getPublicKey() !== null) {
                 $secure->deleteKeyPair($machine->getPublicKey());
             }

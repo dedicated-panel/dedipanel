@@ -16,9 +16,9 @@
 
 machine:
   assert:
-    privateIp: Vous devez indiquer une adresse IP valide.
-    publicIp: Vous devez indiquer une adresse IP publique valide.
+    ip: Vous devez indiquer une adresse IP valide.
+    public_ip: Vous devez indiquer une adresse IP publique valide.
     port: Vous devez indiquer un port compris entre 1 et 65536.
-    user: Vous devez indiquer un nom d'utilisateur
+    username: Vous devez indiquer un nom d'utilisateur
     password: Vous devez indiquer le mot de passe de cet utilisateur.
     bad_credentials: "Impossible de se connecter au serveur. Veuillez vérifier l'adresse ip, le port ainsi que le nom d'utilisateur et le mot de passe."

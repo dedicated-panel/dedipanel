@@ -25,7 +25,7 @@ machine.edit: Edit
 machine.del: Delete
 
 machine.id: ID
-machine.privateIp: Private IP
+machine.ip: Private IP
 machine.publicIp: Public IP
 machine.port: Port
 machine.user: User

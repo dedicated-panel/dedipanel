@@ -31,14 +31,6 @@ services:
         tags:
             - { name: kernel.event_subscriber }
     
-    dedipanel.machine.listener.configModifier:
-        class: DP\Core\MachineBundle\Listener\ConfigModifier
-        arguments: [ @service_container ]
-        calls:
-            - [ setServiceContainer, [ @service_container ] ]
-        tags:
-            - { name: doctrine.event_listener, event: preUpdate, method: preUpdate }
-    
     dedipanel.security.voter.machine_assignable_voter:
         class: DP\Core\MachineBundle\Voter\MachineAssignableVoter
         arguments: [ @dedipanel.repository.group.nested_tree ]
@@ -48,6 +40,12 @@ services:
     
     dedipanel.machine.listener.model:
         class: DP\Core\MachineBundle\EventListener\ModelListener
-        arguments: [ @dedipanel.connection_manager ]
+        arguments: [ @service_container ]
         tags: 
             - { name: doctrine.event_listener, event: postLoad, method: postLoad }
+    
+    dedipanel.machine.validator.credentials:
+        class: DP\Core\MachineBundle\Validator\CredentialsValidator
+        arguments: [ @dedipanel.connection_manager ]
+        tags:
+            - { name: validator.constraint_validator, alias: "machine_credentials_validator" }

@@ -28,10 +28,10 @@ abstract class BaseMachineType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('privateIp', 'text', array('label' => 'machine.fields.private_ip'))
+            ->add('ip', 'text', array('label' => 'machine.fields.ip'))
             ->add('publicIp', 'text', array('label' => 'machine.fields.public_ip', 'required' => false))
             ->add('port', 'number', array('label' => 'machine.fields.port'))
-            ->add('user', 'text', array('label' => 'machine.fields.user'))
+            ->add('username', 'text', array('label' => 'machine.fields.username'))
         ;
     }
 }

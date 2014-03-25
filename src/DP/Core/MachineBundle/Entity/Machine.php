@@ -28,6 +28,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\GroupInterface;
 use Dedipanel\PHPSeclibWrapperBundle\Server\Server;
 use Dedipanel\PHPSeclibWrapperBundle\Connection\ConnectionInterface;
+use DP\Core\MachineBundle\Validator\CredentialsConstraint;
+use Symfony\Component\Validator\ExecutionContextInterface;
 
 /**
  * DP\Core\MachineBundle\Entity\Machine
@@ -47,11 +49,11 @@ class Machine extends Server
     protected $id;
     
     /**
-     * @var bigint $privateIp
+     * @var bigint $ip
      *
      * @ORM\Column(name="privateIp", type="string", length=15, nullable=true)
      */
-    protected $privateIp;
+    protected $ip;
     
     /**
      * @var bigint $publicIp
@@ -304,7 +306,7 @@ class Machine extends Server
     
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('privateIp', new Assert\Ip(array('message' => 'machine.assert.privateIp')));
+        $metadata->addPropertyConstraint('ip', new Assert\Ip(array('message' => 'machine.assert.ip')));
         $metadata->addPropertyConstraint('publicIp', new Assert\Ip(array('message' => 'machine.assert.publicIp')));
         $metadata->addPropertyConstraint('port', new Assert\Range(array(
             'min' => 1, 
@@ -312,10 +314,17 @@ class Machine extends Server
             'max' => 65536, 
             'maxMessage' => 'machine.assert.port', 
         )));
-        $metadata->addPropertyConstraint('user', new Assert\NotBlank(array('message' => 'machine.assert.user')));
-        $metadata->addConstraint(new Assert\Callback(array('methods' => array(
-            array($this, 'validateNotEmptyPassword'),
-            array($this, 'validateCredentials'),  
-        ))));
+        $metadata->addPropertyConstraint('username', new Assert\NotBlank(array('message' => 'machine.assert.username')));
+        $metadata->addConstraint(new Assert\Callback(array(
+            'methods' => array('validateNotEmptyPassword'),
+        )));
+        $metadata->addConstraint(new CredentialsConstraint);
+    }
+    
+    public function validateNotEmptyPassword(ExecutionContextInterface $context)
+    {
+        if (null === $this->getId() && null === $this->getPassword()) {
+            $context->addViolation('machine.assert.password');
+        }
     }
 }

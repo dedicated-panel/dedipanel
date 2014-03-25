@@ -26,7 +26,7 @@ machine.actions.connection_test: Tester
 machine.actions.retry: Réessayer
 
 machine.fields.id: ID
-machine.fields.private_ip: IP Privée
+machine.fields.ip: IP Privée
 machine.fields.public_ip: IP Publique
 machine.fields.port: Port
 machine.fields.username: Utilisateur

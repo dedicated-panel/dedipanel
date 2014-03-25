@@ -37,7 +37,7 @@
             <p class="alert-heading">{{ 'machine.test.failed'|trans }}</p>
             
             <p>
-                <a class="btn btn-danger" href="{{ path('dedipanel_machine_edit', {id: machine.id}) }}">{{ 'machine.actions.edit'|trans }}</a>   
+                <a class="btn btn-danger" href="{{ path('dedipanel_machine_update', {id: machine.id}) }}">{{ 'machine.actions.edit'|trans }}</a>   
                 <a class="btn" href="{{ path('dedipanel_machine_connection_test', {id: machine.id}) }}">{{ 'machine.actions.retry'|trans }}</a>
             </p>
         </div>
