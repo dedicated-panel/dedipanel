@@ -24,7 +24,8 @@ class GroupAssignableVoter implements VoterInterface
     public function supportsClass($class)
     {
         return in_array($class, array(
-            'DP\Core\UserBundle\Entity\User', 
+            'DP\Core\UserBundle\Entity\User',
+            'DP\Core\UserBundle\Entity\Group',  
             'DP\Core\MachineBundle\Entity\Machine', 
         ));
     }
@@ -36,12 +37,9 @@ class GroupAssignableVoter implements VoterInterface
                 return $el->getRole();
             }, $token->getRoles());
             
-            $groups = array();
+            $groups = array($object);
             
-            if ($object instanceof Group) {
-                $groups = array($object);
-            }
-            else {
+            if (!$object instanceof Group) {
                 $groups = iterator_to_array($object->getGroups());
             }
             
