@@ -48,4 +48,9 @@
             </p>
         </div>
     {% endif %}
+
+    <p>
+        <a class="btn btn-primary" href="{{ path('dedipanel_machine_connection_test', {'id': machine.id}) }}">Relancer le test</a>
+        <a class="btn" href="{{ path('dedipanel_machine_show', {'id': machine.id}) }}">Retour</a>
+    </p>
 {% endblock %}
