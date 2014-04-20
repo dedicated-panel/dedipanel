@@ -30,7 +30,7 @@ class EditMachineType extends BaseMachineType
         parent::buildForm($builder, $options);
         
         $builder
-            ->add('password', 'password', array('label' => 'machine.password', 'required' => false))
+            ->add('password', 'password', array('label' => 'machine.fields.password', 'required' => false))
             ->add('groups', 'dedipanel_group_assignement')
         ;
     }

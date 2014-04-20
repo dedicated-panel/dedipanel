@@ -14,4 +14,4 @@ nbproject/
 src/DP/Core/MachineBundle/Resources/config/.ssh/*
 .settings
 .project
-
+.idea/

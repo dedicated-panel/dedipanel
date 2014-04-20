@@ -2,23 +2,21 @@
 
 namespace DP\Core\MachineBundle\EventListener;
 
+use Dedipanel\PHPSeclibWrapperBundle\Connection\ConnectionManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Sylius\Bundle\ResourceBundle\Event\ResourceEvent;
-use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
-use DP\Core\MachineBundle\Entity\Machine;
 use Doctrine\Common\Persistence\ObjectManager;
+use Sylius\Bundle\ResourceBundle\Event\ResourceEvent;
+use Dedipanel\PHPSeclibWrapperBundle\Helper\KeyHelper;
 
-/**
- * @todo: refacto phpseclib
- * @todo: refacto getMachineInfos (cf MachineController)
- */
 class CRUDListener implements EventSubscriberInterface
 {
-    private $em;
+    private $helper;
+    private $manager;
     
-    public function __construct(ObjectManager $em)
+    public function __construct(KeyHelper $helper, ConnectionManagerInterface $manager)
     {
-        $this->em = $em;
+        $this->helper = $helper;
+        $this->manager = $manager;
     }
     
     public static function getSubscribedEvents()
@@ -35,39 +33,21 @@ class CRUDListener implements EventSubscriberInterface
         $machine = $event->getSubject();
         
         if ($machine->getPassword() !== null) {
-            if ($machine->getPublicKey() !== null) {
-                $secure->deleteKeyPair($machine->getPublicKey());
+            if ($machine->getPrivateKeyName() !== null) {
+                $this->helper->deleteKeyPair($machine);
             }
-    
-            $privkeyFilename = uniqid('', true);
-            $pubKey = $secure->createKeyPair($privkeyFilename);
-    
-            $machine->setPrivateKeyFilename($privkeyFilename);
-            $machine->setPublicKey($pubKey);
-    
-            $this->getMachineInfos($secure, $machine);
-            
-            $this->em->persist($machine);
+
+            $this->helper->createKeyPair($machine);
+
+            $conn = $this->manager->getConnectionFromServer($machine);
+            $machine->setHome($conn->getHome());
+            $machine->setNbCore($conn->retrieveNbCore());
+            $machine->setIs64bit($conn->is64bitSystem());
         }
-    }
-    
-    private function getMachineInfos(PHPSeclibWrapper $secure, Machine $machine)
-    {
-        $machine->setHome($secure->getHome());
-        $machine->setNbCore($machine->retrieveNbCore()); // @todo: refacto retrieveNbCore
-        $machine->setIs64bit($secure->is64bitSystem());
     }
     
     public function deleteKeyPair(ResourceEvent $event)
     {
-        $machine = $event->getSubject();
-        
-        $secure = PHPSeclibWrapper::getFromMachineEntity($machine);
-        $secure->deleteKeyPair($machine->getPublicKey());
-        
-        foreach ($machine->getGameServers() AS $server) {
-            $machine->getGameServers()->removeElement($server);
-            $em->remove($server);
-        }
+        $this->helper->deleteKeyPair($event->getSubject());
     }
 }

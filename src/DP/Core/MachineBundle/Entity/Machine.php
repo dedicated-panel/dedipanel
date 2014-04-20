@@ -82,18 +82,11 @@ class Machine extends Server
     protected $password;
     
     /**
-     * @var string $privateKey
+     * @var string $privateKeyName
      *
-     * @ORM\Column(name="privateKey", type="string", length=23)
+     * @ORM\Column(name="privateKeyName", type="string", length=23)
      */
-    protected $privateKey;
-    
-    /**
-     * @var string $publicKey
-     *
-     * @ORM\Column(name="publicKey", type="string", length=255, nullable=true)
-     */
-    protected $publicKey;
+    protected $privateKeyName;
     
     /**
      * @var string $home
@@ -105,7 +98,7 @@ class Machine extends Server
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection $gameServers
      *
-     * @ORM\OneToMany(targetEntity="DP\GameServer\GameServerBundle\Entity\GameServer", mappedBy="machine", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="DP\GameServer\GameServerBundle\Entity\GameServer", mappedBy="machine", cascade={"persist", "remove"})
      */
     protected $gameServers;
     
@@ -171,6 +164,10 @@ class Machine extends Server
      */
     public function getPublicIp()
     {
+        if (empty($this->publicIp)) {
+            return $this->ip;
+        }
+
         return $this->publicIp;
     }
 

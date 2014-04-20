@@ -43,7 +43,7 @@ class ModelListener
         if ($entity instanceof Machine) {
             // Réinstallation de la machine si l'IP privé ou l'utilisateur a été modifié
             if ($args->hasChangedField('ip') || $args->hasChangedField('home')) {
-                $em = $args->getManager();
+                $em = $args->getEntityManager();
                 $uow = $em->getUnitOfWork();
                 $servers = $entity->getGameServers();
                 

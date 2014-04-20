@@ -2,6 +2,12 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
 
+services:
+    monolog.processor.psr_log_message:
+        class: Monolog\Processor\PsrLogMessageProcessor
+        tags:
+            - { name: monolog.processor }
+
 framework:
     #esi:             ~
     translator:      { fallback: %locale% }
@@ -78,6 +84,27 @@ swiftmailer:
     username:  %mailer_user%
     password:  %mailer_password%
     spool:     { type: memory }
+
+monolog:
+    handlers:
+        phpseclib_wrapper:
+            type: rotating_file
+            path: %kernel.logs_dir%/phpseclib.log
+            level: info
+            channels: phpseclib
+            bubble: false
+        phpseclib_internal:
+            type: rotating_file
+            path: %kernel.logs_dir%/phpseclib_internal.log
+            level: debug
+            channels: phpseclib
+            bubble: false
+        login:
+            type:               stream
+            path:               "%kernel.logs_dir%/auth.log"
+            level:              debug
+            channels:           security
+            bubble: false
 
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb'

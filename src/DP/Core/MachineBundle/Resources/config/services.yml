@@ -9,41 +9,45 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-    
+
+parameters:
+    dedipanel.key_store.file.path: '%kernel.root_dir%/../src/DP/Core/MachineBundle/Resources/config/.ssh/'
+    dedipanel.connection_manager.debug: true
+
 services:
     dedipanel.form.machine.add:
         class: DP\Core\MachineBundle\Form\AddMachineType
         tags:
             - {name: form.type, alias: dedipanel_machine_add }
-    
+
     dedipanel.form.machine.edit:
         class: DP\Core\MachineBundle\Form\EditMachineType
         tags:
             - {name: form.type, alias: dedipanel_machine_edit }
-    
+
     dedipanel.machine.subscriber.crud:
         class: DP\Core\MachineBundle\EventListener\CRUDListener
-        arguments: [ @doctrine.orm.default_entity_manager ]
+        arguments: [ @dedipanel.key_helper, @dedipanel.connection_manager ]
         tags:
             - { name: kernel.event_subscriber }
-    
+
     dedipanel.security.voter.machine_assignable_voter:
         class: DP\Core\MachineBundle\Voter\MachineAssignableVoter
         arguments: [ @dedipanel.repository.group.nested_tree ]
         public: false
         tags:
             - { name: security.voter, priority: -255 }
-    
+
     dedipanel.machine.listener.model:
         class: DP\Core\MachineBundle\EventListener\ModelListener
         arguments: [ @service_container ]
-        tags: 
+        tags:
             - { name: doctrine.event_listener, event: postLoad, method: postLoad }
-    
+
     dedipanel.machine.validator.credentials:
         class: DP\Core\MachineBundle\Validator\CredentialsValidator
         arguments: [ @dedipanel.connection_manager ]

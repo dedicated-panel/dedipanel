@@ -1,4 +1,5 @@
-$host_name = "dedipanel.dev"
+$panel_host_name = "dedipanel.dev"
+$site_host_name  = "dedisite.dev"
 
 user { 'dedipanel': ensure => present, password => sha1('test') }
 group { 'puppet': ensure => present }
@@ -13,6 +14,14 @@ file { "/dev/shm/dedipanel":
   group => vagrant
 }
 
+file { "/dev/shm/dedipanel-site":
+  ensure => directory, 
+  purge => true, 
+  force => true, 
+  owner => vagrant, 
+  group => vagrant
+}
+
 file { "/var/lock/apache2":
   ensure => directory,
   owner => vagrant
@@ -24,7 +33,7 @@ exec { "ApacheUserChange" :
   notify  => Service['apache'],
 }
 
-class {'apt':
+class { 'apt':
   always_apt_update => true,
 }
 
@@ -57,10 +66,10 @@ apache::dotconf { 'custom':
 
 apache::module { 'rewrite': }
 
-apache::vhost { "${host_name}":
-  server_name   => "${host_name}",
+apache::vhost { "${panel_host_name}":
+  server_name   => "${panel_host_name}",
   serveraliases => [
-    "www.${host_name}"
+    "www.${panel_host_name}"
   ],
   docroot       => "/var/www/dedipanel/web/",
   port          => '80',
@@ -68,6 +77,18 @@ apache::vhost { "${host_name}":
     'VAGRANT VAGRANT'
   ],
   priority      => '1',
+}
+
+apache::vhost { "${site_host_name}":
+  server_name => "${site_host_name}", 
+  serveraliases => [
+    "www.${site_host_name}", 
+  ], 
+  docroot => '/var/www/dedipanel-site/web/', 
+  env_variables => [
+    'VAGRANT VAGRANT'
+  ], 
+  priority => '1', 
 }
 
 class { 'php':
@@ -98,10 +119,6 @@ php::pear::module { 'PHPUnit':
   require => Class['php::pear']
 }
 
-php::pecl::module { 'mongo':
-    use_package => "no",
-}
-
 class { 'composer':
   command_name => 'composer',
   target_dir   => '/usr/local/bin',
@@ -109,26 +126,30 @@ class { 'composer':
   require => Package['php5', 'curl'],
 }
 
-
 php::ini { 'php_ini_configuration':
   value   => [
-    'extension=mongo.so',
     'date.timezone = "UTC"',
-    'display_errors = On',
+    'display_errors = "On"',
     'error_reporting = -1',
-    'short_open_tag = 0',
+    'short_open_tag = 0'
   ],
   notify  => Service['apache'],
-  require => Class['php']
+  require => Class['php'], 
 }
 
 class { 'mysql::server':
   override_options => { 'root_password' => '', },
 }
 
-database{ "dedipanel":
+database{ 'dedipanel':
   ensure  => present,
   charset => 'utf8',
   require => Class['mysql::server'],
+}
+
+database { 'dedipanel-site':
+  ensure => present, 
+  charset => 'utf8', 
+  require => Class['mysql::server'], 
 }
 

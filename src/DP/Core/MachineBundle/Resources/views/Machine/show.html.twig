@@ -38,13 +38,7 @@
                 <td>{{ machine.publicIp }}</td>
                 <td>{{ machine.port }}</td> 
                 <td>{{ machine.username }}</td>
-                <td>{{ machine.home }}</td>                
-                <td>{% if machine.privateKeyFilename|length > 0 %}
-                        {{ 'dedipanel.yes'|trans }}
-                    {% else %}
-                        {{ 'dedipanel.no'|trans }}
-                    {% endif %}
-                </td>
+                <td>{{ machine.home }}</td>
                 <td>{{ machine.nbCore }}</td>
                 <td>{% if machine.is64Bit == true %}
                         {{ 'dedipanel.yes'|trans }}

@@ -26,8 +26,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Machine controller.
- * 
- * @todo: refacto retrieveNbCore
  */
 class MachineController extends ResourceController
 {
@@ -36,26 +34,27 @@ class MachineController extends ResourceController
         $this->isGrantedOr403('SHOW', $this->find($request));
 
         $config = $this->getConfiguration();
+        /** @var Machine $machine */
         $machine = $this->findOr404($request);
 
         $test = false;
         $compatLib = false;
         $javaInstalled = false;
         
-        $test = $machine->getConnection()->connectionTest();
+        $test = $machine->getConnection()->testSSHConnection();
         
         if ($test == true) {
             $conn = $machine->getConnection();
             
             $machine->setHome($conn->getHome());
-            $machine->setNbCore($conn->retrieveNbCore()); // @todo: refacto retrieveNbCore
+            $machine->setNbCore($conn->retrieveNbCore());
             $machine->setIs64bit($conn->is64bitSystem());
     
             if ($machine->getIs64Bit()) {
-                $compatLib = $secure->hasCompatLib();
+                $compatLib = $conn->hasCompatLib();
             }
     
-            $javaInstalled = $secure->javaInstalled();
+            $javaInstalled = $conn->isJavaInstalled();
     
             $this->domainManager->update($machine);
         }

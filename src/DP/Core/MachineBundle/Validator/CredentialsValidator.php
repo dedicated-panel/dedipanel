@@ -21,10 +21,10 @@ class CredentialsValidator extends ConstraintValidator
         // N'exécute pas la validation des identifiants
         // s'il y a déjà eu des erreurs
         if ($this->context->getViolations() === 0) {
-            $conn = $this->manager->getConnectionFromServer($server, 0);
+            $conn = $this->manager->getConnectionFromServer($value, 0);
             
             if (!$conn->connectionTest()) {
-                $context->addViolation('machine.assert.bad_credentials');
+                $this->context->addViolation('machine.assert.bad_credentials');
             }
         }
     }
