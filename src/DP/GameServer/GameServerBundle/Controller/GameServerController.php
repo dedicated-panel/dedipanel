@@ -91,7 +91,7 @@ class GameServerController extends ResourceController
     {
         $this->isGrantedOr403('STATE');
         
-        $server = $this->findOr404();
+        $server = $this->findOr404($request);
         $state = $request->get('state');
         
         $event = new ResourceEvent($server, array('state' => $state));
@@ -110,11 +110,11 @@ class GameServerController extends ResourceController
         return $this->redirectHandler->redirectToIndex();
     }
     
-    public function regenAction()
+    public function regenAction(Request $request)
     {
         $this->isGrantedOr403('ADMIN');
         
-        $server = $this->findOr404();
+        $server = $this->findOr404($request);
         
         $event = $this->dispatchEvent('pre_regen', $server);
         if ($event->isStopped()) {
@@ -129,12 +129,12 @@ class GameServerController extends ResourceController
         return $this->redirectTo($server);
     }
     
-    public function showLogsAction($id)
+    public function showLogsAction(Request $request, $id)
     {
         $this->isGrantedOr403('ADMIN');
         
         $config = $this->getConfiguration();   
-        $server = $this->findOr404();
+        $server = $this->findOr404($request);
         
         if ($server->isInstallationEnded()) {
             $logs = $server->getServerLogs();
@@ -166,7 +166,7 @@ class GameServerController extends ResourceController
         $this->isGrantedOr403('RCON');
         
         $config = $this->getConfiguration();
-        $server = $this->findOr404();
+        $server = $this->findOr404($request);
         
         $logs = $server->getServerLogs() . "\n";
         $form = $this->createRconForm();
@@ -223,12 +223,12 @@ class GameServerController extends ResourceController
         return $form->getForm();
     }
     
-    public function pluginAction()
+    public function pluginAction(Request $request)
     {
         $this->isGrantedOr403('PLUGIN');
         
         $config = $this->getConfiguration();
-        $server = $this->findOr404();
+        $server = $this->findOr404($request);
         
         $pluginId = $this->getRequest()->get('pluginId');
         $action   = $this->getRequest()->get('action');

@@ -48,9 +48,9 @@ class FTPController extends ResourceController
         $this->isGrantedOr403('FTP');
         
         $config = $this->getConfiguration();
-        $this->server = $this->findOr404();
+        $this->server = $this->findOr404($request);
         
-        $path = $this->getRequest()->get('path');
+        $path = $request->get('path');
         $resource = $this->getResource($path);
         $content = $resource->getContent();
         
@@ -89,10 +89,10 @@ class FTPController extends ResourceController
         $this->isGrantedOr403('CREATE');
         
         $config = $this->getConfiguration();
-        $this->server = $this->findOr404();
+        $this->server = $this->findOr404($request);
         
-        $type = $this->getRequest()->get('type');
-        $path = $this->getRequest()->get('path');
+        $type = $request->get('type');
+        $path = $request->get('path');
         
         $resource = $this->createResource($path, $type);
         $form     = $this->getForm($resource);
@@ -139,9 +139,9 @@ class FTPController extends ResourceController
         $this->isGrantedOr403('UPDATE', $this->find($request));
 
         $config = $this->getConfiguration();
-        $this->server = $this->findOr404();
+        $this->server = $this->findOr404($request);
         
-        $path = $this->getRequest()->get('path');
+        $path = $request->get('path');
         $resource = $this->getResource($path);
         $form     = $this->getForm($resource);
         
@@ -189,9 +189,9 @@ class FTPController extends ResourceController
     {
         $this->isGrantedOr403('DELETE', $this->find($request));
         
-        $this->server = $this->findOr404();
+        $this->server = $this->findOr404($request);
         
-        $path = $this->getRequest()->get('path');
+        $path = $request->get('path');
         $resource = $this->getResource($path);
         
         if ($resource->isInvalid()) {
