@@ -40,6 +40,7 @@ class MachineController extends ResourceController
         $test = false;
         $compatLib = false;
         $javaInstalled = false;
+        $screenInstalled = false;
         
         $test = $machine->getConnection()->testSSHConnection();
         
@@ -54,8 +55,9 @@ class MachineController extends ResourceController
                 $compatLib = $conn->hasCompatLib();
             }
     
-            $javaInstalled = $conn->isJavaInstalled();
-    
+            $javaInstalled   = $conn->isJavaInstalled();
+            $screenInstalled = $conn->isInstalled('screen');
+
             $this->domainManager->update($machine);
         }
         
@@ -67,6 +69,7 @@ class MachineController extends ResourceController
                 'result' => $test,
                 'hasCompatLib' => $compatLib,
                 'javaInstalled' => $javaInstalled,
+                'screenInstalled' => $screenInstalled,
             ))
         ;
 
