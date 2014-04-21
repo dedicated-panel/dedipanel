@@ -1,0 +1,30 @@
+{% macro display_flashes(type, class) %}
+    {% for flash in app.session.flashbag.get(type) %}
+        <div class="alert alert-block {{ class }}">
+            {{ flash }}
+        </div>
+    {% endfor %}
+{% endmacro %}
+
+{% macro error() %}
+    {{ _self.display_flashes('error', 'alert-error') }}
+{% endmacro %}
+
+{% macro warning() %}
+    {{ _self.display_flashes('warning', 'alert-warning') }}
+{% endmacro %}
+
+{% macro info() %}
+    {{ _self.display_flashes('info', 'alert-info') }}
+{% endmacro %}
+
+{% macro success() %}
+    {{ _self.display_flashes('success', 'alert-success') }}
+{% endmacro %}
+
+{% macro all() %}
+    {{ _self.success() }}
+    {{ _self.error() }}
+    {{ _self.warning() }}
+    {{ _self.info() }}
+{% endmacro %}

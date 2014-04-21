@@ -9,6 +9,7 @@
 
 {% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
+{% import '::flash_messages.html.twig' as dedipanel_flash_messages %}
 
 {% block title %}
     {{ dedipanel_buttons.back(path('dedipanel_machine_index'), 'machine.title.machine'|trans) }}
@@ -16,6 +17,8 @@
 
 {% block content %}
     <h2>{{ 'machine.title.show'|trans }}</h2>
+
+    {{ dedipanel_flash_messages.all() }}
 
     <table class="table table-striped show-machine">
         <thead>
@@ -39,19 +42,9 @@
                 <td>{{ machine.port }}</td> 
                 <td>{{ machine.username }}</td>
                 <td>{{ machine.home }}</td>
-                <td>{% if machine.privateKeyName|length > 0 %}
-                        {{ 'dedipanel.yes'|trans }}
-                    {% else %}
-                        {{ 'dedipanel.no'|trans }}
-                    {% endif %}
-                </td>
+                <td>{{ dedipanel_buttons.yes_no(machine.privateKeyName|length > 0) }}</td>
                 <td>{{ machine.nbCore }}</td>
-                <td>{% if machine.is64Bit == true %}
-                        {{ 'dedipanel.yes'|trans }}
-                    {% else %}
-                        {{ 'dedipanel.no'|trans }}
-                    {% endif %}
-                </td>
+                <td>{{ dedipanel_buttons.yes_no(machine.is64Bit) }}</td>
             </tr>
         </tbody>
     </table>

@@ -42,3 +42,5 @@ machine.test.failed: Test de connexion échoué !
 machine.compat_lib_not_installed: "Vous utilisez un système 64bits. Nous vous recommandons vivement d'installer les librairies de compatibilités 32bits (<a href=\"http://www.dedicated-panel.net/faq#systeme-64b\">voir notre F.A.Q.</a>)."
 machine.java_not_installed: "Java ne semble pas être installé sur cette machine. Vous devriez l'installer (<a href=\"http://www.dedicated-panel.net/faq#installation-java\">voir notre F.A.Q.</a>) afin de pouvoir utiliser des serveurs Minecraft."
 machine.screen_not_installed: "Le paquet \"screen\" ne semble pas être installé sur cette machine. Vous devez l'installer afin d'utiliser le panel."
+
+sylius.resource.machine.connection_problem: Problème de connexion à la machine.

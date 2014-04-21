@@ -21,17 +21,17 @@
             <p class="alert-heading">{{ 'machine.test.succeeded'|trans }}</p>
         </div>
 
-        {% if machine.is64Bit == true and hasCompatLib == false %}
-            <div class="alert alert-block alert-warning compat-lib">
-                <p class="alert-heading">{% autoescape false %}{{ 'machine.compat_lib_not_installed'|trans }}{% endautoescape %}</p>
-            </div>
-        {% endif %}
-
         {%  if screenInstalled == false %}
             <div class="alert alert-block alert-error screen-not-installed">
                 <p class="alert-heading">{% autoescape false %}{{ 'machine.screen_not_installed'|trans }}{% endautoescape %}</p>
             </div>
         {%  endif %}
+
+        {% if machine.is64Bit == true and hasCompatLib == false %}
+            <div class="alert alert-block alert-warning compat-lib">
+                <p class="alert-heading">{% autoescape false %}{{ 'machine.compat_lib_not_installed'|trans }}{% endautoescape %}</p>
+            </div>
+        {% endif %}
         
         {% if javaInstalled == false %}
             <div class="alert alert-block alert-warning java-not-installed">
