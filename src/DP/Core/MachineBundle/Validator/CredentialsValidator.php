@@ -23,7 +23,7 @@ class CredentialsValidator extends ConstraintValidator
         if ($this->context->getViolations() === 0) {
             $conn = $this->manager->getConnectionFromServer($value, 0);
             
-            if (!$conn->connectionTest()) {
+            if (!$conn->testSSHConnection()) {
                 $this->context->addViolation('machine.assert.bad_credentials');
             }
         }
