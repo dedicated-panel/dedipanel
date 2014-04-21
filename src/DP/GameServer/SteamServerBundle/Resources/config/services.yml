@@ -38,11 +38,6 @@ services:
         tags:
             - { name: doctrine.event_listener, event: preUpdate, method: preUpdate }
     
-    dp.steam.role_builder:
-        class: DP\GameServer\SteamServerBundle\Security\SteamRoleBuilder
-        tags:
-            - { name: dp.game_role_builder }
-    
     dedipanel.steam.form.add:
         class: DP\GameServer\SteamServerBundle\Form\AddSteamServerType
         tags:
