@@ -170,26 +170,6 @@ class Machine extends Server
 
         return $this->publicIp;
     }
-
-    /**
-     * Set publicKey
-     *
-     * @param string $publicKey
-     */
-    public function setPublicKey($publicKey)
-    {
-        $this->publicKey = $publicKey;
-    }
-
-    /**
-     * Get publicKey
-     *
-     * @return string
-     */
-    public function getPublicKey()
-    {
-        return $this->publicKey;
-    }
     
     public function addGameServer(GameServer $srv)
     {
