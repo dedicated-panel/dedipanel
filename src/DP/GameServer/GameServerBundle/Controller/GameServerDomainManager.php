@@ -80,7 +80,7 @@ class GameServerDomainManager extends DomainManager
             $this->flashHelper->setFlash(
                 $event->getMessageType(),
                 $event->getMessage(),
-                $event->getMessageParams()
+                $event->getMessageParameters()
             );
 
             return null;
@@ -90,19 +90,19 @@ class GameServerDomainManager extends DomainManager
 
         try {
             if ($status == 100) {
-                $server->finalizeInstallation($this->get('twig'));
+                $server->finalizeInstallation($this->templating);
             }
             elseif ($status < 100) {
                 $status = $server->getInstallationProgress();
                 $server->setInstallationStatus($status);
 
                 if ($status == 100) {
-                    $server->finalizeInstallation($this->get('twig'));
+                    $server->finalizeInstallation($this->templating);
                 }
             }
 
             if ($status === null) {
-                $server->installServer($this->get('twig'));
+                $server->installServer($this->templating);
             }
         }
         catch (InstallAlreadyStartedException $e) {
@@ -156,7 +156,7 @@ class GameServerDomainManager extends DomainManager
             $this->flashHelper->setFlash(
                 $event->getMessageType(),
                 $event->getMessage(),
-                $event->getMessageParams()
+                $event->getMessageParameters()
             );
 
             return null;
@@ -196,7 +196,7 @@ class GameServerDomainManager extends DomainManager
             $this->flashHelper->setFlash(
                 $event->getMessageType(),
                 $event->getMessage(),
-                $event->getMessageParams()
+                $event->getMessageParameters()
             );
 
             return null;
@@ -238,7 +238,7 @@ class GameServerDomainManager extends DomainManager
             $this->flashHelper->setFlash(
                 $event->getMessageType(),
                 $event->getMessage(),
-                $event->getMessageParams()
+                $event->getMessageParameters()
             );
 
             return null;
@@ -252,7 +252,7 @@ class GameServerDomainManager extends DomainManager
             $this->flashHelper->setFlash(
                 ResourceEvent::TYPE_ERROR,
                 'dedipanel.game.missingPacket',
-                array('%plugin%' => strval($plugin), '%packet%' => $e->getPacketList())
+                array('%plugin%' => strval($plugin), '%packet%' => $e->getPackets())
             );
 
             return null;
@@ -300,7 +300,7 @@ class GameServerDomainManager extends DomainManager
             $this->flashHelper->setFlash(
                 $event->getMessageType(),
                 $event->getMessage(),
-                $event->getMessageParams()
+                $event->getMessageParameters()
             );
 
             return null;
@@ -344,7 +344,7 @@ class GameServerDomainManager extends DomainManager
             $this->flashHelper->setFlash(
                 $event->getMessageType(),
                 $event->getMessage(),
-                $event->getMessageParams()
+                $event->getMessageParameters()
             );
 
             return null;
@@ -363,7 +363,7 @@ class GameServerDomainManager extends DomainManager
                 $status = $server->getInstallationProgress();
                 $server->setInstallationStatus($status);
 
-                $this->manager->update($server);
+                $this->manager->persist($server);
                 $this->manager->flush();
             }
         }
