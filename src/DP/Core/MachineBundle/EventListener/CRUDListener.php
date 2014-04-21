@@ -7,6 +7,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sylius\Bundle\ResourceBundle\Event\ResourceEvent;
 use Dedipanel\PHPSeclibWrapperBundle\Helper\KeyHelper;
+use Dedipanel\PHPSeclibWrapperBundle\Connection\Exception\ConnectionErrorException;
 
 class CRUDListener implements EventSubscriberInterface
 {
@@ -33,21 +34,31 @@ class CRUDListener implements EventSubscriberInterface
         $machine = $event->getSubject();
         
         if ($machine->getPassword() !== null) {
-            if ($machine->getPrivateKeyName() !== null) {
-                $this->helper->deleteKeyPair($machine);
+            try {
+                if ($machine->getPrivateKeyName() !== null) {
+                    $this->helper->deleteKeyPair($machine);
+                }
+
+                $this->helper->createKeyPair($machine);
+
+                $conn = $this->manager->getConnectionFromServer($machine);
+                $machine->setHome($conn->getHome());
+                $machine->setNbCore($conn->retrieveNbCore());
+                $machine->setIs64bit($conn->is64bitSystem());
             }
-
-            $this->helper->createKeyPair($machine);
-
-            $conn = $this->manager->getConnectionFromServer($machine);
-            $machine->setHome($conn->getHome());
-            $machine->setNbCore($conn->retrieveNbCore());
-            $machine->setIs64bit($conn->is64bitSystem());
+            catch (ConnectionErrorException $e) {
+                $event->stop('machine.connection_problem');
+            }
         }
     }
     
     public function deleteKeyPair(ResourceEvent $event)
     {
-        $this->helper->deleteKeyPair($event->getSubject());
+        try {
+            $this->helper->deleteKeyPair($event->getSubject());
+        }
+        catch (ConnectionErrorException $e) {
+            $event->stop('machine.connection_problem');
+        }
     }
 }
