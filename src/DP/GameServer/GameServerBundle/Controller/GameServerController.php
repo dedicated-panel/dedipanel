@@ -17,6 +17,15 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class GameServerController extends ResourceController
 {
+    /**
+     * @var FlashHelper
+     */
+    protected $flashHelper;
+    /**
+     * @var DomainManager
+     */
+    protected $domainManager;
+
     public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);

@@ -49,14 +49,14 @@ class Machine extends Server
     protected $id;
     
     /**
-     * @var bigint $ip
+     * @var integer $ip
      *
      * @ORM\Column(name="privateIp", type="string", length=15, nullable=true)
      */
     protected $ip;
     
     /**
-     * @var bigint $publicIp
+     * @var integer $publicIp
      *
      * @ORM\Column(name="publicIp", type="string", length=15, nullable=true)
      */
@@ -150,7 +150,7 @@ class Machine extends Server
     /**
      * Set publicIp
      *
-     * @param bigint $publicIp
+     * @param integer $publicIp
      */
     public function setPublicIp($publicIp)
     {
@@ -160,7 +160,7 @@ class Machine extends Server
     /**
      * Get publicIp
      *
-     * @return bigint
+     * @return integer
      */
     public function getPublicIp()
     {

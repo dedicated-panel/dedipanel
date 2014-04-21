@@ -77,14 +77,17 @@ class QueryInjector
                     $entity->getRconPassword()
                 );
             }
-            
-            try {               
-                $query->verifyStatus();
+            else {
+                return false;
             }
-            catch (UnexpectedServerTypeException $e) {}
             
             if (!empty($query)) {
                 $entity->setQuery($query);
+
+                try {
+                    $query->verifyStatus();
+                }
+                catch (UnexpectedServerTypeException $e) {}
             }
             
             if (!empty($rcon)) {
