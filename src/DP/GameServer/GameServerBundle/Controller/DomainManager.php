@@ -3,7 +3,7 @@
 namespace DP\GameServer\GameServerBundle\Controller;
 
 use Dedipanel\PHPSeclibWrapperBundle\Connection\Exception\ConnectionErrorException;
-use Sylius\Bundle\ResourceBundle\Controller\DomainManager;
+use Sylius\Bundle\ResourceBundle\Controller\DomainManager as BaseDomainManager;
 use DP\GameServer\GameServerBundle\Entity\GameServer;
 use Sylius\Bundle\ResourceBundle\Event\ResourceEvent;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -14,7 +14,7 @@ use DP\GameServer\GameServerBundle\Exception\MissingPacketException;
 use DP\Core\GameBundle\Entity\Plugin;
 use DP\GameServer\GameServerBundle\Exception\InstallAlreadyStartedException;
 
-class GameServerDomainManager extends DomainManager
+class DomainManager extends BaseDomainManager
 {
     private $templating;
 

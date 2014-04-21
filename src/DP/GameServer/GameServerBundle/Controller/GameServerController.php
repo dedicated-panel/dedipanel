@@ -11,10 +11,6 @@ namespace DP\GameServer\GameServerBundle\Controller;
 
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use DP\GameServer\GameServerBundle\Entity\GameServer;
-use DP\GameServer\GameServerBundle\Exception\InstallAlreadyStartedException;
-use PHPSeclibWrapper\Exception\MissingPacketException;
-use Sylius\Bundle\ResourceBundle\Event\ResourceEvent;
 use DP\GameServer\GameServerBundle\Exception\NotImplementedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -31,7 +27,7 @@ class GameServerController extends ResourceController
                 $container->get('translator'),
                 $container->get('session')
             );
-            $this->domainManager = new GameServerDomainManager(
+            $this->domainManager = new DomainManager(
                 $container->get($this->config->getServiceName('manager')),
                 $container->get('event_dispatcher'),
                 $this->flashHelper,
