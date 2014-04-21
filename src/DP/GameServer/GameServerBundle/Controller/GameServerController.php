@@ -17,36 +17,30 @@ use PHPSeclibWrapper\Exception\MissingPacketException;
 use Sylius\Bundle\ResourceBundle\Event\ResourceEvent;
 use DP\GameServer\GameServerBundle\Exception\NotImplementedException;
 use Symfony\Component\HttpFoundation\Request;
-use DP\GameServer\GameServerBundle\Exception\InvalidPathException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class GameServerController extends ResourceController
 {
-    public function create($resource)
+    public function setContainer(ContainerInterface $container = null)
     {
-        if ($resource->isAlreadyInstalled()) {
-            $resource->setInstallationStatus(100);
+        parent::setContainer($container);
+
+        if ($container !== null) {
+            $this->flashHelper = new FlashHelper(
+                $this->config,
+                $container->get('translator'),
+                $container->get('session')
+            );
+            $this->domainManager = new GameServerDomainManager(
+                $container->get($this->config->getServiceName('manager')),
+                $container->get('event_dispatcher'),
+                $this->flashHelper,
+                $this->config,
+                $container->get('twig')
+            );
         }
-        
-        $event = $this->dispatchEvent('pre_create', $resource);
-        if (!$event->isStopped()) {
-            $this->domainManager->update($resource);
-        }
-        
-        return $event;
     }
-    
-    public function isGranted($roleName, $resource = null)
-    {
-        $config = $this->getConfiguration();
-        $roleName = $config->getRole($roleName);
-        
-        if ($roleName !== false && !$this->get('security.context')->isGranted($roleName, $resource)) {
-            return false;
-        }
-        
-        return true;
-    }
-        
+
     public function installAction(Request $request)
     {
         if (!$this->isGranted('CREATE', $this->find($request)) && !$this->isGranted('UPDATE', $this->find($request))) {
@@ -54,60 +48,20 @@ class GameServerController extends ResourceController
         }
         
         $server = $this->findOr404($request);
-        $status = $server->getInstallationStatus();
-        
-        try {
-            if ($status == 100) {
-                $server->finalizeInstallation($this->get('twig'));
-            }
-            elseif ($status < 100) {
-                $status = $server->getInstallationProgress();
-                $server->setInstallationStatus($status);
-                
-                if ($status == 100) {
-                    $server->finalizeInstallation($this->get('twig'));
-                }
-            }
-            
-            if ($status === null) {
-                $server->installServer($this->get('twig'));
-            }
-        }
-        catch (InstallAlreadyStartedException $e) {
-            $trans = $this->get('translator')->trans('game.installAlreadyStarted');
-            $this->flashHelper->setFlash('error', $trans);
-        }
-        catch (MissingPacketException $e) {
-            $trans = $this->get('translator')->trans('steam.missingCompatLib');
-            $this->flashHelper->setFlash('error', $trans);
-        }
-        
-        $this->domainManager->update($server);
+        $this->domainManager->install($server);
         
         return $this->redirectHandler->redirectToIndex();
     }
     
     public function changeStateAction(Request $request)
     {
-        $this->isGrantedOr403('STATE');
+        $this->isGrantedOr403('STATE', $this->find($request));
         
         $server = $this->findOr404($request);
         $state = $request->get('state');
+        $this->domainManager->changeState($server, $state);
         
-        $event = new ResourceEvent($server, array('state' => $state));
-        $this->dispatchEvent('pre_change_state', $event);
-        if ($event->isStopped()) {
-            $this->flashHelper->setFlash($event->getMessageType(), $event->getMessage(), $event->getMessageParams());
-        }
-        else {
-            $server->changeStateServer($state);
-            $this->dispatchEvent('change_state', $event);
-            $this->dispatchEvent('post_change_state', $event);
-        }
-        
-        $this->get('session')->getFlashBag()->add('stateChanged', 'steam.stateChanged.' . $state);
-        
-        return $this->redirectHandler->redirectToIndex();
+        return $this->redirectHandler->redirectToReferer();
     }
     
     public function regenAction(Request $request)
@@ -115,38 +69,22 @@ class GameServerController extends ResourceController
         $this->isGrantedOr403('ADMIN');
         
         $server = $this->findOr404($request);
-        
-        $event = $this->dispatchEvent('pre_regen', $server);
-        if ($event->isStopped()) {
-            $this->flashHelper->setFlash($event->getMessageType(), $event->getMessage(), $event->getMessageParams());
-        }
-        else {
-            $this->dispatchEvent('regen', $server);
-            $server->regenerateScripts($this->get('twig'));
-            $this->dispatchEvent('post_regen', $server);
-        }
-        
-        return $this->redirectTo($server);
+        $this->domainManager->regenerateConfig($server);
+
+        return $this->redirectHandler->redirectToReferer();
     }
     
-    public function showLogsAction(Request $request, $id)
+    public function showLogsAction(Request $request)
     {
-        $this->isGrantedOr403('ADMIN');
+        $this->isGrantedOr403('ADMIN', $this->find($request));
         
         $config = $this->getConfiguration();   
         $server = $this->findOr404($request);
-        
-        if ($server->isInstallationEnded()) {
-            $logs = $server->getServerLogs();
-        }
-        else {
-            $logs = $server->getInstallLogs();
-            
-            // Met automatiquement les logs à jour dans le cas d'une installation
-            $status = $server->getInstallationProgress();
-            $server->setInstallationStatus($status);
-            
-            $this->domainManager->update($server);
+
+        $logs = $this->domainManager->getLogs($server);
+
+        if ($logs === null) {
+            return $this->redirectHandler->redirectToReferer();
         }
         
         $view = $this
@@ -163,41 +101,32 @@ class GameServerController extends ResourceController
 
     public function rconAction(Request $request)
     {
-        $this->isGrantedOr403('RCON');
+        $this->isGrantedOr403('RCON', $this->find($request));
         
         $config = $this->getConfiguration();
         $server = $this->findOr404($request);
-        
-        $logs = $server->getServerLogs() . "\n";
         $form = $this->createRconForm();
         
-        $online = $server->getQuery()->isOnline();
-        $banned = $server->getQuery()->isBanned();
+        $logs = $server->getServerLogs() . "\n";
+
+        if (!$this->domainManager->isAccessibleFromQuery($server)) {
+            return $this->redirectHandler->redirectToReferer();
+        }
         
         if ($request->isMethod('POST') && $form->bind($request)->isValid()) {
-            if ($online && !$banned) {
-                $data = $form->getData();
-                $cmd = $data['cmd'];
-                
-                // Exécution de la commande
-                $ret = $server
-                    ->setRcon($server->getRcon())
-                    ->sendCmd($cmd)
-                ;
+            $data = $form->getData();
+            $cmd = $data['cmd'];
 
-                $logs .= '> ' . $cmd . "\n" . $ret . "\n";
-                
-                if ($config->isApiRequest()) {
-                    return $this->handleView($this->view(array('log' => $logs, 'cmd' => $cmd, 'ret' => $ret)));
-                }
-            }
-            else {
-                $this->flashHelper->setFlash('error', 'server offline');
+            $ret = $this->domainManager->executeRconCmd($server, $cmd);
+            $logs .= '> ' . $cmd . "\n" . $ret . "\n";
+
+            if ($config->isApiRequest()) {
+                return $this->handleView($this->view(array('log' => $logs, 'cmd' => $cmd, 'ret' => $ret)));
             }
         }
         
         if ($config->isApiRequest()) {
-            return $this->handleView($this->view($form));
+            return $this->handleView($this->view(array('form' => $form, 'log' => $logs)));
         }
 
         $view = $this
@@ -213,6 +142,44 @@ class GameServerController extends ResourceController
         return $this->handleView($view);
     }
     
+    public function pluginAction(Request $request)
+    {
+        $this->isGrantedOr403('PLUGIN', $this->find($request));
+        
+        $config = $this->getConfiguration();
+        $server = $this->findOr404($request);
+
+        $pluginId = $request->get('plugin');
+        $action   = $request->get('action');
+        
+        if ($pluginId && $action) {
+            $em = $this->getDoctrine()->getManager();
+            $plugin = $em->getRepository('DPGameBundle:Plugin')->findOneBy(array('id' => $pluginId));
+
+            if (!$plugin) {
+                throw new NotFoundHttpException('Requested plugin does not exist.');
+            }
+            if ($action != 'install' && $action != 'uninstall') {
+                throw new NotImplementedException();
+            }
+
+            $method = $action . 'Plugin';
+            $server = $this->domainManager->{$method}($server, $plugin);
+
+            return $this->redirectHandler->redirectToReferer();
+        }
+        
+        $view = $this
+            ->view()
+            ->setTemplate($config->getTemplate('plugin.html'))
+            ->setData(array(
+                $config->getResourceName() => $server,
+            ))
+        ;
+
+        return $this->handleView($view);
+    }
+
     public function createRconForm(array $default = array())
     {
         $form = $this
@@ -221,109 +188,5 @@ class GameServerController extends ResourceController
         ;
 
         return $form->getForm();
-    }
-    
-    public function pluginAction(Request $request)
-    {
-        $this->isGrantedOr403('PLUGIN');
-        
-        $config = $this->getConfiguration();
-        $server = $this->findOr404($request);
-        
-        $pluginId = $this->getRequest()->get('pluginId');
-        $action   = $this->getRequest()->get('action');
-        
-        if ($pluginId && $action) {
-            $em = $this->getDoctrine()->getEntityManager();
-            $plugin = $em->getRepository('DPGameBundle:Plugin')->findOneBy(array('id' => $pluginId));
-            
-            if (!$plugin) {
-                throw new NotFoundHttpException('Requested plugin does not exist.');
-            }
-            
-            if ($action == 'install') {
-                $event = $this->installPlugin($server, $plugin);
-            }
-            elseif ($action == 'uninstall') {
-                $event = $this->uninstallPlugin($server, $plugin); 
-            }
-            else {
-                throw new NotImplementedException();
-            }
-            
-            if (!$event->isStopped()) {
-                $this->flashHelper->setFlash('success', 'plugin_' . $action);
-            
-                return $this->redirectToRoute(
-                    $config->getRedirectRoute('plugin'),
-                    array('id' => $server->getId())
-                );
-            }
-
-            $this->flashHelper->setFlash($event->getMessageType(), $event->getMessage(), $event->getMessageParams());
-        }
-        
-        $view = $this
-            ->view()
-            ->setTemplate($config->getTemplate('plugn.html'))
-            ->setData(array(
-                $config->getResourceName() => $server,
-            ))
-        ;
-
-        return $this->handleView($view);
-    }
-    
-    protected function installPlugin(GameServer $server, Plugin $plugin)
-    {
-        $event = new ResourceEvent($server, array('plugin' => $plugin));
-        $event = $this->dispatchEvent('pre_install_plugin', $event);
-        
-        try {
-            $server->installPlugin($this->get('twig'), $plugin);
-            $server->addPlugin($plugin);
-        }
-        catch (MissingPacketException $e) {
-            $event->stop('game.missingPacket', ResourceEvent::TYPE_ERROR, array('%plugin%' => strval($plugin), '%packet%' => $e->getPacketList()));
-        }
-        catch (NotImplementedException $e) {
-            $event->stop('game.cant_install_plugin', ResourceEvent::TYPE_ERROR);
-        }
-        
-        if (!$event->isStopped()) {
-            $manager = $this->getManager();
-    
-            $manager->persist($server);
-            $this->dispatchEvent('install_plugin', $event);
-            $manager->flush();
-            $this->dispatchEvent('post_install_plugin', $event);
-        }
-        
-        return $event;
-    }
-    
-    protected function uninstallPlugin(GameServer $server, Plugin $plugin)
-    {
-        $event = new ResourceEvent($server, array('plugin' => $plugin));
-        $event = $this->dispatchEvent('pre_uninstall', $event);
-        
-        try {
-            $server->uninstallPlugin($this->get('twig'), $plugin);
-            $server->removePlugin($plugin);
-        }
-        catch (NotImplementedException $e) {
-            $event->stop('game.cant_install_plugin', ResourceEvent::TYPE_ERROR);
-        }
-        
-        if (!$event->isStopped()) {
-            $manager = $this->getManager();
-    
-            $manager->persist($server);
-            $this->dispatchEvent('uninstall_plugin', $event);
-            $manager->flush();
-            $this->dispatchEvent('post_uninstall_plugin', $event);
-        }
-        
-        return $event;
     }
 }

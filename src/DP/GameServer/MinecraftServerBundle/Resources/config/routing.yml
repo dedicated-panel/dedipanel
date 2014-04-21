@@ -95,14 +95,13 @@ dedipanel_minecraft_plugin_install:
     pattern: /{id}/plugin/{plugin}/install
     methods: [GET]
     defaults:
-        _controller: dedipanel.controller.minecraft:installPluginAction
+        _controller: dedipanel.controller.minecraft:pluginAction
 
 dedipanel_minecraft_plugin_uninstall:
-    pattern: /{id}/plugin/{plugin}/{action}
-    methods: [GET]
+    pattern: /{id}/plugin/{plugin}/uninstall
+    methods: [GET]
     defaults:
-        action: install|uninstall
-        _controller: dedipanel.controller.minecraft:uninstallPluginAction
+        _controller: dedipanel.controller.minecraft:pluginAction
   
 DPMinecraftServerBundle_FTP:
     resource: "@DPMinecraftServerBundle/Resources/config/routing/ftp.yml"

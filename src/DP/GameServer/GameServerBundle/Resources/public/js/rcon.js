@@ -29,7 +29,7 @@ $(function() {
             
             $.ajax({
                 type: 'POST', 
-                url: elt.attr('action') + '.json', 
+                url: elt.attr('action'),
                 dataType: 'json', 
                 data: elt.serialize(), 
                 success: function(data, status) {

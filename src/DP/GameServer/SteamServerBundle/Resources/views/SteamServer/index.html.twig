@@ -9,6 +9,7 @@
 
 {% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
+{% import '::flash_messages.html.twig' as dedipanel_flashes %}
 
 {% block bundleStylesheets %}
     <link rel="stylesheet" href="{{ asset('bundles/dpgameserver/css/game.css') }}" />
@@ -37,13 +38,8 @@
             </li>
         </ul>
     {% endif %}
-    
-    {% for message in app.session.flashbag.get('stateChanged') %}
-        <div class="alert alert-info">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            {{ message|trans }}
-        </div>
-    {% endfor %}
+
+    {{ dedipanel_flashes.all() }}
 
     <div id="steam" class="server-list">
         {% for entity in steams %}

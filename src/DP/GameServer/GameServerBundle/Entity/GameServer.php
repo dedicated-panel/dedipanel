@@ -20,6 +20,7 @@
 
 namespace DP\GameServer\GameServerBundle\Entity;
 
+use Dedipanel\PHPSeclibWrapperBundle\Connection\Exception\ScreenNotExistException;
 use Doctrine\ORM\Mapping as ORM;
 use DP\Core\MachineBundle\Entity\Machine;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -255,6 +256,8 @@ abstract class GameServer
         return $this->installationStatus;
     }
 
+    abstract public function getInstallationProgress();
+
     /**
      * Set dir
      *
@@ -483,12 +486,22 @@ abstract class GameServer
     
     public function getServerLogs()
     {
-        return $this->getMachine()->getConnection()->getScreenContent($this->getScreenName());
+        try {
+            return $this->getMachine()->getConnection()->getScreenContent($this->getScreenName());
+        }
+        catch (ScreenNotExistException $e) {
+            return null;
+        }
     }
     
     public function getInstallLogs()
     {
-        return $this->getMachine()->getConnection()->getScreenContent($this->getInstallScreenName());
+        try {
+            return $this->getMachine()->getConnection()->getScreenContent($this->getInstallScreenName());
+        }
+        catch (ScreenNotExistException $e) {
+            return null;
+        }
     }
     
     public function isInstallationEnded()

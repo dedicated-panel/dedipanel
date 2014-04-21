@@ -44,3 +44,4 @@ machine.java_not_installed: "Java ne semble pas être installé sur cette machin
 machine.screen_not_installed: "Le paquet \"screen\" ne semble pas être installé sur cette machine. Vous devez l'installer afin d'utiliser le panel."
 
 sylius.resource.machine.connection_problem: Problème de connexion à la machine.
+dedipanel.machine.connection_failed: Impossible de se connecterà la machine.

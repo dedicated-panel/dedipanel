@@ -9,7 +9,7 @@
 
 {% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
-{% import '::flash_messages.html.twig' as dedipanel_flash_messages %}
+{% import '::flash_messages.html.twig' as dedipanel_flashes %}
 
 {% block title %}
     {{ dedipanel_buttons.back(path('dedipanel_machine_index'), 'machine.title.machine'|trans) }}
@@ -18,7 +18,7 @@
 {% block content %}
     <h2>{{ 'machine.title.show'|trans }}</h2>
 
-    {{ dedipanel_flash_messages.all() }}
+    {{ dedipanel_flashes.all() }}
 
     <table class="table table-striped show-machine">
         <thead>

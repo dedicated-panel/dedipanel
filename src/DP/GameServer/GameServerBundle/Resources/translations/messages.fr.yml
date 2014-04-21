@@ -38,7 +38,10 @@ game.addButton: Ajouter
 
 game.installNotStarted: Installation non démarré
 game.installEnded: Installation terminé
-game.installAlreadyStarted: "Un serveur est déjà en cours d'installation dans ce dossier."
+dedipanel.game.installAlreadyStarted: "Un serveur est déjà en cours d'installation dans ce dossier."
+dedipanel.game.screenNotExist: Impossible de récupérer les logs.
+dedipanel.game.server_offline: Serveur hors-ligne.
+dedipanel.game.banned_from_server: Le panel est banni du serveur.
 game.installInProgress: Installation en cours
 
 game.isAlreadyInstalled: Serv. déjà installé ?
@@ -93,5 +96,7 @@ game.missingPacket: Impossible de lancer l'installation du plugin "%plugin%". Vo
 
 game.showLog: Voir les logs du serveur
 
-steam.stateChanged.start: Démarrage du serveur en cours. Cette opération peut prendre d'une dizaine de secondes à une minute.
-steam.stateChanged.restart: Redémarrage du serveur en cours. Cette opération peut prendre d'une dizaine de secondes à une minute.
+dedipanel.flashes.state_changed.start: Démarrage du serveur en cours. Cette opération peut prendre d'une dizaine de secondes à une minute.
+dedipanel.flashes.state_changed.restart: Redémarrage du serveur en cours. Cette opération peut prendre d'une dizaine de secondes à une minute.
+dedipanel.flashes.state_change_stop: Serveur arrêté.
+dedipanel.flashes.config_regenerated: Scripts du panel régénrés.

@@ -44,6 +44,6 @@ steam.hltv.port: Port de l'HLTV
 steam.hltv.title: Zone HLTV
 
 steam.rebootAt: Reboot auto à (0-24h)
-steam.missingCompatLib: Un système 64 bits a été détecté sur votre système. Vous devez installer les librairies de compatibilités 32-64 bits (<a href="http://www.dedicated-panel.net/faq#systeme-64b">voir notre F.A.Q.</a>) afin de lancer l'installation de votre serveur steam.
+dedipanel.game.missingCompatLib: Un système 64 bits a été détecté sur votre système. Vous devez installer les librairies de compatibilités 32-64 bits (<a href="http://www.dedicated-panel.net/faq#systeme-64b">voir notre F.A.Q.</a>) afin de lancer l'installation de votre serveur steam.
 steam.gameMode: Type de jeu
 steam.chooseGameMode : Choisissez le mode de jeu
