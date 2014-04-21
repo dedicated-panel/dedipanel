@@ -506,7 +506,7 @@ class SteamServer extends GameServer
         $conn = $this->getMachine()->getConnection();
         $cfgPath = $this->getServerCfgPath();
 
-        $remoteFile = $conn->getRemoteFile($cfgPath);
+        $remoteFile = $conn->download($cfgPath);
         $fileLines = explode("\n", $remoteFile);
         
         $patterns = array(
@@ -578,7 +578,7 @@ class SteamServer extends GameServer
                 $missingPackets = array();
 
                 foreach ($packetDependencies AS $dep) {
-                    if (!$conn->isPacketInstalled($dep)) {
+                    if (!$conn->isInstalled($dep)) {
                         $missingPackets[] = $dep;
                     }
                 }

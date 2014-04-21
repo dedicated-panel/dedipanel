@@ -317,7 +317,7 @@ class MinecraftServer extends GameServer
         $conn = $this->getMachine()->getConnection();
         $cfgPath = $this->getAbsoluteDir() . 'server.properties';
 
-        $remoteFile = $conn->getRemoteFile($cfgPath);
+        $remoteFile = $conn->download($cfgPath);
         $fileLines = explode("\n", $remoteFile);
 
         foreach ($fileLines AS &$line) {
@@ -356,7 +356,7 @@ class MinecraftServer extends GameServer
             throw new BadMethodCallException('Only actions available for MinecraftServers plugin script are : install and uninstall.');
         }
         
-        $conn = $this->getMachine->getConnection();
+        $conn = $this->getMachine()->getConnection();
         
         $dir = $this->getAbsoluteDir();
         $scriptPath = $dir . 'plugin.sh';
