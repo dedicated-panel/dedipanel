@@ -1,6 +1,6 @@
 <?php
 
-namespace DP\GameServer\GameServerBundle\Controller;
+namespace DP\Core\CoreBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;

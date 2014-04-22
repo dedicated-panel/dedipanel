@@ -9,19 +9,14 @@
 
 namespace DP\GameServer\GameServerBundle\Controller;
 
-use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
+use DP\Core\CoreBundle\Controller\ResourceController;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use DP\GameServer\GameServerBundle\Exception\NotImplementedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use DP\GameServer\GameServerBundle\Controller\FlashHelper;
 
 class GameServerController extends ResourceController
 {
-    /**
-     * @var FlashHelper
-     */
-    protected $flashHelper;
     /**
      * @var DomainManager
      */
@@ -32,11 +27,6 @@ class GameServerController extends ResourceController
         parent::setContainer($container);
 
         if ($container !== null) {
-            $this->flashHelper = new FlashHelper(
-                $this->config,
-                $container->get('translator'),
-                $container->get('session')
-            );
             $this->domainManager = new DomainManager(
                 $container->get($this->config->getServiceName('manager')),
                 $container->get('event_dispatcher'),
