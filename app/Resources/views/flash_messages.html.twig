@@ -1,30 +1,38 @@
-{% macro display_flashes(type, class) %}
+{% macro display_flashes(type, class, escape) %}
+    {% if escape is not defined or escape is null %}
+        {% set escape = true %}
+    {% endif %}
+
     {% for flash in app.session.flashbag.get(type) %}
         <div class="alert alert-block {{ class }}">
-            {{ flash|raw }}
+            {% if escape %}
+                {{ flash }}
+            {% else %}
+                {{ flash|raw }}
+            {% endif %}
         </div>
     {% endfor %}
 {% endmacro %}
 
-{% macro error() %}
-    {{ _self.display_flashes('error', 'alert-error') }}
+{% macro error(escape) %}
+    {{ _self.display_flashes('error', 'alert-error', escape) }}
 {% endmacro %}
 
-{% macro warning() %}
-    {{ _self.display_flashes('warning', 'alert-warning') }}
+{% macro warning(escape) %}
+    {{ _self.display_flashes('warning', 'alert-warning', escape) }}
 {% endmacro %}
 
-{% macro info() %}
-    {{ _self.display_flashes('info', 'alert-info') }}
+{% macro info(escape) %}
+    {{ _self.display_flashes('info', 'alert-info', escape) }}
 {% endmacro %}
 
-{% macro success() %}
-    {{ _self.display_flashes('success', 'alert-success') }}
+{% macro success(escape) %}
+    {{ _self.display_flashes('success', 'alert-success', escape) }}
 {% endmacro %}
 
-{% macro all() %}
-    {{ _self.success() }}
-    {{ _self.error() }}
-    {{ _self.warning() }}
-    {{ _self.info() }}
+{% macro all(escape) %}
+    {{ _self.success(escape) }}
+    {{ _self.error(escape) }}
+    {{ _self.warning(escape) }}
+    {{ _self.info(escape) }}
 {% endmacro %}

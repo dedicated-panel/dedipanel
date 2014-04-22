@@ -18,7 +18,7 @@
 {% block content %}
     <h2>{{ 'dedipanel.core.config.title'|trans }}</h2>
 
-    {{ dedipanel_flashes.all() }}
+    {{ dedipanel_flashes.all(false) }}
 
     <form action="{{ path('dedipanel_core_config') }}" method="post">
         {{ form_widget(form) }}
