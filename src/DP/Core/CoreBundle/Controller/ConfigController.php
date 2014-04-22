@@ -17,7 +17,7 @@ class ConfigController extends Controller
 
     public function configAction(Request $request)
     {
-        $debugMode = $this->container->getParameterBag()->get('dedipanel.debug');
+        $debugMode = $this->container->getParameterBag()->get('dp_core.debug');
         $usable = $this->verifyConfigFile();
 
         $form = $this->createConfigForm(array(

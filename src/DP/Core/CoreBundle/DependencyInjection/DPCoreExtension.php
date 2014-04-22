@@ -27,7 +27,6 @@ class DPCoreExtension extends Extension
             $debug = $configs[0]['debug'];
         }
 
-        $container->setParameter('dedipanel.debug', $debug);
         $container->setParameter('dp_core.debug', $debug);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));

@@ -15,7 +15,7 @@ class PhpseclibDebugCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->getParameterBag()->get('dedipanel.debug')) {
+        if (!$container->getParameterBag()->get('dp_core.debug')) {
             $this->replaceByNullLogger($container, 'monolog.handler.phpseclib_wrapper');
             $this->replaceByNullLogger($container, 'monolog.handler.phpseclib_internal');
         }
