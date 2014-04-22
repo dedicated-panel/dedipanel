@@ -118,8 +118,8 @@ class GameServerController extends ResourceController
         if (!$this->domainManager->isAccessibleFromQuery($server)) {
             return $this->redirectHandler->redirectToReferer();
         }
-        
-        if ($request->isMethod('POST') && $form->bind($request)->isValid()) {
+
+        if ($request->isMethod('POST') && $form->submit($request)->isValid()) {
             $data = $form->getData();
             $cmd = $data['cmd'];
 
