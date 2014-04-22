@@ -1,0 +1,5 @@
+dedipanel.core.config:
+    file_not_found: Le fichier de configuration n'est pas présent.
+    file_not_writable: Le panel n'a pas les droits suffisants pour modifier le fichier de configuration.
+    update_succeeded: Mise à jour du fichier de configuration réussie.
+    update_failed: Mise à jour du fichier de configuration échoué.

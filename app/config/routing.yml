@@ -30,6 +30,10 @@ DPMachineBundle:
     resource: "@DPMachineBundle/Resources/config/routing.yml"
     prefix:   /machine
 
+DPCoreBundle:
+    resource: "@DPCoreBundle/Resources/config/routing.yml"
+    prefix:   /configure/
+
 _welcome:
     pattern: /
     defaults:

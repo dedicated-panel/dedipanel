@@ -1,0 +1,5 @@
+dedipanel_core_config:
+    pattern: /
+    methods: [GET,POST]
+    defaults:
+        _controller: DPCoreBundle:Config:config

@@ -1,0 +1,27 @@
+{#
+    (c) Dedipanel <http://www.dedicated-panel.net>
+
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+#}
+
+{% extends "::layout.html.twig" %}
+
+{% import 'SyliusResourceBundle:Macros:actions.html.twig' as sylius_actions %}
+{% import '::buttons.html.twig' as dedipanel_buttons %}
+{% import '::flash_messages.html.twig' as dedipanel_flashes %}
+
+{% block title %}
+    {{ dedipanel_buttons.back(path('_welcome'), 'dedipanel.core.config'|trans) }}
+{% endblock %}
+
+{% block content %}
+    <h2>{{ 'dedipanel.core.config.title'|trans }}</h2>
+
+    {{ dedipanel_flashes.all() }}
+
+    <form action="{{ path('dedipanel_core_config') }}" method="post">
+        {{ form_widget(form) }}
+        {{ sylius_actions.update() }}
+    </form>
+{% endblock %}
