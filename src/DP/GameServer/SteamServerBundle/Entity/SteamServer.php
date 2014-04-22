@@ -22,10 +22,9 @@ namespace DP\GameServer\SteamServerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use DP\GameServer\GameServerBundle\Entity\GameServer;
-use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
-use PHPSeclibWrapper\Exception\MissingPacketException;
 use DP\Core\GameBundle\Entity\Plugin;
 use DP\GameServer\GameServerBundle\Exception\InstallAlreadyStartedException;
+use DP\GameServer\GameServerBundle\Exception\MissingPacketException;
 
 /**
  * DP\GameServer\SteamServerBundle\Entity\SteamServer
@@ -675,22 +674,25 @@ class SteamServer extends GameServer
         return $this->getAbsoluteDir() . 'hlds.sh';
     }
 
+    public function getRebootCommand()
+    {
+        return $this->getAbsoluteHldsScriptPath() . ' restart >> ' .
+            $this->getAbsoluteDir() . 'cron-dp.log';
+    }
+
     public function addAutoReboot()
     {
-        $hldsScriptPath = $this->getAbsoluteHldsScriptPath();
+        $script = $this->getRebootCommand();
         $rebootTime = $this->getRebootAt();
 
-        $crontabLine  = $rebootTime->format('i H') . ' * * * ' . $hldsScriptPath;
-        $crontabLine .= ' restart >> ' . $this->getAbsoluteDir() . 'cron-dp.log';
-
-        // @todo: refacto
-        return $this->getMachine()->updateCrontab($hldsScriptPath, $crontabLine);
+        return $this->getMachine()->updateCrontab($script, $rebootTime->format('i'), $rebootTime->format('H'), '*', '*', '*');
     }
 
     public function removeAutoReboot()
     {
-        // @todo: refacto
-        return $this->getMachine()->removeFromCrontab($this->getAbsoluteHldsScriptPath());
+        $script = $this->getRebootCommand();
+
+        return $this->getMachine()->removeFromCrontab($script);
     }
 
     public function getServerCfgPath()
