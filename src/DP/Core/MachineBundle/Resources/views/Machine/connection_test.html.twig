@@ -8,6 +8,7 @@
 {% extends "::layout.html.twig" %}
 
 {% import '::buttons.html.twig' as dedipanel_buttons %}
+{% import '::flash_messages.html.twig' as dedipanel_flashes %}
 
 {% block title %}
     {{ dedipanel_buttons.back(path('dedipanel_machine_show', {'id': machine.id}), 'machine.title.machine'|trans) }}
@@ -15,41 +16,14 @@
         
 {% block content %}
     <h2>{{ 'machine.title.connection_test'|trans }}</h2>
-    
-    {% if result %}
-        <div class="alert alert-block alert-success machine-test">
-            <p class="alert-heading">{{ 'machine.test.succeeded'|trans }}</p>
-        </div>
 
-        {%  if screenInstalled == false %}
-            <div class="alert alert-block alert-error screen-not-installed">
-                <p class="alert-heading">{% autoescape false %}{{ 'machine.screen_not_installed'|trans }}{% endautoescape %}</p>
-            </div>
-        {%  endif %}
-
-        {% if machine.is64Bit == true and hasCompatLib == false %}
-            <div class="alert alert-block alert-error compat-lib">
-                <p class="alert-heading">{% autoescape false %}{{ 'machine.compat_lib_not_installed'|trans }}{% endautoescape %}</p>
-            </div>
-        {% endif %}
-        
-        {% if javaInstalled == false %}
-            <div class="alert alert-block alert-warning java-not-installed">
-                <p class="alert-heading">{% autoescape false %}{{ 'machine.java_not_installed'|trans }}{% endautoescape %}</p>
-            </div>
-        {% endif %}
-    {% else %}
-        <div class="alert alert-block alert-error machine-test">
-            <p class="alert-heading">{{ 'machine.test.failed'|trans }}</p>
-            
-            <p>
-                <a class="btn btn-danger" href="{{ path('dedipanel_machine_update', {id: machine.id}) }}">{{ 'machine.actions.edit'|trans }}</a>   
-                <a class="btn" href="{{ path('dedipanel_machine_connection_test', {id: machine.id}) }}">{{ 'machine.actions.retry'|trans }}</a>
-            </p>
-        </div>
-    {% endif %}
+    {{ dedipanel_flashes.all(false) }}
 
     <p>
+        {% if test == false %}
+            <a class="btn btn-danger" href="{{ path('dedipanel_machine_update', {id: machine.id}) }}">{{ 'machine.actions.edit'|trans }}</a>
+        {% endif %}
+
         <a class="btn btn-primary" href="{{ path('dedipanel_machine_connection_test', {'id': machine.id}) }}">Relancer le test</a>
         <a class="btn" href="{{ path('dedipanel_machine_show', {'id': machine.id}) }}">Retour</a>
     </p>

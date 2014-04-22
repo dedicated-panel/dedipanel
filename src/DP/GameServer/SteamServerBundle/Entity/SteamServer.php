@@ -246,10 +246,8 @@ class SteamServer extends GameServer
 
         // S'il s'agit d'un serveur 64 bits on commence par vérifier si le paquet ia32-libs est présent
         // (nécessaire pour l'utilisation de l'installateur steam)
-        if ($this->machine->getIs64Bit() === true) {
-            if ($conn->hasCompatLib() == false) {
-                throw new MissingPacketException($conn, 'ia32-libs');
-            }
+        if ($this->machine->is64Bit() === true && $conn->hasCompatLib() == false) {
+            throw new MissingPacketException($conn, 'ia32-libs');
         }
 
         $installDir = $this->getAbsoluteDir();

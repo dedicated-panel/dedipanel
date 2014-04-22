@@ -20,15 +20,35 @@
 
 namespace DP\Core\MachineBundle\Controller;
 
-use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
-use DP\Core\MachineBundle\Entity\Machine;
+use DP\Core\CoreBundle\Controller\ResourceController;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use DP\Core\MachineBundle\Entity\Machine;
 
 /**
  * Machine controller.
  */
 class MachineController extends ResourceController
 {
+    /**
+     * @var DomainManager
+     */
+    protected $domainManager;
+
+    public function setContainer(ContainerInterface $container = null)
+    {
+        parent::setContainer($container);
+
+        if ($container !== null) {
+            $this->domainManager = new DomainManager(
+                $container->get($this->config->getServiceName('manager')),
+                $container->get('event_dispatcher'),
+                $this->flashHelper,
+                $this->config
+            );
+        }
+    }
+
     public function testConnectionAction(Request $request)
     {
         $this->isGrantedOr403('SHOW', $this->find($request));
@@ -37,39 +57,14 @@ class MachineController extends ResourceController
         /** @var Machine $machine */
         $machine = $this->findOr404($request);
 
-        $test = false;
-        $compatLib = false;
-        $javaInstalled = false;
-        $screenInstalled = false;
-        
-        $test = $machine->getConnection()->testSSHConnection();
-        
-        if ($test == true) {
-            $conn = $machine->getConnection();
-            
-            $machine->setHome($conn->getHome());
-            $machine->setNbCore($conn->retrieveNbCore());
-            $machine->setIs64bit($conn->is64bitSystem());
-    
-            if ($machine->getIs64Bit()) {
-                $compatLib = $conn->hasCompatLib();
-            }
-    
-            $javaInstalled   = $conn->isJavaInstalled();
-            $screenInstalled = $conn->isInstalled('screen');
-
-            $this->domainManager->update($machine);
-        }
+        $test = $this->domainManager->connectionTest($machine);
         
         $view = $this
             ->view()
             ->setTemplate($config->getTemplate('connection_test.html'))
             ->setData(array(
                 $config->getResourceName() => $machine,
-                'result' => $test,
-                'hasCompatLib' => $compatLib,
-                'javaInstalled' => $javaInstalled,
-                'screenInstalled' => $screenInstalled,
+                'test' => $test,
             ))
         ;
 

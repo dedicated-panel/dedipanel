@@ -221,7 +221,7 @@ class Machine extends Server
      *
      * @return integer Is 64 bit system
      */
-    public function getIs64Bit()
+    public function is64Bit()
     {
         return $this->is64bit;
     }
