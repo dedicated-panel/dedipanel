@@ -39,6 +39,8 @@ class ConfigController extends Controller
             return $this->redirect($this->generateUrl('dedipanel_core_config'));
         }
 
+        $this->verifyUpdate();
+
         return $this->render('DPCoreBundle:Config:index.html.twig', array(
             'form' => $form->createView(),
         ));
@@ -83,6 +85,7 @@ class ConfigController extends Controller
     {
         $config = array(
             'dp_core' => array(
+                'version' => $this->container->getParameter('dp_core.version'),
                 'debug' => $debugMode,
             ),
         );
@@ -99,5 +102,18 @@ class ConfigController extends Controller
         /** @var FlashBag $flashBag */
         $flashBag = $this->get('session')->getBag('flashes');
         $flashBag->add($type, $message);
+    }
+
+    private function verifyUpdate()
+    {
+        /** @var DP\Core\CoreBundle\Service\UpdateWatcherService $watcher */
+        $watcher = $this->get('dp_core.update_watcher.service');
+
+        if ($watcher->isUpdateAvailable()) {
+            $this->addFlash('error', 'dedipanel.core.update_available', array(
+                '%version%' => 'v' . $watcher->getAvailableVersion(),
+                '%url%' => 'http://www.dedicated-panel.net',
+            ));
+        }
     }
 }

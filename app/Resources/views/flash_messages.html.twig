@@ -1,7 +1,7 @@
 {% macro display_flashes(type, class) %}
     {% for flash in app.session.flashbag.get(type) %}
         <div class="alert alert-block {{ class }}">
-            {{ flash }}
+            {{ flash|raw }}
         </div>
     {% endfor %}
 {% endmacro %}
