@@ -1,12 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
-
-services:
-    monolog.processor.psr_log_message:
-        class: Monolog\Processor\PsrLogMessageProcessor
-        tags:
-            - { name: monolog.processor }
+    - { resource: dedipanel.yml }
 
 framework:
     #esi:             ~

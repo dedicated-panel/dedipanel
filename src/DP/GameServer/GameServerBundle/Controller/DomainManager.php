@@ -13,6 +13,7 @@ use DP\GameServer\GameServerBundle\Exception\NotImplementedException;
 use DP\GameServer\GameServerBundle\Exception\MissingPacketException;
 use DP\Core\GameBundle\Entity\Plugin;
 use DP\GameServer\GameServerBundle\Exception\InstallAlreadyStartedException;
+use DP\GameServer\GameServerBundle\Controller\FlashHelper;
 
 class DomainManager extends BaseDomainManager
 {

@@ -1,0 +1,5 @@
+services:
+    monolog.processor.psr_log_message:
+        class: Monolog\Processor\PsrLogMessageProcessor
+        tags:
+          - { name: monolog.processor }
