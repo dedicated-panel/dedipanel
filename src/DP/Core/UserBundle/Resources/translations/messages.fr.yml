@@ -60,6 +60,7 @@ menu:
         plugin: Gestion des plugins
         user: Gestion des utilisateurs
         group: Gestion des groupes
+        config: Configuration
 
 user:
     creation_succeed: L'utilisateur a été créé avec succès.

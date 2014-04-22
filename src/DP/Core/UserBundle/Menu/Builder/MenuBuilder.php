@@ -86,7 +86,13 @@ class MenuBuilder
     private function addAdminMenuItems(ItemInterface $admin)
     {
         $context = $this->context;
-        
+
+        $admin
+            ->addChild('menu.admin.config', array(
+                'route' => 'dedipanel_core_config'
+            ))
+            ->setDisplay($context->isGranted('ROLE_SUPER_ADMIN'))
+        ;
         $admin
             ->addChild('menu.admin.user', array(
                 'route' => 'dedipanel_user_index'
