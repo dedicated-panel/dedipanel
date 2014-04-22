@@ -3,3 +3,13 @@ services:
         class: Monolog\Processor\PsrLogMessageProcessor
         tags:
           - { name: monolog.processor }
+
+    dp_core.update_watcher.service:
+        class: DP\Core\CoreBundle\Service\UpdateWatcherService
+        arguments: [ "%dp_core.version%" ]
+
+    dp_core.update_watcher.extension:
+        class: DP\Core\CoreBundle\Extension\UpdateWatcherExtension
+        arguments: [ @dp_core.update_watcher.service ]
+        tags:
+            - { name: twig.extension }

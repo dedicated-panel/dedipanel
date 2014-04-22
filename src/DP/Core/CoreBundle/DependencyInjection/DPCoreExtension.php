@@ -26,8 +26,13 @@ class DPCoreExtension extends Extension
         if (isset($configs[0]['debug'])) {
             $debug = $configs[0]['debug'];
         }
-
         $container->setParameter('dp_core.debug', $debug);
+
+        $version = '';
+        if (isset($configs[0]['version'])) {
+            $version = $configs[0]['version'];
+        }
+        $container->setParameter('dp_core.version', $version);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

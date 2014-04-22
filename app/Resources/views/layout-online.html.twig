@@ -64,10 +64,11 @@
                             {{ dedipanel.current_version }}
 
                             {% if dedipanel.update_available %}
-                                &nbsp;({{ 'updateAvailable'|trans({'%versionAvailable%': dedipanel.version_available}) }})
+                                (<a href="http://www.dedicated-panel.net" target="_blank">{{ 'updateAvailable'|trans({'%versionAvailable%': dedipanel.version_available}) }}</a>)
                             {% endif %}
                         {% endif %}
-                    {% endspaceless %} - Code & Design par Von et NiR<br />
+                    {% endspaceless %}
+                    <br />Code & Design par Von et NiR<br />
 
                     <a target="_blank" href="http://www.dedicated-panel.net">dedicated-panel.net</a> | 
                     <a target="_blank" href="http://wiki.dedicated-panel.net">wiki</a> | 

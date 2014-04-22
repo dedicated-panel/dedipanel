@@ -1,6 +1,6 @@
 <?php
 
-namespace DP\Core\UserBundle\Service;
+namespace DP\Core\CoreBundle\Service;
 
 class UpdateWatcherService
 {

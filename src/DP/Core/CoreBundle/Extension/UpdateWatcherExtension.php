@@ -1,8 +1,8 @@
 <?php
 
-namespace DP\Core\UserBundle\Extension;
+namespace DP\Core\CoreBundle\Extension;
 
-use DP\Core\UserBundle\Service\UpdateWatcherService;
+use DP\Core\CoreBundle\Service\UpdateWatcherService;
 
 class UpdateWatcherExtension extends \Twig_Extension
 {

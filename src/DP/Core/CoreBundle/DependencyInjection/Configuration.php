@@ -22,6 +22,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->scalarNode('version')->isRequired()->end()
                 ->scalarNode('debug')->defaultValue(false)->end()
             ->end()
         ;
