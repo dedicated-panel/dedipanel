@@ -7,7 +7,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sylius\Bundle\ResourceBundle\Event\ResourceEvent;
 use Dedipanel\PHPSeclibWrapperBundle\Helper\KeyHelper;
-use Dedipanel\PHPSeclibWrapperBundle\Connection\Exception\ConnectionErrorException;
 
 class CRUDListener implements EventSubscriberInterface
 {

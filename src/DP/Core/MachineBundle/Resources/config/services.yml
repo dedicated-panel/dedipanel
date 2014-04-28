@@ -49,7 +49,7 @@ services:
             - { name: doctrine.event_listener, event: postLoad, method: postLoad }
 
     dedipanel.machine.validator.credentials:
-        class: DP\Core\MachineBundle\Validator\CredentialsValidator
+        class: DP\Core\MachineBundle\Validator\CredentialsConstraintValidator
         arguments: [ @dedipanel.connection_manager ]
         tags:
             - { name: validator.constraint_validator, alias: "machine_credentials_validator" }
