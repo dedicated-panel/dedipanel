@@ -330,9 +330,9 @@ class SteamServer extends GameServer
                     
                     if ($this->getGame()->getSteamCmd()) {
                         $matches = array();
-                        
-                        if (preg_match('#^App state \(0x\d+\) downloading|installed, progress: ([\d]+,[\d]+)#', $line ,$matches)) {
-                            return $matches[1];
+
+                        if (preg_match('#^App state \(0x\d+\) (downloading|installed), progress: ([\d]+.[\d]+)#', $line ,$matches)) {
+                            return ($matches[1] == 'downloading') ? ($matches[2] / 2) : (50 + $matches[2] / 2);
                         }
                     }
                     else {
