@@ -26,6 +26,6 @@ class UpdateWatcherExtension extends \Twig_Extension
     
     public function getName()
     {
-        return 'update_watcher';
+        return 'dedipanel_update_watcher';
     }
 }

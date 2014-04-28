@@ -1,6 +1,5 @@
 imports:
     - { resource: services/menu.yml }
-    - { resource: services/breadcrumb.yml }
     - { resource: services/form_roles.yml }
 
 services:
