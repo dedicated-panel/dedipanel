@@ -1,9 +1,9 @@
 <?php
 
-namespace DP\Core\UserBundle\Menu\Factory;
+namespace DP\Core\CoreBundle\Menu;
 
 use Knp\Menu\MenuFactory as BaseMenuFactory;
-use DP\Core\UserBundle\Menu\MenuItem;
+use DP\Core\CoreBundle\Menu\MenuItem;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class MenuFactory extends BaseMenuFactory

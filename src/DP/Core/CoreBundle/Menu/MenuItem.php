@@ -1,6 +1,6 @@
 <?php
 
-namespace DP\Core\UserBundle\Menu;
+namespace DP\Core\CoreBundle\Menu;
 
 use Knp\Menu\MenuItem as BaseMenuItem;
 

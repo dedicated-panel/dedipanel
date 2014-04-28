@@ -1,6 +1,6 @@
 <?php
 
-namespace DP\Core\UserBundle\Menu\Builder;
+namespace DP\Core\CoreBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
