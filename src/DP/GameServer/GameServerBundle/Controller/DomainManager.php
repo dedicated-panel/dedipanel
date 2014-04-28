@@ -99,11 +99,13 @@ class DomainManager extends BaseDomainManager
 
                 if ($status == 100) {
                     $server->finalizeInstallation($this->templating);
+                    $this->flashHelper->setFlash(ResourceEvent::TYPE_SUCCESS, 'dedipanel.flashes.finalize_install_server');
                 }
             }
 
             if ($status === null) {
                 $server->installServer($this->templating);
+                $this->flashHelper->setFlash(ResourceEvent::TYPE_SUCCESS, 'dedipanel.flashes.install_server');
             }
         }
         catch (InstallAlreadyStartedException $e) {
@@ -133,8 +135,6 @@ class DomainManager extends BaseDomainManager
 
         $this->manager->persist($server);
         $this->manager->flush();
-
-        $this->flashHelper->setFlash(ResourceEvent::TYPE_SUCCESS, 'dedipanel.flashes.uninstall_plugin');
 
         $this->dispatchEvent('post_install', $event);
 
