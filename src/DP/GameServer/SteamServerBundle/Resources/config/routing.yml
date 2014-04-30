@@ -37,7 +37,6 @@ dedipanel_steam_create:
         _controller: dedipanel.controller.steam:createAction
         _sylius:
             form: dedipanel_steam_add
-            redirect: dedipanel_steam_install
 
 dedipanel_steam_update:
     pattern: /{id}/edit
@@ -58,7 +57,7 @@ dedipanel_steam_install:
     pattern: /{id}/install
     methods: [GET]
     defaults:
-        _controller: dedipanel.controller.steam:installAction
+        _controller: dedipanel.controller.steam:installProgressAction
 
 dedipanel_steam_regen:
     pattern: /{id}/regen
@@ -70,7 +69,7 @@ dedipanel_steam_logs:
     pattern: /{id}/logs
     methods: [GET]
     defaults:
-        _controller: dedipanel.controller.steam:showLogsAction
+        _controller: dedipanel.controller.steam:logsAction
 
 dedipanel_steam_change_state:
     pattern: /{id}/change-state

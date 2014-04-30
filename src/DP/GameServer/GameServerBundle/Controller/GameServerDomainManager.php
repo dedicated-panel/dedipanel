@@ -3,19 +3,17 @@
 namespace DP\GameServer\GameServerBundle\Controller;
 
 use Dedipanel\PHPSeclibWrapperBundle\Connection\Exception\ConnectionErrorException;
-use Sylius\Bundle\ResourceBundle\Controller\DomainManager as BaseDomainManager;
+use DP\Core\CoreBundle\Controller\DomainManager as BaseDomainManager;
 use DP\GameServer\GameServerBundle\Entity\GameServer;
 use Sylius\Bundle\ResourceBundle\Event\ResourceEvent;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Sylius\Bundle\ResourceBundle\Controller\Configuration;
 use DP\GameServer\GameServerBundle\Exception\NotImplementedException;
-use DP\GameServer\GameServerBundle\Exception\MissingPacketException;
 use DP\Core\GameBundle\Entity\Plugin;
-use DP\GameServer\GameServerBundle\Exception\InstallAlreadyStartedException;
 use DP\Core\CoreBundle\Controller\FlashHelper;
 
-class DomainManager extends BaseDomainManager
+class GameServerDomainManager extends BaseDomainManager
 {
     private $templating;
 
@@ -50,18 +48,14 @@ class DomainManager extends BaseDomainManager
         $event = $this->dispatchEvent('pre_create', new ResourceEvent($resource));
 
         if ($event->isStopped()) {
-            $this->flashHelper->setFlash(
-                $event->getMessageType(),
-                $event->getMessage(),
-                $event->getMessageParameters()
-            );
-
             return null;
         }
 
-        $this->install($resource);
+        $this->manager->persist($resource);
 
         $this->dispatchEvent('post_create', new ResourceEvent($resource));
+
+        $this->manager->flush();
 
         return $resource;
     }
@@ -72,10 +66,10 @@ class DomainManager extends BaseDomainManager
      * @param GameServer $server
      * @return GameServer|null
      */
-    public function install(GameServer $server)
+    public function getInstallationProgress(GameServer $server)
     {
         /** @var ResourceEvent $event */
-        $event = $this->dispatchEvent('pre_install', new ResourceEvent($server));
+        $event = $this->dispatchEvent('pre_fetch_install_progress', new ResourceEvent($server));
 
         if ($event->isStopped()) {
             $this->flashHelper->setFlash(
@@ -87,42 +81,13 @@ class DomainManager extends BaseDomainManager
             return null;
         }
 
-        $status = $server->getInstallationStatus();
-
         try {
-            if ($status == 100) {
-                $server->finalizeInstallation($this->templating);
-            }
-            elseif ($status < 100) {
+            $status = $server->getInstallationStatus();
+
+            if ($status < 100 && $status !== null) {
                 $status = $server->getInstallationProgress();
                 $server->setInstallationStatus($status);
-
-                if ($status == 100) {
-                    $server->finalizeInstallation($this->templating);
-                    $this->flashHelper->setFlash(ResourceEvent::TYPE_SUCCESS, 'dedipanel.flashes.finalize_install_server');
-                }
             }
-
-            if ($status === null) {
-                $server->installServer($this->templating);
-                $this->flashHelper->setFlash(ResourceEvent::TYPE_SUCCESS, 'dedipanel.flashes.install_server');
-            }
-        }
-        catch (InstallAlreadyStartedException $e) {
-            $this->flashHelper->setFlash(
-                ResourceEvent::TYPE_ERROR,
-                'dedipanel.game.installAlreadyStarted'
-            );
-
-            return null;
-        }
-        catch (MissingPacketException $e) {
-            $this->flashHelper->setFlash(
-                ResourceEvent::TYPE_ERROR,
-                'dedipanel.game.missingCompatLib'
-            );
-
-            return null;
         }
         catch (ConnectionErrorException $e) {
             $this->flashHelper->setFlash(
@@ -134,9 +99,8 @@ class DomainManager extends BaseDomainManager
         }
 
         $this->manager->persist($server);
+        $this->dispatchEvent('post_fetch_install_progress', $event);
         $this->manager->flush();
-
-        $this->dispatchEvent('post_install', $event);
 
         return $server;
     }
@@ -336,7 +300,7 @@ class DomainManager extends BaseDomainManager
      * @param GameServer $server
      * @return array|string
      */
-    public function getLogs(GameServer $server)
+    public function getServerLogs(GameServer $server)
     {
         /** @var ResourceEvent $event */
         $event = $this->dispatchEvent('pre_fetch_logs', new ResourceEvent($server));
@@ -359,13 +323,6 @@ class DomainManager extends BaseDomainManager
             }
             else {
                 $logs = $server->getInstallLogs();
-
-                // Met automatiquement les logs à jour dans le cas d'une installation
-                $status = $server->getInstallationProgress();
-                $server->setInstallationStatus($status);
-
-                $this->manager->persist($server);
-                $this->manager->flush();
             }
         }
         catch (ConnectionErrorException $e) {
@@ -377,16 +334,23 @@ class DomainManager extends BaseDomainManager
             return null;
         }
 
-        if ($logs === null) {
+        /** @var ResourceEvent $event */
+        $event = $this->dispatchEvent('post_fetch_logs', new ResourceEvent($server, array('logs' => $logs)));
+
+        if ($event->isStopped()) {
             $this->flashHelper->setFlash(
-                ResourceEvent::TYPE_ERROR,
-                'dedipanel.game.cantGetLog'
+                $event->getMessageType(),
+                $event->getMessage(),
+                $event->getMessageParameters()
             );
 
             return null;
         }
+        elseif ($logs === null) {
+            $this->flashHelper->setFlash(ResourceEvent::TYPE_ERROR, 'dedipanel.game.cantGetLog');
 
-        $this->dispatchEvent('post_fetch_logs', $event);
+            return null;
+        }
 
         return $logs;
     }

@@ -10,6 +10,7 @@
 namespace DP\GameServer\GameServerBundle\Controller;
 
 use DP\Core\CoreBundle\Controller\ResourceController;
+use DP\GameServer\GameServerBundle\Entity\GameServer;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use DP\GameServer\GameServerBundle\Exception\NotImplementedException;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class GameServerController extends ResourceController
 {
     /**
-     * @var DomainManager
+     * @var GameServerDomainManager
      */
     protected $domainManager;
 
@@ -27,7 +28,7 @@ class GameServerController extends ResourceController
         parent::setContainer($container);
 
         if ($container !== null) {
-            $this->domainManager = new DomainManager(
+            $this->domainManager = new GameServerDomainManager(
                 $container->get($this->config->getServiceName('manager')),
                 $container->get('event_dispatcher'),
                 $this->flashHelper,
@@ -37,16 +38,17 @@ class GameServerController extends ResourceController
         }
     }
 
-    public function installAction(Request $request)
+    public function installProgressAction(Request $request)
     {
         if (!$this->isGranted('CREATE', $this->find($request)) && !$this->isGranted('UPDATE', $this->find($request))) {
             throw new AccessDeniedException;
         }
-        
+
+        /** @var GameServer $server */
         $server = $this->findOr404($request);
-        $this->domainManager->install($server);
+        $this->domainManager->getInstallationProgress($server);
         
-        return $this->redirectHandler->redirectToIndex();
+        return $this->redirectHandler->redirectToReferer();
     }
     
     public function changeStateAction(Request $request)
@@ -70,14 +72,14 @@ class GameServerController extends ResourceController
         return $this->redirectHandler->redirectToReferer();
     }
     
-    public function showLogsAction(Request $request)
+    public function logsAction(Request $request)
     {
         $this->isGrantedOr403('ADMIN', $this->find($request));
         
         $config = $this->getConfiguration();   
         $server = $this->findOr404($request);
 
-        $logs = $this->domainManager->getLogs($server);
+        $logs = $this->domainManager->getServerLogs($server);
 
         if ($logs === null) {
             return $this->redirectHandler->redirectToReferer();

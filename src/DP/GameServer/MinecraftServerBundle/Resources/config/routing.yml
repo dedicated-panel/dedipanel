@@ -57,7 +57,7 @@ dedipanel_minecraft_install:
     pattern: /{id}/install
     methods: [GET]
     defaults:
-        _controller: dedipanel.controller.minecraft:installAction
+        _controller: dedipanel.controller.minecraft:installProgressAction
 
 dedipanel_minecraft_regen:
     pattern: /{id}/regen
@@ -69,7 +69,7 @@ dedipanel_minecraft_logs:
     pattern: /{id}/logs
     methods: [GET]
     defaults:
-        _controller: dedipanel.controller.minecraft:showLogsAction
+        _controller: dedipanel.controller.minecraft:logsAction
 
 dedipanel_minecraft_change_state:
     pattern: /{id}/change-state

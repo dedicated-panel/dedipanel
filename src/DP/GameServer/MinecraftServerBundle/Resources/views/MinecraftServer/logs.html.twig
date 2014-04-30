@@ -13,12 +13,16 @@
     <link rel="stylesheet" href="{{ asset('bundles/dpgameserver/css/game.css') }}" />
 {% endblock %}
 
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('bundles/dpgameserver/js/logs.js') }}"></script>
+{% endblock %}
+
 {% block title %}
     {{ dedipanel_buttons.back(path('dedipanel_minecraft_index'), 'minecraft.title.minecraft'|trans) }}
 {% endblock %}
 
 {% block content %}
-    <form width="100%" height="100%">
-        <textarea width="100%" height="100%">{{ logs }}</textarea>
+    <form id="logs-form">
+        <textarea>{{ logs }}</textarea>
     </form>
 {% endblock %}
