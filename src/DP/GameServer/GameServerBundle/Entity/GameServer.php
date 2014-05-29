@@ -305,7 +305,7 @@ abstract class GameServer
      */
     public function getAbsoluteDir()
     {
-        return $this->getMachine()->getHome() . '/' . $this->getDir() . '/';
+        return rtrim($this->getMachine()->getHome(), '/') . '/' . $this->getDir() . '/';
     }
 
     /**
@@ -315,7 +315,7 @@ abstract class GameServer
      */
     public function getAbsoluteBinDir()
     {
-        return $this->getAbsoluteDir() . $this->getGame()->getBinDir() . '/';
+        return rtrim(rtrim($this->getAbsoluteDir(), '/') . '/' . $this->getGame()->getBinDir() . '/', '/') . '/';
     }
 
     /**

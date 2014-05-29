@@ -15,13 +15,15 @@
 {% endblock %}
 
 {% block title %}
-    {{ dedipanel_buttons.back(path('dedipanel_steam_ftp_show', {'id': server.id, 'path': previous_path}), 'steam.title.steam'|trans) }}
+    {{ dedipanel_buttons.back(path('dedipanel_steam_ftp_show', {'id': server.id, 'path': resource.path}), 'steam.title.steam'|trans) }}
 {% endblock %}
 
-{% block content %}    
+{% block content %}
+    {% set type = resource is file ? 'file' : 'directory' %}
+
     <h2>{{ ('game.ftp.title.create_' ~ type)|trans }}</h2>
-    
-    <form action="{{ path('dedipanel_steam_ftp_create', {id: server.id, path: path, type: type}) }}" method="post" class="form-ftp">
+
+    <form action="{{ path('dedipanel_steam_ftp_create', {id: server.id, path: resource.path, type: type}) }}" method="post" class="form-ftp">
         {{ form_widget(form) }}
         {{ sylius_actions.create() }}
     </form>

@@ -11,7 +11,7 @@
 {% import '::buttons.html.twig' as dedipanel_buttons %}
 
 {% block title %}
-    {{ dedipanel_buttons.back(path('dedipanel_minecraft_ftp_show', {'id': server.id, 'path': previous_path}), 'minecraft.title.minecraft'|trans) }}
+    {{ dedipanel_buttons.back(path('dedipanel_minecraft_ftp_show', {'id': server.id, 'path': resource.path}), 'minecraft.title.minecraft'|trans) }}
 {% endblock %}
 
 {% block content %}
@@ -19,54 +19,68 @@
     
     <ul id="top-nav" class="nav nav-tabs">
         <li>
-            <a href="{{ path('dedipanel_minecraft_ftp_create', {'id': server.id, 'type': 'file', 'path': path}) }}">
+            <a href="{{ path('dedipanel_minecraft_ftp_create', {'id': server.id, 'type': 'file', 'path': resource.relativePath}) }}">
                 {{ 'game.ftp.create_file'|trans }}
             </a>
         </li>
         <li>
-            <a href="{{ path('dedipanel_minecraft_ftp_create', {'id': server.id, 'type': 'directory', 'path': path}) }}">
+            <a href="{{ path('dedipanel_minecraft_ftp_create', {'id': server.id, 'type': 'directory', 'path': resource.relativePath}) }}">
                 {{ 'game.ftp.create_directory'|trans }}
             </a>
         </li>
-        
+
         {# On ajoute un lien pour supprimer le dossier courant #}
         {# Si l'utilisateur n'est pas dans le dossier root du serveur #}
-        {% if path is not empty and invalid == false %}
+        {% if resource.relativePath != '' %}
             <li>
-                {{ sylius_buttons.delete(path('dedipanel_minecraft_ftp_delete', {'id': server.id, path: path})) }}
+                <a href="{{ path('dedipanel_minecraft_ftp_update', {'id': server.id, 'path': resource.relativePath}) }}">
+                    {{ 'game.ftp.update_directory'|trans }}
+                </a>
+            </li>
+            <li>
+                {{ sylius_buttons.delete(path('dedipanel_minecraft_ftp_delete', {'id': server.id, path: resource.relativePath})) }}
             </li>
         {% endif %}
     </ul>
     
-    <p>{{ 'game.ftp.path'|trans({'%path%': '~' ~ path}) }}</p>
-    
-    {% if invalid == true %}
-    	<p class="alert alert-error">{{ 'game.ftp.invalid_path'|trans }}</p>
-    {% endif %}
-    
-    <ul>
-        {# Affichage d'un lien ".." de retour vers le dossier parent #}
-        {% if path is not empty and path != previous_path %}
-            <li class="dir">
-                <a href="{{ path('dedipanel_minecraft_ftp_show', {'id': server.id, 'path': previous_path}) }}">..</a>
-            </li>
-        {% endif %}
-        
-        {# Affichage de la liste des dossiers #}
-        {% for dir in content['dirs'] %}
-            <li class="dir">
-                <a href="{{ path('dedipanel_minecraft_ftp_show', {'id': server.id, 'path': dir.fullPath }) }}">
-                    {{ dir.name }}
-                </a>
-            </li>
+    <p>{{ 'game.ftp.path'|trans({'%path%': '~/' ~ resource.relativePath}) }}</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>{{ 'game.ftp.name'|trans }}</th>
+            <th>{{ 'game.ftp.size'|trans }}</th>
+            <th>{{ 'game.ftp.mtime'|trans }}</th>
+            <th></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for item in resource.content %}
+            <tr>
+                <td>
+                    {% if item is file %}
+                        <a href="{{  path('dedipanel_minecraft_ftp_update', {id: server.id, path: item.relativePath }) }}">
+                            {{ item.name }}
+                        </a>
+                    {% else %}
+                        <a href="{{  path('dedipanel_minecraft_ftp_show', {id: server.id, path: item.relativePath }) }}">
+                            {{ item.name }}
+                        </a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if item is file %}
+                        {{ item.size|human_readable }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if item is file %}
+                        {{ item.mtime|date('d/m/y H:i:s') }}
+                    {% endif %}
+                </td>
+            </tr>
         {% endfor %}
-        {# Affichage de la liste des fichiers #}
-        {% for file in content['files'] %}
-            <li class="file">
-                <a href="{{ path('dedipanel_minecraft_ftp_update', {id: server.id, path: file.fullPath}) }}">
-                    {{ file.name }}
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+        </tbody>
+    </table>
 {% endblock %}

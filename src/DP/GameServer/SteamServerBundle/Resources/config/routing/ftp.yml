@@ -17,7 +17,7 @@
 dedipanel_steam_ftp_show:
     pattern: /show/{path}
     requirements:
-        path: .+
+        path: .*
     defaults:
         path: /
         type: directory
@@ -30,7 +30,7 @@ dedipanel_steam_ftp_create:
     methods: [GET, POST]
     requirements:
         type: file|directory
-        path: .+
+        path: .*
     defaults:
         _controller: dedipanel.steam.controller.ftp:createAction
         _sylius:

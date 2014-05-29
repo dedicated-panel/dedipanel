@@ -16,7 +16,13 @@
 {% endblock %}
 
 {% block title %}
-    {{ dedipanel_buttons.back(path('dedipanel_minecraft_ftp_show', {'id': server.id, 'path': previous_path}), 'minecraft.title.minecraft'|trans) }}
+    {% set path = resource.relativePath %}
+
+    {% if resource is file %}
+        {% set path = resource.path %}
+    {% endif %}
+
+    {{ dedipanel_buttons.back(path('dedipanel_minecraft_ftp_show', {'id': server.id, 'path': path}), 'minecraft.title.minecraft'|trans) }}
 {% endblock %}
 
 {% block content %}    
@@ -24,27 +30,27 @@
     
     <ul id="top-nav" class="nav nav-tabs">
         <li>
-            <a href="{{ path('dedipanel_minecraft_ftp_create', {'id': server.id, 'type': 'file', 'path': previous_path}) }}">
+            <a href="{{ path('dedipanel_minecraft_ftp_create', {'id': server.id, 'type': 'file', 'path': resource.path}) }}">
                 {{ 'game.ftp.create_file'|trans }}
             </a>
         </li>
         <li>
-            <a href="{{ path('dedipanel_minecraft_ftp_create', {'id': server.id, 'type': 'directory', 'path': previous_path}) }}">
+            <a href="{{ path('dedipanel_minecraft_ftp_create', {'id': server.id, 'type': 'directory', 'path': resource.path}) }}">
                 {{ 'game.ftp.create_directory'|trans }}
             </a>
         </li>
         
         {# On ajoute un lien pour supprimer le dossier courant #}
         {# Si l'utilisateur n'est pas dans le dossier root du serveur #}
-        {% if path is not empty and invalid == false %}
+        {% if resource.path is not empty %}
             <li>
-                {{ sylius_buttons.delete(path('dedipanel_minecraft_ftp_delete', {'id': server.id, path: path})) }}
+                {{ sylius_buttons.delete(path('dedipanel_minecraft_ftp_delete', {'id': server.id, path: resource.relativePath})) }}
             </li>
         {% endif %}
     </ul>
     
-    <form action="{{ path('dedipanel_minecraft_ftp_update', {id: server.id, path: path}) }}" method="post" class="form-ftp">
+    <form action="{{ path('dedipanel_minecraft_ftp_update', {id: server.id, path: resource.relativePath}) }}" method="post" class="form-ftp">
         {{ form_widget(form) }}
-        {{ sylius_actions.update(path('dedipanel_minecraft_ftp_show', {'id': server.id, 'path': previous_path})) }}
+        {{ sylius_actions.update(path('dedipanel_minecraft_ftp_show', {'id': server.id, 'path': resource.path})) }}
     </form>
 {% endblock %}

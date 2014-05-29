@@ -14,7 +14,8 @@ class FTPFileType extends AbstractType
                 'label' => 'game.ftp.filename', 
             ))
             ->add('content', 'textarea', array(
-                'label' => 'game.ftp.content', 
+                'label' => 'game.ftp.content',
+                'required' => false,
             ))
         ;
     }

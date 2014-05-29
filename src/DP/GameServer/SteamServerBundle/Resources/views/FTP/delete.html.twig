@@ -10,7 +10,7 @@
 {% import '::buttons.html.twig' as dedipanel_buttons %}
 
 {% block title %}
-    {{ dedipanel_buttons.back(path('dedipanel_steam_ftp_show', {'id': server.id, 'path': previous_path}), 'steam.title.steam'|trans) }}
+    {{ dedipanel_buttons.back(path('dedipanel_steam_ftp_show', {'id': server.id, 'path': resource.relativePath}), 'steam.title.steam'|trans) }}
 {% endblock %}
 
 {% block content %}
