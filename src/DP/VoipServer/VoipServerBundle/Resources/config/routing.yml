@@ -1,0 +1,3 @@
+DPTeamspeakServerBundle:
+    resource: "@DPTeamspeakServerBundle/Resources/config/routing.yml"
+    prefix:   /teamspeak

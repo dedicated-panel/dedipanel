@@ -34,11 +34,9 @@ DPCoreBundle:
     resource: "@DPCoreBundle/Resources/config/routing.yml"
     prefix:   /configure/
 
-_welcome:
-    pattern: /
-    defaults:
-        _controller: FrameworkBundle:Template:template
-        template: '::layout.html.twig'
+DPVoipServerBundle:
+    resource: "@DPVoipServerBundle/Resources/config/routing.yml"
+    prefix:   /voip
 
 # FOSUserBundle
 fos_user_security:
@@ -51,3 +49,9 @@ fos_user_profile:
 fos_user_resetting:
     resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
     prefix: /resetting
+
+_welcome:
+    pattern: /
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: '::layout.html.twig'

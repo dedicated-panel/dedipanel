@@ -53,29 +53,36 @@ class MenuBuilder
         
         $menu
             ->addChild('menu.home', array(
-                'route' => '_welcome', 
-                'extras' => array('icon' => 'P'), 
+                'route'          => '_welcome',
+                'extras'         => array('icon' => 'P'),
                 'pattern_strict' => true
             ))
         ;
         $menu
             ->addChild('menu.steam', array(
-                'route' => 'dedipanel_steam_index', 
-                'extras' => array('icon' => 'o')
+                'route'  => 'dedipanel_steam_index',
+                'extras' => array('icon' => 'o'),
             ))
             ->setDisplay($context->isGranted('ROLE_DP_GAME_STEAM_INDEX'))
         ;
         $menu
             ->addChild('menu.minecraft', array(
-                'route' => 'dedipanel_minecraft_index', 
-                'extras' => array('icon' => 'R')
+                'route'  => 'dedipanel_minecraft_index',
+                'extras' => array('icon' => 'R'),
             ))
             ->setDisplay($context->isGranted('ROLE_DP_GAME_MINECRAFT_INDEX'))
         ;
         $menu
+            ->addChild('menu.teamspeak', array(
+                'route'  => 'dedipanel_teamspeak_index',
+                'extras' => array('icon' => 'U'),
+            ))
+            ->setDisplay($context->isGranted('ROLE_DP_VOIP_TEAMSPEAK_INDEX'))
+        ;
+        $menu
             ->addChild('menu.machine', array(
-                'route' => 'dedipanel_machine_index', 
-                'extras' => array('icon' => 'Q')
+                'route'  => 'dedipanel_machine_index',
+                'extras' => array('icon' => 'Q'),
             ))
             ->setDisplay($context->isGranted('ROLE_DP_ADMIN_MACHINE_INDEX'))
         ;
@@ -89,31 +96,31 @@ class MenuBuilder
 
         $admin
             ->addChild('menu.admin.config', array(
-                'route' => 'dedipanel_core_config'
+                'route' => 'dedipanel_core_config',
             ))
             ->setDisplay($context->isGranted('ROLE_SUPER_ADMIN'))
         ;
         $admin
             ->addChild('menu.admin.user', array(
-                'route' => 'dedipanel_user_index'
+                'route' => 'dedipanel_user_index',
             ))
             ->setDisplay($context->isGranted('ROLE_DP_ADMIN_USER_INDEX'))
         ;
         $admin
             ->addChild('menu.admin.group', array(
-                'route' => 'dedipanel_group_index'
+                'route' => 'dedipanel_group_index',
             ))
             ->setDisplay($context->isGranted('ROLE_DP_ADMIN_GROUP_INDEX'))
         ;
         $admin
             ->addChild('menu.admin.game', array(
-                'route' => 'dedipanel_game_index'
+                'route' => 'dedipanel_game_index',
             ))
             ->setDisplay($context->isGranted('ROLE_DP_ADMIN_GAME_INDEX'))
         ;
         $admin
             ->addChild('menu.admin.plugin', array(
-                'route' => 'dedipanel_plugin_index'
+                'route' => 'dedipanel_plugin_index',
             ))
             ->setDisplay($context->isGranted('ROLE_DP_ADMIN_PLUGIN_INDEX'))
         ;

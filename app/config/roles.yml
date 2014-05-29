@@ -7,6 +7,7 @@ security:
             - ROLE_USER
             - ROLE_DP_ADMIN_CONFIG
             - ROLE_DP_ADMIN_GAME
+            - ROLE_DP_ADMIN_VOIP
         ROLE_DP_ADMIN_CONFIG:
             - ROLE_DP_ADMIN_USER_ADMIN
             - ROLE_DP_ADMIN_GROUP_ADMIN
@@ -51,6 +52,8 @@ security:
         ROLE_DP_ADMIN_GAME:
             - ROLE_DP_GAME_STEAM_ADMIN
             - ROLE_DP_GAME_MINECRAFT_ADMIN
+        ROLE_DP_ADMIN_VOIP:
+            - ROLE_DP_VOIP_TEAMSPEAK_ADMIN
         ROLE_DP_GAME_STEAM_ADMIN:
             - ROLE_DP_GAME_STEAM_INDEX
             - ROLE_DP_GAME_STEAM_SHOW
@@ -72,4 +75,11 @@ security:
             - ROLE_DP_GAME_MINECRAFT_RCON
             - ROLE_DP_GAME_MINECRAFT_PLUGIN
             - ROLE_DP_GAME_MINECRAFT_FTP
+            - ROLE_USER
+        ROLE_DP_VOIP_TEAMSPEAK_ADMIN:
+            - ROLE_DP_VOIP_TEAMSPEAK_INDEX
+            - ROLE_DP_VOIP_TEAMSPEAK_SHOW
+            - ROLE_DP_VOIP_TEAMSPEAK_CREATE
+            - ROLE_DP_VOIP_TEAMSPEAK_UPDATE
+            - ROLE_DP_VOIP_TEAMSPEAK_DELETE
             - ROLE_USER

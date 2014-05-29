@@ -1,2 +1,5 @@
 dedipanel.core.config: Configuration
 dedipanel.core.config.title: Configuration du panel
+
+menu:
+    teamspeak: Serveurs Teamspeak

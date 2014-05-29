@@ -1,0 +1,70 @@
+sylius_resource:
+    resources:
+        dedipanel.user:
+            driver: doctrine/orm
+            templates: DPUserBundle:User
+            role_prefix: ROLE_DP_ADMIN_USER
+            classes:
+                model: DPUserBundle:User
+                repository: DP\Core\UserBundle\Entity\UserRepository
+        dedipanel.group:
+            driver: doctrine/orm
+            templates: DPUserBundle:Group
+            role_prefix: ROLE_DP_ADMIN_GROUP
+            classes:
+                model: DPUserBundle:Group
+        dedipanel.machine:
+            driver: doctrine/orm
+            templates: DPMachineBundle:Machine
+            role_prefix: ROLE_DP_ADMIN_MACHINE
+            classes:
+                model: DPMachineBundle:Machine
+                controller: DP\Core\MachineBundle\Controller\MachineController
+                repository: DP\Core\MachineBundle\Entity\MachineRepository
+        dedipanel.game:
+            driver: doctrine/orm
+            templates: DPGameBundle:Game
+            role_prefix: ROLE_DP_ADMIN_GAME
+            classes:
+                model: DPGameBundle:Game
+        dedipanel.plugin:
+            driver: doctrine/orm
+            templates: DPGameBundle:Plugin
+            role_prefix: ROLE_DP_ADMIN_PLUGIN
+            classes:
+                model: DPGameBundle:Plugin
+        dedipanel.steam:
+            driver: doctrine/orm
+            templates: DPSteamServerBundle:SteamServer
+            role_prefix: ROLE_DP_GAME_STEAM
+            classes:
+                model: DPSteamServerBundle:SteamServer
+                controller: DP\GameServer\GameServerBundle\Controller\GameServerController
+                repository: DP\GameServer\GameServerBundle\Entity\GameServerRepository
+        dedipanel.steam.ftp:
+            driver: doctrine/orm
+            templates: DPSteamServerBundle:FTP
+            classes:
+                model: DPSteamServerBundle:SteamServer
+                controller: DP\GameServer\GameServerBundle\Controller\FTPController
+        dedipanel.minecraft:
+            driver: doctrine/orm
+            templates: DPMinecraftServerBundle:MinecraftServer
+            role_prefix: ROLE_DP_GAME_MINECRAFT
+            classes:
+                model: DPMinecraftServerBundle:MinecraftServer
+                controller: DP\GameServer\GameServerBundle\Controller\GameServerController
+                repository: DP\GameServer\GameServerBundle\Entity\GameServerRepository
+        dedipanel.minecraft.ftp:
+            driver: doctrine/orm
+            templates: DPMinecraftServerBundle:FTP
+            classes:
+                model: DPMinecraftServerBundle:MinecraftServer
+                controller: DP\GameServer\GameServerBundle\Controller\FTPController
+        dedipanel.teamspeak:
+            driver: doctrine/orm
+            templates: DPTeamspeakServerBundle:TeamspeakServer
+            role_prefix: ROLE_DP_VOIP_TEAMSPEAK
+            classes:
+                model: DPTeamspeakServerBundle:TeamspeakServer
+                repository: DP\VoipServer\TeamspeakServerBundle\Entity\TeamspeakServerRepository
