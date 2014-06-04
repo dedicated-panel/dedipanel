@@ -1,1 +1,5 @@
 services:
+    dedipanel.teamspeak.form:
+        class: DP\VoipServer\TeamspeakServerBundle\Form\TeamspeakServerType
+        tags:
+            - { name: form.type, alias: dedipanel_teamspeak }

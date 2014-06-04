@@ -19,16 +19,12 @@ dedipanel_teamspeak_create:
     methods: [GET, POST]
     defaults:
         _controller: dedipanel.controller.teamspeak:createAction
-        _sylius:
-            form: dedipanel_teamspeak_add
 
 dedipanel_teamspeak_update:
     pattern: /{id}/edit
     methods: [GET, POST]
     defaults:
         _controller: dedipanel.controller.teamspeak:updateAction
-        _sylius:
-            form: dedipanel_teamspeak_edit
 
 dedipanel_teamspeak_delete:
     pattern: /{id}/delete

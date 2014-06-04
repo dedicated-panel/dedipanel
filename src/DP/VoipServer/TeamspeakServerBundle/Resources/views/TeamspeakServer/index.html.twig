@@ -24,6 +24,8 @@
     {{ dedipanel_flashes.all() }}
 
     {% for entity in teamspeaks %}
-        {{ entity.machine }}
+        <a href="{{ path('dedipanel_teamspeak_show', {id: entity.id}) }}">
+            {{ entity.machine }}
+        </a>
     {% endfor %}
 {% endblock %}

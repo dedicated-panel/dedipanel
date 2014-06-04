@@ -1,0 +1,30 @@
+{#
+    (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
+
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+#}
+
+{% extends "::layout.html.twig" %}
+
+{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
+{% import '::buttons.html.twig' as dedipanel_buttons %}
+
+{% block title %}
+    {{ dedipanel_buttons.back(path('dedipanel_teamspeak_index'), 'teamspeak.title.teamspeak'|trans) }}
+{% endblock %}
+
+{% block content %}
+    {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_UPDATE') or is_granted('ROLE_DP_VOIP_TEAMSPEAK_DELETE') %}
+        <div class="form-group clearfix">
+            {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_UPDATE') %}
+                {{ sylius_buttons.edit(path('dedipanel_teamspeak_update', {'id': teamspeak.id})) }}
+            {% endif %}
+
+            {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_DELETE') %}
+                {{ sylius_buttons.delete(path('dedipanel_teamspeak_delete', {'id': teamspeak.id})) }}
+                {{ sylius_buttons.delete(path('dedipanel_teamspeak_delete', {'id': teamspeak.id, 'fromMachine': true})) }}
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}
