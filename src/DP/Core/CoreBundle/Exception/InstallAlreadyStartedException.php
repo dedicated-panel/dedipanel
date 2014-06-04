@@ -18,7 +18,7 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\GameServer\GameServerBundle\Exception;
+namespace DP\Core\CoreBundle\Exception;
 
 /**
  * @author Albin Kerouanton 
@@ -27,6 +27,6 @@ class InstallAlreadyStartedException extends \RuntimeException
 {
     public function __construct()
     {
-        parent::__construct("Server installation is already started.");
+        parent::__construct("Installation is already started.");
     }
 }

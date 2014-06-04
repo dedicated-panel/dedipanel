@@ -9,6 +9,7 @@ use Sylius\Bundle\ResourceBundle\Event\ResourceEvent;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Sylius\Bundle\ResourceBundle\Controller\Configuration;
+use DP\Core\CoreBundle\Exception\MissingPacketException;
 use DP\GameServer\GameServerBundle\Exception\NotImplementedException;
 use DP\Core\GameBundle\Entity\Plugin;
 use DP\Core\CoreBundle\Controller\FlashHelper;

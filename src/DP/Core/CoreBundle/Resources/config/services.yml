@@ -30,3 +30,9 @@ services:
         scope: request
         tags:
             - { name: knp_menu.menu, alias: main }
+
+    dedipanel.core.subscriber.install:
+        class: DP\Core\CoreBundle\EventListener\InstallListener
+        arguments: [ @doctrine.orm.entity_manager, @twig ]
+        tags:
+            - { name: kernel.event_subscriber }

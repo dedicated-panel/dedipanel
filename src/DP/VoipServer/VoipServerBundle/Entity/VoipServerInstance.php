@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  *      "teamspeak" = "DP\VoipServer\TeamspeakServerBundle\Entity\TeamspeakServerInstance"
  * })
  */
-class VoipServerInstance
+abstract class VoipServerInstance
 {
     /**
      * @var integer

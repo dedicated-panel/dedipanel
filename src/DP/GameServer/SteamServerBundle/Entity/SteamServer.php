@@ -23,8 +23,8 @@ namespace DP\GameServer\SteamServerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use DP\GameServer\GameServerBundle\Entity\GameServer;
 use DP\Core\GameBundle\Entity\Plugin;
-use DP\GameServer\GameServerBundle\Exception\InstallAlreadyStartedException;
-use DP\GameServer\GameServerBundle\Exception\MissingPacketException;
+use DP\Core\CoreBundle\Exception\InstallAlreadyStartedException;
+use DP\Core\CoreBundle\Exception\MissingPacketException;
 
 /**
  * DP\GameServer\SteamServerBundle\Entity\SteamServer
@@ -247,7 +247,7 @@ class SteamServer extends GameServer
         // S'il s'agit d'un serveur 64 bits on commence par vérifier si le paquet ia32-libs est présent
         // (nécessaire pour l'utilisation de l'installateur steam)
         if ($this->machine->is64Bit() === true && $conn->hasCompatLib() == false) {
-            throw new MissingPacketException($conn, 'ia32-libs');
+            throw new MissingPacketException('ia32-libs');
         }
 
         $installDir = $this->getAbsoluteDir();
@@ -262,7 +262,11 @@ class SteamServer extends GameServer
             $installName = '' . $this->game->getappId() . '.' . $this->game->getappMod() .'';
         }
 
-        $conn->exec('if [ ! -e ' . $installDir . ' ]; then mkdir ' . $installDir . '; fi');
+        if ($conn->dirExists($installDir)) {
+            throw new DirectoryAlreadyExistsException("This directory " . $installDir . " already exists.");
+        }
+
+        $conn->mkdir($installDir);
 
         $installScript = $twig->render(
             'DPSteamServerBundle:sh:install.sh.twig',
@@ -581,7 +585,7 @@ class SteamServer extends GameServer
                 }
 
                 if (!empty($missingPackets)) {
-                    throw new MissingPacketException($conn, $missingPackets);
+                    throw new MissingPacketException($missingPackets);
                 }
             }
         }

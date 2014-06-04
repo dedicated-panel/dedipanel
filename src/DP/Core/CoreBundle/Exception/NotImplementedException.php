@@ -1,6 +1,6 @@
 <?php
 
-namespace DP\GameServer\GameServerBundle\Exception;
+namespace DP\Core\CoreBundle\Exception;
 
 class NotImplementedException extends \RuntimeException
 {

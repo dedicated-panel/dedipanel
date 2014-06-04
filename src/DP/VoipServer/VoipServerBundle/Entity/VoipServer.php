@@ -5,6 +5,7 @@ namespace DP\VoipServer\VoipServerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use DP\Core\MachineBundle\Entity\Machine;
 use Symfony\Component\Validator\Constraints as Assert;
+use DP\Core\CoreBundle\Model\AbstractServer;
 
 /**
  * VoipServer
@@ -17,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *      "teamspeak" = "DP\VoipServer\TeamspeakServerBundle\Entity\TeamspeakServer"
  * })
  */
-class VoipServer
+abstract class VoipServer extends AbstractServer
 {
     /**
      * @var integer
@@ -34,6 +35,13 @@ class VoipServer
      * @Assert\NotNull(message="gameServer.assert.machine")
      */
     protected $machine;
+
+    /**
+     * @var integer $installationStatus
+     *
+     * @ORM\Column(name="installationStatus", type="integer", nullable=true)
+     */
+    protected $installationStatus;
 
 
     /**

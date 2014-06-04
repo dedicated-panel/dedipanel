@@ -1,14 +1,15 @@
 <?php
 
-namespace DP\GameServer\GameServerBundle\Listener;
+namespace DP\Core\CoreBundle\EventListener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sylius\Bundle\ResourceBundle\Event\ResourceEvent;
-use DP\GameServer\GameServerBundle\Entity\GameServer;
-use DP\GameServer\GameServerBundle\Exception\InstallAlreadyStartedException;
-use DP\GameServer\GameServerBundle\Exception\MissingPacketException;
+use DP\Core\CoreBundle\Model\ServerInterface;
 use Dedipanel\PHPSeclibWrapperBundle\Connection\Exception\ConnectionErrorException;
+use DP\Core\CoreBundle\Exception\InstallAlreadyStartedException;
+use DP\Core\CoreBundle\Exception\MissingPacketException;
+use DP\Core\CoreBundle\Exception\DirectoryAlreadyExistsException;
 
 class InstallListener implements EventSubscriberInterface
 {
@@ -40,6 +41,9 @@ class InstallListener implements EventSubscriberInterface
             'dedipanel.minecraft.post_create' => 'install',
             'dedipanel.minecraft.post_fetch_install_progress' => 'install',
             'dedipanel.minecraft.post_fetch_install_progress' => 'finalizeInstall',
+
+            'dedipanel.teamspeak.pre_create' => 'install',
+            'dedipanel.teamspeak.post_fetch_install_progress' => 'install',
         );
     }
 
@@ -51,7 +55,7 @@ class InstallListener implements EventSubscriberInterface
      */
     public function fetchLogs(ResourceEvent $event)
     {
-        /** @var GameServer $server */
+        /** @var AbstractServer $server */
         $server = $event->getSubject();
 
         if (!$server->isInstallationEnded()) {
@@ -90,13 +94,16 @@ class InstallListener implements EventSubscriberInterface
                 $event->stop('dedipanel.flashes.install_server', ResourceEvent::TYPE_SUCCESS);
             }
             catch (InstallAlreadyStartedException $e) {
-                $event->stop('dedipanel.game.installAlreadyStarted', ResourceEvent::TYPE_ERROR);
+                $event->stop('dedipanel.core.installAlreadyStarted', ResourceEvent::TYPE_ERROR);
             }
             catch (MissingPacketException $e) {
-                $event->stop('dedipanel.game.missingCompatLib', ResourceEvent::TYPE_ERROR);
+                $event->stop('dedipanel.core.missingPacket', ResourceEvent::TYPE_ERROR);
             }
             catch (ConnectionErrorException $e) {
                 $event->stop('dedipanel.machine.connection_failed', ResourceEvent::TYPE_ERROR);
+            }
+            catch (DirectoryAlreadyExistsException $e) {
+                $event->stop('dedipanel.core.directory_exists', ResourceEvent::TYPE_ERROR);
             }
         }
     }

@@ -25,7 +25,7 @@ use DP\GameServer\GameServerBundle\Entity\GameServer;
 use Symfony\Component\Validator\Constraints as Assert;
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 use DP\Core\GameBundle\Entity\Plugin;
-use PHPSeclibWrapper\Exception\MissingPacketException;
+use DP\Core\CoreBundle\Exception\MissingPacketException;
 
 /**
  * DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer
@@ -164,18 +164,22 @@ class MinecraftServer extends GameServer
     /**
      * Download server
      */
-    public function installServer()
+    public function installServer(\Twig_Environment $twig)
     {
         $conn = $this->getMachine()->getConnection();
 
         if (!$conn->isJavaInstalled()) {
-            throw new MissingPacketException($conn, 'oracle-java8-installer');
+            throw new MissingPacketException('oracle-java8-installer');
         }
 
         $installDir = $this->getAbsoluteDir();
         $logPath = $installDir . 'install.log';
 
-        $conn->exec('if [ ! -e ' . $installDir . ' ]; then mkdir -p ' . $installDir . '; fi');
+        if ($conn->dirExists($installDir)) {
+            throw new DirectoryAlreadyExistsException("This directory " . $installDir . " already exists.");
+        }
+
+        $conn->mkdir($installDir);
 
         $dlUrl = 'https://s3.amazonaws.com/MinecraftDownload/launcher/minecraft_server.jar';
         if ($this->game->getInstallName() == 'bukkit') {
@@ -198,42 +202,18 @@ class MinecraftServer extends GameServer
 
         if ($status == 2) {
             return 100;
-        } elseif ($status == 1) {
-            // On récupère les 20 dernières lignes du fichier afin de déterminer le pourcentage
-            $installLog = $conn->exec('tail -n 20 ' . $logPath);
-            $percent    = $this->getPercentFromInstallLog($installLog);
-
-            if (!empty($percent)) {
-                // Suppression du fichier de log si le dl est terminé
-                if ($percent == 100) {
-                    $conn->exec('rm ' . $logPath);
-                }
-
-                return $percent;
-            }
         }
 
-        return null;
-    }
+        // On récupère les 20 dernières lignes du fichier afin de déterminer le pourcentage
+        $installLog = $conn->exec('tail -n 20 ' . $logPath);
+        $percent    = $this->getPercentFromInstallLog($installLog);
 
-    protected function getPercentFromInstallLog($installLog)
-    {
-        // On recherche dans chaque ligne en commencant par la fin
-        // Un signe "%" afin de connaître le % le plus à jour
-        $lines = array_reverse(explode("\n", $installLog));
-
-        foreach ($lines AS $line) {
-            $percentPos = strpos($line, '%');
-
-            if ($percentPos !== false) {
-                $line = substr($line, 0, $percentPos);
-                $spacePos = strrpos($line, ' ')+1;
-
-                return substr($line, $spacePos);
-            }
+        // Suppression du fichier de log si le dl est terminé
+        if (!empty($percent) && $percent == 100) {
+            $conn->exec('rm ' . $logPath);
         }
 
-        return null;
+        return $percent;
     }
 
     public function uploadShellScripts(\Twig_Environment $twig)

@@ -26,12 +26,12 @@ use DP\Core\MachineBundle\Entity\Machine;
 use Symfony\Component\Validator\Constraints as Assert;
 use DP\GameServer\GameServerBundle\Query\QueryInterface;
 use DP\GameServer\GameServerBundle\Query\RconInterface;
-use DP\GameServer\GameServerBundle\Exception\InvalidPathException;
 use DP\GameServer\GameServerBundle\Exception\NotImplementedException;
 use DP\GameServer\GameServerBundle\FTP\AbstractItem;
 use DP\GameServer\GameServerBundle\FTP\File;
 use DP\GameServer\GameServerBundle\FTP\Directory;
 use DP\Core\GameBundle\Entity\Plugin;
+use DP\Core\CoreBundle\Model\AbstractServer;
 
 /**
  * DP\Core\GameServer\GameServerBundle\Entity\GameServer
@@ -44,7 +44,7 @@ use DP\Core\GameBundle\Entity\Plugin;
  *      "minecraft" = "DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer"
  * })
  */
-abstract class GameServer
+abstract class GameServer extends AbstractServer
 {
     /**
      * @var integer $id
@@ -235,28 +235,6 @@ abstract class GameServer
     {
         return $this->game;
     }
-
-    /**
-     * Set installationStatus
-     *
-     * @param integer $installationStatus
-     */
-    public function setInstallationStatus($installationStatus)
-    {
-        $this->installationStatus = $installationStatus;
-    }
-
-    /**
-     * Get installationStatus
-     *
-     * @return integer
-     */
-    public function getInstallationStatus()
-    {
-        return $this->installationStatus;
-    }
-
-    abstract public function getInstallationProgress();
 
     /**
      * Set dir
@@ -502,11 +480,6 @@ abstract class GameServer
         catch (ScreenNotExistException $e) {
             return null;
         }
-    }
-    
-    public function isInstallationEnded()
-    {
-        return $this->installationStatus >= 101;
     }
     
     public function finalizeInstallation(\Twig_Environment $twig)
