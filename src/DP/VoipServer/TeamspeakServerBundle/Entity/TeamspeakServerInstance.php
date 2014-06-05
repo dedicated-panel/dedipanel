@@ -32,4 +32,9 @@ class TeamspeakServerInstance extends VoipServerInstance
     {
         return $this->id;
     }
+
+    public function getType()
+    {
+        return 'teamspeak';
+    }
 }

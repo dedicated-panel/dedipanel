@@ -37,11 +37,18 @@ abstract class VoipServerInstance
     protected $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="DP\VoipServer\VoipServerBundle\Entity\VoipServer", inversedBy="gameServers")
+     * @ORM\ManyToOne(targetEntity="DP\VoipServer\VoipServerBundle\Entity\VoipServer", inversedBy="instances")
      * @ORM\JoinColumn(name="serverId", referencedColumnName="id")
      */
     protected $server;
 
+
+    /**
+     * Get the current type of server
+     *
+     * @return string
+     */
+    abstract public function getType();
 
     /**
      * Get id

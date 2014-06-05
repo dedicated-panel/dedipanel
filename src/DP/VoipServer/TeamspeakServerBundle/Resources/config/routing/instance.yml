@@ -1,0 +1,50 @@
+dedipanel_teamspeak_instance_index:
+    pattern: /
+    defaults:
+        _controller: dedipanel.teamspeak.controller.instance:indexAction
+        _sylius:
+            paginate: false
+            criteria:
+                groups: @dedipanel.resolver.user_group:getAccessibleGroupsIdOrEmpty
+
+dedipanel_teamspeak_instance_show:
+    pattern: /{id}/show
+    defaults:
+        _controller: dedipanel.teamspeak.controller.instance:showAction
+        _sylius:
+            paginate: false
+
+dedipanel_teamspeak_instance_create:
+    pattern: /new
+    methods: [GET, POST]
+    defaults:
+        _controller: dedipanel.teamspeak.controller.instance:createAction
+        _sylius:
+            redirect:
+                route: dedipanel_teamspeak_instance_show
+                parameters:
+                    serverId: $serverId
+                    id: resource.id
+
+dedipanel_teamspeak_instance_update:
+    pattern: /{id}/edit
+    methods: [GET, POST]
+    defaults:
+        _controller: dedipanel.teamspeak.controller.instance:updateAction
+        _sylius:
+            redirect:
+                route: dedipanel_teamspeak_instance_show
+                parameters:
+                    serverId: $serverId
+                    id: resource.id
+
+dedipanel_teamspeak_instance_delete:
+    pattern: /{id}/delete
+    methods: [DELETE]
+    defaults:
+        _controller: dedipanel.teamspeak.controller.instance:deleteAction
+        _sylius:
+            redirect:
+                route: dedipanel_teamspeak_instance_index
+                parameters:
+                    serverId: $serverId

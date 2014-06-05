@@ -10,14 +10,16 @@
 {% import 'SyliusResourceBundle:Macros:actions.html.twig' as sylius_actions %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
 
+{% set serverId = app.request.get('serverId') %}
+
 {% block title %}
-    {{ dedipanel_buttons.back(path('dedipanel_teamspeak_index'), 'teamspeak.title.teamspeak'|trans) }}
+    {{ dedipanel_buttons.back(path('dedipanel_teamspeak_instance_index', {serverId: serverId}), 'teamspeak.instance.title.teamspeak'|trans) }}
 {% endblock %}
 
 {% block content %}
-    <h2>{{ 'teamspeak.title.update'|trans }}</h2>
+    <h2>{{ 'teamspeak.instance.title.update'|trans }}</h2>
 
-    <form action="{{ path('dedipanel_teamspeak_update', {id: teamspeak.id}) }}" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('dedipanel_teamspeak_instance_update', {id: instance.id, serverId: serverId}) }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
         {{ sylius_actions.update() }}
     </form>

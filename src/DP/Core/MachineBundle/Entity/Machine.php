@@ -30,6 +30,7 @@ use Dedipanel\PHPSeclibWrapperBundle\Server\Server;
 use Dedipanel\PHPSeclibWrapperBundle\Connection\ConnectionInterface;
 use DP\Core\MachineBundle\Validator\CredentialsConstraint;
 use Symfony\Component\Validator\ExecutionContextInterface;
+use DP\VoipServer\VoipServerBundle\Entity\VoipServer;
 
 /**
  * DP\Core\MachineBundle\Entity\Machine
@@ -101,6 +102,13 @@ class Machine extends Server
      * @ORM\OneToMany(targetEntity="DP\GameServer\GameServerBundle\Entity\GameServer", mappedBy="machine", cascade={"persist", "remove"})
      */
     protected $gameServers;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection $gameServers
+     *
+     * @ORM\OneToMany(targetEntity="DP\VoipServer\VoipServerBundle\Entity\VoipServer", mappedBy="machine", cascade={"persist", "remove"})
+     */
+    protected $voipServers;
     
     /**
      * @var integer
@@ -134,6 +142,7 @@ class Machine extends Server
     public function __construct()
     {
         $this->gameServers = new ArrayCollection();
+        $this->voipServers = new ArrayCollection();
         $this->groups      = new ArrayCollection();
     }
 
@@ -180,6 +189,17 @@ class Machine extends Server
     public function getGameServers()
     {
         return $this->gameServers;
+    }
+
+    public function addVoipServer(VoipServer $srv)
+    {
+        $srv->setMachine($this);
+        $this->voipServers[] = $srv;
+    }
+
+    public function getVoipServers()
+    {
+        return $this->voipServers;
     }
 
     /**

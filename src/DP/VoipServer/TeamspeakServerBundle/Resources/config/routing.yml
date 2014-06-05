@@ -1,34 +1,7 @@
-dedipanel_teamspeak_index:
-    pattern: /
-    defaults:
-        _controller: dedipanel.controller.teamspeak:indexAction
-        _sylius:
-            paginate: false
-            criteria:
-                groups: @dedipanel.resolver.user_group:getAccessibleGroupsIdOrEmpty
+dedipanel_teamspeak_instance:
+    prefix: /{serverId}/instance
+    resource: "@DPTeamspeakServerBundle/Resources/config/routing/instance.yml"
 
-dedipanel_teamspeak_show:
-    pattern: /{id}/show
-    defaults:
-        _controller: dedipanel.controller.teamspeak:showAction
-        _sylius:
-            paginate: false
-
-dedipanel_teamspeak_create:
-    pattern: /new
-    methods: [GET, POST]
-    defaults:
-        _controller: dedipanel.controller.teamspeak:createAction
-
-dedipanel_teamspeak_update:
-    pattern: /{id}/edit
-    methods: [GET, POST]
-    defaults:
-        _controller: dedipanel.controller.teamspeak:updateAction
-
-dedipanel_teamspeak_delete:
-    pattern: /{id}/delete
-    methods: [DELETE]
-    defaults:
-        _controller: dedipanel.controller.teamspeak:deleteAction
-        # template: DPTeamspeakServerBundle:TeamspeakServer:delete.html.twig
+dedipanel_teamspeak_server:
+    prefix: /
+    resource: "@DPTeamspeakServerBundle/Resources/config/routing/server.yml"

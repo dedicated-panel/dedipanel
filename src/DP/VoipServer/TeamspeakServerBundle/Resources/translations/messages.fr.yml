@@ -5,3 +5,12 @@ teamspeak:
         add: Ajouter un serveur Teamspeak
 
     add: Ajouter
+
+    instance:
+        title:
+            teamspeak: Instance Teamspeak
+            index: Liste des instances Teamspeak
+            add: Ajouter une instance Teamspeak
+
+        add: Ajouter
+        edit_server: Modifier le serveur

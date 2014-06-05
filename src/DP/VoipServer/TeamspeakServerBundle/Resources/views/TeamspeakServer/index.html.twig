@@ -24,7 +24,7 @@
     {{ dedipanel_flashes.all() }}
 
     {% for entity in teamspeaks %}
-        <a href="{{ path('dedipanel_teamspeak_show', {id: entity.id}) }}">
+        <a href="{{ path('dedipanel_teamspeak_instance_index', {serverId: entity.id}) }}">
             {{ entity.machine }}
         </a>
     {% endfor %}

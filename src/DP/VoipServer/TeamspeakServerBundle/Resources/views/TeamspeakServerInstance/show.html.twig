@@ -1,0 +1,32 @@
+{#
+    (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
+
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+#}
+
+{% extends "::layout.html.twig" %}
+
+{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
+{% import '::buttons.html.twig' as dedipanel_buttons %}
+
+{% set serverId = app.request.get('serverId') %}
+
+{% block title %}
+    {{ dedipanel_buttons.back(path('dedipanel_teamspeak_instance_index', {serverId: serverId}), 'teamspeak.instance.title.teamspeak'|trans) }}
+{% endblock %}
+
+{% block content %}
+    {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_UPDATE') or is_granted('ROLE_DP_VOIP_TEAMSPEAK_DELETE') %}
+        <div class="form-group clearfix">
+            {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_UPDATE') %}
+                {{ sylius_buttons.edit(path('dedipanel_teamspeak_instance_update', {'id': instance.id, serverId: serverId})) }}
+            {% endif %}
+
+            {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_DELETE') %}
+                {{ sylius_buttons.delete(path('dedipanel_teamspeak_instance_delete', {'id': instance.id, serverId: serverId})) }}
+                {{ sylius_buttons.delete(path('dedipanel_teamspeak_instance_delete', {'id': instance.id, serverId: serverId, 'fromMachine': true})) }}
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

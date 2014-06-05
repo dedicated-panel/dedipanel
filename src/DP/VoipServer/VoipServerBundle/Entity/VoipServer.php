@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use DP\Core\MachineBundle\Entity\Machine;
 use Symfony\Component\Validator\Constraints as Assert;
 use DP\Core\CoreBundle\Model\AbstractServer;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * VoipServer
@@ -30,7 +31,7 @@ abstract class VoipServer extends AbstractServer
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="DP\Core\MachineBundle\Entity\Machine", inversedBy="gameServers")
+     * @ORM\ManyToOne(targetEntity="DP\Core\MachineBundle\Entity\Machine", inversedBy="voipServers")
      * @ORM\JoinColumn(name="machineId", referencedColumnName="id")
      */
     protected $machine;
@@ -42,6 +43,25 @@ abstract class VoipServer extends AbstractServer
      */
     protected $installationStatus;
 
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection $instances
+     *
+     * @ORM\OneToMany(targetEntity="DP\VoipServer\VoipServerBundle\Entity\VoipServerInstance", mappedBy="machine", cascade={"persist", "remove"})
+     */
+    protected $instances;
+
+
+    /**
+     * Get the current type of server
+     *
+     * @return string
+     */
+    abstract public function getType();
+
+    public function __construct()
+    {
+        $this->instances = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -71,5 +91,33 @@ abstract class VoipServer extends AbstractServer
     public function getMachine()
     {
         return $this->machine;
+    }
+
+    public function setInstallationStatus($status)
+    {
+        $this->installationStatus = $status;
+
+        return $this;
+    }
+
+    public function getInstallationStatus()
+    {
+        return $this->installationStatus;
+    }
+
+    public function addInstance(VoipServerInstance $instance)
+    {
+        $instance->setServer($this);
+        $this->instances[] = $instance;
+    }
+
+    public function getInstances()
+    {
+        return $this->instances;
+    }
+
+    public function __toString()
+    {
+        return strval($this->machine);
     }
 }

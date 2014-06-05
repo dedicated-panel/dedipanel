@@ -1,6 +1,6 @@
 {#
     (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
-
+    
     For the full copyright and license information, please view the LICENSE
     file that was distributed with this source code.
 #}
@@ -10,15 +10,17 @@
 {% import 'SyliusResourceBundle:Macros:actions.html.twig' as sylius_actions %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
 
+{% set serverId = app.request.get('serverId') %}
+
 {% block title %}
-    {{ dedipanel_buttons.back(path('dedipanel_teamspeak_index'), 'teamspeak.title.teamspeak'|trans) }}
+    {{ dedipanel_buttons.back(path('dedipanel_teamspeak_instance_index', {serverId: serverId }), 'teamspeak.title.teamspeak'|trans) }}
 {% endblock %}
-
+        
 {% block content %}
-    <h2>{{ 'teamspeak.title.update'|trans }}</h2>
+    <h2>{{ 'teamspeak.instance.title.add'|trans }}</h2>
 
-    <form action="{{ path('dedipanel_teamspeak_update', {id: teamspeak.id}) }}" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('dedipanel_teamspeak_instance_create', {serverId: serverId }) }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
-        {{ sylius_actions.update() }}
+        {{ sylius_actions.create() }}
     </form>
 {% endblock %}

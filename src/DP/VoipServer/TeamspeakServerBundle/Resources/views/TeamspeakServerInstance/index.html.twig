@@ -1,0 +1,39 @@
+{% extends "::layout.html.twig" %}
+
+{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
+{% import '::buttons.html.twig' as dedipanel_buttons %}
+{% import '::flash_messages.html.twig' as dedipanel_flashes %}
+
+{% set serverId = app.request.get('serverId') %}
+
+{% block title %}
+    {{ dedipanel_buttons.back(path('dedipanel_teamspeak_index'), 'teamspeak.instance.title.teamspeak'|trans) }}
+{% endblock %}
+
+{% block content %}
+    <h2>{{ 'teamspeak.instance.title.index'|trans }}</h2>
+
+    {% if is_granted('ROLE_DP_GAME_STEAM_CREATE') %}
+        <ul id="top-nav" class="nav nav-tabs">
+            <li>
+                <a href="{{ path('dedipanel_teamspeak_update', {id: serverId}) }}">
+                    {{ 'teamspeak.instance.edit_server'|trans }}
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ path('dedipanel_teamspeak_instance_create', {serverId: serverId}) }}">
+                    {{ 'teamspeak.instance.add'|trans }}
+                </a>
+            </li>
+        </ul>
+    {% endif %}
+
+    {{ dedipanel_flashes.all() }}
+
+    {% for entity in instances %}
+        <a href="{{ path('dedipanel_teamspeak_instance_show', {id: entity.id, serverId: serverId}) }}">
+            {{ entity.name }}
+        </a>
+    {% endfor %}
+{% endblock %}

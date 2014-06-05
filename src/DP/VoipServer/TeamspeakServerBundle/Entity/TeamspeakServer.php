@@ -159,4 +159,9 @@ class TeamspeakServer extends VoipServer
 
         $this->installationStatus = 101;
     }
+
+    public function getType()
+    {
+        return 'teamspeak';
+    }
 }
