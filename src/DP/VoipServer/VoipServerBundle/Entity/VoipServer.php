@@ -32,7 +32,6 @@ abstract class VoipServer extends AbstractServer
     /**
      * @ORM\ManyToOne(targetEntity="DP\Core\MachineBundle\Entity\Machine", inversedBy="gameServers")
      * @ORM\JoinColumn(name="machineId", referencedColumnName="id")
-     * @Assert\NotNull(message="gameServer.assert.machine")
      */
     protected $machine;
 

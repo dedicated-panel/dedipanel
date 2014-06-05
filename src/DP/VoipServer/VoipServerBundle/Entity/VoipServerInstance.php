@@ -3,6 +3,7 @@
 namespace DP\VoipServer\VoipServerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * VoipServerInstance
@@ -24,7 +25,22 @@ abstract class VoipServerInstance
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=32)
+     * @Assert\NotBlank(message="voip.assert.name.not_blank")
+     * @Assert\Length(max="32", maxMessage="voip.assert.name.max_len")
+     */
+    protected $name;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="DP\VoipServer\VoipServerBundle\Entity\VoipServer", inversedBy="gameServers")
+     * @ORM\JoinColumn(name="serverId", referencedColumnName="id")
+     */
+    protected $server;
 
 
     /**
@@ -35,5 +51,33 @@ abstract class VoipServerInstance
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setServer(VoipServer $server)
+    {
+        if ($server->getType() != $this->getType()) {
+            throw new \InvalidArgumentException('You need to provide the same type of VoipServer that the current VoipServerInstance is.');
+        }
+
+        $this->server = $server;
+
+        return $this;
+    }
+
+    public function getServer()
+    {
+        return $this->server;
     }
 }

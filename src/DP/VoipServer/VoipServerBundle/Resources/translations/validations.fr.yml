@@ -1,0 +1,5 @@
+voip:
+    assert:
+        name:
+            not_blank: Vous devez indiquer le nom de cette instance.
+            max_len: Vous devez indiquer un nom faisant moins de 32 caractères.
