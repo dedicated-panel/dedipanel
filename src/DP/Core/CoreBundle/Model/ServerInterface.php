@@ -42,4 +42,32 @@ interface ServerInterface
      * @throws Dedipanel\PHPSeclibWrapperBundle\Connection\Exception\ConnectionErrorException
      */
     public function installServer(\Twig_Environment $twig);
+
+    /**
+     * Finalize the installation process
+     *
+     * @param \Twig_Environment $twig
+     */
+    public function finalizeInstallation(\Twig_Environment $twig);
+
+    /**
+     * Destroy the server
+     *
+     * @throws Dedipanel\PHPSeclibWrapperBundle\Connection\Exception\ConnectionErrorException
+     */
+    public function deleteServer();
+
+    /**
+     * Change the server state (stop, stop, restart)
+     *
+     * @return boolean
+     */
+    public function changeState($state);
+
+    /**
+     * Get the machine on which the server is installed (or need to be installed)
+     *
+     * @return DP\Core\MachineBundle\Entity\Machine
+     */
+    public function getMachine();
 }

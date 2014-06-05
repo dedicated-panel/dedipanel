@@ -53,4 +53,20 @@ abstract class AbstractServer implements ServerInterface
 
         return null;
     }
+
+    public function deleteServer()
+    {
+        $conn = $this->getMachine()->getConnection();
+        $installDir = $this->getAbsoluteDir();
+
+        $this->changeState('stop');
+
+        if ($conn->dirExists($installDir)) {
+            return $conn->getSFTP()->delete($installDir);
+        }
+
+        return true;
+    }
+
+    abstract protected function getAbsoluteDir();
 }

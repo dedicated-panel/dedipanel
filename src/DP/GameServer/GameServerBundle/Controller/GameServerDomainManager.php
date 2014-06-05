@@ -129,7 +129,7 @@ class GameServerDomainManager extends BaseDomainManager
         }
 
         try {
-            $server->changeStateServer($state);
+            $server->changeState($state);
         }
         catch (ConnectionErrorException $e) {
             $this->flashHelper->setFlash(

@@ -33,6 +33,6 @@ services:
 
     dedipanel.core.subscriber.install:
         class: DP\Core\CoreBundle\EventListener\InstallListener
-        arguments: [ @doctrine.orm.entity_manager, @twig ]
+        arguments: [ @doctrine.orm.entity_manager, @twig, @request_stack ]
         tags:
             - { name: kernel.event_subscriber }

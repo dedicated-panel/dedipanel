@@ -243,7 +243,10 @@ class MinecraftServer extends GameServer
         return $this->uploadShellScripts($twig);
     }
 
-    public function changeStateServer($state)
+    /**
+     * {@inheritdoc}
+     */
+    public function changeState($state)
     {
         $scriptPath = $this->getAbsoluteDir() . 'minecraft.sh';
 

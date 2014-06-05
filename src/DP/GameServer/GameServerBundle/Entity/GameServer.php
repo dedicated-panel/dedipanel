@@ -138,9 +138,6 @@ abstract class GameServer extends AbstractServer
     private $alreadyInstalled;
 
 
-    abstract public function changeStateServer($state);
-
-
     public function __construct()
     {
         $this->plugins = new \Doctrine\Common\Collections\ArrayCollection();
@@ -281,7 +278,7 @@ abstract class GameServer extends AbstractServer
      *
      * @return string
      */
-    public function getAbsoluteDir()
+    protected function getAbsoluteDir()
     {
         return rtrim($this->getMachine()->getHome(), '/') . '/' . $this->getDir() . '/';
     }

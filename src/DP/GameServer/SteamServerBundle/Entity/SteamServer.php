@@ -544,7 +544,10 @@ class SteamServer extends GameServer
         return $conn->upload($cfgPath, implode("\n", $fileLines));
     }
 
-    public function changeStateServer($state)
+    /**
+     * {@inheritdoc}
+     */
+    public function changeState($state)
     {
         return $this
                 ->getMachine()

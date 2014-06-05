@@ -14,6 +14,63 @@ use DP\VoipServer\VoipServerBundle\Entity\VoipServer;
  */
 class TeamspeakServer extends VoipServer
 {
+    /**
+     * @var string $queryLogin
+     *
+     * @ORM\Column(name="query_login", type="string", length=32, nullable=true)
+     */
+    private $queryLogin;
+    /**
+     * @var string $queryPassword
+     *
+     * @ORM\Column(name="query_passwd", type="string", length=32, nullable=true)
+     */
+    private $queryPassword;
+
+    /**
+     * @var string $adminToken
+     *
+     * @ORM\Column(name="admin_token", type="string", length=40, nullable=true)
+     */
+    private $adminToken;
+
+
+    public function setQueryLogin($login)
+    {
+        $this->queryLogin = $login;
+
+        return $this;
+    }
+
+    public function getQueryLogin()
+    {
+        return $this->queryLogin;
+    }
+
+    public function setQueryPassword($password)
+    {
+        $this->queryPassword = $password;
+
+        return $this;
+    }
+
+    public function getQueryPassword()
+    {
+        return $this->queryPassword;
+    }
+
+    public function setAdminToken($token)
+    {
+        $this->adminToken = $token;
+
+        return $this;
+    }
+
+    public function getAdminToken()
+    {
+        return $this->adminToken;
+    }
+
     public function getInstallationProgress()
     {
         $conn       = $this->getMachine()->getConnection();
@@ -42,9 +99,6 @@ class TeamspeakServer extends VoipServer
             throw new DirectoryAlreadyExistsException("This directory " . $installDir . " already exists.");
         }
 
-        // var_dump($installDir, $conn->dirExists($installDir));
-        // exit();
-
         $conn->mkdir($installDir);
 
         $dlUrl = 'http://dl.4players.de/ts/releases/3.0.10.3/teamspeak3-server_linux-x86-3.0.10.3.tar.gz';
@@ -64,8 +118,45 @@ class TeamspeakServer extends VoipServer
         $this->installationStatus = 0;
     }
 
-    private function getAbsoluteDir()
+    protected function getAbsoluteDir()
     {
         return rtrim($this->getMachine()->getHome(), '/') . '/teamspeak';
+    }
+
+    public function changeState($state)
+    {
+        return $this
+            ->getMachine()
+            ->getConnection()
+            ->exec($this->getAbsoluteDir() . '/ts3server_startscript.sh ' . $state)
+        ;
+    }
+
+    public function finalizeInstallation(\Twig_Environment $twig)
+    {
+        $screenName = 'dp-ts-first-start';
+        $cmd = 'screen -dmS ' . $screenName . ' ' . $this->getAbsoluteDir() . '/ts3server_minimal_runscript.sh start';
+
+        $conn = $this->getMachine()->getConnection();
+        $conn->exec($cmd);
+
+        sleep(2); // Oh shit !!
+        $content = explode("\n", $conn->getScreenContent($screenName));
+
+        foreach ($content AS $line) {
+            $matches = array();
+
+            if (preg_match('#loginname= "(.*)", password= "(.*)"#', $line, $matches)) {
+                $this->queryLogin    = $matches[1];
+                $this->queryPassword = $matches[2];
+            }
+            elseif (preg_match('#token=(.*)#', $line, $matches)) {
+                $this->adminToken = $matches[1];
+            }
+        }
+
+        $conn->exec('kill `screen -ls | grep \'' . $screenName . '\' | awk -F \'.\' \'{print $1}\'`');
+
+        $this->installationStatus = 101;
     }
 }

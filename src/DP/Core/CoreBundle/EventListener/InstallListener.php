@@ -10,40 +10,41 @@ use Dedipanel\PHPSeclibWrapperBundle\Connection\Exception\ConnectionErrorExcepti
 use DP\Core\CoreBundle\Exception\InstallAlreadyStartedException;
 use DP\Core\CoreBundle\Exception\MissingPacketException;
 use DP\Core\CoreBundle\Exception\DirectoryAlreadyExistsException;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class InstallListener implements EventSubscriberInterface
 {
     /** @var \Doctrine\Common\Persistence\ObjectManager $manager */
     private $manager;
     private $templating;
+    private $request;
 
     /**
      * @param ObjectManager $manager
      */
-    public function __construct(ObjectManager $manager, $templating)
+    public function __construct(ObjectManager $manager, $templating, RequestStack $stack)
     {
         $this->manager = $manager;
         $this->templating = $templating;
+        $this->request = $stack->getCurrentRequest();
     }
 
     /**
-     * @{inheritdoc}
+     * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {
         return array(
             'dedipanel.steam.post_fetch_logs'  => 'fetchLogs',
             'dedipanel.steam.post_create' => 'install',
-            'dedipanel.steam.post_fetch_install_progress' => 'install',
-            'dedipanel.steam.post_fetch_install_progress' => 'finalizeInstall',
+            'dedipanel.steam.post_fetch_install_progress' => array('install', 'finalizeInstall'),
 
             'dedipanel.minecraft.post_fetch_logs'  => 'fetchLogs',
             'dedipanel.minecraft.post_create' => 'install',
-            'dedipanel.minecraft.post_fetch_install_progress' => 'install',
-            'dedipanel.minecraft.post_fetch_install_progress' => 'finalizeInstall',
+            'dedipanel.minecraft.post_fetch_install_progress' => array('install', 'finalizeInstall'),
 
-            'dedipanel.teamspeak.pre_create' => 'install',
-            'dedipanel.teamspeak.post_fetch_install_progress' => 'install',
+            'dedipanel.teamspeak.pre_create'  => array('install', 'fetchLogs'),
+            'dedipanel.teamspeak.pre_delete'  => 'delete',
         );
     }
 
@@ -55,7 +56,7 @@ class InstallListener implements EventSubscriberInterface
      */
     public function fetchLogs(ResourceEvent $event)
     {
-        /** @var AbstractServer $server */
+        /** @var ServerInterface $server */
         $server = $event->getSubject();
 
         if (!$server->isInstallationEnded()) {
@@ -85,13 +86,12 @@ class InstallListener implements EventSubscriberInterface
      */
     public function install(ResourceEvent $event)
     {
-        /** @var GameServer $server */
+        /** @var ServerInterface $server */
         $server = $event->getSubject();
 
         if ($server->getInstallationStatus() == null) {
             try {
                 $server->installServer($this->templating);
-                $event->stop('dedipanel.flashes.install_server', ResourceEvent::TYPE_SUCCESS);
             }
             catch (InstallAlreadyStartedException $e) {
                 $event->stop('dedipanel.core.installAlreadyStarted', ResourceEvent::TYPE_ERROR);
@@ -99,11 +99,22 @@ class InstallListener implements EventSubscriberInterface
             catch (MissingPacketException $e) {
                 $event->stop('dedipanel.core.missingPacket', ResourceEvent::TYPE_ERROR);
             }
+            catch (DirectoryAlreadyExistsException $e) {
+                $event->stop('dedipanel.core.directory_exists', ResourceEvent::TYPE_ERROR);
+            }
             catch (ConnectionErrorException $e) {
                 $event->stop('dedipanel.machine.connection_failed', ResourceEvent::TYPE_ERROR);
             }
-            catch (DirectoryAlreadyExistsException $e) {
-                $event->stop('dedipanel.core.directory_exists', ResourceEvent::TYPE_ERROR);
+        }
+
+        $name   = $event->getName();
+        $events = $this->getSubscribedEvents()[$name];
+        if (is_array($events)) {
+            $keys   = array_keys($events, 'install');
+            $events = array_slice($events, array_pop($keys)+1);
+
+            if (!empty($events)) {
+                call_user_func(array($this, array_pop($events)), new ResourceEvent($server));
             }
         }
     }
@@ -115,7 +126,7 @@ class InstallListener implements EventSubscriberInterface
      */
     public function finalizeInstall(ResourceEvent $event)
     {
-        /** @var GameServer $server */
+        /** @var ServerInterface $server */
         $server = $event->getSubject();
 
         if ($server->getInstallationStatus() == 100) {
@@ -123,7 +134,24 @@ class InstallListener implements EventSubscriberInterface
                 $server->finalizeInstallation($this->templating);
                 $event->stop('dedipanel.flashes.finalize_install_server', ResourceEvent::TYPE_SUCCESS);
             }
-            catch (ConnectionErrorException $event) {
+            catch (ConnectionErrorException $e) {
+                $event->stop('dedipanel.machine.connection_failed', ResourceEvent::TYPE_ERROR);
+            }
+        }
+    }
+
+    public function delete(ResourceEvent $event)
+    {
+        /** @var ServerInterface $server */
+        $server = $event->getSubject();
+
+        if (!empty($this->request) && $this->request->query->get('fromMachine') == true) {
+            try {
+                if (!$server->deleteServer()) {
+                    $event->stop('dedipanel.machine.delete_failed', ResourceEvent::TYPE_ERROR);
+                }
+            }
+            catch (ConnectionErrorException $e) {
                 $event->stop('dedipanel.machine.connection_failed', ResourceEvent::TYPE_ERROR);
             }
         }
