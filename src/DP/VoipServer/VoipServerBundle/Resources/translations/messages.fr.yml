@@ -1,2 +1,3 @@
 voip:
     selectServer: Sélectionnez un serveur
+    query_port: Port pour le query

@@ -13,6 +13,9 @@ class TeamspeakServerType extends AbstractType
             ->add('machine', 'entity', array(
                 'label' => 'game.selectMachine', 'class' => 'DPMachineBundle:Machine'
             ))
+            ->add('query_port', 'number', array(
+                'label' => 'voip.query_port',
+            ))
         ;
     }
 

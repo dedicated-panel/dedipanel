@@ -87,4 +87,16 @@ abstract class VoipServerInstance
     {
         return $this->server;
     }
+
+    public function setQuery($query)
+    {
+        $this->server->setQuery($query);
+
+        return $this;
+    }
+
+    public function getQuery()
+    {
+        return $this->server->getQuery();
+    }
 }

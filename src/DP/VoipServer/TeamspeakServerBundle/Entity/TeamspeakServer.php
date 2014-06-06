@@ -15,6 +15,13 @@ use DP\VoipServer\VoipServerBundle\Entity\VoipServer;
 class TeamspeakServer extends VoipServer
 {
     /**
+     * @var integer $queryPort
+     *
+     * @ORM\Column(name="query_port", type="integer", nullable=true)
+     */
+    private $queryPort = 10011;
+
+    /**
      * @var string $queryLogin
      *
      * @ORM\Column(name="query_login", type="string", length=32, nullable=true)
@@ -34,6 +41,13 @@ class TeamspeakServer extends VoipServer
      */
     private $adminToken;
 
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->queryPort = 10011;
+    }
 
     public function setQueryLogin($login)
     {
@@ -57,6 +71,18 @@ class TeamspeakServer extends VoipServer
     public function getQueryPassword()
     {
         return $this->queryPassword;
+    }
+
+    public function setQueryPort($port)
+    {
+        $this->queryPort = $port;
+
+        return $this;
+    }
+
+    public function getQueryPort()
+    {
+        return $this->queryPort;
     }
 
     public function setAdminToken($token)

@@ -44,11 +44,16 @@ abstract class VoipServer extends AbstractServer
     protected $installationStatus;
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection $instances
+     * @var Doctrine\Common\Collections\ArrayCollection $instances
      *
      * @ORM\OneToMany(targetEntity="DP\VoipServer\VoipServerBundle\Entity\VoipServerInstance", mappedBy="server", cascade={"persist", "remove"})
      */
     protected $instances;
+
+    /**
+     * @var object $query
+     */
+    protected $query;
 
 
     /**
@@ -57,6 +62,13 @@ abstract class VoipServer extends AbstractServer
      * @return string
      */
     abstract public function getType();
+
+    /**
+     * Get the port that need to be used by the query
+     *
+     * @return integer
+     */
+    abstract public function getQueryPort();
 
     public function __construct()
     {
@@ -116,6 +128,23 @@ abstract class VoipServer extends AbstractServer
     public function getInstances()
     {
         return $this->instances;
+    }
+
+    public function getHost()
+    {
+        return $this->getMachine()->getIP();
+    }
+
+    public function setQuery($query)
+    {
+        $this->query = $query;
+
+        return $this;
+    }
+
+    public function getQuery()
+    {
+        return $this->query;
     }
 
     public function __toString()
