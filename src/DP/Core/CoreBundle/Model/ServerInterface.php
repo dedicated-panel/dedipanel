@@ -4,12 +4,24 @@ namespace DP\Core\CoreBundle\Model;
 
 interface ServerInterface
 {
+    const ACTION_START = 'start';
+    const ACTION_STOP  = 'stop';
+    const ACTION_RESTART = 'restart';
+
     /**
      * Is the server installation ended ?
      *
      * @return boolean
      */
     public function isInstallationEnded();
+
+    /**
+     * Is the server already installed on the machine,
+     * before the panel done anything ?
+     *
+     * @return boolean
+     */
+    public function isAlreadyInstalled();
 
     /**
      * Fetch the installation progress
@@ -58,7 +70,7 @@ interface ServerInterface
     public function deleteServer();
 
     /**
-     * Change the server state (stop, stop, restart)
+     * Change the server state (one of ACTION_*)
      *
      * @return boolean
      */

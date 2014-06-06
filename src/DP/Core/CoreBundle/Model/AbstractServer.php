@@ -9,6 +9,33 @@ abstract class AbstractServer implements ServerInterface
      */
     protected $installationStatus;
 
+    /** @var boolean $alreadyInstalled Used by create process **/
+    protected $alreadyInstalled;
+
+
+    /**
+     * Set whether is already already installed
+     *
+     * @param boolean $alreadyInstalled
+     *
+     * @return GameServer
+     */
+    public function setAlreadyInstalled($alreadyInstalled)
+    {
+        $this->alreadyInstalled = $alreadyInstalled;
+
+        return $this;
+    }
+
+    /**
+     * Is already installed ? (from form)
+     *
+     * @return boolean
+     */
+    public function isAlreadyInstalled()
+    {
+        return $this->alreadyInstalled;
+    }
 
     /**
      * {@inheritdoc}

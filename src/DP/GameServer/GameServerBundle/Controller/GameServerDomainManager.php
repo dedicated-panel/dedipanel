@@ -3,64 +3,15 @@
 namespace DP\GameServer\GameServerBundle\Controller;
 
 use Dedipanel\PHPSeclibWrapperBundle\Connection\Exception\ConnectionErrorException;
-use DP\Core\CoreBundle\Controller\DomainManager as BaseDomainManager;
+use DP\Core\CoreBundle\Controller\Server\ServerDomainManager;
 use DP\GameServer\GameServerBundle\Entity\GameServer;
 use Sylius\Bundle\ResourceBundle\Event\ResourceEvent;
-use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Sylius\Bundle\ResourceBundle\Controller\Configuration;
 use DP\Core\CoreBundle\Exception\MissingPacketException;
-use DP\GameServer\GameServerBundle\Exception\NotImplementedException;
+use DP\Core\CoreBundle\Exception\NotImplementedException;
 use DP\Core\GameBundle\Entity\Plugin;
-use DP\Core\CoreBundle\Controller\FlashHelper;
 
-class GameServerDomainManager extends BaseDomainManager
+class GameServerDomainManager extends ServerDomainManager
 {
-    private $templating;
-
-    /**
-     * @{inheritdoc}
-     */
-    public function __construct(
-        ObjectManager $manager,
-        EventDispatcherInterface $eventDispatcher,
-        FlashHelper $flashHelper,
-        Configuration $config,
-        $templating
-    ) {
-        parent::__construct($manager, $eventDispatcher, $flashHelper, $config);
-
-        $this->templating = $templating;
-    }
-
-    /**
-     * Install a server during the create action
-     * And finalize the installation if the server is already installed
-     *
-     * @{inheritdoc}
-     */
-    public function create($resource)
-    {
-        if ($resource->isAlreadyInstalled()) {
-            $resource->setInstallationStatus(100);
-        }
-
-        /** @var ResourceEvent $event */
-        $event = $this->dispatchEvent('pre_create', new ResourceEvent($resource));
-
-        if ($event->isStopped()) {
-            return null;
-        }
-
-        $this->manager->persist($resource);
-
-        $this->dispatchEvent('post_create', new ResourceEvent($resource));
-
-        $this->manager->flush();
-
-        return $resource;
-    }
-
     /**
      * Install a game server
      *
@@ -102,47 +53,6 @@ class GameServerDomainManager extends BaseDomainManager
         $this->manager->persist($server);
         $this->dispatchEvent('post_fetch_install_progress', $event);
         $this->manager->flush();
-
-        return $server;
-    }
-
-    /**
-     * Start/stop/restart a game server
-     *
-     * @param GameServer $server
-     * @param $state
-     * @return GameServer|null
-     */
-    public function changeState(GameServer $server, $state)
-    {
-        /** @var ResourceEvent $event */
-        $event = $this->dispatchEvent('pre_change_state', new ResourceEvent($server, array('state' => $state)));
-
-        if ($event->isStopped()) {
-            $this->flashHelper->setFlash(
-                $event->getMessageType(),
-                $event->getMessage(),
-                $event->getMessageParameters()
-            );
-
-            return null;
-        }
-
-        try {
-            $server->changeState($state);
-        }
-        catch (ConnectionErrorException $e) {
-            $this->flashHelper->setFlash(
-                ResourceEvent::TYPE_ERROR,
-                'dedipanel.machine.connection_failed'
-            );
-
-            return null;
-        }
-
-        $this->flashHelper->setFlash('success', 'dedipanel.flashes.state_changed.' . $state);
-
-        $this->dispatchEvent('post_change_state', $event);
 
         return $server;
     }

@@ -26,7 +26,7 @@ use DP\Core\MachineBundle\Entity\Machine;
 use Symfony\Component\Validator\Constraints as Assert;
 use DP\GameServer\GameServerBundle\Query\QueryInterface;
 use DP\GameServer\GameServerBundle\Query\RconInterface;
-use DP\GameServer\GameServerBundle\Exception\NotImplementedException;
+use DP\Core\CoreBundle\Exception\NotImplementedException;
 use DP\GameServer\GameServerBundle\FTP\AbstractItem;
 use DP\GameServer\GameServerBundle\FTP\File;
 use DP\GameServer\GameServerBundle\FTP\Directory;
@@ -133,9 +133,6 @@ abstract class GameServer extends AbstractServer
      * )
      */
     private $plugins;
-    
-    /** @var boolean $alreadyInstalled Used by the add form, and the create process **/
-    private $alreadyInstalled;
 
 
     public function __construct()
@@ -382,30 +379,6 @@ abstract class GameServer extends AbstractServer
     public function getServerName()
     {
         return '[DediPanel] ' . $this->getName();
-    }
-    
-    /**
-     * Set whether is already already installed
-     * 
-     * @param boolean $alreadyInstalled
-     * 
-     * @return GameServer
-     */
-    public function setAlreadyInstalled($alreadyInstalled)
-    {
-        $this->alreadyInstalled = $alreadyInstalled;
-        
-        return $this;
-    }
-    
-    /**
-     * Is already installed ? (from form)
-     * 
-     * @return boolean
-     */
-    public function isAlreadyInstalled()
-    {
-        return $this->alreadyInstalled;
     }
 
     /**

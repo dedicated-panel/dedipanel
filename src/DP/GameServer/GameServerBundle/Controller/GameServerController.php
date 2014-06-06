@@ -9,14 +9,14 @@
 
 namespace DP\GameServer\GameServerBundle\Controller;
 
-use DP\Core\CoreBundle\Controller\ResourceController;
+use DP\Core\CoreBundle\Controller\Server\ServerController;
 use DP\GameServer\GameServerBundle\Entity\GameServer;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use DP\GameServer\GameServerBundle\Exception\NotImplementedException;
+use DP\Core\CoreBundle\Exception\NotImplementedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class GameServerController extends ResourceController
+class GameServerController extends ServerController
 {
     /**
      * @var GameServerDomainManager
@@ -47,17 +47,6 @@ class GameServerController extends ResourceController
         /** @var GameServer $server */
         $server = $this->findOr404($request);
         $this->domainManager->getInstallationProgress($server);
-        
-        return $this->redirectHandler->redirectToReferer();
-    }
-    
-    public function changeStateAction(Request $request)
-    {
-        $this->isGrantedOr403('STATE', $this->find($request));
-        
-        $server = $this->findOr404($request);
-        $state = $request->get('state');
-        $this->domainManager->changeState($server, $state);
         
         return $this->redirectHandler->redirectToReferer();
     }
