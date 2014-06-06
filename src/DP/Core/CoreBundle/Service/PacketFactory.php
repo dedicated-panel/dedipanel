@@ -19,7 +19,7 @@
 */
 
 namespace DP\GameServer\GameServerBundle\Service;
-use DP\GameServer\GameServerBundle\Socket\Packet;
+use DP\Core\CoreBundle\Socket\Packet;
 
 /**
  * @author Albin Kerouanton
@@ -60,7 +60,7 @@ class PacketFactory
      * Create easily a packet in subclasses
      * 
      * @param string $content
-     * @return \DP\GameServer\GameServerBundle\Socket\Packet 
+     * @return DP\Core\CoreBundle\Socket\Packet
      */
     public function newPacket($content)
     {

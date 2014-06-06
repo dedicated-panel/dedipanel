@@ -18,9 +18,9 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\GameServer\GameServerBundle\Socket;
+namespace DP\Core\CoreBundle\Socket;
 
-use DP\GameServer\GameServerBundle\Socket\Exception\EmptyPacketException;
+use DP\Core\CoreBundle\Socket\Exception\EmptyPacketException;
 
 /**
  * @author Albin Kerouanton 

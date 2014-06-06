@@ -21,13 +21,12 @@
 namespace DP\GameServer\MinecraftServerBundle\MinecraftQuery;
 
 use DP\GameServer\GameServerBundle\Query\RconInterface;
-use DP\GameServer\GameServerBundle\Socket\Socket;
-use DP\GameServer\GameServerBundle\Socket\Packet;
-use DP\GameServer\GameServerBundle\Socket\PacketCollection;
-
-use DP\GameServer\GameServerBundle\Socket\Exception\ConnectionFailedException;
-use DP\GameServer\GameServerBundle\Socket\Exception\NotConnectedException;
-use DP\GameServer\GameServerBundle\Socket\Exception\RecvTimeoutException;
+use DP\Core\CoreBundle\Socket\Socket;
+use DP\Core\CoreBundle\Socket\Packet;
+use DP\Core\CoreBundle\Socket\PacketCollection;
+use DP\Core\CoreBundle\Socket\Exception\ConnectionFailedException;
+use DP\Core\CoreBundle\Socket\Exception\NotConnectedException;
+use DP\Core\CoreBundle\Socket\Exception\RecvTimeoutException;
 use DP\GameServer\MinecraftServerBundle\MinecraftQuery\Exception\ServerTimeoutException;
 
 class MinecraftRcon implements RconInterface
@@ -192,7 +191,7 @@ class MinecraftRcon implements RconInterface
      * Or return null if there is a RecvTimeoutException catched and any response recovered
      * before any content has been received.
      * 
-     * @return \DP\GameServer\GameServerBundle\Socket\Packet|null
+     * @return DP\Core\CoreBundle\Socket\Packet|null
      */
     private function recv()
     {

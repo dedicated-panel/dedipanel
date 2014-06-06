@@ -18,15 +18,16 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\GameServer\GameServerBundle\Socket\Exception;
+namespace DP\Core\CoreBundle\Socket\Exception;
 
 /**
  * @author Albin Kerouanton 
  */
-class CreateSocketException extends \Exception
+class ConnectionFailedException extends SocketException
 {
-    public function __construct($type, $sockError){
-        parent::__construct('Can\'t create a ' . $type . ' connection.' .
+    public function __construct($sockError)
+    {
+        parent::__construct('Can\'t connect to the server. ' . 
             'Socket error : ' . $sockError);
     }
 }

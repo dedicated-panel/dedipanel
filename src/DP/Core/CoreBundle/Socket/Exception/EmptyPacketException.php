@@ -18,16 +18,15 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\GameServer\GameServerBundle\Socket\Exception;
+namespace DP\Core\CoreBundle\Socket\Exception;
 
 /**
- * @author Albin Kerouanton
+ * @author Albin Kerouanton 
  */
-class SendDataException extends \Exception
+class EmptyPacketException extends SocketException
 {
-    public function __construct($sockError)
+    public function __construct()
     {
-        parent::__construct('An error has occurred during data uploading.' .
-            'Socket error : ' . $sockError);
+        parent::__construct('Can\'t get anymore data. The packet is empty.');
     }
 }

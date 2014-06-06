@@ -18,14 +18,15 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\GameServer\GameServerBundle\Socket\Exception;
+namespace DP\Core\CoreBundle\Socket\Exception;
 
 /**
- * @author Albin Kerouanton
+ * @author Albin Kerouanton 
  */
-class RecvTimeoutException extends \Exception
+class NotConnectedException extends SocketException
 {
-    public function __construct($message, $code = 0) {
-        parent::__construct($message, $code);
+    public function __construct($message)
+    {
+        parent::__construct($message);
     }
 }

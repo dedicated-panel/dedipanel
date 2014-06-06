@@ -20,13 +20,12 @@
 
 namespace DP\GameServer\SteamServerBundle\SteamQuery;
 
-use DP\GameServer\GameServerBundle\Socket\Socket;
-use DP\GameServer\GameServerBundle\Socket\Packet;
-use DP\GameServer\GameServerBundle\Socket\PacketCollection;
-
-use DP\GameServer\GameServerBundle\Socket\Exception\ConnectionFailedException;
-use DP\GameServer\GameServerBundle\Socket\Exception\NotConnectedException;
-use DP\GameServer\GameServerBundle\Socket\Exception\RecvTimeoutException;
+use DP\Core\CoreBundle\Socket\Socket;
+use DP\Core\CoreBundle\Socket\Packet;
+use DP\Core\CoreBundle\Socket\PacketCollection;
+use DP\Core\CoreBundle\Socket\Exception\ConnectionFailedException;
+use DP\Core\CoreBundle\Socket\Exception\NotConnectedException;
+use DP\Core\CoreBundle\Socket\Exception\RecvTimeoutException;
 use DP\GameServer\SteamServerBundle\SteamQuery\Exception\ServerTimeoutException;
 use DP\GameServer\GameServerBundle\Query\RconInterface;
 
@@ -233,7 +232,7 @@ class SourceRcon implements RconInterface
      * Or return null if there is a RecvTimeoutException catched and any response recovered
      * before any content has been received.
      * 
-     * @return \DP\GameServer\GameServerBundle\Socket\Packet|null
+     * @return DP\Core\CoreBundle\Socket\Packet|null
      */
     private function recv()
     {

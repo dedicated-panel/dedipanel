@@ -21,10 +21,10 @@
 namespace DP\GameServer\MinecraftServerBundle\MinecraftQuery;
 
 use DP\GameServer\GameServerBundle\Query\QueryInterface;
-use DP\GameServer\GameServerBundle\Socket\Socket;
-use DP\GameServer\GameServerBundle\Socket\Packet;
-use DP\GameServer\GameServerBundle\Socket\PacketCollection;
-use DP\GameServer\GameServerBundle\Socket\Exception\RecvTimeoutException;
+use DP\Core\CoreBundle\Socket\Socket;
+use DP\Core\CoreBundle\Socket\Packet;
+use DP\Core\CoreBundle\Socket\PacketCollection;
+use DP\Core\CoreBundle\Socket\Exception\RecvTimeoutException;
 use DP\GameServer\MinecraftServerBundle\MinecraftQuery\Exception;
 
 /**
