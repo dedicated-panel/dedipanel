@@ -11,7 +11,7 @@
 {% block content %}
     <h2>{{ 'teamspeak.title.index'|trans }}</h2>
 
-    {% if is_granted('ROLE_DP_GAME_STEAM_CREATE') %}
+    {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_CREATE') %}
         <ul id="top-nav" class="nav nav-tabs">
             <li>
                 <a href="{{ path('dedipanel_teamspeak_create') }}">

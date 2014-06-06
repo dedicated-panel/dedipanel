@@ -8,6 +8,7 @@
 {% extends "::layout.html.twig" %}
 
 {% import 'SyliusResourceBundle:Macros:actions.html.twig' as sylius_actions %}
+{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
 
 {% set serverId = app.request.get('serverId') %}
@@ -23,4 +24,9 @@
         {{ form_widget(form) }}
         {{ sylius_actions.update() }}
     </form>
+
+    {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_DELETE') %}
+        {{ sylius_buttons.delete(path('dedipanel_teamspeak_instance_delete', {'id': instance.id})) }}
+        {{ sylius_buttons.delete(path('dedipanel_teamspeak_instance_delete', {'id': instance.id, 'fromMachine': true})) }}
+    {% endif %}
 {% endblock %}
