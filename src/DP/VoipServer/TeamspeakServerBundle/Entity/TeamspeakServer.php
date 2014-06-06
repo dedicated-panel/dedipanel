@@ -135,10 +135,10 @@ class TeamspeakServer extends VoipServer
     public function finalizeInstallation(\Twig_Environment $twig)
     {
         $screenName = 'dp-ts-first-start';
-        $cmd = 'screen -dmS ' . $screenName . ' ' . $this->getAbsoluteDir() . '/ts3server_minimal_runscript.sh start';
-
+        $installDir = $this->getAbsoluteDir();
         $conn = $this->getMachine()->getConnection();
-        $conn->exec($cmd);
+
+        $conn->exec('screen -dmS ' . $screenName . ' ' . $installDir . '/ts3server_minimal_runscript.sh start');
 
         sleep(2); // Oh shit !!
         $content = explode("\n", $conn->getScreenContent($screenName));
@@ -156,6 +156,8 @@ class TeamspeakServer extends VoipServer
         }
 
         $conn->exec('kill `screen -ls | grep \'' . $screenName . '\' | awk -F \'.\' \'{print $1}\'`');
+
+        $conn->exec('echo $SSH_CLIENT | awk \'{print $1}\' >> ' . $installDir . '/query_ip_whitelist.txt');
 
         $this->installationStatus = 101;
     }

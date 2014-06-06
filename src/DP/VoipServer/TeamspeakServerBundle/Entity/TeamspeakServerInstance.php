@@ -8,7 +8,7 @@ use DP\VoipServer\VoipServerBundle\Entity\VoipServerInstance;
 /**
  * TeamspeakServerInstance
  *
- * @ORM\Table()
+ * @ORM\Table(name="teamspeak_server_instance")
  * @ORM\Entity(repositoryClass="DP\VoipServer\TeamspeakServerBundle\Entity\TeamspeakServerInstanceRepository")
  */
 class TeamspeakServerInstance extends VoipServerInstance

@@ -19,6 +19,11 @@ dedipanel_teamspeak_create:
     methods: [GET, POST]
     defaults:
         _controller: dedipanel.controller.teamspeak:createAction
+        _sylius:
+            redirect:
+                route: dedipanel_teamspeak_instance_index
+                parameters:
+                    serverId: resource.id
 
 dedipanel_teamspeak_update:
     pattern: /{id}/edit

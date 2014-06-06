@@ -46,7 +46,7 @@ abstract class VoipServer extends AbstractServer
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection $instances
      *
-     * @ORM\OneToMany(targetEntity="DP\VoipServer\VoipServerBundle\Entity\VoipServerInstance", mappedBy="machine", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="DP\VoipServer\VoipServerBundle\Entity\VoipServerInstance", mappedBy="server", cascade={"persist", "remove"})
      */
     protected $instances;
 
@@ -81,6 +81,8 @@ abstract class VoipServer extends AbstractServer
     public function setMachine(Machine $machine)
     {
         $this->machine = $machine;
+
+        return $this;
     }
 
     /**
