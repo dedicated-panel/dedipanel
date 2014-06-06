@@ -26,14 +26,13 @@ use DP\GameServer\SteamServerBundle\Entity\SteamServer;
 use DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer;
 use DP\GameServer\SteamServerBundle\SteamQuery\Exception\UnexpectedServerTypeException;
 use DP\GameServer\SteamServerBundle\SteamQuery\SteamQuery;
+use Symfony\Component\DependencyInjection\ContainerAware;
 
 /**
  * @author Albin Kerouanton 
  */
-class QueryInjector
+class QueryInjector extends ContainerAware
 {
-    private $serviceContainer = null;
-    
     /**
      * Inject the SteamQuery service into entity
      * 
@@ -52,30 +51,34 @@ class QueryInjector
                     $type = SteamQuery::TYPE_SOURCE;
                 }
                 
-                $query = $this->getSteamQueryService()->getServerQuery(
-                    $entity->getMachine()->getPublicIp(), 
-                    $entity->getPort(),
-                    $type
-                );
+                $query = $this->container->get('query.steam')
+                    ->getServerQuery(
+                        $entity->getMachine()->getPublicIp(),
+                        $entity->getPort(),
+                        $type
+                    );
                 
-                $rcon = $this->getSteamRconService()->getRcon(
-                    $entity->getMachine()->getPublicIp(), 
-                    $entity->getPort(), 
-                    $entity->getRconPassword(), 
-                    $type
-                );
+                $rcon = $this->container->get('rcon.steam')
+                    ->getRcon(
+                        $entity->getMachine()->getPublicIp(),
+                        $entity->getPort(),
+                        $entity->getRconPassword(),
+                        $type
+                    );
             }
             elseif ($entity instanceof MinecraftServer) {
-                $query = $this->getMinecraftQueryService()->getServerQuery(
-                    $entity->getMachine()->getPublicIp(), 
-                    $entity->getQueryPort()
-                );
+                $query = $this->container->get('query.minecraft')
+                    ->getServerQuery(
+                        $entity->getMachine()->getPublicIp(),
+                        $entity->getQueryPort()
+                    );
                 
-                $rcon = $this->getMinecraftRconService()->getRcon(
-                    $entity->getMachine()->getPublicIp(), 
-                    $entity->getRconPort(), 
-                    $entity->getRconPassword()
-                );
+                $rcon = $this->container->get('rcon.minecraft')
+                    ->getRcon(
+                        $entity->getMachine()->getPublicIp(),
+                        $entity->getRconPort(),
+                        $entity->getRconPassword()
+                    );
             }
             else {
                 return false;
@@ -94,75 +97,5 @@ class QueryInjector
                 $entity->setRcon($rcon);
             }
         }
-    }
-    
-    /**
-     * Set service container
-     * 
-     * @param ServiceContainer $sc 
-     */
-    public function setServiceContainer($sc)
-    {
-        $this->serviceContainer = $sc;
-    }
-    
-    /**
-     * Get steam query service
-     * 
-     * @return \DP\GameServer\SteamServerBundle\Service\Query
-     * @throws Exception 
-     */
-    private function getSteamQueryService()
-    {
-        if (is_null($this->serviceContainer)) {
-            throw new Exception('The service container is not yet set.');
-        }
-        
-        return $this->serviceContainer->get('query.steam');
-    }
-    
-    /**
-     * Get minecraft query service
-     * 
-     * @return \DP\GameServer\MinecraftServerBundle\Service\Query
-     * @throws Exception 
-     */
-    private function getMinecraftQueryService()
-    {
-        if (is_null($this->serviceContainer)) {
-            throw new Exception('The service container is not yet set.');
-        }
-        
-        return $this->serviceContainer->get('query.minecraft');
-    }
-    
-    /**
-     * Get steam rcon service
-     * 
-     * @return \DP\GameServer\SteamServerBundle\Service\RconService
-     * @throws Exception
-     */
-    private function getSteamRconService()
-    {
-        if (is_null($this->serviceContainer)) {
-            throw new Exception('The service container is not yet set.');
-        }
-        
-        return $this->serviceContainer->get('rcon.steam');
-    }
-    
-    /**
-     * Get minecraft rcon service
-     * 
-     * @return \DP\GameServer\MinecraftServerBundle\Service\RconService
-     * @throws Exception
-     */
-    private function getMinecraftRconService()
-    {
-        if (is_null($this->serviceContainer)) {
-            throw new Exception('The service container is not yet set.');
-        }
-        
-        return $this->serviceContainer->get('rcon.minecraft');
     }
 }

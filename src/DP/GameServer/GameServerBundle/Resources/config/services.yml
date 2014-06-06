@@ -17,9 +17,6 @@
 services:
     game.listener.queryInjector:
         class: DP\GameServer\GameServerBundle\Listener\QueryInjector
-        arguments: [ @service_container ]
-        calls:
-            - [ setServiceContainer, [ @service_container ] ]
         tags: 
             - { name: doctrine.event_listener, event: postLoad, method: postLoad }
     
