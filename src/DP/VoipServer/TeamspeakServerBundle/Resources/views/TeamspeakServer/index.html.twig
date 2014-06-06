@@ -24,8 +24,20 @@
     {{ dedipanel_flashes.all() }}
 
     {% for entity in teamspeaks %}
+        {% set online = entity.query.isConnected %}
+
         <a href="{{ path('dedipanel_teamspeak_instance_index', {serverId: entity.id}) }}">
             {{ entity.machine }}
-        </a>
+        </a> -
+
+        {% if online %}
+            Running
+        {% else %}
+            Stopped
+        {% endif %}
+
+        {% if entity.isInstallationEnded %}
+            {% include 'DPTeamspeakServerBundle:TeamspeakServer:actionBar.html.twig' with {show: true, online: online, server: entity} %}
+        {% endif %}
     {% endfor %}
 {% endblock %}

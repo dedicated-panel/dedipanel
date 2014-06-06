@@ -1,0 +1,38 @@
+{#
+    (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
+    
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+#}
+
+{% set sid = server.id %}
+
+<div class="actions clearfix">
+    {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_STATE') %}
+        {% if online %}
+            <a href="{{ path('dedipanel_teamspeak_change_state', { 'id': sid, 'state': 'stop' }) }}">
+                <span class="icon" data-icon="&#x24;" title="{{ 'game.stop'|trans }}"></span>
+            </a>
+            
+            <a href="{{ path('dedipanel_teamspeak_change_state', { 'id': sid, 'state': 'restart' }) }}">
+                <span class="icon" data-icon="&#x27;" title="{{ 'game.restart'|trans }}"></span>
+            </a>
+        {% else %}
+            <a href="{{ path('dedipanel_teamspeak_change_state', { 'id': sid, 'state': 'start' }) }}">
+                <span class="icon" data-icon="&#x22;" title="{{ 'game.start'|trans }}"></span>
+            </a>
+        {% endif %}
+    {% endif %}
+    
+    {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_UPDATE') %}
+        <a href="{{ path('dedipanel_teamspeak_update', {id: sid}) }}">
+            <span class="icon" data-icon="&#x25;" title="{{ 'game.edit'|trans }}"></span>
+        </a>
+    {% endif %}
+    
+    {% if show and online %}
+        <a href="{{ path('dedipanel_teamspeak_instance_index', {serverId: sid}) }}" class="slide">
+            <span class="icon" data-icon="&#x21;" title="{{ 'steam.show'|trans }}"></span>
+        </a>
+    {% endif %}
+</div>

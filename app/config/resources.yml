@@ -67,6 +67,7 @@ sylius_resource:
             role_prefix: ROLE_DP_VOIP_TEAMSPEAK
             classes:
                 model: DPTeamspeakServerBundle:TeamspeakServer
+                controller: DP\Core\CoreBundle\Controller\Server\ServerController
                 repository: DP\VoipServer\TeamspeakServerBundle\Entity\TeamspeakServerRepository
         dedipanel.teamspeak.instance:
             driver: doctrine/orm

@@ -37,3 +37,9 @@ dedipanel_teamspeak_delete:
     defaults:
         _controller: dedipanel.controller.teamspeak:deleteAction
         # template: DPTeamspeakServerBundle:TeamspeakServer:delete.html.twig
+
+dedipanel_teamspeak_change_state:
+     pattern: /{id}/change-state
+     methods: [GET]
+     defaults:
+         _controller: dedipanel.controller.teamspeak:changeStateAction

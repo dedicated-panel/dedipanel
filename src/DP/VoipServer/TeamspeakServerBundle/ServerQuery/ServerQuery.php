@@ -3,7 +3,7 @@
 namespace DP\VoipServer\TeamspeakServerBundle\ServerQuery;
 
 use DP\Core\CoreBundle\Socket\Socket;
-use DP\GameBundle\GameServerBundle\Socket\Exception\SocketException;
+use DP\Core\CoreBundle\Socket\Exception\SocketException;
 
 class ServerQuery
 {
@@ -13,8 +13,6 @@ class ServerQuery
     private $login;
     /** @var string $pass */
     private $pass;
-    /** @var boolean $lazy */
-    private $lazy;
     /** @var boolean $error */
     private $error;
     /** @var boolean $connected */
@@ -23,24 +21,21 @@ class ServerQuery
     private $factory;
 
 
-    public function __construct(Socket $socket, $login, $pass, $lazy = false)
+    public function __construct(Socket $socket, $login, $pass)
     {
         $this->socket    = $socket;
         $this->login     = $login;
         $this->pass      = $pass;
-        $this->lazy      = $lazy;
         $this->error     = false;
         $this->connected = false;
         $this->factory   = new PacketFactory();
 
-        if (!$lazy) {
-            try {
-                $this->socket->connect();
-                $this->login();
-            }
-            catch (SocketException $e) {
-                $this->error = true;
-            }
+        try {
+            $this->socket->connect();
+            $this->login();
+        }
+        catch (SocketException $e) {
+            $this->error = true;
         }
     }
 
@@ -65,5 +60,10 @@ class ServerQuery
         $this->connected = true;
 
         return true;
+    }
+
+    public function isConnected()
+    {
+        return $this->connected;
     }
 }

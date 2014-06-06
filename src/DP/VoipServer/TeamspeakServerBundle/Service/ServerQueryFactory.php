@@ -31,7 +31,7 @@ class ServerQueryFactory
         ;
 
         return new ServerQuery(
-            $socket, $server->getQueryLogin(), $server->getQueryPassword(), true
+            $socket, $server->getQueryLogin(), $server->getQueryPassword()
         );
     }
 }
