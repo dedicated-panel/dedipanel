@@ -1,0 +1,3 @@
+dedipanel.voip:
+    offline_server: Vous devez allumer votre serveur avant d'y ajouter des instances.
+    banned_from_server: Le panel a été banni du serveur pour encore %duration% secondes.

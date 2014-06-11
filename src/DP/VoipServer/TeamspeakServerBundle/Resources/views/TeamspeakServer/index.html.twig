@@ -24,7 +24,7 @@
     {{ dedipanel_flashes.all() }}
 
     {% for entity in teamspeaks %}
-        {% set online = entity.query.isConnected %}
+        {% set online = entity.query.isOnline %}
 
         <a href="{{ path('dedipanel_teamspeak_instance_index', {serverId: entity.id}) }}">
             {{ entity.machine }}

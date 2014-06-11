@@ -36,7 +36,7 @@ dedipanel_teamspeak_instance_update:
                 route: dedipanel_teamspeak_instance_show
                 parameters:
                     serverId: $serverId
-                    id: resource.id
+                    id: $id
 
 dedipanel_teamspeak_instance_delete:
     pattern: /{id}/delete
@@ -48,3 +48,10 @@ dedipanel_teamspeak_instance_delete:
                 route: dedipanel_teamspeak_instance_index
                 parameters:
                     serverId: $serverId
+
+dedipanel_teamspeak_instance_change_state:
+     pattern: /{id}/change-state
+     methods: [GET]
+     defaults:
+         _controller: dedipanel.teamspeak.controller.instance:changeStateAction
+

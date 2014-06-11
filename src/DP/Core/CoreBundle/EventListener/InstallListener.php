@@ -2,6 +2,7 @@
 
 namespace DP\Core\CoreBundle\EventListener;
 
+use DP\Core\CoreBundle\Exception\IPBannedException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sylius\Bundle\ResourceBundle\Event\ResourceEvent;
@@ -130,9 +131,23 @@ class InstallListener implements EventSubscriberInterface
 
                 return false;
             }
+            catch (IPBannedException $e) {
+                $params = [];
+                $duration = $e->getDuration();
+
+                if (!empty($duration)) {
+                    $params['%duration%'] = $duration;
+                }
+
+                $event->stop('dedipanel.voip.banned_from_server', ResourceEvent::TYPE_ERROR, $params);
+
+                return false;
+            }
 
             if (!$installed) {
                 $event->stop('dedipanel.core.install_failed', ResourceEvent::TYPE_ERROR);
+
+                return false;
             }
         }
 

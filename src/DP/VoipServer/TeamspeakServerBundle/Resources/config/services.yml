@@ -11,4 +11,3 @@ services:
 
     dedipanel.factory.teamspeak.query:
         class: DP\VoipServer\TeamspeakServerBundle\Service\ServerQueryFactory
-        arguments: [ @socket ]

@@ -76,13 +76,6 @@ abstract class GameServer extends AbstractServer
     protected $port;
 
     /**
-     * @var integer $installationStatus
-     *
-     * @ORM\Column(name="installationStatus", type="integer", nullable=true)
-     */
-    protected $installationStatus;
-
-    /**
      * @var string $dir
      *
      * @ORM\Column(name="dir", type="string", length=64)

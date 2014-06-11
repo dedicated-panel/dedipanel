@@ -16,6 +16,9 @@ class TeamspeakServerType extends AbstractType
             ->add('query_port', 'number', array(
                 'label' => 'voip.query_port',
             ))
+            ->add('query_password', 'password', array(
+                'label' => 'voip.query_password',
+            ))
             ->add('alreadyInstalled', 'choice', array(
                 'choices'   => array(1 => 'game.yes', 0 => 'game.no'),
                 'label'     => 'game.isAlreadyInstalled',

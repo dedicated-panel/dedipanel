@@ -75,4 +75,5 @@ sylius_resource:
             role_prefix: ROLE_DP_VOIP_TEAMSPEAK_INSTANCE
             classes:
                 model: DPTeamspeakServerBundle:TeamspeakServerInstance
+                controller: DP\VoipServer\VoipServerBundle\Controller\VoipServerInstanceController
                 repository: DP\VoipServer\TeamspeakServerBundle\Entity\TeamspeakServerInstanceRepository

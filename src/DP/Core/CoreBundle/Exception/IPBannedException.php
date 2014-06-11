@@ -17,15 +17,24 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\GameServer\SteamServerBundle\SteamQuery\Exception;
+namespace DP\Core\CoreBundle\Exception;
 
 /**
  * @author Albin Kerouanton 
  */
 class IPBannedException extends \Exception
 {
-    public function __construct()
+    private $duration;
+
+    public function __construct($message = 'IP banned from the server.', $duration = null)
     {
-        parent::__construct('IP banned from the server.');
+        parent::__construct($message);
+
+        $this->duration = $duration;
+    }
+
+    public function getDuration()
+    {
+        return $this->duration;
     }
 }

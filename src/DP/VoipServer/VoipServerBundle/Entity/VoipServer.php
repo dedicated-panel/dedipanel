@@ -37,13 +37,6 @@ abstract class VoipServer extends AbstractServer
     protected $machine;
 
     /**
-     * @var integer $installationStatus
-     *
-     * @ORM\Column(name="installationStatus", type="integer", nullable=true)
-     */
-    protected $installationStatus;
-
-    /**
      * @var Doctrine\Common\Collections\ArrayCollection $instances
      *
      * @ORM\OneToMany(targetEntity="DP\VoipServer\VoipServerBundle\Entity\VoipServerInstance", mappedBy="server", cascade={"persist", "remove"})
@@ -95,28 +88,6 @@ abstract class VoipServer extends AbstractServer
         $this->machine = $machine;
 
         return $this;
-    }
-
-    /**
-     * Get machine
-     *
-     * @return Machine
-     */
-    public function getMachine()
-    {
-        return $this->machine;
-    }
-
-    public function setInstallationStatus($status)
-    {
-        $this->installationStatus = $status;
-
-        return $this;
-    }
-
-    public function getInstallationStatus()
-    {
-        return $this->installationStatus;
     }
 
     public function addInstance(VoipServerInstance $instance)

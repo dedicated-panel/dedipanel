@@ -18,9 +18,11 @@ class QueryInjector extends ContainerAware
     {
         $entity = $args->getEntity();
 
-        if ($entity instanceof TeamspeakServer
-        ||  $entity instanceof TeamspeakServerInstance) {
+        if ($entity instanceof TeamspeakServer) {
             $entity->setQuery($this->getFactory()->getServerQuery($entity));
+        }
+        elseif ($entity instanceof TeamspeakServerInstance) {
+            $entity->setQuery($this->getFactory()->getServerQuery($entity->getServer()));
         }
     }
 

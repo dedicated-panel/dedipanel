@@ -1,3 +1,6 @@
 voip:
     selectServer: Sélectionnez un serveur
     query_port: Port pour le query
+    max_clients: Slots
+    query_password: Mot de passe pour le query
+    autostart: Démarrage automatique ?

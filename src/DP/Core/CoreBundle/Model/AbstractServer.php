@@ -2,10 +2,14 @@
 
 namespace DP\Core\CoreBundle\Model;
 
+use Doctrine\ORM\Mapping as ORM;
+
 abstract class AbstractServer implements ServerInterface
 {
     /**
      * @var integer $installationStatus
+     *
+     * @ORM\Column(name="installation_status", type="integer", nullable=true)
      */
     protected $installationStatus;
 
@@ -93,7 +97,7 @@ abstract class AbstractServer implements ServerInterface
         $installDir = $this->getAbsoluteDir();
 
         if ($conn->dirExists($installDir)) {
-            return $conn->getSFTP()->delete($installDir);
+            return (bool) $conn->getSFTP()->delete($installDir);
         }
 
         return true;

@@ -1,7 +1,8 @@
 {
     "name": "dedipanel/dedipanel",
     "autoload": {
-        "psr-0": { "": "src/" }
+        "psr-0": { "": "src/" },
+        "classmap": ["vendor/planetteamspeak/ts3-php-framework/libraries/TeamSpeak3"]
     },
     "minimum-stability": "stable",
     "repositories": [
@@ -30,7 +31,8 @@
         "sylius/resource-bundle": "dev-dedipanel", 
         
         "dedipanel/phpseclib-wrapper-bundle": "dev-master", 
-        "phpseclib/phpseclib": "dev-php5"
+        "phpseclib/phpseclib": "dev-php5",
+        "planetteamspeak/ts3-php-framework": "1.1.23"
     },
     "scripts": {
         "post-install-cmd": [

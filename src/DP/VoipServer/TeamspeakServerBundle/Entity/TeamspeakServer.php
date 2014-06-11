@@ -2,8 +2,11 @@
 
 namespace DP\VoipServer\TeamspeakServerBundle\Entity;
 
+use Dedipanel\PHPSeclibWrapperBundle\Connection\Connection;
 use Doctrine\ORM\Mapping as ORM;
 use DP\Core\CoreBundle\Exception\DirectoryAlreadyExistsException;
+use DP\VoipServer\TeamspeakServerBundle\ServerQuery\QueryGateway;
+use DP\VoipServer\TeamspeakServerBundle\Service\ServerQueryFactory;
 use DP\VoipServer\VoipServerBundle\Entity\VoipServer;
 
 /**
@@ -19,14 +22,15 @@ class TeamspeakServer extends VoipServer
      *
      * @ORM\Column(name="query_port", type="integer", nullable=true)
      */
-    private $queryPort = 10011;
+    private $queryPort;
 
     /**
      * @var string $queryLogin
      *
      * @ORM\Column(name="query_login", type="string", length=32, nullable=true)
      */
-    private $queryLogin;
+    private $queryLogin = 'serveradmin';
+
     /**
      * @var string $queryPassword
      *
@@ -34,33 +38,34 @@ class TeamspeakServer extends VoipServer
      */
     private $queryPassword;
 
-    /**
-     * @var string $adminToken
-     *
-     * @ORM\Column(name="admin_token", type="string", length=40, nullable=true)
-     */
-    private $adminToken;
+    /** @var bool $firstStart */
+    private $firstStart;
 
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->queryPort = 10011;
+        $this->queryPort  = 10011;
+        $this->queryLogin = 'serveradmin';
     }
 
-    public function setQueryLogin($login)
-    {
-        $this->queryLogin = $login;
-
-        return $this;
-    }
-
+    /**
+     * Get the login needed by the query
+     *
+     * @return string
+     */
     public function getQueryLogin()
     {
         return $this->queryLogin;
     }
 
+    /**
+     * Set the password needed by the query
+     *
+     * @param string $password
+     * @return TeamspeakServer
+     */
     public function setQueryPassword($password)
     {
         $this->queryPassword = $password;
@@ -68,11 +73,22 @@ class TeamspeakServer extends VoipServer
         return $this;
     }
 
+    /**
+     * Get the password needed by the query
+     *
+     * @return string
+     */
     public function getQueryPassword()
     {
         return $this->queryPassword;
     }
 
+    /**
+     * Set the port needed by the query
+     *
+     * @param integer $port
+     * @return TeamspeakServer
+     */
     public function setQueryPort($port)
     {
         $this->queryPort = $port;
@@ -80,23 +96,17 @@ class TeamspeakServer extends VoipServer
         return $this;
     }
 
+    /**
+     * Get the port needed by the query
+     *
+     * @return integer
+     */
     public function getQueryPort()
     {
         return $this->queryPort;
     }
 
-    public function setAdminToken($token)
-    {
-        $this->adminToken = $token;
-
-        return $this;
-    }
-
-    public function getAdminToken()
-    {
-        return $this->adminToken;
-    }
-
+    /** {@inheritdoc} */
     public function getInstallationProgress()
     {
         $conn       = $this->getMachine()->getConnection();
@@ -114,6 +124,7 @@ class TeamspeakServer extends VoipServer
         return $percent;
     }
 
+    /** {@inheritdoc} */
     public function installServer(\Twig_Environment $twig)
     {
         $conn = $this->getMachine()->getConnection();
@@ -137,59 +148,88 @@ class TeamspeakServer extends VoipServer
         $cmd  = 'wget -o ' . $logPath . ' -O ' . $tempPath . ' ' . $dlUrl . ' ';
         $cmd .= '&& tar zxf ' . $tempPath . ' -C ' . $installDir . ' ';
         $cmd .= '&& mv ' . $untarDir . '/* ' . $installDir . ' ';
-        $cmd .= '&& rm -Rf ' . $untarDir . ' ' . $tempPath . ' ' . $logPath . ' &';
+        $cmd .= '&& wget -O ' . $installDir . '/sql/defaults.sql http://media.teamspeak.com/literature/defaults.sql ';
+        $cmd .= '&& rm -Rf ' . $untarDir . ' ' . $tempPath . ' ' . $logPath;
 
         $conn->exec($cmd);
 
         $this->installationStatus = 0;
+
+        return true;
     }
 
+    /** {@inheritdoc} */
+    public function finalizeInstallation(\Twig_Environment $twig)
+    {
+        $conn = $this->getMachine()->getConnection();
+        $installDir = $this->getAbsoluteDir();
+
+        $conn->exec("echo \$SSH_CLIENT | awk '{print \$1}' >> ${installDir}/query_ip_whitelist.txt");
+
+        $this->firstStart = true;
+        $this->changeState('start');
+        sleep(2);
+        $this->changeState('stop');
+
+        $this->firstStart = false;
+        $this->changeState('start');
+
+        $this->installationStatus = 101;
+    }
+
+    /** {@inheritdoc} */
+    public function changeState($state)
+    {
+        $params = '';
+
+        if ($state == 'start') {
+            $params = $this->getStartParams();
+        }
+
+        return $this
+            ->getMachine()
+            ->getConnection()
+            ->exec($this->getAbsoluteDir() . '/ts3server_startscript.sh ' . $state . ' ' . $params)
+        ;
+    }
+
+    public function getStartParams()
+    {
+        $params[] = 'logquerycommands=0';
+        $params[] = 'create_default_virtualserver=0';
+
+        if ($this->firstStart) {
+            $params[] = 'serveradmin_password=' . $this->queryPassword;
+        }
+
+        return '"' . implode(' ', $params) . '"' . (($this->firstStart) ? ' &' : '');
+    }
+
+    /** {@inheritdoc} */
     protected function getAbsoluteDir()
     {
         return rtrim($this->getMachine()->getHome(), '/') . '/teamspeak';
     }
 
-    public function changeState($state)
+    /** {@inheritdoc} */
+    public function getName()
     {
-        return $this
-            ->getMachine()
-            ->getConnection()
-            ->exec($this->getAbsoluteDir() . '/ts3server_startscript.sh ' . $state)
-        ;
+        return strval($this);
     }
 
-    public function finalizeInstallation(\Twig_Environment $twig)
+    public function getFullName()
     {
-        $screenName = 'dp-ts-first-start';
-        $installDir = $this->getAbsoluteDir();
-        $conn = $this->getMachine()->getConnection();
-
-        $conn->exec('screen -dmS ' . $screenName . ' ' . $installDir . '/ts3server_minimal_runscript.sh start');
-
-        sleep(2); // Oh shit !!
-        $content = explode("\n", $conn->getScreenContent($screenName));
-
-        foreach ($content AS $line) {
-            $matches = array();
-
-            if (preg_match('#loginname= "(.*)", password= "(.*)"#', $line, $matches)) {
-                $this->queryLogin    = $matches[1];
-                $this->queryPassword = $matches[2];
-            }
-            elseif (preg_match('#token=(.*)#', $line, $matches)) {
-                $this->adminToken = $matches[1];
-            }
-        }
-
-        $conn->exec('kill `screen -ls | grep \'' . $screenName . '\' | awk -F \'.\' \'{print $1}\'`');
-
-        $conn->exec('echo $SSH_CLIENT | awk \'{print $1}\' >> ' . $installDir . '/query_ip_whitelist.txt');
-
-        $this->installationStatus = 101;
+        return $this->getName();
     }
 
+    /** {@inheritdoc} */
     public function getType()
     {
         return 'teamspeak';
+    }
+
+    public function __toString()
+    {
+        return strval($this->getMachine());
     }
 }

@@ -12,5 +12,6 @@ teamspeak:
             index: Liste des instances Teamspeak
             add: Ajouter une instance Teamspeak
 
-        add: Ajouter
+        add: Ajouter une instance
         edit_server: Modifier le serveur
+        delete_server: Supprimer le serveur
