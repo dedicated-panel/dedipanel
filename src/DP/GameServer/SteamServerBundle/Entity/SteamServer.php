@@ -247,7 +247,7 @@ class SteamServer extends GameServer
         // S'il s'agit d'un serveur 64 bits on commence par vérifier si le paquet ia32-libs est présent
         // (nécessaire pour l'utilisation de l'installateur steam)
         if ($this->machine->is64Bit() === true && $conn->hasCompatLib() == false) {
-            throw new MissingPacketException('ia32-libs');
+            throw new MissingPacketException(array('ia32-libs/', 'libc6:i386'));
         }
 
         $installDir = $this->getAbsoluteDir();
@@ -491,7 +491,7 @@ class SteamServer extends GameServer
 
             $env = new \Twig_Environment(new \Twig_Loader_String());
             $cfgFile = $env->render($template, array(
-                'hostname' => $this->getServerName(),
+                'hostname' => $this->getFullName(),
                 'rconPassword' => $this->getRconPassword(), 
                 'svPassword' => $this->getSvPassword(), 
             ));
@@ -511,7 +511,7 @@ class SteamServer extends GameServer
         $fileLines = explode("\n", $remoteFile);
         
         $patterns = array(
-            '#^hostname#' => 'hostname "' . $this->getServerName() . '"',
+            '#^hostname#' => 'hostname "' . $this->getFullName() . '"',
             '#^rcon_password#' => 'rcon_password "' . $this->getRconPassword() . '"', 
             '#^sv_password#' => 'sv_password "' . $this->getSvPassword() . '"', 
         );

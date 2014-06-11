@@ -11,6 +11,7 @@ use DP\Core\CoreBundle\Exception\InstallAlreadyStartedException;
 use DP\Core\CoreBundle\Exception\MissingPacketException;
 use DP\Core\CoreBundle\Exception\DirectoryAlreadyExistsException;
 use Symfony\Component\HttpFoundation\RequestStack;
+use DP\Core\CoreBundle\Exception\MaxServerException;
 
 class InstallListener implements EventSubscriberInterface
 {
@@ -45,6 +46,9 @@ class InstallListener implements EventSubscriberInterface
 
             'dedipanel.teamspeak.pre_create'  => array('install', 'fetchLogs'),
             'dedipanel.teamspeak.pre_delete'  => 'delete',
+
+            'dedipanel.teamspeak.instance.pre_create' => 'install',
+            'dedipanel.teamspeak.instance.pre_delete' => 'delete',
         );
     }
 
@@ -69,13 +73,13 @@ class InstallListener implements EventSubscriberInterface
                 if ($progress == 100) {
                     $this->finalizeInstall($event);
                 }
+
+                $this->manager->persist($server);
+                $this->manager->flush();
             }
             catch (ConnectionErrorException $e) {
                 $event->stop('dedipanel.machine.connection_failed', ResourceEvent::TYPE_ERROR);
             }
-
-            $this->manager->persist($server);
-            $this->manager->flush();
         }
     }
 
@@ -90,33 +94,49 @@ class InstallListener implements EventSubscriberInterface
         $server = $event->getSubject();
 
         if ($server->getInstallationStatus() == null) {
+            $installed = false;
+
             try {
-                $server->installServer($this->templating);
+                $installed = $server->installServer($this->templating);
             }
             catch (InstallAlreadyStartedException $e) {
                 $event->stop('dedipanel.core.installAlreadyStarted', ResourceEvent::TYPE_ERROR);
+
+                return false;
             }
             catch (MissingPacketException $e) {
                 $event->stop('dedipanel.core.missingPacket', ResourceEvent::TYPE_ERROR);
+
+                return false;
             }
+            // TODO: phpseclib wrapper bundle
             catch (DirectoryAlreadyExistsException $e) {
                 $event->stop('dedipanel.core.directory_exists', ResourceEvent::TYPE_ERROR);
+
+                return false;
             }
             catch (ConnectionErrorException $e) {
                 $event->stop('dedipanel.machine.connection_failed', ResourceEvent::TYPE_ERROR);
+
+                return false;
+            }
+            catch (MaxServerException $e) {
+                $event->stop('dedipanel.core.max_server_limit', ResourceEvent::TYPE_ERROR);
+
+                return false;
+            }
+            catch (OfflineServerException $e) {
+                $event->stop('dedipanel.voip.offline_server', ResourceEvent::TYPE_ERROR);
+
+                return false;
+            }
+
+            if (!$installed) {
+                $event->stop('dedipanel.core.install_failed', ResourceEvent::TYPE_ERROR);
             }
         }
 
-        $name   = $event->getName();
-        $events = $this->getSubscribedEvents()[$name];
-        if (is_array($events)) {
-            $keys   = array_keys($events, 'install');
-            $events = array_slice($events, array_pop($keys)+1);
-
-            if (!empty($events)) {
-                call_user_func(array($this, array_pop($events)), new ResourceEvent($server));
-            }
-        }
+        $this->callNext($event);
     }
 
     /**
@@ -153,6 +173,21 @@ class InstallListener implements EventSubscriberInterface
             }
             catch (ConnectionErrorException $e) {
                 $event->stop('dedipanel.machine.connection_failed', ResourceEvent::TYPE_ERROR);
+            }
+        }
+    }
+
+    private function callNext(ResourceEvent $event)
+    {
+        $name   = $event->getName();
+        $events = $this->getSubscribedEvents()[$name];
+
+        if (is_array($events)) {
+            $keys   = array_keys($events, 'install');
+            $events = array_slice($events, array_pop($keys)+1);
+
+            if (!empty($events)) {
+                call_user_func(array($this, array_pop($events)), new ResourceEvent($event->getSubject()));
             }
         }
     }

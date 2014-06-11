@@ -2,7 +2,7 @@
 
 namespace DP\Core\CoreBundle\Controller\Server;
 
-use DP\Core\CoreBundle\Controller\DomainManager;
+use Sylius\Bundle\ResourceBundle\Controller\DomainManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use DP\Core\CoreBundle\Controller\FlashHelper;
@@ -44,6 +44,12 @@ class ServerDomainManager extends DomainManager
         $event = $this->dispatchEvent('pre_create', new ResourceEvent($resource));
 
         if ($event->isStopped()) {
+            $this->flashHelper->setFlash(
+                $event->getMessageType(),
+                $event->getMessage(),
+                $event->getMessageParameters()
+            );
+
             return null;
         }
 

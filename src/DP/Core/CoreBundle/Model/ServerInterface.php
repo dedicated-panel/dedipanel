@@ -82,4 +82,11 @@ interface ServerInterface
      * @return DP\Core\MachineBundle\Entity\Machine
      */
     public function getMachine();
+
+    /**
+     * Get the server name
+     *
+     * @return string
+     */
+    public function getFullName();
 }

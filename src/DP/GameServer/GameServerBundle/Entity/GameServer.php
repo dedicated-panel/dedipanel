@@ -375,11 +375,6 @@ abstract class GameServer extends AbstractServer
     {
         return $this->rcon;
     }
-    
-    public function getServerName()
-    {
-        return '[DediPanel] ' . $this->getName();
-    }
 
     /**
      * Add plugin
