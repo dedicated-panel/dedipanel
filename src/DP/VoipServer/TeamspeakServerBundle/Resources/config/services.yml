@@ -4,10 +4,20 @@ services:
         tags:
             - { name: form.type, alias: dedipanel_teamspeak }
 
-    dedipanel.teamspeak.instance.form:
-        class: DP\VoipServer\TeamspeakServerBundle\Form\TeamspeakServerInstanceType
+    dedipanel.teamspeak.instance.form.add:
+        class: DP\VoipServer\TeamspeakServerBundle\Form\AddTeamspeakServerInstanceType
         tags:
-            - { name: form.type, alias: dedipanel_teamspeak_instance }
+            - { name: form.type, alias: dedipanel_teamspeak_instance_add }
+
+    dedipanel.teamspeak.instance.form.edit:
+        class: DP\VoipServer\TeamspeakServerBundle\Form\EditTeamspeakServerInstanceType
+        tags:
+            - { name: form.type, alias: dedipanel_teamspeak_instance_edit }
 
     dedipanel.factory.teamspeak.query:
         class: DP\VoipServer\TeamspeakServerBundle\Service\ServerQueryFactory
+
+    dedipanel.teamspeak.listener.configUpdate:
+        class: DP\VoipServer\TeamspeakServerBundle\EventListener\ConfigUpdateListener
+        tags:
+            - { name: doctrine.event_listener, event: preUpdate, method: preUpdate }

@@ -5,7 +5,7 @@ namespace DP\VoipServer\TeamspeakServerBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class TeamspeakServerInstanceType extends AbstractType
+class AddTeamspeakServerInstanceType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -28,6 +28,6 @@ class TeamspeakServerInstanceType extends AbstractType
 
     public function getName()
     {
-        return 'dedipanel_teamspeak_instance';
+        return 'dedipanel_teamspeak_instance_add';
     }
 }

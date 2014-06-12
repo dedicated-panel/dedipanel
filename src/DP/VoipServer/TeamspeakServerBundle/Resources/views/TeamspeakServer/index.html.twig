@@ -37,7 +37,7 @@
         {% endif %}
 
         {% if entity.isInstallationEnded %}
-            {% include 'DPTeamspeakServerBundle:TeamspeakServer:actionBar.html.twig' with {show: true, online: online, server: entity} %}
+            {% include 'DPTeamspeakServerBundle:TeamspeakServer:actionBar.html.twig' with {online: online, server: entity} %}
         {% endif %}
     {% endfor %}
 {% endblock %}

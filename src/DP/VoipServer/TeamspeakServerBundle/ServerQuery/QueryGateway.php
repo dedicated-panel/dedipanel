@@ -66,13 +66,7 @@ class QueryGateway
     {
         $this->needConnected();
 
-        $params = array(
-            'virtualserver_name'       => $instance->getFullName(),
-            'virtualserver_maxclients' => $instance->getMaxClients(),
-            'virtualserver_autostart'  => intval($instance->isAutostart()),
-            'virtualserver_port'       => $instance->getPort(),
-        );
-        $params = array_merge($params, $this->getHostButtonParams($instance));
+        $params = $this->getInstanceParams($instance);
 
         try {
             $details = $this->query->serverCreate($params);
@@ -130,7 +124,7 @@ class QueryGateway
 
         $this->stopInstance($sid);
 
-        return $this->starInstance($sid);
+        return $this->startInstance($sid);
     }
 
     public function isInstanceOnline($sid)
@@ -146,7 +140,11 @@ class QueryGateway
 
     public function isInstanceOffline($sid)
     {
-       return $this->getInstance($sid)->isOffline();
+        try {
+            return $this->getInstance($sid)->isOffline();
+        } catch (\TeamSpeak3_Adapter_ServerQuery_Exception $e) {}
+
+        return true;
     }
 
     public function getInstance($sid)
@@ -162,6 +160,30 @@ class QueryGateway
         $instance = $this->getInstance($sid);
 
         return $instance->getViewer($viewer);
+    }
+
+    public function updateInstanceConfig(TeamspeakServerInstance $instance)
+    {
+        $sid    = $instance->getInstanceId();
+        $params = $this->getInstanceParams($instance);
+
+        if ($this->getInstance($sid)->modify($params)) {
+            return $this->restartInstance($sid);
+        }
+
+        return false;
+    }
+
+    public function getInstanceParams(TeamspeakServerInstance $instance)
+    {
+        $params = [
+            'virtualserver_name'       => $instance->getFullName(),
+            'virtualserver_maxclients' => $instance->getMaxClients(),
+            'virtualserver_autostart'  => intval($instance->isAutostart()),
+            'virtualserver_port'       => $instance->getPort(),
+        ];
+
+        return array_merge($params, $this->getHostButtonParams($instance));
     }
 
     public function isOnline()
@@ -183,10 +205,10 @@ class QueryGateway
 
     private function getHostButtonParams(TeamspeakServerInstance $instance)
     {
-        return array(
+        return [
             'virtualserver_hostbutton_tooltip' => 'DediPanel',
             'virtualserver_hostbutton_url'     => 'http://www.dedicated-panel.net',
             'virtualserver_hostbutton_gfx_url' => 'http://www.dedicated-panel.net/assets/img/icone/logo-min.png',
-        );
+        ];
     }
 }

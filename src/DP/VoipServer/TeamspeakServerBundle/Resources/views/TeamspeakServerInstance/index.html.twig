@@ -20,10 +20,6 @@
             </li>
 
             <li>
-                {{ sylius_buttons.edit(path('dedipanel_teamspeak_update', {id: serverId}), 'teamspeak.instance.edit_server'|trans) }}
-            </li>
-
-            <li>
                 {{ sylius_buttons.delete(path('dedipanel_teamspeak_delete', {id: serverId, fromMachine: true}), 'teamspeak.instance.delete_server'|trans) }}
             </li>
         </ul>
