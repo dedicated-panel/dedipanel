@@ -26,3 +26,9 @@ services:
         class: DP\VoipServer\TeamspeakServerBundle\EventListener\ConfigUpdateListener
         tags:
             - { name: doctrine.event_listener, event: preUpdate, method: preUpdate }
+
+    dedipanel.teamspeak.instance_viewer:
+        class: DP\VoipServer\TeamspeakServerBundle\Service\TeamspeakInstanceViewer
+        arguments: [ @service_container ]
+        tags:
+            - { name: twig.extension }

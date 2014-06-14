@@ -5,7 +5,6 @@ namespace DP\VoipServer\TeamspeakServerBundle\Entity;
 use Dedipanel\PHPSeclibWrapperBundle\Connection\Connection;
 use Doctrine\ORM\Mapping as ORM;
 use DP\Core\CoreBundle\Exception\DirectoryAlreadyExistsException;
-use DP\VoipServer\TeamspeakServerBundle\ServerQuery\QueryGateway;
 use DP\VoipServer\TeamspeakServerBundle\Service\ServerQueryFactory;
 use DP\VoipServer\VoipServerBundle\Entity\VoipServer;
 

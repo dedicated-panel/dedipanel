@@ -44,8 +44,8 @@
             {% include 'DPTeamspeakServerBundle:TeamspeakServerInstance:actionBar.html.twig' with {show: true, online: online, instance: entity} %}
         {% endif %}
 
-        {# {% if online %}
-            {{ entity.query.viewer(entity.instanceId)|raw }}
-        {% endif %} #}
+        {% if online %}
+            {{ entity|ts_viewer|raw }}
+        {% endif %}
     {% endfor %}
 {% endblock %}

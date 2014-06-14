@@ -155,14 +155,6 @@ class QueryGateway
         return $this->query->serverGetById($sid);
     }
 
-    public function viewer($sid)
-    {
-        $viewer = new \TeamSpeak3_Viewer_Html();
-        $instance = $this->getInstance($sid);
-
-        return $instance->getViewer($viewer);
-    }
-
     public function updateInstanceConfig(TeamspeakServerInstance $instance)
     {
         $sid    = $instance->getInstanceId();
