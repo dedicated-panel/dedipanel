@@ -23,4 +23,10 @@
             </a>
         {% endif %}
     {% endif %}
+
+    {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_UPDATE') %}
+        <a href="{{ path('dedipanel_teamspeak_update', {id: sid}) }}">
+            <span class="icon" data-icon="&#x25;" title="{{ 'game.edit'|trans }}"></span>
+        </a>
+    {% endif %}
 </div>

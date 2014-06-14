@@ -1,8 +1,13 @@
 services:
-    dedipanel.teamspeak.form:
-        class: DP\VoipServer\TeamspeakServerBundle\Form\TeamspeakServerType
+    dedipanel.teamspeak.form.add:
+        class: DP\VoipServer\TeamspeakServerBundle\Form\AddTeamspeakServerType
         tags:
-            - { name: form.type, alias: dedipanel_teamspeak }
+            - { name: form.type, alias: dedipanel_teamspeak_add }
+
+    dedipanel.teamspeak.form.edit:
+        class: DP\VoipServer\TeamspeakServerBundle\Form\EditTeamspeakServerType
+        tags:
+            - { name: form.type, alias: dedipanel_teamspeak_edit }
 
     dedipanel.teamspeak.instance.form.add:
         class: DP\VoipServer\TeamspeakServerBundle\Form\AddTeamspeakServerInstanceType
