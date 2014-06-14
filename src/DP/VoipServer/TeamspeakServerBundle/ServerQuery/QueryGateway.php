@@ -203,7 +203,7 @@ class QueryGateway
         return [
             'virtualserver_hostbutton_tooltip' => 'DediPanel',
             'virtualserver_hostbutton_url'     => 'http://www.dedicated-panel.net',
-            'virtualserver_hostbutton_gfx_url' => 'http://www.dedicated-panel.net/assets/img/icone/logo-min.png',
+            'virtualserver_hostbutton_gfx_url' => 'http://www.dedicated-panel.net/assets/img/icone/logo-ts.png',
         ];
     }
 }
