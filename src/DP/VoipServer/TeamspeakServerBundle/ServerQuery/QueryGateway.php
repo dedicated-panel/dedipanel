@@ -178,7 +178,7 @@ class QueryGateway
             'virtualserver_welcomemessage' => $instance->getBanner(),
         ];
 
-        return array_merge($params, $this->getHostButtonParams($instance), $this->getHostBannerParams($instance));
+        return array_merge($params, $this->getHostButtonParams($instance));
     }
 
     public function isOnline()
@@ -204,15 +204,6 @@ class QueryGateway
             'virtualserver_hostbutton_tooltip' => 'DediPanel',
             'virtualserver_hostbutton_url'     => 'http://www.dedicated-panel.net',
             'virtualserver_hostbutton_gfx_url' => 'http://www.dedicated-panel.net/assets/img/icone/logo-min.png',
-        ];
-    }
-
-    private function getHostBannerParams(TeamspeakServerInstance $instance)
-    {
-        return [
-            'virtualserver_hostbanner_url'     => 'http://www.dedicated-panel.net',
-            'virtualserver_hostbanner_gfx_url' => 'http://www.dedicated-panel.net/assets/img/head/logo.png',
-            'virtualserver_hostbanner_mode'    => 1,
         ];
     }
 }

@@ -23,10 +23,9 @@ class EditTeamspeakServerInstanceType extends AbstractType
                 'label'    => 'teamspeak.banner',
                 'required' => false,
             ))
-            ->add('password', 'password', array(
-                'label'        => 'voip.password',
-                'required'     => false,
-                'always_empty' => false,
+            ->add('password', 'text', array(
+                'label'    => 'voip.password',
+                'required' => false,
             ))
             ->add('autostart', 'checkbox', array(
                 'label'    => 'voip.autostart',
