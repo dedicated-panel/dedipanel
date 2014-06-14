@@ -9,6 +9,7 @@ teamspeak:
 
     filetransfer_port: Port pour le transfert de fichier
     max_clients: Nombre maximum de clients pour toutes les instances
+    banner: Message d'accueil
 
     instance:
         title:

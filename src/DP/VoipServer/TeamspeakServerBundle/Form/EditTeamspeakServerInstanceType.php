@@ -13,8 +13,20 @@ class EditTeamspeakServerInstanceType extends AbstractType
             ->add('name', 'text', array(
                 'label' => 'game.name'
             ))
+            ->add('port', 'number', array(
+                'label' => 'game.port',
+            ))
             ->add('maxClients', 'number', array(
                 'label' => 'voip.max_clients'
+            ))
+            ->add('banner', 'textarea', array(
+                'label'    => 'teamspeak.banner',
+                'required' => false,
+            ))
+            ->add('password', 'password', array(
+                'label'        => 'voip.password',
+                'required'     => false,
+                'always_empty' => false,
             ))
             ->add('autostart', 'checkbox', array(
                 'label'    => 'voip.autostart',

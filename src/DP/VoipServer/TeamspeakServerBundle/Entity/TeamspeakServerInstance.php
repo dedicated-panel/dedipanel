@@ -44,6 +44,20 @@ class TeamspeakServerInstance extends VoipServerInstance
      */
     private $autostart;
 
+    /**
+     * @var string $banner
+     *
+     * @ORM\Column(name="banner", type="text", nullable=true)
+     */
+    private $banner;
+
+    /**
+     * @var string $password
+     *
+     * @ORM\Column(name="password", type="string", nullable=true)
+     */
+    private $password;
+
     /** @var QueryGateway $query */
     protected $query;
 
@@ -64,6 +78,13 @@ class TeamspeakServerInstance extends VoipServerInstance
         return $this->id;
     }
 
+    /**
+     * Set the instance id used by the teamspeak server
+     * (needed for the query)
+     *
+     * @param integer $sid
+     * @return TeamspeakServerInstance
+     */
     public function setInstanceId($sid)
     {
         $this->instanceId = $sid;
@@ -71,11 +92,23 @@ class TeamspeakServerInstance extends VoipServerInstance
         return $this;
     }
 
+    /**
+     * Get the instance id used by the teamspeak server
+     * (needed for the query)
+     *
+     * @return integer
+     */
     public function getInstanceId()
     {
         return $this->instanceId;
     }
 
+    /**
+     * Set the default admin token
+     *
+     * @param string $adminToken
+     * @return TeamspeakServerInstance
+     */
     public function setAdminToken($adminToken)
     {
         $this->adminToken = $adminToken;
@@ -83,11 +116,22 @@ class TeamspeakServerInstance extends VoipServerInstance
         return $this;
     }
 
+    /**
+     * Get the default admin token
+     *
+     * @return string
+     */
     public function getAdminToken()
     {
         return $this->adminToken;
     }
 
+    /**
+     * Set whether the instance need to autostart or not, when the server start
+     *
+     * @param boolean $autostart
+     * @return TeamspeakServerInstance
+     */
     public function setAutostart($autostart)
     {
         $this->autostart = $autostart;
@@ -95,9 +139,60 @@ class TeamspeakServerInstance extends VoipServerInstance
         return $this;
     }
 
+    /**
+     * Get whether the instance need to autostart or not, when the server start
+     *
+     * @return boolean
+     */
     public function isAutostart()
     {
         return $this->autostart;
+    }
+
+    /**
+     * Set the welcome banner
+     *
+     * @param string $banner
+     * @return TeamspeakServerInstance
+     */
+    public function setBanner($banner)
+    {
+        $this->banner = $banner;
+
+        return $this;
+    }
+
+    /**
+     * Get the welcome banner
+     *
+     * @return string
+     */
+    public function getBanner()
+    {
+        return $this->banner;
+    }
+
+    /**
+     * Set the instance password required to join it
+     *
+     * @param string $password
+     * @return TeamspeakServerInstance
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get the instance password required to join it
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
     }
 
     /** {@inheritdoc} */

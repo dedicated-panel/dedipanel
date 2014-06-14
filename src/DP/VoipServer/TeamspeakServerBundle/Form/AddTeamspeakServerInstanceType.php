@@ -19,6 +19,14 @@ class AddTeamspeakServerInstanceType extends AbstractType
             ->add('maxClients', 'number', array(
                 'label' => 'voip.max_clients'
             ))
+            ->add('banner', 'textarea', array(
+                'label'    => 'teamspeak.banner',
+                'required' => false,
+            ))
+            ->add('password', 'text', array(
+                'label'    => 'voip.password',
+                'required' => false,
+            ))
             ->add('autostart', 'checkbox', array(
                 'label'    => 'voip.autostart',
                 'required' => false,
