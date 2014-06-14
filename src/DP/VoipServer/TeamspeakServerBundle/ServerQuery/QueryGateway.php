@@ -23,13 +23,14 @@ class QueryGateway
     private $connected = false;
 
 
-    public function __construct($host, $port, $user, $pass)
+    public function __construct($host, $port, $user, $pass, $timeout = 1)
     {
         $this->user = $user;
         $this->pass = $pass;
 
         try {
-            $uri  = 'serverquery://' . $host . ':' . $port . '#no_query_clients';
+            $uri  = 'serverquery://' . $host . ':' . $port;
+            $uri .= '?timeout=' . $timeout . '#no_query_clients';
             $this->query = \TeamSpeak3::factory($uri);
 
             $this->online = true;

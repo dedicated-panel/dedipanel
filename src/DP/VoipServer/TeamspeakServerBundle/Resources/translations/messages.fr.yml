@@ -3,6 +3,7 @@ teamspeak:
         teamspeak: Teamspeak
         index: Liste des serveurs Teamspeak
         add: Ajouter un serveur Teamspeak
+        update: Mise à jour d'un serveur Teamspeak
 
     add: Ajouter
 

@@ -313,6 +313,8 @@ EOF;
         $params[] = 'create_default_virtualserver=0';
 
         if ($this->firstStart) {
+            $password = \TeamSpeak3_Helper_String::factory($this->queryPassword)->escape();
+
             $params[] = 'serveradmin_password=' . $this->queryPassword;
         }
 
