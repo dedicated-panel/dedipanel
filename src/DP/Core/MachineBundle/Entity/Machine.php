@@ -179,6 +179,14 @@ class Machine extends Server
 
         return $this->publicIp;
     }
+
+    /**
+     * Get the ip used internally
+     */
+    public function getPrivateIp()
+    {
+        return $this->ip;
+    }
     
     public function addGameServer(GameServer $srv)
     {

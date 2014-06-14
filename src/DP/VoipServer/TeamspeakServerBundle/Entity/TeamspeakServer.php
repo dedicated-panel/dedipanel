@@ -232,6 +232,8 @@ class TeamspeakServer extends VoipServer
         $conn = $this->getMachine()->getConnection();
         $installDir = $this->getAbsoluteDir();
 
+        $this->uploadConfigFile();
+
         $conn->exec("echo \$SSH_CLIENT | awk '{print \$1}' >> ${installDir}/query_ip_whitelist.txt");
 
         $this->firstStart = true;
@@ -243,6 +245,51 @@ class TeamspeakServer extends VoipServer
         $this->changeState('start');
 
         $this->installationStatus = 101;
+    }
+
+    public function uploadConfigFile()
+    {
+        $config  = '';
+        $config .= $this->getGeneralConfig() . "\n";
+        $config .= $this->getDatabaseConfig();
+
+        $filepath = $this->getAbsoluteDir() . '/ts3server.ini';
+
+        return $this
+            ->getMachine()
+            ->getConnection()
+            ->upload($filepath, $config, 0750)
+        ;
+    }
+
+    public function getGeneralConfig()
+    {
+        $publicIp  = $this->getMachine()->getPublicIp();
+        $privateIp = $this->getMachine()->getPrivateIp();
+
+        return <<<EOF
+machine_id=
+default_voice_port={$this->voicePort}
+voice_ip=${publicIp}
+licensepath=
+filetransfer_port={$this->filetransferPort}
+filetransfer_ip={$publicIp}
+query_port={$this->queryPort}
+query_ip={$privateIp}
+logpath=logs/
+logquerycommands=0
+EOF;
+    }
+
+    public function getDatabaseConfig()
+    {
+        return <<<EOF
+dbplugin=ts3db_sqlite3
+dbpluginparameter=
+dbsqlpath=sql/
+dbsqlcreatepath=create_sqlite/
+EOF;
+
     }
 
     /** {@inheritdoc} */
@@ -263,7 +310,6 @@ class TeamspeakServer extends VoipServer
 
     public function getStartParams()
     {
-        $params[] = 'logquerycommands=0';
         $params[] = 'create_default_virtualserver=0';
 
         if ($this->firstStart) {

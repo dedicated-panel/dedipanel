@@ -3,6 +3,7 @@
 namespace DP\VoipServer\TeamspeakServerBundle\EventListener;
 
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use DP\VoipServer\TeamspeakServerBundle\Entity\TeamspeakServer;
 use DP\VoipServer\TeamspeakServerBundle\Entity\TeamspeakServerInstance;
 
 class ConfigUpdateListener
@@ -11,7 +12,11 @@ class ConfigUpdateListener
     {
         $entity = $args->getEntity();
 
-        if ($entity instanceof TeamspeakServerInstance) {
+        if ($entity instanceof TeamspeakServer) {
+            $entity->uploadConfigFile();
+            $entity->changeState('restart');
+        }
+        elseif ($entity instanceof TeamspeakServerInstance) {
             $entity->getQuery()->updateInstanceConfig($entity);
         }
     }
