@@ -447,6 +447,8 @@ abstract class GameServer extends AbstractServer
         $this->removeInstallationFiles();
         
         $this->setInstallationStatus(101);
+
+        return true;
     }
     
     /**

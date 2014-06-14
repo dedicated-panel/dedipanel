@@ -45,7 +45,7 @@ class InstallListener implements EventSubscriberInterface
             'dedipanel.minecraft.post_create' => 'install',
             'dedipanel.minecraft.post_fetch_install_progress' => array('install', 'finalizeInstall'),
 
-            'dedipanel.teamspeak.pre_create'  => array('install', 'fetchLogs'),
+            'dedipanel.teamspeak.pre_create'  => array('install', 'fetchLogs', 'finalizeInstall'),
             'dedipanel.teamspeak.pre_delete'  => 'delete',
 
             'dedipanel.teamspeak.instance.pre_create' => 'install',
@@ -71,10 +71,6 @@ class InstallListener implements EventSubscriberInterface
                 $progress = $server->getInstallationProgress();
                 $server->setInstallationStatus($progress);
 
-                if ($progress == 100) {
-                    $this->finalizeInstall($event);
-                }
-
                 $this->manager->persist($server);
                 $this->manager->flush();
             }
@@ -82,6 +78,8 @@ class InstallListener implements EventSubscriberInterface
                 $event->stop('dedipanel.machine.connection_failed', ResourceEvent::TYPE_ERROR);
             }
         }
+
+        $this->callNext($event);
     }
 
     /**
@@ -166,12 +164,24 @@ class InstallListener implements EventSubscriberInterface
 
         if ($server->getInstallationStatus() == 100) {
             try {
-                $server->finalizeInstallation($this->templating);
+                $finalized = $server->finalizeInstallation($this->templating);
+
                 $event->stop('dedipanel.flashes.finalize_install_server', ResourceEvent::TYPE_SUCCESS);
             }
             catch (ConnectionErrorException $e) {
                 $event->stop('dedipanel.machine.connection_failed', ResourceEvent::TYPE_ERROR);
+
+                return;
             }
+
+            if (!$finalized) {
+                $event->stop('dedipanel.core.post_install_failed', ResourceEvent::TYPE_ERROR);
+
+                return;
+            }
+
+            $this->manager->persist($server);
+            $this->manager->flush();
         }
     }
 
@@ -202,7 +212,7 @@ class InstallListener implements EventSubscriberInterface
             $events = array_slice($events, array_pop($keys)+1);
 
             if (!empty($events)) {
-                call_user_func(array($this, array_pop($events)), new ResourceEvent($event->getSubject()));
+                call_user_func(array($this, array_pop($events)), $event);
             }
         }
     }

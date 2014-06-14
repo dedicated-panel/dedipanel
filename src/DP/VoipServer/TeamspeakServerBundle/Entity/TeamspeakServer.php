@@ -232,6 +232,10 @@ class TeamspeakServer extends VoipServer
         $conn = $this->getMachine()->getConnection();
         $installDir = $this->getAbsoluteDir();
 
+        if (!$conn->dirExists($installDir)) {
+            return false;
+        }
+
         $this->uploadConfigFile();
 
         $conn->exec("echo \$SSH_CLIENT | awk '{print \$1}' >> ${installDir}/query_ip_whitelist.txt");
@@ -245,6 +249,8 @@ class TeamspeakServer extends VoipServer
         $this->changeState('start');
 
         $this->installationStatus = 101;
+
+        return true;
     }
 
     public function uploadConfigFile()
