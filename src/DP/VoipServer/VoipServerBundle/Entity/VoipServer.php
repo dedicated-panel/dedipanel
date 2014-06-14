@@ -44,6 +44,14 @@ abstract class VoipServer extends AbstractServer
     protected $instances;
 
     /**
+     * @var string $dir
+     *
+     * @ORM\Column(name="dir", type="string", length=64)
+     * @Assert\NotBlank(message="voip.assert.dir.not_blank")
+     */
+    protected $dir;
+
+    /**
      * @var object $query
      */
     protected $query;
@@ -101,9 +109,16 @@ abstract class VoipServer extends AbstractServer
         return $this->instances;
     }
 
-    public function getHost()
+    public function setDir($dir)
     {
-        return $this->getMachine()->getIP();
+        $this->dir = trim($dir, '/');
+
+        return $this;
+    }
+
+    public function getDir()
+    {
+        return $this->dir;
     }
 
     public function setQuery($query)
@@ -116,6 +131,11 @@ abstract class VoipServer extends AbstractServer
     public function getQuery()
     {
         return $this->query;
+    }
+
+    public function getHost()
+    {
+        return $this->getMachine()->getIP();
     }
 
     public function __toString()

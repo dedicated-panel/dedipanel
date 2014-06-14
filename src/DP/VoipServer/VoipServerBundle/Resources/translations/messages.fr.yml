@@ -4,3 +4,4 @@ voip:
     max_clients: Slots
     query_password: Mot de passe pour le query
     autostart: Démarrage automatique ?
+    voice_port: Port par défaut pour la voix

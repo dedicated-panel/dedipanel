@@ -1,9 +1,11 @@
-voip:
-    instance:
-        assert:
-            name:
-                not_blank: Vous devez indiquer le nom de cette instance.
-                max_len: Vous devez indiquer un nom faisant moins de 32 caractères.
-            max_clients:
-                not_blank: Veuillez indiquer un nombre de clients maximum pour votre instance.
-                not_zero: Veuillez indiquer un nombre de clients maximum supérieur à 0.
+voip.assert:
+    dir:
+        not_blank: Veuillez indiquer le répertoire dans lequel vous souhaitez installer teamspeak.
+
+voip.instance.assert:
+    name:
+        not_blank: Vous devez indiquer le nom de cette instance.
+        max_len: Vous devez indiquer un nom faisant moins de 32 caractères.
+    max_clients:
+        not_blank: Veuillez indiquer un nombre de clients maximum pour votre instance.
+        not_zero: Veuillez indiquer un nombre de clients maximum supérieur à 0.

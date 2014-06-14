@@ -29,7 +29,7 @@ class TeamspeakServer extends VoipServer
      *
      * @ORM\Column(name="query_login", type="string", length=32, nullable=true)
      */
-    private $queryLogin = 'serveradmin';
+    private $queryLogin;
 
     /**
      * @var string $queryPassword
@@ -37,6 +37,20 @@ class TeamspeakServer extends VoipServer
      * @ORM\Column(name="query_passwd", type="string", length=32, nullable=true)
      */
     private $queryPassword;
+
+    /**
+     * @var integer $filetransferPort
+     *
+     * @ORM\Column(name="filetransfer_port", type="integer", nullable=true)
+     */
+    private $filetransferPort;
+
+    /**
+     * @var integer $voicePort
+     *
+     * @ORM\Column(name="voice_port", type="integer", nullable=true)
+     */
+    private $voicePort;
 
     /** @var bool $firstStart */
     private $firstStart;
@@ -46,41 +60,11 @@ class TeamspeakServer extends VoipServer
     {
         parent::__construct();
 
+        $this->voicePort = 9987;
         $this->queryPort  = 10011;
         $this->queryLogin = 'serveradmin';
-    }
-
-    /**
-     * Get the login needed by the query
-     *
-     * @return string
-     */
-    public function getQueryLogin()
-    {
-        return $this->queryLogin;
-    }
-
-    /**
-     * Set the password needed by the query
-     *
-     * @param string $password
-     * @return TeamspeakServer
-     */
-    public function setQueryPassword($password)
-    {
-        $this->queryPassword = $password;
-
-        return $this;
-    }
-
-    /**
-     * Get the password needed by the query
-     *
-     * @return string
-     */
-    public function getQueryPassword()
-    {
-        return $this->queryPassword;
+        $this->filetransferPort = 30033;
+        $this->dir = 'teamspeak';
     }
 
     /**
@@ -104,6 +88,90 @@ class TeamspeakServer extends VoipServer
     public function getQueryPort()
     {
         return $this->queryPort;
+    }
+
+    /**
+     * Get the login needed by the query
+     *
+     * @return string
+     */
+    public function getQueryLogin()
+    {
+        return $this->queryLogin;
+    }
+
+    /**
+     * Set the password needed by the query
+     *
+     * @param string $password
+     * @return TeamspeakServer
+     */
+    public function setQueryPassword($password)
+    {
+        // Prevent unsetting the password from forms
+        if (!empty($password)) {
+            $this->queryPassword = $password;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get the password needed by the query
+     *
+     * @return string
+     */
+    public function getQueryPassword()
+    {
+        return $this->queryPassword;
+    }
+
+    /**
+     * Set the filetransfer port used by teamspeak
+     *
+     * @param integer $filetransferPort
+     * @return TeamspeakServer
+     */
+    public function setFiletransferPort($filetransferPort)
+    {
+        $this->filetransferPort = $filetransferPort;
+
+        return $this;
+    }
+
+    /**
+     * Get the filetransfer port used by teamspeak
+     *
+     * @return integer
+     */
+    public function getFiletransferPort()
+    {
+        return $this->filetransferPort;
+    }
+
+    /**
+     * Get the default voice port
+     * (will be used by the first instance)
+     *
+     * @param integer $voicePort
+     * @return TeamspeakServer
+     */
+    public function setVoicePort($voicePort)
+    {
+        $this->voicePort = $voicePort;
+
+        return $this;
+    }
+
+    /**
+     * Get the default voice port
+     * (will be used by the first instance)
+     *
+     * @return integer
+     */
+    public function getVoicePort()
+    {
+        return $this->voicePort;
     }
 
     /** {@inheritdoc} */
@@ -208,7 +276,7 @@ class TeamspeakServer extends VoipServer
     /** {@inheritdoc} */
     protected function getAbsoluteDir()
     {
-        return rtrim($this->getMachine()->getHome(), '/') . '/teamspeak';
+        return rtrim($this->getMachine()->getHome(), '/') . '/' . trim($this->dir, '/');
     }
 
     /** {@inheritdoc} */
