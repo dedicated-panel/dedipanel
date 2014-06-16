@@ -32,6 +32,10 @@ class EditTeamspeakServerType extends AbstractType
                 'label'    => 'game.dir',
                 'disabled' => true,
             ))
+            ->add('licence_file', 'file', array(
+                'label'    => 'teamspeak.licence',
+                'required' => false,
+            ))
         ;
     }
 

@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use DP\Core\CoreBundle\Exception\DirectoryAlreadyExistsException;
 use DP\VoipServer\TeamspeakServerBundle\Service\ServerQueryFactory;
 use DP\VoipServer\VoipServerBundle\Entity\VoipServer;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * TeamspeakServer
@@ -50,6 +52,12 @@ class TeamspeakServer extends VoipServer
      * @ORM\Column(name="voice_port", type="integer", nullable=true)
      */
     private $voicePort;
+
+    /**
+     * @var UploadedFile $licenceFile
+     * @Assert\File(maxSize="200")
+     */
+    private $licenceFile;
 
     /** @var bool $firstStart */
     private $firstStart;
@@ -173,6 +181,29 @@ class TeamspeakServer extends VoipServer
         return $this->voicePort;
     }
 
+    /**
+     * Set the uploaded licence file
+     *
+     * @param UploadedFile $licenceFile
+     * @return TeamspeakServer
+     */
+    public function setLicenceFile(UploadedFile $licenceFile = null)
+    {
+        $this->licenceFile = $licenceFile;
+
+        return $this;
+    }
+
+    /**
+     * Has the licence file been uploaded ?
+     *
+     * @return UploadedFile
+     */
+    public function hasLicenceFile()
+    {
+        return $this->licenceFile !== null;
+    }
+
     /** {@inheritdoc} */
     public function getInstallationProgress()
     {
@@ -237,6 +268,10 @@ class TeamspeakServer extends VoipServer
 
         $this->uploadConfigFile();
 
+        if ($this->hasLicenceFile()) {
+            $this->uploadLicenceFile();
+        }
+
         $conn->exec("echo \$SSH_CLIENT | awk '{print \$1}' >> ${installDir}/query_ip_whitelist.txt");
 
         $this->firstStart = true;
@@ -264,6 +299,26 @@ class TeamspeakServer extends VoipServer
             ->getMachine()
             ->getConnection()
             ->upload($filepath, $config, 0750)
+        ;
+    }
+
+    public function uploadLicenceFile()
+    {
+        if (!$this->hasLicenceFile()) {
+            return false;
+        }
+
+        $licencePath = $this->getAbsoluteDir() . '/serverkey.dat';
+        $filepath = $this->licenceFile->getPathname();
+        $content = file_get_contents($filepath);
+
+        @unlink($filepath);
+        unset($this->licenceFile);
+
+        return $this
+            ->getMachine()
+            ->getConnection()
+            ->upload($licencePath, $content, 0750)
         ;
     }
 

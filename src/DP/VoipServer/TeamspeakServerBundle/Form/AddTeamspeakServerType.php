@@ -28,6 +28,10 @@ class AddTeamspeakServerType extends AbstractType
             ->add('dir', 'text', array(
                 'label' => 'game.dir',
             ))
+            ->add('licence_file', 'file', array(
+                'label'    => 'teamspeak.licence',
+                'required' => false,
+            ))
             ->add('alreadyInstalled', 'choice', array(
                 'choices'   => array(1 => 'game.yes', 0 => 'game.no'),
                 'label'     => 'game.isAlreadyInstalled',

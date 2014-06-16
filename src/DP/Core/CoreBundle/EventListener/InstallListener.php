@@ -37,49 +37,20 @@ class InstallListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            'dedipanel.steam.post_fetch_logs'  => 'fetchLogs',
-            'dedipanel.steam.post_create' => 'install',
-            'dedipanel.steam.post_fetch_install_progress' => array('install', 'finalizeInstall'),
+            'dedipanel.steam.post_fetch_logs'  => array('fetchLogs', 'ensurePersisted'),
+            'dedipanel.steam.post_create' => array('install', 'ensurePersisted'),
+            'dedipanel.steam.post_fetch_install_progress' => array('install', 'finalizeInstall', 'ensurePersisted'),
 
-            'dedipanel.minecraft.post_fetch_logs'  => 'fetchLogs',
-            'dedipanel.minecraft.post_create' => 'install',
-            'dedipanel.minecraft.post_fetch_install_progress' => array('install', 'finalizeInstall'),
+            'dedipanel.minecraft.post_fetch_logs'  => array('fetchLogs', 'ensurePersisted'),
+            'dedipanel.minecraft.post_create' => array('install', 'ensurePersisted'),
+            'dedipanel.minecraft.post_fetch_install_progress' => array('install', 'finalizeInstall', 'ensurePersisted'),
 
-            'dedipanel.teamspeak.pre_create'  => array('install', 'fetchLogs', 'finalizeInstall'),
+            'dedipanel.teamspeak.pre_create'  => array('install', 'fetchLogs', 'finalizeInstall', 'ensurePersisted'),
             'dedipanel.teamspeak.pre_delete'  => 'delete',
 
-            'dedipanel.teamspeak.instance.pre_create' => 'install',
+            'dedipanel.teamspeak.instance.pre_create' => array('install', 'ensurePersisted'),
             'dedipanel.teamspeak.instance.pre_delete' => 'delete',
         );
-    }
-
-    /**
-     * Fetch the installation progress
-     *
-     * @param ResourceEvent $event
-     * @return null
-     */
-    public function fetchLogs(ResourceEvent $event)
-    {
-        /** @var ServerInterface $server */
-        $server = $event->getSubject();
-
-        if (!$server->isInstallationEnded()) {
-            try {
-                // Update the installation progression
-                // And finalize it if necessary
-                $progress = $server->getInstallationProgress();
-                $server->setInstallationStatus($progress);
-
-                $this->manager->persist($server);
-                $this->manager->flush();
-            }
-            catch (ConnectionErrorException $e) {
-                $event->stop('dedipanel.machine.connection_failed', ResourceEvent::TYPE_ERROR);
-            }
-        }
-
-        $this->callNext($event);
     }
 
     /**
@@ -149,7 +120,33 @@ class InstallListener implements EventSubscriberInterface
             }
         }
 
-        $this->callNext($event);
+        $this->callNext($event, 'install');
+    }
+
+    /**
+     * Fetch the installation progress
+     *
+     * @param ResourceEvent $event
+     * @return null
+     */
+    public function fetchLogs(ResourceEvent $event)
+    {
+        /** @var ServerInterface $server */
+        $server = $event->getSubject();
+
+        if (!$server->isInstallationEnded()) {
+            try {
+                // Update the installation progression
+                // And finalize it if necessary
+                $progress = $server->getInstallationProgress();
+                $server->setInstallationStatus($progress);
+            }
+            catch (ConnectionErrorException $e) {
+                $event->stop('dedipanel.machine.connection_failed', ResourceEvent::TYPE_ERROR);
+            }
+        }
+
+        $this->callNext($event, 'fetchLogs');
     }
 
     /**
@@ -179,10 +176,9 @@ class InstallListener implements EventSubscriberInterface
 
                 return;
             }
-
-            $this->manager->persist($server);
-            $this->manager->flush();
         }
+
+        $this->callNext($event, 'finalizeInstall');
     }
 
     public function delete(ResourceEvent $event)
@@ -202,17 +198,26 @@ class InstallListener implements EventSubscriberInterface
         }
     }
 
-    private function callNext(ResourceEvent $event)
+    public function ensurePersisted(ResourceEvent $event)
+    {
+        /** @var ServerInterface $server */
+        $server = $event->getSubject();
+
+        $this->manager->persist($server);
+        $this->manager->flush();
+    }
+
+    private function callNext(ResourceEvent $event, $type)
     {
         $name   = $event->getName();
         $events = $this->getSubscribedEvents()[$name];
 
         if (is_array($events)) {
-            $keys   = array_keys($events, 'install');
+            $keys   = array_keys($events, $type);
             $events = array_slice($events, array_pop($keys)+1);
 
             if (!empty($events)) {
-                call_user_func(array($this, array_pop($events)), $event);
+                call_user_func(array($this, array_shift($events)), $event);
             }
         }
     }

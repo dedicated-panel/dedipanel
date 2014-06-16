@@ -14,6 +14,11 @@ class ConfigUpdateListener
 
         if ($entity instanceof TeamspeakServer) {
             $entity->uploadConfigFile();
+
+            if ($entity->hasLicenceFile()) {
+                $entity->uploadLicenceFile();
+            }
+
             $entity->changeState('restart');
         }
         elseif ($entity instanceof TeamspeakServerInstance) {
