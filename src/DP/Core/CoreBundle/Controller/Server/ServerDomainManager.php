@@ -42,14 +42,16 @@ class ServerDomainManager extends DomainManager
 
         /** @var ResourceEvent $event */
         $event = $this->dispatchEvent('pre_create', new ResourceEvent($resource));
+        $message = $event->getMessage();
 
-        if ($event->isStopped() && $event->getMessageType() != ResourceEvent::TYPE_SUCCESS) {
+        if (!empty($message)) {
             $this->flashHelper->setFlash(
                 $event->getMessageType(),
                 $event->getMessage(),
                 $event->getMessageParameters()
             );
-
+        }
+        if ($event->isStopped() && $event->getMessageType() != ResourceEvent::TYPE_SUCCESS) {
             return null;
         }
 
