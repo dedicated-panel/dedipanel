@@ -104,6 +104,7 @@ php::module { 'php5-intl': }
 php::module { 'php5-mcrypt': }
 php::module { 'php5-gd': }
 php::module { 'php-apc': }
+php::module { 'php5-xdebug': }
 
 class { 'php::devel':
   require => Class['php'],
@@ -141,15 +142,14 @@ class { 'mysql::server':
   override_options => { 'root_password' => '', },
 }
 
-database{ 'dedipanel':
+mysql_database{ 'dedipanel':
   ensure  => present,
   charset => 'utf8',
   require => Class['mysql::server'],
 }
 
-database { 'dedipanel-site':
+mysql_database { 'dedipanel-site':
   ensure => present, 
   charset => 'utf8', 
   require => Class['mysql::server'], 
 }
-
