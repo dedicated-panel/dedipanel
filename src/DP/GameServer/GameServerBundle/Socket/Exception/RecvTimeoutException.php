@@ -18,16 +18,14 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\Core\CoreBundle\Socket\Exception;
+namespace DP\GameServer\GameServerBundle\Socket\Exception;
 
 /**
  * @author Albin Kerouanton
  */
-class SendDataException extends SocketException
+class RecvTimeoutException extends SocketException
 {
-    public function __construct($sockError)
-    {
-        parent::__construct('An error has occurred during data uploading.' .
-            'Socket error : ' . $sockError);
+    public function __construct($message, $code = 0) {
+        parent::__construct($message, $code);
     }
 }

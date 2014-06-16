@@ -18,16 +18,15 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\Core\CoreBundle\Socket\Exception;
+namespace DP\GameServer\GameServerBundle\Socket\Exception;
 
 /**
  * @author Albin Kerouanton 
  */
-class ConnectionFailedException extends SocketException
+class EmptyPacketException extends SocketException
 {
-    public function __construct($sockError)
+    public function __construct()
     {
-        parent::__construct('Can\'t connect to the server. ' . 
-            'Socket error : ' . $sockError);
+        parent::__construct('Can\'t get anymore data. The packet is empty.');
     }
 }

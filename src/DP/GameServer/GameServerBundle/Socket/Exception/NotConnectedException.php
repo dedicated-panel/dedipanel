@@ -18,15 +18,15 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\Core\CoreBundle\Socket\Exception;
+namespace DP\GameServer\GameServerBundle\Socket\Exception;
 
 /**
  * @author Albin Kerouanton 
  */
-class InvalidPositionException extends SocketException
+class NotConnectedException extends SocketException
 {
-    public function __construct($message, $code = 0)
+    public function __construct($message = '')
     {
-        parent::__construct($message, $code);
+        parent::__construct($message);
     }
 }

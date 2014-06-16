@@ -19,13 +19,13 @@
 
 namespace DP\GameServer\SteamServerBundle\SteamQuery;
 
-use DP\Core\CoreBundle\Socket\Socket;
-use DP\Core\CoreBundle\Socket\Packet;
-use DP\Core\CoreBundle\Socket\PacketCollection;
-use DP\Core\CoreBundle\Query\QueryInterface;
-use DP\Core\CoreBundle\Socket\Exception\ConnectionFailedException;
-use DP\Core\CoreBundle\Socket\Exception\NotConnectedException;
-use DP\Core\CoreBundle\Socket\Exception\RecvTimeoutException;
+use DP\GameServer\GameServerBundle\Socket\Socket;
+use DP\GameServer\GameServerBundle\Socket\Packet;
+use DP\GameServer\GameServerBundle\Socket\PacketCollection;
+use DP\GameServer\GameServerBundle\Query\QueryInterface;
+use DP\GameServer\GameServerBundle\Socket\Exception\ConnectionFailedException;
+use DP\GameServer\GameServerBundle\Socket\Exception\NotConnectedException;
+use DP\GameServer\GameServerBundle\Socket\Exception\RecvTimeoutException;
 use DP\GameServer\SteamServerBundle\SteamQuery\Exception\ServerTimeoutException;
 use DP\Core\CoreBundle\Exception\IPBannedException;
 use DP\GameServer\SteamServerBundle\SteamQuery\Exception\UnexpectedServerTypeException;

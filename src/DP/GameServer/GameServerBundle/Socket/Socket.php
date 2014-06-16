@@ -18,16 +18,16 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\Core\CoreBundle\Socket;
+namespace DP\GameServer\GameServerBundle\Socket;
 
-use DP\Core\CoreBundle\Socket\Packet;
+use DP\GameServer\GameServerBundle\Socket\Packet;
 
-use DP\Core\CorerBundle\Socket\Exception\CreateSocketException;
-use DP\Core\CoreBundle\Socket\Exception\ConnectionFailedException;
-use DP\Core\CoreBundle\Socket\Exception\NotConnectedException;
-use DP\Core\CoreBundle\Socket\Exception\SendDataException;
-use DP\Core\CoreBundle\Socket\Exception\RecvDataException;
-use DP\Core\CoreBundle\Socket\Exception\RecvTimeoutException;
+use DP\GameServer\GameServerBundle\Socket\Exception\CreateSocketException;
+use DP\GameServer\GameServerBundle\Socket\Exception\ConnectionFailedException;
+use DP\GameServer\GameServerBundle\Socket\Exception\NotConnectedException;
+use DP\GameServer\GameServerBundle\Socket\Exception\SendDataException;
+use DP\GameServer\GameServerBundle\Socket\Exception\RecvDataException;
+use DP\GameServer\GameServerBundle\Socket\Exception\RecvTimeoutException;
 
 /**
  * @author Albin Kerouanton 
@@ -172,7 +172,7 @@ class Socket
      * Receive a packet
      * 
      * @param bool $multiPacket
-     * @return DP\Core\CoreBundle\Socket\Packet
+     * @return \DP\GameServer\GameServerBundle\Socket\Packet
      * @throws NotConnectedException
      * @throws RecvTimeoutException
      * @throws RecvDataException 

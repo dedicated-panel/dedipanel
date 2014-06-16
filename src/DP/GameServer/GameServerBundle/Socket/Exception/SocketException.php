@@ -1,6 +1,6 @@
 <?php
 
-namespace DP\Core\CoreBundle\Socket\Exception;
+namespace DP\GameServer\GameServerBundle\Socket\Exception;
 
 class SocketException extends \RuntimeException
 {

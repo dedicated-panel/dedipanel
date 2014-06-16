@@ -1,6 +1,3 @@
-parameters:
-    socket.timeout: [ 1, 0 ]
-
 services:
     monolog.processor.psr_log_message:
         class: Monolog\Processor\PsrLogMessageProcessor
@@ -39,10 +36,3 @@ services:
         arguments: [ @doctrine.orm.entity_manager, @twig, @request_stack ]
         tags:
             - { name: kernel.event_subscriber }
-
-    socket:
-        class: DP\Core\CoreBundle\Service\SocketFactory
-        arguments: [ %socket.timeout% ]
-
-    packet.factory:
-        class: DP\Core\CoreBundle\Service\PacketFactory

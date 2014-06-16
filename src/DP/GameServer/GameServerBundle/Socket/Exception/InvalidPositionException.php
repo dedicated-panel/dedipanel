@@ -18,15 +18,15 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\Core\CoreBundle\Socket\Exception;
+namespace DP\GameServer\GameServerBundle\Socket\Exception;
 
 /**
  * @author Albin Kerouanton 
  */
-class EmptyPacketException extends SocketException
+class InvalidPositionException extends SocketException
 {
-    public function __construct()
+    public function __construct($message, $code = 0)
     {
-        parent::__construct('Can\'t get anymore data. The packet is empty.');
+        parent::__construct($message, $code);
     }
 }

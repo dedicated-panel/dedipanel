@@ -18,9 +18,9 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\Core\CoreBundle\Socket;
-use DP\Core\CoreBundle\Socket\Packet;
-use DP\Core\CoreBundle\Socket\Exception\InvalidPositionException;
+namespace DP\GameServer\GameServerBundle\Socket;
+use DP\GameServer\GameServerBundle\Socket\Packet;
+use DP\GameServer\GameServerNundle\Socket\Exception\InvalidPositionException;
 
 /**
  * @author Albin Kerouanton 
@@ -33,7 +33,7 @@ class PacketCollection implements \SeekableIterator, \ArrayAccess, \Countable
     /**
      * Get the current element of the collection
      * 
-     * @return DP\Core\CoreBundle\Socket\Packet
+     * @return \DP\GameServer\GameServerBundle\Socket\Packet
      */
     public function current()
     {
@@ -107,7 +107,7 @@ class PacketCollection implements \SeekableIterator, \ArrayAccess, \Countable
      * Get an array element defined by his $key
      * 
      * @param int $key
-     * @return DP\Core\CoreBundle\Socket\Packet
+     * @return \DP\GameServer\GameServerBundle\Socket\Packet 
      */
     public function offsetGet($key)
     {
@@ -118,7 +118,7 @@ class PacketCollection implements \SeekableIterator, \ArrayAccess, \Countable
      * Set an array element
      * 
      * @param int $key
-     * @param DP\Core\CoreBundle\Socket\Packet $val
+     * @param \DP\GameServer\GameServerBundle\Socket\Packet $val 
      */
     public function offsetSet($key, Packet $val)
     {
@@ -148,7 +148,7 @@ class PacketCollection implements \SeekableIterator, \ArrayAccess, \Countable
     /**
      * Reassemble all packets in one packet
      * 
-     * @return DP\Core\CoreBundle\Socket\Packet
+     * @return \DP\GameServer\GameServerBundle\Socket\Packet 
      */
     public function reassemble($callback = null)
     {

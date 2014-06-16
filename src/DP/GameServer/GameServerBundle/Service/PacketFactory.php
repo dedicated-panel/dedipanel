@@ -18,8 +18,9 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\Core\CoreBundle\Service;
-use DP\Core\CoreBundle\Socket\Packet;
+namespace DP\GameServer\GameServerBundle\Service;
+
+use DP\GameServer\GameServerBundle\Socket\Packet;
 
 /**
  * @author Albin Kerouanton
@@ -60,7 +61,7 @@ class PacketFactory
      * Create easily a packet in subclasses
      * 
      * @param string $content
-     * @return DP\Core\CoreBundle\Socket\Packet
+     * @return \DP\GameServer\GameServerBundle\Socket\Packet 
      */
     public function newPacket($content)
     {

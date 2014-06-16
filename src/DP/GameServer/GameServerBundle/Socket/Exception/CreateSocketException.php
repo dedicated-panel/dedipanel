@@ -18,16 +18,15 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\Core\CoreBundle\Socket\Exception;
+namespace DP\GameServer\GameServerBundle\Socket\Exception;
 
 /**
  * @author Albin Kerouanton 
  */
-class RecvDataException extends SocketException
+class CreateSocketException extends SocketException
 {
-    public function __construct($sockError)
-    {
-        parent::__construct('An error has occurred during receiving data. ' .
+    public function __construct($type, $sockError){
+        parent::__construct('Can\'t create a ' . $type . ' connection.' .
             'Socket error : ' . $sockError);
     }
 }

@@ -18,15 +18,16 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\Core\CoreBundle\Socket\Exception;
+namespace DP\GameServer\GameServerBundle\Socket\Exception;
 
 /**
  * @author Albin Kerouanton 
  */
-class NotConnectedException extends SocketException
+class RecvDataException extends SocketException
 {
-    public function __construct($message = '')
+    public function __construct($sockError)
     {
-        parent::__construct($message);
+        parent::__construct('An error has occurred during receiving data. ' .
+            'Socket error : ' . $sockError);
     }
 }

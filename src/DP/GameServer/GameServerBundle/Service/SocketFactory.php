@@ -20,7 +20,7 @@
 
 namespace DP\Core\CoreBundle\Service;
 
-use DP\Core\CoreBundle\Socket\Socket;
+use DP\GameServer\GameServerBundle\Socket\Socket;
 
 /**
  * @author Albin Kerouanton 
@@ -46,7 +46,7 @@ class SocketFactory
      * @param int $port
      * @param string $type
      * @parram array $callbacks List of callbacks used after recv
-     * @return DP\Core\CoreBundle\Socket\Socket
+     * @return \DP\GameServer\GameServerBundle\Socket\Socket 
      */
     private function getSocket($ip, $port, $type, $callbacks)
     {
@@ -69,7 +69,7 @@ class SocketFactory
      * @param string $ip
      * @param int $port
      * @parram array $callbacks List of callbacks used after recv
-     * @return DP\Core\CoreBundle\Socket\Socket
+     * @return \DP\GameServer\GameServerBundle\Socket\Socket 
      */
     public function getUDPSocket($ip, $port, array $callbacks = null)
     {
@@ -82,7 +82,7 @@ class SocketFactory
      * @param string $ip
      * @param int $port
      * @parram array $callbacks List of callbacks used after recv
-     * @return DP\Core\CoreBundle\Socket\Socket
+     * @return \DP\GameServer\GameServerBundle\Socket\Socket 
      */
     public function getTCPSocket($ip, $port, $callbacks = null)
     {
