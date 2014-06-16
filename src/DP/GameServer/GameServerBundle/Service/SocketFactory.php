@@ -18,7 +18,7 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-namespace DP\Core\CoreBundle\Service;
+namespace DP\GameServer\GameServerBundle\Service;
 
 use DP\GameServer\GameServerBundle\Socket\Socket;
 

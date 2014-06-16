@@ -25,9 +25,11 @@ services:
     packet.factory:
         class: DP\GameServer\GameServerBundle\Service\PacketFactory
     
-    game.listener.queryInjector:
+    game.listener.query_injector:
         class: DP\GameServer\GameServerBundle\Listener\QueryInjector
-        tags: 
+        calls:
+            - [ setContainer, [ @service_container ] ]
+        tags:
             - { name: doctrine.event_listener, event: postLoad, method: postLoad }
     
     dedipanel.game.ftp.form.file:
