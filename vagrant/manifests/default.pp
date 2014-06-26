@@ -1,17 +1,20 @@
 $panel_host_name = "dedipanel.dev"
 $site_host_name  = "dedisite.dev"
 
-user { 'dedipanel': ensure => present, password => sha1('test') }
-group { 'puppet': ensure => present }
 Exec { path => [ '/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/' ] }
 File { owner => 0, group => 0, mode => 0644 }
+
+user { 'dedipanel':
+  ensure   => present,
+  password => sha1('dedipanel'),
+}
 
 file { "/dev/shm/dedipanel":
   ensure => directory,
   purge => true,
   force => true,
   owner => vagrant,
-  group => vagrant
+  group => vagrant,
 }
 
 file { "/dev/shm/dedipanel-site":
@@ -60,10 +63,6 @@ package { [
 
 class { 'apache': }
 
-apache::dotconf { 'custom':
-  content => 'EnableSendfile Off',
-}
-
 apache::module { 'rewrite': }
 
 apache::vhost { "${panel_host_name}":
@@ -83,11 +82,12 @@ apache::vhost { "${site_host_name}":
   server_name => "${site_host_name}", 
   serveraliases => [
     "www.${site_host_name}", 
-  ], 
-  docroot => '/var/www/dedipanel-site/web/', 
+  ],
+  docroot => '/var/www/dedipanel-site/web/',
+  port          => '80',
   env_variables => [
     'VAGRANT VAGRANT'
-  ], 
+  ],
   priority => '1', 
 }
 
