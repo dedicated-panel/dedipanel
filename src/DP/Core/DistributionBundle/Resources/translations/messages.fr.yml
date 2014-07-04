@@ -1,34 +1,22 @@
-# Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
-
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
 
 configurator:
     installer: "Installateur"
-    chooseType: "Choisissez le type de configuration"
+    choose_type: "Choisissez le type de configuration"
     install: "Installation"
     update: "Mise à jour"
     next: "Prochaine étape"
-    mandatoryFields: "* Champs obligatoires"
+    mandatory_fields: "* Champs obligatoires"
     step: Étape n°%id%
     ok: Installé
     nok: Non installé
-
-    socketExtension: Extension PHP de sockets
-    intlExtension: Extension PHP d'internationalisation
-    pdoMandatory: Extension PHP pdo
-    mysqlExtensionMandatory: Extension PHP pdo_mysql
+    socket_extension: Extension PHP de sockets
+    intl_extension: Extension PHP d'internationalisation
+    pdo_mandatory: Extension PHP pdo
+    mysql_extension_mandatory: Extension PHP pdo_mysql
 
     db:
         title: Configuration de la base de donnée
@@ -39,22 +27,19 @@ configurator:
         password: Mot de passe
         password_again: Confirmation du mot de passe
         port: Port
-
-    autoInstall:
+    auto_install:
         title: Préconfiguration du panel
         description: Votre base de données sera créée ou mise à jour et les données par défaut seront chargées.
         install_db: Création de la structure de la base de données ?
         load_fixtures: Chargement des données par défaut ?
         install_assets: Installer les resources du panel (css, images, ...) ?
-
-    userCreation:
+    user_creation:
         title: Création d'un Super Admin
         description: Durant cette étape vous allez créer le super admin qui vous servira à administrer le panel.
         username: Nom d'utilisateur
         email: Adresse email
         password: Mot de passe
         password_again: Confirmation du mot de passe
-
     final:
         title: Configuration terminé !
-        modifyAppFile: "La configuration du panel est terminée. Il vous reste cependant une <a href=\"%urlRewrite%\">étape à effectuer</a> afin de rendre le panel accessible."
+        modify_app_file: "La configuration du panel est terminée. Il vous reste cependant une <a href=\"%urlRewrite%\">étape à effectuer</a> afin de rendre le panel accessible."

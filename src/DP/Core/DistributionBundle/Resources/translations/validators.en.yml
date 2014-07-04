@@ -1,35 +1,28 @@
-# Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
-
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
 
-# Paramètres de la bdd (étape 1 install)
-configurator.db.host.blank: You must specify the host for the database (the IP or the name).
-configurator.db.name.blank: You must specify the name for the database.
-configurator.db.user.blank: You must specify the username for the database.
-configurator.db.connectionTest: Connection test to the database failed. Please check your login.
+configurator:
+    db:
+        host:
+            blank: You must specify the host for the database (the IP or the name).
+        name:
+            blank: You must specify the name for the database.
+        user:
+            blank: You must specify the username for the database.
+        connectionTest: Connection test to the database failed. Please check your login.
+        empty: Database is empty. Please install his structure before continuing.
+        not_empty: Database is not empty. Please flush it before continuing.
 
-
-# Création du SuperAdmin (étape 3 install)
-configurator.userCreation.username.blank: Please enter a username.
-configurator.userCreation.username.short: "[-Inf,Inf]Your user name is too short, it must be more than %count% characters."
-configurator.userCreation.username.long: "[-Inf,Inf]Your user name is too  long, it must be less than %count% characters."
-
-configurator.userCreation.email.blank: You must specify your email.
-configurator.userCreation.email.short: "[-Inf,Inf]Your email is too short, it must be more than %count% characters."
-configurator.userCreation.email.long: "[-Inf,Inf]Your email is too long, it must be less than %count% characters."
-configurator.userCreation.email.valid: Your email is invalid.
-
-configurator.userCreation.password.blank: You must specify your password.
-configurator.userCreation.password.short: "[-Inf,Inf]Your password is too short, it must be more than  %count% characters."
+    user_creation:
+        username:
+            blank: Please enter a username.
+            short: "[-Inf,Inf]Your user name is too short, it must be more than %count% characters."
+            long: "[-Inf,Inf]Your user name is too  long, it must be less than %count% characters."
+        email:
+            blank: You must specify your email.
+            valid: Your email is invalid.
+        password:
+            blank: You must specify your password.
+            short: "[-Inf,Inf]Your password is too short, it must be more than  %count% characters."
