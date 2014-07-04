@@ -31,15 +31,13 @@ configurator:
     userCreation:
         username:
             blank: Veuillez indiquer un nom d'utilisateur.
-            short: "[-Inf,Inf]Votre nom d'utilisateur est trop court, il doit faire plus de %count% caractères."
+            short: "[-Inf,Inf]Votre nom d'utilisateur est trop court, il doit faire au minimum de %count% caractères."
             long: "[-Inf,Inf]Votre nom d'utilisateur est trop long, il doit faire moins de %count% caractères."
 
         email:
             blank: Veuillez indiquer votre adresse email.
-            short: "[-Inf,Inf]Votre adresse email est trop courte, elle doit faire plus de %count% caractères."
-            long: "[-Inf,Inf]Votre adresse email est trop longue, elle doit faire moins de %count% caractères."
             valid: Votre adresse email n'est pas valide.
 
         password:
             blank: Veuillez indiquer votre mot de passe.
-            short: "[-Inf,Inf]Votre mot de passe est trop court, il doit faire plus de %count% caractères."
+            short: "[-Inf,Inf]Votre mot de passe est trop court, il doit faire au minimum %count% caractères."

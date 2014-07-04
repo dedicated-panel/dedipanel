@@ -25,7 +25,6 @@
      <p>{{ 'configurator.userCreation.description'|trans }}</p>
     
     <form action="{{ path('dedipanel_installer_step', { 'type': configType, 'step': step }) }} " method="POST">
-        {{ form_errors(form) }}
         {{ form_widget(form) }}
 
         <div class="form-actions">

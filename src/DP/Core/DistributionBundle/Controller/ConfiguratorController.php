@@ -107,7 +107,7 @@ class ConfiguratorController extends Controller
                 if (count($errors) == 0) {
                     // Redirection vers la page finale s'il n'y a plus d'étapes
                     if (++$index == $stepCount) {
-                        return $this->redirect($this->container->get('router')->generate('installer_final', array('type' => $type)));
+                        return $this->redirect($this->container->get('router')->generate('dedipanel_installer_final_step', array('type' => $type)));
                     }
 
                     // Redirection vers la prochaine étape

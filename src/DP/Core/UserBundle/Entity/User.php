@@ -10,7 +10,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * User
  *
- * @ORM\Table(name="fos_user_user")
+ * Table need to be suffixed for avoiding SQL keyword conflict
+ * @ORM\Table(name="user_table")
  * @ORM\Entity(repositoryClass="DP\Core\UserBundle\Entity\UserRepository")
  * @UniqueEntity(fields="username", message="user_admin.assert.username.unique")
  * @UniqueEntity(fields="email", message="user_admin.assert.email.unique")

@@ -43,7 +43,7 @@ configurator:
     autoInstall:
         title: Préconfiguration du panel
         description: Votre base de données sera créée ou mise à jour et les données par défaut seront chargées.
-        install_db: Création de la base de données ?
+        install_db: Création de la structure de la base de données ?
         load_fixtures: Chargement des données par défaut ?
         install_assets: Installer les resources du panel (css, images, ...) ?
 
@@ -57,4 +57,4 @@ configurator:
 
     final:
         title: Configuration terminé !
-        modifyAppFile: "La configuration du panel est terminée. Il vous reste cependant <a href=\"%urlRewrite%\">une étape à effectuer</a> afin de rendre le panel accessible."
+        modifyAppFile: "La configuration du panel est terminée. Il vous reste cependant une <a href=\"%urlRewrite%\">étape à effectuer</a> afin de rendre le panel accessible."

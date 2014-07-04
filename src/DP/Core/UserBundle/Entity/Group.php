@@ -12,8 +12,9 @@ use Gedmo\Tree\Traits\NestedSetEntity;
 
 /**
  * Group
- * 
- * @ORM\Table(name="fos_user_group")
+ *
+ * Table need to be suffixed for avoiding SQL keyword conflict
+ * @ORM\Table(name="group_table")
  * @ORM\Entity(repositoryClass="DP\Core\UserBundle\Entity\GroupRepository")
  * @UniqueEntity(fields="name", message="group_admin.assert.name.unique")
  * @Gedmo\Tree(type="nested")
