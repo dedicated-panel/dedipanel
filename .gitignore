@@ -16,3 +16,4 @@ src/DP/Core/MachineBundle/Resources/config/.ssh/*
 .project
 .idea/
 app/config/dedipanel.yml
+behat.yml.dist

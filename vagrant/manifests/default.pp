@@ -9,22 +9,6 @@ user { 'dedipanel':
   password => sha1('dedipanel'),
 }
 
-file { "/dev/shm/dedipanel":
-  ensure => directory,
-  purge => true,
-  force => true,
-  owner => vagrant,
-  group => vagrant,
-}
-
-file { "/dev/shm/dedipanel-site":
-  ensure => directory, 
-  purge => true, 
-  force => true, 
-  owner => vagrant, 
-  group => vagrant
-}
-
 file { "/var/lock/apache2":
   ensure => directory,
   owner => vagrant
@@ -56,7 +40,9 @@ package { [
     'vim',
     'curl',
     'git-core',
-    'mc'
+    'default-jre',
+    'firefox',
+    'xvfb'
   ]:
   ensure  => 'installed',
 }
@@ -71,11 +57,7 @@ apache::vhost { "${panel_host_name}":
     "www.${panel_host_name}"
   ],
   docroot       => "/var/www/dedipanel/web/",
-  port          => '80',
-  env_variables => [
-    'VAGRANT VAGRANT'
-  ],
-  priority      => '1',
+  priority      => 1,
 }
 
 apache::vhost { "${site_host_name}":
@@ -84,11 +66,7 @@ apache::vhost { "${site_host_name}":
     "www.${site_host_name}", 
   ],
   docroot => '/var/www/dedipanel-site/web/',
-  port          => '80',
-  env_variables => [
-    'VAGRANT VAGRANT'
-  ],
-  priority => '1', 
+  priority      => 1,
 }
 
 class { 'php':
@@ -151,5 +129,37 @@ mysql_database{ 'dedipanel':
 mysql_database { 'dedipanel-site':
   ensure => present, 
   charset => 'utf8', 
-  require => Class['mysql::server'], 
+  require => Class['mysql::server'],
+}
+
+# Installing selenium server and setting an autostart script
+include wget
+wget::fetch { "selenium-server":
+  source      => 'http://selenium-release.storage.googleapis.com/2.42/selenium-server-standalone-2.42.2.jar',
+  destination => '/usr/local/bin/selenium-server',
+  verbose     => false,
+  require     => [ Package['default-jre'], Package['chromium-browser'] ],
+}
+
+file { 'selenium-server':
+  path    => '/usr/local/bin/selenium-server',
+  mode    => '755',
+  ensure  => present,
+  require => Wget::Fetch['selenium-server'],
+}
+
+$autostart_sh = "#!/bin/bash
+DISPLAY=:1 screen xvfb-run java -jar /usr/local/bin/selenium-server"
+
+file { 'autostart-selenium-server':
+  path    => '/etc/init.d/selenium-server',
+  mode    => '755',
+  ensure  => present,
+  content => $autostart_sh,
+  require => File['selenium-server'],
+}
+
+exec { 'rc.d selenium-server':
+  command => 'update-rc.d selenium-server defaults',
+  require => File['autostart-selenium-server'],
 }

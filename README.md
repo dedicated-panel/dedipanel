@@ -68,6 +68,13 @@ Roles :
     * ROLE_DP_ADMIN_MACHINE_ADMIN: Gestion des machines
 
 
+### Testing
+```
+composer install --dev
+php app/console doctrine:database:create --env=test
+bin/behat
+```
+
 Auteur
 -------
 

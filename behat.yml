@@ -1,0 +1,19 @@
+default:
+    extensions:
+        Behat\MinkExtension:
+            browser_name: firefox
+            sessions:
+                default:
+                    symfony2: ~
+        Behat\Symfony2Extension:
+          kernel:
+            env: test
+            debug: true
+
+    suites:
+        installer:
+            contexts:
+                - Behat\MinkExtension\Context\MinkContext
+                - DP\Core\DistributionBundle\Behat\InstallerContext
+            filters:
+                tags: "@installer"
