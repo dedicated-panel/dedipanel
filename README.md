@@ -1,4 +1,4 @@
-# Dedipanel
+# DediPanel
 [![Build Status](https://travis-ci.org/dedicated-panel/dedipanel.svg?branch=behat)](https://travis-ci.org/dedicated-panel/dedipanel)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/dedicated-panel/dedipanel/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/dedicated-panel/dedipanel/?branch=master)
 
