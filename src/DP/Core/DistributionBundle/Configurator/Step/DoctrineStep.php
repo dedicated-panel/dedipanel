@@ -111,56 +111,64 @@ class DoctrineStep implements StepInterface
     
     public function run(StepInterface $data, $configType)
     {
+        if (!$data instanceof DoctrineStep) {
+            throw new \RuntimeException("Can't manage another step that itself.");
+        }
+
         $errors = array();
         $configurator = $this->container->get('dp.webinstaller');
         $parameters = array();
-        
+
         foreach ($data as $key => $value) {
             $parameters['database_' . $key] = $value;
         }
-        
-        // Vérifie les paramètres de bdd passés
-        $goodParams = false;
+
+        if (!$configurator->isFileWritable()) {
+            $errors[] =  'Your app/config/parameters.yml is not writable.';
+        }
+
+        if (!$this->testConnection($data->host, $data->user, $data->password, $data->port, $data->name)) {
+            return array_merge($errors, array('configurator.db.connectionTest'));
+        }
+
+        $configurator->mergeParameters($parameters);
+
+        if (!$configurator->write()) {
+            return array_merge($errors, array('An error occured while writing the app/config/parameters.yml file.'));
+        }
+
+        // Suppression "hard" du cache (sinon les nouveaux paramètres ne sont pas pris en compte)
+        $cacheFile = $configurator->getKernelDir() . '/cache/installer/appInstallerProjectContainer.php';
+        if (file_exists($cacheFile)) {
+            unlink($cacheFile);
+        }
+    }
+
+    /**
+     * Trying to connect to the database
+     *
+     * @return bool
+     */
+    private function testConnection($host, $user, $password, $port, $dbname)
+    {
         try {
             $conn = DriverManager::getConnection(array(
                 'driver' => 'pdo_mysql',
-                'user' => $data->user, 
-                'password' => $data->password, 
-                'host' => $data->host, 
-                'port' => $data->port, 
-                'dbname' => $data->name, 
+                'user' => $user,
+                'password' => $password,
+                'host' => $host,
+                'port' => $port,
+                'dbname' => $dbname,
             ));
-        
+
             $conn->connect();
             $conn->close();
-            
-            $goodParams = true;
+
+            return true;
         }
         catch (\Exception $e) {}
-        
-        if ($goodParams) {
-            if ($configurator->isFileWritable()) {
-                $configurator->mergeParameters($parameters);
-                
-                if (!$configurator->write()) {
-                    $errors[] = 'An error occured while writing the app/config/parameters.yml file.';
-                }
-                
-                // Suppression "hard" du cache (sinon les nouveaux paramètres ne sont pas pris en compte)
-                $cacheFile = $configurator->getKernelDir() . '/cache/installer/appInstallerProjectContainer.php';
-                if (file_exists($cacheFile)) {
-                    unlink($cacheFile);
-                }
-            }
-            else {
-                $errors[] = 'Your app/config/parameters.yml is not writable.';
-            }
-        }
-        else {
-            $errors[] = 'configurator.db.connectionTest';
-        }
-        
-        return $errors;
+
+        return false;
     }
 
     /**

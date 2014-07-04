@@ -9,46 +9,52 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-configurator.installer: "Installateur"
-configurator.chooseType: "Choisissez le type de configuration"
-configurator.install: "Installation"
-configurator.update: "Mise à jour"
-configurator.next: "Prochaine étape"
-configurator.mandatoryFields: "* Champs obligatoires"
-configurator.step: Étape
+configurator:
+    installer: "Installateur"
+    chooseType: "Choisissez le type de configuration"
+    install: "Installation"
+    update: "Mise à jour"
+    next: "Prochaine étape"
+    mandatoryFields: "* Champs obligatoires"
+    step: Étape n°%id%
+    ok: Installé
+    nok: Non installé
 
-configurator.pdoMandatory: Extension PHP pdo
-configurator.mysqlExtensionMandatory: Extension PHP pdo_mysql
-configurator.db.title: Configuration de la base de donnée
-configurator.db.description: Cette étape vous permet d'indiquer vos identifiants de connexion à la base de données mysql que vous utilisez.
-configurator.db.host: Hôte
-configurator.db.name: Nom de la BDD
-configurator.db.user: Utilisateur
-configurator.db.password: Mot de passe
-configurator.db.password_again: Confirmation du mot de passe
-configurator.db.port: Port
+    socketExtension: Extension PHP de sockets
+    intlExtension: Extension PHP d'internationalisation
+    pdoMandatory: Extension PHP pdo
+    mysqlExtensionMandatory: Extension PHP pdo_mysql
 
-configurator.autoInstall.title: Préconfiguration du panel
-configurator.autoInstall.description: Votre base de données sera créée ou mise à jour et les données par défaut seront chargées.
-configurator.autoInstall.loadFixtures: Chargement des données par défaut ?
+    db:
+        title: Configuration de la base de donnée
+        description: Cette étape vous permettra d'indiquer les identifiants de votre base de données (MySQL de préférence).
+        host: Hôte
+        name: Nom de la BDD
+        user: Utilisateur
+        password: Mot de passe
+        password_again: Confirmation du mot de passe
+        port: Port
 
-configurator.userCreation.title: Création d'un Super Admin
-configurator.userCreation.description: Durant cette étape vous allez créer le super admin qui vous servira à administrer le panel.
-configurator.userCreation.username: Nom d'utilisateur
-configurator.userCreation.email: Adresse email
-configurator.userCreation.password: Mot de passe
-configurator.userCreation.password_again: Confirmation du mot de passe
+    autoInstall:
+        title: Préconfiguration du panel
+        description: Votre base de données sera créée ou mise à jour et les données par défaut seront chargées.
+        install_db: Création de la base de données ?
+        load_fixtures: Chargement des données par défaut ?
+        install_assets: Installer les resources du panel (css, images, ...) ?
 
-configurator.final.title: Configuration terminé !
-configurator.final.modifyAppFile: "La configuration du panel est terminée. Il vous reste cependant <a href=\"%urlRewrite%\">une étape à effectuer</a> afin de rendre le panel accessible."
+    userCreation:
+        title: Création d'un Super Admin
+        description: Durant cette étape vous allez créer le super admin qui vous servira à administrer le panel.
+        username: Nom d'utilisateur
+        email: Adresse email
+        password: Mot de passe
+        password_again: Confirmation du mot de passe
 
-configurator.socketExtension: Extension PHP de sockets
-configurator.intlExtension: Extension PHP d'internationalisation
-
-configurator.ok: Installé
-configurator.nok: Non installé
+    final:
+        title: Configuration terminé !
+        modifyAppFile: "La configuration du panel est terminée. Il vous reste cependant <a href=\"%urlRewrite%\">une étape à effectuer</a> afin de rendre le panel accessible."

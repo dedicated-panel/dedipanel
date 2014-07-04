@@ -18,15 +18,14 @@
 
 <div class="symfony-block-steps">
     {% for i in 1..count %}
+        {% if i == step + 1 %}
+            <a class="current">{{ 'configurator.step'|trans({'%id%': i}) }}</a>
+        {% else %}
+            <a>{{ 'configurator.step'|trans({'%id%': i}) }}</a>
+        {% endif %}
 
-      {% if i == index + 1 %}
-          <a class="current">{{ 'configurator.step'|trans }} {{ i }}</a>
-      {% else %}
-          <a>{{ 'configurator.step'|trans }} {{ i }}</a>
-      {% endif %}
-
-      {% if i != count %}
-        &gt;
-      {% endif %}
+        {% if i != count %}
+            &gt;
+        {% endif %}
     {% endfor %}
 </div>

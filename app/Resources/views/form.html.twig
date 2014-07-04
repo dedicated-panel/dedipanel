@@ -21,7 +21,6 @@
 {% spaceless %}
     <div class="clearfix">
         {{ form_label(form) }}
-        {{ form_errors(form) }}
         {{ form_widget(form) }}
     </div>
 {% endspaceless %}
@@ -108,13 +107,41 @@
 {% endblock dp_security_roles_widget %}
 
 {% block form_errors %}
-{% spaceless %}
-    {% if errors|length > 0 %}
-    <ul>
-        {% for error in errors %}
-            <li>{{ error.message|trans }}</li>
+    {% spaceless %}
+        {% set childrenHasErrors = false %}
+
+        {% for child in form.children  %}
+            {% if child.vars.errors.count %}
+                {% set childrenHasErrors = true %}
+            {% endif %}
         {% endfor %}
-    </ul>
-    {% endif %}
-{% endspaceless %}
+
+        {% if form.parent is empty and (childrenHasErrors == true or errors|length > 0)%}
+            <div class="alert alert-error"><ul>
+                {% for error in errors %}
+                    <li>
+                        {{
+                        error.messagePluralization is null
+                        ? error.messageTemplate|trans(error.messageParameters, 'validators')
+                        : error.messageTemplate|transchoice(error.messagePluralization, error.messageParameters, 'validators')
+                        }}
+                    </li>
+                {% endfor %}
+
+                {% for children in form.children %}
+                    {{ form_errors(children) }}
+                {% endfor %}
+            </ul></div>
+        {% else %}
+            {% for error in errors %}
+                <li>
+                    {{
+                    error.messagePluralization is null
+                    ? error.messageTemplate|trans(error.messageParameters, 'validators')
+                    : error.messageTemplate|transchoice(error.messagePluralization, error.messageParameters, 'validators')
+                    }}
+                </li>
+            {% endfor %}
+        {% endif %}
+    {% endspaceless %}
 {% endblock form_errors %}

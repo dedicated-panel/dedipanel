@@ -60,26 +60,26 @@ class Configurator
     }
 
     /**
-     * @param integer $index
+     * @param integer $step
      *
      * @return StepInterface
      */
-    public function getInstallStep($index)
+    public function getInstallStep($step)
     {
-        if (isset($this->installSteps[$index])) {
-            return $this->installSteps[$index];
+        if (isset($this->installSteps[$step])) {
+            return $this->installSteps[$step];
         }
     }
     
     /**
-     * @param integer $index
+     * @param integer $step
      *
      * @return StepInterface
      */
-    public function getUpdateStep($index)
+    public function getUpdateStep($step)
     {
-        if (isset($this->updateSteps[$index])) {
-            return $this->updateSteps[$index];
+        if (isset($this->updateSteps[$step])) {
+            return $this->updateSteps[$step];
         }
     }
 
@@ -104,34 +104,45 @@ class Configurator
      */
     public function getRequirements()
     {
-        $requirements = array();
-        $error = false;
+        $requirements = [];
         
         foreach ($this->installSteps as $step) {
-            foreach ($step->checkRequirements() as $label => $state) {
-                $requirements[$label] = $state;
-                
-                if ($state == false) {
-                    $error = true;
-                }
-            }
+            $requirements = array_merge($requirements, $this->getStepRequirements($step));
         }
-        
+
+        $requirements = array_merge($requirements, $this->getCoreRequirements());
+
+        return array('requirements' => $requirements, 'error' => in_array(false, $requirements));
+    }
+
+    private function getCoreRequirements()
+    {
+        $requirements = [];
+
         // Vérification de la présence de l'extension php socket
         $requirements['configurator.socketExtension'] = true;
         if (!function_exists('socket_create')) {
             $requirements['configurator.socketExtension'] = false;
-            $error = true;
         }
-        
+
         // Vérification de la présence de l'extension php intl
         $requirements['configurator.intlExtension'] = true;
         if (!defined('INTL_MAX_LOCALE_LEN')) {
             $requirements['configurator.intlExtension'] = false;
-            $error = true;
         }
 
-        return array('requirements' => $requirements, 'error' => $error);
+        return $requirements;
+    }
+
+    private function getStepRequirements(StepInterface $step)
+    {
+        $requirements = [];
+
+        foreach ($step->checkRequirements() as $label => $state) {
+            $requirements[$label] = $state;
+        }
+
+        return $requirements;
     }
 
     /**
@@ -221,5 +232,15 @@ class Configurator
     public function getKernelDir()
     {
         return $this->kernelDir;
+    }
+
+    /**
+     * getCacheFilename
+     *
+     * @return string
+     */
+    protected function getCacheFilename()
+    {
+        return $this->kernelDir.'/cache/parameters.yml';
     }
 }

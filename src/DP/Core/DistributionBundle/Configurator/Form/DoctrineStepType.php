@@ -25,7 +25,6 @@ class DoctrineStepType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'text', array('label' => 'configurator.db.name'))
             ->add('host', 'text', array('label' => 'configurator.db.host'))
             ->add('port', 'text', array('required' => false, 'label' => 'configurator.db.port'))
             ->add('user', 'text', array('label' => 'configurator.db.user'))
@@ -38,6 +37,7 @@ class DoctrineStepType extends AbstractType
                 'second_options'  => array('label' => 'configurator.db.password_again'), 
                 'invalid_message' => 'The password fields must match.',
             ))
+            ->add('name', 'text', array('label' => 'configurator.db.name'))
         ;
     }
 

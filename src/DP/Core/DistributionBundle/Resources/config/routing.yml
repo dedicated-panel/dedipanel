@@ -14,19 +14,19 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-installer_chooseType:
+dedipanel_installer:
     pattern:  /
     defaults: { _controller: DPDistributionBundle:Configurator:index }
 
-installer_check:
+dedipanel_installer_check:
     pattern: /install/check
     defaults: { _controller: DPDistributionBundle:Configurator:check }
 
-installer_step:
-    pattern: /{type}/{index}
+dedipanel_installer_step:
+    pattern: /{type}/{step}
     defaults: { _controller: DPDistributionBundle:Configurator:step }
     requirements: 
-      index: \d+
+      step: \d
       type: install|update
 
 installer_final:

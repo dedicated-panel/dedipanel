@@ -53,14 +53,6 @@ header {
     margin: 25px 0 0px 50px;	
     float: left;
 }
-legend{
-    margin-top: 30px;
-    margin-bottom: 5px !important;
-}
-.legend-information{
-    font-size: 13px;
-    margin-bottom: 35px; 
-}
 
 /*** Page (Style général) ***/
 #page {
@@ -77,9 +69,44 @@ legend{
     /*	min-height: 500px;*/
     padding: 9px 0 8px 0;
 }
+legend{
+    margin-top: 30px;
+    margin-bottom: 5px !important;
+}
+.legend-information{
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+a {
+    color: #818181;
+    cursor: pointer;
+}
+a:hover {
+    color: black;
+    text-decoration: none !important;
+}
+form {
+    margin-top: 20px;
+}
+label {
+    font-size: 14px;
+    color: #666;
+    width: 275px;
+    margin-right: 5px;
+    display: block;
+    float: left;
+}
+.long-label label {
+    width: 320px;
+}
+input[type="checkbox"] {
+    margin: 0;
+}
+.form-actions{
+    position: relative;
+}
+
 /*** Etapes ***/
-
-
 .titre {
     background-image: -webkit-gradient(linear, 0 0%, 0 100%, from(white), to(#EEE));
     background-image: -webkit-linear-gradient(top, white 0%, #EEE 100%);
@@ -155,25 +182,14 @@ footer p {
 	margin: 0;
 }
 
-/* =============================================================== */
-
-a {
-    color: #818181;
-    cursor: pointer;
+.alert-error {
+    margin-bottom: 30px;
+    padding: 12px 35px 12px 14px;
 }
-a:hover {
-    color: black;
-    text-decoration: none !important;
+.alert-error ul {
+    margin-bottom: 0;
+    padding: 0;
 }
-label {	
-    font-family: 'Yanone Kaffeesatz', arial, sans-serif;
-    font-size: 16px;
-    color: #666; 
-    width: 275px;
-    display: block;
-    float: left;
+.alert-error ul li {
+    margin-bottom: 2px;
 }
-.form-actions{
-    position: relative;
-}
-

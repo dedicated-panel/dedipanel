@@ -19,19 +19,14 @@
 {% extends "::layout-installer.html.twig" %}
 
 {% block content %}
-    {% form_theme form "DPDistributionBundle:Configurator:form.html.twig" %}
-    {% include "DPDistributionBundle:Configurator:steps.html.twig" with { "index": index, "count": count } %}
+    {% include "DPDistributionBundle:Configurator:steps.html.twig" with { "step": step, "count": count } %}
 
      <legend>{{ 'configurator.userCreation.title'|trans }}</legend>
      <p>{{ 'configurator.userCreation.description'|trans }}</p>
-
-    <div class="text-error">
-        {{ form_errors(form) }}
-    </div>
     
-    <form action="{{ path('installer_step', { 'type': configType, 'index': index }) }} " method="POST">
-
-        {{ form_rest(form) }}
+    <form action="{{ path('dedipanel_installer_step', { 'type': configType, 'step': step }) }} " method="POST">
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
 
         <div class="form-actions">
             <p><input type="submit" value="{{ 'configurator.next'|trans }}" class="btn btn-primary" /></p>
