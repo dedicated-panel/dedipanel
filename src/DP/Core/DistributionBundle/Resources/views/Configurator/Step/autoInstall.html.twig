@@ -19,23 +19,16 @@
 {% extends "::layout-installer.html.twig" %}
 
 {% block content %}
-    {% form_theme form "DPDistributionBundle:Configurator:form.html.twig" %}
     {% include "DPDistributionBundle:Configurator:steps.html.twig" %}
 
     <legend>{{ 'configurator.autoInstall.title'|trans }}</legend>
     <p class="legend-information">{{ 'configurator.autoInstall.description'|trans }}</p>
-
-    <div class="text-error">
-        {{ form_errors(form) }}
-    </div>
     
-    <form action="{{ path('installer_step', {'type': configType, 'index': index}) }} " method="post">
-
-        {{ form_rest(form) }}
+    <form action="{{ path('dedipanel_installer_step', {'type': configType, 'step': step}) }} " method="post" class="long-label">
+        {{ form_widget(form) }}
 
         <div class="form-actions">
             <p><input type="submit" value="{{ 'configurator.next'|trans }}" class="btn btn-primary" /></p>
         </div>
-
     </form>
 {% endblock %}

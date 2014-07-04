@@ -28,14 +28,7 @@ class ConfiguratorController extends Controller
     public function indexAction()
     {
         $request = $this->get('request');
-        $form = $this->createFormBuilder()
-             ->add('type', 'choice', array(
-                'choices' => array(
-                    'i' => 'configurator.install',
-                    // 'u' => 'configurator.update'
-                ),
-                'label' => 'configurator.chooseType')
-            )->getForm();
+        $form    = $this->getProcessTypeForm();
 
         if ($request->getMethod() == 'POST') {
             $form->bind($request);
@@ -45,11 +38,11 @@ class ConfiguratorController extends Controller
 
                 // Installation
                 if ($data['type'] == 'i') {
-                    $url = $this->container->get('router')->generate('installer_check');
+                    $url = $this->container->get('router')->generate('dedipanel_installer_check');
                 }
                 // Mise à jour
                 elseif ($data['type'] == 'u') {
-                    $url = $this->container->get('router')->generate('installer_step', array('index' => 0, 'type' => 'update'));
+                    $url = $this->container->get('router')->generate('dedipanel_installer_step', array('step' => 0, 'type' => 'update'));
                 }
 
                 return $this->redirect($url);
@@ -59,6 +52,19 @@ class ConfiguratorController extends Controller
         return $this->render('DPDistributionBundle:Configurator:index.html.twig', array(
             'form' => $form->createView(),
         ));
+    }
+
+    private function getProcessTypeForm()
+    {
+        return $this
+            ->createFormBuilder()
+            ->add('type', 'choice', array(
+                'choices' => array(
+                    'i' => 'configurator.install',
+                    // 'u' => 'configurator.update'
+                ),
+                'label' => 'configurator.chooseType'
+            ))->getForm();
     }
 
     public function checkAction()
@@ -73,23 +79,23 @@ class ConfiguratorController extends Controller
     }
 
     /*
-     * @param $type     Configuration type (install, update)
-     * @param $index    Step index
+     * @param string  $type     Configuration type (install, update)
+     * @param integer $step     Step id
      */
-    public function stepAction($type, $index)
+    public function stepAction($type, $step)
     {
         $configurator = $this->container->get('dp.webinstaller');
 
-        if ($type == 'install') {
-            $step = $configurator->getInstallStep($index);
-            $stepCount = $configurator->getInstallStepCount();
-        }
-        elseif ($type == 'update') {
+        $index = $step;
+        $step  = $configurator->getInstallStep($index);
+        $stepCount = $configurator->getInstallStepCount();
+
+        if ($type == 'update') {
             $step = $configurator->getUpdateStep($index);
             $stepCount = $configurator->getUpdateStepCount();
         }
 
-        $form = $this->container->get('form.factory')->create($step->getFormType(), $step);
+        $form = $this->createForm($step->getFormType(), $step);
         $request = $this->container->get('request');
 
         if ($request->getMethod() == 'POST') {
@@ -99,20 +105,17 @@ class ConfiguratorController extends Controller
                 $errors = $step->run($form->getData(), $type);
 
                 if (count($errors) == 0) {
-                    ++$index;
-
                     // Redirection vers la page finale s'il n'y a plus d'étapes
-                    if ($index == $stepCount) {
+                    if (++$index == $stepCount) {
                         return $this->redirect($this->container->get('router')->generate('installer_final', array('type' => $type)));
                     }
 
                     // Redirection vers la prochaine étape
-                    return $this->redirect($this->container->get('router')->generate('installer_step', array('type' => $type, 'index' => $index)));
+                    return $this->redirect($this->container->get('router')->generate('dedipanel_installer_step', array('type' => $type, 'step' => $index)));
                 }
-                else {
-                    foreach ($errors AS $error) {
-                        $form->addError(new FormError($error));
-                    }
+
+                foreach ($errors AS $error) {
+                    $form->addError(new FormError($error));
                 }
             }
         }
@@ -120,7 +123,7 @@ class ConfiguratorController extends Controller
         return $this->render($step->getTemplate(), array(
             'form'          => $form->createView(),
             'configType'    => $type,
-            'index'         => $index,
+            'step'          => $index,
             'count'         => $stepCount,
         ));
     }

@@ -19,29 +19,14 @@
 {% extends "::layout-installer.html.twig" %}
 
 {% block content %}
-    {% form_theme form "DPDistributionBundle:Configurator:form.html.twig" %}
-    {% include "DPDistributionBundle:Configurator:steps.html.twig" with { "index": index, "count": count } %}
+    {% include "DPDistributionBundle:Configurator:steps.html.twig" with { "step": step, "count": count } %}
 
     <legend>{{ 'configurator.db.title'|trans }}</legend>
     <p class="legend-information">{{ 'configurator.db.description'|trans }}</p>
 
-    <div class="text-error">
-        {{ form_errors(form) }}
-    </div>
-    
-    <form action="{{ path('installer_step', {'type': configType, 'index': index}) }}" method="POST">
-        <div class="symfony-form-column">
-            {{ form_row(form.host) }}
-            {{ form_row(form.port) }}
-            {{ form_row(form.name) }}
-        </div>
-        <div class="symfony-form-column">
-            {{ form_row(form.user) }}
-            {{ form_row(form.password) }}
-        </div>
+    <form action="{{ path('dedipanel_installer_step', {'type': configType, 'step': step}) }}" method="POST">
+        {{ form_widget(form) }}
 
-        {{ form_rest(form) }}
-        
         <div class="form-actions">
             <p><input type="submit" value="{{ 'configurator.next'|trans }}" class="btn btn-primary" /></p>
             <p>{{ 'configurator.mandatoryFields'|trans }}</p>

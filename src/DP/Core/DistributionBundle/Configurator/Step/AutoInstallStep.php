@@ -32,25 +32,34 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 
 class AutoInstallStep implements StepInterface
-{ 
-    public $configurationType;
-    public $loadFixtures = true;
-    
+{
+    public $createDB      = true;
+    public $loadFixtures  = true;
+    public $installAssets = true;
     private $secret;
     private $container;
-    
+    private $installer;
+    private $manager;
+    private $schemaTool;
+    private $metadatas;
+
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $installer = $this->container->get('dp.webinstaller');
-        $parameters = $installer->getConfigParameters();
-        
+        $this->installer = $this->container->get('dp.webinstaller');
+
         // Chargement du secret actuellement utilisé
+        $parameters = $this->installer->getConfigParameters();
         if (array_key_exists('secret', $parameters)) {
             $this->secret = $parameters['secret'];
         }
+
+        // Création du schemaTool et récupération des metadatas relatives aux entitées
+        $this->manager     = $this->container->get('doctrine')->getManager();
+        $this->schemaTool = new SchemaTool($this->manager);
+        $this->metadatas   = $this->manager->getMetadataFactory()->getAllMetadata();
     }
-    
+
     /**
      * @see StepInterface
      */
@@ -58,7 +67,7 @@ class AutoInstallStep implements StepInterface
     {
         return 'auto_install.title';
     }
-    
+
     /**
      * @see StepInterface
      */
@@ -74,79 +83,77 @@ class AutoInstallStep implements StepInterface
     {
         return 'DPDistributionBundle:Configurator/Step:autoInstall.html.twig';
     }
-    
+
     /**
      * @see StepInterface
      */
     public function run(StepInterface $data, $configType)
     {
-        $return = array();
+        $errors = [];
         
-        // Installation de la base de données
-        $return = array_merge($return, $this->databaseInstallation($configType, $data->loadFixtures));
+        // Installation/Maj des tables
+        if ($this->createDB == true) {
+            $errors = $this->createDatabase();
+
+            if (!empty($errors)) return $errors;
+        }
+
+        if ($this->isDBEmpty()) {
+            return array('configurator.db.empty');
+        }
+
+        // Chargement des fixtures
+        if ($this->loadFixtures == true) {
+            $errors = array_merge($errors, $this->loadFixtures(__DIR__ . '/../../Fixtures'));
+
+            if (!empty($errors)) return $errors;
+        }
 
         // Installation automatique des assets
-        $return = array_merge($return, $this->installAssets());
-        
-        if (!isset($this->secret) || 
-            'ThisTokenIsNotSoSecretChangeIt' == $this->secret) {
-            $this->secret = $this->generateRandomSecret();
-            
-            $configurator = $this->container->get('dp.webinstaller');
-            
-            if ($configurator->isFileWritable()) {
-                $configurator->mergeParameters(array('secret' => $this->secret));
-                
-                if (!$configurator->write()) {
-                    $return[] = 'An error occured while writing the app/config/parameters.yml file.';
-                }
-            }
-            else {
-                $return[] = 'Your app/config/parameters.yml is not writable.';
-            }
-            
+        if ($this->installAssets == true) {
+            $errors = $this->installAssets();
         }
-        
-        return $return;
-    }
-    
-    protected function databaseInstallation($configurationType, $loadFixtures)
-    {
-        $errors = array();
-        
-        // Création du schemaTool et récupération des metadatas relatives aux entités
-        $em = $this->container->get('doctrine')->getManager();
-        $schemaTool = new SchemaTool($em);
-        $metadatas = $em->getMetadataFactory()->getAllMetadata();
-        
-        if ($configurationType == 'install') {
-            // Création de la bdd
-            try {
-                $schemaTool->createSchema($metadatas);
-            }
-            catch (ToolsException $e) {
-                $errors[] = $e->getMessage();
-            }
-        }
-        else {
-            // Mise à jour de la bdd
-            try {
-                $schemaTool->updateSchema($metadatas, true);
-            }
-            catch (ToolsException $e) {
-                $errors[] = $e->getMessage();
-            }
-        }
-        
-        // Chargement des données de config du panel et des jeux fourni
-        if ($loadFixtures == true) {
-            $errors = array_merge($errors, $this->loadFixtures(__DIR__ . '/../../Fixtures'));
-        }
-            
+
+        $errors = array_merge($errors, $this->updateSecretToken());
+
         return $errors;
     }
     
-    protected function loadFixtures($path)
+    private function createDatabase()
+    {
+        $errors = array();
+
+        if (!$this->isDBEmpty()) {
+            return array('configurator.db.not_empty');
+        }
+
+        // Création de la bdd
+        try {
+            $this->schemaTool->createSchema($this->metadatas);
+        }
+        catch (ToolsException $e) {
+            $errors[] = $e->getMessage();
+        }
+
+        return $errors;
+    }
+
+    private function updateDatabase()
+    {
+        $errors = array();
+
+        // Mise à jour de la bdd
+        try {
+            $this->schemaTool->updateSchema($this->metadatas, true);
+        }
+        catch (ToolsException $e) {
+            $errors[] = $e->getMessage();
+        }
+
+        return $errors;
+    }
+    
+    private function loadFixtures($path)
     {
         $doctrine = $this->container->get('doctrine');
         $em = $doctrine->getManager();
@@ -154,13 +161,13 @@ class AutoInstallStep implements StepInterface
         $loader = new DataFixturesLoader($this->container);
         $loader->loadFromDirectory($path);
         $fixtures = $loader->getFixtures();
-        
+
         if (!$fixtures) {
             return array(sprintf('Could not find any fixtures to load in: %s', "\n\n- ".implode("\n- ", $paths)));
         }
-        
+
         $errors = array();
-        
+
         try {
             $purger = new ORMPurger($em);
             $purger->setPurgeMode(ORMPurger::PURGE_MODE_DELETE);
@@ -171,12 +178,11 @@ class AutoInstallStep implements StepInterface
         catch (\Exception $e) {
             $errors[] = $e->getMessage();
         }
-        
-        
+
         return $errors;
     }
     
-    protected function installAssets($targetArg = '.')
+    private function installAssets($targetArg = '.')
     {
         $filesystem = $this->container->get('filesystem');
         
@@ -194,9 +200,37 @@ class AutoInstallStep implements StepInterface
         }
         
         return array();
-    }    
+    }
 
-    protected function generateRandomSecret()
+    private function updateSecretToken()
+    {
+        $errors = [];
+
+        if (!isset($this->secret) ||
+            'ThisTokenIsNotSoSecretChangeIt' == $this->secret) {
+            $this->secret = $this->generateRandomSecret();
+
+            if ($this->installer->isFileWritable()) {
+                $this->installer->mergeParameters(array('secret' => $this->secret));
+
+                if (!$this->installer->write()) {
+                    $errors[] = 'An error occured while writing the app/config/parameters.yml file.';
+                }
+            }
+            else {
+                $errors[] = 'Your app/config/parameters.yml is not writable.';
+            }
+        }
+
+        return $errors;
+    }
+
+    private function isDBEmpty()
+    {
+        return count($this->manager->getConnection()->executeQuery('SHOW TABLES')->fetchAll()) == 0;
+    }
+
+    private function generateRandomSecret()
     {
         return hash('sha1', uniqid(mt_rand()));
     }
