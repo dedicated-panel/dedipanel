@@ -25,4 +25,9 @@ class DefaultContext extends BaseDefaultContext
 
         return $this->locatePath($this->generateUrl($route, $parameters));
     }
+
+    protected function doPurgeDatabase()
+    {
+        // By default, we don't wan't to call the default doPurgeDatabase()
+    }
 }

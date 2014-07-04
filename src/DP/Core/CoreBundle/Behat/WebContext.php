@@ -34,7 +34,7 @@ class WebContext extends DefaultContext
     }
 
     /**
-     * @Given /^I should see (\d+) validation errors$/
+     * @Given /^I should see (\d+) validation errors?$/
      */
     public function iShouldSeeFieldsOnError($amount)
     {
