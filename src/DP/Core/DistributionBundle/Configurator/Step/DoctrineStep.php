@@ -164,7 +164,9 @@ class DoctrineStep implements StepInterface
 
             return true;
         }
-        catch (\Exception $e) {}
+        catch (\Exception $e) {
+            var_dump($e->getMessage());
+        }
 
         return false;
     }
