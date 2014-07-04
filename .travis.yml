@@ -18,8 +18,8 @@ before_script:
 
     - cp app/config/dedipanel.yml.dist app/config/dedipanel.yml
     - cp app/config/parameters.yml.dist app/config/parameters.yml
-    - sed -i -e 's/database_user: null/database_user: root/' app/config/parameters.yml
-    - sed -i -e 's/database_name: null/database_name: dedipanel/' app/config/parameters.yml
+    - "sed -i -e 's/database_user: null/database_user: root/' app/config/parameters.yml"
+    - "sed -i -e 's/database_name: null/database_name: dedipanel/' app/config/parameters.yml"
 
     - composer self-update
     - composer install --prefer-source --no-interaction
