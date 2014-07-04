@@ -103,6 +103,7 @@ class ConfiguratorController extends Controller
                     return $this->redirect($this->container->get('router')->generate('dedipanel_installer_step', array('type' => $type, 'step' => $index)));
                 }
 
+                var_dump($errors);
                 foreach ($errors AS $error) {
                     $form->addError(new FormError($error));
                 }
