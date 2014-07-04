@@ -24,8 +24,8 @@ before_script:
     - composer self-update
     - composer install --prefer-source --no-interaction
 
-    - app/console doctrine:database:create --env=test > /dev/null
-    - app/console cache:warmup --env=test > /dev/null
+    - app/console doctrine:database:create --env=test
+    - app/console cache:warmup --env=test
 
     - sh -e /etc/init.d/xvfb start
     - export DISPLAY=:99
