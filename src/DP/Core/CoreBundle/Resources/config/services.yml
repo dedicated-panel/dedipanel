@@ -36,3 +36,8 @@ services:
         arguments: [ @doctrine.orm.entity_manager, @twig, @request_stack ]
         tags:
             - { name: kernel.event_subscriber }
+
+    dedipanel.core.form_error.extension:
+        class: DP\Core\CoreBundle\Extension\FormErrorExtension
+        tags:
+            - { name: form.type_extension, alias: form }
