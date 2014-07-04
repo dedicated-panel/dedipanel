@@ -84,4 +84,4 @@ Feature: Panel installer
   Scenario: Finishing installation process
     Given I am on the installer final step
      When I follow "étape à effectuer"
-     Then I should be on the login page
+     Then I should be on "/login"
