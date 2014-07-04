@@ -1,3 +1,2 @@
 dp_core:
-    version: 0.4-dev
     debug: %kernel.debug%

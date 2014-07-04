@@ -1,0 +1,40 @@
+language: php
+
+php:
+  - 5.4
+  - 5.5
+
+before_install:
+    - sudo apt-get update > /dev/null
+    - sudo rm -rf /dev/shm && sudo ln -s /run/shm /dev/shm
+
+install:
+    - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-intl > /dev/null
+    - sudo sed -i -e "s,/var/www,$(pwd)/web,g" /etc/apache2/sites-available/default
+    - sudo /etc/init.d/apache2 restart
+
+before_script:
+    - echo '' > ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
+
+    - cp app/config/dedipanel.yml.dist app/config/dedipanel.yml
+    - cp app/config/parameters.yml.dist app/config/parameters.yml
+    - sed -i 's/database_user: null/database_user: travis/' app/config/parameters.yml
+    - sed -i 's/database_name: null/database_name: dedipanel/' app/config/parameters.yml
+
+    - composer self-update
+    - composer install --prefer-source --no-interaction
+
+    - app/console doctrine:database:create --env=test > /dev/null
+    - app/console cache:warmup --env=test > /dev/null
+
+    - sh -e /etc/init.d/xvfb start
+    - export DISPLAY=:99
+#    - curl http://selenium-release.storage.googleapis.com/2.41/selenium-server-standalone-2.41.0.jar > selenium.jar
+#    - java -jar selenium.jar > /dev/null &
+    - sleep 1
+
+script:
+  - bin/behat
+
+notifications:
+    irc: "irc.freenode.org#dedipanel"
