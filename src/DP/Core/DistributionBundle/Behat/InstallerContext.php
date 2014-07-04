@@ -31,7 +31,7 @@ class InstallerContext extends WebContext
      * @Given /^I am on the installer final step$/
      * @When /^I go to the installer final step$/
      */
-    public function iAmOnTheInstallerFinalStep($step)
+    public function iAmOnTheInstallerFinalStep()
     {
         $this->getSession()->visit($this->generatePageUrl('installer_final_step', array('type' => 'install')));
     }
