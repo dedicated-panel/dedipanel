@@ -136,4 +136,4 @@ knp_menu:
     default_renderer: twig # The renderer to use, list is also available by default
 
 dp_core:
-    version: 0.4-dev
+    version: 0.5-dev

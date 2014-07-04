@@ -1,20 +1,8 @@
-# Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
-
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
 
-# Paramètres de la bdd (étape 1 install)
 configurator:
     db:
         host:
@@ -27,19 +15,14 @@ configurator:
         empty: La base de données est vide. Veuillez l'installer avant de poursuivre.
         not_empty: La base de données contient déjà des informations. Veuillez désactiver sa création.
 
-    # Création du SuperAdmin (étape 3 install)
-    userCreation:
+    user_creation:
         username:
             blank: Veuillez indiquer un nom d'utilisateur.
-            short: "[-Inf,Inf]Votre nom d'utilisateur est trop court, il doit faire plus de %count% caractères."
+            short: "[-Inf,Inf]Votre nom d'utilisateur est trop court, il doit faire au minimum de %count% caractères."
             long: "[-Inf,Inf]Votre nom d'utilisateur est trop long, il doit faire moins de %count% caractères."
-
         email:
             blank: Veuillez indiquer votre adresse email.
-            short: "[-Inf,Inf]Votre adresse email est trop courte, elle doit faire plus de %count% caractères."
-            long: "[-Inf,Inf]Votre adresse email est trop longue, elle doit faire moins de %count% caractères."
             valid: Votre adresse email n'est pas valide.
-
         password:
             blank: Veuillez indiquer votre mot de passe.
-            short: "[-Inf,Inf]Votre mot de passe est trop court, il doit faire plus de %count% caractères."
+            short: "[-Inf,Inf]Votre mot de passe est trop court, il doit faire au minimum %count% caractères."

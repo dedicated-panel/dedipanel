@@ -1,22 +1,11 @@
 <?php
 
-/*
-** Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
-**
-** This program is free software; you can redistribute it and/or modify
-** it under the terms of the GNU General Public License as published by
-** the Free Software Foundation; either version 2 of the License, or
-** (at your option) any later version.
-**
-** This program is distributed in the hope that it will be useful,
-** but WITHOUT ANY WARRANTY; without even the implied warranty of
-** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-** GNU General Public License for more details.
-**
-** You should have received a copy of the GNU General Public License along
-** with this program; if not, write to the Free Software Foundation, Inc.,
-** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+/**
+ * (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace DP\Core\DistributionBundle\Configurator;
 
@@ -120,15 +109,15 @@ class Configurator
         $requirements = [];
 
         // Vérification de la présence de l'extension php socket
-        $requirements['configurator.socketExtension'] = true;
+        $requirements['configurator.socket_extension'] = true;
         if (!function_exists('socket_create')) {
-            $requirements['configurator.socketExtension'] = false;
+            $requirements['configurator.socket_extension'] = false;
         }
 
         // Vérification de la présence de l'extension php intl
-        $requirements['configurator.intlExtension'] = true;
+        $requirements['configurator.intl_extension'] = true;
         if (!defined('INTL_MAX_LOCALE_LEN')) {
-            $requirements['configurator.intlExtension'] = false;
+            $requirements['configurator.intl_extension'] = false;
         }
 
         return $requirements;

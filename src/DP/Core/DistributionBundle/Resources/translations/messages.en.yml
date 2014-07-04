@@ -1,55 +1,45 @@
-# Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
-
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
 
-configurator.installer: Installation
-configurator.chooseType: "Choose your configuration: "
-configurator.install: Installation
-configurator.update: Update
-configurator.next: Next step
-configurator.mandatoryFields: Required field
-configurator.step: Step
+configurator:
+    installer: Installation
+    choose_type: "Choose your configuration: "
+    install: Installation
+    update: Update
+    next: Next step
+    mandatory_fields: Required field
+    step: Step
+    ok: Installed
+    nok: Not Installed
+    pdo_mandatory: Extension PHP pdo
+    mysql_extension_mandatory: Extension PHP pdo_mysql
+    socket_extension: Extension PHP de sockets
+    intl_extension: Extension PHP d'internationalisation
 
-configurator.pdoMandatory: Extension PHP pdo
-configurator.mysqlExtensionMandatory: Extension PHP pdo_mysql
-configurator.db.title: Configure your Database
-configurator.db.description: If your website needs a database connection, please configure it here.
-configurator.db.host: Host
-configurator.db.name: DB name
-configurator.db.user: Username
-configurator.db.password: Password
-configurator.db.password_again: Confirm password
-configurator.db.port: Port
-
-configurator.autoInstall.title: Configuration of the panel
-configurator.autoInstall.description: If you perform an installation the tables will be created, else the database just will be upgraded.
-configurator.autoInstall.loadFixtures: Charging the default data ?
-
-configurator.userCreation.title: Create Super-Admin
-configurator.userCreation.description: Create a Super-Admin user for administrer the panel.
-configurator.userCreation.username: Username
-configurator.userCreation.email: Email
-configurator.userCreation.password: Password
-configurator.userCreation.password_again: Confirm password
-
-configurator.final.title: Configuration finsished!
-configurator.final.modifyAppFile: "The configuration for the panel is completed. But there is a <a href=\"%urlRewrite%\">final step to do</a> for making the panel publicly accessible."
-configurator.final.goWelcomePage: Log In
-
-configurator.socketExtension: Extension PHP de sockets
-configurator.intlExtension: Extension PHP d'internationalisation
-
-configurator.ok: Installed
-configurator.nok: Not Installed
+    db:
+        title: Configure your Database
+        description: If your website needs a database connection, please configure it here.
+        host: Host
+        port: Port
+        user: Username
+        password: Password
+        password_again: Confirm password
+        name: DB name
+    auto_install:
+        title: Configuration of the panel
+        description: If you perform an installation the tables will be created, else the database just will be upgraded.
+        install_db: Creating database structure ?
+        load_fixtures: Charging the default data ?
+        install_assets: Installing panel web resources (css, images, ...)  ?
+    user_creation:
+        title: Create Super-Admin
+        description: Create a Super-Admin user for administrer the panel.
+        username: Username
+        email: Email
+        password: Password
+        password_again: Confirm password
+    final:
+        title: Configuration finsished!
+        modify_app_file: "The configuration for the panel is completed. But there is a <a href=\"%urlRewrite%\">final step to do</a> for making the panel publicly accessible."

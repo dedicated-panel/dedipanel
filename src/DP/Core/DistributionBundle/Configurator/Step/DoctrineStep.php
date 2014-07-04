@@ -1,9 +1,7 @@
 <?php
 
-/*
- * This file is part of the Symfony package.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
+/**
+ * (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -84,17 +82,17 @@ class DoctrineStep implements StepInterface
     {
         $messages = array();
 
-        $messages['configurator.pdoMandatory'] = true;
-        $messages['configurator.mysqlExtensionMandatory'] = true;
+        $messages['configurator.pdo_mandatory'] = true;
+        $messages['configurator.mysql_extension_mandatory'] = true;
         
         if (!class_exists('\PDO')) {
-             $messages['configurator.pdoMandatory'] = false;
-             $messages['configurator.mysqlExtensionMandatory'] = false;
+             $messages['configurator.pdo_mandatory'] = false;
+             $messages['configurator.mysql_extension_mandatory'] = false;
         } else {
             $drivers = \PDO::getAvailableDrivers();
             
             if (!in_array('mysql', $drivers)) {
-                $messages['configurator.mysqlExtensionMandatory'] = false;
+                $messages['configurator.mysql_extension_mandatory'] = false;
             }
         }
 

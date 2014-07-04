@@ -1,22 +1,11 @@
 <?php
 
-/*
-** Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
-**
-** This program is free software; you can redistribute it and/or modify
-** it under the terms of the GNU General Public License as published by
-** the Free Software Foundation; either version 2 of the License, or
-** (at your option) any later version.
-**
-** This program is distributed in the hope that it will be useful,
-** but WITHOUT ANY WARRANTY; without even the implied warranty of
-** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-** GNU General Public License for more details.
-**
-** You should have received a copy of the GNU General Public License along
-** with this program; if not, write to the Free Software Foundation, Inc.,
-** 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+/**
+ * (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace DP\Core\DistributionBundle\Configurator\Step;
 
@@ -30,26 +19,23 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UserStep implements StepInterface
 {
     /**
-     * @Assert\NotBlank(message="configurator.userCreation.username.blank")
+     * @Assert\NotBlank(message="configurator.user_creation.username.blank")
      * @Assert\Length(
-     *      min = 2,    minMessage = "configurator.userCreation.username.short",
-     *      max = 255,  maxMessage = "configurator.userCreation.username.long"
+     *      min = 2,    minMessage = "configurator.user_creation.username.short",
+     *      max = 255,  maxMessage = "configurator.user_creation.username.long"
      * )
      */
     public $username;
 
     /**
-     * @Assert\NotBlank(message="configurator.userCreation.email.blank")
-     * @Assert\Length(
-     *      min = 8,    minMessage = "configurator.userCreation.email.short",
-     *      max = 255,  maxMessage = "configurator.userCreation.email.long"
-     * )
+     * @Assert\NotBlank(message="configurator.user_creation.email.blank")
+     * @Assert\Email(message="configuration.user_creation.email.valid")
      */
     public $email;
 
     /**
-     * @Assert\NotBlank(message="configurator.userCreation.password.blank")
-     * @Assert\Length(min = 6, minMessage = "configurator.userCreation.password.short")
+     * @Assert\NotBlank(message="configurator.user_creation.password.blank")
+     * @Assert\Length(min = 8, minMessage = "configurator.user_creation.password.short")
      */
     public $password;
 
@@ -84,7 +70,7 @@ class UserStep implements StepInterface
      */
     public function getTitle()
     {
-        return 'configurator.userCreation.title';
+        return 'configurator.user_creation.title';
     }
 
     /**
