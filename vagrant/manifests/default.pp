@@ -117,7 +117,17 @@ php::ini { 'php_ini_configuration':
 }
 
 class { 'mysql::server':
-  override_options => { 'root_password' => '', },
+  override_options => {
+    'root_password' => '',
+    'mysqld' => {
+      'bind_address' => '0.0.0.0'
+    },
+  },
+}
+
+exec { "mysql-root-access":
+    command => "/usr/bin/mysql -u root -e \"GRANT ALL ON *.* to root@10.0.0.1 IDENTIFIED BY ''; FLUSH PRIVILEGES;\"",
+    require => Class['mysql::server'],
 }
 
 mysql_database{ 'dedipanel':
@@ -138,7 +148,7 @@ wget::fetch { "selenium-server":
   source      => 'http://selenium-release.storage.googleapis.com/2.42/selenium-server-standalone-2.42.2.jar',
   destination => '/usr/local/bin/selenium-server',
   verbose     => false,
-  require     => [ Package['default-jre'], Package['chromium-browser'] ],
+  require     => [ Package['default-jre'], Package['firefox'] ],
 }
 
 file { 'selenium-server':
