@@ -67,8 +67,8 @@ Feature: Panel installer
     Given I am on the installer step 3
      When I fill in "admin" for "Nom d'utilisateur"
       And I fill in "admin@dedicated-panel.net" for "Adresse email"
-      And I fill in "1234567" for "Mot de passe"
-      And I fill in "1234567" for "Confirmation du mot de passe"
+      And I fill in "12345" for "Mot de passe"
+      And I fill in "12345" for "Confirmation du mot de passe"
       And I press "Prochaine étape"
     Then I should see 1 validation error
 
@@ -76,8 +76,8 @@ Feature: Panel installer
     Given I am on the installer step 3
      When I fill in "admin" for "Nom d'utilisateur"
       And I fill in "admin@dedicated-panel.net" for "Adresse email"
-      And I fill in "12345678" for "Mot de passe"
-      And I fill in "12345678" for "Confirmation du mot de passe"
+      And I fill in "123456" for "Mot de passe"
+      And I fill in "123456" for "Confirmation du mot de passe"
       And I press "Prochaine étape"
      Then I should be on the installer final step
 

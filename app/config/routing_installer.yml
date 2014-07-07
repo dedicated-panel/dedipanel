@@ -1,10 +1,6 @@
 _main:
     resource: routing.yml
 
-_assetic:
-    resource: .
-    type:     assetic
-
 installer:
     resource: "@DPDistributionBundle/Resources/config/routing.yml"
     prefix:   /installer/
