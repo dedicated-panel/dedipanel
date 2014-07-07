@@ -8,7 +8,7 @@ default:
         Behat\Symfony2Extension:
           kernel:
             env: test
-            debug: true
+            debug: false
 
     suites:
         installer:
@@ -17,3 +17,15 @@ default:
                 - DP\Core\DistributionBundle\Behat\InstallerContext
             filters:
                 tags: "@installer"
+        users:
+            contexts:
+                - Behat\MinkExtension\Context\MinkContext
+                - DP\Core\CoreBundle\Behat\DefaultContext
+            filters:
+                tags: "@users"
+        config:
+            contexts:
+                - Behat\MinkExtension\Context\MinkContext
+                - DP\Core\CoreBundle\Behat\DefaultContext
+            filters:
+                tags: "@config"

@@ -31,12 +31,12 @@ class MenuBuilder
     public function createMainMenu(Request $request)
     {
         $menu = $this->factory->createItem('root');
+
+        $this->addRootMenuItems($menu);
         
         $admin = $this->factory->createItem('menu.admin.admin', array('extras' => array('icon' => '%')));
         $this->addAdminMenuItems($admin);
         $admin->setDisplay($admin->hasChildren());
-        
-        $this->addRootMenuItems($menu);
         $menu->addChild($admin);
         
         $menu->setCurrentUri($request->getRequestUri());
@@ -98,7 +98,7 @@ class MenuBuilder
             ->addChild('menu.admin.config', array(
                 'route' => 'dedipanel_core_config',
             ))
-            ->setDisplay($context->isGranted('ROLE_SUPER_ADMIN'))
+            ->setDisplay($context->isGranted('ROLE_DP_ADMIN_CONFIG'))
         ;
         $admin
             ->addChild('menu.admin.user', array(

@@ -2,12 +2,12 @@
 
 namespace DP\Core\DistributionBundle\Behat;
 
-use DP\Core\CoreBundle\Behat\WebContext;
+use DP\Core\CoreBundle\Behat\DefaultContext;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\Tools\SchemaTool;
 
-class InstallerContext extends WebContext
+class InstallerContext extends DefaultContext
 {
     /**
      * @Given /^I am on the installer step (?P<step>\d)?$/
@@ -108,5 +108,10 @@ class InstallerContext extends WebContext
             ->getConnection()
             ->executeQuery('SHOW TABLES')
             ->fetchAll());
+    }
+
+    protected function doPurgeDatabase()
+    {
+        // We don't wan't to call the default doPurgeDatabase()
     }
 }

@@ -43,13 +43,6 @@
     font-size: 0;
 }
 
-* {
-    list-style: none;
-    /*	-webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;*/
-}
-
 a {
     text-decoration: none;
 }

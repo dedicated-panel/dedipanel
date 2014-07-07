@@ -3,15 +3,20 @@
         {% set escape = true %}
     {% endif %}
 
-    {% for flash in app.session.flashbag.get(type) %}
-        <div class="alert alert-block {{ class }}">
+    {% set flashes = app.session.flashbag.get(type) %}
+    {% if flashes|length > 0 %}
+    <div class="alert alert-block {{ class }}"><ul>
+    {% for flash in flashes %}
+        <li>
             {% if escape %}
                 {{ flash }}
             {% else %}
                 {{ flash|raw }}
             {% endif %}
-        </div>
+        </li>
     {% endfor %}
+    </ul></div>
+    {% endif %}
 {% endmacro %}
 
 {% macro error(escape) %}

@@ -34,7 +34,9 @@ before_script:
     - sleep 1
 
 script:
-  - bin/behat
+  - bin/behat -s installer
+  - bin/behat -s users
+  - bin/behat -s config
 
 notifications:
     irc: "irc.freenode.org#dedipanel"

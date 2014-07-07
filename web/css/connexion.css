@@ -67,24 +67,20 @@ header {
 	display: block;
 
 }
-.actions {	
-	font-size: 14px;
-        padding: 5px;
+.actions {
+    font-size: 14px;
+    padding: 5px;
 }
 #logbox {
-    background: linear-gradient(top, #F7F7F7 0%,#E9E9E9 100%);
-    border: 1px solid #EDEDED;
-    width: 375px;
+    background: linear-gradient(to bottom, #F7F7F7 0%, #E9E9E9 100%) #F7F7F7;
+    width: 266px;
     min-height: 310px;
     margin: auto;
     padding: 20px;
-    background: #F7F7F7;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
-    border: 10px solid #646464;
     border: 4px solid rgba(54, 54, 54, 0.9);
-    border-image: initial;
 }
 
 #logbox h1 {

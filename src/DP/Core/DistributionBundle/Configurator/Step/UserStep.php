@@ -21,8 +21,8 @@ class UserStep implements StepInterface
     /**
      * @Assert\NotBlank(message="configurator.user_creation.username.blank")
      * @Assert\Length(
-     *      min = 2,    minMessage = "configurator.user_creation.username.short",
-     *      max = 255,  maxMessage = "configurator.user_creation.username.long"
+     *      min = 2,   minMessage = "configurator.user_creation.username.short",
+     *      max = 255, maxMessage = "configurator.user_creation.username.long"
      * )
      */
     public $username;
@@ -35,7 +35,7 @@ class UserStep implements StepInterface
 
     /**
      * @Assert\NotBlank(message="configurator.user_creation.password.blank")
-     * @Assert\Length(min = 8, minMessage = "configurator.user_creation.password.short")
+     * @Assert\Length(min = 6, minMessage = "configurator.user_creation.password.short")
      */
     public $password;
 

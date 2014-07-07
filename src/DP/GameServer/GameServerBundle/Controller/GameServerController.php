@@ -53,7 +53,7 @@ class GameServerController extends ServerController
     
     public function regenAction(Request $request)
     {
-        $this->isGrantedOr403('ADMIN');
+        $this->isGrantedOr403('ADMIN', $this->find($request));
         
         $server = $this->findOr404($request);
         $this->domainManager->regenerateConfig($server);

@@ -1,14 +1,10 @@
 imports:
-    - { resource: config_dev.yml }
+    - { resource: config.yml }
 
 framework:
     test: ~
     session:
         storage_id: session.storage.filesystem
-
-web_profiler:
-    toolbar: false
-    intercept_redirects: false
 
 swiftmailer:
     disable_delivery: true
@@ -16,3 +12,15 @@ swiftmailer:
 doctrine:
     dbal:
         dbname: %database_name%_test
+
+monolog:
+    handlers:
+        main:
+            type:         fingers_crossed
+            action_level: error
+            handler:      nested
+        nested:
+            type:  stream
+            path:  %kernel.logs_dir%/%kernel.environment%.log
+            level: debug
+            channels: !phpseclib

@@ -5,6 +5,7 @@ namespace DP\Core\CoreBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ConfigController extends Controller
 {
@@ -17,6 +18,10 @@ class ConfigController extends Controller
 
     public function configAction(Request $request)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_DP_ADMIN_CONFIG')) {
+            throw new AccessDeniedException();
+        }
+
         $debugMode = $this->container->getParameter('dp_core.debug');
         $usable = $this->verifyConfigFile();
 
