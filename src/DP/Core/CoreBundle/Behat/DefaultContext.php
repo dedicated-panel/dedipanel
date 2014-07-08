@@ -66,6 +66,27 @@ class DefaultContext extends BaseDefaultContext
         return $user;
     }
 
+    public function thereIsGame($name, $installName, $launchName, $bin, $type, $available = true, $flush = true)
+    {
+        if (null === $game = $this->getRepository('game')->findOneBy(array('name' => $name))) {
+            $game = $this->getRepository('game')->createNew();
+            $game->setName($name);
+            $game->setInstallName($installName);
+            $game->setLaunchName($launchName);
+            $game->setBin($bin);
+            $game->setType($type);
+            $game->setAvailable($available);
+
+            $this->getEntityManager()->persist($game);
+
+            if ($flush) {
+                $this->getEntityManager()->flush();
+            }
+        }
+
+        return $game;
+    }
+
     /**
      * @Given /^I am on the (.+) (page)?$/
      * @When /^I go to the (.+) (page)?$/
@@ -83,7 +104,7 @@ class DefaultContext extends BaseDefaultContext
     public function iShouldBeOnThePage($page)
     {
         $this->assertSession()->addressEquals($this->generatePageUrl($page));
-        $this->assertSession()->statusCodeEquals(200);
+        $this->assertStatusCodeEquals(200);
     }
 
     /**
@@ -92,7 +113,7 @@ class DefaultContext extends BaseDefaultContext
     public function iShouldBeUnauthorizedOnThePage($page)
     {
         $this->assertSession()->addressEquals($this->generatePageUrl($page));
-        $this->assertSession()->statusCodeEquals(403);
+        $this->assertStatusCodeEquals(403);
     }
 
     /**
@@ -156,5 +177,205 @@ class DefaultContext extends BaseDefaultContext
         $this->fillField("Nom d'utilisateur", $username);
         $this->fillField('Mot de passe', $this->users[$username]);
         $this->pressButton('Connexion');
+    }
+
+    /**
+     * @Given /^there are following games:$/
+     */
+    public function thereAreFollowingGames(TableNode $table)
+    {
+        foreach ($table->getHash() as $data) {
+            $this->thereisGame(
+                $data['name'],
+                $data['installName'],
+                isset($data['launchName']) ? $data['launchName'] : $data['installName'],
+                $data['bin'],
+                $data['type'],
+                isset($data['available']) ? $data['available'] : true,
+                false
+            );
+        }
+
+        $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @When /^I fill in (.+) form with:$/
+     */
+    public function whenIFillInFormWith($base, TableNode $table)
+    {
+        $page = $this->getSession()->getPage();
+
+        foreach ($table->getTable() AS $data) {
+            list($fieldName, $value) = $data;
+            $fieldName = $base . '[' . $fieldName . ']';
+            $field     = $page->findField($fieldName);
+
+            if ($field->getTagName() == 'select') {
+                $this->selectOption($fieldName, $value);
+
+                continue;
+            }
+
+            if ($field->getAttribute('type') == 'checkbox') {
+                if ($value == 'yes') {
+                    $page->checkField($fieldName);
+                }
+                elseif ($value == 'no') {
+                    $page->uncheckField($fieldName);
+                }
+                else {
+                    throw new \RuntimeException('Unsupported value "' . $value . '" for the checkbox field "' . $fieldName . '"');
+                }
+
+                continue;
+            }
+
+            $this->fillField($fieldName, $value);
+        }
+    }
+
+    /**
+     * @Then /^I should see [\w\s]+ with [\w\s]+ "([^""]*)" in (that|the) list$/
+     */
+    public function iShouldSeeResourceWithValueInThatList($value)
+    {
+        $this->assertSession()->elementTextContains('css', 'table', $value);
+    }
+
+    /**
+     * @Then /^I should not see [\w\s]+ with [\w\s]+ "([^""]*)" in (that|the) list$/
+     */
+    public function iShouldNotSeeResourceWithValueInThatList($value)
+    {
+        $this->assertSession()->elementTextNotContains('css', 'table', $value);
+    }
+
+    /**
+     * For example: I should see 10 products in that list.
+     *
+     * @Then /^I should see (\d+) ([^""]*) in (that|the) list$/
+     */
+    public function iShouldSeeThatMuchResourcesInTheList($amount, $type)
+    {
+        if (1 === count($this->getSession()->getPage()->findAll('css', 'table'))) {
+            $this->assertSession()->elementsCount('css', 'table tbody > tr', $amount);
+        } else {
+            $this->assertSession()->elementsCount('css', sprintf('table#%s tbody > tr', str_replace(' ', '-', $type)), $amount);
+        }
+    }
+
+    /**
+     * @Then /^I should be on the page of ([^""]*) with ([^""]*) "([^""]*)"$/
+     * @Then /^I should still be on the page of ([^""]*) with ([^""]*) "([^""]*)"$/
+     */
+    public function iShouldBeOnTheResourcePage($type, $property, $value)
+    {
+        $type = str_replace(' ', '_', $type);
+        $resource = $this->findOneBy($type, array($property => $value));
+
+        $this->assertSession()->addressEquals($this->generatePageUrl(sprintf('%s_show', $type), array('id' => $resource->getId())));
+        $this->assertStatusCodeEquals(200);
+    }
+
+    /**
+     * @Then /^I should be on the page of ([^""(w)]*) "([^""]*)"$/
+     * @Then /^I should still be on the page of ([^""(w)]*) "([^""]*)"$/
+     */
+    public function iShouldBeOnTheResourcePageByName($type, $name)
+    {
+        $this->iShouldBeOnTheResourcePage($type, 'name', $name);
+    }
+
+    /**
+     * @Given /^I am on the page of ([^""]*) with ([^""]*) "([^""]*)"$/
+     * @Given /^I go to the page of ([^""]*) with ([^""]*) "([^""]*)"$/
+     */
+    public function iAmOnTheResourcePage($type, $property, $value)
+    {
+        $type = str_replace(' ', '_', $type);
+
+        $resource = $this->findOneBy($type, array($property => $value));
+
+        $this->getSession()->visit($this->generatePageUrl(sprintf('%s_show', $type), array('id' => $resource->getId())));
+    }
+
+    /**
+     * @Given /^I am on the page of ([^""(w)]*) "([^""]*)"$/
+     * @Given /^I go to the page of ([^""(w)]*) "([^""]*)"$/
+     */
+    public function iAmOnTheResourcePageByName($type, $name)
+    {
+        $this->iAmOnTheResourcePage($type, 'name', $name);
+    }
+
+    /**
+     * @Given /^I am (building|viewing|editing) ([^""]*) with ([^""]*) "([^""]*)"$/
+     */
+    public function iAmDoingSomethingWithResource($action, $type, $property, $value)
+    {
+        $type = str_replace(' ', '_', $type);
+
+        $action = str_replace(array_keys($this->actions), array_values($this->actions), $action);
+        $resource = $this->findOneBy($type, array($property => $value));
+
+        $this->getSession()->visit($this->generatePageUrl(sprintf('%s_%s', $type, $action), array('id' => $resource->getId())));
+    }
+
+    /**
+     * @Given /^I am (building|viewing|editing) ([^""(w)]*) "([^""]*)"$/
+     */
+    public function iAmDoingSomethingWithResourceByName($action, $type, $name)
+    {
+        $this->iAmDoingSomethingWithResource($action, $type, 'name', $name);
+    }
+
+    /**
+     * @Then /^I should be (building|viewing|editing) ([^"]*) with ([^"]*) "([^""]*)"$/
+     */
+    public function iShouldBeDoingSomethingWithResource($action, $type, $property, $value)
+    {
+        $type = str_replace(' ', '_', $type);
+
+        $action = str_replace(array_keys($this->actions), array_values($this->actions), $action);
+        $resource = $this->findOneBy($type, array($property => $value));
+
+        $this->assertSession()->addressEquals($this->generatePageUrl(sprintf('dedipanel_%s_%s', $type, $action), array('id' => $resource->getId())));
+        $this->assertStatusCodeEquals(200);
+    }
+
+    /**
+     * @Then /^I should be (building|viewing|editing) ([^""(w)]*) "([^""]*)"$/
+     */
+    public function iShouldBeDoingSomethingWithResourceByName($action, $type, $name)
+    {
+        $this->iShouldBeDoingSomethingWithResource($action, $type, 'name', $name);
+    }
+
+    /**
+     * @When /^I click "([^"]*)" near "([^"]*)"$/
+     * @When /^I press "([^"]*)" near "([^"]*)"$/
+     */
+    public function iClickNear($button, $value)
+    {
+        $tr = $this->assertSession()->elementExists('css', sprintf('table tbody tr:contains("%s")', $value));
+
+        $locator = sprintf('button:contains("%s")', $button);
+
+        if ($tr->has('css', $locator)) {
+            $tr->find('css', $locator)->press();
+        } else {
+            $tr->clickLink($button);
+        }
+    }
+
+    /**
+     * Assert that given code equals the current one.
+     *
+     * @param integer $code
+     */
+    protected function assertStatusCodeEquals($code)
+    {
+        $this->assertSession()->statusCodeEquals($code);
     }
 }

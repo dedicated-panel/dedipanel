@@ -21,14 +21,14 @@ class GameType extends AbstractType
             ->add('bin', null, array('label' => 'game.fields.bin'))
             ->add('binDir', null, array('label' => 'game.fields.binDir'))
             ->add('orangebox', null, array('label' => 'game.fields.isOrangebox', 'required' => false))
-            ->add('source', null, array('label' => 'game.fields.source', 'required' => false))
+            ->add('source', null, array('label' => 'game.fields.isSource', 'required' => false))
             ->add('steamCmd', null, array('label' => 'game.fields.isSteamCmd', 'required' => false))
             ->add('appId', null, array('label' => 'game.fields.appId'))
             ->add('appMod', null, array('label' => 'game.fields.appMod'))
             ->add('map', null, array('label' => 'game.fields.map'))
             ->add('configTemplate', null, array('label' => 'game.fields.configTemplate'))
             ->add('sourceImagesMaps', null, array('label' => 'game.fields.sourceImagesMaps'))
-            ->add('plugins', null, array('label' => 'game.fields.plugins'))
+            ->add('plugins', null, array('label' => 'game.fields.plugins', 'required' => false))
             ->add('type', 'choice', array(
                 'choices' => array('steam' => 'Steam', 'minecraft' => 'Minecraft'), 
                 'label' => 'game.fields.type', 

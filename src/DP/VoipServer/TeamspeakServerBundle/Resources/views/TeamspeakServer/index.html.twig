@@ -12,13 +12,11 @@
     <h2>{{ 'teamspeak.title.index'|trans }}</h2>
 
     {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_CREATE') %}
-        <ul id="top-nav" class="nav nav-tabs">
-            <li>
-                <a href="{{ path('dedipanel_teamspeak_create') }}">
-                    {{ 'teamspeak.add'|trans }}
-                </a>
-            </li>
-        </ul>
+    <ul id="top-nav" class="nav nav-tabs">
+        <li>
+            {{ sylius_buttons.edit(path('dedipanel_teamspeak_create'), 'teamspeak.actions.add'|trans) }}
+        </li>
+    </ul>
     {% endif %}
 
     {{ dedipanel_flashes.all() }}

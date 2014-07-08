@@ -1,0 +1,4 @@
+dedipanel.game:
+    create: 'Le jeu a bien été créé.'
+    update: 'Le jeu a bien été mis à jour.'
+    delete: 'Le jeu a bien été supprimé.'

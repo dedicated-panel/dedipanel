@@ -5,7 +5,8 @@ teamspeak:
         add: Ajouter un serveur Teamspeak
         update: Mise à jour d'un serveur Teamspeak
 
-    add: Ajouter
+    actions:
+        add: Ajouter
 
     filetransfer_port: Port pour le transfert de fichier
     max_clients: Nombre maximum de clients pour toutes les instances

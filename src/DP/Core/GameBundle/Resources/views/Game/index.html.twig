@@ -9,6 +9,7 @@
 
 {% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
+{% import '::flash_messages.html.twig' as dedipanel_flashes %}
 
 {% block title %}
     {{ dedipanel_buttons.back(path('_welcome'), 'game.title.game'|trans) }}
@@ -16,23 +17,17 @@
 
 {% block body -%}
     <h2>{{ 'game.title.index'|trans }}</h2>
-    
+
+    {% if is_granted('ROLE_DP_ADMIN_GAME_CREATE') %}
     <ul id="top-nav" class="nav nav-tabs">
         <li>
             {{ sylius_buttons.edit(path('dedipanel_game_create'), 'game.actions.add'|trans) }}
         </li>
     </ul>
-    
-    {% for notice_level in ['success','error','info', 'warning'] %}
-        {% set session_var = 'dp_flash_' ~ notice_level %}
-        {% for flash in app.session.flashbag.get(session_var) %}
-            <div class="alert {{ 'alert-' ~ notice_level }}">
-                {{ flash|trans }}
-            </div>
-        {% endfor %}
-    {% endfor %}
+    {% endif %}
 
-        
+    {{ dedipanel_flashes.all() }}
+
     <table class="table table-striped game-list">
         <thead>
             <tr>

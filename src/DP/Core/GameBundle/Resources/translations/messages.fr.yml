@@ -30,7 +30,7 @@ game:
         plugins: Plugins
         appId: Identifiant Steam Application
         appMod: Mod Steam Application
-        
+
 plugin:
     creation_succeed: Le plugin a été créé avec succès.
     update_succeed: Le plugin a été mis à jour avec succès.

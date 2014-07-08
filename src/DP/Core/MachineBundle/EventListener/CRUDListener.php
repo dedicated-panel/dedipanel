@@ -46,7 +46,7 @@ class CRUDListener implements EventSubscriberInterface
                 $machine->setIs64bit($conn->is64bitSystem());
             }
             catch (ConnectionErrorException $e) {
-                $event->stop('machine.connection_problem');
+                $event->stop('connection_problem');
             }
         }
     }
@@ -57,7 +57,7 @@ class CRUDListener implements EventSubscriberInterface
             $this->helper->deleteKeyPair($event->getSubject());
         }
         catch (ConnectionErrorException $e) {
-            $event->stop('machine.connection_problem');
+            $event->stop('connection_problem');
         }
     }
 }
