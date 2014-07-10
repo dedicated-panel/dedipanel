@@ -9,6 +9,7 @@
 
 {% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
+{% import '::flash_messages.html.twig' as dedipanel_flashes %}
 
 {% block title %}
     {{ dedipanel_buttons.back(path('dedipanel_plugin_index'), 'plugin.title.plugin'|trans) }}
@@ -16,6 +17,8 @@
 
 {% block content %}
     <h2>{{ 'plugin.title.show'|trans }}</h2>
+
+    {{ dedipanel_flashes.all() }}
 
     <table class="table table-striped show-plugin"> 
         <tbody>
@@ -32,6 +35,14 @@
             <tr>
                 <th>{{ 'plugin.fields.download_url'|trans }}</th>
                 <td>{{ plugin.downloadUrl }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'plugin.fields.games'|trans }}</th>
+                <td><ul class="associated-games">
+                {% for game in plugin.games %}
+                    <li>{{ game }}</li>
+                {% endfor %}
+                </ul></td>
             </tr>
         </tbody>
     </table>

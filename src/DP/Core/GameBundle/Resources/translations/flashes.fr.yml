@@ -2,3 +2,8 @@ dedipanel.game:
     create: 'Le jeu a bien été créé.'
     update: 'Le jeu a bien été mis à jour.'
     delete: 'Le jeu a bien été supprimé.'
+
+dedipanel.plugin:
+    create: 'Le plugin a bien été créé.'
+    update: 'Le plugin a bien été mis à jour.'
+    delete: 'Le plugin a bien été supprimé.'

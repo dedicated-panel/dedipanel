@@ -76,4 +76,5 @@ Feature: Game settings
       And I am on the page of game "Counter-Strike"
      When I press "Supprimer"
      Then I should be on the game index page
+      And I should see 1 alert success message
       And I should see "Le jeu a bien été supprimé."

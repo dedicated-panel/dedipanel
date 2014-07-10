@@ -51,4 +51,4 @@ plugin:
         version: Version
         download_url: Adresse de téléchargement
         install_script: Nom du script d'installation
-        games: Jeux
+        games: Jeux associés

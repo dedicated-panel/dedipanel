@@ -9,6 +9,7 @@
 
 {% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
+{% import '::flash_messages.html.twig' as dedipanel_flashes %}
 
 {% block title %}
     {{ dedipanel_buttons.back(path('_welcome'), 'plugin.title.plugin'|trans) }}
@@ -16,12 +17,16 @@
 
 {% block body -%}
     <h2>{{ 'plugin.title.index'|trans }}</h2>
-    
+
+    {% if is_granted('ROLE_DP_ADMIN_PLUGIN_CREATE') %}
     <ul id="top-nav" class="nav nav-tabs">
         <li>
             {{ sylius_buttons.edit(path('dedipanel_plugin_create'), 'plugin.actions.add'|trans) }}
         </li>
     </ul>
+    {% endif %}
+
+    {{ dedipanel_flashes.all() }}
     
     {% for notice_level in ['success','error','info', 'warning'] %}
         {% set session_var = 'dp_flash_' ~ notice_level %}

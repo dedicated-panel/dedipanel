@@ -185,7 +185,7 @@ class DefaultContext extends BaseDefaultContext
     public function thereAreFollowingGames(TableNode $table)
     {
         foreach ($table->getHash() as $data) {
-            $this->thereisGame(
+            $this->thereIsGame(
                 $data['name'],
                 $data['installName'],
                 isset($data['launchName']) ? $data['launchName'] : $data['installName'],
@@ -210,6 +210,10 @@ class DefaultContext extends BaseDefaultContext
             list($fieldName, $value) = $data;
             $fieldName = $base . '[' . $fieldName . ']';
             $field     = $page->findField($fieldName);
+
+            if ($field === null) {
+                throw new \RuntimeException('Field "' . $fieldName . '" not found.');
+            }
 
             if ($field->getTagName() == 'select') {
                 $this->selectOption($fieldName, $value);
@@ -377,5 +381,50 @@ class DefaultContext extends BaseDefaultContext
     protected function assertStatusCodeEquals($code)
     {
         $this->assertSession()->statusCodeEquals($code);
+    }
+
+    /**
+     * @Given /^there are following plugins:$/
+     */
+    public function thereAreFollowingPlugins(TableNode $table)
+    {
+        foreach ($table->getHash() as $data) {
+            $this->thereIsPlugin(
+                $data['name'],
+                $data['version'],
+                $data['scriptName'],
+                'http://' . $data['downloadUrl'],
+                false
+            );
+        }
+
+        $this->getEntityManager()->flush();
+    }
+
+    public function thereIsPlugin($name, $version, $scriptName, $downloadUrl, $flush = true)
+    {
+        if (null === $plugin = $this->getRepository('plugin')->findOneBy(array('name' => $name))) {
+            $plugin = $this->getRepository('plugin')->createNew();
+            $plugin->setName($name);
+            $plugin->setVersion($version);
+            $plugin->setScriptName($scriptName);
+            $plugin->setDownloadUrl($downloadUrl);
+
+            $this->getEntityManager()->persist($plugin);
+
+            if ($flush) {
+                $this->getEntityManager()->flush();
+            }
+        }
+
+        return $plugin;
+    }
+
+    /**
+     * @Then /^I should see (\d+) associated games?$/
+     */
+    public function iShouldSeeAssociatedGames($amount)
+    {
+        $this->assertSession()->elementsCount('css', 'ul.associated-games > li', $amount);
     }
 }
