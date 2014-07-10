@@ -37,6 +37,8 @@ script:
   - bin/behat -s installer
   - bin/behat -s users
   - bin/behat -s config
+  - bin/behat -s game
+  - bin/behat -s plugin
 
 notifications:
     irc: "irc.freenode.org#dedipanel"

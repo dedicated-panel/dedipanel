@@ -29,3 +29,15 @@ default:
                 - DP\Core\CoreBundle\Behat\DefaultContext
             filters:
                 tags: "@config"
+        game:
+            contexts:
+                - Behat\MinkExtension\Context\MinkContext
+                - DP\Core\CoreBundle\Behat\DefaultContext
+            filters:
+                tags: "@game"
+        plugin:
+            contexts:
+                - Behat\MinkExtension\Context\MinkContext
+                - DP\Core\CoreBundle\Behat\DefaultContext
+            filters:
+                tags: "@plugin"
