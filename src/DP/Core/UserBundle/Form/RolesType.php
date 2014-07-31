@@ -4,6 +4,8 @@ namespace DP\Core\UserBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -38,16 +40,16 @@ class RolesType extends AbstractType
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {        
+    {
         $resolver->setDefaults(array(
             'label' => 'user.security.roles', 
             'multiple' => true, 
-            'expanded' => true, 
+            'expanded' => true,
             'choices' => array_combine($this->roles, array_map(function ($role) {
                 return 'roles.' . $role;
-            }, $this->roles)), 
+            }, $this->roles)),
             'attr' => array('class' => 'dp-security-roles'), 
-            'required' => false, 
+            'required' => false,
         ));
     }
     

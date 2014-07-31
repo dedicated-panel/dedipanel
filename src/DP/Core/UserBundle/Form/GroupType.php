@@ -24,7 +24,15 @@ class GroupType extends AbstractType
                 'multiple' => false, 
                 'required' => true, 
             ))
-            ->add('roles', 'dp_security_roles', array('label' => 'user.fields.roles'))
+            ->add('roles', 'dp_security_roles', array(
+                'label' => 'user.fields.roles',
+                'roles' => array(
+                    'ROLE_DP_GAME_STEAM_ADMIN',
+                    'ROLE_DP_GAME_MINECRAFT_ADMIN',
+                    'ROLE_DP_VOIP_TEAMSPEAK_ADMIN',
+                    'ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_ADMIN',
+                )
+            ))
         ;
         
         $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
