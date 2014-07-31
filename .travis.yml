@@ -36,9 +36,10 @@ before_script:
 script:
   - bin/behat -s installer
   - bin/behat -s users
-  - bin/behat -s config
-  - bin/behat -s game
-  - bin/behat -s plugin
+  - bin/behat -s configs
+  - bin/behat -s games_admin
+  - bin/behat -s plugins_admin
+  - bin/behat -s users_admin
 
 notifications:
     irc: "irc.freenode.org#dedipanel"
