@@ -34,7 +34,7 @@ class DefaultContext extends BaseDefaultContext
         return $this->getService('dedipanel.repository.'.$resource);
     }
 
-    public function thereIsUser($username, $email, $password, $role = null, $enabled = true, $groups = array(), $flush = true)
+    public function thereIsUser($username, $email, $password, $role = null, $enabled = true, $group = null, $flush = true)
     {
         if (null === $user = $this->getRepository('user')->findOneBy(array('username' => $username))) {
             /* @var $user UserInterface */
@@ -48,12 +48,12 @@ class DefaultContext extends BaseDefaultContext
                 $user->addRole($role);
             }
 
+            $this->validate($user);
+
             $this->getEntityManager()->persist($user);
 
-            foreach ($groups as $groupName) {
-                if ($group = $this->findOneByName('group', $groupName)) {
-                    $user->addGroup($group);
-                }
+            if ($group !== null && $group = $this->findOneByName('group', $group)) {
+                $user->addGroup($group);
             }
 
             if ($flush) {
@@ -76,6 +76,8 @@ class DefaultContext extends BaseDefaultContext
             $game->setBin($bin);
             $game->setType($type);
             $game->setAvailable($available);
+
+            $this->validate($game);
 
             $this->getEntityManager()->persist($game);
 
@@ -155,7 +157,7 @@ class DefaultContext extends BaseDefaultContext
                 $data['password'],
                 isset($data['role']) ? $data['role'] : 'ROLE_USER',
                 isset($data['enabled']) ? $data['enabled'] : true,
-                isset($data['groups']) && !empty($data['groups']) ? explode(',', $data['groups']) : array(),
+                isset($data['group']) && !empty($data['group']) ? $data['group'] : null,
                 false
             );
         }
@@ -410,6 +412,8 @@ class DefaultContext extends BaseDefaultContext
             $plugin->setScriptName($scriptName);
             $plugin->setDownloadUrl($downloadUrl);
 
+            $this->validate($plugin);
+
             $this->getEntityManager()->persist($plugin);
 
             if ($flush) {
@@ -426,5 +430,58 @@ class DefaultContext extends BaseDefaultContext
     public function iShouldSeeAssociatedGames($amount)
     {
         $this->assertSession()->elementsCount('css', 'ul.associated-games > li', $amount);
+    }
+
+    /**
+     * @Given /^there are following groups:$/
+     */
+    public function thereAreFollowingGroups(TableNode $table)
+    {
+        foreach ($table->getHash() as $data) {
+            $this->thereIsGroup(
+                $data['name'],
+                isset($data['roles']) ? array_map('trim', explode(',', $data['roles'])) : array(),
+                !empty($data['parent']) ? $data['parent'] : null
+            );
+        }
+
+        $this->getEntityManager()->flush();
+    }
+
+    public function thereIsGroup($name, array $roles = array(), $parent = null, $flush = true)
+    {
+        if (null === $group = $this->getRepository('group')->findOneBy(array('name' => $name))) {
+            /* @var $group UserInterface */
+            $group = $this->getRepository('group')->createNew();
+            $group->setName($name);
+            $group->setRoles($roles);
+
+            if ($parent !== null) {
+                $parent = $this->thereIsGroup($parent);
+                $group->setParent($parent);
+                $parent->addChildren($group);
+
+                $this->getEntityManager()->persist($parent);
+            }
+
+            $this->validate($group);
+
+            $this->getEntityManager()->persist($group);
+
+            if ($flush) {
+                $this->getEntityManager()->flush();
+            }
+        }
+
+        return $group;
+    }
+
+    protected function validate($data)
+    {
+        $violationList = $this->getService('validator')->validate($data);
+
+        if ($violationList->count() != 0) {
+            throw new \RuntimeException(sprintf('Data not valid (%s).', $violationList));
+        }
     }
 }

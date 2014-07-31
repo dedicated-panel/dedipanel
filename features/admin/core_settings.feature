@@ -1,4 +1,4 @@
-@config
+@configs
 Feature: Core settings
   In order to configure my panel
   As a panel admin
@@ -6,9 +6,9 @@ Feature: Core settings
 
   Background:
     Given there are following users:
-      | username | email       | password | role                 | enabled |
-      | foo      | foo@bar.net | test1234 | ROLE_DP_ADMIN_CONFIG | yes     |
-      | baz      | baz@bar.net | test1234 | ROLE_USER            | yes     |
+      | username | email       | password | role             | enabled |
+      | foo      | foo@bar.net | test1234 | ROLE_SUPER_ADMIN | yes     |
+      | baz      | baz@bar.net | test1234 | ROLE_ADMIN       | yes     |
 
   Scenario: Accessing the settings form
     Given I am logged in with foo account

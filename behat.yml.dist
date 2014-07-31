@@ -23,21 +23,27 @@ default:
                 - DP\Core\CoreBundle\Behat\DefaultContext
             filters:
                 tags: "@users"
-        config:
+        configs:
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
                 - DP\Core\CoreBundle\Behat\DefaultContext
             filters:
-                tags: "@config"
-        game:
+                tags: "@configs"
+        games_admin:
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
                 - DP\Core\CoreBundle\Behat\DefaultContext
             filters:
-                tags: "@game"
-        plugin:
+                tags: "@games_admin"
+        plugins_admin:
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
                 - DP\Core\CoreBundle\Behat\DefaultContext
             filters:
-                tags: "@plugin"
+                tags: "@plugins_admin"
+        users_admin:
+            contexts:
+                - Behat\MinkExtension\Context\MinkContext
+                - DP\Core\CoreBundle\Behat\DefaultContext
+            filters:
+                tags: "@users_admin"
