@@ -1,20 +1,19 @@
 security:
     role_hierarchy:
-        ROLE_SUPER_ADMIN: 
+        ROLE_SUPER_ADMIN:
             - ROLE_ADMIN
-            - ROLE_ALLOWED_TO_SWITCH
-        ROLE_ADMIN: 
-            - ROLE_USER
-            - ROLE_DP_ADMIN_CONFIG_ADMIN
-            - ROLE_DP_GAME_ADMIN
-            - ROLE_DP_VOIP_ADMIN
-        ROLE_DP_ADMIN_CONFIG_ADMIN:
             - ROLE_DP_ADMIN_CONFIG
+            - ROLE_DP_ADMIN_GAME_ADMIN
+            - ROLE_DP_ADMIN_PLUGIN_ADMIN
+            - ROLE_ALLOWED_TO_SWITCH
+        ROLE_ADMIN:
+            - ROLE_USER
+            - ROLE_DP_GAME_STEAM_ADMIN
+            - ROLE_DP_GAME_MINECRAFT_ADMIN
+            - ROLE_DP_VOIP_TEAMSPEAK_ADMIN
             - ROLE_DP_ADMIN_USER_ADMIN
             - ROLE_DP_ADMIN_GROUP_ADMIN
             - ROLE_DP_ADMIN_MACHINE_ADMIN
-            - ROLE_DP_ADMIN_GAME_ADMIN
-            - ROLE_DP_ADMIN_PLUGIN_ADMIN
         ROLE_DP_ADMIN_USER_ADMIN: 
             - ROLE_DP_ADMIN_USER_INDEX
             - ROLE_DP_ADMIN_USER_SHOW
@@ -50,11 +49,6 @@ security:
             - ROLE_DP_ADMIN_PLUGIN_UPDATE
             - ROLE_DP_ADMIN_PLUGIN_DELETE
             - ROLE_USER
-        ROLE_DP_GAME_ADMIN:
-            - ROLE_DP_GAME_STEAM_ADMIN
-            - ROLE_DP_GAME_MINECRAFT_ADMIN
-        ROLE_DP_VOIP_ADMIN:
-            - ROLE_DP_VOIP_TEAMSPEAK_ADMIN
         ROLE_DP_GAME_STEAM_ADMIN:
             - ROLE_DP_GAME_STEAM_INDEX
             - ROLE_DP_GAME_STEAM_SHOW
