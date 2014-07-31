@@ -17,12 +17,6 @@
 
 {% block content %}
     <h2>{{ 'user.title.edit'|trans }}</h2>
-    
-    <ul id="top-nav" class="nav nav-tabs">
-        <li>
-            {{ sylius_buttons.edit(path('dedipanel_user_update_roles', {'id': user.id}), 'user.actions.edit_roles'|trans) }}
-        </li>
-    </ul>
 
     <form action="{{ path('dedipanel_user_update', { 'id': user.id }) }}" method="post" class="form-edit">    
         {{ form_widget(form) }}

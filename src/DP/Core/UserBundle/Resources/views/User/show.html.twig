@@ -9,6 +9,7 @@
 
 {% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
+{% import '::flash_messages.html.twig' as dedipanel_flashes %}
 
 {% block title %}
     {{ dedipanel_buttons.back(path('dedipanel_user_index'), 'user.title.user'|trans) }}
@@ -16,12 +17,8 @@
 
 {% block content %}
     <h2>{{ 'user.title.show'|trans }}</h2>
-    
-    <ul id="top-nav" class="nav nav-tabs">
-        <li>
-            {{ sylius_buttons.edit(path('dedipanel_user_update_roles', {'id': user.id}), 'user.actions.edit_roles'|trans) }}
-        </li>
-    </ul>
+
+    {{ dedipanel_flashes.all() }}
 
     <table class="table table-striped show-user">
         <tbody>

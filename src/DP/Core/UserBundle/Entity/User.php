@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Entity\User as BaseUser;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\ExecutionContextInterface;
 
 /**
  * User
@@ -89,5 +90,70 @@ class User extends BaseUser
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    /**
+     * @param bool $admin
+     */
+    public function setAdmin($admin)
+    {
+        if ($admin == true && !$this->isAdmin()) {
+            $this->addRole('ROLE_ADMIN');
+        }
+        elseif ($admin == false && $this->isAdmin()) {
+            $this->removeRole('ROLE_ADMIN');
+        }
+    }
+
+    /**
+     * Is current user an admin ?
+     *
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return $this->hasRole('ROLE_ADMIN');
+    }
+
+    /**
+     * @param bool $userAdmin
+     */
+    public function setUserAdmin($userAdmin)
+    {
+        if ($userAdmin == true && !$this->isSuperAdmin()) {
+            $this->addRole('ROLE_SUPER_ADMIN');
+        }
+        elseif ($userAdmin == false && $this->isSuperAdmin()) {
+            $this->removeRole('ROLE_SUPER_ADMIN');
+        }
+    }
+
+    /**
+     * Is current user a super admin ?
+     *
+     * @return bool
+     */
+    public function isSuperAdmin()
+    {
+        return $this->hasRole('ROLE_SUPER_ADMIN');
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validateRoleGroups(ExecutionContextInterface $context)
+    {
+        if ($this->isSuperAdmin() && !$this->getGroups()->isEmpty()) {
+            $context->addViolationAt(
+                'groups',
+                'user_admin.assert.groups.super_admin'
+            );
+        }
+        elseif (!$this->isSuperAdmin() && $this->getGroups()->isEmpty()) {
+            $context->addViolationAt(
+                'groups',
+                'user_admin.assert.groups.empty'
+            );
+        }
     }
 }

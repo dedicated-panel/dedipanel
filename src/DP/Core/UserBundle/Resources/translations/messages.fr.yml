@@ -95,6 +95,8 @@ user:
         repeat_password: Ressaisir
         groups: Groupes
         roles: Rôles
+        admin: Admin ?
+        super_admin: Super Admin ?
 
 group:
     creation_succeed: Le groupe a été créé avec succès.
@@ -104,7 +106,7 @@ group:
     title:
         group: Groupe
         index: Liste des groupes
-        show: Voir un group
+        show: Voir un groupe
         add: Ajouter un groupe
         edit: Modifier un groupe
     

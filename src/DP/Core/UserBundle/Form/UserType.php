@@ -20,20 +20,22 @@ class UserType extends AbstractType
             ->add('email', 'email', array('label' => 'user.fields.email'))
             ->add('plainPassword', 'repeated', array(
                 'type' => 'password',
-                'required' => false,
                 'first_options' => array('label'  => 'user.fields.password'),
                 'second_options' => array('label' => 'user.fields.repeat_password'),
+                'required' => true,
             ))
             ->add('enabled', null, array('label' => 'user.fields.enabled', 'required' => false))
-            ->add('groups', 'dedipanel_group_assignement')
+            ->add('groups', 'dedipanel_group_assignement', array('required' => false))
+            ->add('admin', 'checkbox', array('label' => 'user.fields.admin', 'required' => false))
+            ->add('superAdmin', 'checkbox', array('label' => 'user.fields.super_admin', 'required' => false))
         ;
-        
+
         // Ajout d'un EventSubscriber permettant de gérer 
         // les propriété password et plainPassword des entités
         // lors de la création via le formulaire
         $builder->addEventSubscriber(new UserPasswordSubscriber);
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */

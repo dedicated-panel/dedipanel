@@ -47,9 +47,8 @@ class GroupAssignableVoter implements VoterInterface
             || in_array('ROLE_SUPER_ADMIN', $roles)) {
                 return VoterInterface::ACCESS_GRANTED;
             }
-            else {
-                return VoterInterface::ACCESS_DENIED;
-            }
+
+            return VoterInterface::ACCESS_DENIED;
         }
         
         return VoterInterface::ACCESS_ABSTAIN;

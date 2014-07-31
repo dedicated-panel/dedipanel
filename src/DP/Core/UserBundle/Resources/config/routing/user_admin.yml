@@ -34,12 +34,3 @@ dedipanel_user_delete:
     defaults:
         _controller: dedipanel.controller.user:deleteAction
         template: DPUserBundle:User:delete.html.twig
-
-dedipanel_user_update_roles:
-    pattern: /{id}/edit-roles
-    methods: [GET, POST]
-    defaults:
-        _controller: dedipanel.controller.user:updateAction
-        _sylius:
-            form: dedipanel_user_update_roles
-            template: DPUserBundle:User:update_roles.html.twig

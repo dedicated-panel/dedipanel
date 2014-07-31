@@ -9,6 +9,9 @@ user_admin:
             valid: Veuillez indiquer une adresse email valide.
         password:
             empty: Veuillez renseigner le mot de passe de l'utilisateur.
+        groups:
+            super_admin: Vous ne pouvez pas associer de groupe à un super admin.
+            empty: Veuillez assigner l'utilisateur à un groupe.
 
 group_admin:
     assert:
