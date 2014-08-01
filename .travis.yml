@@ -22,10 +22,7 @@ before_script:
     - "sed -i -e 's/database_name: null/database_name: dedipanel/' app/config/parameters.yml"
 
     - composer self-update
-    - composer install --prefer-dist --no-interaction --optimize-autoloader --no-scripts
-    - ./vendor/sensio/distribution-bundle/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php
-    - app/console cache:clear --env=test
-    - app/console assets:install --env=test
+    - composer install --prefer-source --no-interaction
 
     - app/console doctrine:database:create --env=test
     - app/console cache:warmup --env=test
