@@ -12,6 +12,7 @@ install:
     - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-intl > /dev/null
     - sudo sed -i -e "s,/var/www,$(pwd)/web,g" /etc/apache2/sites-available/default
     - sudo /etc/init.d/apache2 restart
+    - mysql -u root -e "CREATE  DATABASE dedipanel; CREATE DATABASE dedipanel_test;"
 
 before_script:
     - echo '' > ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
