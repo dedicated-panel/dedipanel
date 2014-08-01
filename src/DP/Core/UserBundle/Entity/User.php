@@ -77,7 +77,7 @@ class User extends BaseUser
     
     public function __toString()
     {
-        return $this->username;
+        return isset($this->username) ? $this->username : '';
     }
     
     public function setCreatedAt(\DateTime $date)
@@ -146,13 +146,15 @@ class User extends BaseUser
         if ($this->isSuperAdmin() && !$this->getGroups()->isEmpty()) {
             $context->addViolationAt(
                 'groups',
-                'user_admin.assert.groups.super_admin'
+                'user_admin.assert.groups.super_admin',
+                array('%user%' => strval($this))
             );
         }
         elseif (!$this->isSuperAdmin() && $this->getGroups()->isEmpty()) {
             $context->addViolationAt(
                 'groups',
-                'user_admin.assert.groups.empty'
+                'user_admin.assert.groups.empty',
+                array('%user%' => strval($this))
             );
         }
     }

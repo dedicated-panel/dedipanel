@@ -37,24 +37,26 @@ class DefaultContext extends BaseDefaultContext
     public function thereIsUser($username, $email, $password, $role = null, $enabled = true, $group = null, $flush = true)
     {
         if (null === $user = $this->getRepository('user')->findOneBy(array('username' => $username))) {
-            /* @var $user UserInterface */
+            /* @var $user FOS\UserBundle\Model\UserInterface */
             $user = $this->getRepository('user')->createNew();
             $user->setUsername($username);
             $user->setEmail($email);
             $user->setEnabled($enabled);
             $user->setPlainPassword($password);
+            $user->setPassword(''); // Set empty hashed password for validation
 
             if (null !== $role) {
                 $user->addRole($role);
             }
 
+            if ($group !== null) {
+                $group = $this->thereIsGroup($group);
+                $user->addGroup($group);
+            }
+
             $this->validate($user);
 
             $this->getEntityManager()->persist($user);
-
-            if ($group !== null && $group = $this->findOneByName('group', $group)) {
-                $user->addGroup($group);
-            }
 
             if ($flush) {
                 $this->getEntityManager()->flush();

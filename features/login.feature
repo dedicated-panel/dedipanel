@@ -6,8 +6,8 @@ Feature: Sign in to the panel
 
   Background:
     Given there are following users:
-      | username | email       | password | enabled |
-      | foo      | foo@bar.net | test1234 | yes     |
+      | username | email       | password | group | enabled |
+      | foo      | foo@bar.net | test1234 | Team  | yes     |
 
   Scenario: Log in with username and password
     Given I am on "/login"

@@ -6,9 +6,9 @@ Feature: Plugin settings
 
   Background:
     Given there are following users:
-      | username | email       | password | role                       | enabled |
-      | foo      | foo@bar.net | test1234 | ROLE_DP_ADMIN_PLUGIN_ADMIN | yes     |
-      | baz      | baz@bar.net | test1234 | ROLE_USER                  | yes     |
+      | username | email       | password | group | role             | enabled |
+      | foo      | foo@bar.net | test1234 |       | ROLE_SUPER_ADMIN | yes     |
+      | baz      | baz@bar.net | test1234 | Team  |                  | yes     |
     And there are following games:
       | name           | installName | bin      | type  | available |
       | Counter-Strike | cstrike     | hlds_run | steam | yes       |

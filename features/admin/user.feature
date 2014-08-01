@@ -5,9 +5,6 @@ Feature: Users management
   I want to be able to act on users
 
   Background:
-    Given there are following groups:
-      | name |
-      | Team |
     Given there are following users:
       | username | email       | password | group | role             | enabled |
       | foo      | foo@bar.net | test1234 |       | ROLE_SUPER_ADMIN | yes     |
