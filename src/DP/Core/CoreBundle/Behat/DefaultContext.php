@@ -138,7 +138,7 @@ class DefaultContext extends BaseDefaultContext
     }
 
     /**
-     * @Then /^I should see (\d+) (alert )?((error|success) )?message$/
+     * @Then /^I should see (\d+) (?:alert )?((error|success) )?message$/
      */
     public function iShouldSeeAlertMessage($amount, $type = '')
     {
