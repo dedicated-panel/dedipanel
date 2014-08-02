@@ -7,8 +7,8 @@
 
 {% extends "::layout.html.twig" %}
 
-{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
+{% import '::flash_messages.html.twig' as dedipanel_flashes %}
 
 {% block title %}
     {{ dedipanel_buttons.back(path('dedipanel_group_index'), 'group.title.group'|trans) }}
@@ -16,6 +16,8 @@
 
 {% block content %}
     <h2>{{ 'group.title.show'|trans }}</h2>
+
+    {{ dedipanel_flashes.all() }}
 
     <table class="table table-striped show-group">
         <tbody>
@@ -43,7 +45,7 @@
     </table>
 
     <div class="form-group clearfix">
-        {{ sylius_buttons.edit(path('dedipanel_group_update', {'id': group.id})) }}
-        {{ sylius_buttons.delete(path('dedipanel_group_delete', {'id': group.id})) }}
+        {{ dedipanel_buttons.edit(path('dedipanel_group_update', {'id': group.id}), '', 'ROLE_DP_ADMIN_GROUP_UPDATE', group) }}
+        {{ dedipanel_buttons.delete(path('dedipanel_group_delete', {'id': group.id}), '', false, true, 'ROLE_DP_ADMIN_GROUP_DELETE', group) }}
     </div>
 {% endblock %}

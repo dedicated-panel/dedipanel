@@ -16,17 +16,23 @@ class UserAdminListener implements EventSubscriberInterface
     {
         return array(
             'dedipanel.user.pre_create' => 'cleanUpdate',
-            'dedipanel.user.pre_update' => 'cleanUpdate',  
+            'dedipanel.user.pre_update' => 'cleanUpdate',
         );
     }
-    
+
     public function __construct(UserManagerInterface $manager)
     {
         $this->manager = $manager;
     }
-    
+
+    /**
+     * Update canonical fields and other internal fields of user
+     * whitout flushing it
+     *
+     * @param ResourceEvent $event
+     */
     public function cleanUpdate(ResourceEvent $event)
     {
-        $this->manager->updateUser($event->getSubject());
+        $this->manager->updateUser($event->getSubject(), false);
     }
 }

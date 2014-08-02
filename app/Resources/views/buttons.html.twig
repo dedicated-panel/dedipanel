@@ -1,3 +1,38 @@
+{% macro show(url, message, role, object) %}
+    {% from 'SyliusResourceBundle:Macros:buttons.html.twig' import show %}
+    {% if (role is not empty and is_granted(role, object)) or role is empty %}
+        {{ show(url, message) }}
+    {% endif %}
+{% endmacro %}
+
+{% macro generic(url, message, icon, role, object) %}
+    {% from 'SyliusResourceBundle:Macros:buttons.html.twig' import generic %}
+    {% if (role is not empty and is_granted(role, object)) or role is empty %}
+        {{ generic(url, message) }}
+    {% endif %}
+{% endmacro %}
+
+{% macro create(url, message, role, object) %}
+    {% from 'SyliusResourceBundle:Macros:buttons.html.twig' import create %}
+    {% if (role is not empty and is_granted(role, object)) or role is empty %}
+        {{ create(url, message) }}
+    {% endif %}
+{% endmacro %}
+
+{% macro edit(url, message, role, object) %}
+    {% from 'SyliusResourceBundle:Macros:buttons.html.twig' import edit %}
+    {% if (role is not empty and is_granted(role, object)) or role is empty %}
+        {{ edit(url, message) }}
+    {% endif %}
+{% endmacro %}
+
+{% macro delete(url, message, disabled=false, modal=true, role, object) %}
+    {% from 'SyliusResourceBundle:Macros:buttons.html.twig' import delete %}
+    {% if (role is not empty and is_granted(role, object)) or role is empty %}
+        {{ delete(url, message, disabled, modal) }}
+    {% endif %}
+{% endmacro %}
+
 {% macro back(url, message) %}
     <a href="{{ url }}">
         <span class="icon" data-icon="&#x29;" title="{{ 'sylius.back'|trans }}"></span>

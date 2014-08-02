@@ -56,7 +56,7 @@ class User extends BaseUser
     protected $createdAt;
     
     /**
-     * @ORM\ManyToMany(targetEntity="DP\Core\UserBundle\Entity\Group")
+     * @ORM\ManyToMany(targetEntity="DP\Core\UserBundle\Entity\Group", inversedBy="users")
      * @ORM\JoinTable(name="fos_user_user_group",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}

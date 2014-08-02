@@ -9,6 +9,7 @@
 
 {% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
+{% import '::flash_messages.html.twig' as dedipanel_flashes %}
 
 {% block title %}
     {{ dedipanel_buttons.back(path('_welcome'), 'group.title.group'|trans) }}
@@ -17,11 +18,15 @@
 {% block content %}
     <h2>{{ 'group.title.index'|trans }}</h2>
 
+    {% if is_granted('ROLE_DP_ADMIN_GROUP_CREATE') %}
     <ul id="top-nav" class="nav nav-tabs">
         <li>
             {{ sylius_buttons.edit(path('dedipanel_group_create'), 'group.actions.add'|trans) }}
         </li>
     </ul>
+    {% endif %}
+
+    {{ dedipanel_flashes.all() }}
     
     <table class="table table-striped group-list">
         <thead>
@@ -37,8 +42,12 @@
 
                     <td>
                         <div class="btn-group">
-                            {{ sylius_buttons.show(path('dedipanel_group_show', {'id': group.id})) }}
-                            {{ sylius_buttons.edit(path('dedipanel_group_update', {'id': group.id})) }}
+                            {% if is_granted('ROLE_DP_ADMIN_GROUP_SHOW', group) %}
+                                {{ sylius_buttons.show(path('dedipanel_group_show', {'id': group.id})) }}
+                            {% endif %}
+                            {% if is_granted('ROLE_DP_ADMIN_GROUP_UPDATE', group) %}
+                                {{ sylius_buttons.edit(path('dedipanel_group_update', {'id': group.id})) }}
+                            {% endif %}
                         </div>
                     </td>
                 </tr>  

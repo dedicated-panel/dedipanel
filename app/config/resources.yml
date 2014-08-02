@@ -13,6 +13,7 @@ sylius_resource:
             role_prefix: ROLE_DP_ADMIN_GROUP
             classes:
                 model: DPUserBundle:Group
+                controller: DP\Core\UserBundle\Controller\GroupController
                 repository: DP\Core\UserBundle\Entity\GroupRepository
         dedipanel.machine:
             driver: doctrine/orm

@@ -49,12 +49,19 @@ class Group extends BaseGroup
     protected $parent;
     
     /**
-     * @var Group
+     * @var ArrayCollection
      * 
      * @ORM\OneToMany(targetEntity="DP\Core\UserBundle\Entity\Group", mappedBy="parent")
      */
     protected $children;
-    
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="DP\Core\UserBundle\Entity\User", mappedBy="groups")
+     */
+    protected $users;
+
     protected $roles = array();
     
     
@@ -63,6 +70,7 @@ class Group extends BaseGroup
         parent::__construct($name, $roles);
         
         $this->children = new ArrayCollection();
+        $this->users    = new ArrayCollection();
     }
     
     /**
@@ -120,5 +128,17 @@ class Group extends BaseGroup
     public function getChildren()
     {
         return $this->children;
+    }
+
+    public function setUsers(array $users = array())
+    {
+        $this->users = new ArrayCollection($users);
+
+        return $this;
+    }
+
+    public function getUsers()
+    {
+        return $this->users;
     }
 }

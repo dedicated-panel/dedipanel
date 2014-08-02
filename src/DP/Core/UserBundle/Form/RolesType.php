@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use DP\Core\UserBundle\EventListener\RolesTypeSubscriber;
 use DP\Core\UserBundle\Entity\User;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Security\Core\SecurityContext;
 
 /**
  * Form type used for displaying a list of checkboxes corresponding to each role
@@ -20,18 +20,39 @@ class RolesType extends AbstractType
 {
     private $subscriber;
     private $roles;
-    private $translator;
+    private $context;
     
-    public function __construct(RolesTypeSubscriber $subscriber, array $roles, TranslatorInterface $translator)
+    public function __construct(RolesTypeSubscriber $subscriber, array $roles, SecurityContext $context)
     {
         $this->subscriber = $subscriber;
-        $this->roles = array_keys($roles);
-        $this->translator = $translator;
-    }    
-    
+        $this->roles      = array_keys($roles);
+        $this->context    = $context;
+    }
+
+    /**
+     * Supprime de la liste les rôles que n'a pas l'utilisateur
+     * Et filtre la liste des rôles par ceux spécifiés
+     *
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addEventSubscriber($this->subscriber);
+
+        $filteredChoices = array_keys($options['choices']);
+        if (!empty($options['roles'])) {
+            $filteredChoices = array_intersect($filteredChoices, $options['roles']);
+        }
+
+        foreach ($builder AS $key => $value) {
+            $role = $builder->get($key)->getOption('value');
+
+            if (!in_array($role, $filteredChoices)
+            || !$this->context->isGranted($role)) {
+                $builder->remove($key);
+            }
+        }
     }
     
     public function buildView(FormView $view, FormInterface $form, array $options)
@@ -51,6 +72,8 @@ class RolesType extends AbstractType
             'attr' => array('class' => 'dp-security-roles'), 
             'required' => false,
         ));
+
+        $resolver->setOptional(array('roles'));
     }
     
     public function getParent()
@@ -61,42 +84,5 @@ class RolesType extends AbstractType
     public function getName()
     {
         return 'dp_security_roles';
-    }
-    
-    /**
-     * Désactive les checkbox correspondant aux roles associés aux groupes de l'utilisateur
-     * et ajoute un title sur les labels de ces checkbox pour indiquer quels groupes sont associés à ce rôle
-     */
-    public function finishView(FormView $view, FormInterface $form, array $options)
-    {
-        if ($view->parent->vars['value'] instanceof User) {
-            $user = $view->parent->vars['value'];
-            $groups = $user->getGroups();
-            $roles = array();
-            
-            foreach ($groups AS $group) {
-                $groupRoles = $group->getRoles();
-                
-                if (count($groupRoles) > 0) {
-                    $groupRoles = array_combine($groupRoles, array_fill(0, count($groupRoles), array($group->getName())));
-                    $roles = array_merge_recursive($roles, $groupRoles);
-                }
-            }
-            
-            foreach ($view->children AS &$roleCheckbox) {
-                if (array_key_exists($roleCheckbox->vars['value'], $roles)) {
-                    $role = $roleCheckbox->vars['value'];
-                    
-                    $roleCheckbox->vars['disabled'] = true;
-                    $roleCheckbox->vars['label_attr'] = array(
-                        'title' => $this->translator->transChoice(
-                            'user.rolesAssociatedToGroup', 
-                            count($roles[$role]), 
-                            array('%groups%' => implode(', ', $roles[$role]))
-                        ),  
-                    );
-                }
-            }
-        }
     }
 }

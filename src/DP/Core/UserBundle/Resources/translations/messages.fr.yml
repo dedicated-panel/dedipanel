@@ -63,12 +63,6 @@ menu:
         config: Configuration
 
 user:
-    creation_succeed: L'utilisateur a été créé avec succès.
-    update_succeed: L'utilisateur a été mis à jour avec succès.
-    delete_succeed: L'utilisateur a été supprimé avec succès.
-    enabled_succeed: Activation réussie.
-    disabled_succeed: Désactivation réussie.
-    
     rolesAssociatedToGroup: Rôle associé au groupe : %groups%.|Rôle associé aux groupes : %groups%.
     
     title:
@@ -99,10 +93,6 @@ user:
         super_admin: Super Admin ?
 
 group:
-    creation_succeed: Le groupe a été créé avec succès.
-    update_succeed: Le groupe a été mis à jour avec succès.
-    delete_succeed: Le groupe a été supprimé avec succès.
-    
     title:
         group: Groupe
         index: Liste des groupes

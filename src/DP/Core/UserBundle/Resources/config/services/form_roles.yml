@@ -1,15 +1,10 @@
 services:    
     dedipanel.security.form.roles_type:
         class: DP\Core\UserBundle\Form\RolesType
-        arguments: [ @dedipanel.security.form.roles_type.subscriber, %security.role_hierarchy.roles%, @translator ]
+        arguments: [ @dedipanel.security.form.roles_type.subscriber, %security.role_hierarchy.roles%, @security.context ]
         tags:
             - { name: form.type, alias: dp_security_roles }
     
     dedipanel.security.form.roles_type.subscriber:
         class: DP\Core\UserBundle\EventListener\RolesTypeSubscriber
         arguments: [ @security.role_hierarchy, %security.role_hierarchy.roles% ]
-
-    dedipanel.security.form.extension.roles_filter:
-        class: DP\Core\UserBundle\Form\Extension\RoleFilterExtension
-        tags:
-            - { name: form.type_extension, alias: dp_security_roles }

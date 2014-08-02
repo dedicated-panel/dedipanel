@@ -9,6 +9,7 @@
 
 {% import 'SyliusResourceBundle:Macros:actions.html.twig' as sylius_actions %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
+{% import '::flash_messages.html.twig' as dedipanel_flashes %}
 
 {% block title %}
     {{ dedipanel_buttons.back(path('dedipanel_group_index'), 'group.title.group'|trans) }}
@@ -16,6 +17,8 @@
 
 {% block content %}
     <h2>{{ 'group.title.add'|trans }}</h2>
+
+    {{ dedipanel_flashes.all() }}
 
     <form action="{{ path('dedipanel_group_create') }}" method="post">
         {{ form_widget(form) }}

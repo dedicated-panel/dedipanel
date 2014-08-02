@@ -20,10 +20,10 @@ class GroupAssignementType extends AbstractType
         $resolver
             ->setDefaults(array(
                 'label' => 'user.fields.groups', 
-                'class' => 'DPUserBundle:Group', 
-                'multiple' => true,  
-                'required' => false,
-                'choices'  => $this->groupResolver->getAccessibleGroups(), 
+                'class' => 'DPUserBundle:Group',
+                'multiple' => true,
+                'required' => true,
+                'choices'  => $this->groupResolver->getAccessibleGroups(),
             ))
         ;
     }

@@ -138,7 +138,7 @@ class DefaultContext extends BaseDefaultContext
     }
 
     /**
-     * @Then /^I should see (\d+) alert (.+)? message$/
+     * @Then /^I should see (\d+) (alert )?((error|success) )?message$/
      */
     public function iShouldSeeAlertMessage($amount, $type = '')
     {
@@ -260,8 +260,6 @@ class DefaultContext extends BaseDefaultContext
     }
 
     /**
-     * For example: I should see 10 products in that list.
-     *
      * @Then /^I should see (\d+) ([^""]*) in (that|the) list$/
      */
     public function iShouldSeeThatMuchResourcesInTheList($amount, $type)
@@ -361,8 +359,7 @@ class DefaultContext extends BaseDefaultContext
     }
 
     /**
-     * @When /^I click "([^"]*)" near "([^"]*)"$/
-     * @When /^I press "([^"]*)" near "([^"]*)"$/
+     * @When /^I (?:click|press|follow) "([^"]*)" near "([^"]*)"$/
      */
     public function iClickNear($button, $value)
     {
@@ -485,5 +482,57 @@ class DefaultContext extends BaseDefaultContext
         if ($violationList->count() != 0) {
             throw new \RuntimeException(sprintf('Data not valid (%s).', $violationList));
         }
+    }
+
+    /**
+     * @Then /^I should see (\d+) buttons? "([^"]+)"$/
+     */
+    public function iShouldSeeButton($count, $value)
+    {
+        $locator = sprintf('a:contains("%s"), button:contains("%s")', $value, $value);
+
+        $this->assertSession()->elementsCount('css', $locator, $count);
+    }
+
+    /**
+     * @Then /^I should not see button "([^"]+)"$/
+     */
+    public function iShouldNotSeeButton($value)
+    {
+        $locator = sprintf('a:contains("%s"), button:contains("%s")', $value, $value);
+
+        $this->assertSession()->elementsCount('css', $locator, 0);
+    }
+
+    /**
+     * @Then /^I should be on 403 page$/
+     * @Then /^I should be on 403 page with "([^"]+)"$/
+     */
+    public function iShouldBeOn403($message = "Vous n'avez pas accès à cette page.")
+    {
+        $this->assertStatusCodeEquals(403);
+
+        $this->iShouldSeeAlertMessage(1, 'error');
+        $this->assertSession()->pageTextContains($message);
+    }
+
+    /**
+     * @Then /^I should see (\d+) "([^"]+)" checkbox(?:es)? in "([^"]+)" form$/
+     */
+    public function iShouldSeeCheckboxes($count, $type, $form)
+    {
+        $locator = sprintf('//input[@type="checkbox"][@name="%s[%s][]"]', $form, $type);
+
+        $this->assertSession()->elementscount('xpath', $locator, $count);
+    }
+
+    /**
+     * @Then /^I should see (\d+) options in (.+) select of (.+) form$/
+     */
+    public function iShouldSeeOptionsInSelect($count, $type, $form)
+    {
+        $locator = sprintf('//select[@name="%s[%s]"]/option', $form, $type);
+
+        $this->assertSession()->elementscount('xpath', $locator, $count);
     }
 }

@@ -2,3 +2,10 @@ dedipanel.user:
     create: "L'utilisateur a bien été créé."
     update: "L'utilisateur a bien été mis à jour."
     delete: "L'utilisateur a bien été supprimé."
+
+dedipanel.group:
+    create: "Le groupe a bien été créé."
+    update: "Le groupe a bien été mis à jour."
+    delete: "Le groupe a bien été supprimé."
+    users_yet_associated: Des utilisateurs sont encore assignés à ce groupe (ou à un de ses sous-groupes). Veuillez les assigner à un autre groupe avant de supprimer celui-ci.
+    need_parent: Veuillez sélectionner le groupe parent avant de poursuivre.

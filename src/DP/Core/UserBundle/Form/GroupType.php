@@ -5,12 +5,19 @@ namespace DP\Core\UserBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use DP\Core\UserBundle\Entity\GroupRepository;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Security\Core\SecurityContext;
 
 class GroupType extends AbstractType
 {
+    private $context;
+
+    public function __construct(SecurityContext $context)
+    {
+        $this->context = $context;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -20,9 +27,8 @@ class GroupType extends AbstractType
         $builder
             ->add('name', null, array('label' => 'group.fields.name'))
             ->add('parent', 'dedipanel_group_assignement', array(
-                'label'    => 'group.fields.parent', 
-                'multiple' => false, 
-                'required' => true, 
+                'label'    => 'group.fields.parent',
+                'multiple' => false,
             ))
             ->add('roles', 'dp_security_roles', array(
                 'label' => 'user.fields.roles',
@@ -34,16 +40,16 @@ class GroupType extends AbstractType
                 )
             ))
         ;
-        
-        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
-            $form  = $event->getForm();
-            $field = $form->get('parent');
-            
-            $parent      = $field->getData();
-            $fieldValues = $field->getConfig()->getOption('choices');
-            
-            if (!in_array($parent, $fieldValues)) {
-                $form->remove('parent');
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            $form = $event->getForm();
+
+            if ($this->context->isGranted('ROLE_SUPER_ADMIN')) {
+                $form->add('parent', 'dedipanel_group_assignement', array(
+                    'label'    => 'group.fields.parent',
+                    'multiple' => false,
+                    'required' => false,
+                ));
             }
         });
     }

@@ -42,7 +42,14 @@ class GroupAssignableVoter implements VoterInterface
             if (!$object instanceof Group) {
                 $groups = iterator_to_array($object->getGroups());
             }
-            
+            // Deny access if the user try to access/edit/delete group
+            // on which he is assigned
+            elseif (array_intersect($groups, iterator_to_array($token->getUser()->getGroups())) !== array()
+            && (in_array('ROLE_DP_ADMIN_GROUP_UPDATE', $attributes)
+            || in_array('ROLE_DP_ADMIN_GROUP_DELETE', $attributes))) {
+                return VoterInterface::ACCESS_DENIED;
+            }
+
             if (array_intersect($groups, $this->repo->getAccessibleGroups($token->getUser()->getGroups())) !== array() 
             || in_array('ROLE_SUPER_ADMIN', $roles)) {
                 return VoterInterface::ACCESS_GRANTED;
