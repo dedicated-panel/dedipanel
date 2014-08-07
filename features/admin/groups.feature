@@ -63,7 +63,7 @@ Feature: Groups management
       And I am on the group index page
      When I follow "Ajouter un groupe"
      Then I should be on the group creation page
-      And I should see 5 options in parent select of dedipanel_group form
+      And I should see 5 "parent" options in "dedipanel_group" form
       And I should see 4 "roles" checkboxes in "dedipanel_group" form
 
   Scenario: Accessing the group creation form when admin
@@ -71,7 +71,7 @@ Feature: Groups management
       And I am on the group index page
      When I follow "Ajouter un groupe"
      Then I should be on the group creation page
-      And I should see 2 options in parent select of dedipanel_group form
+      And I should see 2 "parent" options in "dedipanel_group" form
       And I should see 1 "roles" checkbox in "dedipanel_group" form
 
   Scenario: Submitting empty form

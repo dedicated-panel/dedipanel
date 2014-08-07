@@ -16,7 +16,7 @@
 
 dedipanel_machine_index:
     pattern:  /
-    defaults: 
+    defaults:
         _controller: dedipanel.controller.machine:indexAction
         _sylius:
             criteria:
@@ -33,16 +33,12 @@ dedipanel_machine_create:
     methods: [GET, POST]
     defaults:
         _controller: dedipanel.controller.machine:createAction
-        _sylius:
-            form: dedipanel_machine_add
 
 dedipanel_machine_update:
     pattern:  /{id}/edit
     methods: [GET, POST]
     defaults:
         _controller: dedipanel.controller.machine:updateAction
-        _sylius:
-            form: dedipanel_machine_edit
 
 dedipanel_machine_delete:
     pattern:  /{id}/delete

@@ -11,7 +11,8 @@ composer.phar
 composer.lock
 nbproject/
 .htaccess
-src/DP/Core/MachineBundle/Resources/config/.ssh/*
+app/config/.ssh/*
+!app/config/.ssh/.htaccess
 .settings
 .project
 .idea/

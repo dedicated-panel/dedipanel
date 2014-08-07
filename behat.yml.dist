@@ -53,3 +53,9 @@ default:
                 - DP\Core\CoreBundle\Behat\DefaultContext
             filters:
                 tags: "@groups_admin"
+        machines:
+            contexts:
+                - Behat\MinkExtension\Context\MinkContext
+                - DP\Core\CoreBundle\Behat\DefaultContext
+            filters:
+                tags: "@machines"

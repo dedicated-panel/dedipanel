@@ -65,7 +65,7 @@ Feature: Users management
       | email                 | aze@dedicated-panel.net |
       | plainPassword][first  | test1234                |
       | plainPassword][second | test1234                |
-      | groups][              | Team                    |
+      | groups                | Team                    |
       | enabled               | yes                     |
       And I press "Créer"
      Then I should be on the page of user with username "aze"
@@ -81,7 +81,7 @@ Feature: Users management
       | plainPassword][first  | test1234                |
       | plainPassword][second | test1234                |
       | enabled               | yes                     |
-      | groups][              | Team                    |
+      | groups                | Team                    |
       | superAdmin            | yes                     |
      When I press "Créer"
      Then I should still be on the user creation page

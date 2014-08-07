@@ -4,6 +4,7 @@ namespace DP\Core\CoreBundle\Behat;
 
 use Sylius\Bundle\ResourceBundle\Behat\DefaultContext as BaseDefaultContext;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Mink\Exception\ElementNotFoundException;
 
 class DefaultContext extends BaseDefaultContext
 {
@@ -213,14 +214,13 @@ class DefaultContext extends BaseDefaultContext
         foreach ($table->getTable() AS $data) {
             list($fieldName, $value) = $data;
             $fieldName = $base . '[' . $fieldName . ']';
-            $field     = $page->findField($fieldName);
 
-            if ($field === null) {
-                throw new \RuntimeException('Field "' . $fieldName . '" not found.');
+            if ((null === $field = $page->findField($fieldName)) && (null === $field = $page->findField($fieldName . '[]'))) {
+                throw new ElementNotFoundException(sprintf('Form field with id|name|label|value "%s" or "%s[]" not found.', $fieldName, $fieldName));
             }
 
             if ($field->getTagName() == 'select') {
-                $this->selectOption($fieldName, $value);
+                $this->selectOption($field->getAttribute('name'), $value);
 
                 continue;
             }
@@ -527,12 +527,54 @@ class DefaultContext extends BaseDefaultContext
     }
 
     /**
-     * @Then /^I should see (\d+) options in (.+) select of (.+) form$/
+     * @Then /^I should see (\d+) "([^"]+)" options in "([^"]+)" form$/
      */
     public function iShouldSeeOptionsInSelect($count, $type, $form)
     {
-        $locator = sprintf('//select[@name="%s[%s]"]/option', $form, $type);
+        $xpath   = sprintf('%s[%s]', $form, $type);
+        $locator = sprintf('//select[@name="%s" or @name="%s[]"]/option', $xpath, $xpath);
 
-        $this->assertSession()->elementscount('xpath', $locator, $count);
+        $this->assertSession()->elementsCount('xpath', $locator, $count);
+    }
+
+    /**
+     * @Given /^there are following machines:$/
+     */
+    public function thereAreFollowingMachines(TableNode $table)
+    {
+        foreach ($table->getHash() as $data) {
+            $this->thereIsMachine(
+                $data['privateIp'],
+                $data['username'],
+                $data['key'],
+                $data['group'],
+                false
+            );
+        }
+
+        $this->getEntityManager()->flush();
+    }
+
+    public function thereIsMachine($privateIp, $user, $privateKey, $group = null, $flush = true)
+    {
+        if (null === $machine = $this->getRepository('machine')->findOneBy(array('ip' => $privateIp, 'username' => $user))) {
+            $machine = $this->getRepository('machine')->createNew();
+            $machine->setIp($privateIp);
+            $machine->setUsername($user);
+            $machine->setPrivateKeyName($privateKey);
+
+            if ($group !== null) {
+                $group = $this->thereIsGroup($group);
+                $machine->addGroup($group);
+            }
+
+            $this->getEntityManager()->persist($machine);
+
+            if ($flush) {
+                $this->getEntityManager()->flush();
+            }
+        }
+
+        return $machine;
     }
 }

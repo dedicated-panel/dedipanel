@@ -15,19 +15,14 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 parameters:
-    dedipanel.key_store.file.path: '%kernel.root_dir%/../src/DP/Core/MachineBundle/Resources/config/.ssh/'
+    dedipanel.key_store.file.path: '%kernel.root_dir%/../app/config/.ssh/%kernel.environment%'
     dedipanel.connection_manager.debug: true
 
 services:
-    dedipanel.form.machine.add:
-        class: DP\Core\MachineBundle\Form\AddMachineType
+    dedipanel.form.machine:
+        class: DP\Core\MachineBundle\Form\MachineType
         tags:
-            - {name: form.type, alias: dedipanel_machine_add }
-
-    dedipanel.form.machine.edit:
-        class: DP\Core\MachineBundle\Form\EditMachineType
-        tags:
-            - {name: form.type, alias: dedipanel_machine_edit }
+            - { name: form.type, alias: dedipanel_machine }
 
     dedipanel.machine.subscriber.crud:
         class: DP\Core\MachineBundle\EventListener\CRUDListener

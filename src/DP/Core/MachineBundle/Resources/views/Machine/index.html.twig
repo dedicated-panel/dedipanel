@@ -9,6 +9,7 @@
 
 {% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
+{% import '::flash_messages.html.twig' as dedipanel_flashes %}
 
 {% block bundleStylesheets %}
     <link rel="stylesheet" media="screen" href="{{ asset('bundles/dpmachine/css/machine.css') }}" />
@@ -21,13 +22,15 @@
 {% block content %}
     <h2>{{ 'machine.title.index'|trans }}</h2>
 
+    {% if is_granted('ROLE_DP_ADMIN_MACHINE_CREATE') %}
     <ul id="top-nav" class="nav nav-tabs">
-        {% if is_granted('ROLE_DP_ADMIN_MACHINE_CREATE') %}
-            <li>
-                {{ sylius_buttons.edit(path('dedipanel_machine_create'), 'machine.actions.add'|trans) }}
-            </li>
-        {% endif %}
+        <li>
+            {{ sylius_buttons.edit(path('dedipanel_machine_create'), 'machine.actions.add'|trans) }}
+        </li>
     </ul>
+    {% endif %}
+
+    {{ dedipanel_flashes.all() }}
     
     <table class="table table-striped machine-list">
         <thead>

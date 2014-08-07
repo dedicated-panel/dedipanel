@@ -311,13 +311,15 @@ class Machine extends Server
     
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('ip', new Assert\Ip(array('message' => 'machine.assert.ip')));
+        $metadata->addPropertyConstraint('ip', new Assert\NotBlank(array('message' => 'machine.assert.ip.empty')));
+        $metadata->addPropertyConstraint('ip', new Assert\Ip(array('message' => 'machine.assert.ip.not_valid')));
         $metadata->addPropertyConstraint('publicIp', new Assert\Ip(array('message' => 'machine.assert.publicIp')));
+        $metadata->addPropertyConstraint('port', new Assert\NotBlank(array('message' => 'machine.assert.port.empty')));
         $metadata->addPropertyConstraint('port', new Assert\Range(array(
             'min' => 1, 
-            'minMessage' => 'machine.assert.port', 
+            'minMessage' => 'machine.assert.port.not_valid',
             'max' => 65536, 
-            'maxMessage' => 'machine.assert.port', 
+            'maxMessage' => 'machine.assert.port.not_valid',
         )));
         $metadata->addPropertyConstraint('username', new Assert\NotBlank(array('message' => 'machine.assert.username')));
         $metadata->addConstraint(new Assert\Callback(array(
@@ -329,7 +331,7 @@ class Machine extends Server
     public function validateNotEmptyPassword(ExecutionContextInterface $context)
     {
         if (null === $this->getId() && null === $this->getPassword()) {
-            $context->addViolation('machine.assert.password');
+            $context->addViolationAt('password', 'machine.assert.password');
         }
     }
 }

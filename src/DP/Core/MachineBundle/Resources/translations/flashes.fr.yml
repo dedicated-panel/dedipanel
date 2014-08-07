@@ -1,7 +1,6 @@
-sylius.resource.machine.connection_problem: Problème de connexion à la machine.
-
 dedipanel.machine:
-    connection_failed: Impossible de se connecterà la machine.
+    connection_failed: Impossible de se connecter à la machine.
+    connection_problem: Problème de connexion à la machine.
 
     test.succeeded: Test de connexion réussi !
     test.failed: Test de connexion échoué !
@@ -9,3 +8,7 @@ dedipanel.machine:
     missing_compat_libs: "Vous utilisez un système 64bits. Nous vous recommandons vivement d'installer les librairies de compatibilités 32bits (<a href=\"http://www.dedicated-panel.net/faq#systeme-64b\">voir notre F.A.Q.</a>)."
     missing_java: "Java ne semble pas être installé sur cette machine. Vous devriez l'installer (<a href=\"http://www.dedicated-panel.net/faq#installation-java\">voir notre F.A.Q.</a>) afin de pouvoir utiliser des serveurs Minecraft."
     missing_screen: "Le paquet \"screen\" ne semble pas être installé sur cette machine. Vous devez l'installer afin d'utiliser le panel."
+
+    create: "La machine a bien été ajoutée."
+    update: "La machine a bien été mis à jour."
+    delete: "La machine a bien été supprimé."
