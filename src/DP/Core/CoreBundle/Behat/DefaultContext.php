@@ -212,15 +212,12 @@ class DefaultContext extends BaseDefaultContext
         $page = $this->getSession()->getPage();
 
         foreach ($table->getTable() AS $data) {
-            list($fieldName, $value) = $data;
-            $fieldName = $base . '[' . $fieldName . ']';
-
-            if ((null === $field = $page->findField($fieldName)) && (null === $field = $page->findField($fieldName . '[]'))) {
-                throw new ElementNotFoundException(sprintf('Form field with id|name|label|value "%s" or "%s[]" not found.', $fieldName, $fieldName));
-            }
+            list($name, $value) = $data;
+            $field     = $this->findField($base, $name);
+            $fieldName = $field->getAttribute('name');
 
             if ($field->getTagName() == 'select') {
-                $this->selectOption($field->getAttribute('name'), $value);
+                $this->selectOption($fieldName, $value);
 
                 continue;
             }
@@ -233,7 +230,7 @@ class DefaultContext extends BaseDefaultContext
                     $page->uncheckField($fieldName);
                 }
                 else {
-                    throw new \RuntimeException('Unsupported value "' . $value . '" for the checkbox field "' . $fieldName . '"');
+                    throw new \RuntimeException(sprintf('Unsupported value "%s" for the checkbox field "%s"', $value, $fieldName));
                 }
 
                 continue;
@@ -576,5 +573,17 @@ class DefaultContext extends BaseDefaultContext
         }
 
         return $machine;
+    }
+
+    public function findField($form, $fieldName)
+    {
+        $page = $this->getSession()->getPage();
+        $fieldName = sprintf('%s[%s]', $form, $fieldName);
+
+        if ((null === $field = $page->findField($fieldName)) && (null === $field = $page->findField($fieldName . '[]'))) {
+            throw new ElementNotFoundException(sprintf('Form field with id|name|label|value "%s" or "%s[]" not found.', $fieldName, $fieldName));
+        }
+
+        return $field;
     }
 }

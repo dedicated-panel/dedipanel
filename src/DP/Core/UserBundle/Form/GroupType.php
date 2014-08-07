@@ -5,19 +5,9 @@ namespace DP\Core\UserBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Security\Core\SecurityContext;
 
 class GroupType extends AbstractType
 {
-    private $context;
-
-    public function __construct(SecurityContext $context)
-    {
-        $this->context = $context;
-    }
-
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -40,18 +30,6 @@ class GroupType extends AbstractType
                 )
             ))
         ;
-
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            $form = $event->getForm();
-
-            if ($this->context->isGranted('ROLE_SUPER_ADMIN')) {
-                $form->add('parent', 'dedipanel_group_assignement', array(
-                    'label'    => 'group.fields.parent',
-                    'multiple' => false,
-                    'required' => false,
-                ));
-            }
-        });
     }
     
     /**
