@@ -11,10 +11,10 @@ Feature: Machines management
       | baz      | baz@bar.net | test1234 | Team1 | ROLE_ADMIN       | yes     |
       | bar      | bar@bar.net | test1234 | Team1 |                  | yes     |
     Given there are following machines:
-      | privateIp | username | key    | group |
-      | 127.0.0.1 | testing1 | id_rsa | Team1 |
-      | 127.0.0.1 | testing2 | id_rsa | Team1 |
-      | 127.0.0.1 | testing3 | id_rsa | Team2 |
+      | privateIp | username | key     | group |
+      | 127.0.0.1 | testing1 | id_rsa1 | Team1 |
+      | 127.0.0.1 | testing2 | id_rsa2 | Team1 |
+      | 127.0.0.1 | testing3 | id_rsa3 | Team2 |
 
   Scenario: Seeing index of all machines when super admin
     Given I am logged in with foo account
@@ -127,3 +127,11 @@ Feature: Machines management
      Then I should be on the machine index page
       And I should see 1 success message
       And I should see "La machine a bien été supprimé."
+
+  Scenario: Testing machine connection as admin
+    Given I am logged in with baz account
+      And I am on the machine index page
+     When I click "Tester" near "testing1"
+     Then I should be testing machine with username "testing1"
+      And I should see 1 success message
+      And I should see "Test de connexion réussi."

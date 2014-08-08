@@ -18,7 +18,7 @@ case "$1" in
         echo "$USER:$PASSWD" | sudo chpasswd || exit 1
         umask 077 || exit 1
         test -d /home/$USER/.ssh || sh -c 'sudo mkdir -p /home/$USER/.ssh || exit 1'
-        cat >> app/config/.ssh/test/id_rsa$2 < $DIR/id_rsa || exit 1
+        cp $DIR/id_rsa app/config/.ssh/test/id_rsa${2}.key || exit 1
         sudo sh -c "< $DIR/id_rsa.pub cat >> /home/$USER/.ssh/authorized_keys" || exit 1
         sudo chown -R $USER:$USER /home/$USER/.ssh/ && sudo chmod -R 700 /home/$USER/.ssh/ || exit 1
     ;;
@@ -43,7 +43,7 @@ case "$1" in
         ssh -o PasswordAuthentication=no -o KbdInteractiveAuthentication=no \
             -o ChallengeResponseAuthentication=no \
             -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
-            -i $DIR/id_rsa 2>/dev/null \
+            -i app/config/.ssh/test/id_rsa${2}.key 2>/dev/null \
             $USER@localhost "ls /home/$USER 1>/dev/null 2>&1 && echo '[OK]'" || sh -c "echo '[KO]' && exit 1"
     ;;
 
