@@ -7,8 +7,7 @@
 
 {% extends "::layout.html.twig" %}
 
-{% import 'SyliusResourceBundle:Macros:actions.html.twig' as sylius_actions %}
-{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
+{% import '::actions.html.twig' as dedipanel_actions %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
 
 {% block title %}
@@ -20,11 +19,14 @@
     
     <form action="{{ path('dedipanel_minecraft_update', { 'id': minecraft.id }) }}" method="post" {{ form_enctype(form) }} class="form-edit">
         {{ form_widget(form) }}
-        {{ sylius_actions.update(path('dedipanel_minecraft_show', {'id': minecraft.id})) }}
+        
+        <div class="form-actions">
+            
+            {{ dedipanel_actions.update(path('dedipanel_minecraft_show', {'id': minecraft.id})) }}
+            {% if is_granted('ROLE_DP_GAME_MINECRAFT_DELETE') %}
+                {{ dedipanel_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id})) }}
+                {{ dedipanel_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id, 'fromMachine': true})) }}
+            {% endif %}
+        </div>
     </form>
-    
-    {% if is_granted('ROLE_DP_GAME_MINECRAFT_DELETE') %}
-        {{ sylius_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id})) }}
-        {{ sylius_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id, 'fromMachine': true})) }}
-    {% endif %}
 {% endblock %}
