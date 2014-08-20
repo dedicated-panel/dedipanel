@@ -52,7 +52,7 @@ class Machine extends Server
     /**
      * @var integer $ip
      *
-     * @ORM\Column(name="privateIp", type="string", length=15, nullable=true)
+     * @ORM\Column(name="privateIp", type="string", length=15)
      */
     protected $ip;
     
@@ -92,7 +92,7 @@ class Machine extends Server
     /**
      * @var string $home
      *
-     * @ORM\Column(name="home", type="string", length=255, nullable=true)
+     * @ORM\Column(name="home", type="string", length=255)
      */
     protected $home;
     
@@ -330,6 +330,8 @@ class Machine extends Server
     
     public function validateNotEmptyPassword(ExecutionContextInterface $context)
     {
+        // Ne valide le champ "password" que s'il s'agit d'une nouvelle entité
+        // (si le password est précisé lors de l'édition, la clé est régénéré)
         if (null === $this->getId() && null === $this->getPassword()) {
             $context->addViolationAt('password', 'machine.assert.password');
         }

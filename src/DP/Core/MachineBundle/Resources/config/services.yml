@@ -48,3 +48,9 @@ services:
         arguments: [ @dedipanel.connection_manager ]
         tags:
             - { name: validator.constraint_validator, alias: "machine_credentials_validator" }
+
+    dedipanel.machine.form.mapping:
+        class: DP\Core\MachineBundle\Form\MachineMappingType
+        arguments: [ @dedipanel.repository.machine, @dedipanel.resolver.user_group, @security.context ]
+        tags:
+            - { name: form.type, alias: dedipanel_machine_mapping }

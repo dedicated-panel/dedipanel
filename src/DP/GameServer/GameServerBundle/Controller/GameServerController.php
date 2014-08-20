@@ -15,6 +15,8 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use DP\Core\CoreBundle\Exception\NotImplementedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class GameServerController extends ServerController
 {
@@ -46,7 +48,10 @@ class GameServerController extends ServerController
 
         /** @var GameServer $server */
         $server = $this->findOr404($request);
-        $this->domainManager->getInstallationProgress($server);
+
+        if (!$server->isInstallationEnded()) {
+            $this->domainManager->getInstallationProgress($server);
+        }
         
         return $this->redirectHandler->redirectToReferer();
     }

@@ -14,10 +14,14 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-minecraft.assert.queryPort.min: "Le port du query doit être supérieur à %count%."
-minecraft.assert.queryPort.max: "Le port du query doit être inférieur à %count%."
-
-minecraft.assert.rconPort.min: "Le port du RCON doit être supérieur à %count%."
-minecraft.assert.rconPort.max: "Le port du RCON doit être inférieur à %count%."
-
-minecraft.assert.rconPort.null: Veuillez préciser le port du rcon.
+minecraft.assert:
+    query_port:
+        empty: "Veuillez indiquer le port utilisé pour le query."
+        min: "Le port utilisé par le query doit être supérieur à %count%."
+        max: "Le port utilisé par le query doit être inférieur à %count%."
+    rcon_port:
+        empty: "Veuillez indiquer le port utilisé par le RCON."
+        min: "Le port utilisé par le RCON doit être supérieur à %count%."
+        max: "Le port utilisé par le RCON doit être inférieur à %count%."
+    min_heap: Veuillez indiquer la mémoire minimale (en Mo) réservée à votre serveur.
+    max_heap: Veuillez indiquer la mémoire maximale (en Mo) réservée à votre serveur.

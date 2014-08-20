@@ -12,7 +12,6 @@ namespace DP\Core\CoreBundle\Controller;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController as BaseResourceController;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Sylius\Bundle\ResourceBundle\Controller\DomainManager;
 
 class ResourceController extends BaseResourceController
 {
@@ -31,49 +30,6 @@ class ResourceController extends BaseResourceController
                 $container->get('translator'),
                 $container->get('session')
             );
-
-            $this->domainManager = new DomainManager(
-                $container->get($this->config->getServiceName('manager')),
-                $container->get('event_dispatcher'),
-                $this->flashHelper,
-                $this->config
-            );
         }
-    }
-
-    /**
-     * @param Request $request
-     *
-     * @return RedirectResponse|Response
-     */
-    public function createAction(Request $request)
-    {
-        $this->isGrantedOr403('CREATE');
-
-        $resource = $this->createNew();
-        $form = $this->getForm($resource);
-
-        if ($request->isMethod('POST') && $form->submit($request)->isValid()) {
-            $resource = $this->domainManager->create($resource);
-
-            if (null !== $resource) {
-                return $this->redirectHandler->redirectTo($resource);
-            }
-        }
-
-        if ($this->config->isApiRequest()) {
-            return $this->handleView($this->view($form));
-        }
-
-        $view = $this
-            ->view()
-            ->setTemplate($this->config->getTemplate('create.html'))
-            ->setData(array(
-                $this->config->getResourceName() => $resource,
-                'form'                           => $form->createView()
-            ))
-        ;
-
-        return $this->handleView($view);
     }
 }

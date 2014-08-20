@@ -1,4 +1,10 @@
 default:
+    formatters:
+        pretty:
+            verbose:  true
+            paths:    false
+            snippets: false
+
     extensions:
         Behat\MinkExtension:
             browser_name: firefox
@@ -26,36 +32,42 @@ default:
         configs:
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
-                - DP\Core\CoreBundle\Behat\DefaultContext
+                - DP\Core\CoreBundle\Behat\AdminContext
             filters:
                 tags: "@configs"
         games_admin:
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
-                - DP\Core\CoreBundle\Behat\DefaultContext
+                - DP\Core\CoreBundle\Behat\AdminContext
             filters:
                 tags: "@games_admin"
         plugins_admin:
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
-                - DP\Core\CoreBundle\Behat\DefaultContext
+                - DP\Core\CoreBundle\Behat\AdminContext
             filters:
                 tags: "@plugins_admin"
         users_admin:
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
-                - DP\Core\CoreBundle\Behat\DefaultContext
+                - DP\Core\CoreBundle\Behat\AdminContext
             filters:
                 tags: "@users_admin"
         groups_admin:
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
-                - DP\Core\CoreBundle\Behat\DefaultContext
+                - DP\Core\CoreBundle\Behat\AdminContext
             filters:
                 tags: "@groups_admin"
         machines:
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
-                - DP\Core\CoreBundle\Behat\DefaultContext
+                - DP\Core\CoreBundle\Behat\AdminContext
             filters:
                 tags: "@machines"
+        minecraft:
+            contexts:
+                - Behat\MinkExtension\Context\MinkContext
+                - DP\Core\CoreBundle\Behat\ServerContext
+            filters:
+                tags: "@minecraft"

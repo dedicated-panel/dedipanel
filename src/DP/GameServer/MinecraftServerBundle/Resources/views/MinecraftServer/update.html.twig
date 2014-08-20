@@ -25,6 +25,6 @@
     
     {% if is_granted('ROLE_DP_GAME_MINECRAFT_DELETE') %}
         {{ sylius_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id})) }}
-        {{ sylius_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id, 'fromMachine': true})) }}
+        {{ sylius_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id, 'fromMachine': true}), 'dedipanel.full_delete'|trans) }}
     {% endif %}
 {% endblock %}

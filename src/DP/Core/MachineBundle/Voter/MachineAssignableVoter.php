@@ -43,6 +43,8 @@ class MachineAssignableVoter implements VoterInterface
             
             $objectGroups     = iterator_to_array($object->getMachine()->getGroups());
             $accessibleGroups = $this->repo->getAccessibleGroups($token->getUser()->getGroups());
+
+            // var_dump($objectGroups, $accessibleGroups);
             
             if (array_intersect($objectGroups, $accessibleGroups) !== array() 
             || in_array('ROLE_SUPER_ADMIN', $roles)) {

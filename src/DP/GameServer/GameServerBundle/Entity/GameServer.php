@@ -32,6 +32,8 @@ use DP\GameServer\GameServerBundle\FTP\File;
 use DP\GameServer\GameServerBundle\FTP\Directory;
 use DP\Core\GameBundle\Entity\Plugin;
 use DP\Core\CoreBundle\Model\AbstractServer;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * DP\Core\GameServer\GameServerBundle\Entity\GameServer
@@ -59,7 +61,6 @@ abstract class GameServer extends AbstractServer
      * @var string $name
      *
      * @ORM\Column(name="name", type="string", length=32)
-     * @Assert\NotBlank(message="gameServer.assert.name")
      */
     protected $name;
 
@@ -67,11 +68,6 @@ abstract class GameServer extends AbstractServer
      * @var integer $port
      *
      * @ORM\Column(name="port", type="integer")
-     * @Assert\Range(
-     *      min = 1024, minMessage = "gameServer.assert.port",
-     *      max = 65536, maxMessage = "gameServer.assert.port"
-     * )
-     * @Assert\NotBlank(message="gameServer.assert.port")
      */
     protected $port;
 
@@ -79,7 +75,6 @@ abstract class GameServer extends AbstractServer
      * @var string $dir
      *
      * @ORM\Column(name="dir", type="string", length=64)
-     * @Assert\NotBlank(message="gameServer.assert.dir")
      */
     protected $dir;
 
@@ -87,21 +82,18 @@ abstract class GameServer extends AbstractServer
      * @var integer $maxplayers
      *
      * @ORM\Column(name="maxplayers", type="integer")
-     * @Assert\Range(min = 2, minMessage = "gameServer.assert.maxplayers")
      */
     protected $maxplayers;
 
     /**
      * @ORM\ManyToOne(targetEntity="DP\Core\MachineBundle\Entity\Machine", inversedBy="gameServers")
      * @ORM\JoinColumn(name="machineId", referencedColumnName="id")
-     * @Assert\NotNull(message="gameServer.assert.machine")
      */
     protected $machine;
 
     /**
      * @ORM\ManyToOne(targetEntity="DP\Core\GameBundle\Entity\Game", inversedBy="gameServers")
      * @ORM\JoinColumn(name="gameId", referencedColumnName="id")
-     * @Assert\NotNull(message="gameServer.assert.game")
      */
     protected $game;
 
@@ -109,7 +101,6 @@ abstract class GameServer extends AbstractServer
      * @var string $rcon
      *
      * @ORM\Column(name="rconPassword", type="string", length=32)
-     * @Assert\NotNull(message="gameServer.assert.rconPassword")
      */
     protected $rconPassword;
 
@@ -471,4 +462,38 @@ abstract class GameServer extends AbstractServer
     abstract public function removeInstallationFiles();
     
     abstract public function regenerateScripts(\Twig_Environment $twig);
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('machine', new Assert\NotNull(array('message' => 'gameServer.assert.machine')));
+        $metadata->addPropertyConstraint('name', new Assert\NotBlank(array('message' => 'gameServer.assert.name')));
+        $metadata->addPropertyConstraint('port', new Assert\NotBlank(array('message' => 'gameServer.assert.port')));
+        $metadata->addPropertyConstraint('port', new Assert\Range(array(
+            'min' => 1024, 'minMessage' => 'gameServer.assert.port',
+            'max' => 65536, 'maxMessage' => 'gameServer.assert.port'
+        )));
+        $metadata->addPropertyConstraint('rconPassword', new Assert\NotBlank(array('message' => 'gameServer.assert.rconPassword')));
+        $metadata->addPropertyConstraint('dir', new Assert\NotBlank(array('message' => 'gameServer.assert.dir')));
+        $metadata->addPropertyConstraint('maxplayers', new Assert\NotBlank(array('message' => 'gameServer.assert.maxplayers')));
+        $metadata->addPropertyConstraint('maxplayers', new Assert\Range(array('min' => 2, 'minMessage' => 'gameServer.assert.maxplayers')));
+
+        $metadata->addConstraint(new Assert\Callback('validateGameServer'));
+    }
+
+    public function validateGameServer(ExecutionContextInterface $context)
+    {
+        if ($this->getMachine() !== null) {
+            $dir = $this->getAbsoluteDir();
+
+            if (!$this->getMachine()->getConnection()->testSSHConnection()) {
+                $context->addViolationAt('machine', 'gameServer.assert.machine_unavailable');
+            }
+            elseif (!$this->isAlreadyInstalled() && $this->getMachine()->getConnection()->dirExists($dir)) {
+                $context->addViolationAt('dir', 'gameServer.assert.directory_exists');
+            }
+            elseif ($this->isAlreadyInstalled() && !$this->getMachine()->getConnection()->dirExists($dir)) {
+                $context->addViolationAt('dir', 'gameServer.assert.directory_not_exists');
+            }
+        }
+    }
 }

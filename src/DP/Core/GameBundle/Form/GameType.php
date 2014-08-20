@@ -32,7 +32,8 @@ class GameType extends AbstractType
             ->add('type', 'choice', array(
                 'choices' => array('steam' => 'Steam', 'minecraft' => 'Minecraft'), 
                 'label' => 'game.fields.type', 
-            ))->add('available', null, array('label' => 'game.fields.available', 'required' => false))
+            ))
+            ->add('available', null, array('label' => 'game.fields.available', 'required' => false))
         ;
     }
     

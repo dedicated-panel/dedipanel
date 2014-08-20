@@ -19,4 +19,21 @@ class MachineRepository extends EntityRepository
         
         parent::applyCriteria($queryBuilder, $criteria);
     }
+
+    public function findByGroups(array $groups)
+    {
+        return $this
+            ->findByGroupsQB($groups)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findByGroupsQB(array $groups)
+    {
+        $qb = $this->createQueryBuilder($this->getAlias());
+        $this->applyCriteria($qb, array('groups' => $groups));
+
+        return $qb;
+    }
 }
