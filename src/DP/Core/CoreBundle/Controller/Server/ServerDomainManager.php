@@ -9,6 +9,13 @@ use DP\Core\CoreBundle\Controller\FlashHelper;
 use Sylius\Bundle\ResourceBundle\Controller\Configuration;
 use DP\Core\CoreBundle\Model\ServerInterface;
 use Sylius\Bundle\ResourceBundle\Event\ResourceEvent;
+use Dedipanel\PHPSeclibWrapperBundle\Connection\Exception\ConnectionErrorException;
+use DP\Core\CoreBundle\Exception\InstallAlreadyStartedException;
+use DP\Core\CoreBundle\Exception\MissingPacketException;
+use DP\Core\CoreBundle\Exception\DirectoryAlreadyExistsException;
+use DP\Core\CoreBundle\Exception\MaxServerException;
+use DP\VoipServer\VoipServerBundle\Exception\OfflineServerException;
+use DP\Core\CoreBundle\Exception\IPBannedException;
 
 class ServerDomainManager extends DomainManager
 {

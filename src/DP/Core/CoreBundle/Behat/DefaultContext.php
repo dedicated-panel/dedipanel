@@ -226,7 +226,8 @@ class DefaultContext extends SyliusDefaultContext
     {
         $page = $this->getSession()->getPage();
 
-        foreach ($table->getTable() AS list($name,$value)) {
+        foreach ($table->getTable() AS $item) {
+            list($name,$value) = $item;
             $field     = $this->findField($base, $name);
             $fieldName = $field->getAttribute('name');
 

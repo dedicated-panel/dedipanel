@@ -43,7 +43,6 @@ class GameServerDomainManager extends ServerDomainManager
     {
         try {
             $server->regenerateScripts($this->templating);
-            $this->dispatchEvent('regen', $event);
         }
         catch (ConnectionErrorException $e) {
             $this->flashHelper->setFlash(
