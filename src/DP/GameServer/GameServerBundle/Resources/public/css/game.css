@@ -18,9 +18,9 @@
     margin: 0 0 10px 0;
 }
 .server-item {
-    background: #E6E6E6;
+    background: #F3F3F3;
     padding: 16px 10px 10px 15px;
-    border-bottom: 1px dotted #C3C3C3;
+    border-bottom: 1px dotted #CFCFCF;
     border-top: 1px solid white;
 }
 .server-item .game-image, 
@@ -63,7 +63,7 @@
 .server-item .actions a {
     float: left;
     color: rgba(129, 129, 129, 0.9);
-    margin: 0 2px;
+    margin: 0 15px;
 }
 .server-item .actions a:hover { 
     color: rgba(0, 136, 204, 0.34);
@@ -98,14 +98,13 @@
     position: relative;
     width: 100%;
     height: 240px;
-    margin: -11px 0 17px -19px;
+    margin: 0px 0px 9px -10px;
 }
 .serveur-header-texture {
-    margin: 0px -30px 0 0;
+    margin: 0px -30px 0 -10px;
     background-repeat: no-repeat;
-    background-color: rgba(0, 0, 0, 0.11);
+    background-color: #2C2C2C;
     background-position: center;
-    border-bottom: 1px solid rgb(165, 165, 165);
 }
 .serveur-header {
     position: relative;
@@ -184,6 +183,7 @@
 }
 .serveur-header .serveur-header-summary {
     line-height: 15px;
+    color: rgb(155, 155, 155);
     height: 160px;
     overflow: hidden;
     text-align: left;

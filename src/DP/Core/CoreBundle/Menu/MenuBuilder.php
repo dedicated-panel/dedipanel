@@ -34,7 +34,7 @@ class MenuBuilder
 
         $this->addRootMenuItems($menu);
         
-        $admin = $this->factory->createItem('menu.admin.admin', array('extras' => array('icon' => '%')));
+        $admin = $this->factory->createItem('menu.admin.admin', array('extras' => array('icon' => 'icon-option')));
         $this->addAdminMenuItems($admin);
         $admin->setDisplay($admin->hasChildren());
         $menu->addChild($admin);
@@ -54,35 +54,35 @@ class MenuBuilder
         $menu
             ->addChild('menu.home', array(
                 'route'          => '_welcome',
-                'extras'         => array('icon' => 'P'),
+                'extras'         => array('icon' => 'icon-home'),
                 'pattern_strict' => true
             ))
         ;
         $menu
             ->addChild('menu.steam', array(
                 'route'  => 'dedipanel_steam_index',
-                'extras' => array('icon' => 'o'),
+                'extras' => array('icon' => ' icon-steam'),
             ))
             ->setDisplay($context->isGranted('ROLE_DP_GAME_STEAM_INDEX'))
         ;
         $menu
             ->addChild('menu.minecraft', array(
                 'route'  => 'dedipanel_minecraft_index',
-                'extras' => array('icon' => 'R'),
+                'extras' => array('icon' => 'icon-minecraft'),
             ))
             ->setDisplay($context->isGranted('ROLE_DP_GAME_MINECRAFT_INDEX'))
         ;
         $menu
             ->addChild('menu.teamspeak', array(
                 'route'  => 'dedipanel_teamspeak_index',
-                'extras' => array('icon' => 'U'),
+                'extras' => array('icon' => 'icon-headphone'),
             ))
             ->setDisplay($context->isGranted('ROLE_DP_VOIP_TEAMSPEAK_INDEX'))
         ;
         $menu
             ->addChild('menu.machine', array(
                 'route'  => 'dedipanel_machine_index',
-                'extras' => array('icon' => 'Q'),
+                'extras' => array('icon' => 'icon-monitor'),
             ))
             ->setDisplay($context->isGranted('ROLE_DP_ADMIN_MACHINE_INDEX'))
         ;
@@ -97,30 +97,35 @@ class MenuBuilder
         $admin
             ->addChild('menu.admin.config', array(
                 'route' => 'dedipanel_core_config',
+                'extras' => array('icon' => 'icon-cogs'),
             ))
             ->setDisplay($context->isGranted('ROLE_DP_ADMIN_CONFIG'))
         ;
         $admin
             ->addChild('menu.admin.user', array(
                 'route' => 'dedipanel_user_index',
+                'extras' => array('icon' => 'icon-uni2F'),
             ))
             ->setDisplay($context->isGranted('ROLE_DP_ADMIN_USER_INDEX'))
         ;
         $admin
             ->addChild('menu.admin.group', array(
                 'route' => 'dedipanel_group_index',
+                'extras' => array('icon' => 'icon-users')
             ))
             ->setDisplay($context->isGranted('ROLE_DP_ADMIN_GROUP_INDEX'))
         ;
         $admin
             ->addChild('menu.admin.game', array(
                 'route' => 'dedipanel_game_index',
+                'extras' => array('icon' => 'icon-steam3')
             ))
             ->setDisplay($context->isGranted('ROLE_DP_ADMIN_GAME_INDEX'))
         ;
         $admin
             ->addChild('menu.admin.plugin', array(
                 'route' => 'dedipanel_plugin_index',
+                'extras' => array('icon' => 'icon-uni34')
             ))
             ->setDisplay($context->isGranted('ROLE_DP_ADMIN_PLUGIN_INDEX'))
         ;

@@ -400,7 +400,7 @@ class SteamServer extends GameServer
             'startMap' => $game->getMap(), 'binDir' => $this->getAbsoluteBinDir(),
             'core' => implode(',', $this->getCore()), 'isCsgo' => $isCsgo,
             'gameType' => $gameType, 'gameMode' => $gameMode,
-            'mapGroup' => $mapGroup, 
+            'mapGroup' => $mapGroup,
         ));
 
         return $conn->upload($scriptPath, $hldsScript, 0750);

@@ -7,8 +7,7 @@
 
 {% extends "::layout.html.twig" %}
 
-{% import 'SyliusResourceBundle:Macros:actions.html.twig' as sylius_actions %}
-{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
+{% import '::actions.html.twig' as dedipanel_actions %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
 
 {% set serverId = app.request.get('serverId') %}
@@ -22,10 +21,10 @@
 
     <form action="{{ path('dedipanel_teamspeak_instance_update', {id: instance.id, serverId: serverId}) }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
-        {{ sylius_actions.update() }}
+        {{ dedipanel_actions.update() }}
     </form>
 
     {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_DELETE') %}
-        {{ sylius_buttons.delete(path('dedipanel_teamspeak_instance_delete', {id: instance.id, serverId: instance.server.id, fromMachine: true})) }}
+        {{ dedipanel_buttons.delete(path('dedipanel_teamspeak_instance_delete', {id: instance.id, serverId: instance.server.id, fromMachine: true})) }}
     {% endif %}
 {% endblock %}

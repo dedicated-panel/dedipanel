@@ -7,7 +7,6 @@
 
 {% extends "::layout.html.twig" %}
 
-{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
 {% import '::flash_messages.html.twig' as dedipanel_flashes %}
 
@@ -25,7 +24,7 @@
     {% if is_granted('ROLE_DP_ADMIN_MACHINE_CREATE') %}
     <ul id="top-nav" class="nav nav-tabs">
         <li>
-            {{ sylius_buttons.edit(path('dedipanel_machine_create'), 'machine.actions.add'|trans) }}
+            {{ dedipanel_buttons.create(path('dedipanel_machine_create'), 'machine.actions.add'|trans) }}
         </li>
     </ul>
     {% endif %}
@@ -55,15 +54,15 @@
                     <td>
                         <div class="btn-group">
                             {% if is_granted('ROLE_DP_ADMIN_MACHINE_SHOW') %}
-                                {{ sylius_buttons.show(path('dedipanel_machine_show', {'id': machine.id})) }}
+                                {{ dedipanel_buttons.show(path('dedipanel_machine_show', {'id': machine.id})) }}
                             {% endif %}
                             
                             {% if is_granted('ROLE_DP_ADMIN_MACHINE_UPDATE') %}
-                                {{ sylius_buttons.edit(path('dedipanel_machine_update', {'id': machine.id})) }}
+                                {{ dedipanel_buttons.edit(path('dedipanel_machine_update', {'id': machine.id})) }}
                             {% endif %}
                             
                             {% if is_granted('ROLE_DP_ADMIN_MACHINE_SHOW') %}
-                                {{ sylius_buttons.manage(path('dedipanel_machine_connection_test', {'id': machine.id}), 'machine.actions.connection_test'|trans) }}
+                                {{ dedipanel_buttons.manage(path('dedipanel_machine_connection_test', {'id': machine.id}), 'machine.actions.connection_test'|trans) }}
                             {% endif %}
                         </div>
                     </td>

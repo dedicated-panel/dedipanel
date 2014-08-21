@@ -7,7 +7,6 @@
 
 {% extends "::layout.html.twig" %}
 
-{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
 
 {% block title %}
@@ -38,7 +37,7 @@
                 </a>
             </li>
             <li>
-                {{ sylius_buttons.delete(path('dedipanel_minecraft_ftp_delete', {'id': server.id, path: resource.relativePath})) }}
+                {{ dedipanel_buttons.delete(path('dedipanel_minecraft_ftp_delete', {'id': server.id, path: resource.relativePath})) }}
             </li>
         {% endif %}
     </ul>

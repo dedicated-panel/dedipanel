@@ -153,7 +153,7 @@
             {% if is_granted('ROLE_DP_GAME_MINECRAFT_UPDATE') %}
                 {{ dedipanel_buttons.edit(path('dedipanel_minecraft_update', {'id': minecraft.id})) }}
             {% endif %}
-            
+
             {% if is_granted('ROLE_DP_GAME_MINECRAFT_DELETE') %}
                 {{ dedipanel_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id})) }}
                 {{ dedipanel_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id, 'fromMachine': true}), 'dedipanel.full_delete'|trans) }}

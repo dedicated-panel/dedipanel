@@ -7,7 +7,6 @@
 
 {% extends "::layout.html.twig" %}
 
-{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
 {% import '::flash_messages.html.twig' as dedipanel_flashes %}
 
@@ -29,9 +28,7 @@
     {% if is_granted('ROLE_DP_GAME_MINECRAFT_CREATE') %}
         <ul id="top-nav" class="nav nav-tabs">
             <li>
-                <a href="{{ path('dedipanel_minecraft_create') }}">
-                    {{ 'minecraft.add'|trans }}
-                </a>
+                {{ dedipanel_buttons.create(path('dedipanel_minecraft_create'), 'minecraft.add'|trans) }}
             </li>
         </ul>
     {% endif %}

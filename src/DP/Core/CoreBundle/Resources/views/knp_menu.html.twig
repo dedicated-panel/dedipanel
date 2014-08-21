@@ -49,7 +49,7 @@
 {% block linkElement %}
     <a href="{{ item.uri }}"{{ _self.attributes(item.linkAttributes) }}>
         {% if item.getExtra('icon') is not null %}
-            <span data-icon="{{ item.getExtra('icon') }}" class="icon"></span>
+            <span class="{{ item.getExtra('icon') }} icon"></span>
         {% endif %}
         
         {{ block('label') }}
@@ -59,7 +59,7 @@
 {% block spanElement %}
     <span{{ _self.attributes(item.labelAttributes) }}>
         {% if item.getExtra('icon') is not null %}
-            <span data-icon="{{ item.getExtra('icon') }}" class="icon"></span>
+            <span class="{{ item.getExtra('icon') }} icon"></span>
         {% endif %}
         
         {{ block('label') }}
