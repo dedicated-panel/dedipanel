@@ -14,27 +14,42 @@ DIR=$(dirname $(readlink -f $0))
 
 case "$1" in
     configure)
-        sudo adduser --disabled-password --gecos "" --home /home/$USER $USER || exit 1
-        echo "$USER:$PASSWD" | sudo chpasswd || exit 1
-        umask 077 || exit 1
-        test -d /home/$USER/.ssh || sh -c 'sudo mkdir -p /home/$USER/.ssh || exit 1'
-        cat >> app/config/.ssh/test/id_rsa$2 < $DIR/id_rsa || exit 1
-        sudo sh -c "< $DIR/id_rsa.pub cat >> /home/$USER/.ssh/authorized_keys" || exit 1
-        sudo chown -R $USER:$USER /home/$USER/.ssh/ && sudo chmod -R 700 /home/$USER/.ssh/ || exit 1
+        if [ `grep "$USER" /etc/passwd | wc -l` -eq 0 ]; then
+            echo -n "Configuration de $USER ... "
+
+            sudo adduser --quiet --disabled-password --gecos "" --home /home/$USER $USER || exit 1
+            echo "$USER:$PASSWD" | sudo chpasswd || exit 1
+            umask 077 || exit 1
+            test -d /home/$USER/.ssh || sh -c 'sudo mkdir -p /home/$USER/.ssh || exit 1'
+            cp $DIR/id_rsa app/config/.ssh/test/id_rsa${2}.key || exit 1
+            sudo sh -c "< $DIR/id_rsa.pub cat >> /home/$USER/.ssh/authorized_keys" || exit 1
+            sudo chown -R $USER:$USER /home/$USER/.ssh/ && sudo chmod -R 700 /home/$USER/.ssh/ || exit 1
+
+            echo "[OK]"
+        fi
     ;;
 
     clean)
-        # The crontab needs to be clean manually before the user is deleted
-        if [ `sudo crontab -u $USER -l 2>/dev/null | wc -l` -gt 0 ]; then
-            sudo crontab -u $USER -r || exit 1
-        fi
-
         if [ `grep "$USER" /etc/passwd | wc -l` -eq 1 ]; then
-            sudo deluser $USER || exit 1
-        fi
+            echo -n "Suppression de $USER ... "
 
-        if [ -d /home/$USER/ ]; then
-            sudo rm -Rf /home/$USER/ || exit 1
+            # The crontab needs to be clean manually before the user is deleted
+            if [ `sudo crontab -u $USER -l 2>/dev/null | wc -l` -gt 0 ]; then
+                sudo crontab -u $USER -r || exit 1
+            fi
+
+            # Need to stop all process of the user before deleting it
+            if [ `ps h -U $USER -u $USER | wc -l` -gt 0 ]; then
+                sudo killall -q -u $USER || exit 1
+            fi
+
+            sudo deluser --quiet $USER || exit 1
+
+            if [ -d /home/$USER/ ]; then
+                sudo rm -Rf /home/$USER/ || exit 1
+            fi
+
+            echo "[OK]"
         fi
     ;;
 
@@ -43,8 +58,8 @@ case "$1" in
         ssh -o PasswordAuthentication=no -o KbdInteractiveAuthentication=no \
             -o ChallengeResponseAuthentication=no \
             -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
-            -i $DIR/id_rsa 2>/dev/null \
-            $USER@localhost "ls /home/$USER 1>/dev/null 2>&1 && echo '[OK]'" || sh -c "echo '[KO]' && exit 1"
+            -i app/config/.ssh/test/id_rsa${2}.key 2>/dev/null \
+            $USER@localhost "ls /home/$USER 1>/dev/null 2>&1 && echo '$USER ... [OK]'" || sh -c "echo '$USER ... [KO]' && exit 1"
     ;;
 
     *)

@@ -18,7 +18,7 @@
 {% endblock %}
 
 {% block content %}
-    {% set online = (minecraft.query.online != false) %}  
+    {% set online = (minecraft.query.online != false) %}
 
     <div class="serveur-header-bg">
         <div class="serveur-header-texture">
@@ -109,7 +109,7 @@
                                     </td>
                                     </tr>
                                 </tbody>
-                            </table>					
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -148,15 +148,15 @@
         </div>
     </div>
         
-    {% if is_granted('ROLE_DP_GAME_MINECRAFT_UPDATE') or is_granted('ROLE_DP_MINECRAFT_DELETE') %}
+    {% if is_granted('ROLE_DP_GAME_MINECRAFT_UPDATE') or is_granted('ROLE_DP_GAME_MINECRAFT_DELETE') %}
         <div class="form-group clearfix">
             {% if is_granted('ROLE_DP_GAME_MINECRAFT_UPDATE') %}
                 {{ dedipanel_buttons.edit(path('dedipanel_minecraft_update', {'id': minecraft.id})) }}
             {% endif %}
-            
-            {% if is_granted('ROLE_DP_MINECRAFT_DELETE') %}
+
+            {% if is_granted('ROLE_DP_GAME_MINECRAFT_DELETE') %}
                 {{ dedipanel_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id})) }}
-                {{ dedipanel_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id, 'fromMachine': true})) }}
+                {{ dedipanel_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id, 'fromMachine': true}), 'dedipanel.full_delete'|trans) }}
             {% endif %}
         </div>
     {% endif %}

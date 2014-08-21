@@ -30,7 +30,7 @@ game.maxplayers: Max players.
 game.actions: Actions
 game.IPAddress: IP address
 game.ping: Ping
-game.updateStatus: Update status
+game.update_status: Update installation status
 
 game.selectMachine: Select a machine
 game.selectGame: Game

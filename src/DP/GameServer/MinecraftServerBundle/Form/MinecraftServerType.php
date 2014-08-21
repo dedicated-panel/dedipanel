@@ -20,24 +20,26 @@
 
 namespace DP\GameServer\MinecraftServerBundle\Form;
 
+use DP\Core\GameBundle\Entity\GameRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
-class EditMinecraftServerType extends AbstractType
+class MinecraftServerType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('machine', 'entity', array(
-                'label' => 'game.selectMachine', 'class' => 'DPMachineBundle:Machine'))
+            ->add('machine', 'dedipanel_machine_mapping')
             ->add('name', 'text', array('label' => 'game.name'))
             ->add('port', 'integer', array('label' => 'game.port'))
-            ->add('queryPort', 'integer', array('label' => 'minecraft.queryPort', 'required' => false))
+            ->add('queryPort', 'integer', array('label' => 'minecraft.queryPort'))
             ->add('rconPort', 'integer', array('label' => 'minecraft.rcon.port'))
             ->add('rconPassword', 'text', array('label' => 'game.rcon.password'))
             ->add('game', 'entity', array(
                 'label' => 'game.selectGame', 'class' => 'DPGameBundle:Game', 
-                'query_builder' => function($repo) {
+                'query_builder' => function(GameRepository $repo) {
                     return $repo->getQBAvailableMinecraftGames();
                 }))
             ->add('dir', 'text', array('label' => 'game.dir'))
@@ -45,11 +47,23 @@ class EditMinecraftServerType extends AbstractType
             ->add('minHeap', 'integer', array('label' => 'minecraft.minHeap'))
             ->add('maxHeap', 'integer', array('label' => 'minecraft.maxHeap'))
         ;
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            $form      = $event->getForm();
+            $minecraft = $event->getData();
+
+            if ($minecraft->getId() === null) {
+                $form->add('alreadyInstalled', 'choice', array(
+                    'choices'  => array(1 => 'game.yes', 0 => 'game.no'),
+                    'label'    => 'game.isAlreadyInstalled',
+                    'expanded' => true,
+                ));
+            }
+        });
     }
-    
 
     public function getName()
     {
-        return 'dedipanel_minecraft_edit';
+        return 'dedipanel_minecraft';
     }
 }

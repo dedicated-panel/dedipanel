@@ -30,6 +30,24 @@ class ServerController extends ResourceController
         }
     }
 
+    /**
+     * @param  Request          $request
+     * @return RedirectResponse
+     */
+    public function deleteAction(Request $request)
+    {
+        $this->isGrantedOr403('DELETE', $this->find($request));
+
+        $resource = $this->findOr404($request);
+        $delete = $this->domainManager->delete($resource, $request->query->get('fromMachine'));
+
+        if ($delete === null) {
+            return $this->redirectHandler->redirectToReferer();
+        }
+
+        return $this->redirectHandler->redirectToIndex();
+    }
+
     public function changeStateAction(Request $request)
     {
         $this->isGrantedOr403('STATE', $this->find($request));

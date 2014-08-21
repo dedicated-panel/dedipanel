@@ -2,13 +2,26 @@
 
 namespace DP\Core\CoreBundle\Behat;
 
-use Sylius\Bundle\ResourceBundle\Behat\DefaultContext as BaseDefaultContext;
+use Sylius\Bundle\ResourceBundle\Behat\DefaultContext as SyliusDefaultContext;
 use Behat\Gherkin\Node\TableNode;
-use Behat\Mink\Exception\ElementNotFoundException;
+use DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer;
 
-class DefaultContext extends BaseDefaultContext
+class DefaultContext extends SyliusDefaultContext
 {
     protected $users = [];
+
+    /**
+     * Actions.
+     *
+     * @var array
+     */
+    protected $actions = array(
+        'viewing'  => 'show',
+        'creation' => 'create',
+        'editing'  => 'update',
+        'building' => 'build',
+        'testing'  => 'connection_test',
+    );
 
     /** {@inheritdoc} */
     protected function generatePageUrl($page, array $parameters = array())
@@ -69,7 +82,7 @@ class DefaultContext extends BaseDefaultContext
         return $user;
     }
 
-    public function thereIsGame($name, $installName, $launchName, $bin, $type, $available = true, $flush = true)
+    public function thereIsGame($name, $installName = null, $launchName = null, $bin = null, $type = null, $available = true, $flush = true)
     {
         if (null === $game = $this->getRepository('game')->findOneBy(array('name' => $name))) {
             $game = $this->getRepository('game')->createNew();
@@ -173,14 +186,16 @@ class DefaultContext extends BaseDefaultContext
      */
     public function iAmLoggedInWithAccount($username)
     {
-        if (!isset($this->users[$username])) {
-            throw new \RuntimeException('Given user ("' . $username . '") does not exists.');
+        $password = 'test1234';
+
+        if (isset($this->users[$username])) {
+            $password = $this->users[$username];
         }
 
         $this->getSession()->visit($this->generatePageUrl('fos_user_security_login'));
 
         $this->fillField("Nom d'utilisateur", $username);
-        $this->fillField('Mot de passe', $this->users[$username]);
+        $this->fillField('Mot de passe', $password);
         $this->pressButton('Connexion');
     }
 
@@ -196,7 +211,7 @@ class DefaultContext extends BaseDefaultContext
                 isset($data['launchName']) ? $data['launchName'] : $data['installName'],
                 $data['bin'],
                 $data['type'],
-                isset($data['available']) ? $data['available'] : true,
+                (isset($data['available']) && $data['available'] == 'yes'),
                 false
             );
         }
@@ -211,33 +226,57 @@ class DefaultContext extends BaseDefaultContext
     {
         $page = $this->getSession()->getPage();
 
-        foreach ($table->getTable() AS $data) {
-            list($name, $value) = $data;
+        foreach ($table->getTable() AS $item) {
+            list($name,$value) = $item;
             $field     = $this->findField($base, $name);
             $fieldName = $field->getAttribute('name');
 
+            if ($name == 'machine' || $name == 'game') {
+                $key = ($name == 'machine' ? 'username' : 'name');
+                $entity = $this->findOneBy($name, array($key => $value));
+                $value = $entity->getId();
+            }
+
             if ($field->getTagName() == 'select') {
                 $this->selectOption($fieldName, $value);
-
-                continue;
             }
-
-            if ($field->getAttribute('type') == 'checkbox') {
-                if ($value == 'yes') {
-                    $page->checkField($fieldName);
-                }
-                elseif ($value == 'no') {
-                    $page->uncheckField($fieldName);
-                }
-                else {
-                    throw new \RuntimeException(sprintf('Unsupported value "%s" for the checkbox field "%s"', $value, $fieldName));
-                }
-
-                continue;
+            elseif ($field->getAttribute('type') == 'checkbox') {
+                $this->fillCheckbox($fieldName, $value);
             }
-
-            $this->fillField($fieldName, $value);
+            elseif ($field->getAttribute('type') == 'radio') {
+                $this->fillRadio($fieldName, $value);
+            }
+            else {
+                $this->fillField($fieldName, $value);
+            }
         }
+    }
+
+    public function fillCheckbox($fieldName, $value)
+    {
+        $page = $this->getSession()->getPage();
+
+        if ($value == 'yes') {
+            $page->checkField($fieldName);
+        }
+        elseif ($value == 'no') {
+            $page->uncheckField($fieldName);
+        }
+        else {
+            throw new \RuntimeException(sprintf('Unsupported value "%s" for the checkbox field "%s"', $value, $fieldName));
+        }
+    }
+
+    public function fillRadio($fieldName, $value)
+    {
+        if ($value == 'yes') {
+            $value = 1;
+        }
+        elseif ($value == 'no') {
+            $value = 0;
+        }
+
+        $this->fillField($fieldName, $value);
     }
 
     /**
@@ -257,7 +296,7 @@ class DefaultContext extends BaseDefaultContext
     }
 
     /**
-     * @Then /^I should see (\d+) ([^""]*) in (that|the) list$/
+     * @Then /^I should see (\d+) ([^"" ]*) in (that|the) list$/
      */
     public function iShouldSeeThatMuchResourcesInTheList($amount, $type)
     {
@@ -282,8 +321,8 @@ class DefaultContext extends BaseDefaultContext
     }
 
     /**
-     * @Then /^I should be on the page of ([^""(w)]*) "([^""]*)"$/
-     * @Then /^I should still be on the page of ([^""(w)]*) "([^""]*)"$/
+     * @Then /^I should be on the page of ([^""(w)]*) (?:server)? "([^""]*)"$/
+     * @Then /^I should still be on the page of ([^""(w)]*) (?:server)? "([^""]*)"$/
      */
     public function iShouldBeOnTheResourcePageByName($type, $name)
     {
@@ -334,7 +373,7 @@ class DefaultContext extends BaseDefaultContext
     }
 
     /**
-     * @Then /^I should be (building|viewing|editing) ([^"]*) with ([^"]*) "([^""]*)"$/
+     * @Then /^I should be (building|viewing|editing|testing) ([^"]*) with ([^"]*) "([^""]*)"$/
      */
     public function iShouldBeDoingSomethingWithResource($action, $type, $property, $value)
     {
@@ -353,22 +392,6 @@ class DefaultContext extends BaseDefaultContext
     public function iShouldBeDoingSomethingWithResourceByName($action, $type, $name)
     {
         $this->iShouldBeDoingSomethingWithResource($action, $type, 'name', $name);
-    }
-
-    /**
-     * @When /^I (?:click|press|follow) "([^"]*)" near "([^"]*)"$/
-     */
-    public function iClickNear($button, $value)
-    {
-        $tr = $this->assertSession()->elementExists('css', sprintf('table tbody tr:contains("%s")', $value));
-
-        $locator = sprintf('button:contains("%s")', $button);
-
-        if ($tr->has('css', $locator)) {
-            $tr->find('css', $locator)->press();
-        } else {
-            $tr->clickLink($button);
-        }
     }
 
     /**
@@ -541,8 +564,8 @@ class DefaultContext extends BaseDefaultContext
     {
         foreach ($table->getHash() as $data) {
             $this->thereIsMachine(
-                $data['privateIp'],
                 $data['username'],
+                $data['privateIp'],
                 $data['key'],
                 $data['group'],
                 false
@@ -552,13 +575,14 @@ class DefaultContext extends BaseDefaultContext
         $this->getEntityManager()->flush();
     }
 
-    public function thereIsMachine($privateIp, $user, $privateKey, $group = null, $flush = true)
+    public function thereIsMachine($username, $privateIp = null, $privateKey = null, $group = null, $flush = true)
     {
-        if (null === $machine = $this->getRepository('machine')->findOneBy(array('ip' => $privateIp, 'username' => $user))) {
+        if (null === $machine = $this->getRepository('machine')->findOneBy(array('username' => $username))) {
             $machine = $this->getRepository('machine')->createNew();
             $machine->setIp($privateIp);
-            $machine->setUsername($user);
+            $machine->setUsername($username);
             $machine->setPrivateKeyName($privateKey);
+            $machine->setHome('/home/' . $username);
 
             if ($group !== null) {
                 $group = $this->thereIsGroup($group);
@@ -581,9 +605,80 @@ class DefaultContext extends BaseDefaultContext
         $fieldName = sprintf('%s[%s]', $form, $fieldName);
 
         if ((null === $field = $page->findField($fieldName)) && (null === $field = $page->findField($fieldName . '[]'))) {
-            throw new ElementNotFoundException(sprintf('Form field with id|name|label|value "%s" or "%s[]" not found.', $fieldName, $fieldName));
+            throw new \RuntimeException(sprintf('Form field with id|name|label|value "%s" or "%s[]" not found.', $fieldName, $fieldName));
         }
 
         return $field;
+    }
+
+    /**
+     * @Given /^there are following minecraft servers:$/
+     */
+    public function thereAreMinecraftServers(TableNode $table)
+    {
+        foreach ($table->getHash() as $data) {
+            $this->thereIsMinecraftServer(
+                $data['name'],
+                $data['machine'],
+                $data['port'],
+                $data['queryPort'],
+                $data['rconPort'],
+                $data['rconPassword'],
+                $data['game'],
+                $data['installDir'],
+                $data['maxplayers'],
+                $data['minHeap'],
+                $data['maxHeap'],
+                (isset($data['installed']) && $data['installed'] == 'yes'),
+                false
+            );
+        }
+
+        $this->getEntityManager()->flush();
+    }
+
+    public function thereIsMinecraftServer($name, $machine = null, $port = 25565, $queryPort = 25565, $rconPort = 25575, $rconPassword = 'test', $game = 'minecraft', $installDir = 'test', $maxplayers = 2, $minHeap = 128, $maxHeap = 256, $installed = true, $flush = true)
+    {
+        if (null === $server = $this->getRepository('minecraft')->findOneBy(array('name' => $name))) {
+            $game    = $this->thereIsGame($game);
+            $machine = $this->thereIsMachine($machine);
+
+            $server = new MinecraftServer();
+            $server->setName($name);
+            $server->setMachine($machine);
+            $server->setPort($port);
+            $server->setQueryPort($queryPort);
+            $server->setRconPort($rconPort);
+            $server->setRconPassword($rconPassword);
+            $server->setGame($game);
+            $server->setDir($installDir);
+            $server->setMaxplayers($maxplayers);
+            $server->setMinHeap($minHeap);
+            $server->setMaxHeap($maxHeap);
+
+            if ($installed) {
+                $server->setInstallationStatus(101);
+            }
+
+            $this->getEntityManager()->persist($server);
+
+            if ($flush) {
+                $this->getEntityManager()->flush();
+            }
+        }
+
+        return $server;
+    }
+
+    /**
+     * @Then /^I should see (\d+) ([^" ]*) servers in (that|the) list$/
+     */
+    public function iShouldSeeThatMuchServersInTheList($amount, $type)
+    {
+        if (1 === count($this->getSession()->getPage()->findAll('css', '.server-list'))) {
+            $this->assertSession()->elementsCount('css', '.server-list > .server-item', $amount);
+        } else {
+            $this->assertSession()->elementsCount('css', sprintf('#%s.server-list > .server-item', $type), $amount);
+        }
     }
 }

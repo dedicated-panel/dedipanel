@@ -20,38 +20,14 @@ class GameServerDomainManager extends ServerDomainManager
      */
     public function getInstallationProgress(GameServer $server)
     {
-        /** @var ResourceEvent $event */
-        $event = $this->dispatchEvent('pre_fetch_install_progress', new ResourceEvent($server));
+        $progress = $server->getInstallationProgress();
+        $server->setInstallationStatus($progress);
 
-        if ($event->isStopped()) {
-            $this->flashHelper->setFlash(
-                $event->getMessageType(),
-                $event->getMessage(),
-                $event->getMessageParameters()
-            );
-
-            return null;
-        }
-
-        try {
-            $status = $server->getInstallationStatus();
-
-            if ($status < 100 && $status !== null) {
-                $status = $server->getInstallationProgress();
-                $server->setInstallationStatus($status);
-            }
-        }
-        catch (ConnectionErrorException $e) {
-            $this->flashHelper->setFlash(
-                ResourceEvent::TYPE_ERROR,
-                'dedipanel.machine.connection_failed'
-            );
-
-            return null;
+        if (!$server->isInstallationEnded()) {
+            $this->installationProcess($server);
         }
 
         $this->manager->persist($server);
-        $this->dispatchEvent('post_fetch_install_progress', $event);
         $this->manager->flush();
 
         return $server;
@@ -65,22 +41,8 @@ class GameServerDomainManager extends ServerDomainManager
      */
     public function regenerateConfig(GameServer $server)
     {
-        /** @var ResourceEvent $event */
-        $event = $this->dispatchEvent('pre_regen', new ResourceEvent($server));
-
-        if ($event->isStopped()) {
-            $this->flashHelper->setFlash(
-                $event->getMessageType(),
-                $event->getMessage(),
-                $event->getMessageParameters()
-            );
-
-            return null;
-        }
-
         try {
             $server->regenerateScripts($this->templating);
-            $this->dispatchEvent('regen', $event);
         }
         catch (ConnectionErrorException $e) {
             $this->flashHelper->setFlash(
@@ -92,8 +54,6 @@ class GameServerDomainManager extends ServerDomainManager
         }
 
         $this->flashHelper->setFlash(ResourceEvent::TYPE_SUCCESS, 'dedipanel.flashes.config_regenerated');
-
-        $this->dispatchEvent('post_regen', $event);
 
         return $server;
     }

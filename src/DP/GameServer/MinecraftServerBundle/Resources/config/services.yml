@@ -34,13 +34,7 @@ services:
         tags:
             - { name: doctrine.event_listener, event: preUpdate, method: preUpdate }
     
-    dedipanel.minecraft.form.add:
-        class: DP\GameServer\MinecraftServerBundle\Form\AddMinecraftServerType
+    dedipanel.minecraft.form:
+        class: DP\GameServer\MinecraftServerBundle\Form\MinecraftServerType
         tags:
-            - { name: form.type, alias: dedipanel_minecraft_add }
-    
-    dedipanel.minecraft.form.edit:
-        class: DP\GameServer\MinecraftServerBundle\Form\EditMinecraftServerType
-        tags:
-            - { name: form.type, alias: dedipanel_minecraft_edit }
-
+            - { name: form.type, alias: dedipanel_minecraft }

@@ -36,6 +36,10 @@ abstract class AbstractServer implements ServerInterface
     {
         $this->alreadyInstalled = $alreadyInstalled;
 
+        if ($alreadyInstalled) {
+            $this->installationStatus = 100;
+        }
+
         return $this;
     }
 
@@ -46,7 +50,7 @@ abstract class AbstractServer implements ServerInterface
      */
     public function isAlreadyInstalled()
     {
-        return $this->alreadyInstalled;
+        return $this->alreadyInstalled || $this->isInstallationEnded();
     }
 
     /**

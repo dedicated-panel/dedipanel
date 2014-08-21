@@ -8,6 +8,7 @@
 {% extends "::layout.html.twig" %}
 
 {% import '::buttons.html.twig' as dedipanel_buttons %}
+{% import '::flash_messages.html.twig' as dedipanel_flashes %}
 
 {% block bundleStylesheets %}
     <link rel="stylesheet" media="screen" href="{{ asset('bundles/dpgameserver/css/game.css') }}" />
@@ -31,6 +32,8 @@
             </li>
         </ul>
     {% endif %}
+
+    {{ dedipanel_flashes.all() }}
     
     {% for message in app.session.flashbag.get('stateChanged') %}
         <div class="alert alert-info">

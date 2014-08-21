@@ -1,0 +1,9 @@
+dedipanel.flashes:
+    finalize_install_server: L'installation de votre serveur est terminé.
+    config_regenerated: Configuration régénré.
+    install_plugin: Le plugin vient d'être installé.
+    uninstall_plugin: Le plugin vient d'être désinstallé.
+    state_changed:
+        start: Démarrage du serveur en cours. Cette opération peut prendre d'une dizaine de secondes à une minute.
+        restart: Redémarrage du serveur en cours. Cette opération peut prendre d'une dizaine de secondes à une minute.
+        stop: Serveur arrêté.

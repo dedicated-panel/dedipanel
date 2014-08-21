@@ -36,16 +36,13 @@ dedipanel_minecraft_create:
     defaults:
         _controller: dedipanel.controller.minecraft:createAction
         _sylius:
-            form: dedipanel_minecraft_add
-            redirect: dedipanel_minecraft_install
+            redirect: dedipanel_minecraft_index
 
 dedipanel_minecraft_update:
     pattern: /{id}/edit
     methods: [GET, POST]
     defaults:
         _controller: dedipanel.controller.minecraft:updateAction
-        _sylius:
-            form: dedipanel_minecraft_edit
 
 dedipanel_minecraft_delete:
     pattern: /{id}/delete

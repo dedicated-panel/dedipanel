@@ -26,6 +26,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 use DP\Core\GameBundle\Entity\Plugin;
 use DP\Core\CoreBundle\Exception\MissingPacketException;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use DP\Core\CoreBundle\Exception\DirectoryAlreadyExistsException;
 
 /**
  * DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer
@@ -43,10 +45,6 @@ class MinecraftServer extends GameServer
      * @var integer $queryPort
      *
      * @ORM\Column(name="queryPort", type="integer", nullable=true)
-     * @Assert\Range(
-     *      min = 1024, minMessage = "minecraft.assert.queryPort.min",
-     *      max = 65536, maxMessage = "minecraft.assert.queryPort.max"
-     * )
      */
     protected $queryPort;
 
@@ -54,11 +52,6 @@ class MinecraftServer extends GameServer
      * @var integer $rconPort
      *
      * @ORM\Column(name="rconPort", type="integer")
-     * @Assert\NotNull(message = "minecraft.assert.rconPort.null")
-     * @Assert\Range(
-     *      min = 1024, minMessage = "minecraft.assert.rconPort.min",
-     *      max = 65536, maxMessage = "minecraft.assert.rconPort.max"
-     * )
      */
     protected $rconPort;
 
@@ -93,12 +86,7 @@ class MinecraftServer extends GameServer
      */
     public function getQueryPort()
     {
-        if (isset($this->queryPort)) {
-            return $this->queryPort;
-        }
-        else {
-            return $this->getPort();
-        }
+        return $this->queryPort;
     }
 
     /*
@@ -189,6 +177,8 @@ class MinecraftServer extends GameServer
         $conn->exec('cd ' . $installDir . ' && wget -N -o ' . $logPath . ' ' . $dlUrl . ' &');
 
         $this->installationStatus = 0;
+
+        return true;
     }
 
     public function getInstallationProgress()
@@ -379,5 +369,25 @@ class MinecraftServer extends GameServer
         $logPath = $this->getAbsoluteDir() . 'install.log';
 
         return $this->getMachine()->getConnection()->remove($logPath);
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('queryPort', new Assert\NotBlank(array('message' => 'minecraft.assert.query_port.empty')));
+        $metadata->addPropertyConstraint('queryPort', new Assert\Range(array(
+            'min' => 1024,
+            'minMessage' => 'minecraft.assert.query_port.min',
+            'max' => 65536,
+            'maxMessage' => 'minecraft.assert.query_port.max'
+        )));
+        $metadata->addPropertyConstraint('rconPort', new Assert\NotBlank(array('message' => 'minecraft.assert.rcon_port.empty')));
+        $metadata->addPropertyConstraint('rconPort', new Assert\Range(array(
+            'min' => 1024,
+            'minMessage' => 'minecraft.assert.rcon_port.min',
+            'max' => 65536,
+            'maxMessage' => 'minecraft.assert.rcon_port.max'
+        )));
+        $metadata->addPropertyConstraint('minHeap', new Assert\NotBlank(array('message' => 'minecraft.assert.min_heap')));
+        $metadata->addPropertyConstraint('maxHeap', new Assert\NotBlank(array('message' => 'minecraft.assert.max_heap')));
     }
 }

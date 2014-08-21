@@ -31,12 +31,6 @@ services:
         tags:
             - { name: knp_menu.menu, alias: main }
 
-    dedipanel.core.subscriber.install:
-        class: DP\Core\CoreBundle\EventListener\InstallListener
-        arguments: [ @doctrine.orm.entity_manager, @twig, @request_stack ]
-        tags:
-            - { name: kernel.event_subscriber }
-
     dedipanel.core.form_error.extension:
         class: DP\Core\CoreBundle\Extension\FormErrorExtension
         tags:

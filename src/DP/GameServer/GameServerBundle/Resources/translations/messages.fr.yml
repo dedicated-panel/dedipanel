@@ -30,7 +30,7 @@ game.maxplayers: Joueurs max.
 game.actions: Actions
 game.IPAddress: Adresse IP
 game.ping: Ping
-game.updateStatus: Mettre à jour le statut
+game.update_status: Mettre à jour le statut de l'installation
 
 game.selectMachine: Sélectionnez une machine
 game.selectGame: Jeu
@@ -95,8 +95,3 @@ game.offline: Serveur hors-ligne
 game.missingPacket: Impossible de lancer l'installation du plugin "%plugin%". Vous devez d'abord installer le(s) paquet(s) %packet% sur votre système afin de pouvoir continuer.
 
 game.showLog: Voir les logs du serveur
-
-dedipanel.flashes.state_changed.start: Démarrage du serveur en cours. Cette opération peut prendre d'une dizaine de secondes à une minute.
-dedipanel.flashes.state_changed.restart: Redémarrage du serveur en cours. Cette opération peut prendre d'une dizaine de secondes à une minute.
-dedipanel.flashes.state_change_stop: Serveur arrêté.
-dedipanel.flashes.config_regenerated: Scripts du panel régénrés.

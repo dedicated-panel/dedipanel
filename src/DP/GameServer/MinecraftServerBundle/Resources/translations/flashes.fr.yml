@@ -1,0 +1,5 @@
+dedipanel.minecraft:
+    create: "Le serveur minecraft a bien été ajouté."
+    update: "Le serveur minecraft a bien été mis à jour."
+    delete: "Le serveur minecraft a bien été supprimé."
+    full_delete: "Le serveur minecraft a bien été supprimé en totalité."

@@ -25,7 +25,7 @@
             {{ dedipanel_actions.update(path('dedipanel_minecraft_show', {'id': minecraft.id})) }}
             {% if is_granted('ROLE_DP_GAME_MINECRAFT_DELETE') %}
                 {{ dedipanel_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id})) }}
-                {{ dedipanel_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id, 'fromMachine': true})) }}
+                {{ dedipanel_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id, 'fromMachine': true}), 'dedipanel.full_delete'|trans) }}
             {% endif %}
         </div>
     </form>

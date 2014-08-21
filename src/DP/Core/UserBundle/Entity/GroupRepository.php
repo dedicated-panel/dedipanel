@@ -206,7 +206,10 @@ class GroupRepository extends NestedTreeRepository implements RepositoryInterfac
         
         return $qb;
     }
-    
+
+    /**
+     * @TODO: Rename getAccessibleGroups -> getChildren
+     */
     public function getAccessibleGroups($groups = array(), $retrieveAll = false)
     {
         $accessibleGroups = array();

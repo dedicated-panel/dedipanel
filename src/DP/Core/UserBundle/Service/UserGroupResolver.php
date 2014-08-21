@@ -18,9 +18,13 @@ class UserGroupResolver
     
     public function getAccessibleGroups()
     {
-        $groups = $this->context->getToken()->getUser()->getGroups();
-        
-        return $this->repo->getAccessibleGroups($groups, $this->context->isGranted('ROLE_SUPER_ADMIN'));
+        $groups = iterator_to_array($this->context->getToken()->getUser()->getGroups());
+
+        if ($this->context->isGranted('ROLE_ADMIN')) {
+            $groups = $this->repo->getAccessibleGroups($groups, $this->context->isGranted('ROLE_SUPER_ADMIN'));
+        }
+
+        return $groups;
     }
     
     public function getAccessibleGroupsIdOrEmpty()

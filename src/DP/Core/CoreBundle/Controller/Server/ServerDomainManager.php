@@ -9,6 +9,13 @@ use DP\Core\CoreBundle\Controller\FlashHelper;
 use Sylius\Bundle\ResourceBundle\Controller\Configuration;
 use DP\Core\CoreBundle\Model\ServerInterface;
 use Sylius\Bundle\ResourceBundle\Event\ResourceEvent;
+use Dedipanel\PHPSeclibWrapperBundle\Connection\Exception\ConnectionErrorException;
+use DP\Core\CoreBundle\Exception\InstallAlreadyStartedException;
+use DP\Core\CoreBundle\Exception\MissingPacketException;
+use DP\Core\CoreBundle\Exception\DirectoryAlreadyExistsException;
+use DP\Core\CoreBundle\Exception\MaxServerException;
+use DP\VoipServer\VoipServerBundle\Exception\OfflineServerException;
+use DP\Core\CoreBundle\Exception\IPBannedException;
 
 class ServerDomainManager extends DomainManager
 {
@@ -32,14 +39,10 @@ class ServerDomainManager extends DomainManager
     /**
      * Finalize the installation if the server is already installed
      *
-     * @{inheritdoc}
+     * @param ServerInterface $resource
      */
     public function create($resource)
     {
-        if ($resource->isAlreadyInstalled()) {
-            $resource->setInstallationStatus(100);
-        }
-
         /** @var ResourceEvent $event */
         $event = $this->dispatchEvent('pre_create', new ResourceEvent($resource));
         $message = $event->getMessage();
@@ -51,13 +54,17 @@ class ServerDomainManager extends DomainManager
                 $event->getMessageParameters()
             );
         }
-        if ($event->isStopped() && $event->getMessageType() != ResourceEvent::TYPE_SUCCESS) {
-            return null;
-        }
 
         $this->manager->persist($resource);
+        $this->flashHelper->setFlash(ResourceEvent::TYPE_SUCCESS, 'create');
 
+        /** @var ResourceEvent $event */
         $this->dispatchEvent('post_create', new ResourceEvent($resource));
+
+        if (!$resource->isInstallationEnded()) {
+            $this->installationProcess($resource);
+            $this->manager->persist($resource);
+        }
 
         $this->manager->flush();
 
@@ -65,16 +72,14 @@ class ServerDomainManager extends DomainManager
     }
 
     /**
-     * Start/stop/restart a server
+     * @param object $resource
      *
-     * @param ServerInterface $server
-     * @param $state
-     * @return ServerInterface|null
+     * @return object|null
      */
-    public function changeState(ServerInterface $server, $state)
+    public function delete($resource, $fromMachine = false)
     {
         /** @var ResourceEvent $event */
-        $event = $this->dispatchEvent('pre_change_state', new ResourceEvent($server, array('state' => $state)));
+        $event = $this->dispatchEvent('pre_delete', new ResourceEvent($resource));
 
         if ($event->isStopped()) {
             $this->flashHelper->setFlash(
@@ -86,6 +91,48 @@ class ServerDomainManager extends DomainManager
             return null;
         }
 
+        $flash = 'delete';
+
+        if ($fromMachine && $this->deleteFromMachine($resource)) {
+            $flash = 'full_delete';
+        }
+
+        $this->manager->remove($resource);
+        $this->manager->flush();
+        $this->flashHelper->setFlash(ResourceEvent::TYPE_SUCCESS, $flash);
+
+        $this->dispatchEvent('post_delete', new ResourceEvent($resource));
+
+        return $resource;
+    }
+
+    private function deleteFromMachine(ServerInterface $resource)
+    {
+        try {
+            if (!$resource->deleteServer()) {
+                $this->flashHelper->setFlash('error', 'dedipanel.machine.delete_failed');
+
+                return false;
+            }
+        }
+        catch (ConnectionErrorException $e) {
+            $this->flashHelper->setFlash('error', 'dedipanel.machine.connection_failed');
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Start/stop/restart a server
+     *
+     * @param ServerInterface $server
+     * @param $state
+     * @return ServerInterface|null
+     */
+    public function changeState(ServerInterface $server, $state)
+    {
         try {
             $server->changeState($state);
         }
@@ -98,10 +145,96 @@ class ServerDomainManager extends DomainManager
             return null;
         }
 
-        $this->flashHelper->setFlash('success', 'dedipanel.flashes.state_changed.' . $state);
-
-        $this->dispatchEvent('post_change_state', $event);
+        $this->flashHelper->setFlash(ResourceEvent::TYPE_SUCCESS, 'dedipanel.flashes.state_changed.' . $state);
 
         return $server;
+    }
+
+    protected function installationProcess(ServerInterface $server)
+    {
+        $progress = $server->getInstallationStatus();
+
+        if ($progress === null && !$this->install($server)) {
+            $this->flashHelper->setFlash(ResourceEvent::TYPE_ERROR, 'dedipanel.core.install_failed');
+
+            return null;
+        }
+
+        $progress = $server->getInstallationProgress();
+        $server->setInstallationStatus($progress);
+
+        if ($progress == 100) {
+            if (!$this->finalizeInstall($server)) {
+                $this->flashHelper->setFlash(ResourceEvent::TYPE_ERROR, 'dedipanel.core.post_install_failed');
+
+                return null;
+            }
+
+            $this->flashHelper->setFlash(ResourceEvent::TYPE_SUCCESS, 'dedipanel.flashes.finalize_install_server');
+        }
+    }
+
+    /**
+     * Launch a server installation
+     *
+     * @param ServerInterface $server
+     */
+    protected function install(ServerInterface $server)
+    {
+        $installed = false;
+
+        try {
+            $installed = $server->installServer($this->templating);
+        }
+        catch (InstallAlreadyStartedException $e) {
+            $this->flashHelper->setFlash(ResourceEvent::TYPE_ERROR, 'dedipanel.core.installAlreadyStarted');
+        }
+        catch (MissingPacketException $e) {
+            $this->flashHelper->setFlash(ResourceEvent::TYPE_ERROR, 'dedipanel.core.missingPacket');
+        }
+        // TODO: phpseclib wrapper bundle
+        catch (DirectoryAlreadyExistsException $e) {
+            $this->flashHelper->setFlash(ResourceEvent::TYPE_ERROR, 'dedipanel.core.directory_exists');
+        }
+        catch (ConnectionErrorException $e) {
+            $this->flashHelper->setFlash(ResourceEvent::TYPE_ERROR, 'dedipanel.machine.connection_failed');
+        }
+        catch (MaxServerException $e) {
+            $this->flashHelper->setFlash(ResourceEvent::TYPE_ERROR, 'dedipanel.core.max_server_limit');
+        }
+        catch (OfflineServerException $e) {
+            $this->flashHelper->setFlash(ResourceEvent::TYPE_ERROR, 'dedipanel.voip.offline_server');
+        }
+        catch (IPBannedException $e) {
+            $params = [];
+            $duration = $e->getDuration();
+
+            if (!empty($duration)) {
+                $params['%duration%'] = $duration;
+            }
+
+            $this->flashHelper->setFlash(ResourceEvent::TYPE_ERROR, 'dedipanel.voip.banned_from_server');
+        }
+
+        return $installed;
+    }
+
+    /**
+     * Finalize a server installation
+     *
+     * @param ServerInterface $server
+     */
+    protected function finalizeInstall(ServerInterface $server)
+    {
+        $finalized = false;
+
+        try {
+            $finalized = $server->finalizeInstallation($this->templating);
+        }
+        catch (ConnectionErrorException $e) {
+            $this->flashHelper->setFlash(ResourceEvent::TYPE_ERROR, 'dedipanel.machine.connection_failed');
+        }
+
+        return $finalized;
     }
 }
