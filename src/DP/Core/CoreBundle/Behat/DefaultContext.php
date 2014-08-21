@@ -321,15 +321,6 @@ class DefaultContext extends SyliusDefaultContext
     }
 
     /**
-     * @Then /^I should be on the page of ([^""(w)]*) (?:server)? "([^""]*)"$/
-     * @Then /^I should still be on the page of ([^""(w)]*) (?:server)? "([^""]*)"$/
-     */
-    public function iShouldBeOnTheResourcePageByName($type, $name)
-    {
-        $this->iShouldBeOnTheResourcePage($type, 'name', $name);
-    }
-
-    /**
      * @Given /^I am on the page of ([^""]*) with ([^""]*) "([^""]*)"$/
      * @Given /^I go to the page of ([^""]*) with ([^""]*) "([^""]*)"$/
      */
