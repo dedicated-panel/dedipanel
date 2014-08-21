@@ -1,6 +1,5 @@
 {% extends "::layout.html.twig" %}
 
-{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
 {% import '::flash_messages.html.twig' as dedipanel_flashes %}
 
@@ -14,7 +13,7 @@
     {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_CREATE') %}
     <ul id="top-nav" class="nav nav-tabs">
         <li>
-            {{ sylius_buttons.edit(path('dedipanel_teamspeak_create'), 'teamspeak.actions.add'|trans) }}
+            {{ dedipanel_buttons.edit(path('dedipanel_teamspeak_create'), 'teamspeak.actions.add'|trans) }}
         </li>
     </ul>
     {% endif %}
