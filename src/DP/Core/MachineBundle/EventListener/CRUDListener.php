@@ -3,6 +3,7 @@
 namespace DP\Core\MachineBundle\EventListener;
 
 use Dedipanel\PHPSeclibWrapperBundle\Connection\ConnectionManagerInterface;
+use Dedipanel\PHPSeclibWrapperBundle\Connection\Exception\ConnectionErrorException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sylius\Bundle\ResourceBundle\Event\ResourceEvent;
@@ -24,7 +25,7 @@ class CRUDListener implements EventSubscriberInterface
         return array(
             'dedipanel.machine.pre_create'  => 'createKeyPair', 
             'dedipanel.machine.pre_update'  => 'createKeyPair', 
-            'dedipanel.machine.pre_delete'  => 'deleteKeyPair', 
+            'dedipanel.machine.post_delete' => 'deleteKeyPair',
         );
     }
     
@@ -57,7 +58,7 @@ class CRUDListener implements EventSubscriberInterface
             $this->helper->deleteKeyPair($event->getSubject());
         }
         catch (ConnectionErrorException $e) {
-            $event->stop('connection_problem');
+            $event->stop('cant_delete_public_key', ResourceEvent::TYPE_WARNING);
         }
     }
 }

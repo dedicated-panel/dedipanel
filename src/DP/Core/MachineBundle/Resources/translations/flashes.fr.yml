@@ -1,6 +1,7 @@
 dedipanel.machine:
     connection_failed: Impossible de se connecter à la machine.
     connection_problem: Problème de connexion à la machine.
+    cant_delete_public_key: Impossible de supprimer la clé publique utilisé par le panel. La machine semble indisponible.
 
     test.succeeded: Test de connexion réussi.
     test.failed: Test de connexion échoué.
