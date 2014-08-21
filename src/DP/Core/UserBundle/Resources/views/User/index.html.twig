@@ -7,7 +7,6 @@
 
 {% extends "::layout.html.twig" %}
 
-{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
 {% import '::flash_messages.html.twig' as dedipanel_flashes %}
 
@@ -21,7 +20,7 @@
     {% if is_granted('ROLE_DP_ADMIN_USER_CREATE') %}
     <ul id="top-nav" class="nav nav-tabs">
         <li>
-            {{ sylius_buttons.edit(path('dedipanel_user_create'), 'user.actions.add'|trans) }}
+            {{ dedipanel_buttons.create(path('dedipanel_user_create'), 'user.actions.add'|trans) }}
         </li>
     </ul>
     {% endif %}
@@ -46,8 +45,8 @@
 
                     <td>
                         <div class="btn-group">
-                            {{ sylius_buttons.show(path('dedipanel_user_show', {'id': user.id})) }}
-                            {{ sylius_buttons.edit(path('dedipanel_user_update', {'id': user.id})) }}
+                            {{ dedipanel_buttons.show(path('dedipanel_user_show', {'id': user.id})) }}
+                            {{ dedipanel_buttons.edit(path('dedipanel_user_update', {'id': user.id})) }}
                         </div>
                     </td>
                 </tr>  

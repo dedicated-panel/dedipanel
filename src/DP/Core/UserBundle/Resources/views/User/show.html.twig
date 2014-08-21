@@ -7,7 +7,6 @@
 
 {% extends "::layout.html.twig" %}
 
-{% import 'SyliusResourceBundle:Macros:buttons.html.twig' as sylius_buttons %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
 {% import '::flash_messages.html.twig' as dedipanel_flashes %}
 
@@ -51,8 +50,8 @@
         </tbody>
     </table>
 
-    <div class="form-user clearfix">
-        {{ sylius_buttons.edit(path('dedipanel_user_update', {'id': user.id})) }}
-        {{ sylius_buttons.delete(path('dedipanel_user_delete', {'id': user.id})) }}
+    <div class="form-group clearfix">
+        {{ dedipanel_buttons.edit(path('dedipanel_user_update', {'id': user.id})) }}
+        {{ dedipanel_buttons.delete(path('dedipanel_user_delete', {'id': user.id})) }}
     </div>
 {% endblock %}
