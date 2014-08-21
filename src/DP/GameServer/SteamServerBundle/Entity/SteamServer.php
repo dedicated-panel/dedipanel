@@ -59,13 +59,6 @@ class SteamServer extends GameServer
     private $svPassword;
 
     /**
-     * @var integer $core
-     *
-     * @ORM\Column(name="core", type="integer", nullable=true)
-     */
-    private $core;
-
-    /**
      * @var integer $hltvPort
      *
      * @ORM\Column(name="hltvPort", type="integer", nullable=true)
@@ -150,30 +143,6 @@ class SteamServer extends GameServer
     public function getSvPassword()
     {
         return $this->svPassword;
-    }
-
-    /**
-     * Set core
-     *
-     * @param integer $core
-     * 
-     * @return SteamServer
-     */
-    public function setCore($core)
-    {
-        $this->core = $core;
-        
-        return $this;
-    }
-
-    /**
-     * Get core
-     *
-     * @return integer
-     */
-    public function getCore()
-    {
-        return $this->core;
     }
 
     /**
@@ -396,15 +365,10 @@ class SteamServer extends GameServer
         $game = $this->getGame();
 
         $scriptPath = $this->getAbsoluteHldsScriptPath();
-        $core = $this->getCore();
         $isCsgo = $this->getGame()->getLaunchName() == 'csgo';
         $gameType = '';
         $gameMode = '';
         $mapGroup = '';
-        
-        if (!empty($core)) {
-            $core -= 1;
-        }
         
         if ($isCsgo) {
             $mode = $this->getMode();
@@ -434,9 +398,9 @@ class SteamServer extends GameServer
             'launchName' => $game->getLaunchName(), 'ip' => $this->getMachine()->getPublicIp(),
             'port' => $this->getPort(), 'maxplayers' => $this->getMaxplayers(),
             'startMap' => $game->getMap(), 'binDir' => $this->getAbsoluteBinDir(),
-            'core' => $core, 'isCsgo' => $isCsgo, 'gameType' => $gameType, 'gameMode' => $gameMode, 
-            'mapGroup' => $mapGroup,  
-            ''
+            'core' => implode(',', $this->getCore()), 'isCsgo' => $isCsgo,
+            'gameType' => $gameType, 'gameMode' => $gameMode,
+            'mapGroup' => $mapGroup, 
         ));
 
         return $conn->upload($scriptPath, $hldsScript, 0750);

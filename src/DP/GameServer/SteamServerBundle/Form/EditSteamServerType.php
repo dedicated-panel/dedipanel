@@ -67,14 +67,17 @@ class EditSteamServerType extends AbstractType
             $entity = $options['data'];
             
             if ($entity->getMachine()->getNbCore() != null) {
-                $coreList = array();
-                for ($i = 1, $imax = $entity->getMachine()->getNbCore(); $i <= $imax; ++$i) {
-                    $coreList[$i] = $i;
-                }                
-                
-                $builder
-                    ->add('core', 'choice', array('label' => 'steam.core', 'choices' => $coreList, 'required' => false))
-                ;
+                $choices = array_combine(
+                    range(0, $entity->getMachine()->getNbCore()-1),
+                    range(1, $entity->getMachine()->getNbCore())
+                );
+
+                $form->add('core', 'choice', array(
+                    'label'    => 'game.core',
+                    'choices'  => $choices,
+                    'multiple' => true,
+                    'required' => false,
+                ));
             }
         }
         

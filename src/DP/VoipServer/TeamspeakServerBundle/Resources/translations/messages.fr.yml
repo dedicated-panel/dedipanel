@@ -12,6 +12,7 @@ teamspeak:
     max_clients: Nombre maximum de clients pour toutes les instances
     banner: Message d'accueil
     licence: License Teamspeak
+    edit: Modifier le serveur
 
     instance:
         title:

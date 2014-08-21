@@ -31,6 +31,7 @@ game.actions: Actions
 game.IPAddress: Adresse IP
 game.ping: Ping
 game.update_status: Mettre à jour le statut de l'installation
+game.core: Core utilisé
 
 game.selectMachine: Sélectionnez une machine
 game.selectGame: Jeu

@@ -28,7 +28,12 @@ case "$1" in
         if [ $STATUS -eq 0 ]; then
             echo "starting "
             cd {{ binDir }}
+            {% if core is not empty %}
+            {# /!\ Le numéro du core est stocké à partir de 1 en base; linux attend un bitmask représentant le core, commencant à 0 #}
+            screen -dmS $SCREEN_NAME taskset -c {{ core }} $INVOCATION
+            {% else %}
             screen -dmS $SCREEN_NAME $INVOCATION
+            {% endif %}
             echo "."
         else
             $0 restart

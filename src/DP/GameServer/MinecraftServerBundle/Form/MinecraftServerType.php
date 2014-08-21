@@ -50,6 +50,7 @@ class MinecraftServerType extends AbstractType
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $form      = $event->getForm();
+            /** @var DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer $minecraft */
             $minecraft = $event->getData();
 
             if ($minecraft->getId() === null) {
@@ -57,6 +58,19 @@ class MinecraftServerType extends AbstractType
                     'choices'  => array(1 => 'game.yes', 0 => 'game.no'),
                     'label'    => 'game.isAlreadyInstalled',
                     'expanded' => true,
+                ));
+            }
+            elseif ($minecraft->getMachine()->getNbCore() != null) {
+                $choices = array_combine(
+                    range(0, $minecraft->getMachine()->getNbCore()-1),
+                    range(1, $minecraft->getMachine()->getNbCore())
+                );
+
+                $form->add('core', 'choice', array(
+                    'label'    => 'game.core',
+                    'choices'  => $choices,
+                    'multiple' => true,
+                    'required' => false,
                 ));
             }
         });

@@ -34,7 +34,7 @@ interface ServerInterface
      * Set the installation status in database
      *
      * @param integer $status
-     * @return integer
+     * @return ServerInterface
      */
     public function setInstallationStatus($status);
 
@@ -89,4 +89,19 @@ interface ServerInterface
      * @return string
      */
     public function getFullName();
+
+    /**
+     * Set the core(s) used by the server
+     *
+     * @param array $core
+     * @return ServerInterface
+     */
+    public function setCore(array $core = array());
+
+    /**
+     * Get the core(s) used by the server
+     *
+     * @return array
+     */
+    public function getCore();
 }

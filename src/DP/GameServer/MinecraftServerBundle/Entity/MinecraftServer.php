@@ -216,7 +216,7 @@ class MinecraftServer extends GameServer
         $minecraftScript = $twig->render('DPMinecraftServerBundle:sh:minecraft.sh.twig', array(
             'screenName' => $this->getScreenName(), 'bin' => $game->getBin(),
             'options' => 'nogui', 'minHeap' => $this->getMinHeap(), 'maxHeap' => $this->getMaxHeap(),
-            'parallelThreads' => 1, 'binDir' => $this->getAbsoluteBinDir(),
+            'parallelThreads' => 1, 'binDir' => $this->getAbsoluteBinDir(), 'core' => implode(',', $this->getCore()),
         ));
 
         if (!$conn->upload($scriptPath, $minecraftScript, 0750)) {

@@ -81,7 +81,7 @@
                                     <img src="{{ asset('images/icones/serveur/install.png') }}" alt="{{ 'game.update_status'|trans }}" />
                                     <a href="{{ path('dedipanel_steam_install', {id: entity.id }) }}">{{ 'game.update_status'|trans }}</a>
                                 </div>
-                                
+
                                 <div id="installation-progress" class="progress" value="{{ entity.installationStatus }}"></div>
                                 
                                 {# <div class="progress progress-info progress-striped">
