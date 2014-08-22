@@ -34,6 +34,14 @@
                 <td>{{ user.email }}</td>
             </tr>
             <tr>
+                <th>{{ 'user.fields.admin'|trans }}</th>
+                <td>{{ dedipanel_buttons.yes_no(user.admin) }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'user.fields.super_admin'|trans }}</th>
+                <td>{{ dedipanel_buttons.yes_no(user.superAdmin) }}</td>
+            </tr>
+            <tr>
                 <th>{{ 'user.fields.createdAt'|trans }}</th>
                 <td>
                     {% if user.createdAt is not null %}

@@ -3,6 +3,9 @@
 namespace DP\Core\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
 abstract class AbstractServer implements ServerInterface
 {
@@ -13,8 +16,15 @@ abstract class AbstractServer implements ServerInterface
      */
     protected $installationStatus;
 
-    /** @var boolean $alreadyInstalled Used by create process **/
+    /** @var boolean $alreadyInstalled Used by the creation process **/
     protected $alreadyInstalled;
+
+    /**
+     * @var array $core
+     *
+     * @ORM\Column(name="core", type="simple_array", nullable=true)
+     */
+    protected $core = array();
 
 
     /**
@@ -137,5 +147,41 @@ abstract class AbstractServer implements ServerInterface
     public function getFullName()
     {
         return '[DediPanel] ' . $this->getName();
+    }
+
+    /** {@inheritdoc} */
+    public function setCore(array $core = array())
+    {
+        $this->core = $core;
+
+        return $core;
+    }
+
+    /** {@inheritdoc} */
+    public function getCore()
+    {
+        return $this->core;
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addConstraint(new Assert\Callback('validateServer'));
+    }
+
+    public function validateServer(ExecutionContextInterface $context)
+    {
+        if ($this->getMachine() !== null) {
+            $dir = $this->getAbsoluteDir();
+
+            if (!$this->getMachine()->getConnection()->testSSHConnection()) {
+                $context->addViolationAt('machine', 'gameServer.assert.machine_unavailable');
+            }
+            elseif (!$this->isAlreadyInstalled() && $this->getMachine()->getConnection()->dirExists($dir)) {
+                $context->addViolationAt('dir', 'gameServer.assert.directory_exists');
+            }
+            elseif ($this->isAlreadyInstalled() && !$this->getMachine()->getConnection()->dirExists($dir)) {
+                $context->addViolationAt('dir', 'gameServer.assert.directory_not_exists');
+            }
+        }
     }
 }

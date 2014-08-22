@@ -71,7 +71,6 @@ class TeamspeakServer extends VoipServer
         $this->queryPort  = 10011;
         $this->queryLogin = 'serveradmin';
         $this->filetransferPort = 30033;
-        $this->dir = 'teamspeak';
     }
 
     /**
@@ -355,16 +354,21 @@ EOF;
     /** {@inheritdoc} */
     public function changeState($state)
     {
-        $params = '';
+        $cmd = $this->getAbsoluteDir() . '/ts3server_startscript.sh ' . $state;
 
         if ($state == 'start') {
-            $params = $this->getStartParams();
+            $cmd .= ' ' . $this->getStartParams();
+        }
+
+        $core = $this->getCore();
+        if (!empty($core)) {
+            $cmd = 'taskset -c ' . implode(',', $core) . ' ' . $cmd;
         }
 
         return $this
             ->getMachine()
             ->getConnection()
-            ->exec($this->getAbsoluteDir() . '/ts3server_startscript.sh ' . $state . ' ' . $params)
+            ->exec($cmd)
         ;
     }
 

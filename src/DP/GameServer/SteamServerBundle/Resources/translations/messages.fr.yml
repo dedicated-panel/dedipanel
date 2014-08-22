@@ -27,7 +27,6 @@ steam.editTitle: Modifier un serveur Steam
 steam.autoReboot: Reboot automatique à
 steam.munin: Graphes munin activés ?
 steam.svPassword: Mot de passe du serveur
-steam.core: Core utilisé
 
 steam.hltv.running: HLTV démarré
 steam.hltv.stopped: HLTV arrêté

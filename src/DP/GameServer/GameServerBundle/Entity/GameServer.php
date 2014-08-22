@@ -476,24 +476,5 @@ abstract class GameServer extends AbstractServer
         $metadata->addPropertyConstraint('dir', new Assert\NotBlank(array('message' => 'gameServer.assert.dir')));
         $metadata->addPropertyConstraint('maxplayers', new Assert\NotBlank(array('message' => 'gameServer.assert.maxplayers')));
         $metadata->addPropertyConstraint('maxplayers', new Assert\Range(array('min' => 2, 'minMessage' => 'gameServer.assert.maxplayers')));
-
-        $metadata->addConstraint(new Assert\Callback('validateGameServer'));
-    }
-
-    public function validateGameServer(ExecutionContextInterface $context)
-    {
-        if ($this->getMachine() !== null) {
-            $dir = $this->getAbsoluteDir();
-
-            if (!$this->getMachine()->getConnection()->testSSHConnection()) {
-                $context->addViolationAt('machine', 'gameServer.assert.machine_unavailable');
-            }
-            elseif (!$this->isAlreadyInstalled() && $this->getMachine()->getConnection()->dirExists($dir)) {
-                $context->addViolationAt('dir', 'gameServer.assert.directory_exists');
-            }
-            elseif ($this->isAlreadyInstalled() && !$this->getMachine()->getConnection()->dirExists($dir)) {
-                $context->addViolationAt('dir', 'gameServer.assert.directory_not_exists');
-            }
-        }
     }
 }

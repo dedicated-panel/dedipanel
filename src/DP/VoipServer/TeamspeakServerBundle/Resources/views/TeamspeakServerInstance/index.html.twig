@@ -12,17 +12,25 @@
 {% block content %}
     <h2>{{ 'teamspeak.instance.title.index'|trans }}</h2>
 
-    {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_CREATE') %}
-        <ul id="top-nav" class="nav nav-tabs">
-            <li>
-                {{ dedipanel_buttons.create(path('dedipanel_teamspeak_instance_create', {serverId: serverId}), 'teamspeak.instance.add'|trans) }}
-            </li>
+    <ul id="top-nav" class="nav nav-tabs">
+        {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_CREATE') %}
+        <li>
+            {{ dedipanel_buttons.create(path('dedipanel_teamspeak_instance_create', {serverId: serverId}), 'teamspeak.instance.add'|trans) }}
+        </li>
+        {% endif %}
 
-            <li>
-                {{ dedipanel_buttons.delete(path('dedipanel_teamspeak_delete', {id: serverId, fromMachine: true}), 'teamspeak.instance.delete_server'|trans) }}
-            </li>
-        </ul>
-    {% endif %}
+        {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_UPDATE') %}
+        <li>
+            {{ dedipanel_buttons.edit(path('dedipanel_teamspeak_update', {id: serverId, fromMachine: true}), 'teamspeak.edit'|trans) }}
+        </li>
+        {% endif %}
+
+        {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_DELETE') %}
+        <li>
+            {{ dedipanel_buttons.delete(path('dedipanel_teamspeak_delete', {id: serverId, fromMachine: true}), 'teamspeak.instance.delete_server'|trans) }}
+        </li>
+        {% endif %}
+    </ul>
 
     {{ dedipanel_flashes.all() }}
 

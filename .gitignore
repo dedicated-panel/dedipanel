@@ -18,3 +18,5 @@ app/config/.ssh/*
 .idea/
 app/config/dedipanel.yml
 behat.yml
+app/sessions/*
+!app/sessions/.gitkeep

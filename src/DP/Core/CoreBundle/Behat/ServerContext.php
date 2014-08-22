@@ -7,6 +7,15 @@ use Behat\Behat\Hook\Scope\BeforeFeatureScope;
 class ServerContext extends DefaultContext
 {
     /**
+     * @Then /^I should be on the page of ([^""(w)]*) (?:server)? "([^""]*)"$/
+     * @Then /^I should still be on the page of ([^""(w)]*) (?:server)? "([^""]*)"$/
+     */
+    public function iShouldBeOnTheResourcePageByName($type, $name)
+    {
+        $this->iShouldBeOnTheResourcePage($type, 'name', $name);
+    }
+
+    /**
      * @When /^I (?:click|press|follow) "([^"]*)" near "([^"]*)"$/
      */
     public function iClickNear($button, $value)
@@ -41,5 +50,17 @@ class ServerContext extends DefaultContext
         $selector = sprintf('.server-list .server-item:contains("%s")', $value);
 
         $this->assertSession()->elementNotContains('css', $selector, $text);
+    }
+
+    /**
+     * @Then /^I should be on the ftp page of ([^""]*) "([^""]*)"$/
+     */
+    public function iShouldBeOnTheFtpPage($type, $name)
+    {
+        $type = str_replace(' ', '_', $type);
+        $resource = $this->findOneBy($type, array('name' => $name));
+
+        $this->assertSession()->addressEquals($this->generatePageUrl(sprintf('%s_ftp_show', $type), array('id' => $resource->getId())));
+        $this->assertStatusCodeEquals(200);
     }
 }

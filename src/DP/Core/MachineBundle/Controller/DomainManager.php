@@ -8,6 +8,46 @@ use Sylius\Bundle\ResourceBundle\Event\ResourceEvent;
 
 class DomainManager extends BaseDomainManager
 {
+    /**
+     * @param object $resource
+     *
+     * @return object|null
+     */
+    public function delete($resource)
+    {
+        /** @var ResourceEvent $event */
+        $event = $this->dispatchEvent('pre_delete', new ResourceEvent($resource));
+
+        if ($event->isStopped()) {
+            $this->flashHelper->setFlash(
+                $event->getMessageType(),
+                $event->getMessage(),
+                $event->getMessageParameters()
+            );
+
+            return null;
+        }
+
+        $this->manager->remove($resource);
+        $this->manager->flush();
+        $this->flashHelper->setFlash('success', 'delete');
+
+        /** @var ResourceEvent $event */
+        $event = $this->dispatchEvent('post_delete', new ResourceEvent($resource));
+
+        if ($event->isStopped()) {
+            $this->flashHelper->setFlash(
+                $event->getMessageType(),
+                $event->getMessage(),
+                $event->getMessageParameters()
+            );
+
+            return null;
+        }
+
+        return $resource;
+    }
+
     public function connectionTest(Machine $machine)
     {
         $test = $machine->getConnection()->testSSHConnection();

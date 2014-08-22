@@ -4,6 +4,8 @@ namespace DP\VoipServer\TeamspeakServerBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class EditTeamspeakServerType extends AbstractType
 {
@@ -37,6 +39,27 @@ class EditTeamspeakServerType extends AbstractType
                 'required' => false,
             ))
         ;
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            $form      = $event->getForm();
+            /** @var DP\VoipServer\TeamspeakServerBundle\Entity\TeamspeakServer $teamspeak */
+            $teamspeak = $event->getData();
+
+            if ($teamspeak->getId() !== null
+            && $teamspeak->getMachine()->getNbCore() != null) {
+                $choices = array_combine(
+                    range(0, $teamspeak->getMachine()->getNbCore()-1),
+                    range(1, $teamspeak->getMachine()->getNbCore())
+                );
+
+                $form->add('core', 'choice', array(
+                    'label'    => 'game.core',
+                    'choices'  => $choices,
+                    'multiple' => true,
+                    'required' => false,
+                ));
+            }
+        });
     }
 
     public function getName()

@@ -81,7 +81,7 @@ class ConfigModifier
                 catch (\Exception $e) {}
             }
             if ($args->hasChangedField('minHeap') || $args->hasChangedField('maxHeap')
-                || $args->hasChangedField('dir')) {
+                || $args->hasChangedField('dir') || $args->hasChangedField('core')) {
                 try {
                     $entity->uploadShellScripts($this->getTwig());
                 }

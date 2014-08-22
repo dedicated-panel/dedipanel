@@ -31,6 +31,7 @@ game.actions: Actions
 game.IPAddress: Adresse IP
 game.ping: Ping
 game.update_status: Mettre à jour le statut de l'installation
+game.core: Core utilisé
 
 game.selectMachine: Sélectionnez une machine
 game.selectGame: Jeu
@@ -68,6 +69,9 @@ game.ftp.addDirectory: Ajouter un dossier
 game.ftp.dirname: Nom du dossier
 game.ftp.path: Chemin : %path%
 game.ftp.invalidPath: Répertoire invalide.
+game.ftp.name: Nom
+game.ftp.size: Taille
+game.ftp.mtime: Dernière modification
 
 game.plugin.title: Voir les plugins
 game.plugin.showTitle: Voir les plugins du serveur

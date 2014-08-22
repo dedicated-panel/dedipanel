@@ -61,7 +61,7 @@ class MenuBuilder
         $menu
             ->addChild('menu.steam', array(
                 'route'  => 'dedipanel_steam_index',
-                'extras' => array('icon' => ' icon-steam3'),
+                'extras' => array('icon' => ' icon-steam'),
             ))
             ->setDisplay($context->isGranted('ROLE_DP_GAME_STEAM_INDEX'))
         ;
@@ -118,7 +118,7 @@ class MenuBuilder
         $admin
             ->addChild('menu.admin.game', array(
                 'route' => 'dedipanel_game_index',
-                'extras' => array('icon' => 'icon-steam')
+                'extras' => array('icon' => 'icon-steam3')
             ))
             ->setDisplay($context->isGranted('ROLE_DP_ADMIN_GAME_INDEX'))
         ;
