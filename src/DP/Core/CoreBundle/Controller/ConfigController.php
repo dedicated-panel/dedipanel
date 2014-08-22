@@ -44,7 +44,9 @@ class ConfigController extends Controller
             return $this->redirect($this->generateUrl('dedipanel_core_config'));
         }
 
-        $this->verifyUpdate();
+        if ($this->container->getParameter('kernel.environment') == 'prod') {
+            $this->verifyUpdate();
+        }
 
         return $this->render('DPCoreBundle:Config:index.html.twig', array(
             'form' => $form->createView(),
@@ -115,7 +117,7 @@ class ConfigController extends Controller
         $watcher = $this->get('dp_core.update_watcher.service');
 
         if ($watcher->isUpdateAvailable()) {
-            $this->addFlash('error', 'dedipanel.core.update_available', array(
+            $this->addFlash('warning', 'dedipanel.core.update_available', array(
                 '%version%' => 'v' . $watcher->getAvailableVersion(),
                 '%url%' => 'http://www.dedicated-panel.net',
             ));
