@@ -19,30 +19,46 @@
 
     {{ dedipanel_flashes.all() }}
 
-    <table class="table table-striped show-machine">
-        <thead>
-            <tr>
-                <th>{{ 'machine.fields.id'|trans }}</th>
-                <th>{{ 'machine.fields.ip'|trans }}</th>
-                <th>{{ 'machine.fields.public_ip'|trans }}</th>
-                <th>{{ 'machine.fields.port'|trans }}</th>
-                <th>{{ 'machine.fields.username'|trans }}</th>
-                <th>{{ 'machine.fields.home'|trans }}</th>
-                <th>{{ 'machine.fields.is_priv_key_already_generated'|trans }}</th>
-                <th>{{ 'machine.fields.nb_core'|trans }}</th>
-                <th>{{ 'machine.fields.is_64bit'|trans }}</th>
-            </tr>  
-        </thead>   
+    <table class="table table-striped show-game"> 
         <tbody>
             <tr>
+                <th>{{ 'machine.fields.id'|trans }}</th>
                 <td>{{ machine.id }}</td>
+            </tr>
+            
+            <tr>
+                <th>{{ 'machine.fields.ip'|trans }}</th>
                 <td>{{ machine.ip }}</td>
+            </tr>
+            
+            <tr>
+                <th>{{ 'machine.fields.public_ip'|trans }}</th>
                 <td>{{ machine.publicIp }}</td>
-                <td>{{ machine.port }}</td> 
+            </tr>
+            
+            <tr>
+                <th>{{ 'machine.fields.port'|trans }}</th>
+                <td>{{ machine.port }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'machine.fields.username'|trans }}</th>
                 <td>{{ machine.username }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'machine.fields.home'|trans }}</th>
                 <td>{{ machine.home }}</td>
+            </tr>
+            
+            <tr>
+                <th>{{ 'machine.fields.is_priv_key_already_generated'|trans }}</th>
                 <td>{{ dedipanel_buttons.yes_no(machine.privateKeyName|length > 0) }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'machine.fields.nb_core'|trans }}</th>
                 <td>{{ machine.nbCore }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'machine.fields.is_64bit'|trans }}</th>
                 <td>{{ dedipanel_buttons.yes_no(machine.is64Bit) }}</td>
             </tr>
         </tbody>
