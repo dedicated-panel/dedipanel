@@ -59,12 +59,12 @@
                 <tr>
                     <td>
                         {% if item is file %}
-                            <a href="{{  path('dedipanel_steam_ftp_update', {id: server.id, path: item.relativePath }) }}">
-                                {{ item.name }}
+                           <a href="{{  path('dedipanel_steam_ftp_update', {id: server.id, path: item.relativePath }) }}">
+                                <img src="{{ asset('images/ftp/file.ico') }}" class="icone-ftp"/>{{ item.name }}
                             </a>
                         {% else %}
                             <a href="{{  path('dedipanel_steam_ftp_show', {id: server.id, path: item.relativePath }) }}">
-                                {{ item.name }}
+                                <img src="{{ asset('images/ftp/folder.ico') }}" class="icone-ftp"/>{{ item.name }}
                             </a>
                         {% endif %}
                     </td>

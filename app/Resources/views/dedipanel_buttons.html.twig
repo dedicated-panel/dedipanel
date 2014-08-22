@@ -6,7 +6,7 @@
 
 {% macro generic(url, message, icon) %}
 <a href="{{ url }}" class="btn btn-labeled btn-default">
-   <span class="btn-label">{% if icon is not empty %}<span class="icon-"{{ icon }}"></i>{% endif %}</span>{{ message }}
+   {% if icon is not empty %}<span class="btn-label"><span class="{{ icon }}"></span></span>{% endif %}{{ message }}
 </a>
 {% endmacro %}
 
@@ -35,12 +35,6 @@
     </button>
 </form>
 {% endif %}
-{% endmacro %}
-
-{% macro manage(url, message) %}
-<a href="{{ url }}" class="btn btn-success">
-   <span class="icon-arrow-left"></span><span>{{ message is empty ? 'sylius.manage'|trans : message }}</span>
-</a>
 {% endmacro %}
 
 {% macro move(url, direction, first=false, last=false, message='') %}

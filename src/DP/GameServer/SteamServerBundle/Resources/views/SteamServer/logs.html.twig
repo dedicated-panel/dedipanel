@@ -25,4 +25,8 @@
     <form id="logs-form">
         <textarea>{{ logs }}</textarea>
     </form>
+    
+    <div class="form-group">
+        {{ dedipanel_buttons.generic(path('dedipanel_steam_index'), 'sylius.back'|trans, 'icon-cross') }}
+    </div>
 {% endblock %}

@@ -74,13 +74,18 @@
                         
                         {% if is_granted('ROLE_DP_GAME_STEAM_CREATE') or is_granted('ROLE_DP_GAME_STEAM_UPDATE') %}
                             <div class="installation">
-                                <div class="update-status">
-                                    <img src="{{ asset('images/icones/serveur/install.png') }}" alt="{{ 'game.update_status'|trans }}" />
-                                    <a href="{{ path('dedipanel_steam_install', {id: entity.id }) }}">{{ 'game.update_status'|trans }}</a>
+                                <div class="row">
+                                    <div class="span">
+                                        <div class="update-status">
+                                            <span class="icon-spam" alt="{{ 'game.update_status'|trans }}"></span>
+                                            <a href="{{ path('dedipanel_steam_install', {id: entity.id }) }}">{{ 'game.update_status'|trans }}</a>
+                                        </div>
+                                    </div>
+                                    <div class="span4">  
+                                        <div id="installation-progress" class="progress" value="{{ entity.installationStatus }}"></div>
+                                    </div>
                                 </div>
 
-                                <div id="installation-progress" class="progress" value="{{ entity.installationStatus }}"></div>
-                                
                                 {# <div class="progress progress-info progress-striped">
                                     <div class="bar" style="width: {{ entity.installationStatus }}%"></div>
     
