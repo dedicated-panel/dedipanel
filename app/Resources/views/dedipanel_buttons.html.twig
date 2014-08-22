@@ -1,5 +1,5 @@
 {% macro show(url, message) %}
-<a href="{{ url }}" class="btn btn-labeled btn-default pull-left">
+<a href="{{ url }}" class="btn btn-labeled btn-show pull-left">
    <span class="btn-label"><span class="icon-eye"></span></span>{{ message is empty ? 'sylius.show'|trans : message }}
 </a>
 {% endmacro %}
@@ -40,7 +40,7 @@
 {% macro widget(url, message, modal=true) %}
 <form action="{{ url }}" method="post">
     <input type="hidden" name="_method" value="DELETE">
-    <button class="" type="submit">
+    <button type="submit">
          {{ message is empty ? 'sylius.delete'|trans : message }}
     </button>
 </form>

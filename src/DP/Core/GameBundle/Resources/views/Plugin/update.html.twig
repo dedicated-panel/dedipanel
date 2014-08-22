@@ -17,13 +17,13 @@
 {% block content %}
     <h2>{{ 'plugin.title.edit'|trans }}</h2>
 
-    <form action="{{ path('dedipanel_plugin_update', { 'id': plugin.id }) }}" method="post" class="form-edit">    
+    <form id="form-update" action="{{ path('dedipanel_plugin_update', { 'id': plugin.id }) }}" method="post" class="form-edit">    
         {{ form_widget(form) }}
-        
-        <div class="form-actions">
-            {{ dedipanel_actions.update(path('dedipanel_plugin_show', {'id': plugin.id})) }}    
-            {{ dedipanel_buttons.delete(path('dedipanel_plugin_delete', {'id': plugin.id})) }}
-        </div>
     </form>
-    
+        
+    <div class="form-actions">
+        {{ dedipanel_actions.update(path('dedipanel_plugin_show', {'id': plugin.id})) }}    
+        {{ dedipanel_buttons.delete(path('dedipanel_plugin_delete', {'id': plugin.id})) }}
+    </div>
+
 {% endblock %}

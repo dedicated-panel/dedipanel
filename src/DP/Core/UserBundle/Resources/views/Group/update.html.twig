@@ -17,13 +17,13 @@
 {% block content %}
     <h2>{{ 'group.title.edit'|trans }}</h2>
 
-    <form action="{{ path('dedipanel_group_update', { 'id': group.id }) }}" method="post" class="form-edit">    
+    <form id="form-update" action="{{ path('dedipanel_group_update', { 'id': group.id }) }}" method="post" class="form-edit">    
         {{ form_widget(form) }}
-        
-        <div class="form-actions">
-            {{ dedipanel_actions.update(path('dedipanel_group_show', {'id': group.id})) }}    
-            {{ dedipanel_buttons.delete(path('dedipanel_group_delete', {'id': group.id})) }}
-        </div>
     </form>
+        
+    <div class="form-actions">
+        {{ dedipanel_actions.update(path('dedipanel_group_show', {'id': group.id})) }}    
+        {{ dedipanel_buttons.delete(path('dedipanel_group_delete', {'id': group.id})) }}
+    </div>
     
 {% endblock %}
