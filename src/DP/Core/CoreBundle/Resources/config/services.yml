@@ -6,7 +6,7 @@ services:
 
     dp_core.update_watcher.service:
         class: DP\Core\CoreBundle\Service\UpdateWatcherService
-        arguments: [ "%dp_core.version%" ]
+        arguments: [ "%dp_core.version%", "%kernel.cache_dir%" ]
 
     dp_core.update_watcher.extension:
         class: DP\Core\CoreBundle\Extension\UpdateWatcherExtension
