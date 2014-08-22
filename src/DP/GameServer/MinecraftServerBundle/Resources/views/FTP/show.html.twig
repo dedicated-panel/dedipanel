@@ -13,37 +13,42 @@
     {{ dedipanel_buttons.back(path('dedipanel_minecraft_ftp_show', {'id': server.id, 'path': resource.path}), 'minecraft.title.minecraft'|trans) }}
 {% endblock %}
 
-{% block content %}
-    <h2>{{ 'game.ftp.title.show'|trans }}</h2>
-    
-    <ul id="top-nav" class="nav nav-tabs">
+{% block widget %}
+    <ul class="widget-header">
         <li>
-            <a href="{{ path('dedipanel_minecraft_ftp_create', {'id': server.id, 'type': 'file', 'path': resource.relativePath}) }}">
-                {{ 'game.ftp.create_file'|trans }}
+            <a href="#" class="filter active"> 
+                <p>{{ 'game.ftp.path'|trans({'%path%': '~/' ~ resource.relativePath}) }}</p>
             </a>
         </li>
         <li>
-            <a href="{{ path('dedipanel_minecraft_ftp_create', {'id': server.id, 'type': 'directory', 'path': resource.relativePath}) }}">
-                {{ 'game.ftp.create_directory'|trans }}
+            <a href="{{ path('dedipanel_minecraft_ftp_create', {'id': server.id, 'type': 'file', 'path': resource.relativePath}) }}"  class="filter">
+                <img src="{{ asset('images/ftp/file.ico') }}" class="icone-ftp"/>{{ 'game.ftp.create_file'|trans }}
             </a>
         </li>
-
+        <li>
+            <a href="{{ path('dedipanel_minecraft_ftp_create', {'id': server.id, 'type': 'directory', 'path': resource.relativePath}) }}"  class="filter">
+                <img src="{{ asset('images/ftp/folder.ico') }}" class="icone-ftp"/>{{ 'game.ftp.create_directory'|trans }}
+            </a>
+        </li>
+        
         {# On ajoute un lien pour supprimer le dossier courant #}
         {# Si l'utilisateur n'est pas dans le dossier root du serveur #}
         {% if resource.relativePath != '' %}
             <li>
-                <a href="{{ path('dedipanel_minecraft_ftp_update', {'id': server.id, 'path': resource.relativePath}) }}">
-                    {{ 'game.ftp.update_directory'|trans }}
+                <a href="{{ path('dedipanel_minecraft_ftp_update', {'id': server.id, 'path': resource.relativePath}) }}"  class="filter">
+                     <img src="{{ asset('images/ftp/edit.ico') }}" class="icone-ftp"/>{{ 'game.ftp.update_directory'|trans }}
                 </a>
             </li>
-            <li>
-                {{ dedipanel_buttons.delete(path('dedipanel_minecraft_ftp_delete', {'id': server.id, path: resource.relativePath})) }}
+            <li class="pull-right">
+                {{ dedipanel_buttons.widget(path('dedipanel_minecraft_ftp_delete', {'id': server.id, path: resource.relativePath})) }}
             </li>
         {% endif %}
     </ul>
-    
-    <p>{{ 'game.ftp.path'|trans({'%path%': '~/' ~ resource.relativePath}) }}</p>
+{% endblock %}
 
+{% block content %}
+    <h2>{{ 'game.ftp.title.show'|trans }}</h2>
+    
     <table>
         <thead>
         <tr>
@@ -60,11 +65,11 @@
                 <td>
                     {% if item is file %}
                         <a href="{{  path('dedipanel_minecraft_ftp_update', {id: server.id, path: item.relativePath }) }}">
-                            {{ item.name }}
+                            <img src="{{ asset('images/ftp/file.ico') }}" class="icone-ftp"/>{{ item.name }}
                         </a>
                     {% else %}
                         <a href="{{  path('dedipanel_minecraft_ftp_show', {id: server.id, path: item.relativePath }) }}">
-                            {{ item.name }}
+                            <img src="{{ asset('images/ftp/folder.ico') }}" class="icone-ftp"/>{{ item.name }}
                         </a>
                     {% endif %}
                 </td>

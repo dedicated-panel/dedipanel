@@ -24,35 +24,43 @@
     {{ dedipanel_buttons.back(path('dedipanel_steam_ftp_show', {'id': server.id, 'path': path}), 'steam.title.steam'|trans) }}
 {% endblock %}
 
-{% block content %}    
-    <h2>{{ 'game.ftp.title.edit'|trans }}</h2>
-    
-    <ul id="top-nav" class="nav nav-tabs">
+{% block widget %}
+    <ul class="widget-header">
         <li>
-            <a href="{{ path('dedipanel_steam_ftp_create', {'id': server.id, 'type': 'file', 'path': resource.path}) }}">
-                {{ 'game.ftp.create_file'|trans }}
+            <a href="#" class="filter active"> 
+                <p>{{ 'game.ftp.path'|trans({'%path%': '~/' ~ resource.relativePath}) }}</p>
             </a>
         </li>
         <li>
-            <a href="{{ path('dedipanel_steam_ftp_create', {'id': server.id, 'type': 'directory', 'path': resource.path}) }}">
-                {{ 'game.ftp.create_directory'|trans }}
+            <a href="{{ path('dedipanel_steam_ftp_create', {'id': server.id, 'type': 'file', 'path': resource.relativePath}) }}"  class="filter">
+                <img src="{{ asset('images/ftp/file.ico') }}" class="icone-ftp"/>{{ 'game.ftp.create_file'|trans }}
             </a>
         </li>
+        <li>
+            <a href="{{ path('dedipanel_steam_ftp_create', {'id': server.id, 'type': 'directory', 'path': resource.relativePath}) }}"  class="filter">
+                <img src="{{ asset('images/ftp/folder.ico') }}" class="icone-ftp"/>{{ 'game.ftp.create_directory'|trans }}
+            </a>
+        </li>
+        
         
         {# On ajoute un lien pour supprimer le dossier courant #}
         {# Si l'utilisateur n'est pas dans le dossier root du serveur #}
         {% if resource.path is not empty %}
-            <li>
-                {{ dedipanel_buttons.delete(path('dedipanel_steam_ftp_delete', {'id': server.id, path: resource.relativePath})) }}
+            <li class="pull-right">
+                {{ dedipanel_buttons.widget(path('dedipanel_steam_ftp_delete', {'id': server.id, path: resource.relativePath})) }}
             </li>
         {% endif %}
     </ul>
+{% endblock %}
+
+{% block content %}    
+    <h2>{{ 'game.ftp.title.edit'|trans }}</h2>
+    
     
     <form action="{{ path('dedipanel_steam_ftp_update', {id: server.id, path: resource.relativePath}) }}" method="post" class="form-ftp">
         {{ form_widget(form) }}
-        
         <div class="form-actions">
-            {{ dedipanel_actions.update(path('dedipanel_steam_ftp_show', {'id': server.id, 'path': resource.path})) }}
-        </div>
+        {{ dedipanel_actions.update(path('dedipanel_steam_ftp_show', {'id': server.id, 'path': resource.path})) }}
+        </div
     </form>
 {% endblock %}

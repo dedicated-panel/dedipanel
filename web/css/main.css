@@ -346,6 +346,64 @@ body {
 .icone-ftp{
     height: 30px;
 }
+
+.widget-header {
+    list-style: none;
+    margin: 12px;
+    padding: 0;
+    margin-bottom: 20px;
+    background: #Fff;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+}
+.widget-header li {
+    display: inline-block;
+    padding: 0;
+    font-size: 12px;
+    color: #666;
+}
+.widget-header a.active {
+    background-color: #00a2d9;
+    color: #fff !important;
+    text-decoration: none;
+    padding: 14px 15px 4px 20px;
+}
+.widget-header li a {
+    padding: 10px 15px 8px 20px;
+    display: inline-block;
+    border-right: 1px solid #EEE;
+    margin-right: -5px;
+}
+.widget-header li:hover a.active, .widget-header a.active:hover {
+    color: #2a6496;
+    text-decoration: underline;
+}
+.widget-header li:hover a {
+    background-color: #008fc0;
+    color: #fff;
+    cursor: pointer;
+}
+.widget-header .pull-right form {
+    margin: 0px 0 0 0;
+    padding: 0px 0px 0px 0px;
+    background-color: #E43232; 
+}
+.widget-header .pull-right  form button{
+    border: none;
+    padding: 14px 15px 14px 20px;
+    display: inline-block;
+    color: #EEE;
+    background: none;
+    border: none;
+}
+.widget-header .pull-right  form button:hover{
+    background: #CF2A2A;
+    color: #fff;
+    cursor: pointer;
+}
 footer {
     padding: 3px 0;
     width: 100%;

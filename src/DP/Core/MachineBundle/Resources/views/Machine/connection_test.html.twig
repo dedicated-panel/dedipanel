@@ -19,12 +19,13 @@
 
     {{ dedipanel_flashes.all(false) }}
 
-    <p>
+    <div class="form-group">
         {% if test == false %}
-            <a class="btn btn-danger" href="{{ path('dedipanel_machine_update', {id: machine.id}) }}">{{ 'machine.actions.edit'|trans }}</a>
+            {{ dedipanel_buttons.edit(path('dedipanel_machine_update', {'id': machine.id})) }}
         {% endif %}
 
-        <a class="btn btn-primary" href="{{ path('dedipanel_machine_connection_test', {'id': machine.id}) }}">Relancer le test</a>
-        <a class="btn" href="{{ path('dedipanel_machine_show', {'id': machine.id}) }}">Retour</a>
-    </p>
+        {{ dedipanel_buttons.manage(path('dedipanel_machine_connection_test', {'id': machine.id}), 'machine.actions.connection_test'|trans) }}
+        {{ dedipanel_buttons.generic(path('dedipanel_machine_show', {'id': machine.id}), 'sylius.back'|trans, 'icon-cross') }}
+
+    </div>
 {% endblock %}

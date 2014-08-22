@@ -5,7 +5,7 @@
 {% endmacro %}
 
 {% macro generic(url, message, icon) %}
-<a href="{{ url }}" class="btn btn-labeled btn-default">
+<a href="{{ url }}" class="btn btn-labeled btn-default margin-left">
    {% if icon is not empty %}<span class="btn-label"><span class="{{ icon }}"></span></span>{% endif %}{{ message }}
 </a>
 {% endmacro %}
@@ -35,6 +35,15 @@
     </button>
 </form>
 {% endif %}
+{% endmacro %}
+
+{% macro widget(url, message, modal=true) %}
+<form action="{{ url }}" method="post">
+    <input type="hidden" name="_method" value="DELETE">
+    <button class="" type="submit">
+         {{ message is empty ? 'sylius.delete'|trans : message }}
+    </button>
+</form>
 {% endmacro %}
 
 {% macro move(url, direction, first=false, last=false, message='') %}
