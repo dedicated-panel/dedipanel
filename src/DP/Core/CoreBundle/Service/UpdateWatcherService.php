@@ -4,54 +4,77 @@ namespace DP\Core\CoreBundle\Service;
 
 class UpdateWatcherService
 {
-    protected $currentVersion;
-    protected $updateAvailable;
-    protected $versionAvailable;
-    
-    public function __construct($currentVersion)
+    private $currentVersion;
+    private $updateAvailable = false;
+    private $versionAvailable;
+    private $versionFile;
+
+    public function __construct($currentVersion, $watcherDir)
     {
         $this->currentVersion = $currentVersion;
-        
-        $this->fetchData();
+        $this->versionFile = $watcherDir . '/version.json';
+
+        $this->process();
     }
-    
+
     public function getCurrentVersion()
     {
         return $this->currentVersion;
     }
-    
+
     public function isUpdateAvailable()
     {
         return $this->updateAvailable;
     }
-    
+
     public function getAvailableVersion()
     {
         return $this->versionAvailable;
     }
+
+    private function process()
+    {
+        $version = '';
+
+        if (!file_exists($this->versionFile)
+        || filemtime($this->versionFile) <= mktime(0, 0, 0)) {
+            $version = $this->fetchData();
+        }
+
+        if (empty($version)) {
+            $version = file_get_contents($this->versionFile);
+        }
+
+        $this->processVersion($version);
+    }
     
-    protected function fetchData()
+    private function fetchData()
     {
         $context = stream_context_create(array(
             'http' => array(
+                'method'  => 'GET',
                 'timeout' => 1, 
             )
         ));
-        
+
         $version = @file_get_contents('http://www.dedicated-panel.net/version.json', false, $context);
-        
-        if (strlen($version) > 0) {
-            $version = json_decode($version);
-            $this->versionAvailable = $version->version;
-            
-            if (version_compare($this->versionAvailable, $this->currentVersion) == 1) {
-                $this->updateAvailable = true;
-            }
-            else {
-                $this->updateAvailable = false;
-            }
+
+        if ($version !== false) {
+            file_put_contents($this->versionFile, $version);
         }
-        
-        return $this->updateAvailable;
+
+        return $version;
+    }
+
+    private function processVersion($version)
+    {
+        $version = json_decode($version);
+
+        $this->versionAvailable = $version->version;
+        $this->updateAvailable  = false;
+
+        if (version_compare($this->versionAvailable, $this->currentVersion) == 1) {
+            $this->updateAvailable = true;
+        }
     }
 }
