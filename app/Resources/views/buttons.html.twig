@@ -8,7 +8,7 @@
 {% macro generic(url, message, icon, role, object) %}
     {% from '::dedipanel_buttons.html.twig' import generic %}
     {% if (role is not empty and is_granted(role, object)) or role is empty %}
-        {{ generic(url, message) }}
+        {{ generic(url, message, icon) }}
     {% endif %}
 {% endmacro %}
 
@@ -39,6 +39,12 @@
     </a>
     
     {{ message }}
+{% endmacro %}
+
+{% macro manage(url, message) %}
+<a href="{{ url }}" class="btn btn-labeled btn-success pull-left margin-left">
+    <span class="btn-label"><span class="icon-arrow-left"></span></span>{{ message is empty ? 'sylius.manage'|trans : message }}
+</a>
 {% endmacro %}
 
 {% macro yes_no(cond) %}

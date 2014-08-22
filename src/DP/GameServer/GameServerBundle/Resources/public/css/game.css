@@ -87,9 +87,12 @@
     margin: 0 0 0 8px;
     float: left;
 }
-.server-item .installation-status {
-    padding: 9px;
-    margin-left: 55px;
+.server-item .update-status {
+    margin-top: 22px;
+}
+.server-item .update-status .icon-spam {
+    font-size: 27px;
+    margin: -4px 15px 0 0;
 }
 .server-item .progress {
     margin-top: 15px;
