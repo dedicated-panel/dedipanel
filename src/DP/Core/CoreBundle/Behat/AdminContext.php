@@ -5,6 +5,15 @@ namespace DP\Core\CoreBundle\Behat;
 class AdminContext extends DefaultContext
 {
     /**
+     * @Then /^I should be on the page of ([^""(w)]*) "([^""]*)"$/
+     * @Then /^I should still be on the page of ([^""(w)]*) "([^""]*)"$/
+     */
+    public function iShouldBeOnTheResourcePageByName($type, $name)
+    {
+        $this->iShouldBeOnTheResourcePage($type, 'name', $name);
+    }
+
+    /**
      * @When /^I (?:click|press|follow) "([^"]*)" near "([^"]*)"$/
      */
     public function iClickNear($button, $value)
