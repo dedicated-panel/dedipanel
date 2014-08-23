@@ -551,3 +551,6 @@ form table.records_list tfoot select {
 
 .btn-default {color: #ffffff; background: #798d8f !important; border: none;text-shadow: none;}
 .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open > .dropdown-toggle.btn-default { color: #ffffff; background: #95a5a6 !important; border: none; }
+
+.btn-show {color: #252525; background: #F0F0F0 !important; border: none;text-shadow: none;}
+.btn-show:hover, .btn-show:focus, .btn-show:active, .btn-show.active, .open > .dropdown-toggle.btn-show {background: #F7F7F7 !important; border: none; }

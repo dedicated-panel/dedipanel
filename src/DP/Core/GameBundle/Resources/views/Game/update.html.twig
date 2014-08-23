@@ -16,13 +16,13 @@
 {% block content %}
     <h2>{{ 'game.title.edit'|trans }}</h2>
 
-    <form action="{{ path('dedipanel_game_update', { 'id': game.id }) }}" method="post" class="form-edit">    
+    <form id="form-update" action="{{ path('dedipanel_game_update', { 'id': game.id }) }}" method="post" class="form-edit">    
         {{ form_widget(form) }}
-        
-        <div class="form-actions"></div>
-            {{ dedipanel_buttons.update(path('dedipanel_game_show', {'id': game.id})) }}    
-            {{ dedipanel_buttons.delete(path('dedipanel_game_delete', {'id': game.id})) }}
-        </div>
     </form>
-    
+        
+    <div class="form-actions"></div>
+        {{ dedipanel_buttons.update(path('dedipanel_game_show', {'id': game.id})) }}    
+        {{ dedipanel_buttons.delete(path('dedipanel_game_delete', {'id': game.id})) }}
+    </div>
+        
 {% endblock %}

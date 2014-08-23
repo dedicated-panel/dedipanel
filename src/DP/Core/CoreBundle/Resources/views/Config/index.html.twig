@@ -20,7 +20,7 @@
 
     {{ dedipanel_flashes.all(false) }}
 
-    <form action="{{ path('dedipanel_core_config') }}" method="post">
+    <form id="form-update" action="{{ path('dedipanel_core_config') }}" method="post">
         {{ form_widget(form) }}
         
         <div class="form-actions">

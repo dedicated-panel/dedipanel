@@ -17,16 +17,14 @@
 {% block content %}
     <h2>{{ 'machine.title.edit'|trans }}</h2>
 
-    <form action="{{ path('dedipanel_machine_update', { 'id': machine.id }) }}" method="post" class="form-edit">    
+    <form id="form-update" action="{{ path('dedipanel_machine_update', { 'id': machine.id }) }}" method="post" class="form-edit">    
         {{ form_widget(form) }}
-        
-        <div class="form-group clearfix">
-            {{ dedipanel_actions.update(path('dedipanel_machine_show', {'id': machine.id})) }}    
-            {% if is_granted('ROLE_DP_ADMIN_MACHINE_DELETE') %}
-                {{ dedipanel_buttons.delete(path('dedipanel_machine_delete', {'id': machine.id})) }}
-            {% endif %}
-        </div>
     </form>
     
-
+    <div class="form-group clearfix">
+     {{ dedipanel_actions.update(path('dedipanel_machine_show', {'id': machine.id})) }}    
+     {% if is_granted('ROLE_DP_ADMIN_MACHINE_DELETE') %}
+         {{ dedipanel_buttons.delete(path('dedipanel_machine_delete', {'id': machine.id})) }}
+     {% endif %}
+    </div>         
 {% endblock %}

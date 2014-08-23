@@ -17,17 +17,15 @@
 {% block content %}
     <h2>{{ 'steam.title.edit'|trans }}</h2>
         
-    <form action="{{ path('dedipanel_steam_update', { 'id': steam.id }) }}" method="post" class="form-edit">
+    <form id="form-update" action="{{ path('dedipanel_steam_update', { 'id': steam.id }) }}" method="post" class="form-edit">
         {{ form_widget(form) }}
-        
-            <div class="form-actions">
-                {{ dedipanel_actions.update(path('dedipanel_steam_show', {'id': steam.id})) }}
-                {% if is_granted('ROLE_DP_GAME_STEAM_DELETE') %}
-                    {{ dedipanel_buttons.delete(path('dedipanel_steam_delete', {'id': steam.id})) }}
-                    {{ dedipanel_buttons.delete(path('dedipanel_steam_delete', {'id': steam.id, 'fromMachine': true})) }}
-                {% endif %}
-            </div>
     </form>
- 
+    
+    <div class="form-actions">
+        {{ dedipanel_actions.update(path('dedipanel_steam_show', {'id': steam.id})) }}
+        {% if is_granted('ROLE_DP_GAME_STEAM_DELETE') %}
+            {{ dedipanel_buttons.delete(path('dedipanel_steam_delete', {'id': steam.id})) }}
+            {{ dedipanel_buttons.delete(path('dedipanel_steam_delete', {'id': steam.id, 'fromMachine': true})) }}
+        {% endif %}
     </div>
 {% endblock %}
