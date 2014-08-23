@@ -14,16 +14,7 @@
             Cette action n'est pas autorisé.
         </li></ul></div>
     {% else %}
-        {% if  app.environment == 'dev' %}
-            {% render 'TwigBundle:Exception:show' with{'exception':exception, 'logger':logger, 'format':format} %}
-        {% else %}
-            ICI Votre template d'erreur personalisé
-        {% endif %}
-        
         <h1>Oups! Une erreur est survenue</h1>
         <h2>Le serveur a retourné une erreur "{{ status_code }} {{ status_text }}".</h2>
-        
-            {% include 'TwigBundle:Exception:exception.html.twig' %}
-
     {% endif %}
 {% endblock %}
