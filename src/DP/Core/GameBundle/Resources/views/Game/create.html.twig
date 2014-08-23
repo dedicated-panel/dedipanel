@@ -17,7 +17,7 @@
 {% block content %}
     <h2>{{ 'game.title.add'|trans }}</h2>
 
-    <form action="{{ path('dedipanel_game_create') }}" method="post">
+    <form action="{{ path('dedipanel_game_create') }}" method="post" id="form-create">
         {{ form_widget(form) }}
         {{ dedipanel_actions.create() }}
     </form>
