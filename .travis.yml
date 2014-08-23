@@ -42,6 +42,9 @@ script:
   - bin/behat -s games_admin
   - bin/behat -s plugins_admin
   - bin/behat -s users_admin
+  - bin/behat -s groups_admin
+  - bin/behat -s machines
+  - bin/behat -s minecraft
 
 after_script:
   - features/bootstrap/bootstrap.sh clean

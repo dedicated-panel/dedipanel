@@ -7,15 +7,6 @@ use Behat\Behat\Hook\Scope\BeforeFeatureScope;
 class ServerContext extends DefaultContext
 {
     /**
-     * @Then /^I should be on the page of ([^""(w)]*) (?:server)? "([^""]*)"$/
-     * @Then /^I should still be on the page of ([^""(w)]*) (?:server)? "([^""]*)"$/
-     */
-    public function iShouldBeOnTheResourcePageByName($type, $name)
-    {
-        $this->iShouldBeOnTheResourcePage($type, 'name', $name);
-    }
-
-    /**
      * @When /^I (?:click|press|follow) "([^"]*)" near "([^"]*)"$/
      */
     public function iClickNear($button, $value)

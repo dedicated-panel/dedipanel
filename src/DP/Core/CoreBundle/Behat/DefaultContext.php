@@ -319,6 +319,14 @@ class DefaultContext extends SyliusDefaultContext
         $this->assertSession()->addressEquals($this->generatePageUrl(sprintf('%s_show', $type), array('id' => $resource->getId())));
         $this->assertStatusCodeEquals(200);
     }
+    /**
+     * @Then /^I should be on the page of ([^""(w)]*)(?: server)? "([^""]*)"$/
+     * @Then /^I should still be on the page of ([^""(w)]*)(?: server)? "([^""]*)"$/
+     */
+    public function iShouldBeOnTheResourcePageByName($type, $name)
+    {
+        $this->iShouldBeOnTheResourcePage($type, 'name', $name);
+    }
 
     /**
      * @Given /^I am on the page of ([^""]*) with ([^""]*) "([^""]*)"$/
