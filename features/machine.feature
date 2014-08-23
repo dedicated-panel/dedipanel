@@ -131,7 +131,7 @@ Feature: Machines management
   Scenario: Testing machine connection as admin
     Given I am logged in with baz account
       And I am on the machine index page
-     When I click "Tester" near "testing1"
-     Then I should be testing machine with username "testing1"
+     When I click "Tester" near "testing2"
+     Then I should be testing machine with username "testing2"
       And I should see 1 success message
       And I should see "Test de connexion réussi."
