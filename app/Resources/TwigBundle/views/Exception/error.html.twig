@@ -1,9 +1,5 @@
-{% if status_code == 403 %}
-    {% include '::Error/error403.html.twig' %}
-{% elseif status_code == 404 %}
+{% if status_code == 404 %}
     {% include '::Error/error404.html.twig' %}
-{% elseif status_code == 405 %}
-    {% include '::Error/error405.html.twig' %}
 {% else %}
     {% include '::Error/error.html.twig' %}
 {% endif %}
