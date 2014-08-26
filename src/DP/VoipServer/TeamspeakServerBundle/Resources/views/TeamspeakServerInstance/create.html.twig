@@ -22,7 +22,7 @@
 
     {{ dedipanel_flashes.all() }}
 
-    <form action="{{ path('dedipanel_teamspeak_instance_create', {serverId: serverId }) }}" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('dedipanel_teamspeak_instance_create', {serverId: serverId }) }}" method="post" {{ form_enctype(form) }} id="form-create">
         {{ form_widget(form) }}
         {{ dedipanel_actions.create() }}
     </form>

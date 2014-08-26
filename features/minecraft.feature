@@ -59,14 +59,14 @@ Feature: Minecraft server management
       And I am on the minecraft index page
      When I follow "Ajouter un serveur Minecraft"
      Then I should be on the minecraft creation page
-      And I should see 3 "machine" options in "dedipanel_minecraft" form
+      And I should see 4 "machine" options in "dedipanel_minecraft" form
 
-  Scenario: Accessing the minecraft creation form as subteam user
+  Scenario: Accessing the minecraft creation form as team admin
     Given I am logged in with baz account
       And I am on the minecraft index page
      When I follow "Ajouter un serveur Minecraft"
      Then I should be on the minecraft creation page
-      And I should see 2 "machine" options in "dedipanel_minecraft" form
+      And I should see 3 "machine" options in "dedipanel_minecraft" form
 
   Scenario: Accessing the minecraft creation form as normal user
     Given I am logged in with biz account
@@ -80,7 +80,7 @@ Feature: Minecraft server management
       And I am on the minecraft index page
      When I follow "Ajouter un serveur Minecraft"
      Then I should be on the minecraft creation page
-      And I should see 1 "machine" options in "dedipanel_minecraft" form
+      And I should see 2 "machine" options in "dedipanel_minecraft" form
 
   Scenario: Submitting empty form
     Given I am logged in with bar account

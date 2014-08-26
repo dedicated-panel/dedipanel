@@ -20,7 +20,7 @@
 
     {{ dedipanel_flashes.all() }}
 
-    <form action="{{ path('dedipanel_group_create') }}" method="post">
+    <form action="{{ path('dedipanel_group_create') }}" method="post" id="form-create">
         {{ form_widget(form) }}
         {{ dedipanel_actions.create() }}
     </form>

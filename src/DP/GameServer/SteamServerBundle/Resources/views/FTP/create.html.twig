@@ -23,7 +23,7 @@
 
     <h2>{{ ('game.ftp.title.create_' ~ type)|trans }}</h2>
 
-    <form action="{{ path('dedipanel_steam_ftp_create', {id: server.id, path: resource.path, type: type}) }}" method="post" class="form-ftp">
+    <form action="{{ path('dedipanel_steam_ftp_create', {id: server.id, path: resource.path, type: type}) }}" method="post" class="form-ftp" id="form-create">
         {{ form_widget(form) }}
         {{ dedipanel_actions.create() }}
     </form>

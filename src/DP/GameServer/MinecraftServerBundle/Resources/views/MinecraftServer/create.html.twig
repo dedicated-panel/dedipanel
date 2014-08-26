@@ -21,7 +21,7 @@
 {% block content %}
     <h2>{{ 'minecraft.title.add'|trans }}</h2>
     
-    <form action="{{ path('dedipanel_minecraft_create') }}" method="post" {{ form_enctype(form) }} id="form-edit">
+    <form action="{{ path('dedipanel_minecraft_create') }}" method="post" {{ form_enctype(form) }} id="form-create">
         {{ form_widget(form) }}
         {{ dedipanel_actions.create() }}
     </form>

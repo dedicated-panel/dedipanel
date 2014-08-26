@@ -8,6 +8,7 @@
 {% extends "::layout.html.twig" %}
 
 {% import '::buttons.html.twig' as dedipanel_buttons %}
+{% import '::actions.html.twig' as dedipanel_actions %}
 
 {% block title %}
     {{ dedipanel_buttons.back(path('dedipanel_game_show', {'id': game.id}), 'game.title.game'|trans) }}
@@ -20,9 +21,8 @@
         {{ form_widget(form) }}
     </form>
         
-    <div class="form-actions"></div>
-        {{ dedipanel_buttons.update(path('dedipanel_game_show', {'id': game.id})) }}    
+    <div class="form-actions">
+        {{ dedipanel_actions.update(path('dedipanel_game_show', {'id': game.id})) }}
         {{ dedipanel_buttons.delete(path('dedipanel_game_delete', {'id': game.id})) }}
     </div>
-        
 {% endblock %}

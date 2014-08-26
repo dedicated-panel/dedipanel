@@ -255,7 +255,7 @@ body {
 
 #inner h1#title {
     margin: 0px 0 0 0;
-    padding: 0px 0px 0px 275px;
+    padding: 0px 0px 0px 15px;
 
     height: 40px;
     background-color: #2B2E33;
@@ -295,8 +295,7 @@ body {
 }
 
 #inner #page-content .container-fluid .inner-body {
-    padding-left: 10px;     
-    padding-bottom: 2px;
+    padding: 20px 0 10px 10px;
 }
 
 #inner #page-content h2 {
@@ -423,7 +422,6 @@ footer p a:hover {
 
 #inner #page-content ul {
     margin-top: 0;
-    list-style: none;
     margin-bottom: 0;
 }
 
@@ -521,7 +519,13 @@ form table.records_list tfoot select {
     margin-left: 80px;
 }
 
-
+table .btn-group a.btn {
+    margin-bottom: 0;
+}
+table.table th,
+table.table td {
+    vertical-align: middle;
+}
 .btn-label {
     position: relative;
     left: -12px;
@@ -581,12 +585,7 @@ h2.error{
     font-size: 25px;
 }
 
-
-
-
-
-
-
-
-
-
+textarea {
+    width: 600px;
+    height: 250px;
+}
