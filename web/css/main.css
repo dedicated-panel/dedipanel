@@ -559,6 +559,32 @@ table.table td {
 .btn-show {color: #252525; background: #F0F0F0 !important; border: none;text-shadow: none;}
 .btn-show:hover, .btn-show:focus, .btn-show:active, .btn-show.active, .open > .dropdown-toggle.btn-show {background: #F7F7F7 !important; border: none; }
 
+.error{
+    color: rgb(214, 85, 85) !important;
+    text-align: center;
+    font-size: 30px;
+}
+h1.error {
+    font-size: 100px;
+    margin: 70px;
+}
+h3.error{
+    text-transform: uppercase;
+    margin-top: 82px;
+}
+h2.error{
+    margin-bottom: 100px !important;
+}
+.block-exception{
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-left: 15px;
+    color: gray;
+}
+.block-exception h1 {
+    font-size: 25px;
+}
+
 textarea {
     width: 600px;
     height: 250px;

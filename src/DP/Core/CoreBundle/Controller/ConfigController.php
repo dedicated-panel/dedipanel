@@ -35,6 +35,7 @@ class ConfigController extends Controller
             $debugMode = (bool) $data['debug_mode'];
 
             if ($this->updateConfigFile($debugMode)) {
+                $this->clearCache();
                 $this->addFlash('success', 'dedipanel.core.config.update_succeeded');
             }
             else {
@@ -121,6 +122,28 @@ class ConfigController extends Controller
                 '%version%' => 'v' . $watcher->getAvailableVersion(),
                 '%url%' => 'http://www.dedicated-panel.net',
             ));
+        }
+    }
+    
+    public function clearCache(){
+        
+        $cacheDir = $this->container->getParameter('kernel.root_dir') . '/cache/prod';
+        if (is_dir($cacheDir)) {
+            $files = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($cacheDir, \RecursiveDirectoryIterator::SKIP_DOTS),
+                \RecursiveIteratorIterator::CHILD_FIRST
+            );
+            
+            foreach ($files AS $fileinfo) {
+                if ($fileinfo->isDir()) {
+                    rmdir($fileinfo->getRealPath());
+                }
+                else {
+                    unlink($fileinfo->getRealPath());
+                }
+            }
+            
+            rmdir($cacheDir);
         }
     }
 }

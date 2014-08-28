@@ -14,6 +14,12 @@ services:
         tags:
             - { name: twig.extension }
 
+    dp_core.debug.extension:
+        class: DP\Core\CoreBundle\Extension\DebugExtension
+        arguments: [ "%dp_core.debug%" ]
+        tags:
+            - { name: twig.extension }
+
     dp_menu.factory:
         class: DP\Core\CoreBundle\Menu\MenuFactory
         arguments: [ "@router" ]
