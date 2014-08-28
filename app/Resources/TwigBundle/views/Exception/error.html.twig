@@ -1,9 +1,29 @@
-{% if status_code == 403 %}
-    {% include '::Error/error403.html.twig' %}
-{% elseif status_code == 404 %}
-    {% include '::Error/error404.html.twig' %}
-{% elseif status_code == 405 %}
-    {% include '::Error/error405.html.twig' %}
-{% else %}
-    {% include '::Error/error.html.twig' %}
-{% endif %}
+{% extends "::layout.html.twig" %}
+
+{% block body %}
+    {% if status_code == 403 %}
+        <div class="alert alert-error"><ul><li>
+            Vous n'avez pas accès à cette page.
+        </li></ul></div>
+    {% elseif status_code == 404 %}
+        <div class="alert alert-error"><ul><li>
+            Cette page n'existe pas.
+        </li></ul></div>
+    {% elseif status_code == 405 %}
+        <div class="alert alert-error"><ul><li>
+            Cette action n'est pas autorisé.
+        </li></ul></div>
+    {% else %}
+        {% if  app.environment == 'dev' %}
+            {% render 'TwigBundle:Exception:show' with{'exception':exception, 'logger':logger, 'format':format} %}
+        {% else %}
+            ICI Votre template d'erreur personalisé
+        {% endif %}
+        
+        <h1>Oups! Une erreur est survenue</h1>
+        <h2>Le serveur a retourné une erreur "{{ status_code }} {{ status_text }}".</h2>
+        
+            {% include 'TwigBundle:Exception:exception.html.twig' %}
+
+    {% endif %}
+{% endblock %}
