@@ -36,15 +36,13 @@ dedipanel_steam_create:
     defaults:
         _controller: dedipanel.controller.steam:createAction
         _sylius:
-            form: dedipanel_steam_add
+            redirect: dedipanel_steam_index
 
 dedipanel_steam_update:
     pattern: /{id}/edit
     methods: [GET, POST]
     defaults:
         _controller: dedipanel.controller.steam:updateAction
-        _sylius:
-            form: dedipanel_steam_edit
 
 dedipanel_steam_delete:
     pattern: /{id}/delete

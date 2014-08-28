@@ -8,7 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Security\Core\SecurityContext;
 
-class MachineMappingType extends AbstractType
+class MachineEntityType extends AbstractType
 {
     private $repository;
     private $groupResolver;
@@ -51,6 +51,6 @@ class MachineMappingType extends AbstractType
 
     public function getName()
     {
-        return 'dedipanel_machine_mapping';
+        return 'dedipanel_machine_entity';
     }
 }

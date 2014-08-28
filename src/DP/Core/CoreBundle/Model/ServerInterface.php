@@ -104,4 +104,25 @@ interface ServerInterface
      * @return array
      */
     public function getCore();
+
+    /**
+     * Set dir relative to user home
+     *
+     * @param string $dir
+     */
+    public function setDir($dir);
+
+    /**
+     * Get dir relative to user home
+     *
+     * @return string
+     */
+    public function getDir();
+
+    /**
+     * Get absolute dir
+     *
+     * @return string Absolute path of the installation directory
+     */
+    public function getAbsoluteDir();
 }

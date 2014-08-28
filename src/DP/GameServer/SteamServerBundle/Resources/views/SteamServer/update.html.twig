@@ -25,7 +25,7 @@
         {{ dedipanel_actions.update(path('dedipanel_steam_show', {'id': steam.id})) }}
         {% if is_granted('ROLE_DP_GAME_STEAM_DELETE') %}
             {{ dedipanel_buttons.delete(path('dedipanel_steam_delete', {'id': steam.id})) }}
-            {{ dedipanel_buttons.delete(path('dedipanel_steam_delete', {'id': steam.id, 'fromMachine': true})) }}
+            {{ dedipanel_buttons.delete(path('dedipanel_steam_delete', {'id': steam.id, 'fromMachine': true}), 'dedipanel.full_delete'|trans) }}
         {% endif %}
     </div>
 {% endblock %}

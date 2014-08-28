@@ -50,7 +50,7 @@ services:
             - { name: validator.constraint_validator, alias: "machine_credentials_validator" }
 
     dedipanel.machine.form.mapping:
-        class: DP\Core\MachineBundle\Form\MachineMappingType
+        class: DP\Core\MachineBundle\Form\MachineEntityType
         arguments: [ @dedipanel.repository.machine, @dedipanel.resolver.user_group, @security.context ]
         tags:
-            - { name: form.type, alias: dedipanel_machine_mapping }
+            - { name: form.type, alias: dedipanel_machine_entity }

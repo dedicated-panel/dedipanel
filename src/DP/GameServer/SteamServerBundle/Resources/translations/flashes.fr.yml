@@ -1,0 +1,5 @@
+dedipanel.steam:
+    create: "Le serveur steam a bien été ajouté."
+    update: "Le serveur steam a bien été mis à jour."
+    delete: "Le serveur steam a bien été supprimé."
+    full_delete: "Le serveur steam a bien été supprimé en totalité."

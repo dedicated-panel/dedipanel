@@ -31,7 +31,7 @@ class MinecraftServerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('machine', 'dedipanel_machine_mapping')
+            ->add('machine', 'dedipanel_machine_entity')
             ->add('name', 'text', array('label' => 'game.name'))
             ->add('port', 'integer', array('label' => 'game.port'))
             ->add('queryPort', 'integer', array('label' => 'minecraft.queryPort'))

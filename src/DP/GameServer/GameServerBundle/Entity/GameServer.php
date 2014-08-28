@@ -72,13 +72,6 @@ abstract class GameServer extends AbstractServer
     protected $port;
 
     /**
-     * @var string $dir
-     *
-     * @ORM\Column(name="dir", type="string", length=64)
-     */
-    protected $dir;
-
-    /**
      * @var integer $maxplayers
      *
      * @ORM\Column(name="maxplayers", type="integer")
@@ -215,26 +208,6 @@ abstract class GameServer extends AbstractServer
     }
 
     /**
-     * Set dir
-     *
-     * @param string $dir
-     */
-    public function setDir($dir)
-    {
-        $this->dir = trim($dir, '/ ');
-    }
-
-    /**
-     * Get dir
-     *
-     * @return string
-     */
-    public function getDir()
-    {
-        return $this->dir;
-    }
-
-    /**
      * Set maxplayers
      *
      * @param integer $maxplayers
@@ -252,16 +225,6 @@ abstract class GameServer extends AbstractServer
     public function getMaxplayers()
     {
         return $this->maxplayers;
-    }
-
-    /**
-     * Get absolute path of server installation directory
-     *
-     * @return string
-     */
-    protected function getAbsoluteDir()
-    {
-        return rtrim($this->getMachine()->getHome(), '/') . '/' . $this->getDir() . '/';
     }
 
     /**

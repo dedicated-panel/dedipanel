@@ -176,7 +176,7 @@
             {% endif %}
             {% if is_granted('ROLE_DP_GAME_STEAM_DELETE') %}
                 {{ dedipanel_buttons.delete(path('dedipanel_steam_delete', {'id': steam.id})) }}
-                {{ dedipanel_buttons.delete(path('dedipanel_steam_delete', {'id': steam.id, 'fromMachine': true})) }}
+                {{ dedipanel_buttons.delete(path('dedipanel_steam_delete', {'id': steam.id, 'fromMachine': true}), 'dedipanel.full_delete'|trans) }}
             {% endif %}
         </div>
     {% endif %}

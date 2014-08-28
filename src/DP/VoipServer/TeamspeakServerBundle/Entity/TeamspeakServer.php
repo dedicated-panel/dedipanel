@@ -386,7 +386,7 @@ EOF;
     }
 
     /** {@inheritdoc} */
-    protected function getAbsoluteDir()
+    public function getAbsoluteDir()
     {
         return rtrim($this->getMachine()->getHome(), '/') . '/' . trim($this->dir, '/');
     }

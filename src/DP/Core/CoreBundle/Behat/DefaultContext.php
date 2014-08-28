@@ -4,7 +4,6 @@ namespace DP\Core\CoreBundle\Behat;
 
 use Sylius\Bundle\ResourceBundle\Behat\DefaultContext as SyliusDefaultContext;
 use Behat\Gherkin\Node\TableNode;
-use DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer;
 
 class DefaultContext extends SyliusDefaultContext
 {
@@ -600,65 +599,6 @@ class DefaultContext extends SyliusDefaultContext
         }
 
         return $field;
-    }
-
-    /**
-     * @Given /^there are following minecraft servers:$/
-     */
-    public function thereAreMinecraftServers(TableNode $table)
-    {
-        foreach ($table->getHash() as $data) {
-            $this->thereIsMinecraftServer(
-                $data['name'],
-                $data['machine'],
-                $data['port'],
-                $data['queryPort'],
-                $data['rconPort'],
-                $data['rconPassword'],
-                $data['game'],
-                $data['installDir'],
-                $data['maxplayers'],
-                $data['minHeap'],
-                $data['maxHeap'],
-                (isset($data['installed']) && $data['installed'] == 'yes'),
-                false
-            );
-        }
-
-        $this->getEntityManager()->flush();
-    }
-
-    public function thereIsMinecraftServer($name, $machine = null, $port = 25565, $queryPort = 25565, $rconPort = 25575, $rconPassword = 'test', $game = 'minecraft', $installDir = 'test', $maxplayers = 2, $minHeap = 128, $maxHeap = 256, $installed = true, $flush = true)
-    {
-        if (null === $server = $this->getRepository('minecraft')->findOneBy(array('name' => $name))) {
-            $game    = $this->thereIsGame($game);
-            $machine = $this->thereIsMachine($machine);
-
-            $server = new MinecraftServer();
-            $server->setName($name);
-            $server->setMachine($machine);
-            $server->setPort($port);
-            $server->setQueryPort($queryPort);
-            $server->setRconPort($rconPort);
-            $server->setRconPassword($rconPassword);
-            $server->setGame($game);
-            $server->setDir($installDir);
-            $server->setMaxplayers($maxplayers);
-            $server->setMinHeap($minHeap);
-            $server->setMaxHeap($maxHeap);
-
-            if ($installed) {
-                $server->setInstallationStatus(101);
-            }
-
-            $this->getEntityManager()->persist($server);
-
-            if ($flush) {
-                $this->getEntityManager()->flush();
-            }
-        }
-
-        return $server;
     }
 
     /**

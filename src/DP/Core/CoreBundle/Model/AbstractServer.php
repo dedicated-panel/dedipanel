@@ -26,11 +26,13 @@ abstract class AbstractServer implements ServerInterface
      */
     protected $core = array();
 
-
     /**
-     * @return string Absolute path of the installation directory
+     * @var string $dir
+     *
+     * @ORM\Column(name="dir", type="string", length=64)
      */
-    abstract protected function getAbsoluteDir();
+    protected $dir;
+
 
     /** {@inheritdoc} */
     abstract public function getName();
@@ -163,6 +165,28 @@ abstract class AbstractServer implements ServerInterface
         return $this->core;
     }
 
+    /** {@inheritdoc} */
+    public function setDir($dir)
+    {
+        $this->dir = trim($dir, '/ ');
+    }
+
+    /** {@inheritdoc} */
+    public function getDir()
+    {
+        return $this->dir;
+    }
+
+    /**
+     * Get absolute path of server installation directory
+     *
+     * @return string
+     */
+    public function getAbsoluteDir()
+    {
+        return rtrim($this->getMachine()->getHome(), '/') . '/' . $this->getDir() . '/';
+    }
+
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addConstraint(new Assert\Callback('validateServer'));
@@ -170,16 +194,18 @@ abstract class AbstractServer implements ServerInterface
 
     public function validateServer(ExecutionContextInterface $context)
     {
-        if ($this->getMachine() !== null) {
+        if ($this->getMachine() !== null && $this->getMachine()->getConnection() !== null) {
             $dir = $this->getAbsoluteDir();
 
             if (!$this->getMachine()->getConnection()->testSSHConnection()) {
                 $context->addViolationAt('machine', 'gameServer.assert.machine_unavailable');
             }
-            elseif (!$this->isAlreadyInstalled() && $this->getMachine()->getConnection()->dirExists($dir)) {
+            elseif (!$this->isAlreadyInstalled() && !empty($this->getDir())
+            && $this->getMachine()->getConnection()->dirExists($this->getAbsoluteDir())) {
                 $context->addViolationAt('dir', 'gameServer.assert.directory_exists');
             }
-            elseif ($this->isAlreadyInstalled() && !$this->getMachine()->getConnection()->dirExists($dir)) {
+            elseif ($this->isAlreadyInstalled() && !empty($this->getDir())
+            && !$this->getMachine()->getConnection()->dirExists($this->getAbsoluteDir())) {
                 $context->addViolationAt('dir', 'gameServer.assert.directory_not_exists');
             }
         }

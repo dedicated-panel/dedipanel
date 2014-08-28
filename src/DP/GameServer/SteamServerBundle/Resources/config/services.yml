@@ -39,11 +39,6 @@ services:
             - { name: doctrine.event_listener, event: preUpdate, method: preUpdate }
     
     dedipanel.steam.form.add:
-        class: DP\GameServer\SteamServerBundle\Form\AddSteamServerType
+        class: DP\GameServer\SteamServerBundle\Form\SteamServerType
         tags:
-            - { name: form.type, alias: dedipanel_steam_add }
-    
-    dedipanel.steam.form.edit:
-        class: DP\GameServer\SteamServerBundle\Form\EditSteamServerType
-        tags:
-            - { name: form.type, alias: dedipanel_steam_edit }
+            - { name: form.type, alias: dedipanel_steam }
