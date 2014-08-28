@@ -29,12 +29,6 @@ Class['::apt::update'] -> Package <|
 and title != 'software-properties-common'
 |>
 
-    apt::key { '4F4EA0AAE5267A6C': }
-
-apt::ppa { 'ppa:ondrej/php5-oldstable':
-  require => Apt::Key['4F4EA0AAE5267A6C']
-}
-
 package { [
     'build-essential',
     'vim',
@@ -48,6 +42,11 @@ package { [
 }
 
 class { 'apache': }
+
+exec { 'disable default vhost':
+  command => '/usr/sbin/a2dissite 000-default && /usr/bin/service apache2 reload',
+  require => Class['apache'],
+}
 
 apache::module { 'rewrite': }
 
@@ -88,21 +87,27 @@ class { 'php::devel':
   require => Class['php'],
 }
 
-class { 'php::pear':
-  require => Class['php'],
-}
-
-php::pear::module { 'PHPUnit':
-  repository  => 'pear.phpunit.de',
-  use_package => 'no',
-  require => Class['php::pear']
-}
-
 class { 'composer':
   command_name => 'composer',
   target_dir   => '/usr/local/bin',
   auto_update => true,
   require => Package['php5', 'curl'],
+}
+
+exec { "phpunit":
+  command => '/usr/local/bin/composer global require "phpunit/phpunit=4.2.*"',
+  environment => "COMPOSER_HOME=/home/vagrant",
+  require => Class['composer'],
+}
+
+file { "vagrant composer":
+  path    => "/home/vagrant/.composer",
+  ensure  => directory,
+  owner   => 'vagrant',
+  group   => 'vagrant',
+  mode    => 0644,
+  recurse => inf,
+  require => Exec['phpunit'],
 }
 
 php::ini { 'php_ini_configuration':
@@ -131,6 +136,12 @@ exec { "mysql-root-access":
 }
 
 mysql_database{ 'dedipanel':
+  ensure  => present,
+  charset => 'utf8',
+  require => Class['mysql::server'],
+}
+
+mysql_database{ 'dedipanel_test':
   ensure  => present,
   charset => 'utf8',
   require => Class['mysql::server'],
