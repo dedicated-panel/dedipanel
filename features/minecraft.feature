@@ -216,10 +216,3 @@ Feature: Minecraft server management
      Then I should be on the minecraft index page
       And I should see 1 success message
       And I should see "Démarrage du serveur en cours."
-
-  Scenario: Seeing index of all files on a minecraft server
-    Given I am logged in with boz account
-      And I am on the minecraft index page
-     When I follow "Zone FTP" near "Test2"
-     Then I should be on the ftp page of minecraft "Test2"
-      And I should see 3 files in the list
