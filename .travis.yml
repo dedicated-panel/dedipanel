@@ -45,6 +45,7 @@ script:
   - bin/behat -s groups_admin
   - bin/behat -s machines
   - bin/behat -s minecraft
+  - bin/behat -s steam
 
 after_script:
   - features/bootstrap/bootstrap.sh clean
