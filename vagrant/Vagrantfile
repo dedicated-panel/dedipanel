@@ -1,28 +1,48 @@
 Vagrant.configure("2") do |config|
-  config.vm.hostname = "dedipanel.dev"
-  config.vm.box = "ubuntu/trusty32"
-
-  config.vm.network :private_network, ip: "10.0.0.200"
   config.ssh.forward_agent = true
 
-  config.vm.provider :virtualbox do |v|
-    v.memory = 2048
-    v.cpus = 3
-    v.name = "dedipanel"
-    v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-    v.customize ["modifyvm", :id, "--cpuexecutioncap", "75"]
+  config.vm.define "web", primary: true do |web|
+    web.vm.hostname = "dedipanel.dev"
+    web.vm.box = "ubuntu/trusty64"
+    web.vm.network :private_network, ip: "10.0.0.200"
+
+    web.vm.synced_folder "./../../PHPSeclibWrapperBundle", "/var/www/PHPSeclibWrapperBundle"
+    web.vm.synced_folder "./../../dedipanel-site", "/var/www/dedipanel-site"
+    web.vm.synced_folder "./../", "/var/www/dedipanel"
+
+    config.vm.provider :virtualbox do |v|
+      v.memory = 2048
+      v.cpus = 3
+      v.name = "dedipanel"
+      v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+      v.customize ["modifyvm", :id, "--cpuexecutioncap", "75"]
+    end
+
+    config.vm.provision :shell do |shell|
+      shell.path = "bootstrap.sh"
+    end
+
+    config.vm.provision :puppet do |puppet|
+      puppet.manifests_path = "manifests"
+      puppet.options = ['--verbose']
+    end
   end
 
-  config.vm.synced_folder "./../../PHPSeclibWrapperBundle", "/var/www/PHPSeclibWrapperBundle"
-  config.vm.synced_folder "./../../dedipanel-site", "/var/www/dedipanel-site"
-  config.vm.synced_folder "./../", "/var/www/dedipanel"
+  config.vm.define "machine32", autostart: false do |machine32|
+    machine32.vm.hostname = "dedipanel32.dev"
+    machine32.vm.box = "ubuntu/trusty32"
+    machine32.vm.network :private_network, ip: "10.0.0.202"
 
-  config.vm.provision :shell do |shell|
-    shell.path = "bootstrap.sh"
-  end
+    machine32.vm.provider :virtualbox do |v|
+      v.memory = 1024
+      v.cpus = 1
+      v.name = "dedipanel32"
+      v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+      v.customize ["modifyvm", :id, "--cpuexecutioncap", "15"]
+    end
 
-  config.vm.provision :puppet do |puppet|
-    puppet.manifests_path = "manifests"
-    puppet.options = ['--verbose']
+    config.vm.provision :shell do |shell|
+      shell.path = "bootstrap32.sh"
+    end
   end
 end
