@@ -13,23 +13,9 @@
     <h2>{{ 'teamspeak.instance.title.index'|trans }}</h2>
 
     <ul id="top-nav" class="nav nav-tabs">
-        {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_CREATE') %}
-        <li>
-            {{ dedipanel_buttons.create(path('dedipanel_teamspeak_instance_create', {serverId: serverId}), 'teamspeak.instance.add'|trans) }}
-        </li>
-        {% endif %}
-
-        {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_UPDATE') %}
-        <li>
-            {{ dedipanel_buttons.edit(path('dedipanel_teamspeak_update', {id: serverId, fromMachine: true}), 'teamspeak.edit'|trans) }}
-        </li>
-        {% endif %}
-
-        {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_DELETE') %}
-        <li>
-            {{ dedipanel_buttons.delete(path('dedipanel_teamspeak_delete', {id: serverId, fromMachine: true}), 'teamspeak.instance.delete_server'|trans) }}
-        </li>
-        {% endif %}
+        {{ dedipanel_buttons.create(path('dedipanel_teamspeak_instance_create', {serverId: serverId}), 'teamspeak.instance.add'|trans, 'ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_CREATE', null, true) }}
+        {{ dedipanel_buttons.edit(path('dedipanel_teamspeak_update', {id: serverId, fromMachine: true}), 'teamspeak.edit'|trans, 'ROLE_DP_VOIP_TEAMSPEAK_UPDATE', null, true) }}
+        {{ dedipanel_buttons.delete(path('dedipanel_teamspeak_delete', {id: serverId, fromMachine: true}), 'teamspeak.instance.delete_server'|trans, 'ROLE_DP_VOIP_TEAMSPEAK_DELETE', null, true) }}
     </ul>
 
     {{ dedipanel_flashes.all() }}
@@ -37,9 +23,13 @@
     {% for entity in instances %}
         {% set online = entity.query.isOnline and entity.query.isInstanceOnline(entity.instanceId) %}
 
-        <a href="{{ path('dedipanel_teamspeak_instance_show', {id: entity.id, serverId: serverId}) }}">
+        {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_SHOW', entity) %}
+            <a href="{{ path('dedipanel_teamspeak_instance_show', {id: entity.id, serverId: serverId}) }}">
+                {{ entity.name }}
+            </a>
+        {% else %}
             {{ entity.name }}
-        </a> -
+        {% endif %} -
 
         {% if online %}
             Running

@@ -21,11 +21,10 @@
 
     <div class="form-group">
         {% if test == false %}
-            {{ dedipanel_buttons.edit(path('dedipanel_machine_update', {'id': machine.id})) }}
+            {{ dedipanel_buttons.edit(path('dedipanel_machine_update', {'id': machine.id}), null, 'ROLE_DP_ADMIN_MACHINE_UPDATE', machine) }}
         {% endif %}
 
-        {{ dedipanel_buttons.manage(path('dedipanel_machine_connection_test', {'id': machine.id}), 'machine.actions.connection_test'|trans) }}
-        {{ dedipanel_buttons.generic(path('dedipanel_machine_show', {'id': machine.id}), 'sylius.back'|trans, 'icon-cross') }}
-
+        {{ dedipanel_buttons.manage(path('dedipanel_machine_connection_test', {'id': machine.id}), 'machine.actions.connection_test'|trans, 'ROLE_DP_ADMIN_MACHINE_SHOW', machine) }}
+        {{ dedipanel_buttons.generic(path('dedipanel_machine_show', {'id': machine.id}), 'sylius.back'|trans, 'icon-cross', 'ROLE_DP_ADMIN_MACHINE_SHOW', machine) }}
     </div>
 {% endblock %}

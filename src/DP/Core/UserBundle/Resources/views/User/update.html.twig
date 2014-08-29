@@ -23,7 +23,6 @@
     
     <div class="form-actions">
         {{ dedipanel_actions.update(path('dedipanel_user_show', {'id': user.id})) }}    
-        {{ dedipanel_buttons.delete(path('dedipanel_user_delete', {'id': user.id})) }}
+        {{ dedipanel_buttons.delete(path('dedipanel_user_delete', {'id': user.id}), null, 'ROLE_DP_ADMIN_USER_DELETE', user) }}
     </div>
-    
 {% endblock %}

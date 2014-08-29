@@ -22,16 +22,24 @@
     {{ dedipanel_buttons.back(path('_welcome'), 'minecraft.title.minecraft'|trans) }}
 {% endblock %}
 
+{% macro game_image(entity) %}
+    <div class="game-image">
+        {% if is_granted('ROLE_DP_GAME_MINECRAFT_SHOW', entity) %}
+            <a href="{{ path('dedipanel_minecraft_show', {'id': entity.id }) }}">
+                <img src="{{ asset('images/serveur/viewer/' ~ entity.game.installname ~ '.png') }}" alt="{{ entity.game }}" />
+            </a>
+        {% else %}
+            <img src="{{ asset('images/serveur/viewer/' ~ entity.game.installname ~ '.png') }}" alt="{{ entity.game }}" />
+        {% endif %}
+    </div>
+{% endmacro %}
+
 {% block content %}
     <h2>{{ 'minecraft.title.index'|trans }}</h2>
-    
-    {% if is_granted('ROLE_DP_GAME_MINECRAFT_CREATE') %}
-        <ul id="top-nav" class="nav nav-tabs">
-            <li>
-                {{ dedipanel_buttons.create(path('dedipanel_minecraft_create'), 'minecraft.add'|trans) }}
-            </li>
-        </ul>
-    {% endif %}
+
+    <ul id="top-nav" class="nav nav-tabs">
+        {{ dedipanel_buttons.create(path('dedipanel_minecraft_create'), 'minecraft.add'|trans, 'ROLE_DP_GAME_MINECRAFT_CREATE', null, true) }}
+    </ul>
 
     {{ dedipanel_flashes.all() }}
     
@@ -47,15 +55,15 @@
             <div class="server-item clearfix">
                 {% if not entity.isInstallationEnded %}
                     <div class="principal clearfix">
-                        <div class="game-image">
-                            <a href="{{ path('dedipanel_minecraft_show', {'id': entity.id }) }}">
-                                <img src="{{ asset('images/serveur/viewer/' ~ entity.game.installname ~ '.png') }}" alt="{{ entity.game }}" />
-                            </a>
-                        </div>
+                        {{ _self.game_image(entity) }}
                         
                         <div class="infos">
                             <div class="titre">
-                                <a href="{{ path('dedipanel_minecraft_show', {id: entity.id}) }}">{{ entity.name }}</a>
+                                {% if is_granted('ROLE_DP_GAME_MINECRAFT_SHOW', entity) %}
+                                    <a href="{{ path('dedipanel_minecraft_show', {id: entity.id}) }}">{{ entity.name }}</a>
+                                {% else %}
+                                    {{ entity.name }}
+                                {% endif %}
                             </div>
 
                             <div class="description">
@@ -63,7 +71,7 @@
                                     {{ entity.machine.publicIp }}:{{ entity.port }}
                                 </span>
                                 
-                                {% if not is_granted('ROLE_DP_GAME_MINECRAFT_UPDATE') %}
+                                {% if not is_granted('ROLE_DP_GAME_MINECRAFT_UPDATE', entity) %}
                                     <span class="install-in-progress">
                                         {{ 'game.installation_in_progress'|trans }}
                                     </span>
@@ -71,7 +79,7 @@
                             </div>
                         </div>
 
-                        {% if is_granted('ROLE_DP_GAME_MINECRAFT_CREATE') or is_granted('ROLE_DP_GAME_MINECRAFT_UPDATE') %}
+                        {% if is_granted('ROLE_DP_GAME_MINECRAFT_CREATE') or is_granted('ROLE_DP_GAME_MINECRAFT_UPDATE', entity) %}
                             <div class="installation">
                                 <div class="update-status">
                                     <img src="{{ asset('images/icones/serveur/install.png') }}" alt="{{ 'game.update_status'|trans }}" />
@@ -93,11 +101,7 @@
                     {% set online = (entity.query.online != false) %}
                     
                     <div class="principal clearfix">
-                        <div class="game-image">
-                            <a href="{{ path('dedipanel_minecraft_show', {'id': entity.id }) }}">
-                                <img src="{{ asset('images/serveur/viewer/' ~ entity.game.installname ~ '.png') }}" alt="{{ entity.game }}" />
-                            </a>
-                        </div>
+                        {{ _self.game_image(entity) }}
 
                         <div class="infos">
                             <div class="titre">

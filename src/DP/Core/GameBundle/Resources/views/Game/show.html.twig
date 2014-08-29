@@ -94,7 +94,7 @@
     </table>
 
     <div class="form-group clearfix">
-        {{ dedipanel_buttons.edit(path('dedipanel_game_update', {'id': game.id})) }}
-        {{ dedipanel_buttons.delete(path('dedipanel_game_delete', {'id': game.id})) }}
+        {{ dedipanel_buttons.edit(path('dedipanel_game_update', {'id': game.id}), null, 'ROLE_DP_ADMIN_GAME_UPDATE', game) }}
+        {{ dedipanel_buttons.delete(path('dedipanel_game_delete', {'id': game.id}), null, 'ROLE_DP_ADMIN_GAME_DELETE', game) }}
     </div>
 {% endblock %}

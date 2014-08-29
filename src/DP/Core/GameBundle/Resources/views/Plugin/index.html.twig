@@ -17,26 +17,12 @@
 {% block body -%}
     <h2>{{ 'plugin.title.index'|trans }}</h2>
 
-    {% if is_granted('ROLE_DP_ADMIN_PLUGIN_CREATE') %}
     <ul id="top-nav" class="nav nav-tabs">
-        <li>
-            {{ dedipanel_buttons.create(path('dedipanel_plugin_create'), 'plugin.actions.add'|trans) }}
-        </li>
+        {{ dedipanel_buttons.create(path('dedipanel_plugin_create'), 'plugin.actions.add'|trans, 'ROLE_DP_ADMIN_PLUGIN_CREATE', null, true) }}
     </ul>
-    {% endif %}
 
     {{ dedipanel_flashes.all() }}
-    
-    {% for notice_level in ['success','error','info', 'warning'] %}
-        {% set session_var = 'dp_flash_' ~ notice_level %}
-        {% for flash in app.session.flashbag.get(session_var) %}
-            <div class="alert {{ 'alert-' ~ notice_level }}">
-                {{ flash|trans }}
-            </div>
-        {% endfor %}
-    {% endfor %}
 
-        
     <table class="table table-striped plugin-list">
         <thead>
             <tr>
@@ -52,8 +38,8 @@
                     <td>{{ plugin.version }}</td>
                     <td> 
                         <div class="btn-group">
-                            {{ dedipanel_buttons.show(path('dedipanel_plugin_show', {'id': plugin.id})) }}
-                            {{ dedipanel_buttons.edit(path('dedipanel_plugin_update', {'id': plugin.id})) }}
+                            {{ dedipanel_buttons.show(path('dedipanel_plugin_show', {'id': plugin.id}), null, 'ROLE_DP_ADMIN_PLUGIN_SHOW', plugin) }}
+                            {{ dedipanel_buttons.edit(path('dedipanel_plugin_update', {'id': plugin.id}), null, 'ROLE_DP_ADMIN_PLUGIN_UPDATE', plugin) }}
                         </div>
                     </td>
                 </tr>

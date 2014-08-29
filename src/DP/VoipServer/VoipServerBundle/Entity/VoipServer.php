@@ -100,7 +100,6 @@ abstract class VoipServer extends AbstractServer
 
     public function addInstance(VoipServerInstance $instance)
     {
-        $instance->setServer($this);
         $this->instances[] = $instance;
     }
 

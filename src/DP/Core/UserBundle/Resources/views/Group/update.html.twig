@@ -22,8 +22,7 @@
     </form>
         
     <div class="form-actions">
-        {{ dedipanel_actions.update(path('dedipanel_group_show', {'id': group.id})) }}    
-        {{ dedipanel_buttons.delete(path('dedipanel_group_delete', {'id': group.id})) }}
+        {{ dedipanel_actions.update(path('dedipanel_group_show', {'id': group.id})) }}
+        {{ dedipanel_buttons.delete(path('dedipanel_group_delete', {'id': group.id}), null, false, true, 'ROLE_DP_ADMIN_GROUP_DELETE', group) }}
     </div>
-    
 {% endblock %}

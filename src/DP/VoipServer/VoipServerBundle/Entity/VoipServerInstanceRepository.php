@@ -6,5 +6,14 @@ use DP\Core\CoreBundle\Entity\MachineRelatedRepository;
 
 abstract class VoipServerInstanceRepository extends MachineRelatedRepository
 {
-    abstract public function createNewInstance(VoipServer $server);
+    abstract protected function validate(VoipServer $server);
+
+    public function createNewInstance(VoipServer $server)
+    {
+        $this->validate($server);
+
+        $className = $this->getClassName();
+
+        return new $className($server);
+    }
 }

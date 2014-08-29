@@ -14,24 +14,29 @@
 {% endif %}
 {% endmacro %}
 
-{% macro create(url, message, role, object) %}
+{% macro create(url, message, role, object, li=false) %}
 {% if (role is not empty and is_granted(role, object)) or role is empty %}
+{% if li %}<li>{% endif %}
 <a href="{{ url }}" class="btn btn-labeled btn-primary">
     <span class="btn-label"><span class="icon-plus2"></span></span>{{ message is empty ? 'sylius.create'|trans : message }}
 </a>
+{% if li %}</li>{% endif %}
 {% endif %}
 {% endmacro %}
 
-{% macro edit(url, message, role, object) %}
+{% macro edit(url, message, role, object, li=false) %}
 {% if (role is not empty and is_granted(role, object)) or role is empty %}
+{% if li %}<li>{% endif %}
 <a href="{{ url }}" class="btn btn-labeled btn-primary pull-left">
     <span class="btn-label"><span class="icon-uni41"></span></span>{{ message is empty ? 'sylius.edit'|trans : message }}
 </a>
+{% if li %}</li>{% endif %}
 {% endif %}
 {% endmacro %}
 
-{% macro delete(url, message, disabled=false, modal=true, role, object) %}
+{% macro delete(url, message, disabled=false, modal=true, role, object, li=false) %}
 {% if (role is not empty and is_granted(role, object)) or role is empty %}
+{% if li %}<li>{% endif %}
 {% if disabled %}
 <span class="btn btn-labeled btn-danger pull-left margin-left">
     <span class="btn-label"><span class="icon-uni3B"></span></span>{{ message is empty ? 'sylius.delete'|trans : message }}
@@ -44,6 +49,7 @@
     </button>
 </form>
 {% endif %}
+    {% if li %}</li>{% endif %}
 {% endif %}
 {% endmacro %}
 

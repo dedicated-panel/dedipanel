@@ -18,7 +18,7 @@ class ConfigController extends Controller
 
     public function configAction(Request $request)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_DP_ADMIN_CONFIG')) {
+        if (!$this->get('security.context')->isGranted('ROLE_SUPER_ADMIN')) {
             throw new AccessDeniedException();
         }
 

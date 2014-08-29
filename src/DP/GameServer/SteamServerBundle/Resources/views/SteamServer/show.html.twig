@@ -17,6 +17,18 @@
     {{ dedipanel_buttons.back(path('dedipanel_steam_index'), 'steam.title.steam'|trans) }}
 {% endblock %}
 
+{% macro install_status(steam) %}
+    {% spaceless %}
+        {% if steam.installationStatus is null %}
+            Buggued
+        {% elseif steam.isInstallationEnded %}
+            {{ 'game.installation_ended'|trans }}
+        {% else %}
+            {{ steam.installationStatus }}%
+        {% endif %}
+    {% endspaceless %}
+{% endmacro %}
+
 {% block content %}
     {% set online = (steam.query.latency != false) %}
 
@@ -106,31 +118,15 @@
                                     <td>
                                         {% if is_granted('ROLE_DP_GAME_STEAM_UPDATE') %}
                                             <a href="{{ path('dedipanel_steam_install', { 'id': steam.id }) }}">
-                                                {% spaceless %}
-                                                    {% if steam.installationStatus is null %}
-                                                        Buggued
-                                                    {% elseif steam.isInstallationEnded %}
-                                                        {{ 'game.installation_ended'|trans }}
-                                                    {% else %}
-                                                        {{ steam.installationStatus }}%
-                                                    {% endif %}
-                                                {% endspaceless %}
+                                                {{ _self.install_status(steam) }}
                                             </a>
                                         {% else %}
-                                            {% spaceless %}
-                                                {% if steam.installationStatus is null %}
-                                                    Buggued
-                                                {% elseif steam.isInstallationEnded %}
-                                                    {{ 'game.installEnded'|trans }}
-                                                {% else %}
-                                                    {{ steam.installationStatus }}%
-                                                {% endif %}
-                                            {% endspaceless %}
+                                            {{ _self.install_status(steam) }}
                                         {% endif %}
                                     </td>
                                     </tr>
                                 </tbody>
-                            </table>					
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -162,22 +158,16 @@
                     {% else %}
                         <tr><th colspan="2" class="empty">
                         {{ 'game.serveurOffline'|trans }}
-                        </th></tr>                 
+                        </th></tr>
                     {% endif %}
                 </tbody>
             </table>
         </div>
     </div>
     
-    {% if is_granted('ROLE_DP_GAME_STEAM_UPDATE') or is_granted('ROLE_DP_GAME_STEAM_DELETE') %}
-        <div class="form-group clearfix">
-            {% if is_granted('ROLE_DP_GAME_STEAM_UPDATE') %}
-                {{ dedipanel_buttons.edit(path('dedipanel_steam_update', {'id': steam.id})) }}
-            {% endif %}
-            {% if is_granted('ROLE_DP_GAME_STEAM_DELETE') %}
-                {{ dedipanel_buttons.delete(path('dedipanel_steam_delete', {'id': steam.id})) }}
-                {{ dedipanel_buttons.delete(path('dedipanel_steam_delete', {'id': steam.id, 'fromMachine': true}), 'dedipanel.full_delete'|trans) }}
-            {% endif %}
-        </div>
-    {% endif %}
+    <div class="form-group clearfix">
+        {{ dedipanel_buttons.edit(path('dedipanel_steam_update', {'id': steam.id}), null, 'ROLE_DP_GAME_STEAM_UPDATE', steam) }}
+        {{ dedipanel_buttons.delete(path('dedipanel_steam_delete', {'id': steam.id}), null, 'ROLE_DP_GAME_STEAM_DELETE', steam) }}
+        {{ dedipanel_buttons.delete(path('dedipanel_steam_delete', {'id': steam.id, 'fromMachine': true}), 'dedipanel.full_delete'|trans, 'ROLE_DP_GAME_STEAM_DELETE', steam) }}
+    </div>
 {% endblock %}

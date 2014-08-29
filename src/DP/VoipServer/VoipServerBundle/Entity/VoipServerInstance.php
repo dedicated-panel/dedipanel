@@ -142,6 +142,9 @@ abstract class VoipServerInstance extends AbstractServer
         }
 
         $this->server = $server;
+        $this->dir    = $server->getDir();
+
+        $server->addInstance($this);
 
         return $this;
     }

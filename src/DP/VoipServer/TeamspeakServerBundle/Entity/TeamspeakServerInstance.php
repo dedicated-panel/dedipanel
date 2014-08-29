@@ -62,10 +62,11 @@ class TeamspeakServerInstance extends VoipServerInstance
     protected $query;
 
 
-    public function __construct(TeamspeakServer $server = null)
+    public function __construct(TeamspeakServer $server)
     {
-        $this->server = $server;
         $this->autostart = true;
+
+        $this->setServer($server);
     }
 
     /**

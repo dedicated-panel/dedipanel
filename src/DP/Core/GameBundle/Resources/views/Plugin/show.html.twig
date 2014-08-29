@@ -47,7 +47,7 @@
     </table>
 
     <div class="form-group clearfix">
-        {{ dedipanel_buttons.edit(path('dedipanel_plugin_update', {'id': plugin.id})) }}
-        {{ dedipanel_buttons.delete(path('dedipanel_plugin_delete', {'id': plugin.id})) }}
+        {{ dedipanel_buttons.edit(path('dedipanel_plugin_update', {'id': plugin.id}), null, 'ROLE_DP_ADMIN_PLUGIN_UPDATE', plugin) }}
+        {{ dedipanel_buttons.delete(path('dedipanel_plugin_delete', {'id': plugin.id}), null, 'ROLE_DP_ADMIN_PLUGIN_DELETE', plugin) }}
     </div>
 {% endblock %}

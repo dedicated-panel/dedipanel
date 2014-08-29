@@ -25,17 +25,14 @@
                 <th>{{ 'machine.fields.id'|trans }}</th>
                 <td>{{ machine.id }}</td>
             </tr>
-            
             <tr>
                 <th>{{ 'machine.fields.ip'|trans }}</th>
                 <td>{{ machine.ip }}</td>
             </tr>
-            
             <tr>
                 <th>{{ 'machine.fields.public_ip'|trans }}</th>
                 <td>{{ machine.publicIp }}</td>
             </tr>
-            
             <tr>
                 <th>{{ 'machine.fields.port'|trans }}</th>
                 <td>{{ machine.port }}</td>
@@ -48,7 +45,6 @@
                 <th>{{ 'machine.fields.home'|trans }}</th>
                 <td>{{ machine.home }}</td>
             </tr>
-            
             <tr>
                 <th>{{ 'machine.fields.is_priv_key_already_generated'|trans }}</th>
                 <td>{{ dedipanel_buttons.yes_no(machine.privateKeyName|length > 0) }}</td>
@@ -65,14 +61,8 @@
     </table>
 
     <div class="form-group clearfix">
-        {% if is_granted('ROLE_DP_ADMIN_MACHINE_UPDATE') %}
-            {{ dedipanel_buttons.edit(path('dedipanel_machine_update', {'id': machine.id})) }}
-        {% endif %}
-
-        {{ dedipanel_buttons.manage(path('dedipanel_machine_connection_test', {'id': machine.id}), 'machine.actions.connection_test'|trans) }}
-        
-        {% if is_granted('ROLE_DP_ADMIN_MACHINE_DELETE') %}
-            {{ dedipanel_buttons.delete(path('dedipanel_machine_delete', {'id': machine.id})) }}
-        {% endif %}
+        {{ dedipanel_buttons.edit(path('dedipanel_machine_update', {'id': machine.id}), null, 'ROLE_DP_ADMIN_MACHINE_UPDATE', machine) }}
+        {{ dedipanel_buttons.manage(path('dedipanel_machine_connection_test', {'id': machine.id}), 'machine.actions.connection_test'|trans, 'ROLE_DP_ADMIN_MACHINE_UPDATE', machine) }}
+        {{ dedipanel_buttons.delete(path('dedipanel_machine_delete', {'id': machine.id}), null, 'ROLE_DP_ADMIN_MACHINE_UPDATE', machine) }}
     </div>
 {% endblock %}

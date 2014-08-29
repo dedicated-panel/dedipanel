@@ -17,6 +17,18 @@
     {{ dedipanel_buttons.back(path('dedipanel_minecraft_index'), 'minecraft.title.minecraft'|trans) }}
 {% endblock %}
 
+{% macro install_status(minecraft) %}
+    {% spaceless %}
+        {% if minecraft.installationStatus is null %}
+            Buggued
+        {% elseif minecraft.isInstallationEnded %}
+            {{ 'game.installation_ended'|trans }}
+        {% else %}
+            {{ minecraft.installationStatus }}%
+        {% endif %}
+    {% endspaceless %}
+{% endmacro %}
+
 {% block content %}
     {% set online = (minecraft.query.online != false) %}
 
@@ -33,7 +45,7 @@
                     </div>
                     <div class="serveur-header-info">
                             <div class="serveur-header-name">
-                                {% if is_granted('ROLE_DP_GAME_MINECRAFT_ADMIN') %}
+                                {% if is_granted('ROLE_DP_GAME_MINECRAFT_ADMIN', minecraft) %}
                                     <ul>
                                         {% if minecraft.isInstallationEnded %}
                                             <li>
@@ -95,17 +107,13 @@
                                 <tr>
                                     <th>{{ 'game.installStatus'|trans }}</th>
                                     <td>
-                                        <a href="{{ path('dedipanel_minecraft_install', { 'id': minecraft.id }) }}">
-                                            {% spaceless %}
-                                                {% if minecraft.installationStatus is null %}
-                                                    Buggued
-                                                {% elseif minecraft.isInstallationEnded %}
-                                                    {{ 'game.installation_ended'|trans }}
-                                                {% else %}
-                                                    {{ minecraft.installationStatus }}%
-                                                {% endif %}
-                                            {% endspaceless %}
-                                        </a>
+                                        {% if is_granted('ROLE_DP_GAME_MINECRAFT_UPDATE') %}
+                                            <a href="{{ path('dedipanel_minecraft_install', { 'id': minecraft.id }) }}">
+                                                {{ _self.install_status(minecraft) }}
+                                            </a>
+                                        {% else %}
+                                            {{ _self.install_status(minecraft) }}
+                                        {% endif %}
                                     </td>
                                     </tr>
                                 </tbody>
@@ -147,17 +155,10 @@
             </table>
         </div>
     </div>
-        
-    {% if is_granted('ROLE_DP_GAME_MINECRAFT_UPDATE') or is_granted('ROLE_DP_GAME_MINECRAFT_DELETE') %}
-        <div class="form-group clearfix">
-            {% if is_granted('ROLE_DP_GAME_MINECRAFT_UPDATE') %}
-                {{ dedipanel_buttons.edit(path('dedipanel_minecraft_update', {'id': minecraft.id})) }}
-            {% endif %}
 
-            {% if is_granted('ROLE_DP_GAME_MINECRAFT_DELETE') %}
-                {{ dedipanel_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id})) }}
-                {{ dedipanel_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id, 'fromMachine': true}), 'dedipanel.full_delete'|trans) }}
-            {% endif %}
-        </div>
-    {% endif %}
+    <div class="form-group clearfix">
+        {{ dedipanel_buttons.edit(path('dedipanel_minecraft_update', {'id': minecraft.id}), null, 'ROLE_DP_GAME_MINECRAFT_UPDATE', minecraft) }}
+        {{ dedipanel_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id}), null, 'ROLE_DP_GAME_MINECRAFT_DELETE', minecraft) }}
+        {{ dedipanel_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id, 'fromMachine': true}), 'dedipanel.full_delete'|trans, 'ROLE_DP_GAME_MINECRAFT_DELETE', minecraft) }}
+    </div>
 {% endblock %}

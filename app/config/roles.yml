@@ -2,7 +2,6 @@ security:
     role_hierarchy:
         ROLE_SUPER_ADMIN:
             - ROLE_ADMIN
-            - ROLE_DP_ADMIN_CONFIG
             - ROLE_DP_ADMIN_GAME_ADMIN
             - ROLE_DP_ADMIN_PLUGIN_ADMIN
             - ROLE_DP_GAME_STEAM_ADMIN

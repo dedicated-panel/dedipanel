@@ -17,13 +17,9 @@
 {% block content %}
     <h2>{{ 'user.title.index'|trans }}</h2>
 
-    {% if is_granted('ROLE_DP_ADMIN_USER_CREATE') %}
     <ul id="top-nav" class="nav nav-tabs">
-        <li>
-            {{ dedipanel_buttons.create(path('dedipanel_user_create'), 'user.actions.add'|trans) }}
-        </li>
+        {{ dedipanel_buttons.create(path('dedipanel_user_create'), 'user.actions.add'|trans, 'ROLE_DP_ADMIN_USER_CREATE', null, true) }}
     </ul>
-    {% endif %}
 
     {{ dedipanel_flashes.all() }}
     
@@ -45,8 +41,8 @@
 
                     <td>
                         <div class="btn-group">
-                            {{ dedipanel_buttons.show(path('dedipanel_user_show', {'id': user.id})) }}
-                            {{ dedipanel_buttons.edit(path('dedipanel_user_update', {'id': user.id})) }}
+                            {{ dedipanel_buttons.show(path('dedipanel_user_show', {'id': user.id}), null, 'ROLE_DP_ADMIN_USER_SHOW', user) }}
+                            {{ dedipanel_buttons.edit(path('dedipanel_user_update', {'id': user.id}), null, 'ROLE_DP_ADMIN_USER_UPDATE', user) }}
                         </div>
                     </td>
                 </tr>  

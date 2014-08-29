@@ -20,11 +20,7 @@
     <form action="{{ path('dedipanel_teamspeak_update', {id: teamspeak.id}) }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
         {{ dedipanel_actions.update() }}
-        
-        {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_DELETE') %}
-            {{ dedipanel_buttons.delete(path('dedipanel_teamspeak_delete', {'id': teamspeak.id, 'fromMachine': true})) }}
-        {% endif %}
+
+        {{ dedipanel_buttons.delete(path('dedipanel_teamspeak_delete', {'id': teamspeak.id, 'fromMachine': true}), null, 'ROLE_DP_VOIP_TEAMSPEAK_DELETE', teamspeak) }}
     </form>
-
-
 {% endblock %}

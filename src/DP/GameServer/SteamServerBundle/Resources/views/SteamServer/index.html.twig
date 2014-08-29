@@ -25,16 +25,29 @@
     {{ dedipanel_buttons.back(path('_welcome'), 'steam.title.steam'|trans) }}
 {% endblock %}
 
+{% macro game_image(entity) %}
+    <div class="game-image">
+        {% set gameImg = entity.game.installname %}
+        {% if gameImg == 'Counter-Strike Source' %}
+            {% set gameImg = 'css' %}
+        {% endif %}
+
+        {% if is_granted('ROLE_DP_GAME_STEAM_SHOW', entity) %}
+            <a href="{{ path('dedipanel_steam_show', {'id': entity.id }) }}">
+                <img src="{{ asset('images/serveur/viewer/' ~ gameImg ~ '.png') }}" alt="{{ entity.game }}" />
+            </a>
+        {% else %}
+            <img src="{{ asset('images/serveur/viewer/' ~ gameImg ~ '.png') }}" alt="{{ entity.game }}" />
+        {% endif %}
+    </div>
+{% endmacro %}
+
 {% block content %}
     <h2>{{ 'steam.title.index'|trans }}</h2>
-    
-    {% if is_granted('ROLE_DP_GAME_STEAM_CREATE') %}
-        <ul id="top-nav" class="nav nav-tabs">
-            <li>
-                {{ dedipanel_buttons.create(path('dedipanel_steam_create'), 'steam.add'|trans) }}
-            </li>
-        </ul>
-    {% endif %}
+
+    <ul id="top-nav" class="nav nav-tabs">
+        {{ dedipanel_buttons.create(path('dedipanel_steam_create'), 'steam.add'|trans, 'ROLE_DP_GAME_STEAM_CREATE', null, true) }}
+    </ul>
 
     {{ dedipanel_flashes.all() }}
     
@@ -43,20 +56,15 @@
             <div class="server-item clearfix">
                 {% if not entity.isInstallationEnded %}
                     <div class="principal clearfix">
-                        <div class="game-image">
-                            {% set gameImg = entity.game.installname %}
-                            {% if gameImg == 'Counter-Strike Source' %}
-                                {% set gameImg = 'css' %}
-                            {% endif %}
-
-                            <a href="{{ path('dedipanel_steam_show', {'id': entity.id }) }}">
-                                <img src="{{ asset('images/serveur/viewer/' ~ gameImg ~ '.png') }}" alt="{{ entity.game }}" />
-                            </a>
-                        </div>
+                        {{ _self.game_image(entity) }}
 
                         <div class="infos">
                             <div class="titre">
-                                <a href="{{ path('dedipanel_steam_show', {id: entity.id}) }}">{{ entity.name }}</a>
+                                {% if is_granted('ROLE_DP_GAME_STEAM_SHOW', entity) %}
+                                    <a href="{{ path('dedipanel_steam_show', {id: entity.id}) }}">{{ entity.name }}</a>
+                                {% else %}
+                                    {{ entity.name }}
+                                {% endif %}
                             </div>
 
                             <div class="description">
@@ -64,7 +72,7 @@
                                     {{ entity.machine.publicIp }}:{{ entity.port }}
                                 </span>
                                 
-                                {% if not is_granted('ROLE_DP_GAME_STEAM_UPDATE') %}
+                                {% if not is_granted('ROLE_DP_GAME_STEAM_UPDATE', entity) %}
                                     <span class="install-in-progress">
                                         {{ 'game.installation_in_progress'|trans }}
                                     </span>
@@ -72,7 +80,7 @@
                             </div>
                         </div>
                         
-                        {% if is_granted('ROLE_DP_GAME_STEAM_CREATE') or is_granted('ROLE_DP_GAME_STEAM_UPDATE') %}
+                        {% if is_granted('ROLE_DP_GAME_STEAM_CREATE') or is_granted('ROLE_DP_GAME_STEAM_UPDATE', entity) %}
                             <div class="installation">
                                 <div class="row">
                                     <div class="span">
@@ -99,20 +107,15 @@
                     {% set online = (entity.query.latency != false) %}
 
                     <div class="principal clearfix">
-                        <div class="game-image">
-                            {% set gameImg = entity.game.installname %}
-                            {% if gameImg == 'Counter-Strike Source' %}
-                                {% set gameImg = 'css' %}
-                            {% endif %}
-
-                            <a href="{{ path('dedipanel_steam_show', {'id': entity.id }) }}">
-                                <img src="{{ asset('images/serveur/viewer/' ~ gameImg ~ '.png') }}" alt="{{ entity.game }}" />
-                            </a>
-                        </div>
+                        {{ _self.game_image(entity) }}
 
                         <div class="infos">
                             <div class="titre">
-                                <a href="{{ path('dedipanel_steam_show', {id: entity.id}) }}">{{ entity.name }}</a>
+                                {% if is_granted('ROLE_DP_GAME_STEAM_SHOW', entity) %}
+                                    <a href="{{ path('dedipanel_steam_show', {id: entity.id}) }}">{{ entity.name }}</a>
+                                {% else %}
+                                    {{ entity.name }}
+                                {% endif %}
                             </div>
 
                             <div class="description">

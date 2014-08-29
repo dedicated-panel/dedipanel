@@ -24,7 +24,5 @@
         {{ dedipanel_actions.update() }}
     </form>
 
-    {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_DELETE') %}
-        {{ dedipanel_buttons.delete(path('dedipanel_teamspeak_instance_delete', {id: instance.id, serverId: instance.server.id, fromMachine: true})) }}
-    {% endif %}
+    {{ dedipanel_buttons.delete(path('dedipanel_teamspeak_instance_delete', {id: instance.id, serverId: instance.server.id, fromMachine: true}), null, 'ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_DELETE', instance) }}
 {% endblock %}
