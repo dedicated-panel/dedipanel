@@ -256,6 +256,8 @@ class SteamServer extends GameServer
         }
 
         $this->installationStatus = 0;
+
+        return true;
     }
 
     public function removeInstallationFiles()
@@ -326,10 +328,10 @@ class SteamServer extends GameServer
                 return 3;
             }
         }
-        elseif (strpos($installLog, 'Steam updating')) {
+        elseif (strpos($installLog, 'Steam updating') !== false) {
             return 2;
         }
-        elseif (strpos($installLog, 'DL hldsupdatetool.bin') || strpos($installLog, 'Download steamcmd')) {
+        elseif (strpos($installLog, 'DL hldsupdatetool.bin') !== false || strpos($installLog, 'Download steamcmd') !== false) {
             return 1;
         }
         elseif ($installLog == 'File not found exception.') {

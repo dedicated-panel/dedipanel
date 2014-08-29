@@ -294,10 +294,10 @@ class MinecraftServer extends GameServer
         $fileLines = explode("\n", $remoteFile);
 
         foreach ($fileLines AS &$line) {
-            if ($line == '') continue;
+            if (false === $pos = strpos($line, '=')) continue;
 
             // Extraction du nom de la variable
-            $var = substr($line, 0, strpos($line, '='));
+            $var = substr($line, 0, $pos);
 
             // Si c'est l'une des variables à modifier, on modifie la ligne
             // Et on supprime l'entrée dans l'array des variables à modifier
