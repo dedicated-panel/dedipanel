@@ -99,7 +99,7 @@ class MenuBuilder
                 'route' => 'dedipanel_core_config',
                 'extras' => array('icon' => 'icon-cogs'),
             ))
-            ->setDisplay($context->isGranted('ROLE_DP_ADMIN_CONFIG'))
+            ->setDisplay($context->isGranted('ROLE_SUPER_ADMIN'))
         ;
         $admin
             ->addChild('menu.admin.user', array(

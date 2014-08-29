@@ -25,6 +25,7 @@ use DP\GameServer\GameServerBundle\Entity\GameServer;
 use DP\Core\GameBundle\Entity\Plugin;
 use DP\Core\CoreBundle\Exception\InstallAlreadyStartedException;
 use DP\Core\CoreBundle\Exception\MissingPacketException;
+use DP\Core\CoreBundle\Exception\DirectoryAlreadyExistsException;
 
 /**
  * DP\GameServer\SteamServerBundle\Entity\SteamServer
