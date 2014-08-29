@@ -243,7 +243,7 @@ class SteamServer extends GameServer
         
         $pgrep = '`ps aux | grep SCREEN | grep "' . $screenName . ' " | grep -v grep | wc -l`';
         $screenCmd  = 'if [ ' . $pgrep . ' = "0" ]; then ';
-        $screenCmd .= 'screen -dmS "' . $screenName . '" ' . $scriptPath . ' "' . $steamCmd . '" "' . $installName . '" "' . $bin . '"; ';
+        $screenCmd .= 'screen -dmS "' . $screenName . '" ' . $scriptPath . ' "' . $installName . '" "' . $bin . '"; ';
         $screenCmd .= 'else echo "Installation is already in progress."; fi; ';
         $result = $conn->exec($screenCmd);
 
