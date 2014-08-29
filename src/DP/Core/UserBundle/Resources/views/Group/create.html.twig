@@ -18,8 +18,6 @@
 {% block content %}
     <h2>{{ 'group.title.add'|trans }}</h2>
 
-    {{ dedipanel_flashes.all() }}
-
     <form action="{{ path('dedipanel_group_create') }}" method="post" id="form-create">
         {{ form_widget(form) }}
         {{ dedipanel_actions.create() }}
