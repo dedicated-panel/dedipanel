@@ -4,16 +4,6 @@ services:
         tags:
           - { name: monolog.processor }
 
-    dp_core.update_watcher.service:
-        class: DP\Core\CoreBundle\Service\UpdateWatcherService
-        arguments: [ "%dp_core.version%", "%kernel.cache_dir%" ]
-
-    dp_core.update_watcher.extension:
-        class: DP\Core\CoreBundle\Extension\UpdateWatcherExtension
-        arguments: [ @dp_core.update_watcher.service ]
-        tags:
-            - { name: twig.extension }
-
     dp_menu.factory:
         class: DP\Core\CoreBundle\Menu\MenuFactory
         arguments: [ "@router" ]
@@ -31,7 +21,17 @@ services:
         tags:
             - { name: knp_menu.menu, alias: main }
 
+    dp_core.update_watcher.service:
+        class: DP\Core\CoreBundle\Service\UpdateWatcherService
+        arguments: [ "%dedipanel.version%", "%kernel.cache_dir%" ]
+
+    dp_core.twig_extension:
+        class: DP\Core\CoreBundle\Twig\CoreExtension
+        arguments: [ @dp_core.update_watcher.service, "%dedipanel.debug%" ]
+        tags:
+            - { name: twig.extension }
+
     dedipanel.core.form_error.extension:
-        class: DP\Core\CoreBundle\Extension\FormErrorExtension
+        class: DP\Core\CoreBundle\Form\FormErrorExtension
         tags:
             - { name: form.type_extension, alias: form }

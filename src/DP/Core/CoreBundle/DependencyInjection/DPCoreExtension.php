@@ -22,19 +22,23 @@ class DPCoreExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $debug = false;
-        if (isset($configs[0]['debug'])) {
-            $debug = $configs[0]['debug'];
-        }
-        $container->setParameter('dp_core.debug', $debug);
-
-        $version = '';
-        if (isset($configs[0]['version'])) {
-            $version = $configs[0]['version'];
-        }
-        $container->setParameter('dp_core.version', $version);
+        $this->addContainerParameters($configs, $container);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+    }
+
+    private function addContainerParameters(array $configs, ContainerBuilder $container)
+    {
+        $vals = [
+            'debug' => false,
+            'version' => '',
+        ];
+
+        foreach ($vals AS $key => $val) {
+            $val = (isset($configs[0][$key]) ? $configs[0][$key] : $val);
+
+            $container->setParameter('dedipanel.' . $key, $val);
+        }
     }
 }

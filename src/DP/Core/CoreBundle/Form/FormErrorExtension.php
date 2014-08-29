@@ -1,6 +1,6 @@
 <?php
 
-namespace DP\Core\CoreBundle\Extension;
+namespace DP\Core\CoreBundle\Form;
 
 use Symfony\COmponent\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormView;

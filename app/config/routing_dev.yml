@@ -16,4 +16,3 @@ _profiler:
 installer:
     resource: "@DPDistributionBundle/Resources/config/routing.yml"
     prefix:   /installer/
-    

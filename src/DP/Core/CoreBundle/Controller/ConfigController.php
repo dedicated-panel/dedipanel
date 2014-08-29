@@ -22,7 +22,7 @@ class ConfigController extends Controller
             throw new AccessDeniedException();
         }
 
-        $debugMode = $this->container->getParameter('dp_core.debug');
+        $debugMode = $this->container->getParameter('dedipanel.debug');
         $usable = $this->verifyConfigFile();
 
         $form = $this->createConfigForm(array(
@@ -92,7 +92,7 @@ class ConfigController extends Controller
     {
         $config = array(
             'dp_core' => array(
-                'version' => $this->container->getParameter('dp_core.version'),
+                'version' => $this->container->getParameter('dedipanel.version'),
                 'debug' => $debugMode,
             ),
         );

@@ -40,3 +40,10 @@ dedipanel.title.confirm_delete: Confirmer la suppression
 dedipanel.actions.confirm_delete: Confirmer
 dedipanel.fields.actions: Actions
 dedipanel.full_delete: Supprimer totalement
+
+dedipanel.error:
+    forbidden: Vous n'avez pas accès à cette page.
+    not_found: Cette page n'existe pas.
+    method_not_allowed: Cette action n'est pas autorisée.
+    oops: Oups! Une erreur est survenue.
+    error_encountered: Le serveur a rencontré une erreur. Veuillez signaler le problème à l'administrateur si le problème persiste.
