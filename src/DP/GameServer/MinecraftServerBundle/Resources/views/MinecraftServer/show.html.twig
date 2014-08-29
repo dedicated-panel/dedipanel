@@ -107,7 +107,7 @@
                                 <tr>
                                     <th>{{ 'game.installStatus'|trans }}</th>
                                     <td>
-                                        {% if is_granted('ROLE_DP_GAME_MINECRAFT_UPDATE') %}
+                                        {% if is_granted('ROLE_DP_GAME_MINECRAFT_UPDATE', minecraft) %}
                                             <a href="{{ path('dedipanel_minecraft_install', { 'id': minecraft.id }) }}">
                                                 {{ _self.install_status(minecraft) }}
                                             </a>
