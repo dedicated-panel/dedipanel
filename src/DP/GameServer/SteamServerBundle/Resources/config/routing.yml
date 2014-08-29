@@ -113,7 +113,7 @@ dedipanel_steam_plugin:
     defaults:
         _controller: dedipanel.controller.steam:showAction
         _sylius:
-            template: DPSteamServerBundle:SteamServer:plugin.html.twig
+            template: DPSteamServerBundle:SteamServer:plugin_show.html.twig
 
 DPSteamServerBundle_FTP:
     resource: "@DPSteamServerBundle/Resources/config/routing/ftp.yml"

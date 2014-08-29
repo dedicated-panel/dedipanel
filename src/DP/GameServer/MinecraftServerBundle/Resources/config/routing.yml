@@ -86,7 +86,7 @@ dedipanel_minecraft_plugin:
     defaults:
         _controller: dedipanel.controller.minecraft:showAction
         _sylius:
-            template: DPGameServerBundle:Plugin:show.html.twig
+            template: DPMinecraftServerBundle:MinecraftServer:plugin_show.html.twig
 
 dedipanel_minecraft_plugin_install:
     pattern: /{id}/plugin/{plugin}/install

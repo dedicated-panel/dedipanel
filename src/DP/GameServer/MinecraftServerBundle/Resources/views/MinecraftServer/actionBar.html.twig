@@ -30,8 +30,7 @@
     {% endif %}
 
     {% if is_granted('ROLE_DP_GAME_MINECRAFT_PLUGIN', server) and server.game.isBukkit %}
-
-        <a href="{{ path('dedipanel_minecraft_plugin_show', {id: sid }) }}" title="{{ 'game.plugin.title'|trans }}">
+        <a href="{{ path('dedipanel_minecraft_plugin', {id: sid }) }}" title="{{ 'game.plugin.title'|trans }}">
             <span class="icon icon-config"></span>
         </a>
     {% endif %}

@@ -1,0 +1,61 @@
+{#
+ Copyright (C) 2010-2013 Kerouanton Albin, Smedts Jérôme
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License along
+ with this program; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#}
+
+{% extends "::layout.html.twig" %}
+
+{% import '::buttons.html.twig' as dedipanel_buttons %}
+{% import '::flash_messages.html.twig' as dedipanel_flashes %}
+
+{% block title %}
+    {{ dedipanel_buttons.back(path('dedipanel_minecraft_index'), 'minecraft.title.minecraft'|trans) }}
+{% endblock %}
+
+{% block content %}
+    <h2>{{ 'game.plugin.showTitle'|trans }}</h2>
+
+    {{ dedipanel_flashes.all() }}
+
+    <table>
+        <tr>
+            <th>{{ 'game.plugin.name'|trans }}</th>
+            <th>{{ 'game.plugin.status'|trans }}</th>
+        </tr>
+
+        {% for plugin in minecraft.installedPlugins %}
+            <tr>
+                <th>{{ plugin.name }}</th>
+                <td><a href="{{ path('dedipanel_minecraft_plugin_uninstall', {'id': minecraft.id, 'plugin': plugin.id}) }}">
+                        {{ dedipanel_buttons.yes_no(true) }}
+                </a></td>
+            </tr>
+        {% endfor %}
+
+        {% for plugin in minecraft.notInstalledPlugins %}
+            <tr>
+                <th>{{ plugin.name }}</th>
+                <td><a href="{{ path('dedipanel_minecraft_plugin_install', {'id': minecraft.id, 'plugin': plugin.id}) }}">
+                    {{ dedipanel_buttons.yes_no(false) }}
+                </a></td>
+            </tr>
+        {% endfor %}
+
+        {% if minecraft.installedPlugins is empty and minecraft.notInstalledPlugins is empty %}
+            <tr><th colspan="2">{{ 'game.plugin.noPluginForThatGame'|trans }}</th></tr>
+        {% endif %}
+    </table>
+{% endblock %}

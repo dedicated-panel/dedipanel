@@ -76,9 +76,7 @@ game.ftp.mtime: Dernière modification
 game.plugin.title: Voir les plugins
 game.plugin.showTitle: Voir les plugins du serveur
 game.plugin.name: Nom
-game.plugin.status: Statut
-game.plugin.installed: Installé
-game.plugin.notInstalled: Non installé
+game.plugin.status: Installé ?
 game.plugin.noPluginForThatGame: Il n'y a pas de plugin de configuré pour ce jeu.
 
 game.player: Joueur
