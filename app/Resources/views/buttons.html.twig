@@ -1,36 +1,50 @@
 {% macro show(url, message, role, object) %}
-    {% from '::dedipanel_buttons.html.twig' import show %}
-    {% if (role is not empty and is_granted(role, object)) or role is empty %}
-        {{ show(url, message) }}
-    {% endif %}
+{% if (role is not empty and is_granted(role, object)) or role is empty %}
+<a href="{{ url }}" class="btn btn-labeled btn-show pull-left">
+    <span class="btn-label"><span class="icon-eye"></span></span>{{ message is empty ? 'sylius.show'|trans : message }}
+</a>
+{% endif %}
 {% endmacro %}
 
 {% macro generic(url, message, icon, role, object) %}
-    {% from '::dedipanel_buttons.html.twig' import generic %}
-    {% if (role is not empty and is_granted(role, object)) or role is empty %}
-        {{ generic(url, message, icon) }}
-    {% endif %}
+{% if (role is not empty and is_granted(role, object)) or role is empty %}
+<a href="{{ url }}" class="btn btn-labeled btn-default margin-left">
+    {% if icon is not empty %}<span class="btn-label"><span class="{{ icon }}"></span></span>{% endif %}{{ message }}
+</a>
+{% endif %}
 {% endmacro %}
 
 {% macro create(url, message, role, object) %}
-    {% from '::dedipanel_buttons.html.twig' import create %}
-    {% if (role is not empty and is_granted(role, object)) or role is empty %}
-        {{ create(url, message) }}
-    {% endif %}
+{% if (role is not empty and is_granted(role, object)) or role is empty %}
+<a href="{{ url }}" class="btn btn-labeled btn-primary">
+    <span class="btn-label"><span class="icon-plus2"></span></span>{{ message is empty ? 'sylius.create'|trans : message }}
+</a>
+{% endif %}
 {% endmacro %}
 
 {% macro edit(url, message, role, object) %}
-    {% from '::dedipanel_buttons.html.twig' import edit %}
-    {% if (role is not empty and is_granted(role, object)) or role is empty %}
-        {{ edit(url, message) }}
-    {% endif %}
+{% if (role is not empty and is_granted(role, object)) or role is empty %}
+<a href="{{ url }}" class="btn btn-labeled btn-primary pull-left">
+    <span class="btn-label"><span class="icon-uni41"></span></span>{{ message is empty ? 'sylius.edit'|trans : message }}
+</a>
+{% endif %}
 {% endmacro %}
 
 {% macro delete(url, message, disabled=false, modal=true, role, object) %}
-    {% from '::dedipanel_buttons.html.twig' import delete %}
-    {% if (role is not empty and is_granted(role, object)) or role is empty %}
-        {{ delete(url, message, disabled, modal) }}
-    {% endif %}
+{% if (role is not empty and is_granted(role, object)) or role is empty %}
+{% if disabled %}
+<span class="btn btn-labeled btn-danger pull-left margin-left">
+    <span class="btn-label"><span class="icon-uni3B"></span></span>{{ message is empty ? 'sylius.delete'|trans : message }}
+</span>
+{% else %}
+<form action="{{ url }}" method="post" class="no-margin">
+    <input type="hidden" name="_method" value="DELETE">
+    <button class="btn btn-labeled btn-danger{% if modal %} btn-confirm{% endif %} pull-left margin-left" type="submit">
+        <span class="btn-label"><span class="icon-uni3B"></span></span>{{ message is empty ? 'sylius.delete'|trans : message }}
+    </button>
+</form>
+{% endif %}
+{% endif %}
 {% endmacro %}
 
 {% macro back(url, message) %}
@@ -48,10 +62,14 @@
 {% endmacro %}
 
 {% macro widget(url, message, modal=true, role, object) %}
-    {% from '::dedipanel_buttons.html.twig' import widget %}
-    {% if (role is not empty and is_granted(role, object)) or role is empty %}
-        {{ widget(url, message, modal) }}
-    {% endif %}
+{% if (role is not empty and is_granted(role, object)) or role is empty %}
+<form action="{{ url }}" method="post">
+    <input type="hidden" name="_method" value="DELETE">
+    <button type="submit">
+        {{ message is empty ? 'sylius.delete'|trans : message }}
+    </button>
+</form>
+{% endif %}
 {% endmacro %}
 
 {% macro yes_no(cond) %}
