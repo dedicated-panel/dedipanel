@@ -1,10 +1,3 @@
-{#
-    (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
-
-    For the full copyright and license information, please view the LICENSE
-    file that was distributed with this source code.
-#}
-
 {% macro show(url, message) %}
 <a href="{{ url }}" class="btn btn-labeled btn-show pull-left">
    <span class="btn-label"><span class="icon-eye"></span></span>{{ message is empty ? 'sylius.show'|trans : message }}

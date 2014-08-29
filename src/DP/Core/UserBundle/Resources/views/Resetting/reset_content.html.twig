@@ -1,10 +1,3 @@
-{#
-    (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
-
-    For the full copyright and license information, please view the LICENSE
-    file that was distributed with this source code.
-#}
-
 <form action="{{ path('fos_user_resetting_reset', {'token': token}) }}" {{ form_enctype(form) }} method="POST" class="fos_user_resetting_reset">
     {{ form_widget(form) }}
     <div>

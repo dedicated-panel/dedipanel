@@ -1,8 +1,10 @@
 <?php
 
 /*
- * (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
- *  
+ * This file is part of the FOSUserBundle package.
+ *
+ * (c) FriendsOfSymfony <http://friendsofsymfony.github.com/>
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */

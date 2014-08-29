@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
  *
  * For the full copyright and license information, please view the LICENSE
