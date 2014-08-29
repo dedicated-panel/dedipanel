@@ -1,3 +1,10 @@
+{#
+    (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
+
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+#}
+
 {% macro show(url, message, role, object) %}
     {% from '::dedipanel_buttons.html.twig' import show %}
     {% if (role is not empty and is_granted(role, object)) or role is empty %}
