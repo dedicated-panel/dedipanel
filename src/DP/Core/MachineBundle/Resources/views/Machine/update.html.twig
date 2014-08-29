@@ -23,6 +23,6 @@
     
     <div class="form-group clearfix">
         {{ dedipanel_actions.update(path('dedipanel_machine_show', {'id': machine.id}), null, 'ROLE_DP_ADMIN_MACHINE_SHOW', machine) }}
-        {{ dedipanel_buttons.delete(path('dedipanel_machine_delete', {'id': machine.id}), null, 'ROLE_DP_ADMIN_MACHINE_DELETE', machine) }}
+        {{ dedipanel_buttons.delete(path('dedipanel_machine_delete', {'id': machine.id}), null, false, true, 'ROLE_DP_ADMIN_MACHINE_DELETE', machine) }}
     </div>         
 {% endblock %}

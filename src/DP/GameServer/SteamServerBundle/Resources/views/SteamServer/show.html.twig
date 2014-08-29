@@ -167,7 +167,7 @@
     
     <div class="form-group clearfix">
         {{ dedipanel_buttons.edit(path('dedipanel_steam_update', {'id': steam.id}), null, 'ROLE_DP_GAME_STEAM_UPDATE', steam) }}
-        {{ dedipanel_buttons.delete(path('dedipanel_steam_delete', {'id': steam.id}), null, 'ROLE_DP_GAME_STEAM_DELETE', steam) }}
-        {{ dedipanel_buttons.delete(path('dedipanel_steam_delete', {'id': steam.id, 'fromMachine': true}), 'dedipanel.full_delete'|trans, 'ROLE_DP_GAME_STEAM_DELETE', steam) }}
+        {{ dedipanel_buttons.delete(path('dedipanel_steam_delete', {'id': steam.id}), null, false, true, 'ROLE_DP_GAME_STEAM_DELETE', steam) }}
+        {{ dedipanel_buttons.delete(path('dedipanel_steam_delete', {'id': steam.id, 'fromMachine': true}), 'dedipanel.full_delete'|trans, false, true, 'ROLE_DP_GAME_STEAM_DELETE', steam) }}
     </div>
 {% endblock %}

@@ -63,6 +63,6 @@
     <div class="form-group clearfix">
         {{ dedipanel_buttons.edit(path('dedipanel_machine_update', {'id': machine.id}), null, 'ROLE_DP_ADMIN_MACHINE_UPDATE', machine) }}
         {{ dedipanel_buttons.manage(path('dedipanel_machine_connection_test', {'id': machine.id}), 'machine.actions.connection_test'|trans, 'ROLE_DP_ADMIN_MACHINE_UPDATE', machine) }}
-        {{ dedipanel_buttons.delete(path('dedipanel_machine_delete', {'id': machine.id}), null, 'ROLE_DP_ADMIN_MACHINE_UPDATE', machine) }}
+        {{ dedipanel_buttons.delete(path('dedipanel_machine_delete', {'id': machine.id}), null, false, true, 'ROLE_DP_ADMIN_MACHINE_UPDATE', machine) }}
     </div>
 {% endblock %}

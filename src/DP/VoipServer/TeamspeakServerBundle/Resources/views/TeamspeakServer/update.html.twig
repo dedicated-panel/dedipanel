@@ -21,6 +21,6 @@
         {{ form_widget(form) }}
         {{ dedipanel_actions.update() }}
 
-        {{ dedipanel_buttons.delete(path('dedipanel_teamspeak_delete', {'id': teamspeak.id, 'fromMachine': true}), null, 'ROLE_DP_VOIP_TEAMSPEAK_DELETE', teamspeak) }}
+        {{ dedipanel_buttons.delete(path('dedipanel_teamspeak_delete', {'id': teamspeak.id, 'fromMachine': true}), null, false, true, 'ROLE_DP_VOIP_TEAMSPEAK_DELETE', teamspeak) }}
     </form>
 {% endblock %}
