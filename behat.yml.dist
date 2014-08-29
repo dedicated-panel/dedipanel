@@ -71,3 +71,9 @@ default:
                 - DP\Core\CoreBundle\Behat\ServerContext
             filters:
                 tags: "@minecraft"
+        steam:
+            contexts:
+                - Behat\MinkExtension\Context\MinkContext
+                - DP\Core\CoreBundle\Behat\ServerContext
+            filters:
+                tags: "@steam"

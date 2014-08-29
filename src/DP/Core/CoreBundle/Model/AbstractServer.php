@@ -195,17 +195,18 @@ abstract class AbstractServer implements ServerInterface
     public function validateServer(ExecutionContextInterface $context)
     {
         if ($this->getMachine() !== null && $this->getMachine()->getConnection() !== null) {
-            $dir = $this->getAbsoluteDir();
+            $relDir = $this->getDir();
+            $absDir = $this->getAbsoluteDir();
 
             if (!$this->getMachine()->getConnection()->testSSHConnection()) {
                 $context->addViolationAt('machine', 'gameServer.assert.machine_unavailable');
             }
-            elseif (!$this->isAlreadyInstalled() && !empty($this->getDir())
-            && $this->getMachine()->getConnection()->dirExists($this->getAbsoluteDir())) {
+            elseif (!$this->isAlreadyInstalled() && !empty($relDir)
+            && $this->getMachine()->getConnection()->dirExists($absDir)) {
                 $context->addViolationAt('dir', 'gameServer.assert.directory_exists');
             }
-            elseif ($this->isAlreadyInstalled() && !empty($this->getDir())
-            && !$this->getMachine()->getConnection()->dirExists($this->getAbsoluteDir())) {
+            elseif ($this->isAlreadyInstalled() && !empty($relDir)
+            && !$this->getMachine()->getConnection()->dirExists($absDir)) {
                 $context->addViolationAt('dir', 'gameServer.assert.directory_not_exists');
             }
         }
