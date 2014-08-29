@@ -4,7 +4,6 @@ namespace DP\VoipServer\TeamspeakServerBundle\Entity;
 
 use Dedipanel\PHPSeclibWrapperBundle\Connection\Connection;
 use Doctrine\ORM\Mapping as ORM;
-use DP\Core\CoreBundle\Exception\DirectoryAlreadyExistsException;
 use DP\VoipServer\TeamspeakServerBundle\Service\ServerQueryFactory;
 use DP\VoipServer\VoipServerBundle\Entity\VoipServer;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -228,10 +227,6 @@ class TeamspeakServer extends VoipServer
         $installDir = $this->getAbsoluteDir();
         $logPath = $installDir . '/install.log';
         $tempPath = $installDir . '/server.tgz';
-
-        if ($conn->dirExists($installDir)) {
-            throw new DirectoryAlreadyExistsException("This directory " . $installDir . " already exists.");
-        }
 
         $conn->mkdir($installDir);
 

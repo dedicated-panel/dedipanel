@@ -192,10 +192,6 @@ class ServerDomainManager extends DomainManager
         catch (MissingPacketException $e) {
             $this->flashHelper->setFlash(ResourceEvent::TYPE_ERROR, 'dedipanel.core.missingPacket');
         }
-        // TODO: phpseclib wrapper bundle
-        catch (DirectoryAlreadyExistsException $e) {
-            $this->flashHelper->setFlash(ResourceEvent::TYPE_ERROR, 'dedipanel.core.directory_exists');
-        }
         catch (ConnectionErrorException $e) {
             $this->flashHelper->setFlash(ResourceEvent::TYPE_ERROR, 'dedipanel.machine.connection_failed');
         }

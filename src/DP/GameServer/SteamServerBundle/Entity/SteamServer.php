@@ -20,12 +20,12 @@
 
 namespace DP\GameServer\SteamServerBundle\Entity;
 
+use Dedipanel\PHPSeclibWrapperBundle\Connection\Exception\ScreenNotExistException;
 use Doctrine\ORM\Mapping as ORM;
 use DP\GameServer\GameServerBundle\Entity\GameServer;
 use DP\Core\GameBundle\Entity\Plugin;
 use DP\Core\CoreBundle\Exception\InstallAlreadyStartedException;
 use DP\Core\CoreBundle\Exception\MissingPacketException;
-use DP\Core\CoreBundle\Exception\DirectoryAlreadyExistsException;
 
 /**
  * DP\GameServer\SteamServerBundle\Entity\SteamServer
@@ -232,10 +232,6 @@ class SteamServer extends GameServer
             $installName = '' . $this->game->getappId() . '.' . $this->game->getappMod() .'';
         }
 
-        if ($conn->dirExists($installDir)) {
-            throw new DirectoryAlreadyExistsException("This directory " . $installDir . " already exists.");
-        }
-
         $conn->mkdir($installDir);
 
         $installScript = $twig->render(
@@ -289,9 +285,14 @@ class SteamServer extends GameServer
             return null;
         }
         elseif (strpos($installLog, 'Game install') !== false) {
-            $screenContent = $conn->getScreenContent($this->getInstallScreenName());
+            $screenContent = false;
 
-            if ($screenContent == 'No screen session found.') return null;
+            try {
+                $screenContent = $conn->getScreenContent($this->getInstallScreenName());
+            }
+            catch (ScreenNotExistException $e) {}
+
+            if ($screenContent == false || $screenContent == 'No screen session found.') return null;
             else {
                 // Si on a réussi à récupérer le contenu du screen,
                 // On recherche dans chaque ligne en commencant par la fin

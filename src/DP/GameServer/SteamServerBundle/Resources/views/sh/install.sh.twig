@@ -46,21 +46,21 @@ if [ $# -eq 3 ]; then
         
         # Et on lance l'install du jeu
         echo "Game install" >> {{ installDir }}install.log
-        
+
         if [ -n $MOD ]; then
-            ./steamcmd.sh +login anonymous +force_install_dir {{ installDir }} +app_update $JEU +app_set_config $JEU mod $MOD +app_update $JEU +quit
+                ./steamcmd.sh +login anonymous +force_install_dir {{ installDir }} +app_update $JEU +app_set_config $JEU mod $MOD +app_update $JEU +quit
         else
             ./steamcmd.sh +login anonymous +force_install_dir {{ installDir }} +app_update $JEU validate +quit
         fi
         
         # Vérifie que l'installation s'est bien déroulé
         if [ -e "{{ installDir }}/$3" ]; then
-        	echo "Install ended" >> {{ installDir }}install.log
-    	else
-    		echo "Install failed"
-		fi
+            echo "Install ended" >> {{ installDir }}install.log
+        else
+            echo "Install failed"
+        fi
     # Installation via hldsupdatetool
-    else	
+    else
         cd {{ installDir }}
         
         # S'il s'agit de cspromod, on installe css

@@ -27,7 +27,6 @@ use DP\Core\MachineBundle\PHPSeclibWrapper\PHPSeclibWrapper;
 use DP\Core\GameBundle\Entity\Plugin;
 use DP\Core\CoreBundle\Exception\MissingPacketException;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
-use DP\Core\CoreBundle\Exception\DirectoryAlreadyExistsException;
 
 /**
  * DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer
@@ -162,10 +161,6 @@ class MinecraftServer extends GameServer
 
         $installDir = $this->getAbsoluteDir();
         $logPath = $installDir . 'install.log';
-
-        if ($conn->dirExists($installDir)) {
-            throw new DirectoryAlreadyExistsException("This directory " . $installDir . " already exists.");
-        }
 
         $conn->mkdir($installDir);
 
