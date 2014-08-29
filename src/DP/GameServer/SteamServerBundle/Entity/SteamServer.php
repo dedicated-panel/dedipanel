@@ -300,27 +300,14 @@ class SteamServer extends GameServer
                 $lines = array_reverse(explode("\n", $screenContent));
 
                 foreach ($lines AS $line) {
+                    $line = trim($line);
                     // On passe à la ligne suivante si l'actuelle est vide
                     if (empty($line)) continue;
 
-                    $line = trim($line);
-                    
-                    if ($this->getGame()->getSteamCmd()) {
-                        $matches = array();
+                    $matches = array();
 
-                        if (preg_match('#^App state \(0x\d+\) (downloading|installed), progress: ([\d]+.[\d]+)#', $line ,$matches)) {
-                            return ($matches[1] == 'downloading') ? ($matches[2] / 2) : (50 + $matches[2] / 2);
-                        }
-                    }
-                    else {
-                        $percentPos = strpos($line, '%');
-    
-                        if ($percentPos !== false) {
-                            $percent = substr($line, $percentPos-5, 5);
-                            $percent = ($percent > 3) ? $percent : 3;
-    
-                            return $percent;
-                        }
+                    if (preg_match('#^(App|Update) state \(0x\d+\) (downloading|installed), progress: ([\d]+.[\d]+)#', $line ,$matches)) {
+                        return ($matches[1] == 'downloading') ? ($matches[2] / 2) : (50 + $matches[2] / 2);
                     }
                 }
 

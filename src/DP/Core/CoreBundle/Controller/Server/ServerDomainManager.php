@@ -160,8 +160,10 @@ class ServerDomainManager extends DomainManager
             return null;
         }
 
-        $progress = $server->getInstallationProgress();
-        $server->setInstallationStatus($progress);
+        if ($progress != 100) {
+            $progress = $server->getInstallationProgress();
+            $server->setInstallationStatus($progress);
+        }
 
         if ($progress == 100) {
             if (!$this->finalizeInstall($server)) {
