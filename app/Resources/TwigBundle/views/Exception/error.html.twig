@@ -1,6 +1,6 @@
-{% extends "::layout.html.twig" %}
+{% extends "::base.html.twig" %}
 
-{% block body %}
+{% block baseBody %}
     {% if status_code == 403 %}
         <div class="alert alert-error"><ul><li>
             {{ 'dedipanel.error.forbidden'|trans }}

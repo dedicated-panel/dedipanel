@@ -312,9 +312,7 @@ body {
 #inner #page-content #top-nav li a {
     padding-top: 0;
     padding-bottom: 0;
-}
-#inner #page-content #top-nav li:last-child a {
-    margin: 6px 0 0 0;
+    margin: 6px 0 0 2px;
     border: none;
 }
 #inner #page-content #top-nav li form {
