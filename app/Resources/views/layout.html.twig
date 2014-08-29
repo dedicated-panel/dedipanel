@@ -17,7 +17,7 @@
 #}
 
 {# Template gardé pour compatibilité #}
-{% extends is_granted("IS_AUTHENTICATED_REMEMBERED") ? "::layout-online.html.twig" : "::layout-offline.html.twig" %}
+{% extends (app.user is not null and is_granted("IS_AUTHENTICATED_REMEMBERED")) ? "::layout-online.html.twig" : "::layout-offline.html.twig" %}
 
 {% block body %}
     {% block content %}{% endblock %}

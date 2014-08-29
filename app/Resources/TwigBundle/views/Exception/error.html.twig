@@ -1,6 +1,6 @@
-{% extends "::base.html.twig" %}
+{% extends "::layout.html.twig" %}
 
-{% block baseBody %}
+{% block content %}
     {% if status_code == 403 %}
         <div class="alert alert-error"><ul><li>
             {{ 'dedipanel.error.forbidden'|trans }}
@@ -18,7 +18,7 @@
         <h2>{{ 'dedipanel.error.error_encountered'|trans }}</h2>
 
         {% if dedipanel.debug is defined and dedipanel.debug
-        and exception is defined and is_granted('ROLE_SUPER_ADMIN') %}
+        and exception is defined and app.user is not null and is_granted('ROLE_SUPER_ADMIN') %}
             <p>
                 <strong>{{ exception.class }}</strong>: {{ exception.message }}
             </p>
