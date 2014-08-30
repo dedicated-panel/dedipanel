@@ -26,8 +26,8 @@ case "$1" in
             cd {{ binDir }}
             
             {% spaceless %}
-            	{% set args = '' %}
-            	
+                {% set args = '' %}
+
                 {% if isCsgo %}
                     {% set args = './' ~ bin ~ ' -game ' ~ launchName ~ ' +map ' ~ startMap %}
                     {% set args = args ~ ' -port ' ~ port ~ ' -ip ' ~ ip ~ ' -console -usercon +game_type ' ~ gameType %}
@@ -36,7 +36,7 @@ case "$1" in
                     {% set args = './' ~ bin ~ ' -game ' ~ launchName ~ ' +map ' ~ startMap %}
                     {% set args = args ~ ' -port ' ~ port ~ ' +ip ' ~ ip ~ ' +maxplayers ' ~ maxplayers %}
                 {% endif %}
-            
+
                 {% if core is not empty %}
                     {# Le numéro du core est stocké à partir de 1 en base; linux attend un bitmask représentant le core, commencant à 0 #}
                     screen -dmS $SCREEN_NAME taskset -c {{ core }} {{ args }}
@@ -44,7 +44,7 @@ case "$1" in
                     screen -dmS $SCREEN_NAME {{ args }}
                 {% endif %}
             {% endspaceless %}
-            
+
             echo "."
         else
             $0 restart
@@ -81,7 +81,7 @@ case "$1" in
     ;;
     
     *)
-    	echo "Usage: $0 {start|stop|restart|status}"
+        echo "Usage: $0 {start|stop|restart|status}"
         exit ${?}
     ;;
 esac
