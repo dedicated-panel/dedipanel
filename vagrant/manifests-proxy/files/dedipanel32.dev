@@ -1,0 +1,12 @@
+upstream dedipanel_dev {
+    server 10.0.0.200;
+}
+
+server {
+  listen 80;
+  server_name dedipanel32.dev;
+
+  location / {
+    proxy_pass http://dedipanel_dev;
+  }
+}

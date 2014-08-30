@@ -15,7 +15,7 @@ Vagrant.configure("2") do |config|
     web.vm.synced_folder "./../../dedipanel-site", "/var/www/dedipanel-site"
     web.vm.synced_folder "./../", "/var/www/dedipanel"
 
-    config.vm.provider :virtualbox do |v|
+    web.vm.provider :virtualbox do |v|
       v.memory = 2048
       v.cpus = 3
       v.name = "dedipanel"
@@ -23,12 +23,15 @@ Vagrant.configure("2") do |config|
       v.customize ["modifyvm", :id, "--cpuexecutioncap", "75"]
     end
 
-    config.vm.provision :shell do |shell|
-      shell.path = "bootstrap.sh"
+    web.vm.provision :shell, inline: "apt-get update"
+    web.vm.provision :shell, inline: "apt-get install -y gcc-multilib"
+
+    web.vm.provision :shell do |shell|
+      shell.path = "bootstrap-web.sh"
     end
 
-    config.vm.provision :puppet do |puppet|
-      puppet.manifests_path = "manifests"
+    web.vm.provision :puppet do |puppet|
+      puppet.manifests_path = "manifests-web"
       puppet.options = ['--verbose']
     end
   end
@@ -46,8 +49,15 @@ Vagrant.configure("2") do |config|
       v.customize ["modifyvm", :id, "--cpuexecutioncap", "15"]
     end
 
-    config.vm.provision :shell do |shell|
-      shell.path = "bootstrap32.sh"
+    machine32.vm.provision :shell, inline: "apt-get update"
+
+    machine32.vm.provision :shell do |shell|
+      shell.path = "bootstrap-proxy.sh"
+    end
+
+    machine32.vm.provision :puppet do |puppet|
+      puppet.manifests_path = "manifests-proxy"
+      puppet.options = ['--verbose']
     end
   end
 end
