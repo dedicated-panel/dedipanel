@@ -117,7 +117,7 @@ class Game
     /**
      * @var string $map
      *
-     * @ORM\Column(name="map", type="string", length=20, nullable=true)
+     * @ORM\Column(name="map", type="string", length=40, nullable=true)
      */
     private $map;
 
