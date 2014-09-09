@@ -9,12 +9,11 @@ $ip_list = file_get_contents(WHITELIST_FILEPATH);
 $sep = (strpos($ip_list, "\r\n") ? "\r\n" : "\n");
 $ip_list = explode($sep, $ip_list);
 
+$ip = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
+
 // This check prevents access to debug front controllers that are deployed by accident to production servers.
 // Feel free to remove this, extend it, or make something more sophisticated.
-if (isset($_SERVER['HTTP_CLIENT_IP'])
-    || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
-    || !in_array(@$_SERVER['REMOTE_ADDR'], $ip_list)
-) {
+if (!in_array($ip, $ip_list)) {
     header('HTTP/1.0 403 Forbidden');
     exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
 }
