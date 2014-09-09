@@ -1,6 +1,8 @@
 user { 'dedipanel':
-  ensure   => present,
-  password => sha1('dedipanel'),
+  ensure     => present,
+  password   => '$6$oILnjmzn$5e3nIAGSPmWIuHH.wyeEQeQJG5Xl46khl6fztZV5GI/IkWxC5lsq.XAed3EbjMn0PL2CVcfsOBuqWUQIlklJ01',
+  managehome => true,
+  shell      => '/bin/bash',
 }
 
 class { 'apt':

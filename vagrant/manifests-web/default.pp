@@ -5,13 +5,15 @@ Exec { path => [ '/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/' ] }
 File { owner => 0, group => 0, mode => 0644 }
 
 user { 'dedipanel':
-  ensure   => present,
-  password => sha1('dedipanel'),
+  ensure     => present,
+  password   => '$6$oILnjmzn$5e3nIAGSPmWIuHH.wyeEQeQJG5Xl46khl6fztZV5GI/IkWxC5lsq.XAed3EbjMn0PL2CVcfsOBuqWUQIlklJ01',
+  managehome => true,
+  shell      => '/bin/bash',
 }
 
 file { "/var/lock/apache2":
   ensure => directory,
-  owner => vagrant
+  owner  => 'vagrant',
 }
 
 exec { "ApacheUserChange" :
@@ -91,6 +93,8 @@ php::conf { 'xdebug':
   source => 'puppet:////vagrant/manifests-web/files/xdebug.ini',
   ensure => 'present',
   path   => '/etc/php5/mods-available/xdebug.ini',
+  notify  => Service['apache'],
+  require => Class['php'],
 }
 
 class { 'php::devel':
