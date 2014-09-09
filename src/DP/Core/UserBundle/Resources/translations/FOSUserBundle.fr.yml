@@ -20,6 +20,7 @@ security:
         password: "Mot de passe"
         remember_me: Se souvenir de moi
         submit: Connexion
+        invalid_credentials: Identifiants non valides.
 
 # Profile
 profile:
