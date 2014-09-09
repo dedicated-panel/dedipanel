@@ -56,7 +56,9 @@ apache::vhost { "${panel_host_name}":
     "www.${panel_host_name}"
   ],
   docroot       => "/var/www/dedipanel/web/",
+  directory     => "/var/www/dedipanel/web/",
   priority      => 1,
+  directory_allow_override => "All",
 }
 
 apache::vhost { "${site_host_name}":
@@ -64,8 +66,10 @@ apache::vhost { "${site_host_name}":
   serveraliases => [
     "www.${site_host_name}", 
   ],
-  docroot => '/var/www/dedipanel-site/web/',
+  docroot   => '/var/www/dedipanel-site/web/',
+  directory => '/var/www/dedipanel-site/web/',
   priority      => 1,
+  directory_allow_override => "All",
 }
 
 class { 'php':
@@ -82,6 +86,12 @@ php::module { 'php5-mcrypt': }
 php::module { 'php5-gd': }
 php::module { 'php-apc': }
 php::module { 'php5-xdebug': }
+
+php::conf { 'xdebug':
+  source => 'puppet:////vagrant/manifests-web/files/xdebug.ini',
+  ensure => 'present',
+  path   => '/etc/php5/mods-available/xdebug.ini',
+}
 
 class { 'php::devel':
   require => Class['php'],
