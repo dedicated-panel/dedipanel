@@ -8,7 +8,7 @@
 
 {% block fos_user_content %}
     {% if error %}
-        <div class="alert alert-danger">{{ 'security.login.invalid_credentials'|trans }}</div>
+        <div class="alert alert-danger">{{ "Bad credentials"|trans({}, 'FOSUserBundle') }}</div>
     {% endif %}
     
     <form action="{{ path("fos_user_security_check") }}" method="post">
