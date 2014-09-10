@@ -71,7 +71,7 @@ class DomainManager extends BaseDomainManager
         }
 
         if ($conn->is64BitSystem() && !$conn->hasCompatLib()) {
-            $this->flashHelper->setFlash(ResourceEvent::TYPE_ERROR, 'dedipanel.machine.compat_lib_not_installed');
+            $this->flashHelper->setFlash(ResourceEvent::TYPE_ERROR, 'dedipanel.machine.missing_compat_libs');
         }
 
         // Is java installed ?
