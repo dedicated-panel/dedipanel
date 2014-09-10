@@ -118,8 +118,9 @@ Feature: Steam server management
       | alreadyInstalled | yes            |
       And I press "Créer"
      Then I should be on the steam index page
-      And I should see 1 success message
+      And I should see 2 success message
       And I should see "Le serveur steam a bien été ajouté."
+      And I should see "L'installation de votre serveur est terminé."
 
   Scenario: Adding a steam server on a bugged machine
     Given I am logged in with boz account
