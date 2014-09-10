@@ -308,6 +308,14 @@ class Machine extends Server
     {
         return $this->connection;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __toString()
+    {
+        return $this->username . '@' . $this->getPublicIp();
+    }
     
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
