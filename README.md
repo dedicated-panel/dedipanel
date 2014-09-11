@@ -50,6 +50,15 @@ tail -f app/logs/dev.log
 
 Droits d'accès
 -------
+Un système de groupe est présent. Il permet de créer des groupes et des sous-groupes, et d'assigner des droits spécifiques pour chaque groupe.
+Il permet également d'assigner des machines à des groupes. Les serveurs de jeux et les serveurs VoIP sont ainsi assignés à un groupe par le biais de leur machine.
+
+Tous les utilisateurs, sauf les super-admins doivent appartenir à un groupe.
+Les super-admin ont en charge la gestion globale du panel. Ils peuvent modifier la configuration des jeux, des plugins ainsi que la configuration générale.
+
+Des admins peuvent être définis pour chaque groupe.
+Ils ont en charge la gestion des utilisateur, utilisateurs, des groupes et des machines du groupes et de ses sous-groupes.
+
 Roles :
   * ROLE_DP_STEAM_* / ROLE_DP_MINECRAFT_* :
     * ROLE_DP_STEAM_ADMIN: Affichage des logs, régénération des scripts du panel. Hérité des autres rôles. 

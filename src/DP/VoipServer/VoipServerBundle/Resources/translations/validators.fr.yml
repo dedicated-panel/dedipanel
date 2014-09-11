@@ -1,6 +1,6 @@
 voip.assert:
     dir:
-        not_blank: Veuillez indiquer le répertoire dans lequel vous souhaitez installer teamspeak.
+        empty: Veuillez indiquer le répertoire dans lequel vous souhaitez installer teamspeak.
 
 voip.instance.assert:
     name:

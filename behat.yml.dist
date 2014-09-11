@@ -77,3 +77,9 @@ default:
                 - DP\Core\CoreBundle\Behat\ServerContext
             filters:
                 tags: "@steam"
+        teamspeak:
+            contexts:
+                - Behat\MinkExtension\Context\MinkContext
+                - DP\Core\CoreBundle\Behat\ServerContext
+            filters:
+                tags: "@teamspeak"

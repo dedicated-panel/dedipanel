@@ -6,3 +6,7 @@ voip:
     autostart: Démarrage automatique ?
     voice_port: Port par défaut pour la voix
     password: Mot de passe
+    online: En ligne
+    offline: Hors ligne
+    installation_in_progress: Installation en cours
+    dir: Répertoire d'installation

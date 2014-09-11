@@ -5,6 +5,7 @@ namespace DP\VoipServer\VoipServerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use DP\Core\MachineBundle\Entity\Machine;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 use DP\Core\CoreBundle\Model\AbstractServer;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -47,7 +48,6 @@ abstract class VoipServer extends AbstractServer
      * @var string $dir
      *
      * @ORM\Column(name="dir", type="string", length=64)
-     * @Assert\NotBlank(message="voip.assert.dir.not_blank")
      */
     protected $dir;
 
@@ -140,5 +140,10 @@ abstract class VoipServer extends AbstractServer
     public function __toString()
     {
         return strval($this->machine);
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('dir', new Assert\NotBlank(array('message' => 'voip.assert.dir.empty')));
     }
 }

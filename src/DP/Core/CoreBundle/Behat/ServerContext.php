@@ -6,6 +6,7 @@ use Behat\Behat\Hook\Scope\BeforeFeatureScope;
 use Behat\Gherkin\Node\TableNode;
 use DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer;
 use DP\GameServer\SteamServerBundle\Entity\SteamServer;
+use DP\VoipServer\TeamspeakServerBundle\Entity\TeamspeakServer;
 
 class ServerContext extends DefaultContext
 {
@@ -16,6 +17,62 @@ class ServerContext extends DefaultContext
     public function iShouldBeOnTheResourcePageByName($type, $name)
     {
         $this->iShouldBeOnTheResourcePage($type, 'name', $name);
+    }
+
+    /**
+     * @Given /^I am on the (teamspeak) "([^""]*)" instance index$/
+     */
+    public function iAmOnTheInstanceIndex($type, $value)
+    {
+        $parts   = explode('@', $value);
+        $machine = $this->findOneBy('machine', array('username' => $parts[0]));
+        $server  = $this->findOneBy($type, array('machine' => $machine->getId()));
+
+        $this->getSession()->visit($this->generatePageUrl(sprintf('dedipanel_%s_instance_index', $type), array('serverId' => $server->getId())));
+    }
+
+    /**
+     * @Then /^I should be on the (teamspeak) "([^"]*)" instance index$/
+     */
+    public function iShouldBeOnTheInstanceIndexPage($type, $value)
+    {
+        $parts   = explode('@', $value);
+        $machine = $this->findOneBy('machine', array('username' => $parts[0]));
+        $server  = $this->findOneBy($type, array('machine' => $machine->getId()));
+
+        $this->assertSession()->addressEquals($this->generatePageUrl(sprintf('dedipanel_%s_instance_index', $type), array('serverId' => $server->getId())));
+        $this->assertStatusCodeEquals(200);
+    }
+
+    /**
+     * @Given /^I am (building|viewing|editing) (teamspeak) "([^""]*)"$/
+     */
+    public function iAmDoingSomethingWithVoipServer($action, $type, $value)
+    {
+        $type = str_replace(' ', '_', $type);
+
+        $action = str_replace(array_keys($this->actions), array_values($this->actions), $action);
+        $parts   = explode('@', $value);
+        $machine = $this->findOneBy('machine', array('username' => $parts[0]));
+        $server  = $this->findOneBy($type, array('machine' => $machine->getId()));
+
+        $this->getSession()->visit($this->generatePageUrl(sprintf('dedipanel_%s_%s', $type, $action), array('id' => $server->getId())));
+    }
+
+    /**
+     * @Then /^I should be (building|viewing|editing|testing) (teamspeak) "([^""]*)"$/
+     */
+    public function iShouldBeDoingSomethingWithVoipServer($action, $type, $value)
+    {
+        $type = str_replace(' ', '_', $type);
+
+        $action  = str_replace(array_keys($this->actions), array_values($this->actions), $action);
+        $parts   = explode('@', $value);
+        $machine = $this->findOneBy('machine', array('username' => $parts[0]));
+        $server  = $this->findOneBy($type, array('machine' => $machine->getId()));
+
+        $this->assertSession()->addressEquals($this->generatePageUrl(sprintf('dedipanel_%s_%s', $type, $action), array('id' => $server->getId())));
+        $this->assertStatusCodeEquals(200);
     }
 
     /**
@@ -164,6 +221,50 @@ class ServerContext extends DefaultContext
             $server->setGame($game);
             $server->setDir($installDir);
             $server->setMaxplayers($maxplayers);
+
+            if ($installed) {
+                $server->setInstallationStatus(101);
+            }
+
+            $this->validate($server);
+
+            $this->getEntityManager()->persist($server);
+
+            if ($flush) {
+                $this->getEntityManager()->flush();
+            }
+        }
+
+        return $server;
+    }
+
+    /**
+     * @Given /^there are following teamspeak servers:$/
+     */
+    public function thereAreTeamspeakServers(TableNode $table)
+    {
+        foreach ($table->getHash() as $data) {
+            $this->thereIsTeamspeakServer(
+                $data['machine'],
+                $data['queryPassword'],
+                $data['installDir'],
+                (isset($data['installed']) && $data['installed'] == 'yes'),
+                false
+            );
+        }
+
+        $this->getEntityManager()->flush();
+    }
+
+    public function thereIsTeamspeakServer($machine, $queryPassword = 'test', $installDir = 'test', $installed = true, $flush = true)
+    {
+        $machine = $this->thereIsMachine($machine);
+
+        if (null === $server = $this->getRepository('teamspeak')->findOneBy(array('machine' => $machine))) {
+            $server = new TeamspeakServer();
+            $server->setMachine($machine);
+            $server->setQueryPassword($queryPassword);
+            $server->setDir($installDir);
 
             if ($installed) {
                 $server->setInstallationStatus(101);

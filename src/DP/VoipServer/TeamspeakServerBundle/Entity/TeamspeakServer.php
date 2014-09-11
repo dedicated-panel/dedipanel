@@ -8,6 +8,7 @@ use DP\VoipServer\TeamspeakServerBundle\Service\ServerQueryFactory;
 use DP\VoipServer\VoipServerBundle\Entity\VoipServer;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
  * TeamspeakServer
@@ -54,7 +55,6 @@ class TeamspeakServer extends VoipServer
 
     /**
      * @var UploadedFile $licenceFile
-     * @Assert\File(maxSize="200")
      */
     private $licenceFile;
 
@@ -406,5 +406,35 @@ EOF;
     public function __toString()
     {
         return strval($this->getMachine());
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('voicePort', new Assert\NotBlank(array('message' => 'teamspeak_server.assert.voice_port.empty')));
+        $metadata->addPropertyConstraint('voicePort', new Assert\Range(array(
+            'min' => 1024,
+            'minMessage' => 'teamspeak_server.assert.voice_port.min',
+            'max' => 65536,
+            'maxMessage' => 'teamspeak_server.assert.voice_port.max',
+        )));
+        $metadata->addPropertyConstraint('queryPort', new Assert\NotBlank(array('message' => 'teamspeak_server.assert.query_port.empty')));
+        $metadata->addPropertyConstraint('queryPort', new Assert\Range(array(
+            'min' => 1024,
+            'minMessage' => 'teamspeak_server.assert.query_port.min',
+            'max' => 65536,
+            'maxMessage' => 'teamspeak_server.assert.query_port.max',
+        )));
+        $metadata->addPropertyConstraint('queryPassword', new Assert\NotBlank(array('message' => 'teamspeak_server.assert.query_password.empty')));
+        $metadata->addPropertyConstraint('filetransferPort', new Assert\NotBlank(array('message' => 'teamspeak_server.assert.filetransfer_port.empty')));
+        $metadata->addPropertyConstraint('filetransferPort', new Assert\Range(array(
+            'min' => 1024,
+            'minMessage' => 'teamspeak_server.assert.filetransfer_port.min',
+            'max' => 65536,
+            'maxMessage' => 'teamspeak_server.assert.filetransfer_port.max',
+        )));
+        $metadata->addPropertyConstraint('licenceFile', new Assert\File(array(
+            'maxSize' => 200,
+            'maxSizeMessage' => 'teamspeak_server.assert.licence_file.max_size',
+        )));
     }
 }

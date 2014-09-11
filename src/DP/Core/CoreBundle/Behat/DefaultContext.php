@@ -355,7 +355,7 @@ class DefaultContext extends SyliusDefaultContext
     }
 
     /**
-     * @Given /^I am (building|viewing|editing) ([^""(w)]*) "([^""]*)"$/
+     * @Given /^I am (building|viewing|editing) (?!teamspeak)([^""(w)]*) "([^""]*)"$/
      */
     public function iAmDoingSomethingWithResourceByName($action, $type, $name)
     {
@@ -377,7 +377,7 @@ class DefaultContext extends SyliusDefaultContext
     }
 
     /**
-     * @Then /^I should be (building|viewing|editing) ([^""(w)]*) "([^""]*)"$/
+     * @Then /^I should be (building|viewing|editing) (?!teamspeak)([^""(w)]*) "([^""]*)"$/
      */
     public function iShouldBeDoingSomethingWithResourceByName($action, $type, $name)
     {

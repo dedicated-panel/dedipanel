@@ -1,0 +1,5 @@
+dedipanel.teamspeak:
+    create: "Le serveur teamspeak a bien été ajouté."
+    update: "Le serveur teamspeak a bien été mis à jour."
+    delete: "Le serveur teamspeak a bien été supprimé."
+    full_delete: "Le serveur teamspeak a bien été supprimé en totalité."

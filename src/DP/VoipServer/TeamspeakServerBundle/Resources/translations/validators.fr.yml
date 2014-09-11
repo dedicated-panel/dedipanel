@@ -1,0 +1,17 @@
+teamspeak_server.assert:
+    voice_port:
+        empty: "Veuillez indiquer le port par défaut utilisé pour la voix."
+        min: "Le port utilisé par défaut pour la voix doit être supérieur à %count%."
+        max: "Le port utilisé par défaut pour la voix doit être inférieur à %count%."
+    query_port:
+        empty: "Veuillez indiquer le port utilisé pour le query."
+        min: "Le port utilisé pour le query doit être supérieur à %count%."
+        max: "Le port utilisé pour le query doit être inférieur à %count%."
+    query_password:
+        empty: "Veuillez indiquer le mot de passe du query."
+    filetransfer_port:
+        empty: "Veuillez indiquer le port à utiliser pour le transfert de fichier."
+        min: "Le port utilisé pour le transfert de fichier doit être supérieur à %count%."
+        max: "Le port utilisé pour le transfert de fichier doit être inférieur à %count%."
+    licence_file:
+        max_size: "Le fichier de license doit avoir un poids inférieur à %count% octets."
