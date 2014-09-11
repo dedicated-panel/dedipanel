@@ -172,6 +172,8 @@ Feature: Steam server management
      When I fill in "Nom" with "Test21"
       And I press "Mettre à jour"
      Then I should be on the page of steam with name "Test21"
+      And I should see 1 success message
+      And I should see "Le serveur steam a bien été mis à jour."
 
   Scenario: Deleting a steam server as admin
     Given I am logged in with baz account

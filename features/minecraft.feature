@@ -192,6 +192,8 @@ Feature: Minecraft server management
      When I fill in "Nom" with "Test21"
       And I press "Mettre à jour"
      Then I should be on the page of minecraft with name "Test21"
+      And I should see 1 success message
+      And I should see "Le serveur minecraft a bien été mis à jour."
 
   Scenario: Deleting a minecraft server as admin
     Given I am logged in with baz account

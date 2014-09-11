@@ -8,6 +8,7 @@
 {% extends "::layout.html.twig" %}
 
 {% import '::buttons.html.twig' as dedipanel_buttons %}
+{% import '::flash_messages.html.twig' as dedipanel_flashes %}
 
 {% block bundleStylesheets %}
     <link rel="stylesheet" href="{{ asset('bundles/dpgameserver/css/game.css') }}" />
@@ -31,6 +32,8 @@
 
 {% block content %}
     {% set online = (minecraft.query.online != false) %}
+
+    {{ dedipanel_flashes.all() }}
 
     <div class="serveur-header-bg">
         <div class="serveur-header-texture">
