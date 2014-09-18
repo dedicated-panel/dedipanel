@@ -10,6 +10,10 @@
 {% import '::actions.html.twig' as dedipanel_actions %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
 
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('bundles/dpgameserver/js/csgo-mod.js') }}"></script>
+{% endblock %}
+
 {% block title %}
     {{ dedipanel_buttons.back(path('dedipanel_steam_index'), 'steam.title.steam'|trans) }}
 {% endblock %}
