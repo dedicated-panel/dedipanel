@@ -269,13 +269,13 @@ class TeamspeakServerInstance extends VoipServerInstance
     }
 
     /**
-     * Always return true
-     * As this is a virtual server, there is no install directory to delete
+     * This is a virtual server so there is no install directory,
+     * however the virtual server itself need to be destroyed.
      *
      * @return bool
      */
     public function deleteInstallDir()
     {
-        return true;
+        return $this->getQuery()->deleteInstance($this->instanceId);
     }
 }

@@ -9,3 +9,5 @@ voip.instance.assert:
     max_clients:
         not_blank: Veuillez indiquer un nombre de clients maximum pour votre instance.
         not_zero: Veuillez indiquer un nombre de clients maximum supérieur à 0.
+    offline_server: Vous devez allumer votre serveur avant d'y ajouter des instances.
+    banned_from_server: Vous êtes banni du serveur. Veuillez attendre %duration% secondes.

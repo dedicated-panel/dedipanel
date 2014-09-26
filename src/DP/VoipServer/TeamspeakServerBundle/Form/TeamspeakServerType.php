@@ -49,7 +49,7 @@ class TeamspeakServerType extends AbstractType
                 if ($teamspeak->getMachine()->getNbCore() != null) {
                     $choices = array_combine(
                         range(0, $teamspeak->getMachine()->getNbCore()-1),
-                        range(1, $minecraft->getMachine()->getNbCore())
+                        range(1, $teamspeak->getMachine()->getNbCore())
                     );
 
                     $form->add('core', 'choice', array(

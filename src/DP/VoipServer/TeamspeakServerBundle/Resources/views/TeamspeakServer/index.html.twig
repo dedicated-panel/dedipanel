@@ -3,6 +3,10 @@
 {% import '::buttons.html.twig' as dedipanel_buttons %}
 {% import '::flash_messages.html.twig' as dedipanel_flashes %}
 
+{% block bundleStylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/dpgameserver/css/game.css') }}" />
+{% endblock %}
+
 {% block title %}
     {{ dedipanel_buttons.back(path('_welcome'), 'teamspeak.title.teamspeak'|trans) }}
 {% endblock %}
@@ -40,7 +44,7 @@
                 </div>
             </div>
 
-            {% include 'DPTeamspeakServerBundle:TeamspeakServer:actionBar.html.twig' with {online: online, server: entity} %}
+            {% include 'DPTeamspeakServerBundle:TeamspeakServer:actionBar.html.twig' with {online: entity.query.isOnline, server: entity} %}
         {% else %}
             <div class="infos">
                 <div class="titre">{{ entity.machine }}</div>

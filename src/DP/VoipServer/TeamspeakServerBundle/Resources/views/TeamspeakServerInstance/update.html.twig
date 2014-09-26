@@ -9,6 +9,7 @@
 
 {% import '::actions.html.twig' as dedipanel_actions %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
+{% import '::flash_messages.html.twig' as dedipanel_flashes %}
 
 {% set serverId = app.request.get('serverId') %}
 
@@ -19,7 +20,9 @@
 {% block content %}
     <h2>{{ 'teamspeak.instance.title.update'|trans }}</h2>
 
-    <form action="{{ path('dedipanel_teamspeak_instance_update', {id: instance.id, serverId: serverId}) }}" method="post" {{ form_enctype(form) }} class="form-edit">
+    {{ dedipanel_flashes.error() }}
+
+    <form id="form-update" action="{{ path('dedipanel_teamspeak_instance_update', {id: instance.id, serverId: serverId}) }}" method="post" {{ form_enctype(form) }} class="form-edit">
         {{ form_widget(form) }}
     </form>
 

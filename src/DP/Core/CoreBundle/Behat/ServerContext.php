@@ -7,9 +7,72 @@ use Behat\Gherkin\Node\TableNode;
 use DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer;
 use DP\GameServer\SteamServerBundle\Entity\SteamServer;
 use DP\VoipServer\TeamspeakServerBundle\Entity\TeamspeakServer;
+use DP\VoipServer\TeamspeakServerBundle\Entity\TeamspeakServerInstance;
 
 class ServerContext extends DefaultContext
 {
+    /**
+     * @Given /^I am on the (teamspeak) instance creation page for "([^""]*)"$/
+     * @When /^I go to the (teamspeak) instance creation page for "([^""]*)"$/
+     */
+    public function iAmOnTheVoipPage($type, $value)
+    {
+        $parts   = explode('@', $value);
+        $machine = $this->findOneBy('machine', array('username' => $parts[0]));
+        $server  = $this->findOneBy($type, array('machine' => $machine->getId()));
+
+        $this->getSession()->visit($this->generatePageUrl($type . ' instance creation', array('serverId' => $server->getId())));
+    }
+
+    /**
+     * @Given /^I should be on the (teamspeak) instance creation page for "([^""]*)"$/
+     * @Given /^I should still be on the (teamspeak) instance creation page for "([^""]*)"$/
+     */
+    public function iShouldBeOnTheVoipPage($type, $value)
+    {
+        $parts   = explode('@', $value);
+        $machine = $this->findOneBy('machine', array('username' => $parts[0]));
+        $server  = $this->findOneBy($type, array('machine' => $machine->getId()));
+
+        $this->assertSession()->addressEquals($this->generatePageUrl($type . ' instance creation', array('serverId' => $server->getId())));
+        $this->assertStatusCodeEquals(200);
+    }
+
+    /**
+     * @Given /^I am on the page of (teamspeak) instance "([^""]*)"$/
+     * @Given /^I go to the page of (teamspeak) instance "([^""]*)"$/
+     */
+    public function iAmOnTheInstancePageByName($type, $name)
+    {
+        $resource = $this->findOneBy('instance', array('name' => $name), $type);
+
+        $this->getSession()->visit($this->generatePageUrl(sprintf('%s_instance_show', $type), array('id' => $resource->getId(), 'serverId' => $resource->getServer()->getId())));
+    }
+
+    /**
+     * @Given /^I am (building|viewing|editing) (teamspeak) instance "([^""]*)"$/
+     */
+    public function iAmDoingSomethingWithResourceByName($action, $type, $name)
+    {
+        $action = str_replace(array_keys($this->actions), array_values($this->actions), $action);
+        $resource = $this->findOneBy('instance', array('name' => $name), $type);
+
+        $this->getSession()->visit($this->generatePageUrl(sprintf('%s_instance_%s', $type, $action), array('id' => $resource->getId(), 'serverId' => $resource->getServer()->getId())));
+    }
+
+    /**
+     * @Then /^I should be (building|viewing|editing) (teamspeak) instance "([^""]*)"$/
+     * @Then /^I should still be (building|viewing|editing) (teamspeak) instance "([^""]*)"$/
+     */
+    public function iShouldBeDoingSomethingWithResourceByName($action, $type, $name)
+    {
+        $action = str_replace(array_keys($this->actions), array_values($this->actions), $action);
+        $resource = $this->findOneBy('instance', array('name' => $name), $type);
+
+        $this->assertSession()->addressEquals($this->generatePageUrl(sprintf('%s_instance_%s', $type, $action), array('id' => $resource->getId(), 'serverId' => $resource->getServer()->getId())));
+        $this->assertStatusCodeEquals(200);
+    }
+
     /**
      * @Then /^I should be on the page of ([^""(w)]*) server "([^""]*)"$/
      * @Then /^I should still be on the page of ([^""(w)]*) server "([^""]*)"$/
@@ -20,7 +83,21 @@ class ServerContext extends DefaultContext
     }
 
     /**
+     * @Then /^I should be on the page of (teamspeak) instance "([^""]*)"$/
+     * @Then /^I should still be on the page of (teamspeak) instance "([^""]*)"$/
+     */
+    public function iShouldBeOnTheInstancePageByName($type, $name)
+    {
+        $type = str_replace(' ', '_', $type);
+        $resource = $this->findOneBy('instance', array('name' => $name), $type);
+
+        $this->assertSession()->addressEquals($this->generatePageUrl(sprintf('%s_instance_show', $type), array('id' => $resource->getId(), 'serverId' => $resource->getServer()->getId())));
+        $this->assertStatusCodeEquals(200);
+    }
+
+    /**
      * @Given /^I am on the (teamspeak) "([^""]*)" instance index$/
+     * @TODO: Refactorer comme iAmOnTheVoipPage()
      */
     public function iAmOnTheInstanceIndex($type, $value)
     {
@@ -122,6 +199,18 @@ class ServerContext extends DefaultContext
 
         $this->assertSession()->addressEquals($this->generatePageUrl(sprintf('%s_ftp_show', $type), array('id' => $resource->getId())));
         $this->assertStatusCodeEquals(200);
+    }
+
+    /**
+     * @Then /^I should see (\d+) ([^" ]*) instances in (that|the) list$/
+     */
+    public function iShouldSeeThatMuchInstancesInTheList($amount, $type)
+    {
+        if (1 === count($this->getSession()->getPage()->findAll('css', '.instance-list'))) {
+            $this->assertSession()->elementsCount('css', '.instance-list > .instance-item', $amount);
+        } else {
+            $this->assertSession()->elementsCount('css', sprintf('#%s.instance-list > .instance-item', $type), $amount);
+        }
     }
 
     /**
@@ -280,5 +369,78 @@ class ServerContext extends DefaultContext
         }
 
         return $server;
+    }
+
+    /**
+     * @Given /^there are following teamspeak instances:$/
+     */
+    public function thereAreTeamspeakInstances(TableNode $table)
+    {
+        foreach ($table->getHash() as $data) {
+            $this->thereIsTeamspeakInstance(
+                $data['instanceId'],
+                $data['name'],
+                $data['server'],
+                $data['port'],
+                $data['slots'],
+                false
+            );
+        }
+
+        $this->getEntityManager()->flush();
+    }
+
+    public function thereIsTeamspeakInstance($instanceId, $name = 'Test', $server = 'test4@127.0.0.1', $port = 9887, $slots = 2, $flush = true)
+    {
+        $parts   = explode('@', $server);
+        $machine = $this->findOneBy('machine', array('username' => $parts[0]));
+        $server  = $this->findOneBy('teamspeak', array('machine' => $machine->getId()));
+
+        if (null === $instance = $this->getRepository('instance', 'teamspeak')->findOneBy(array('server' => $server->getId()))) {
+            $instance = new TeamspeakServerInstance($server);
+            $instance->setInstanceId($instanceId);
+            $instance->setName($name);
+            $instance->setPort($port);
+            $instance->setMaxClients($slots);
+            $instance->setAdminToken('test');
+            $instance->setAutostart(true);
+
+            $this->validate($server);
+
+            $this->getEntityManager()->persist($server);
+
+            if ($flush) {
+                $this->getEntityManager()->flush();
+            }
+        }
+
+        return $instance;
+    }
+
+    protected function getRepository($resource, $baseName = null)
+    {
+        $service = 'dedipanel.';
+
+        if (!empty($baseName)) {
+            $service .= $baseName . '.';
+        }
+
+        return $this->getService($service . 'repository.'.$resource);
+    }
+
+    protected function findOneBy($type, array $criteria, $repoPrefix = '')
+    {
+        $resource = $this
+            ->getRepository($type, $repoPrefix)
+            ->findOneBy($criteria)
+        ;
+
+        if (null === $resource) {
+            throw new \InvalidArgumentException(
+                sprintf('%s for criteria "%s" was not found.', str_replace('_', ' ', ucfirst($type)), serialize($criteria))
+            );
+        }
+
+        return $resource;
     }
 }

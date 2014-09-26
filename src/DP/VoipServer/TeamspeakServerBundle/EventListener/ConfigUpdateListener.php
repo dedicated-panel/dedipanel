@@ -3,8 +3,10 @@
 namespace DP\VoipServer\TeamspeakServerBundle\EventListener;
 
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use DP\Core\CoreBundle\Exception\MaxSlotsLimitReachedException;
 use DP\VoipServer\TeamspeakServerBundle\Entity\TeamspeakServer;
 use DP\VoipServer\TeamspeakServerBundle\Entity\TeamspeakServerInstance;
+use Sylius\Bundle\ResourceBundle\Event\ResourceEvent;
 
 class ConfigUpdateListener
 {
@@ -21,8 +23,17 @@ class ConfigUpdateListener
 
             $entity->changeState('restart');
         }
-        elseif ($entity instanceof TeamspeakServerInstance) {
+    }
+
+    public function preUpdateTeamspeakInstance(ResourceEvent $event)
+    {
+        $entity = $event->getSubject();
+
+        try {
             $entity->getQuery()->updateInstanceConfig($entity);
+        }
+        catch (MaxSlotsLimitReachedException $e) {
+            $event->stop('dedipanel.voip.max_slots');
         }
     }
 }

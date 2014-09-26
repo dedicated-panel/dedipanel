@@ -20,7 +20,6 @@ dedipanel_teamspeak_instance_create:
     defaults:
         _controller: dedipanel.teamspeak.controller.instance:createAction
         _sylius:
-            form: dedipanel_teamspeak_instance_add
             redirect:
                 route: dedipanel_teamspeak_instance_show
                 parameters:
@@ -33,7 +32,6 @@ dedipanel_teamspeak_instance_update:
     defaults:
         _controller: dedipanel.teamspeak.controller.instance:updateAction
         _sylius:
-            form: dedipanel_teamspeak_instance_edit
             redirect:
                 route: dedipanel_teamspeak_instance_show
                 parameters:

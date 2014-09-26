@@ -10,23 +10,23 @@
 <div class="actions clearfix">
     {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_STATE', server) %}
         {% if online %}
-            <a href="{{ path('dedipanel_teamspeak_change_state', { 'id': sid, 'state': 'stop' }) }}">
-                <span class="icon" data-icon="&#x24;" title="{{ 'game.stop'|trans }}"></span>
+            <a href="{{ path('dedipanel_teamspeak_change_state', { 'id': sid, 'state': 'stop' }) }}" title="{{ 'game.stop'|trans }}">
+                <span class="icon icon-stop"></span>
             </a>
             
-            <a href="{{ path('dedipanel_teamspeak_change_state', { 'id': sid, 'state': 'restart' }) }}">
-                <span class="icon" data-icon="&#x27;" title="{{ 'game.restart'|trans }}"></span>
+            <a href="{{ path('dedipanel_teamspeak_change_state', { 'id': sid, 'state': 'restart' }) }}" title="{{ 'game.restart'|trans }}">
+                <span class="icon icon-start"></span>
             </a>
         {% else %}
-            <a href="{{ path('dedipanel_teamspeak_change_state', { 'id': sid, 'state': 'start' }) }}">
-                <span class="icon" data-icon="&#x22;" title="{{ 'game.start'|trans }}"></span>
+            <a href="{{ path('dedipanel_teamspeak_change_state', { 'id': sid, 'state': 'start' }) }}" title="{{ 'game.start'|trans }}">
+                <span class="icon icon-uni22"></span>
             </a>
         {% endif %}
     {% endif %}
 
     {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_UPDATE', server) %}
-        <a href="{{ path('dedipanel_teamspeak_update', {id: sid}) }}">
-            <span class="icon" data-icon="&#x25;" title="{{ 'game.edit'|trans }}"></span>
+        <a href="{{ path('dedipanel_teamspeak_update', {id: sid}) }}" title="{{ 'game.edit'|trans }}">
+            <span class="icon icon-uni25"></span>
         </a>
     {% endif %}
 </div>

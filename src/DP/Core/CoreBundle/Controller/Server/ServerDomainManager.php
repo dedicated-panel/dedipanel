@@ -2,6 +2,8 @@
 
 namespace DP\Core\CoreBundle\Controller\Server;
 
+use DP\Core\CoreBundle\Exception\MaxSlotsLimitReachedException;
+use DP\Core\CoreBundle\Exception\PortAlreadyInUseException;
 use Sylius\Bundle\ResourceBundle\Controller\DomainManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -157,7 +159,7 @@ class ServerDomainManager extends DomainManager
         if ($progress === null && !$this->install($server)) {
             $this->flashHelper->setFlash(ResourceEvent::TYPE_ERROR, 'dedipanel.core.install_failed');
 
-            return null;
+            return false;
         }
 
         if ($progress != 100) {
@@ -169,11 +171,13 @@ class ServerDomainManager extends DomainManager
             if (!$this->finalizeInstall($server)) {
                 $this->flashHelper->setFlash(ResourceEvent::TYPE_ERROR, 'dedipanel.core.post_install_failed');
 
-                return null;
+                return false;
             }
 
             $this->flashHelper->setFlash(ResourceEvent::TYPE_SUCCESS, 'dedipanel.flashes.finalize_install_server');
         }
+
+        return true;
     }
 
     /**
@@ -199,6 +203,12 @@ class ServerDomainManager extends DomainManager
         }
         catch (MaxServerException $e) {
             $this->flashHelper->setFlash(ResourceEvent::TYPE_ERROR, 'dedipanel.core.max_server_limit');
+        }
+        catch (PortAlreadyInUseException $e) {
+            $this->flashHelper->setFlash(ResourceEvent::TYPE_ERROR, 'dedipanel.core.port_in_use');
+        }
+        catch (MaxSlotsLimitReachedException $e) {
+            $this->flashHelper->setFlash(ResourceEvent::TYPE_ERROR, 'dedipanel.voip.max_slots');
         }
         catch (OfflineServerException $e) {
             $this->flashHelper->setFlash(ResourceEvent::TYPE_ERROR, 'dedipanel.voip.offline_server');

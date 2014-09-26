@@ -47,6 +47,7 @@ script:
   - bin/behat -s minecraft
   - bin/behat -s steam
   - bin/behat -s teamspeak
+  - bin/behat -s teamspeak_instance
 
 after_script:
   - features/bootstrap/bootstrap.sh clean

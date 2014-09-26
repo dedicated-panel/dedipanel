@@ -1,7 +1,8 @@
 dedipanel.core:
     update_available: Une mise à jour du panel est disponible (<a href="%url%" target="_blank">%version%</a>).
     max_server_limit: Vous avez atteint la limite maximale de serveur.
-    install_failed: L'installation du serveur à échoué, veuillez réessayer.
+    port_in_use: Ce port est déjà utilisé.
+    install_failed: L'installation du serveur a échoué, veuillez réessayer.
     post_install_failed: La post-installation du serveur à échoué, veuillez réessayer.
     config:
         file_not_found: Le fichier de configuration n'est pas présent.

@@ -3,3 +3,8 @@ dedipanel.teamspeak:
     update: "Le serveur teamspeak a bien été mis à jour."
     delete: "Le serveur teamspeak a bien été supprimé."
     full_delete: "Le serveur teamspeak a bien été supprimé en totalité."
+
+dedipanel.teamspeak.instance:
+    create: "L'instance teamspeak a bien été ajoutée."
+    update: "L'instance teamspeak a bien été mise à jour."
+    full_delete: "L'instance teamspeak a bien été supprimée."

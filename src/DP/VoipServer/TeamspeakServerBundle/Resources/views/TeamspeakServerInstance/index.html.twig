@@ -19,7 +19,9 @@
 
     {{ dedipanel_flashes.all() }}
 
+    <div id="teamspeak" class="instance-list">
     {% for entity in instances %}
+        <div class="instance-item clearfix">
         {% set online = entity.query.isOnline and entity.query.isInstanceOnline(entity.instanceId) %}
 
         {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_SHOW', entity) %}
@@ -43,5 +45,7 @@
         {% if online %}
             {{ entity|ts_viewer|raw }}
         {% endif %}
+        </div>
     {% endfor %}
+    </div>
 {% endblock %}

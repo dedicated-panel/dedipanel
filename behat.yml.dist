@@ -83,3 +83,9 @@ default:
                 - DP\Core\CoreBundle\Behat\ServerContext
             filters:
                 tags: "@teamspeak"
+        teamspeak_instance:
+            contexts:
+                - Behat\MinkExtension\Context\MinkContext
+                - DP\Core\CoreBundle\Behat\ServerContext
+            filters:
+                tags: "@teamspeak_instance"

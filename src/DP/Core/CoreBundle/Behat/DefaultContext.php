@@ -333,8 +333,8 @@ class DefaultContext extends SyliusDefaultContext
     }
 
     /**
-     * @Given /^I am on the page of ([^""(w)]*) "([^""]*)"$/
-     * @Given /^I go to the page of ([^""(w)]*) "([^""]*)"$/
+     * @Given /^I am on the page of (?!teamspeak)([^""(w)]*) "([^""]*)"$/
+     * @Given /^I go to the page of (?!teamspeak)([^""(w)]*) "([^""]*)"$/
      */
     public function iAmOnTheResourcePageByName($type, $name)
     {
@@ -553,11 +553,14 @@ class DefaultContext extends SyliusDefaultContext
     public function thereAreFollowingMachines(TableNode $table)
     {
         foreach ($table->getHash() as $data) {
+            $groups = isset($data['groups']) ? $data['groups'] : $data['group'];
+            $groups = array_map('trim', explode(',', $groups));
+
             $this->thereIsMachine(
                 $data['username'],
                 $data['privateIp'],
                 $data['key'],
-                $data['group'],
+                $groups,
                 false
             );
         }
@@ -565,7 +568,7 @@ class DefaultContext extends SyliusDefaultContext
         $this->getEntityManager()->flush();
     }
 
-    public function thereIsMachine($username, $privateIp = null, $privateKey = null, $group = null, $flush = true)
+    public function thereIsMachine($username, $privateIp = null, $privateKey = null, $groups = array(), $flush = true)
     {
         if (null === $machine = $this->getRepository('machine')->findOneBy(array('username' => $username))) {
             $machine = $this->getRepository('machine')->createNew();
@@ -574,7 +577,7 @@ class DefaultContext extends SyliusDefaultContext
             $machine->setPrivateKeyName($privateKey);
             $machine->setHome('/home/' . $username);
 
-            if ($group !== null) {
+            foreach ($groups AS $group) {
                 $group = $this->thereIsGroup($group);
                 $machine->addGroup($group);
             }

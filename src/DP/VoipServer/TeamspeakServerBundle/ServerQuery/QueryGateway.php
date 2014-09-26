@@ -2,7 +2,8 @@
 
 namespace DP\VoipServer\TeamspeakServerBundle\ServerQuery;
 
-use DP\Core\CoreBundle\Socket\Exception\NotConnectedException;
+use DP\Core\CoreBundle\Exception\MaxSlotsLimitReachedException;
+use DP\Core\CoreBundle\Exception\PortAlreadyInUseException;
 use DP\Core\CoreBundle\Socket\Exception\SocketException;
 use DP\VoipServer\TeamspeakServerBundle\Entity\TeamspeakServerInstance;
 use DP\Core\CoreBundle\Exception\MaxServerException;
@@ -30,7 +31,7 @@ class QueryGateway
 
         try {
             $uri  = 'serverquery://' . $host . ':' . $port;
-            $uri .= '?timeout=' . $timeout . '#no_query_clients';
+            $uri .= '?timeout=' . $timeout . '&use_offline_as_virtual=1#no_query_clients';
             $this->query = \TeamSpeak3::factory($uri);
 
             $this->online = true;
@@ -73,11 +74,18 @@ class QueryGateway
             $details = $this->query->serverCreate($params);
         }
         catch (\TeamSpeak3_Adapter_ServerQuery_Exception $e) {
-            if ($e->getMessage() == 'virtualserver limit reached') {
+            $message = $e->getMessage();
+
+            if ('virtualserver limit reached' === $message) {
                 throw new MaxServerException;
             }
+            elseif ('unable to bind network port' === $message) {
+                throw new PortAlreadyInUseException;
+            }
+            elseif ('max slot limit reached' === $message) {
+                throw new MaxSlotsLimitReachedException;
+            }
 
-            // TODO: Add exception for this case
             return false;
         }
 
@@ -95,6 +103,9 @@ class QueryGateway
             $instance->stop();
         }
 
+        // Need to unselect the current virtual server
+        // before deleting it
+        $this->query->serverDeselect();
         $instance->delete();
 
         return true;
@@ -160,8 +171,17 @@ class QueryGateway
         $sid    = $instance->getInstanceId();
         $params = $this->getInstanceParams($instance);
 
-        if ($this->getInstance($sid)->modify($params)) {
-            return $this->restartInstance($sid);
+        try {
+            if ($this->getInstance($sid)->modify($params)) {
+                return $this->restartInstance($sid);
+            }
+        }
+        catch (\TeamSpeak3_Adapter_ServerQuery_Exception $e) {
+            $message = $e->getMessage();
+
+            if ('max slot limit reached' === $message) {
+                throw new MaxSlotsLimitReachedException;
+            }
         }
 
         return false;
@@ -194,7 +214,7 @@ class QueryGateway
     private function needConnected()
     {
         if (!$this->connected && !$this->login()) {
-            throw new NotConnectedException;
+            throw new OfflineServerException("You need to start the server.");
         }
     }
 

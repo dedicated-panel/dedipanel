@@ -3,8 +3,10 @@
 namespace DP\VoipServer\VoipServerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use DP\Core\CoreBundle\Exception\IPBannedException;
 use DP\Core\CoreBundle\Model\AbstractServer;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * VoipServerInstance
@@ -32,7 +34,7 @@ abstract class VoipServerInstance extends AbstractServer
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=32)
-     * @Assert\NotBlank(message="voip.assert.name.not_blank")
+     * @Assert\NotBlank(message="voip.instance.assert.name.not_blank")
      * @Assert\Length(max="32", maxMessage="voip.instance.assert.name.max_len")
      */
     protected $name;
@@ -202,9 +204,21 @@ abstract class VoipServerInstance extends AbstractServer
         return $this->getServer()->getMachine();
     }
 
+    // Do nothing
     public function deleteInstallDir()
     {
-        // Noop (as this is a virtual instance) !
         return true;
+    }
+
+    public function validateServer(ExecutionContextInterface $context)
+    {
+        try {
+            if ($this->getServer() !== null && (!$this->getQuery()->isOnline()
+                || (!$this->getQuery()->isConnected() && !$this->getQuery()->login()))) {
+                $context->addViolation('voip.instance.assert.offline_server');
+            }
+        } catch (IPBannedException $e) {
+            $context->addViolation('voip.instance.assert.banned_from_server', ['%duration%' => $e->getDuration()]);
+        }
     }
 }

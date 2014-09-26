@@ -20,15 +20,25 @@ class GameServerDomainManager extends ServerDomainManager
      */
     public function getInstallationProgress(GameServer $server)
     {
-        $progress = $server->getInstallationProgress();
-        $server->setInstallationStatus($progress);
+        try {
+            $progress = $server->getInstallationProgress();
+            $server->setInstallationStatus($progress);
 
-        if (!$server->isInstallationEnded()) {
-            $this->installationProcess($server);
+            if (!$server->isInstallationEnded()) {
+                $this->installationProcess($server);
+            }
+
+            $this->manager->persist($server);
+            $this->manager->flush();
         }
+        catch (ConnectionErrorException $e) {
+            $this->flashHelper->setFlash(
+                ResourceEvent::TYPE_ERROR,
+                'dedipanel.machine.connection_failed'
+            );
 
-        $this->manager->persist($server);
-        $this->manager->flush();
+            return null;
+        }
 
         return $server;
     }

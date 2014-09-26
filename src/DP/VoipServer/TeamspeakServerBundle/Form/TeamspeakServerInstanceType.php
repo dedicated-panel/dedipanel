@@ -5,20 +5,14 @@ namespace DP\VoipServer\TeamspeakServerBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class EditTeamspeakServerInstanceType extends AbstractType
+class TeamspeakServerInstanceType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'text', array(
-                'label' => 'game.name'
-            ))
-            ->add('port', 'number', array(
-                'label' => 'game.port',
-            ))
-            ->add('maxClients', 'number', array(
-                'label' => 'voip.max_clients'
-            ))
+            ->add('name', 'text', array('label' => 'game.name'))
+            ->add('port', 'number', array('label' => 'game.port',))
+            ->add('maxClients', 'number', array('label' => 'voip.max_clients'))
             ->add('banner', 'textarea', array(
                 'label'    => 'teamspeak.banner',
                 'required' => false,
@@ -36,6 +30,6 @@ class EditTeamspeakServerInstanceType extends AbstractType
 
     public function getName()
     {
-        return 'dedipanel_teamspeak_instance_edit';
+        return 'dedipanel_teamspeak_instance';
     }
 }
