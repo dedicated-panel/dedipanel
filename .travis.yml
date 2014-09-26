@@ -36,6 +36,7 @@ before_script:
     - features/bootstrap/bootstrap.sh test
 
 script:
+  - bin/behat -s installer
   - bin/behat -s teamspeak
   - bin/behat -s teamspeak_instance
 
