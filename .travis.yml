@@ -50,8 +50,8 @@ script:
   - bin/behat -s teamspeak_instance
 
 after_script:
-  - features/bootstrap/bootstrap.sh clean
   - /home/testing4/test-ts/ts3server_minimal_runscript.sh create_default_virtualserver=0
+  - features/bootstrap/bootstrap.sh clean
 
 notifications:
     irc: "irc.freenode.org#dedipanel"
