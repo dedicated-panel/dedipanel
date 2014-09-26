@@ -576,6 +576,7 @@ class DefaultContext extends SyliusDefaultContext
             $machine->setUsername($username);
             $machine->setPrivateKeyName($privateKey);
             $machine->setHome('/home/' . $username);
+            $machine->setIs64Bit(true);
 
             foreach ($groups AS $group) {
                 $group = $this->thereIsGroup($group);
