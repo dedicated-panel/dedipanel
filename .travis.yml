@@ -50,7 +50,7 @@ script:
   - bin/behat -s teamspeak_instance
 
 after_script:
-  - /home/testing4/test-ts/ts3server_minimal_runscript.sh create_default_virtualserver=0
+  - ps aux | grep ts3
   - features/bootstrap/bootstrap.sh clean
 
 notifications:
