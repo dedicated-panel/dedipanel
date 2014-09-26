@@ -36,20 +36,12 @@ before_script:
     - features/bootstrap/bootstrap.sh test
 
 script:
-  - bin/behat -s installer
-  - bin/behat -s users
-  - bin/behat -s configs
-  - bin/behat -s games_admin
-  - bin/behat -s plugins_admin
-  - bin/behat -s users_admin
-  - bin/behat -s groups_admin
-  - bin/behat -s machines
-  - bin/behat -s minecraft
-  - bin/behat -s steam
   - bin/behat -s teamspeak
   - bin/behat -s teamspeak_instance
 
 after_script:
+  - ps aux | grep ts3
+  - /home/testing4/test-ts/ts3server_minimal_runscript.sh create_default_virtualserver=0
   - ps aux | grep ts3
   - features/bootstrap/bootstrap.sh clean
 
