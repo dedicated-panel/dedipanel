@@ -30,7 +30,7 @@
         "knplabs/knp-menu-bundle": "1.1.*@dev",
         "friendsofsymfony/user-bundle": "*",
         "sonata-project/user-bundle": "2.1.*",
-        "sonata-project/easy-extends-bundle": "*",
+        "sonata-project/easy-extends-bundle": "2.1.7",
         "sonata-project/doctrine-extensions": "*",
         
         "doctrine/migrations": "*",
