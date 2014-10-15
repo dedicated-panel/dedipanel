@@ -52,7 +52,7 @@ class ServerContext extends DefaultContext
     /**
      * @Given /^I am (building|viewing|editing) (teamspeak) instance "([^""]*)"$/
      */
-    public function iAmDoingSomethingWithResourceByName($action, $type, $name)
+    public function iAmDoingSomethingWithVoipResourceByName($action, $type, $name)
     {
         $action = str_replace(array_keys($this->actions), array_values($this->actions), $action);
         $resource = $this->findOneBy('instance', array('name' => $name), $type);
