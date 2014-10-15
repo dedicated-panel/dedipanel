@@ -5,9 +5,9 @@ if [ `id -u` -ne 0 ]; then
 	exit 1;
 fi
 
-# Cette fonction vérifie si le packet passé en argument est installé
+# Cette fonction vÃ©rifie si le packet passÃ© en argument est installÃ©
 verify_packet () {
-	# Vérifie que tous les packets nécessaires sont installés
+	# VÃ©rifie que tous les packets nÃ©cessaires sont installÃ©s
 	if [ `dpkg-query -W --showformat='${Status}\n' $1 | grep 'install ok installed' | wc -l` -ge 1 ]; then
 		echo 1
 	else
@@ -24,10 +24,10 @@ usage () {
 
 case "$1" in
     install)
-        # Par défaut le retour des commandes utilisées dans le script est ignoré
+        # Par dÃ©faut le retour des commandes utilisÃ©es dans le script est ignorÃ©
         DEBUG=0
         
-        # 0n vérifie qu'il n'y ai pas d'erreur sur la position du flag de debug
+        # 0n vÃ©rifie qu'il n'y ai pas d'erreur sur la position du flag de debug
         # et que le nom du dossier d'installation est fourni
         if [ $# -eq 3 -a "$3" = "-v" ]; then
             DEBUG=1
@@ -35,8 +35,8 @@ case "$1" in
             usage
         fi
         
-        # Désactive stdout et stderr si le mode debug n'est pas activé
-        # et créer un file descriptor qui sera utilisé pour afficher les messages destinés à l'utilisateur
+        # DÃ©sactive stdout et stderr si le mode debug n'est pas activÃ©
+        # et crÃ©er un file descriptor qui sera utilisÃ© pour afficher les messages destinÃ©s Ã  l'utilisateur
         if [ $DEBUG -eq 0 ]; then
             exec 3>&1 &>/dev/null
         else
@@ -45,14 +45,14 @@ case "$1" in
         
         $0 verify 1>/dev/null 2>&1
         if [ $? -ne 0 ]; then
-            echo "Merci d'effectuer les opérations préalablement nécessaire à l'installation du panel (utilisez la commande \"$0 verify\" pour vérifier la configuration de votre serveur)." >&3
+            echo "Merci d'effectuer les opÃ©rations prÃ©alablement nÃ©cessaire Ã  l'installation du panel (utilisez la commande \"$0 verify\" pour vÃ©rifier la configuration de votre serveur)." >&3
             exit 1
         fi
         
-        # Dl de la dernière maj du panel
+        # Dl de la derniÃ¨re maj du panel
         git clone http://github.com/NiR-/dedipanel.git "$2"
         cd "$2"
-        git checkout tags/b4.01
+        git checkout tags/b4.02
 
         # Copie du fichier de config et des htaccess
         cp app/config/parameters.yml.dist app/config/parameters.yml
@@ -66,7 +66,7 @@ case "$1" in
 
         service apache2 restart
 
-        # Téléchargement des dépendances
+        # TÃ©lÃ©chargement des dÃ©pendances
         curl -s https://getcomposer.org/installer | php
         php composer.phar install --optimize-autoloader --prefer-dist
 
@@ -74,11 +74,11 @@ case "$1" in
         php app/console cache:clear --env=prod --no-warmup
         php app/console cache:clear --env=installer --no-warmup
 
-        # Modif des droits et du propriétaire
+        # Modif des droits et du propriÃ©taire
         chmod 775 ./
         chown -R www-data:www-data ./
 
-        echo "Il ne vous reste plus qu'à indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accéder à l'installateur en ligne (http://wiki.dedicated-panel.net/b4:install, section \"Finaliser l'installation\")." >&3
+        echo "Il ne vous reste plus qu'Ã  indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accÃ©der Ã  l'installateur en ligne (http://wiki.dedicated-panel.net/b4:install, section \"Finaliser l'installation\")." >&3
 
         exit ${?}
     ;;
@@ -91,11 +91,11 @@ case "$1" in
         # Puis on remet automatiquement le depot local a jour
         git reset --hard origin/master
 
-		# Mise à jour de composer et mise à jour des dépendances
+		# Mise Ã  jour de composer et mise Ã  jour des dÃ©pendances
 		php composer.phar self-update
 		php composer.phar update --optimize-autoloader --prefer-dist
 
-		# Téléchargement des dépendances
+		# TÃ©lÃ©chargement des dÃ©pendances
 		curl -s https://getcomposer.org/installer | php
 		php composer.phar install --optimize-autoloader --prefer-dist
 
@@ -104,11 +104,11 @@ case "$1" in
 		php app/console cache:clear --env=installer --no-warmup
 		php app/console assets:install --env=installer
 
-		# Modif des droits et du propriétaire
+		# Modif des droits et du propriÃ©taire
         chmod 775 ./
 		chown -R www-data:www-data ./
 
-		echo "Il ne vous reste plus qu'à indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accéder à l'installateur en ligne."
+		echo "Il ne vous reste plus qu'Ã  indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accÃ©der Ã  l'installateur en ligne."
 
         exit ${?}
     ;;
@@ -117,11 +117,11 @@ case "$1" in
 		# Tableau contenant la liste des erreurs
 		errors=()
 		
-		# Fais un apt-get update pour être sur que les éventuelles installations 
-		# de paquets consécutives à ce verify fonctionne correctement
+		# Fais un apt-get update pour Ãªtre sur que les Ã©ventuelles installations 
+		# de paquets consÃ©cutives Ã  ce verify fonctionne correctement
 		apt-get update >/dev/null
 
-		# Vérifie que tous les packets nécessaires sont installés
+		# VÃ©rifie que tous les packets nÃ©cessaires sont installÃ©s
 		packets=('git' 'sqlite' 'mysql-server' 'php5-sqlite' 'apache2' 'php5' 'php5-mysql' 'curl' 'php5-intl' 'php-apc' 'phpmyadmin')
 		failed=()
 
@@ -136,29 +136,29 @@ case "$1" in
 		done
 		
 		if [ ${#failed[@]} -ge 1 ]; then
-			echo "Packets nécessaires: ${packets[@]}."
+			echo "Packets nÃ©cessaires: ${packets[@]}."
 			echo "Packets manquants: ${failed[@]}."
 		fi
 
-		# Vérifie que le mode rewrite d'apache est activé
+		# VÃ©rifie que le mode rewrite d'apache est activÃ©
 		if [ ! -e /etc/apache2/mods-enabled/rewrite.load ]; then
 			errors=("${errors[@]}" "mod_rewrite")
-			echo "Le mode rewrite d'apache doit être activé (a2enmod rewrite && service apache2 restart)."
+			echo "Le mode rewrite d'apache doit Ãªtre activÃ© (a2enmod rewrite && service apache2 restart)."
 		fi
 
-		# Vérifie la présence de suhosin.executor.include.whitelist dans la config de php
+		# VÃ©rifie la prÃ©sence de suhosin.executor.include.whitelist dans la config de php
 		if [ -z "`sed -ne '/^suhosin.executor.include.whitelist/p' /etc/php5/cli/php.ini`" ]; then
 			errors=("${errors[@]}" "suhosin_phar")
 			echo "Vous devez ajouter la ligne suivante au fichier /etc/php5/cli/php.ini : suhosin.executor.include.whitelist = phar"
 		fi
 
-		# Vérifie s'il y a eu des erreurs d'enregistrées
+		# VÃ©rifie s'il y a eu des erreurs d'enregistrÃ©es
 		if [ ${#errors[@]} -ge 1 ]; then
             echo ""
-			echo "Veuillez effectuer les opérations préalablement nécessaire à l'installation du panel."
+			echo "Veuillez effectuer les opÃ©rations prÃ©alablement nÃ©cessaire Ã  l'installation du panel."
             exit 1
 		else
-			echo "Votre serveur est correctement configuré. Vous pouvez y installer le panel."
+			echo "Votre serveur est correctement configurÃ©. Vous pouvez y installer le panel."
             exit 0
 		fi
 	;;
