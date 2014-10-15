@@ -64,7 +64,7 @@ class ServerContext extends DefaultContext
      * @Then /^I should be (building|viewing|editing) (teamspeak) instance "([^""]*)"$/
      * @Then /^I should still be (building|viewing|editing) (teamspeak) instance "([^""]*)"$/
      */
-    public function iShouldBeDoingSomethingWithResourceByName($action, $type, $name)
+    public function iShouldBeDoingSomethingWithVoipResourceByName($action, $type, $name)
     {
         $action = str_replace(array_keys($this->actions), array_values($this->actions), $action);
         $resource = $this->findOneBy('instance', array('name' => $name), $type);
@@ -77,7 +77,7 @@ class ServerContext extends DefaultContext
      * @Then /^I should be on the page of ([^""(w)]*) server "([^""]*)"$/
      * @Then /^I should still be on the page of ([^""(w)]*) server "([^""]*)"$/
      */
-    public function iShouldBeOnTheResourcePageByName($type, $name)
+    public function iShouldBeOnTheServerPageByName($type, $name)
     {
         $this->iShouldBeOnTheResourcePage($type, 'name', $name);
     }
