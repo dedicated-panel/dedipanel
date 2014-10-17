@@ -50,6 +50,7 @@ script:
   - bin/behat -s teamspeak_instance
 
 after_script:
+  - cat app/logs/*
   - features/bootstrap/bootstrap.sh clean
 
 notifications:
