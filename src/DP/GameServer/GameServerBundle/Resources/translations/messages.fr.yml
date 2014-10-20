@@ -39,9 +39,9 @@ game.addButton: Ajouter
 
 game.installNotStarted: Installation non démarré
 game.installEnded: Installation terminé
+game.installBugged: L'installation a échoué
 dedipanel.game.installAlreadyStarted: "Un serveur est déjà en cours d'installation dans ce dossier."
 dedipanel.game.screenNotExist: Impossible de récupérer les logs.
-dedipanel.game.server_offline: Serveur hors-ligne.
 dedipanel.game.banned_from_server: Le panel est banni du serveur.
 game.installInProgress: Installation en cours
 

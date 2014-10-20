@@ -21,9 +21,9 @@
 {% macro install_status(steam) %}
     {% spaceless %}
         {% if steam.installationStatus is null %}
-            Buggued
+            {{ 'game.installBugged'|trans }}
         {% elseif steam.isInstallationEnded %}
-            {{ 'game.installation_ended'|trans }}
+            {{ 'game.installEnded'|trans }}
         {% else %}
             {{ steam.installationStatus }}%
         {% endif %}
@@ -98,7 +98,7 @@
                                 {% endif %}                            
                             {% else %}
                                 <div class="offline">
-                                    {{ 'game.installation_in_progress'|trans }}
+                                    {{ 'game.installInProgress'|trans }}
                                 </div>
                             {% endif %}
                         </div>
