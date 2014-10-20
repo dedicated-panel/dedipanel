@@ -21,7 +21,7 @@
         {% set path = resource.path %}
     {% endif %}
 
-    {{ dedipanel_buttons.back(path('dedipanel_minecraft_ftp_show', {'id': server.id, 'path': path}), 'minecraft.title.minecraft'|trans) }}
+    {{ dedipanel_buttons.back(path('dedipanel_minecraft_ftp_show', {'id': server.id, 'path': path}), 'game.ftp.title'|trans) }}
 {% endblock %}
 
 {% block widget %}
@@ -33,12 +33,12 @@
         </li>
         <li>
             <a href="{{ path('dedipanel_minecraft_ftp_create', {'id': server.id, 'type': 'file', 'path': resource.relativePath}) }}"  class="filter">
-                <img src="{{ asset('images/ftp/file.ico') }}" class="icone-ftp"/>{{ 'game.ftp.create_file'|trans }}
+                <img src="{{ asset('images/ftp/file.ico') }}" class="icone-ftp"/>{{ 'game.ftp.addFile'|trans }}
             </a>
         </li>
         <li>
             <a href="{{ path('dedipanel_minecraft_ftp_create', {'id': server.id, 'type': 'directory', 'path': resource.relativePath}) }}"  class="filter">
-                <img src="{{ asset('images/ftp/folder.ico') }}" class="icone-ftp"/>{{ 'game.ftp.create_directory'|trans }}
+                <img src="{{ asset('images/ftp/folder.ico') }}" class="icone-ftp"/>{{ 'game.ftp.addDirectory'|trans }}
             </a>
         </li>
         
@@ -54,7 +54,7 @@
 {% endblock %}
 
 {% block content %}    
-    <h2>{{ 'game.ftp.title.edit'|trans }}</h2>
+    <h2>{{ 'game.ftp.editTitle'|trans }}</h2>
     
     <form id="form-update" action="{{ path('dedipanel_minecraft_ftp_update', {id: server.id, path: resource.relativePath}) }}" method="post" class="form-ftp">
         {{ form_widget(form) }}

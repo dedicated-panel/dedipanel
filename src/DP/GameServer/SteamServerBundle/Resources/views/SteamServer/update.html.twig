@@ -11,11 +11,11 @@
 {% import '::buttons.html.twig' as dedipanel_buttons %}
 
 {% block title %}
-    {{ dedipanel_buttons.back(path('dedipanel_steam_index'), 'steam.title.steam'|trans) }}
+    {{ dedipanel_buttons.back(path('dedipanel_steam_index'), 'steam.editTitle'|trans) }}
 {% endblock %}
 
 {% block content %}
-    <h2>{{ 'steam.title.edit'|trans }}</h2>
+    <h2>{{ 'steam.edit'|trans }}</h2>
         
     <form id="form-update" action="{{ path('dedipanel_steam_update', { 'id': steam.id }) }}" method="post" class="form-edit">
         {{ form_widget(form) }}

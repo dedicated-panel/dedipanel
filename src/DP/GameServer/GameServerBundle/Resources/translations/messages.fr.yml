@@ -66,6 +66,7 @@ game.ftp.addFile: Ajouter un fichier
 game.ftp.deleteDir: Supprimer le dossier
 game.ftp.deleteFile: Supprimer le fichier
 game.ftp.addDirectory: Ajouter un dossier
+game.ftp.editDirectory: Editer le dossier
 game.ftp.dirname: Nom du dossier
 game.ftp.path: Chemin : %path%
 game.ftp.invalidPath: Répertoire invalide.

@@ -15,13 +15,13 @@
 {% endblock %}
 
 {% block title %}
-    {{ dedipanel_buttons.back(path('dedipanel_minecraft_ftp_show', {'id': server.id, 'path': resource.path}), 'minecraft.title.minecraft'|trans) }}
+    {{ dedipanel_buttons.back(path('dedipanel_minecraft_ftp_show', {'id': server.id, 'path': resource.path}), 'game.ftp.title'|trans) }}
 {% endblock %}
 
 {% block content %}
-    {% set type = resource is file ? 'file' : 'directory' %}
+    {% set type = resource is file ? 'File' : 'Directory' %}
 
-    <h2>{{ ('game.ftp.title.create_' ~ type)|trans }}</h2>
+    <h2>{{ ('game.ftp.add' ~ type)|trans }}</h2>
     
     <form action="{{ path('dedipanel_minecraft_ftp_create', {id: server.id, path: resource.path, type: type}) }}" method="post" class="form-ftp" id="form-create">
         {{ form_widget(form) }}

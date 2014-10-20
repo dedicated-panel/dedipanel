@@ -33,8 +33,6 @@
 {% block content %}
     {% set online = (minecraft.query.online != false) %}
 
-    {{ dedipanel_flashes.all() }}
-
     <div class="serveur-header-bg">
         <div class="serveur-header-texture">
             <div class="serveur-header">
@@ -127,6 +125,8 @@
             </div>
         </div>
     </div>
+    
+    {{ dedipanel_flashes.all() }}
     
     <div class="serveur-content">
         <div class="serveur-players">
