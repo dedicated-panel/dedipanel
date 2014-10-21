@@ -85,6 +85,7 @@ user:
         email: Adresse email
         enabled: Activé
         createdAt: Créé le
+        lastLogin: Dernière connexion
         password: Mot de passe
         repeat_password: Ressaisir
         groups: Groupes

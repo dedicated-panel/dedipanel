@@ -1,5 +1,11 @@
 sylius_resource:
     resources:
+        dedipanel.dashboard:
+            driver: doctrine/orm
+            role_prefix: ROLE_DP_ADMIN_DASHBOARD
+            classes:
+                model: DPUserBundle:Game
+                controller: DP\Core\CoreBundle\Controller\DashboardController
         dedipanel.user:
             driver: doctrine/orm
             templates: DPUserBundle:User
