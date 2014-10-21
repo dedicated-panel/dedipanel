@@ -19,12 +19,12 @@ Feature: Teamspeak server management
       | bar      | bar@bar.net | test1234 | Team 3    |                  | yes     |
       | boz      | boz@boz.net | test1234 | SubTeam 1 |                  | yes     |
     And there are following machines:
-      | privateIp | username | key     | group     |
-      | 127.0.0.1 | testing1 | id_rsa1 | Team 1    |
-      | 127.0.0.1 | testing2 | id_rsa2 | SubTeam 1 |
-      | 127.0.0.1 | testing3 | id_rsa3 | Team 2    |
-      | 127.0.0.1 | testing4 | id_rsa2 | SubTeam 1 |
-      | 127.0.0.1 | bugged   |         | SubTeam 1 |
+      | privateIp | username | key     | group     | is64Bit |
+      | 127.0.0.1 | testing1 | id_rsa1 | Team 1    | yes     |
+      | 127.0.0.1 | testing2 | id_rsa2 | SubTeam 1 | yes     |
+      | 127.0.0.1 | testing3 | id_rsa3 | Team 2    | yes     |
+      | 127.0.0.1 | testing4 | id_rsa2 | SubTeam 1 | yes     |
+      | 127.0.0.1 | bugged   |         | SubTeam 1 | yes     |
     And there are following teamspeak servers:
       | machine  | queryPassword | installDir | installed |
       | testing1 | test1         | test1      | yes       |
