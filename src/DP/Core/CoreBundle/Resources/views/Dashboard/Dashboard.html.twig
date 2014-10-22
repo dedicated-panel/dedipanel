@@ -1,0 +1,60 @@
+{#
+    (c) Dedipanel <http://www.dedicated-panel.net>
+
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+#}
+
+{% extends "::layout.html.twig" %}
+
+{% import '::actions.html.twig' as dedipanel_actions %}
+{% import '::buttons.html.twig' as dedipanel_buttons %}
+{% import 'DPCoreBundle:Dashboard:Widget.html.twig' as dedipanel_widget %}
+
+{% block title %}
+    {{ dedipanel_buttons.back(path('_welcome'), 'dedipanel.core.config'|trans) }}
+{% endblock %}
+
+{% block bundleStylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/dpcore/css/dashboard.css') }}" />
+{% endblock %}
+
+{% block content %}
+    <div class="row-fluid">
+        <div class="span6">
+            <div class="row-fluid">
+                {% if is_granted('ROLE_DP_GAME_STEAM_ADMIN') or is_granted('ROLE_DP_GAME_MINECRAFT_ADMIN') %}
+                    {{ dedipanel_widget._widgetHeader('game.server', 'icon-monitor','', 'filters', 'dedipanel_steam_index') }}
+                        {% if is_granted('ROLE_DP_GAME_STEAM_ADMIN') %}
+                            {{ dedipanel_widget._serverSteam(steamServers) }}
+                        {% endif %}
+                        {% if is_granted('ROLE_DP_GAME_MINECRAFT_ADMIN') %}
+                            {{ dedipanel_widget._serverMinecraft(minecraftServers) }}
+                        {% endif %}
+                    {{ dedipanel_widget._widgetFoot() }}
+                {% endif %}
+                
+                {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_ADMIN') %}
+                    {{ dedipanel_widget._widgetHeader('teamspeak.title.index', 'icon-headphone', '', 'filters', 'dedipanel_teamspeak_index') }}
+                    {{ dedipanel_widget._serverTeamspeak(teamspeakServers) }}
+                    {{ dedipanel_widget._widgetFoot() }}
+                {% endif %}               
+            </div>
+        </div>
+        <div class="span6">
+            <div class="row-fluid">
+                {% if is_granted('ROLE_DP_ADMIN_MACHINE_ADMIN') %}
+                    {{ dedipanel_widget._widgetHeader('machine.title.index', 'icon-uni53', 'paddle', 'condensed', 'dedipanel_machine_index') }}
+                    {{ dedipanel_widget._machines(machines) }}
+                    {{ dedipanel_widget._widgetFoot() }}
+                {% endif %}
+                
+                {% if is_granted('ROLE_DP_ADMIN_USER_ADMIN') %}
+                    {{ dedipanel_widget._widgetHeader('user.title.index', 'icon-groupe', 'paddle', 'condensed', 'dedipanel_user_index') }}
+                    {{ dedipanel_widget._users(users) }}
+                    {{ dedipanel_widget._widgetFoot() }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

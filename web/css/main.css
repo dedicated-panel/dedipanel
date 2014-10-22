@@ -427,9 +427,9 @@ footer p a:hover {
 .form-group, form {
     margin: 15px 0 0 0;
 }
-form .form-actions {
+.form-actions {
     padding: 20px 0 20px 20px; background: #DDD; 
-    margin: 20px -18px 0 -18px;
+    margin: 20px -19px -9px -19px;
 }
 form.form-edit .form-actions.contain-delete button {
     display: block;
@@ -476,7 +476,7 @@ input[type="checkbox"] + label > .symfony-form-required/*,
 .form-group {
     padding: 20px 0 20px 20px;
     background: #DDD;
-    margin: -1px -18px 0 -18px;
+    margin: -1px -19px -9px -19px;
 }
 .form-group form {
     margin: 0;

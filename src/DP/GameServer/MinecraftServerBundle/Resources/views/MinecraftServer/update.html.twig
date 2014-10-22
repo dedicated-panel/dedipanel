@@ -11,11 +11,11 @@
 {% import '::buttons.html.twig' as dedipanel_buttons %}
 
 {% block title %}
-    {{ dedipanel_buttons.back(path('dedipanel_minecraft_index'), 'minecraft.title.minecraft'|trans) }}
+    {{ dedipanel_buttons.back(path('dedipanel_minecraft_index'), 'minecraft.editTitle'|trans) }}
 {% endblock %}
 
 {% block content %}
-    <h2>{{ 'minecraft.title.edit'|trans }}</h2>
+    <h2>{{ 'minecraft.edit'|trans }}</h2>
     
     <form id="form-update" action="{{ path('dedipanel_minecraft_update', { 'id': minecraft.id }) }}" method="post" {{ form_enctype(form) }} class="form-edit">
         {{ form_widget(form) }}

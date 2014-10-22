@@ -15,11 +15,11 @@
 {% endblock %}
 
 {% block title %}
-    {{ dedipanel_buttons.back(path('dedipanel_steam_index'), 'steam.title.steam'|trans) }}
+    {{ dedipanel_buttons.back(path('dedipanel_steam_index'), 'steam.add'|trans) }}
 {% endblock %}
         
 {% block content %}
-    <h2>{{ 'steam.title.add'|trans }}</h2>
+    <h2>{{ 'steam.add'|trans }}</h2>
 
     <form action="{{ path('dedipanel_steam_create') }}" method="post" {{ form_enctype(form) }} id="form-create">
         {{ form_widget(form) }}

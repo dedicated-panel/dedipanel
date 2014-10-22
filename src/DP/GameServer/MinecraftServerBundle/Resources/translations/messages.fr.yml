@@ -17,6 +17,7 @@
 minecraft.title: Serveurs Minecraft
 minecraft.list: Liste des Serveurs Minecraft
 minecraft.add: Ajouter un serveur Minecraft
+minecraft.edit: Edition du serveur Minecraft
 minecraft.create: Ajouter
 minecraft.queryPort: Port pour le query
 minecraft.rcon.port: Port pour le RCON

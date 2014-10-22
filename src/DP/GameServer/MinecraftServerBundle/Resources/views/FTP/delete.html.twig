@@ -10,7 +10,7 @@
 {% import '::buttons.html.twig' as dedipanel_buttons %}
 
 {% block title %}
-    {{ dedipanel_buttons.back(path('dedipanel_minecraft_ftp_show', {'id': server.id, 'path': resource.relativePath}), 'minecraft.title.minecraft'|trans) }}
+    {{ dedipanel_buttons.back(path('dedipanel_minecraft_ftp_show', {'id': server.id, 'path': resource.relativePath}), 'minecraft.ftp.title'|trans) }}
 {% endblock %}
 
 {% block content %}

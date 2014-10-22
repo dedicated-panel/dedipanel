@@ -15,15 +15,15 @@
 {% endblock %}
 
 {% block title %}
-    {{ dedipanel_buttons.back(path('dedipanel_steam_index'), 'steam.title.steam'|trans) }}
+    {{ dedipanel_buttons.back(path('dedipanel_steam_index'), 'steam.showTitle'|trans) }}
 {% endblock %}
 
 {% macro install_status(steam) %}
     {% spaceless %}
         {% if steam.installationStatus is null %}
-            Buggued
+            {{ 'game.installBugged'|trans }}
         {% elseif steam.isInstallationEnded %}
-            {{ 'game.installation_ended'|trans }}
+            {{ 'game.installEnded'|trans }}
         {% else %}
             {{ steam.installationStatus }}%
         {% endif %}
@@ -32,9 +32,7 @@
 
 {% block content %}
     {% set online = (steam.query.latency != false) %}
-
-    {{ dedipanel_flashes.all() }}
-
+    
     <div class="serveur-header-bg">
         <div class="serveur-header-texture">
             <div class="serveur-header">
@@ -100,7 +98,7 @@
                                 {% endif %}                            
                             {% else %}
                                 <div class="offline">
-                                    {{ 'game.installation_in_progress'|trans }}
+                                    {{ 'game.installInProgress'|trans }}
                                 </div>
                             {% endif %}
                         </div>
@@ -137,6 +135,8 @@
         </div>
     </div>
     
+    {{ dedipanel_flashes.all() }}
+
     <div class="serveur-content">
         <div class="serveur-players">
             <table class="table table-hover players">

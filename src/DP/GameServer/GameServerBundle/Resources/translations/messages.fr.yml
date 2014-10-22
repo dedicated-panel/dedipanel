@@ -32,16 +32,16 @@ game.IPAddress: Adresse IP
 game.ping: Ping
 game.update_status: Mettre à jour le statut de l'installation
 game.core: Core utilisé
-
+game.server: Liste des serveurs
 game.selectMachine: Sélectionnez une machine
 game.selectGame: Jeu
 game.addButton: Ajouter
 
 game.installNotStarted: Installation non démarré
 game.installEnded: Installation terminé
+game.installBugged: L'installation a échoué
 dedipanel.game.installAlreadyStarted: "Un serveur est déjà en cours d'installation dans ce dossier."
 dedipanel.game.screenNotExist: Impossible de récupérer les logs.
-dedipanel.game.server_offline: Serveur hors-ligne.
 dedipanel.game.banned_from_server: Le panel est banni du serveur.
 game.installInProgress: Installation en cours
 
@@ -66,6 +66,7 @@ game.ftp.addFile: Ajouter un fichier
 game.ftp.deleteDir: Supprimer le dossier
 game.ftp.deleteFile: Supprimer le fichier
 game.ftp.addDirectory: Ajouter un dossier
+game.ftp.editDirectory: Editer le dossier
 game.ftp.dirname: Nom du dossier
 game.ftp.path: Chemin : %path%
 game.ftp.invalidPath: Répertoire invalide.

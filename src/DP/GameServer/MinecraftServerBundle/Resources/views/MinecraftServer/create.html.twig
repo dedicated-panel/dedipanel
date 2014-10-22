@@ -15,11 +15,11 @@
 {% endblock %}
 
 {% block title %}
-    {{ dedipanel_buttons.back(path('dedipanel_minecraft_index'), 'minecraft.title.minecraft'|trans) }}
+    {{ dedipanel_buttons.back(path('dedipanel_minecraft_index'), 'minecraft.add'|trans) }}
 {% endblock %}
 
 {% block content %}
-    <h2>{{ 'minecraft.title.add'|trans }}</h2>
+    <h2>{{ 'minecraft.add'|trans }}</h2>
     
     <form action="{{ path('dedipanel_minecraft_create') }}" method="post" {{ form_enctype(form) }} id="form-create">
         {{ form_widget(form) }}

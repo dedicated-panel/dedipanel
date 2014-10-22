@@ -12,14 +12,17 @@
 
 {% block bundleStylesheets %}
     <link rel="stylesheet" media="screen" href="{{ asset('bundles/dpgameserver/css/game.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/sonatajquery/themes/base/jquery.ui.theme.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/sonatajquery/themes/base/jquery.ui.progressbar.css') }}" />
 {% endblock %}
 
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('bundles/dpgameserver/js/details.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/dpgameserver/js/progress.js') }}"></script>
 {% endblock %}
 
 {% block title %}
-    {{ dedipanel_buttons.back(path('_welcome'), 'minecraft.title.minecraft'|trans) }}
+    {{ dedipanel_buttons.back(path('_welcome'), 'minecraft.title'|trans) }}
 {% endblock %}
 
 {% macro game_image(entity) %}
@@ -35,7 +38,7 @@
 {% endmacro %}
 
 {% block content %}
-    <h2>{{ 'minecraft.title.index'|trans }}</h2>
+    <h2>{{ 'minecraft.list'|trans }}</h2>
 
     <ul id="top-nav" class="nav nav-tabs">
         {{ dedipanel_buttons.create(path('dedipanel_minecraft_create'), 'minecraft.add'|trans, 'ROLE_DP_GAME_MINECRAFT_CREATE', null, true) }}
@@ -80,20 +83,21 @@
                         </div>
 
                         {% if is_granted('ROLE_DP_GAME_MINECRAFT_CREATE') or is_granted('ROLE_DP_GAME_MINECRAFT_UPDATE', entity) %}
+                            
                             <div class="installation">
                                 <div class="update-status">
-                                    <img src="{{ asset('images/icones/serveur/install.png') }}" alt="{{ 'game.update_status'|trans }}" />
-                                    <a href="{{ path('dedipanel_minecraft_install', {id: entity.id }) }}">{{ 'game.update_status'|trans }}</a>
+                                    <span class="icon-spam" alt="{{ 'game.update_status'|trans }}"></span>
+                                    <a href="{{ path('dedipanel_steam_install', {id: entity.id }) }}">{{ 'game.update_status'|trans }}</a>
                                 </div>
-                                
+
                                 <div id="installation-progress" class="progress" value="{{ entity.installationStatus }}"></div>
+                            </div>
                                 
                                 {# <div class="progress progress-info progress-striped">
                                     <div class="bar" style="width: {{ entity.installationStatus }}%"></div>
     
                                     {{ entity.installationStatus }} %
                                 </div> #}
-                            </div>
                         {% endif %}
                     </div>
                 {% else %}

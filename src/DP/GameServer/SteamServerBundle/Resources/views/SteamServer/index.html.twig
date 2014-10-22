@@ -22,7 +22,7 @@
 {% endblock %}
 
 {% block title %}
-    {{ dedipanel_buttons.back(path('_welcome'), 'steam.title.steam'|trans) }}
+    {{ dedipanel_buttons.back(path('_welcome'), 'steam.title'|trans) }}
 {% endblock %}
 
 {% macro game_image(entity) %}
@@ -43,7 +43,7 @@
 {% endmacro %}
 
 {% block content %}
-    <h2>{{ 'steam.title.index'|trans }}</h2>
+    <h2>{{ 'steam.list'|trans }}</h2>
 
     <ul id="top-nav" class="nav nav-tabs">
         {{ dedipanel_buttons.create(path('dedipanel_steam_create'), 'steam.add'|trans, 'ROLE_DP_GAME_STEAM_CREATE', null, true) }}
@@ -81,25 +81,21 @@
                         </div>
                         
                         {% if is_granted('ROLE_DP_GAME_STEAM_CREATE') or is_granted('ROLE_DP_GAME_STEAM_UPDATE', entity) %}
+                            
                             <div class="installation">
-                                <div class="row">
-                                    <div class="span">
-                                        <div class="update-status">
-                                            <span class="icon-spam" alt="{{ 'game.update_status'|trans }}"></span>
-                                            <a href="{{ path('dedipanel_steam_install', {id: entity.id }) }}">{{ 'game.update_status'|trans }}</a>
-                                        </div>
-                                    </div>
-                                    <div class="span4">  
-                                        <div id="installation-progress" class="progress" value="{{ entity.installationStatus }}"></div>
-                                    </div>
+                                <div class="update-status">
+                                    <span class="icon-spam" alt="{{ 'game.update_status'|trans }}"></span>
+                                    <a href="{{ path('dedipanel_steam_install', {id: entity.id }) }}">{{ 'game.update_status'|trans }}</a>
                                 </div>
-
-                                {# <div class="progress progress-info progress-striped">
-                                    <div class="bar" style="width: {{ entity.installationStatus }}%"></div>
-    
-                                    {{ entity.installationStatus }} %
-                                </div> #}
+                                
+                                <div id="installation-progress" class="progress" value="{{ entity.installationStatus }}"></div>
                             </div>
+
+                            {# <div class="progress progress-info progress-striped">
+                                <div class="bar" style="width: {{ entity.installationStatus }}%"></div>
+
+                                {{ entity.installationStatus }} %
+                            </div> #}
                         {% endif %}
                     </div>
                 {% else %}

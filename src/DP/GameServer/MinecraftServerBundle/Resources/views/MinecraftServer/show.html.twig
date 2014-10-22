@@ -15,15 +15,15 @@
 {% endblock %}
 
 {% block title %}
-    {{ dedipanel_buttons.back(path('dedipanel_minecraft_index'), 'minecraft.title.minecraft'|trans) }}
+    {{ dedipanel_buttons.back(path('dedipanel_minecraft_index'), 'minecraft.showTitle'|trans) }}
 {% endblock %}
 
 {% macro install_status(minecraft) %}
     {% spaceless %}
         {% if minecraft.installationStatus is null %}
-            Buggued
+            {{ 'game.installBugged'|trans }}
         {% elseif minecraft.isInstallationEnded %}
-            {{ 'game.installation_ended'|trans }}
+            {{ 'game.installEnded'|trans }}
         {% else %}
             {{ minecraft.installationStatus }}%
         {% endif %}
@@ -32,8 +32,6 @@
 
 {% block content %}
     {% set online = (minecraft.query.online != false) %}
-
-    {{ dedipanel_flashes.all() }}
 
     <div class="serveur-header-bg">
         <div class="serveur-header-texture">
@@ -128,6 +126,8 @@
         </div>
     </div>
     
+    {{ dedipanel_flashes.all() }}
+    
     <div class="serveur-content">
         <div class="serveur-players">
             <table class="table table-hover players">
@@ -146,12 +146,12 @@
                             </tr>
                         {% else %}
                             <tr><th colspan="2" class="empty">
-                                {{ 'game.no_player_connected'|trans }}
+                                {{ 'game.noPlayerConnected'|trans }}
                             </th></tr>
                         {% endfor %}
                     {% else %}
                         <tr><th colspan="2" class="empty">
-                        {{ 'game.offline_server'|trans }}
+                        {{ 'game.serveurOffline'|trans }}
                         </th></tr>                 
                     {% endif %}                
                 </tbody>

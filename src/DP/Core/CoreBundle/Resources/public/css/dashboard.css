@@ -1,0 +1,85 @@
+.widget-container{
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.34);
+    background: rgb(255, 255, 255);
+    margin-bottom: 20px;
+}
+.widget-container .widget-heading {
+    background: rgba(255, 255, 255, 0.94);
+    height: 35px;
+    padding: 15px 0px 0 0px;
+    color: #858585;
+    font-size: 20px;
+    width: 100%;
+}
+.widget-container .widget-heading span {
+    font-size: 30px;
+    margin-left: 10px;
+    margin-top: -4px;
+    margin-right: 26px;
+    font-weight: normal;
+    color: rgba(68, 68, 68, 0.42);
+}
+.widget-container .paddle {
+    padding: 3px;
+}
+.table-filters tbody tr td {
+    margin: 0;
+    padding: 0;
+}
+.table-filters tbody tr td a.padding-left{
+    padding-left: 50px;
+}
+.table-filters img{
+    width: 85px;
+    height: 39px;
+}
+.table-filters td{
+    border-top: 1px solid #F1F1F1;
+}
+.table-filters span{
+    margin-left: 10px;
+}
+.table-filters .green{
+    color: rgb(69, 201, 69);
+    height: 45px;
+    width: 50px;
+    font-size: 30px;
+}
+.table-filters .red{
+    background: rgba(175, 0, 0, 0.65);
+    height: 45px;
+    width: 50px;
+    font-size: 30px;
+}
+.arrow-left {
+    width: 0;
+    border-top: 14px solid transparent;
+    border-bottom: 14px solid transparent;
+    clear: both;
+    position: absolute;
+    margin-left: 78px;
+    margin-top: 6px;
+}
+.arrow-error {
+    border-right: 12px solid #f2dede;
+}
+.arrow-success {
+    border-right: 12px solid #dff0d8;
+}
+#inner #page-content .container-fluid .inner-body {
+    padding: 20px 10px 10px 10px;
+}
+#inner #page-content .container-fluid {
+    background: none !important;
+    border: none;
+    border-radius: none;
+    border-color: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    margin: 0px !important;
+    padding: 0px !important;
+}
+#inner #page-content {
+    margin: 0px !important;
+    padding: 0px !important;
+}

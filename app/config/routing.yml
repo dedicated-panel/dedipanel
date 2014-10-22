@@ -53,5 +53,4 @@ fos_user_resetting:
 _welcome:
     pattern: /
     defaults:
-        _controller: FrameworkBundle:Template:template
-        template: '::layout.html.twig'
+        _controller: dedipanel.controller.dashboard:mainAction
