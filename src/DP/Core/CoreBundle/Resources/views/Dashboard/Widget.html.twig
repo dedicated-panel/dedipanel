@@ -28,7 +28,7 @@
             </td>
             <td><a href="{{ path('dedipanel_steam_show', {id: steamServer.id}) }}">{{ steamServer.name }}</a></td>
             <td>
-                {% if isOnline%}{{ steamServer.query.serverInfos['numplayers'] }} /{{ steamServer.query.serverInfos['maxplayers'] }}lse %}{% endif %}
+                {% if isOnline%}{{ steamServer.query.serverInfos['numplayers'] }} /{{ steamServer.query.serverInfos['maxplayers'] }}{% endif %}
             </td>
             <td>{{ steamServer.machine.publicIp }}:{{ steamServer.port }}</td>
         </tr>
