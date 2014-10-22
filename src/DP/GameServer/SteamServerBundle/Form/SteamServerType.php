@@ -26,7 +26,7 @@ use DP\GameServer\SteamServerBundle\Entity\SteamServer;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 
-class SteamCreateServerType extends AbstractType
+class SteamServerType extends AbstractType
 {    
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -111,6 +111,6 @@ class SteamCreateServerType extends AbstractType
 
     public function getName()
     {
-        return 'dedipanel_steam_create';
+        return 'dedipanel_steam';
     }
 }

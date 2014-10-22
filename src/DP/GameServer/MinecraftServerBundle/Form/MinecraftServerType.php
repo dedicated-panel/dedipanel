@@ -26,14 +26,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 
-class MinecraftUpdateServerType extends AbstractType
+class MinecraftServerType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('machine', 'dedipanel_machine_entity', array(
-                'disabled' => true    
-            ))
+            ->add('machine', 'dedipanel_machine_entity')
             ->add('name', 'text', array('label' => 'game.name'))
             ->add('port', 'integer', array('label' => 'game.port'))
             ->add('queryPort', 'integer', array('label' => 'minecraft.queryPort'))
@@ -44,10 +42,7 @@ class MinecraftUpdateServerType extends AbstractType
                 'query_builder' => function(GameRepository $repo) {
                     return $repo->getQBAvailableMinecraftGames();
                 }))
-            ->add('dir', 'text', array(
-                'label' => 'game.dir',
-                'disabled' => true
-            ))
+            ->add('dir', 'text', array('label' => 'game.dir'))
             ->add('maxplayers', 'integer', array('label' => 'game.maxplayers'))
             ->add('minHeap', 'integer', array('label' => 'minecraft.minHeap'))
             ->add('maxHeap', 'integer', array('label' => 'minecraft.maxHeap'))
@@ -83,6 +78,6 @@ class MinecraftUpdateServerType extends AbstractType
 
     public function getName()
     {
-        return 'dedipanel_minecraft_update';
+        return 'dedipanel_minecraft';
     }
 }

@@ -6,23 +6,15 @@
  */
 
 $(function() {
-	$("#dedipanel_steam_create_mode").parent().hide();
+	$("#dedipanel_steam_mode").parent().hide();
     
-    $("#dedipanel_steam_create_game").change(function () {
-        game_create = $("#dedipanel_steam_create_game option:selected" ).text();
-        if (game_create == 'Counter-Strike: Global Offensive') {
-            $('#dedipanel_steam_create_mode').parent().show( 400 );
+    $("#dedipanel_steam_game").change(function () {
+        game = $("#dedipanel_steam_game option:selected" ).text();
+        if (game == 'Counter-Strike: Global Offensive') {
+            $('#dedipanel_steam_mode').parent().show( 400 );
         }
         else{
-            $('#dedipanel_steam_create_mode').parent().hide( 300 );
+            $('#dedipanel_steam_mode').parent().hide( 300 );
         }
     });
-	
-	game_update = $("#dedipanel_steam_update_game option:selected" ).text();
-	if (game_update == 'Counter-Strike: Global Offensive') {
-		$('#dedipanel_steam_update_mode').parent().show();
-	}
-	else{
-		$('#dedipanel_steam_update_mode').parent().hide();
-	}
 });
