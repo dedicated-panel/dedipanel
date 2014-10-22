@@ -34,24 +34,23 @@ before_script:
 
     - features/bootstrap/bootstrap.sh configure
     - features/bootstrap/bootstrap.sh test
-    - app/console doctrine:schema:create --env=test
+#    - app/console doctrine:schema:create --env=test
 
 script:
-#   - bin/behat -s installer
-#  - bin/behat -s users
-#  - bin/behat -s configs
-#  - bin/behat -s games_admin
-#  - bin/behat -s plugins_admin
-#  - bin/behat -s users_admin
-#  - bin/behat -s groups_admin
-#  - bin/behat -s machines
-#  - bin/behat -s minecraft
+  - bin/behat -s installer
+  - bin/behat -s users
+  - bin/behat -s configs
+  - bin/behat -s games_admin
+  - bin/behat -s plugins_admin
+  - bin/behat -s users_admin
+  - bin/behat -s groups_admin
+  - bin/behat -s machines
+  - bin/behat -s minecraft
   - bin/behat -s steam
-#  - bin/behat -s teamspeak
-#  - bin/behat -s teamspeak_instance
+  - bin/behat -s teamspeak
+  - bin/behat -s teamspeak_instance
 
 after_script:
-  - for f in app/logs/*.log; do echo $f; cat $f; done
   - features/bootstrap/bootstrap.sh clean
 
 notifications:
