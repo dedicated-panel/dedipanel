@@ -40,7 +40,7 @@
     margin-left: 10px;
 }
 .table-filters .green{
-    color: rgb(69, 201, 69);
+    background: rgb(123, 218, 123);
     height: 45px;
     width: 50px;
     font-size: 30px;
