@@ -1,5 +1,6 @@
 dedipanel.core.config: Configuration
 dedipanel.core.config.title: Configuration du panel
+dedipanel.core.dashboard: Tableau de bord
 
 menu:
     teamspeak: Serveurs Teamspeak
