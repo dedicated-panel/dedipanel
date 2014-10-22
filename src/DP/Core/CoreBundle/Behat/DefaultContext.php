@@ -561,6 +561,7 @@ class DefaultContext extends SyliusDefaultContext
                 $data['privateIp'],
                 $data['key'],
                 $groups,
+                (isset($data['is64Bit']) ? $data['is64Bit'] == 'yes' : false),
                 false
             );
         }
@@ -568,7 +569,7 @@ class DefaultContext extends SyliusDefaultContext
         $this->getEntityManager()->flush();
     }
 
-    public function thereIsMachine($username, $privateIp = null, $privateKey = null, $groups = array(), $flush = true)
+    public function thereIsMachine($username, $privateIp = null, $privateKey = null, $groups = array(), $is64Bit = false, $flush = true)
     {
         if (null === $machine = $this->getRepository('machine')->findOneBy(array('username' => $username))) {
             $machine = $this->getRepository('machine')->createNew();
@@ -576,7 +577,7 @@ class DefaultContext extends SyliusDefaultContext
             $machine->setUsername($username);
             $machine->setPrivateKeyName($privateKey);
             $machine->setHome('/home/' . $username);
-            $machine->setIs64Bit(true);
+            $machine->setIs64Bit($is64Bit);
 
             foreach ($groups AS $group) {
                 $group = $this->thereIsGroup($group);
