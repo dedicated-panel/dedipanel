@@ -7,6 +7,8 @@ use DP\Core\UserBundle\Service\UserGroupResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormInterface;
 
 class MachineEntityType extends AbstractType
 {
@@ -42,6 +44,11 @@ class MachineEntityType extends AbstractType
                 'choices' => $choices,
             ))
         ;
+    }
+
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        $view->vars['disabled'] = !empty($form->getParent()->getData()->getId());
     }
 
     public function getParent()
