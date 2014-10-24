@@ -20,8 +20,6 @@
 
 namespace DP\GameServer\SteamServerBundle\Form;
 
-use DP\Core\GameBundle\Entity\Game;
-use DP\Core\GameBundle\Form\GameEntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use DP\GameServer\SteamServerBundle\Entity\SteamServer;
@@ -36,11 +34,24 @@ class SteamServerType extends AbstractType
             ->add('machine', 'dedipanel_machine_entity')
             ->add('name', 'text', array('label' => 'game.name'))
             ->add('port', 'integer', array('label' => 'game.port'))
-            ->add('game', new GameEntityType(Game::TYPE_STEAM))
-            ->add('dir', 'dedipanel_install_dir')
+            ->add('game', 'entity', array(
+                'label' => 'game.selectGame', 
+                'class' => 'DPGameBundle:Game',
+                'query_builder' => function($repo) {
+                    return $repo->getQBAvailableSteamGames();
+                }
+            ))
+            ->add('mode', 'choice', array(
+                'choices'     => SteamServer::getModeList(),
+                'empty_value' => 'steam.chooseGameMode',
+                'label'       => 'steam.gameMode',
+                'required'    => false,
+            ))
+            ->add('dir', 'text', array('label' => 'game.dir'))
             ->add('maxplayers', 'integer', array('label' => 'game.maxplayers'))
             ->add('rconPassword', 'text', array(
                 'label'    => 'game.rcon.password',
+                // 'required' => empty($options['data']),
             ))
             ->add('svPassword', 'text', array('label' => 'steam.svPassword', 'required' => false))
             ->add('hltvPort', 'integer', array('label' => 'steam.hltv.port', 'required' => false))
@@ -76,7 +87,7 @@ class SteamServerType extends AbstractType
                 }
 
                 $form->add('rebootAt', 'time', array(
-                    'label'    => 'steam.rebootAt',
+                    'label' => 'steam.rebootAt',
                     'required' => false
                 ));
             }

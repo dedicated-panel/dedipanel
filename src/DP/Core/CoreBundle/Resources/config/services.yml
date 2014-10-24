@@ -35,8 +35,3 @@ services:
         class: DP\Core\CoreBundle\Form\FormErrorExtension
         tags:
             - { name: form.type_extension, alias: form }
-
-    dedipanel.core.form.install_dir_type:
-        class: DP\Core\CoreBundle\Form\InstallDirType
-        tags:
-            - { name: form.type, alias: dedipanel_install_dir }

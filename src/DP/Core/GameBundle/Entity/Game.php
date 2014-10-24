@@ -37,9 +37,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Game
 {
-    const TYPE_STEAM     = 'steam';
-    const TYPE_MINECRAFT = 'minecraft';
-
     /**
      * @var integer $id
      *
@@ -616,13 +613,5 @@ class Game
         elseif (false === $this->getSteamCmd() && !empty($appId)) {
             $context->addViolationAt('appId', 'game.assert.appId.not_needed');
         }
-    }
-
-    public static function getTypeList()
-    {
-        return [
-            self::TYPE_STEAM     => ucfirst(self::TYPE_STEAM),
-            self::TYPE_MINECRAFT => ucfirst(self::TYPE_MINECRAFT),
-        ];
     }
 }

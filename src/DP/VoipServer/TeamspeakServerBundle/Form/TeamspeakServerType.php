@@ -17,7 +17,7 @@ class TeamspeakServerType extends AbstractType
             ->add('query_port', 'number', array('label' => 'voip.query_port'))
             ->add('query_password', 'password', array('label' => 'voip.query_password'))
             ->add('filetransfer_port', 'number', array('label' => 'teamspeak.filetransfer_port'))
-            ->add('dir', 'dedipanel_install_dir')
+            ->add('dir', 'text', array('label' => 'voip.dir'))
             ->add('licence_file', 'file', array(
                 'label'    => 'teamspeak.licence',
                 'required' => false,

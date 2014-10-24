@@ -20,9 +20,7 @@
 
 namespace DP\GameServer\MinecraftServerBundle\Form;
 
-use DP\Core\GameBundle\Entity\Game;
 use DP\Core\GameBundle\Entity\GameRepository;
-use DP\Core\GameBundle\Form\GameEntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormEvents;
@@ -39,8 +37,12 @@ class MinecraftServerType extends AbstractType
             ->add('queryPort', 'integer', array('label' => 'minecraft.queryPort'))
             ->add('rconPort', 'integer', array('label' => 'minecraft.rcon.port'))
             ->add('rconPassword', 'text', array('label' => 'game.rcon.password'))
-            ->add('game', new GameEntityType(Game::TYPE_MINECRAFT))
-            ->add('dir', 'dedipanel_install_dir')
+            ->add('game', 'entity', array(
+                'label' => 'game.selectGame', 'class' => 'DPGameBundle:Game', 
+                'query_builder' => function(GameRepository $repo) {
+                    return $repo->getQBAvailableMinecraftGames();
+                }))
+            ->add('dir', 'text', array('label' => 'game.dir'))
             ->add('maxplayers', 'integer', array('label' => 'game.maxplayers'))
             ->add('minHeap', 'integer', array('label' => 'minecraft.minHeap'))
             ->add('maxHeap', 'integer', array('label' => 'minecraft.maxHeap'))

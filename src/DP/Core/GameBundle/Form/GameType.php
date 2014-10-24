@@ -2,7 +2,6 @@
 
 namespace DP\Core\GameBundle\Form;
 
-use DP\Core\GameBundle\Entity\Game;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -31,7 +30,7 @@ class GameType extends AbstractType
             ->add('sourceImagesMaps', null, array('label' => 'game.fields.sourceImagesMaps'))
             ->add('plugins', null, array('label' => 'game.fields.plugins', 'required' => false))
             ->add('type', 'choice', array(
-                'choices' => Game::getTypeList(),
+                'choices' => array('steam' => 'Steam', 'minecraft' => 'Minecraft'), 
                 'label' => 'game.fields.type', 
             ))
             ->add('available', null, array('label' => 'game.fields.available', 'required' => false))
