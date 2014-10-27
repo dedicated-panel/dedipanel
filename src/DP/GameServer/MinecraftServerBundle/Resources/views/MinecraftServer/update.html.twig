@@ -18,6 +18,21 @@
     <h2>{{ 'minecraft.edit'|trans }}</h2>
     
     <form id="form-update" action="{{ path('dedipanel_minecraft_update', { 'id': minecraft.id }) }}" method="post" {{ form_enctype(form) }} class="form-edit">
+        {{ form_row(form.name) }}
+        {{ form_row(form.machine) }}
+        {{ form_row(form.port) }}
+        {{ form_row(form.game) }}
+        {{ form_row(form.dir) }}
+        {{ form_row(form.queryPort) }}
+        {{ form_row(form.rconPort) }}
+        {{ form_row(form.rconPassword) }}
+        {{ form_row(form.maxplayers) }}
+        {{ form_row(form.minHeap) }}
+        {{ form_row(form.maxHeap) }}
+        {% if form.core is defined %}
+            {{ form_row(form.core) }}
+        {% endif %}
+
         {{ form_widget(form) }}
     </form>
     

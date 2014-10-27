@@ -31,23 +31,14 @@ class SteamServerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('machine', 'dedipanel_machine_entity')
             ->add('name', 'text', array('label' => 'game.name'))
             ->add('port', 'integer', array('label' => 'game.port'))
-            ->add('game', 'entity', array(
-                'label' => 'game.selectGame', 
-                'class' => 'DPGameBundle:Game',
-                'query_builder' => function($repo) {
-                    return $repo->getQBAvailableSteamGames();
-                }
-            ))
             ->add('mode', 'choice', array(
                 'choices'     => SteamServer::getModeList(),
                 'empty_value' => 'steam.chooseGameMode',
                 'label'       => 'steam.gameMode',
                 'required'    => false,
             ))
-            ->add('dir', 'text', array('label' => 'game.dir'))
             ->add('maxplayers', 'integer', array('label' => 'game.maxplayers'))
             ->add('rconPassword', 'text', array(
                 'label'    => 'game.rcon.password',
@@ -55,6 +46,11 @@ class SteamServerType extends AbstractType
             ))
             ->add('svPassword', 'text', array('label' => 'steam.svPassword', 'required' => false))
             ->add('hltvPort', 'integer', array('label' => 'steam.hltv.port', 'required' => false))
+            ->add('alreadyInstalled', 'choice', array(
+                'choices'  => array(1 => 'game.yes', 0 => 'game.no'),
+                'label'    => 'game.isAlreadyInstalled',
+                'expanded' => true,
+            ))
         ;
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
@@ -63,14 +59,35 @@ class SteamServerType extends AbstractType
             /** @var DP\GameServer\SteamServerBundle\Entity\SteamServer $steam */
             $steam = $event->getData();
 
-            if ($steam->getId() === null) {
-                $form->add('alreadyInstalled', 'choice', array(
-                    'choices'  => array(1 => 'game.yes', 0 => 'game.no'),
-                    'label'    => 'game.isAlreadyInstalled',
-                    'expanded' => true,
-                ));
-            }
-            else {
+            $isUpdateForm = ($steam->getId() != null);
+
+            $form
+                ->add('machine', 'dedipanel_machine_entity', array(
+                    'disabled' => $isUpdateForm,
+                ))
+                ->add('game', 'entity', array(
+                    'label' => 'game.selectGame',
+                    'class' => 'DPGameBundle:Game',
+                    'query_builder' => function($repo) {
+                        return $repo->getQBAvailableSteamGames();
+                    },
+                    'disabled' => $isUpdateForm,
+                ))
+                ->add('dir', 'text', array(
+                    'label' => 'game.dir',
+                    'disabled' => $isUpdateForm,
+                ))
+            ;
+
+            if ($steam->getId() != null) {
+                $form->remove('alreadyInstalled');
+
+                if ($steam->getInstallationStatus() > 100) {
+                    $form->add('rebootAt', 'time', array(
+                        'label' => 'steam.rebootAt',
+                        'required' => false
+                    ));
+                }
                 if ($steam->getMachine()->getNbCore() != null) {
                     $choices = array_combine(
                         range(0, $steam->getMachine()->getNbCore()-1),
@@ -84,12 +101,7 @@ class SteamServerType extends AbstractType
                         'required' => false,
                         'expanded' => true,
                     ));
-                }
-
-                $form->add('rebootAt', 'time', array(
-                    'label' => 'steam.rebootAt',
-                    'required' => false
-                ));
+                };
             }
         });
 
@@ -105,6 +117,9 @@ class SteamServerType extends AbstractType
                     'empty_value' => 'steam.chooseGameMode',
                     'label' => 'steam.gameMode',
                 ));
+            }
+            elseif ($steam->getGame() !== null) {
+                $form->remove('mode');
             }
         });
     }

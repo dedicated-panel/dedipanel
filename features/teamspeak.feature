@@ -106,7 +106,7 @@ Feature: Teamspeak server management
       | machine           | testing4 |
       | query_password    | test-ts  |
       | dir               | test-ts  |
-      | already_installed | yes      |
+      | alreadyInstalled  | yes      |
       And I press "Créer"
      Then I should be on the teamspeak "testing4@127.0.0.1" instance index
       And I should see 2 success message
@@ -117,9 +117,9 @@ Feature: Teamspeak server management
     Given I am logged in with boz account
       And I am on the teamspeak creation page
      When I fill in dedipanel_teamspeak form with:
-      | machine           | bugged   |
-      | query_password    | test-ts  |
-      | dir               | test-ts  |
+      | machine        | bugged  |
+      | query_password | test-ts |
+      | dir            | test-ts |
       And I press "Créer"
      Then I should still be on the teamspeak creation page
       And I should see 1 error message
