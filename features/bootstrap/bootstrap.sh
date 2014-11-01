@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set +x
+
 if [ -n "$1" ] && [ -z "$2" ]; then
     for i in {1..5}; do
         $0 $1 $i
