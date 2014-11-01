@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set +x
+set -x
 
 if [ -n "$1" ] && [ -z "$2" ]; then
     for i in {1..5}; do
