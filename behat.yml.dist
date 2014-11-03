@@ -89,3 +89,9 @@ default:
                 - DP\Core\CoreBundle\Behat\ServerContext
             filters:
                 tags: "@teamspeak_instance"
+        dashboard:
+            contexts:
+                - Behat\MinkExtension\Context\MinkContext
+                - DP\Core\CoreBundle\Behat\ServerContext
+            filters:
+                tags: "@dashboard"
