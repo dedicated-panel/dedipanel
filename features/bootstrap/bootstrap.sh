@@ -17,8 +17,7 @@ case "$1" in
         if [ `grep "$USER" /etc/passwd | wc -l` -eq 0 ]; then
             echo -n "Configuration de $USER ... "
 
-            sudo adduser --quiet --disabled-password --gecos "" --home /home/$USER $USER || exit 1
-            sudo adduser $USER testing || exit 1
+            sudo adduser --quiet --disabled-password --gecos "" --home /home/$USER --ingroup testing $USER || exit 1
             echo "$USER:$PASSWD" | sudo chpasswd || exit 1
             umask 077 || exit 1
             test -d /home/$USER/.ssh || sh -c 'sudo mkdir -p /home/$USER/.ssh || exit 1'
