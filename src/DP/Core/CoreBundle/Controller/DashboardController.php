@@ -21,7 +21,7 @@ class DashboardController extends ResourceController
             'minecraftServers'  => $minecraftRepository->findBy(array(), array('id' => 'desc'), 5),
             'teamspeakServers'  => $teamspeakRepository->findBy(array(), array('id' => 'desc'), 5),
             'users'             => $userRepository->findBy(array(), array('lastLogin' => 'desc'), 10),
-            'machines'          => $machineRepository->findBy(array(), array('id' => 'desc'), 3),
+            'machines'          => $machineRepository->findBy(array(), array('id' => 'desc'), 5),
         ));
     }
 }

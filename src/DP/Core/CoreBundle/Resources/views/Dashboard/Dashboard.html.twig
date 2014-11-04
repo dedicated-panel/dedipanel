@@ -24,19 +24,33 @@
         <div class="span6">
             <div class="row-fluid">
                 {% if is_granted('ROLE_DP_GAME_STEAM_ADMIN') or is_granted('ROLE_DP_GAME_MINECRAFT_ADMIN') %}
-                    {{ dedipanel_widget._widgetHeader('game.server', 'icon-monitor','', 'filters', 'dedipanel_steam_index') }}
-                        {% if is_granted('ROLE_DP_GAME_STEAM_ADMIN') %}
-                            {{ dedipanel_widget._serverSteam(steamServers) }}
-                        {% endif %}
-                        {% if is_granted('ROLE_DP_GAME_MINECRAFT_ADMIN') %}
-                            {{ dedipanel_widget._serverMinecraft(minecraftServers) }}
-                        {% endif %}
-                    {{ dedipanel_widget._widgetFoot() }}
+                    <div class="widget-container">
+                        <div class="widget-heading">
+                            {% if steamServers %}
+                                <span class="icon-steam icon"></span>
+                                <a href="{{ path('dedipanel_steam_index') }}">{{ 'menu.steamServers'|trans }}</a>
+                            {% endif %}
+                            {% if minecraftServers %}
+                                <span class="icon-minecraft icon"></span>
+                                <a href="{{ path('dedipanel_minecraft_index') }}">{{ 'menu.minecraftServers'|trans }}</a>
+                            {% endif %}
+                        </div>
+                        <div class="widget-content">
+
+                            {% if is_granted('ROLE_DP_GAME_STEAM_ADMIN') %}
+                                {{ dedipanel_widget._serverSteam(steamServers) }}
+                            {% endif %}
+
+                            {% if is_granted('ROLE_DP_GAME_MINECRAFT_ADMIN') %}
+                                {{ dedipanel_widget._serverMinecraft(minecraftServers) }}
+                            {% endif %}
+
+                        {{ dedipanel_widget._widgetFoot() }}
                 {% endif %}
                 
                 {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_ADMIN') %}
-                    {{ dedipanel_widget._widgetHeader('teamspeak.title.index', 'icon-headphone', '', 'filters', 'dedipanel_teamspeak_index') }}
-                    {{ dedipanel_widget._serverTeamspeak(teamspeakServers) }}
+                    {{ dedipanel_widget._widgetHeader('teamspeak.title.index', 'icon-headphone', '','dedipanel_teamspeak_index') }}
+                    {{ dedipanel_widget._serverTeamspeak(teamspeakServers, 'filters') }}
                     {{ dedipanel_widget._widgetFoot() }}
                 {% endif %}               
             </div>
@@ -44,14 +58,14 @@
         <div class="span6">
             <div class="row-fluid">
                 {% if is_granted('ROLE_DP_ADMIN_MACHINE_ADMIN') %}
-                    {{ dedipanel_widget._widgetHeader('machine.title.index', 'icon-uni53', 'paddle', 'condensed', 'dedipanel_machine_index') }}
-                    {{ dedipanel_widget._machines(machines) }}
+                    {{ dedipanel_widget._widgetHeader('machine.title.index', 'icon-uni53', 'paddle', 'dedipanel_machine_index') }}
+                    {{ dedipanel_widget._machines(machines, 'condensed') }}
                     {{ dedipanel_widget._widgetFoot() }}
                 {% endif %}
                 
                 {% if is_granted('ROLE_DP_ADMIN_USER_ADMIN') %}
-                    {{ dedipanel_widget._widgetHeader('user.title.index', 'icon-groupe', 'paddle', 'condensed', 'dedipanel_user_index') }}
-                    {{ dedipanel_widget._users(users) }}
+                    {{ dedipanel_widget._widgetHeader('user.title.index', 'icon-groupe', 'paddle', 'dedipanel_user_index') }}
+                    {{ dedipanel_widget._users(users, 'condensed') }}
                     {{ dedipanel_widget._widgetFoot() }}
                 {% endif %}
             </div>
