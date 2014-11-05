@@ -348,7 +348,7 @@ class MinecraftServer extends GameServer
         $serverDir = $this->getAbsoluteDir();
         $scriptPath = $serverDir . 'minecraft.sh';
         
-        $conn = $this->getMachine->getConnection();
+        $conn = $this->getMachine()->getConnection();
 
         // On commence par vérifier que le serveur n'est pas lancé (sinon on l'arrête)
         $pgrep   = '`ps aux | grep SCREEN | grep "' . $screenName . ' " | grep -v grep | wc -l`';
