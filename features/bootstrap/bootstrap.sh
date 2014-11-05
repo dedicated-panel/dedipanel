@@ -10,7 +10,6 @@ fi
 
 USER="testing$2"
 PASSWD="testing$2"
-GROUP="testing$2"
 DIR=$(dirname $(readlink -f $0))
 
 case "$1" in
@@ -18,14 +17,14 @@ case "$1" in
         if [ `grep "$USER" /etc/passwd | wc -l` -eq 0 ]; then
             echo -n "Configuration de $USER ... "
 
-            sudo adduser --quiet --disabled-password --gecos "" --home /home/$USER --ingroup $GROUP $USER || exit 1
+            sudo adduser --quiet --disabled-password --gecos "" --home /home/$USER $USER || exit 1
             grep testing /etc/group && sudo adduser --quiet $USER testing
             echo "$USER:$PASSWD" | sudo chpasswd || exit 1
             umask 077 || exit 1
             test -d /home/$USER/.ssh || sh -c 'sudo mkdir -p /home/$USER/.ssh || exit 1'
             cp $DIR/id_rsa app/config/.ssh/test/id_rsa${2}.key || exit 1
             sudo sh -c "< $DIR/id_rsa.pub cat >> /home/$USER/.ssh/authorized_keys" || exit 1
-            sudo chown -R $USER:$GROUP /home/$USER/.ssh/ && sudo chmod -R 700 /home/$USER/.ssh/ || exit 1
+            sudo chown -R $USER:$USER /home/$USER/.ssh/ && sudo chmod -R 700 /home/$USER/.ssh/ || exit 1
 
             echo "[OK]"
         fi
