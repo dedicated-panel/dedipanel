@@ -27,14 +27,18 @@ class ConfiguratorController extends Controller
 
                 // Installation
                 if ($data['type'] == 'i') {
+                    
                     $url = $this->container->get('router')->generate('dedipanel_installer_check');
+                    
+                    return $this->redirect($url);
                 }
                 // Mise à jour
-                else ($data['type'] == 'u') {
-                    $url = $this->container->get('router')->generate('dedipanel_installer_step', array('step' => 0, 'type' => 'update'));
-                }
+                elseif ($data['type'] == 'u') {
 
-                return $this->redirect($url);
+                    $url = $this->container->get('router')->generate('dedipanel_installer_step', array('step' => 0, 'type' => 'update'));
+                    
+                    return $this->redirect($url);
+                }
             }
         }
 
