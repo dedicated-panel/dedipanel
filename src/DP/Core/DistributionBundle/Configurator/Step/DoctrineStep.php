@@ -117,6 +117,9 @@ class DoctrineStep implements StepInterface
         $configurator = $this->container->get('dp.webinstaller');
         $parameters = array();
 
+        /*
+         * @var array $data
+         */
         foreach ($data as $key => $value) {
             $parameters['database_' . $key] = $value;
         }
