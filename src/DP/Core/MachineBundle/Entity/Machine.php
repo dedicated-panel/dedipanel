@@ -233,7 +233,7 @@ class Machine extends Server
     /**
      * Sets is 64 bit system
      *
-     * @param integer $is64bit Is 64 bit system ?
+     * @param boolean $is64bit Is 64 bit system ?
      *
      * @return Machine
      */
@@ -247,7 +247,7 @@ class Machine extends Server
     /**
      * Gets is 64 bit system
      *
-     * @return integer Is 64 bit system
+     * @return boolean Is 64 bit system
      */
     public function is64Bit()
     {
