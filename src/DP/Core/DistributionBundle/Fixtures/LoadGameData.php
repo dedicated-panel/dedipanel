@@ -27,8 +27,8 @@ class LoadGameData extends AbstractFixture implements OrderedFixtureInterface
         $dodConfigTemplate = file_get_contents(__DIR__ . '/cfg/dod.cfg');
         $dodsConfigTemplate = file_get_contents(__DIR__ . '/cfg/dods.cfg');
         $tfcConfigTemplate = file_get_contents(__DIR__ . '/cfg/tfc.cfg');
-        $l4dConfigTemplate = file_get_contents(__DIR__ . '/cfg/l4d.cfg');
-        $l4d2ConfigTemplate = file_get_contents(__DIR__ . '/cfg/l4d2.cfg');
+        // $l4dConfigTemplate = file_get_contents(__DIR__ . '/cfg/l4d.cfg');
+        // $l4d2ConfigTemplate = file_get_contents(__DIR__ . '/cfg/l4d2.cfg');
         
         $cs = new Game();
         $cs->setName('Counter Strike');

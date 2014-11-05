@@ -46,7 +46,6 @@ class GameRepository extends EntityRepository
     public function getQBAvailableSteamGames()
     {
         $qb = $this->createQueryBuilder('game');
-        $expr = $qb->expr();
         
         $qb
             ->where('game.type = ?1')
@@ -65,7 +64,6 @@ class GameRepository extends EntityRepository
     public function getQBAvailableMinecraftGames()
     {
         $qb = $this->createQueryBuilder('game');
-        $expr = $qb->expr();
         
         $qb
             ->where('game.type = ?1')
