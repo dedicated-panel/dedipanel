@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use DP\Core\DistributionBundle\Configurator\Form\UserStepType;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use FOS\UserBundle\Model\UserInterface;
 
 class UserStep implements StepInterface
 {
@@ -79,13 +80,17 @@ class UserStep implements StepInterface
     public function run(StepInterface $data, $configType)
     {
         $userManager = $this->container->get('fos_user.user_manager');
-
         $user = $userManager->createUser();
-        $user->setUsername($data->username);
-        $user->setEmail($data->email);
-        $user->setPlainPassword($data->password);
-        $user->setSuperAdmin(true);
-        $user->setEnabled(true);
+
+        if ($user instanceof UserInterface) {
+
+            $user->setUsername($data->username);
+            $user->setEmail($data->email);
+            $user->setPlainPassword($data->password);
+            $user->setSuperAdmin(true);
+            $user->setEnabled(true);
+        }
+     
         $userManager->updateUser($user);
 
         return array();
