@@ -25,7 +25,7 @@ use DP\GameServer\SteamServerBundle\SteamQuery\Exception\UnexpectedServerTypeExc
 
 class HltvController extends Controller
 {
-    public function showAction($id)
+    public function showAction()
     {
         $this->redirect($this->generateUrl('steam'));
         
@@ -73,7 +73,7 @@ class HltvController extends Controller
         ));*/
     }
 
-    public function startAction($id)
+    public function startAction()
     {
         $this->redirect($this->generateUrl('steam'));
         
@@ -118,7 +118,7 @@ class HltvController extends Controller
         return $this->redirect($this->generateUrl('steam_hltv_show', array('id' => $id)));*/
     }
 
-    public function stopAction($id)
+    public function stopAction()
     {
         $this->redirect($this->generateUrl('steam'));
         
