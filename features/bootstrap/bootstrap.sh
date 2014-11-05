@@ -10,7 +10,7 @@ fi
 
 USER="testing$2"
 PASSWD="testing$2"
-GROUP="testing"
+GROUP="testing$2"
 DIR=$(dirname $(readlink -f $0))
 
 case "$1" in
@@ -19,6 +19,7 @@ case "$1" in
             echo -n "Configuration de $USER ... "
 
             sudo adduser --quiet --disabled-password --gecos "" --home /home/$USER --ingroup $GROUP $USER || exit 1
+            grep testing /etc/group && sudo adduser --quiet $USER testing
             echo "$USER:$PASSWD" | sudo chpasswd || exit 1
             umask 077 || exit 1
             test -d /home/$USER/.ssh || sh -c 'sudo mkdir -p /home/$USER/.ssh || exit 1'
