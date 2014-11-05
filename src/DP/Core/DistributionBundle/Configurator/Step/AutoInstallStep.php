@@ -152,7 +152,7 @@ class AutoInstallStep implements StepInterface
         $fixtures = $loader->getFixtures();
 
         if (!$fixtures) {
-            return array(sprintf('Could not find any fixtures to load in: %s', "\n\n- ".implode("\n- ", $paths)));
+            return array(sprintf('Could not find any fixtures to load in: %s', "\n\n- ".implode("\n- ", $path)));
         }
 
         $errors = array();
