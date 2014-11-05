@@ -39,7 +39,7 @@ use DP\Core\CoreBundle\Exception\MissingPacketException;
 class SteamServer extends GameServer
 {
     /**
-     * @var integer $rebootAt
+     * @var \DateTime $rebootAt
      *
      * @ORM\Column(name="rebootAt", type="time", nullable=true)
      */
@@ -222,7 +222,6 @@ class SteamServer extends GameServer
 
         $installDir = $this->getAbsoluteDir();
         $scriptPath = $installDir . 'install.sh';
-        $logPath = $installDir . 'install.log';
         $screenName = $this->getInstallScreenName();
         $steamCmd = $this->getGame()->getSteamCmd();
         $installName = $this->getGame()->getInstallName();

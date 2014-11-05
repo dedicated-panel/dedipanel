@@ -117,7 +117,7 @@ class ConfiguratorController extends Controller
         ));
     }
 
-    public function finalAction($type)
+    public function finalAction()
     {
         return $this->render('DPDistributionBundle:Configurator:final.html.twig');
     }
@@ -126,7 +126,6 @@ class ConfiguratorController extends Controller
     {
         $rootDir = $this->get('kernel')->getRootDir();
         $filepath = $rootDir . '/../web/.htaccess';
-        $configurator = $this->get('dp.webinstaller');
         
         if (is_writable($filepath)) {
             $content = file_get_contents($filepath);
