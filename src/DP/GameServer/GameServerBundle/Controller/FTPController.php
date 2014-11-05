@@ -44,8 +44,7 @@ class FTPController extends ResourceController
                 $container->get($this->config->getServiceName('manager')),
                 $container->get('event_dispatcher'),
                 $this->flashHelper,
-                $this->config,
-                $container->get('twig')
+                $this->config
             );
         }
     }
