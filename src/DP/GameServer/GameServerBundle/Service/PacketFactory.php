@@ -29,9 +29,9 @@ class PacketFactory
 {    
     /**
      * Transform $var to little endian long value
-     * 
+     *
      * @param long $var
-     * @return 4 bytes
+     * @return integer
      */
     public static function transformLittleEndianLong($var)
     {
@@ -40,9 +40,9 @@ class PacketFactory
     
     /**
      * Transform $var to big endiang long value
-     * 
+     *
      * @param long $var
-     * @return 4 bytes
+     * @return integer
      */
     public static function transformBigEndianLong($var)
     {
