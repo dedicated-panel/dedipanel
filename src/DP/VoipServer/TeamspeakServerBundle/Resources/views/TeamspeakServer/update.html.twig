@@ -25,7 +25,9 @@
         {{ form_row(form.query_password) }}
         {{ form_row(form.filetransfer_port) }}
         {{ form_row(form.licence_file) }}
-        {{ form_row(form.core) }}
+        {% if form.core is defined %}
+            {{ form_row(form.core) }}
+        {% endif %}
 
         {{ form_widget(form) }}
     </form>
