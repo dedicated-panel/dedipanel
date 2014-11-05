@@ -18,7 +18,7 @@ case "$1" in
             echo -n "Configuration de $USER ... "
 
             sudo adduser --quiet --disabled-password --gecos "" --home /home/$USER $USER || exit 1
-            grep "testing:" /etc/group && sudo adduser --quiet $USER testing
+            grep "testing:" /etc/group 1>/dev/null && sudo adduser $USER testing 1>/dev/null
             echo "$USER:$PASSWD" | sudo chpasswd || exit 1
             umask 077 || exit 1
             test -d /home/$USER/.ssh || sh -c 'sudo mkdir -p /home/$USER/.ssh || exit 1'
