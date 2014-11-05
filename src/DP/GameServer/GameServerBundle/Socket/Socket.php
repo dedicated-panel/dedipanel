@@ -185,8 +185,8 @@ class Socket
         
         // On souhaite uniquement lire la socket actuelle
         $read = array($this->socket);
-        $write = null;
-        $except = null;
+        $write = array();
+        $except = array();
         
         // On attend la modif de celle-ci jusqu'au timeout (en sec et usec)
         // socket_select renvoie le nombre de socket modifiés
