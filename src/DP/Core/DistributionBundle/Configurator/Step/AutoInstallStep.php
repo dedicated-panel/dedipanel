@@ -127,6 +127,7 @@ class AutoInstallStep implements StepInterface
         return $errors;
     }
 
+    /* Not yet implented
     private function updateDatabase()
     {
         $errors = array();
@@ -140,7 +141,7 @@ class AutoInstallStep implements StepInterface
         }
 
         return $errors;
-    }
+    }*/
     
     private function loadFixtures($path)
     {
