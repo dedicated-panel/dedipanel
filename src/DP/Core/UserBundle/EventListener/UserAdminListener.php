@@ -33,6 +33,6 @@ class UserAdminListener implements EventSubscriberInterface
      */
     public function cleanUpdate(ResourceEvent $event)
     {
-        $this->manager->updateUser($event->getSubject(), false);
+        $this->manager->updateUser($event->getSubject());
     }
 }
