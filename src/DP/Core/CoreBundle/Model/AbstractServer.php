@@ -42,7 +42,7 @@ abstract class AbstractServer implements ServerInterface
      *
      * @param boolean $alreadyInstalled
      *
-     * @return GameServer
+     * @return AbstractServer
      */
     public function setAlreadyInstalled($alreadyInstalled)
     {

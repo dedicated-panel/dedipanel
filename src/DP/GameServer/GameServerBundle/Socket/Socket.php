@@ -21,7 +21,6 @@
 namespace DP\GameServer\GameServerBundle\Socket;
 
 use DP\GameServer\GameServerBundle\Socket\Packet;
-
 use DP\GameServer\GameServerBundle\Socket\Exception\CreateSocketException;
 use DP\GameServer\GameServerBundle\Socket\Exception\ConnectionFailedException;
 use DP\GameServer\GameServerBundle\Socket\Exception\NotConnectedException;
@@ -172,6 +171,7 @@ class Socket
      * Receive a packet
      * 
      * @param bool $multiPacket
+     * @param double $packetLength
      * @return \DP\GameServer\GameServerBundle\Socket\Packet
      * @throws NotConnectedException
      * @throws RecvTimeoutException

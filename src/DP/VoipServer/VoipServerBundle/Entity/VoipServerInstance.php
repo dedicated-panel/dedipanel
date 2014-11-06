@@ -87,7 +87,7 @@ abstract class VoipServerInstance extends AbstractServer
     /**
      * Set the instance name
      *
-     * @param $name
+     * @param string $name
      * @return VoipServerInstance
      */
     public function setName($name)

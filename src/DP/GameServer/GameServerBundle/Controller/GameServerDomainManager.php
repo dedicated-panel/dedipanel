@@ -179,7 +179,7 @@ class GameServerDomainManager extends ServerDomainManager
      * Fetch $server logs
      *
      * @param GameServer $server
-     * @return array|string
+     * @return null|string
      */
     public function getServerLogs(GameServer $server)
     {

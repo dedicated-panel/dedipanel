@@ -25,6 +25,10 @@ namespace DP\GameServer\GameServerBundle\Socket\Exception;
  */
 class CreateSocketException extends SocketException
 {
+    /**
+     * @param integer $type
+     * @param string $sockError
+     */
     public function __construct($type, $sockError){
         parent::__construct('Can\'t create a ' . $type . ' connection.' .
             'Socket error : ' . $sockError);

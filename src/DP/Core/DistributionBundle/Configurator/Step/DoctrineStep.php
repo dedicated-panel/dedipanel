@@ -149,6 +149,7 @@ class DoctrineStep implements StepInterface
     /**
      * Trying to connect to the database
      *
+     * @param string $dbname
      * @return bool
      */
     private function testConnection($host, $user, $password, $port, $dbname)

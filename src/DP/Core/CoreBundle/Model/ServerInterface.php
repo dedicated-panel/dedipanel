@@ -66,6 +66,7 @@ interface ServerInterface
      * Destroy the server
      *
      * @throws Dedipanel\PHPSeclibWrapperBundle\Connection\Exception\ConnectionErrorException
+     * @return boolean
      */
     public function deleteServer();
 
@@ -109,6 +110,7 @@ interface ServerInterface
      * Set dir relative to user home
      *
      * @param string $dir
+     * @return null|\DP\VoipServer\VoipServerBundle\Entity\VoipServer
      */
     public function setDir($dir);
 

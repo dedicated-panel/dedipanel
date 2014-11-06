@@ -37,7 +37,7 @@ class VoipServerInstanceController extends ServerController
     /**
      * @param Request $request
      *
-     * @return RedirectResponse|Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function createAction(Request $request)
     {
@@ -73,7 +73,7 @@ class VoipServerInstanceController extends ServerController
     /**
      * @param Request $request
      *
-     * @return RedirectResponse|Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function updateAction(Request $request)
     {

@@ -25,6 +25,9 @@ namespace DP\GameServer\GameServerBundle\Socket\Exception;
  */
 class RecvTimeoutException extends SocketException
 {
+    /**
+     * @param string $message
+     */
     public function __construct($message, $code = 0) {
         parent::__construct($message, $code);
     }

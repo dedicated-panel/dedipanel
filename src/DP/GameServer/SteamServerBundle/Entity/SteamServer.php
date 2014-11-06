@@ -520,6 +520,9 @@ class SteamServer extends GameServer
         return $this->execPluginScript($twig, $plugin, 'uninstall');
     }
 
+    /**
+     * @param string $action
+     */
     public function execPluginScript(\Twig_Environment $twig, Plugin $plugin, $action)
     {
         if ($action != 'install' && $action != 'uninstall' && $action != 'activate' && $action != 'deactivate') {

@@ -24,6 +24,11 @@ class QueryGateway
     private $connected = false;
 
 
+    /**
+     * @param integer $port
+     * @param string $user
+     * @param string $pass
+     */
     public function __construct($host, $port, $user, $pass, $timeout = 1)
     {
         $this->user = $user;
@@ -130,6 +135,9 @@ class QueryGateway
         return $this->query->serverStop($sid);
     }
 
+    /**
+     * @param integer $sid
+     */
     public function restartInstance($sid)
     {
         $this->needConnected();

@@ -26,6 +26,9 @@ class IPBannedException extends \Exception
 {
     private $duration;
 
+    /**
+     * @param string $duration
+     */
     public function __construct($message = 'IP banned from the server.', $duration = null)
     {
         parent::__construct($message);

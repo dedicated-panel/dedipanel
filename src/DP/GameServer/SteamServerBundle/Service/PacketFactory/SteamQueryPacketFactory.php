@@ -35,7 +35,7 @@ class SteamQueryPacketFactory extends PacketFactory
     /**
      * Get a ping request packet
      * 
-     * @return Packet
+     * @return \DP\GameServer\GameServerBundle\Socket\Packet
      */
     public function A2A_PING()
     {
@@ -46,7 +46,7 @@ class SteamQueryPacketFactory extends PacketFactory
     /**
      * Get a server infos request packet
      * 
-     * @return Packet
+     * @return \DP\GameServer\GameServerBundle\Socket\Packet
      */
     public function A2S_INFO()
     {
@@ -56,7 +56,8 @@ class SteamQueryPacketFactory extends PacketFactory
     /**
      * Get a players request packet
      * 
-     * @return Packet
+     * @param integer $challenge
+     * @return \DP\GameServer\GameServerBundle\Socket\Packet
      */
     public function A2S_PLAYER($challenge)
     {
@@ -68,7 +69,7 @@ class SteamQueryPacketFactory extends PacketFactory
     /**
      * Get a rules request packet
      * 
-     * @return Packet
+     * @return \DP\GameServer\GameServerBundle\Socket\Packet
      */
     public function A2S_RULES($challenge)
     {
@@ -80,7 +81,7 @@ class SteamQueryPacketFactory extends PacketFactory
     /**
      * Get a challenge packet
      * 
-     * @return Packet 
+     * @return \DP\GameServer\GameServerBundle\Socket\Packet 
      */
     public function A2S_SERVERQUERY_GETCHALLENGE()
     {

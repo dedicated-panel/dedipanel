@@ -22,7 +22,7 @@ interface StepInterface
     /**
      * __construct
      *
-     * @param array $parameters
+     * @return void
      */
     function __construct(ContainerInterface $container);
 
@@ -50,7 +50,6 @@ interface StepInterface
     /**
      * Updates form data parameters.
      *
-     * @param array  $parameters
      * @param string Configuration type (install|update)
      * @return array Errors (or empty array)
      */

@@ -543,7 +543,7 @@ class Game
     /**
      * Get appMod
      *
-     * @return string
+     * @return integer
      */
     public function getAppMod()
     {

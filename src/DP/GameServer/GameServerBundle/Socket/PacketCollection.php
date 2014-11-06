@@ -148,6 +148,7 @@ class PacketCollection implements \SeekableIterator, \ArrayAccess, \Countable
     /**
      * Reassemble all packets in one packet
      * 
+     * @param \Closure $callback
      * @return \DP\GameServer\GameServerBundle\Socket\Packet 
      */
     public function reassemble($callback = null)

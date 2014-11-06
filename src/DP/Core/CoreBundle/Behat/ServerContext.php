@@ -417,6 +417,9 @@ class ServerContext extends DefaultContext
         return $instance;
     }
 
+    /**
+     * @param string $baseName
+     */
     protected function getRepository($resource, $baseName = null)
     {
         $service = 'dedipanel.';

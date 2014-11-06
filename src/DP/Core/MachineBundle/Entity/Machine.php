@@ -257,7 +257,7 @@ class Machine extends Server
     /**
      * Gets the groups granted to the user.
      *
-     * @return Collection
+     * @return ArrayCollection
      */
     public function getGroups()
     {

@@ -25,6 +25,9 @@ namespace DP\GameServer\GameServerBundle\Socket\Exception;
  */
 class RecvDataException extends SocketException
 {
+    /**
+     * @param string $sockError
+     */
     public function __construct($sockError)
     {
         parent::__construct('An error has occurred during receiving data. ' .

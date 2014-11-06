@@ -46,6 +46,9 @@ class SourceRconPacketFactory extends PacketFactory
         return $this->forgePacket($id, $this->SERVER_RESPONSE_VALUE, '');
     }
     
+    /**
+     * @param integer $cmdType
+     */
     private function forgePacket(&$id, $cmdType, $cmd)
     {
         $id = mt_rand(0, pow(2, 16));

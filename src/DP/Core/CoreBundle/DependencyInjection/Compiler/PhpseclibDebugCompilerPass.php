@@ -21,6 +21,9 @@ class PhpseclibDebugCompilerPass implements CompilerPassInterface
         }
     }
 
+    /**
+     * @param string $handler
+     */
     private function replaceByNullLogger(ContainerBuilder $container, $handler)
     {
         $def = $container->getDefinition($handler);

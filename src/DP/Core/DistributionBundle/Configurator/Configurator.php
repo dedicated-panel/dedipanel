@@ -161,7 +161,7 @@ class Configurator
     /**
      * Writes parameters to parameters.yml or temporary in the cache directory.
      *
-     * @return boolean
+     * @return integer
      */
     public function write()
     {

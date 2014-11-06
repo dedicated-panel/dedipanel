@@ -50,6 +50,9 @@ class Packet
         $this->content = $content;
     }
     
+    /**
+     * @param string $content
+     */
     public function setContentFromPos($content)
     {
         $this->content = 
@@ -75,6 +78,9 @@ class Packet
         $this->pos += strlen($content);
     }
     
+    /**
+     * @param string $content
+     */
     public function pushContent($content)
     {
         $this->content = $content . $this->content;
@@ -107,6 +113,9 @@ class Packet
         return $this->pos;
     }
     
+    /**
+     * @param integer $pos
+     */
     public function setPos($pos)
     {
         $this->pos = $pos;

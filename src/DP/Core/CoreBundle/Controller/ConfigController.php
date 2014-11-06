@@ -88,6 +88,9 @@ class ConfigController extends Controller
         return true;
     }
 
+    /**
+     * @param boolean $debugMode
+     */
     private function updateConfigFile($debugMode)
     {
         $config = array(
@@ -102,6 +105,10 @@ class ConfigController extends Controller
         return (bool) file_put_contents($this->configFile, $yaml);
     }
 
+    /**
+     * @param string $type
+     * @param string $message
+     */
     private function addFlash($type, $message, $params = array())
     {
         $message = $this->get('translator')->trans($message, $params, 'flashes');

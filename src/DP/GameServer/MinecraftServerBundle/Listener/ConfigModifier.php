@@ -45,6 +45,7 @@ class ConfigModifier
      * Get twig
      * 
      * @throws Exception 
+     * @return \Twig_Environment
      */
     protected function getTwig()
     {

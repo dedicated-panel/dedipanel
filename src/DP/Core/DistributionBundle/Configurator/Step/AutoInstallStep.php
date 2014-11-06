@@ -11,7 +11,6 @@ namespace DP\Core\DistributionBundle\Configurator\Step;
 
 use DP\Core\DistributionBundle\Configurator\Step\StepInterface;
 use DP\Core\DistributionBundle\Configurator\Form\AutoInstallStepType;
-
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Tools\SchemaTool;
@@ -143,6 +142,9 @@ class AutoInstallStep implements StepInterface
         return $errors;
     }*/
     
+    /**
+     * @param string $path
+     */
     private function loadFixtures($path)
     {
         $doctrine = $this->container->get('doctrine');

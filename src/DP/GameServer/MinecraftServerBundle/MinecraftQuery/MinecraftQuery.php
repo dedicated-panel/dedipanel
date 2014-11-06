@@ -42,6 +42,10 @@ class MinecraftQuery implements QueryInterface
     protected $online;
     protected $plugins;
     
+    /**
+     * @param string $host
+     * @param integer $port
+     */
     public function __construct($container, $host, $port)
     {
         $this->container = $container;

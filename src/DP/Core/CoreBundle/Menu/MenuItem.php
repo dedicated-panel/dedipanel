@@ -8,6 +8,9 @@ class MenuItem extends BaseMenuItem
 {
     private $pattern;
     
+    /**
+     * @param string $pattern
+     */
     public function setPattern($pattern)
     {
         $this->pattern = $pattern;

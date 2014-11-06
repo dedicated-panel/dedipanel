@@ -32,7 +32,7 @@ class ServerController extends ResourceController
 
     /**
      * @param  Request          $request
-     * @return RedirectResponse
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteAction(Request $request)
     {

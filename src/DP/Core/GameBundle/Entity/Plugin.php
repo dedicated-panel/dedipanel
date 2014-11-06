@@ -210,7 +210,7 @@ class Plugin
     /**
      * Get games
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\ArrayCollection 
      */
     public function getGames()
     {
@@ -245,6 +245,7 @@ class Plugin
      * Sets the plugin version
      * 
      * @param $vesion string Plugin vesion
+     * @param string $version
      * @return Plugin
      */
     public function setVersion($version)

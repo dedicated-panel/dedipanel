@@ -11,7 +11,6 @@ namespace DP\Core\CoreBundle\Controller;
 
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController as BaseResourceController;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 class ResourceController extends BaseResourceController
 {

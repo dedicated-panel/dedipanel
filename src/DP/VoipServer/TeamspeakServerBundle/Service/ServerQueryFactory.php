@@ -10,7 +10,7 @@ class ServerQueryFactory
 {
     /**
      * @param TeamspeakServer $server
-     * @return ServerQuery
+     * @return QueryGateway
      */
     public function getServerQuery(TeamspeakServer $server)
     {

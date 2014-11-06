@@ -24,7 +24,6 @@ use DP\GameServer\GameServerBundle\Query\RconInterface;
 use DP\GameServer\GameServerBundle\Socket\Socket;
 use DP\GameServer\GameServerBundle\Socket\Packet;
 use DP\GameServer\GameServerBundle\Socket\PacketCollection;
-
 use DP\GameServer\GameServerBundle\Socket\Exception\ConnectionFailedException;
 use DP\GameServer\GameServerBundle\Socket\Exception\NotConnectedException;
 use DP\GameServer\GameServerBundle\Socket\Exception\RecvTimeoutException;

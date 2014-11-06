@@ -34,7 +34,7 @@ class MinecraftQueryPacketFactory extends PacketFactory
     /**
      * Get an handshake packet
      * 
-     * @return Packet
+     * @return \DP\GameServer\GameServerBundle\Socket\Packet
      */
     public function handshake($sessionId)
     {
@@ -46,7 +46,7 @@ class MinecraftQueryPacketFactory extends PacketFactory
     /**
      * Get a statistic packet
      * 
-     * @return Packet
+     * @return \DP\GameServer\GameServerBundle\Socket\Packet
      */
     public function stat($sessionId, $challenge)
     {

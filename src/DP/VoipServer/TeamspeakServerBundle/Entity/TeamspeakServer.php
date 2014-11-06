@@ -195,7 +195,7 @@ class TeamspeakServer extends VoipServer
     /**
      * Has the licence file been uploaded ?
      *
-     * @return UploadedFile
+     * @return boolean
      */
     public function hasLicenceFile()
     {
