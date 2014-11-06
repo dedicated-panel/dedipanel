@@ -170,26 +170,6 @@ class ServerContext extends DefaultContext
     }
 
     /**
-     * @Then /^I should see "([^"]*)" near "([^"]*)"$/
-     */
-    public function iShouldSeeNear($text, $value)
-    {
-        $selector = sprintf('.server-list .server-item:contains("%s")', $value);
-
-        $this->assertSession()->elementContains('css', $selector, $text);
-    }
-
-    /**
-     * @Then /^I should not see "([^"]*)" near "([^"]*)"$/
-     */
-    public function iShouldNotSeeNear($text, $value)
-    {
-        $selector = sprintf('.server-list .server-item:contains("%s")', $value);
-
-        $this->assertSession()->elementNotContains('css', $selector, $text);
-    }
-
-    /**
      * @Then /^I should be on the ftp page of ([^""]*) "([^""]*)"$/
      */
     public function iShouldBeOnTheFtpPage($type, $name)

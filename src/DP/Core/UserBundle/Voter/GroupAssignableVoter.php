@@ -44,8 +44,11 @@ class GroupAssignableVoter implements VoterInterface
             }
             // Deny access if the user try to edit/delete group on which he is assigned
             elseif (array_intersect($groups, iterator_to_array($token->getUser()->getGroups())) !== array()
-            && (in_array('ROLE_DP_ADMIN_GROUP_UPDATE', $attributes)
-            || in_array('ROLE_DP_ADMIN_GROUP_DELETE', $attributes))) {
+            && array_intersect(['ROLE_DP_ADMIN_GROUP_UPDATE', 'ROLE_DP_ADMIN_GROUP_DELETE'], $attributes) !== array()) {
+                return VoterInterface::ACCESS_DENIED;
+            }
+            // Deny access if the user try to edit/delete himself
+            if ($object === $token->getUser() && array_intersect(['ROLE_DP_ADMIN_USER_UPDATE', 'ROLE_DP_ADMIN_USER_DELETE'], $attributes) !== array()) {
                 return VoterInterface::ACCESS_DENIED;
             }
 

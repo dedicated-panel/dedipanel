@@ -208,14 +208,15 @@ class GroupRepository extends NestedTreeRepository implements RepositoryInterfac
     }
 
     /**
-     * @TODO: Rename getAccessibleGroups -> getChildren
+     * Retrieve all $groups and their children, if $retrieveAll is false
+     * Retrieve all groups in database, if $retrieveAll is true
      */
     public function getAccessibleGroups($groups = array(), $retrieveAll = false)
     {
         $accessibleGroups = array();
                 
         if ($retrieveAll) {
-            return $this->getChildren(null, false, null, "asc", true);
+            return $this->getChildren(null, false, null, "asc", false);
         }
         
         foreach ($groups AS $group) {
