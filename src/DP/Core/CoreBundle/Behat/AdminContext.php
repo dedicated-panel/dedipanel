@@ -29,4 +29,14 @@ class AdminContext extends DefaultContext
             $tr->clickLink($button);
         }
     }
+
+    /**
+     * @Then /^I should see "([^"]*)" near "([^"]*)"$/
+     */
+    public function iShouldSeeNear($text, $value)
+    {
+        $selector = sprintf('*:contains("%s") + td', $value);
+
+        $this->assertSession()->elementContains('css', $selector, $text);
+    }
 }

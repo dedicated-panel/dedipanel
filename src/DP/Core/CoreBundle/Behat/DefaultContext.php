@@ -125,6 +125,16 @@ class DefaultContext extends SyliusDefaultContext
     }
 
     /**
+     * @Then /^access should be forbidden$/
+     */
+    public function accessShouldBeForbidden()
+    {
+        $this->assertStatusCodeEquals(403);
+        $this->iShouldSeeAlertMessage(1, 'error');
+        $this->assertSession()->pageTextContains("Vous n'avez pas accès à cette page.");
+    }
+
+    /**
      * @Then /^I should be unauthorized on the (.+) (page)$/
      */
     public function iShouldBeUnauthorizedOnThePage($page)

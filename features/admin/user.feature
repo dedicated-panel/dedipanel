@@ -7,8 +7,9 @@ Feature: Users management
   Background:
     Given there are following users:
       | username | email       | password | group | role             | enabled |
-      | foo      | foo@bar.net | test1234 |       | ROLE_SUPER_ADMIN | yes     |
-      | baz      | baz@bar.net | test1234 | Team  | ROLE_ADMIN       | yes     |
+      | foo      | foo@foo.net | test1234 |       | ROLE_SUPER_ADMIN | yes     |
+      | baz      | baz@baz.net | test1234 | Team  | ROLE_ADMIN       | yes     |
+      | boz      | boz@boz.net | test1234 | Team  | ROLE_ADMIN       | yes     |
       | bar      | bar@bar.net | test1234 | Team  |                  | yes     |
 
   Scenario: Seeing index of all users when super admin
@@ -16,14 +17,14 @@ Feature: Users management
       And I am on the homepage
      When I follow "Gestion des utilisateurs"
      Then I should be on the user index page
-      And I should see 3 users in the list
+      And I should see 4 users in the list
 
   Scenario: Seeing index of all users when admin
     Given I am logged in with baz account
       And I am on the homepage
      When I follow "Gestion des utilisateurs"
      Then I should be on the user index page
-      And I should see 2 users in the list
+      And I should see 3 users in the list
 
   Scenario: Accessing the user details page from the list
     Given I am logged in with foo account
@@ -114,14 +115,41 @@ Feature: Users management
      When I click "Modifier" near "baz"
      Then I should be editing user with username "baz"
 
+  Scenario: Trying to access editing form for himself
+    Given I am logged in with baz account
+     When I am editing user with username "baz"
+     Then access should be forbidden
+
   Scenario: Updating the user
-    Given I am logged in with foo account
-      And I am editing user with username "baz"
-     When I fill in "Nom" with "Boz"
+    Given I am logged in with baz account
+      And I am editing user with username "boz"
+     When I fill in "Nom" with "biz"
       And I press "Mettre à jour"
-     Then I should be on the page of user with username "Boz"
+     Then I should be on the page of user with username "biz"
       And I should see 1 alert success message
       And I should see "L'utilisateur a bien été mis à jour."
+
+  Scenario: Promote an admin
+    Given I am logged in with baz account
+      And I am editing user with username "bar"
+     When I fill in dedipanel_user form with:
+      | admin | yes |
+      And I press "Mettre à jour"
+     Then I should be on the page of user with username "bar"
+      And I should see 1 alert success message
+      And I should see "L'utilisateur a bien été mis à jour."
+      And I should see "Oui" near "Admin ?"
+
+  Scenario: Demote an admin
+    Given I am logged in with baz account
+      And I am editing user with username "bar"
+     When I fill in dedipanel_user form with:
+      | admin | no |
+      And I press "Mettre à jour"
+     Then I should be on the page of user with username "bar"
+      And I should see 1 alert success message
+      And I should see "L'utilisateur a bien été mis à jour."
+      And I should see "Non" near "Admin ?"
 
   Scenario: Deleting user
     Given I am logged in with foo account
