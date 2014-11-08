@@ -19,7 +19,7 @@
 {% endblock %}
 
 {% block content %}
-    {% set type = resource is file ? 'File' : 'Directory' %}
+    {% set type = resource is file ? 'file' : 'directory' %}
 
     <h2>{{ ('game.ftp.add' ~ type)|trans }}</h2>
     
