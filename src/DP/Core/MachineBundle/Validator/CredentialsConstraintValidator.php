@@ -6,6 +6,7 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Dedipanel\PHPSeclibWrapperBundle\Connection\ConnectionManagerInterface;
 use Dedipanel\PHPSeclibWrapperBundle\Connection\Exception\ConnectionErrorException;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 
 class CredentialsConstraintValidator extends ConstraintValidator
