@@ -33,7 +33,8 @@ class CredentialsConstraintValidator extends ConstraintValidator
             }
 
             if (!$test) {
-                $this->context->addViolation('machine.assert.bad_credentials');
+                $this->context->buildViolation('machine.assert.bad_credentials')->addViolation();
+
             }
         }
     }

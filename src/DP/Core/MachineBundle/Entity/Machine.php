@@ -341,7 +341,9 @@ class Machine extends Server
         // Ne valide le champ "password" que s'il s'agit d'une nouvelle entité
         // (si le password est précisé lors de l'édition, la clé est régénéré)
         if (null === $this->getId() && null === $this->getPassword()) {
-            $context->addViolationAt('password', 'machine.assert.password');
+            $context->buildViolation('machine.assert.password')
+                ->atPath('password')
+                ->addViolation();
         }
     }
 }

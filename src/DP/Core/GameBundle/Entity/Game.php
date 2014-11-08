@@ -608,10 +608,14 @@ class Game
         $appId = $this->getAppId();
         
         if (true === $this->getSteamCmd() && empty($appId)) {
-            $context->addViolationAt('appId', 'game.assert.appId.needed');
+            $context->buildViolation('game.assert.appId.needed')
+                ->atPath('appId')
+                ->addViolation();
         }
         elseif (false === $this->getSteamCmd() && !empty($appId)) {
-            $context->addViolationAt('appId', 'game.assert.appId.not_needed');
+            $context->buildViolation('game.assert.appId.not_needed')
+                ->atPath('appId')
+                ->addViolation();
         }
     }
 }

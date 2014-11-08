@@ -144,18 +144,16 @@ class User extends BaseUser
     public function validateRoleGroups(ExecutionContextInterface $context)
     {
         if ($this->isSuperAdmin() && !$this->getGroups()->isEmpty()) {
-            $context->addViolationAt(
-                'groups',
-                'user_admin.assert.groups.super_admin',
-                array('%user%' => strval($this))
-            );
+            $context->buildViolation('user_admin.assert.groups.super_admin')
+                ->atPath('groups')
+                ->setParameter('%user%', strval($this))
+                ->addViolation();
         }
         elseif (!$this->isSuperAdmin() && $this->getGroups()->isEmpty()) {
-            $context->addViolationAt(
-                'groups',
-                'user_admin.assert.groups.empty',
-                array('%user%' => strval($this))
-            );
+            $context->buildViolation('user_admin.assert.groups.empty')
+                ->atPath('groups')
+                ->setParameter('%user%', strval($this))
+                ->addViolation();
         }
     }
 }
