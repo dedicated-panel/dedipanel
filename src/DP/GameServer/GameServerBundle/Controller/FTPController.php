@@ -104,10 +104,14 @@ class FTPController extends ResourceController
         );
         $form     = $this->getForm($resource);
         
-        if ($request->isMethod('POST') && $form->bind($request)->isValid()) {
-            $resource = $this->domainManager->createResource($server, $resource);
+        $form->handleRequest($request);
 
-            return $this->redirectTo($server, $resource);
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $resource = $this->domainManager->createResource($server, $resource);
+
+                return $this->redirectTo($server, $resource);
+            }
         }
         
         if ($config->isApiRequest()) {
@@ -140,11 +144,14 @@ class FTPController extends ResourceController
         $resource = $this->getResource($server, $request->get('path'));
         $form     = $this->getForm($resource);
         
-        if (($request->isMethod('PUT') || $request->isMethod('POST'))
-        && $form->bind($request)->isValid()) {
-            $resource = $this->domainManager->updateResource($server, $resource);
+        $form->handleRequest($request);
 
-            return $this->redirectTo($server, $resource);
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $resource = $this->domainManager->updateResource($server, $resource);
+
+                return $this->redirectTo($server, $resource);
+            }
         }
 
         if ($config->isApiRequest()) {
