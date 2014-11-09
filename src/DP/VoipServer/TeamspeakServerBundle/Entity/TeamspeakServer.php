@@ -369,6 +369,7 @@ EOF;
 
     public function getStartParams()
     {
+        $params = array();
         $params[] = 'create_default_virtualserver=0';
 
         if ($this->firstStart) {

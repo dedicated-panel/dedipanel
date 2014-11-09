@@ -501,7 +501,7 @@ class SteamServer extends GameServer
     }
 
     /**
-     * {@inheritdoc}
+     * @var string $state
      */
     public function changeState($state)
     {
@@ -646,9 +646,11 @@ class SteamServer extends GameServer
 
     public function addAutoReboot()
     {
+        $script = $this->getRebootCommand();
         $rebootTime = $this->getRebootAt();
         $item =  new CrontabItem($script, $rebootTime->format('i'), $rebootTime->format('H'));
         $crontab =  new Crontab($this->getMachine()->getConnection());
+
         $crontab->addItem($item);
 
         return $crontab->update();
@@ -657,6 +659,7 @@ class SteamServer extends GameServer
 
     public function removeAutoReboot()
     {
+        $script = $this->getRebootCommand();
         $item = new CrontabItem($script);
         $crontab =  new Crontab($this->getMachine()->getConnection());
         $crontab->removeItem($item);

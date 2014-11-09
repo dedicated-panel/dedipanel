@@ -151,7 +151,9 @@ abstract class AbstractServer implements ServerInterface
         return '[DediPanel] ' . $this->getName();
     }
 
-    /** {@inheritdoc} */
+    /** 
+     * @var array $core 
+     */
     public function setCore(array $core = array())
     {
         $this->core = $core;
