@@ -29,7 +29,7 @@ interface StepInterface
     /**
      * Returns the form used for configuration.
      *
-     * @return DoctrineStepType
+     * @return DoctrineStepType|AutoInstallStepType|UserStepType
      */
     function getFormType();
 

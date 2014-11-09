@@ -76,7 +76,7 @@ class TeamspeakServer extends VoipServer
      * Set the port needed by the query
      *
      * @param integer $port
-     * @return TeamspeakServer
+     * @return integer
      */
     public function setQueryPort($port)
     {

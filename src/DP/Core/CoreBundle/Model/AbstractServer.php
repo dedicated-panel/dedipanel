@@ -152,7 +152,8 @@ abstract class AbstractServer implements ServerInterface
     }
 
     /** 
-     * @var array $core 
+     * @var array $core
+     * @return array
      */
     public function setCore(array $core = array())
     {

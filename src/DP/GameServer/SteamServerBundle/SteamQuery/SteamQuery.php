@@ -97,7 +97,6 @@ class SteamQuery implements QueryInterface
                 else {
                     $nbrePacket = $packet->getByte();
                     $packetId = $packet->getByte();
-                    $size = $packet->getShort();
                 }
 
                 $splittedPackets[$packetId] = $packet;
@@ -152,7 +151,7 @@ class SteamQuery implements QueryInterface
     /**
      * Get the server info
      * 
-     * @return array
+     * @return array|bool
      * @throws Exception\ServerTimeoutException 
      */
     public function getServerInfos()
