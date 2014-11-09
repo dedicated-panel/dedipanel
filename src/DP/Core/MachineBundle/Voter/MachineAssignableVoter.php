@@ -20,6 +20,11 @@ class MachineAssignableVoter implements VoterInterface
         $this->repo = $repo;
     }
     
+    /*
+     * @param string $attribute
+     * 
+     * @return bool
+     */
     public function supportsAttribute($attribute)
     {
         return preg_match('#^ROLE_DP_#', $attribute);

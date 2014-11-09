@@ -13,6 +13,7 @@ class MachineEntityType extends AbstractType
     private $repository;
     private $groupResolver;
     private $context;
+    private $choices;
 
     public function __construct(MachineRepository $repository, UserGroupResolver $groupResolver, SecurityContext $context)
     {
@@ -23,8 +24,6 @@ class MachineEntityType extends AbstractType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $choices = array();
-
         if ($this->context->isGranted('ROLE_SUPER_ADMIN')) {
             $choices = $this->repository->findAll();
         }

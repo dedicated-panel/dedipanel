@@ -44,7 +44,7 @@ class ConfigModifier
     /**
      * Get steam query service
      * 
-     * @return \DP\GameServer\SteamServerBundle\Service\Query
+     * @return Twig_Environment
      * @throws Exception 
      */
     protected function getTwig()
