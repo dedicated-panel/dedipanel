@@ -646,21 +646,21 @@ class SteamServer extends GameServer
 
     public function addAutoReboot()
     {
-        $script = $this->getRebootCommand();
         $rebootTime = $this->getRebootAt();
+        $script = $this->getRebootCommand();
         $item =  new CrontabItem($script, $rebootTime->format('i'), $rebootTime->format('H'));
         $crontab =  new Crontab($this->getMachine()->getConnection());
-
         $crontab->addItem($item);
 
         return $crontab->update();
 
     }
 
-    public function removeAutoReboot()
+    public function removeAutoReboot($rebootTime)
     {
+
         $script = $this->getRebootCommand();
-        $item = new CrontabItem($script);
+        $item =  new CrontabItem($script, $rebootTime->format('i'), $rebootTime->format('H'));
         $crontab =  new Crontab($this->getMachine()->getConnection());
         $crontab->removeItem($item);
 

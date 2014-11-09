@@ -94,12 +94,10 @@ class ConfigModifier
                 catch (\Exception $e) {}
             }
             if ($args->hasChangedField('rebootAt')) {
-                // Suppression du reboot auto si la valeur du champ vaut null
-                // Sinon ajout/modif
-                if ($args->getNewValue('rebootAt') == null) {
-                    $entity->removeAutoReboot();
-                }
-                else {
+                //suppression del'ancienne tâche cron
+                $entity->removeAutoReboot($args->getOldValue('rebootAt'));
+
+                if ($args->getNewValue('rebootAt') != null) {
                     $entity->addAutoReboot();
                 }
             }
