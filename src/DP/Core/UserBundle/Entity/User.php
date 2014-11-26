@@ -11,7 +11,6 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 /**
  * User
  *
- * Table need to be suffixed for avoiding SQL keyword conflict
  * @ORM\Table(name="user_table")
  * @ORM\Entity(repositoryClass="DP\Core\UserBundle\Entity\UserRepository")
  * @UniqueEntity(fields="usernameCanonical", errorPath="username", message="fos_user.username.already_used", groups={"Registration", "Profile"})
@@ -34,8 +33,8 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="username", type="string", length=255)
-     * @Assert\NotBlank(message="user_admin.assert.username.empty", groups={"Registration","Profile"})
-     * @Assert\Length(min=2, minMessage="fos_user.username.short", max=255, maxMessage="fos_user.username.long", groups={"Registration","Profile"})
+     * @Assert\NotBlank(message="user_admin.assert.username.empty", groups={"Profile","Adding","Editing"})
+     * @Assert\Length(min=2, minMessage="fos_user.username.short", max=255, maxMessage="fos_user.username.long", groups={"Profile","Adding","Editing"})
      */
     protected $username;
 
@@ -50,16 +49,16 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255)
-     * @Assert\NotBlank(message="user_admin.assert.email.empty", groups={"Registration","Profile"})
-     * @Assert\Length(min=2, minMessage="fos_user.email.short", max=255, maxMessage="fos_user.email.long", groups={"Registration","Profile"})
-     * @Assert\Email(message="user_admin.assert.email.valid", groups={"Registration","Profile"})
+     * @Assert\NotBlank(message="user_admin.assert.email.empty", groups={"Adding","Editing","Profile"})
+     * @Assert\Length(min=2, minMessage="fos_user.email.short", max=255, maxMessage="fos_user.email.long", groups={"Adding","Editing","Profile"})
+     * @Assert\Email(message="user_admin.assert.email.valid", groups={"Adding","Editing","Profile"})
      */
     protected $email;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="email_canonical", type="string", length=255)
+     * @ORM\Column(name="email_canonical", type="string", length=255, unique=true)
      */
     protected $emailCanonical;
 
@@ -85,7 +84,6 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="password", type="string")
-     * @Assert\NotNull(message="user_admin.assert.password.empty")
      */
     protected $password;
 
@@ -94,8 +92,8 @@ class User implements UserInterface
      *
      * @var string
      *
-     * @Assert\NotBlank(message="fos_user.password.blank")
-     * @Assert\Length(min=2, minMessage="fos_user.password.short", max=4096, groups={"Registration", "Profile"})
+     * @Assert\NotBlank(message="user_admin.assert.password.empty", groups={"Adding","Profile"})
+     * @Assert\Length(min=2, minMessage="user_admin.assert.password.short", max=4096, groups={"Adding","Profile"})
      */
     protected $plainPassword;
 
@@ -661,22 +659,20 @@ class User implements UserInterface
     }
 
     /**
-     * @Assert\Callback
+     * @Assert\Callback(groups={"Adding","Editing"})
      */
     public function validateGroup(ExecutionContextInterface $context)
     {
         if ($this->isSuperAdmin() && $this->getGroup() !== null) {
             $context->addViolationAt(
                 'group',
-                'user_admin.assert.group.super_admin',
-                array('%user%' => strval($this))
+                'user_admin.assert.group.super_admin'
             );
         }
         elseif (!$this->isSuperAdmin() && $this->getGroup() === null) {
             $context->addViolationAt(
                 'group',
-                'user_admin.assert.group.empty',
-                array('%user%' => strval($this))
+                'user_admin.assert.group.empty'
             );
         }
     }

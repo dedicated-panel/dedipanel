@@ -4,8 +4,10 @@ namespace DP\Core\UserBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use DP\Core\UserBundle\EventListener\UserPasswordSubscriber;
 
 class UserType extends AbstractType
 {
@@ -33,10 +35,20 @@ class UserType extends AbstractType
             ->add('superAdmin', 'checkbox', array('label' => 'user.fields.super_admin', 'required' => false))
         ;
 
-        // Ajout d'un EventSubscriber permettant de gérer 
-        // les propriété password et plainPassword des entités
-        // lors de la création via le formulaire
-        $builder->addEventSubscriber(new UserPasswordSubscriber);
+        $builder
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+                $user = $event->getData();
+                $form = $event->getForm();
+
+                if ($user->getId() !== null) {
+                    $form->add('plainPassword', 'repeated', array(
+                        'type' => 'password',
+                        'first_options' => array('label'  => 'user.fields.password'),
+                        'second_options' => array('label' => 'user.fields.repeat_password'),
+                        'required' => false,
+                    ));
+                }
+            });
     }
 
     /**
@@ -45,7 +57,16 @@ class UserType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'DP\Core\UserBundle\Entity\User'
+            'data_class'        => 'DP\Core\UserBundle\Entity\User',
+            'validation_groups' => function (FormInterface $form) {
+                $data = $form->getData();
+
+                if ($data->getId() === null) {
+                    return ['Adding'];
+                }
+
+                return 'Editing';
+            },
         ));
     }
 

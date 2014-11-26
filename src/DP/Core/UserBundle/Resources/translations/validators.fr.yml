@@ -9,9 +9,10 @@ user_admin:
             valid: Veuillez indiquer une adresse email valide.
         password:
             empty: Veuillez renseigner le mot de passe de l'utilisateur.
+            short: "[-Inf,Inf]Veuillez renseigner un mot de passe faisant plus de {{ limit }} caractères."
         group:
-            super_admin: Vous ne pouvez pas associer l'utilisateur "%user%" à un groupe et le déclarer Super-Admin.
-            empty: Veuillez assigner l'utilisateur "%user%" à un groupe.
+            super_admin: Vous ne pouvez pas associer l'utilisateur à un groupe et le déclarer Super-Admin.
+            empty: Veuillez assigner l'utilisateur à un groupe.
 
 group_admin:
     assert:

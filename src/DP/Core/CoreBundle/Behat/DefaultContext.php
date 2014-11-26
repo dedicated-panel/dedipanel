@@ -2,6 +2,7 @@
 
 namespace DP\Core\CoreBundle\Behat;
 
+use FOS\UserBundle\Doctrine\UserManager;
 use Sylius\Bundle\ResourceBundle\Behat\DefaultContext as SyliusDefaultContext;
 use Behat\Gherkin\Node\TableNode;
 
@@ -56,7 +57,6 @@ class DefaultContext extends SyliusDefaultContext
             $user->setEmail($email);
             $user->setEnabled($enabled);
             $user->setPlainPassword($password);
-            $user->setPassword(''); // Set empty hashed password for validation
 
             if (null !== $role) {
                 $user->addRole($role);
@@ -68,7 +68,6 @@ class DefaultContext extends SyliusDefaultContext
             }
 
             $this->validate($user);
-
             $this->getEntityManager()->persist($user);
 
             if ($flush) {
