@@ -1,6 +1,6 @@
 <?php
 
-namespace DP\Core\MachineBundle\Voter;
+namespace DP\Core\MachineBundle\Security;
 
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -23,8 +23,10 @@ class MachineRelatedVoter extends AbstractObjectVoter
         return property_exists($class, 'machine');
     }
 
+    /** {@inheritdoc} */
     protected function getSupportedClasses()
     {
+        // Does not return anything as supportsClass() method is rewritten
         return [];
     }
     

@@ -31,7 +31,7 @@ services:
             - { name: kernel.event_subscriber }
 
     dedipanel.security.voter.machine_assignable_voter:
-        class: DP\Core\MachineBundle\Voter\MachineRelatedVoter
+        class: DP\Core\MachineBundle\Security\MachineRelatedVoter
         arguments: [ @dedipanel.repository.group ]
         public: false
         tags:
