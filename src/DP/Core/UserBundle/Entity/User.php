@@ -14,8 +14,8 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * Table need to be suffixed for avoiding SQL keyword conflict
  * @ORM\Table(name="user_table")
  * @ORM\Entity(repositoryClass="DP\Core\UserBundle\Entity\UserRepository")
- * @UniqueEntity(fields="username", message="user_admin.assert.username.unique")
- * @UniqueEntity(fields="email", message="user_admin.assert.email.unique")
+ * @UniqueEntity(fields="usernameCanonical", errorPath="username", message="fos_user.username.already_used", groups={"Registration", "Profile"})
+ * @UniqueEntity(fields="emailCanonical", errorPath="email", message="fos_user.email.already_used", groups={"Registration", "Profile"})
  */
 class User implements UserInterface
 {
