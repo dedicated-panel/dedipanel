@@ -67,7 +67,7 @@ abstract class VoipServer extends AbstractServer
     /**
      * Get the port that need to be used by the query
      *
-     * @return integer
+     * @return Doctrine\Common\Collections\ArrayCollection
      */
     abstract public function getQueryPort();
 

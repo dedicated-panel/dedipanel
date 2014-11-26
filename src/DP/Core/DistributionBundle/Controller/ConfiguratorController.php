@@ -19,9 +19,10 @@ class ConfiguratorController extends Controller
         $request = $this->get('request');
         $form    = $this->getProcessTypeForm();
 
-        if ($request->getMethod() == 'POST') {
-            $form->bind($request);
+      
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 $data = $form->getData();
 
@@ -90,10 +91,9 @@ class ConfiguratorController extends Controller
 
         $form = $this->createForm($step->getFormType(), $step);
         $request = $this->container->get('request');
+        $form->handleRequest($request);
 
-        if ($request->getMethod() == 'POST') {
-            $form->bind($request);
-
+        if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 $errors = $step->run($form->getData(), $type);
 

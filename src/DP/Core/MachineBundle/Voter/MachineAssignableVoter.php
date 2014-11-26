@@ -12,7 +12,7 @@ use DP\Core\UserBundle\Security\AbstractObjectVoter;
  * Celui-ci vérifie que l'utilisateur à accès à la machine 
  * lié à l'objet pour lequel le voter agit.
  */
-class MachineAssignableVoter extends AbstractObjectVoter
+class MachineRelatedVoter extends AbstractObjectVoter
 {
     /**
      * Toutes les classes ayant une propriété "machine" 

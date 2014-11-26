@@ -26,6 +26,8 @@ use DP\GameServer\GameServerBundle\Entity\GameServer;
 use DP\Core\GameBundle\Entity\Plugin;
 use DP\Core\CoreBundle\Exception\InstallAlreadyStartedException;
 use DP\Core\CoreBundle\Exception\MissingPacketException;
+use Dedipanel\PHPSeclibWrapperBundle\Crontab\Crontab;
+use Dedipanel\PHPSeclibWrapperBundle\Crontab\CrontabItem;
 
 /**
  * DP\GameServer\SteamServerBundle\Entity\SteamServer
@@ -499,7 +501,7 @@ class SteamServer extends GameServer
     }
 
     /**
-     * {@inheritdoc}
+     * @var string $state
      */
     public function changeState($state)
     {
@@ -644,17 +646,25 @@ class SteamServer extends GameServer
 
     public function addAutoReboot()
     {
-        $script = $this->getRebootCommand();
         $rebootTime = $this->getRebootAt();
+        $script = $this->getRebootCommand();
+        $item =  new CrontabItem($script, $rebootTime->format('i'), $rebootTime->format('H'));
+        $crontab =  new Crontab($this->getMachine()->getConnection());
+        $crontab->addItem($item);
 
-        return $this->getMachine()->updateCrontab($script, $rebootTime->format('i'), $rebootTime->format('H'), '*', '*', '*');
+        return $crontab->update();
+
     }
 
-    public function removeAutoReboot()
+    public function removeAutoReboot($rebootTime)
     {
-        $script = $this->getRebootCommand();
 
-        return $this->getMachine()->removeFromCrontab($script);
+        $script = $this->getRebootCommand();
+        $item =  new CrontabItem($script, $rebootTime->format('i'), $rebootTime->format('H'));
+        $crontab =  new Crontab($this->getMachine()->getConnection());
+        $crontab->removeItem($item);
+
+        return $crontab->update();
     }
 
     public function getServerCfgPath()

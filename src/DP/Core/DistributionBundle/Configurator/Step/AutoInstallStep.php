@@ -144,6 +144,8 @@ class AutoInstallStep implements StepInterface
     
     /**
      * @param string $path
+     *
+     * @return array
      */
     private function loadFixtures($path)
     {

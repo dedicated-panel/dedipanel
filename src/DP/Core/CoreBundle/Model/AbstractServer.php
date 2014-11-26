@@ -151,7 +151,10 @@ abstract class AbstractServer implements ServerInterface
         return '[DediPanel] ' . $this->getName();
     }
 
-    /** {@inheritdoc} */
+    /** 
+     * @var array $core
+     * @return array
+     */
     public function setCore(array $core = array())
     {
         $this->core = $core;
@@ -199,15 +202,21 @@ abstract class AbstractServer implements ServerInterface
             $absDir = $this->getAbsoluteDir();
 
             if (!$this->getMachine()->getConnection()->testSSHConnection()) {
-                $context->addViolationAt('machine', 'gameServer.assert.machine_unavailable');
+                $context->buildViolation('gameServer.assert.machine_unavailable')
+                    ->atPath('machine')
+                    ->addViolation();
             }
             elseif (!$this->isAlreadyInstalled() && !empty($relDir)
             && $this->getMachine()->getConnection()->dirExists($absDir)) {
-                $context->addViolationAt('dir', 'gameServer.assert.directory_exists');
+                $context->buildViolation('gameServer.assert.directory_exists')
+                    ->atPath('dir')
+                    ->addViolation();
             }
             elseif ($this->isAlreadyInstalled() && !empty($relDir)
             && !$this->getMachine()->getConnection()->dirExists($absDir)) {
-                $context->addViolationAt('dir', 'gameServer.assert.directory_not_exists');
+                $context->buildViolation('gameServer.assert.directory_not_exists')
+                    ->atPath('dir')
+                    ->addViolation();
             }
         }
     }

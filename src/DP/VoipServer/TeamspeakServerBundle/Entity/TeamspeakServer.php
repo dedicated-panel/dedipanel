@@ -76,7 +76,7 @@ class TeamspeakServer extends VoipServer
      * Set the port needed by the query
      *
      * @param integer $port
-     * @return TeamspeakServer
+     * @return integer
      */
     public function setQueryPort($port)
     {
@@ -369,6 +369,7 @@ EOF;
 
     public function getStartParams()
     {
+        $params = array();
         $params[] = 'create_default_virtualserver=0';
 
         if ($this->firstStart) {

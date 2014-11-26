@@ -14,6 +14,7 @@ class MachineEntityType extends AbstractType
     private $repository;
     private $groupResolver;
     private $context;
+    private $choices;
 
     public function __construct(MachineRepository $repository, UserGroupResolver $groupResolver, SecurityContext $context)
     {

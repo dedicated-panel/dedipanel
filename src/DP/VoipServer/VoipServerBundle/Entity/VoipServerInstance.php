@@ -215,10 +215,12 @@ abstract class VoipServerInstance extends AbstractServer
         try {
             if ($this->getServer() !== null && (!$this->getQuery()->isOnline()
                 || (!$this->getQuery()->isConnected() && !$this->getQuery()->login()))) {
-                $context->addViolation('voip.instance.assert.offline_server');
+                $context->buildViolation('voip.instance.assert.offline_server')->addViolation();
             }
         } catch (IPBannedException $e) {
-            $context->addViolation('voip.instance.assert.banned_from_server', ['%duration%' => $e->getDuration()]);
+            $context->buildViolation('voip.instance.assert.banned_from_server')
+                ->setParameter('%duration%', $e->getDuration())
+                ->addViolation();
         }
     }
 }

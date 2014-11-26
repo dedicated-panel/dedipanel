@@ -29,7 +29,7 @@ use FOS\UserBundle\Model\GroupInterface;
 use Dedipanel\PHPSeclibWrapperBundle\Server\Server;
 use Dedipanel\PHPSeclibWrapperBundle\Connection\ConnectionInterface;
 use DP\Core\MachineBundle\Validator\CredentialsConstraint;
-use Symfony\Component\Validator\ExecutionContextInterface;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use DP\VoipServer\VoipServerBundle\Entity\VoipServer;
 
 /**
@@ -341,7 +341,9 @@ class Machine extends Server
         // Ne valide le champ "password" que s'il s'agit d'une nouvelle entité
         // (si le password est précisé lors de l'édition, la clé est régénéré)
         if (null === $this->getId() && null === $this->getPassword()) {
-            $context->addViolationAt('password', 'machine.assert.password');
+            $context->buildViolation('machine.assert.password')
+                ->atPath('password')
+                ->addViolation();
         }
     }
 }

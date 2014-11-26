@@ -73,7 +73,7 @@ interface ServerInterface
     /**
      * Change the server state (one of ACTION_*)
      *
-     * @return boolean
+     * @return string
      */
     public function changeState($state);
 
