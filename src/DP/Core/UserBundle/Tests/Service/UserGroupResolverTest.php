@@ -2,6 +2,7 @@
 
 namespace DP\Core\UserBundle\Tests\Service;
 
+use DP\Core\UserBundle\Entity\User;
 use DP\Core\UserBundle\Service\UserGroupResolver;
 
 class UserGroupResolverTest extends \PHPUnit_Framework_TestCase
@@ -65,16 +66,38 @@ class UserGroupResolverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($groups, $this->resolver->getAccessibleGroups());
     }
 
-    public function testGettingAccessibleGroupsWhenNormalUser()
+    public function testGettingAccessibleGroupsWhenAdmin()
     {
         $groups = ['1', '1-1'];
 
-        $this->context->expects($this->once())
+        $this->context->expects($this->any())
             ->method('isGranted')
-            ->will($this->returnValue(false));
+            ->will($this->returnValueMap([
+                [User::ROLE_SUPER_ADMIN, null, false],
+                [User::ROLE_ADMIN, null, true],
+            ]));
         $this->groupRepo->expects($this->once())
             ->method('getChildren')
             ->will($this->returnValue($groups));
+        $this->user->expects($this->any())
+            ->method('getGroup')
+            ->will($this->returnValue('1'));
+
+        $this->assertEquals($groups, $this->resolver->getAccessibleGroups());
+    }
+
+    public function testGettingAccessibleGroupsWhenNormalUser()
+    {
+        $groups = ['1'];
+
+        $this->context->expects($this->exactly(2))
+            ->method('isGranted')
+            ->will($this->returnValueMap([
+                [User::ROLE_SUPER_ADMIN, false],
+                [User::ROLE_ADMIN, false],
+            ]));
+        $this->groupRepo->expects($this->never())
+            ->method('getChildren');
         $this->user->expects($this->exactly(2))
             ->method('getGroup')
             ->will($this->returnValue('1'));
@@ -84,7 +107,7 @@ class UserGroupResolverTest extends \PHPUnit_Framework_TestCase
 
     public function testGettingAccessibleGroupsWhenErroredUser()
     {
-        $this->context->expects($this->once())
+        $this->context->expects($this->exactly(2))
             ->method('isGranted')
             ->will($this->returnValue(false));
         $this->groupRepo->expects($this->never())
