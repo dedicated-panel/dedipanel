@@ -33,9 +33,12 @@ class UserGroupResolver
             $groups = $this->groupRepo
                 ->getChildren(null);
         }
-        elseif ($user->getGroup() !== null) {
+        elseif ($this->context->isGranted(User::ROLE_ADMIN)) {
             $groups = $this->groupRepo
                 ->getChildren($user->getGroup(), false, null, "asc", true);
+        }
+        elseif ($user->getGroup() !== null) {
+            $groups = [$user->getGroup()];
         }
 
         return $groups;
@@ -51,14 +54,5 @@ class UserGroupResolver
         }
         
         return $ids;
-    }
-
-    public function getGroupsRoutingCriteria()
-    {
-        if ($this->context->isGranted(User::ROLE_SUPER_ADMIN)) {
-            return null;
-        }
-
-        return $this->getAccessibleGroupsId();
     }
 }

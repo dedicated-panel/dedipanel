@@ -59,3 +59,9 @@ services:
         class: DP\Core\UserBundle\Security\UserProvider
         public: false
         arguments: [ @fos_user.user_manager ]
+
+    dedipanel.user.admin_listener:
+        class: DP\Core\UserBundle\EventListener\UserAdminListener
+        arguments: [ @security.context ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }

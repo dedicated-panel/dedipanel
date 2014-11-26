@@ -2,15 +2,13 @@
 
 namespace DP\Core\MachineBundle\Entity;
 
-use DP\Core\CoreBundle\Entity\EntityRepository;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
 class MachineRepository extends EntityRepository
 {
     protected function applyCriteria(QueryBuilder $queryBuilder, array $criteria = null)
     {
-        $criteria = $this->cleanupCriteria($criteria);
-
         if (isset($criteria['groups'])) {
             $queryBuilder
                 ->innerJoin($this->getAlias() . '.groups', 'g', 'WITH', $queryBuilder->expr()->in('g.id', $criteria['groups']))

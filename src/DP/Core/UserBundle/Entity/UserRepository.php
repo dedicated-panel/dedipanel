@@ -2,7 +2,7 @@
 
 namespace DP\Core\UserBundle\Entity;
 
-use DP\Core\CoreBundle\Entity\EntityRepository;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
 class UserRepository extends EntityRepository
@@ -20,8 +20,6 @@ class UserRepository extends EntityRepository
 
     protected function applyCriteria(QueryBuilder $queryBuilder, array $criteria = null)
     {
-        $criteria = $this->cleanupCriteria($criteria);
-
         if (isset($criteria['groups'])) {
             $queryBuilder
                 ->innerJoin($this->getAlias() . '.group', 'g', 'WITH', $queryBuilder->expr()->in('g.id', $criteria['groups']))

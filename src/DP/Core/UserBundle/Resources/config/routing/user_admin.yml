@@ -3,13 +3,16 @@
 # For the full copyright and license information, please view the LICENSE
 # file that was distributed with this source code.
 
+# This specific route is catched by the UserAdminListener
+# and the groups criteria is deleted for super admin
+# ensuring they can access to others super admin
 dedipanel_user_index:
     pattern: /
     defaults:
         _controller: dedipanel.controller.user:indexAction
         _sylius:
             criteria:
-                groups: @dedipanel.resolver.user_group:getGroupsRoutingCriteria
+                groups: @dedipanel.resolver.user_group:getAccessibleGroupsId
 
 dedipanel_user_show:
     pattern: /{id}/show
