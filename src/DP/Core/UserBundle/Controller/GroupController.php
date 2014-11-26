@@ -18,7 +18,7 @@ class GroupController extends ResourceController
         $resource  = $this->findOr404($request);
         $hierarchy = $this
             ->get('dedipanel.repository.group')
-            ->getAccessibleGroups(array($resource))
+            ->getChildren($resource, false, null, "asc", true);
         ;
 
         foreach ($hierarchy AS $child) {

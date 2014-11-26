@@ -35,3 +35,4 @@ machine.fields.home: Répertoire home
 machine.fields.is_priv_key_already_generated: Clé privée générée ?
 machine.fields.nb_core: Nombre de core détecté(s)
 machine.fields.is_64bit: Système 64 bits ?
+machine.fields.groups: Groupes

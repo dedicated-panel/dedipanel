@@ -63,7 +63,7 @@ menu:
         config: Configuration
 
 user:
-    rolesAssociatedToGroup: Rôle associé au groupe : %groups%.|Rôle associé aux groupes : %groups%.
+    rolesAssociatedToGroup: Rôle associé au groupe : %group%.|Rôle associé aux groupes : %group%.
     
     title:
         user: Utilisateur
@@ -88,7 +88,7 @@ user:
         lastLogin: Dernière connexion
         password: Mot de passe
         repeat_password: Ressaisir
-        groups: Groupes
+        group: Groupe
         roles: Rôles
         admin: Admin ?
         super_admin: Super Admin ?

@@ -76,7 +76,7 @@ sylius_resource:
             classes:
                 model: DPTeamspeakServerBundle:TeamspeakServer
                 controller: DP\Core\CoreBundle\Controller\Server\ServerController
-                repository: DP\VoipServer\TeamspeakServerBundle\Entity\TeamspeakServerRepository
+                repository: DP\Core\CoreBundle\Entity\MachineRelatedRepository
         dedipanel.teamspeak.instance:
             driver: doctrine/orm
             templates: DPTeamspeakServerBundle:TeamspeakServerInstance

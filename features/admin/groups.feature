@@ -31,7 +31,7 @@ Feature: Groups management
      When I follow "Gestion des groupes"
      Then I should be on the group index page
       And I should see 2 groups in the list
-      And I should see 2 button "Voir"
+      And I should see 1 button "Voir"
       And I should see 1 button "Modifier"
 
   Scenario: Seeing group data when super admin
@@ -41,14 +41,6 @@ Feature: Groups management
      Then I should be viewing group "Team"
       And I should see 1 button "Modifier"
       And I should see 1 button "Supprimer"
-
-  Scenario: Seeing own group data when admin
-    Given I am logged in with baz account
-      And I am on the group index page
-     When I follow "Voir" near "Team"
-     Then I should be viewing group "Team"
-      And I should not see button "Modifier"
-      And I should not see button "Supprimer"
 
   Scenario: Seeing subgroup data when admin
     Given I am logged in with baz account

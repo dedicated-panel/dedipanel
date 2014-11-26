@@ -37,6 +37,7 @@ before_script:
 #    - app/console doctrine:schema:create --env=test
 
 script:
+  - phpunit
   - bin/behat -s installer
   - bin/behat -s users
   - bin/behat -s configs

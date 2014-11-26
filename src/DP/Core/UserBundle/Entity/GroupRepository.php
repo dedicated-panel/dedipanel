@@ -144,6 +144,8 @@ class GroupRepository extends NestedTreeRepository implements RepositoryInterfac
             return;
         }
 
+        $criteria = $this->cleanupCriteria($criteria);
+
         foreach ($criteria as $property => $value) {
             if (null === $value) {
                 $queryBuilder
@@ -156,6 +158,18 @@ class GroupRepository extends NestedTreeRepository implements RepositoryInterfac
                     ->setParameter($property, $value);
             }
         }
+    }
+
+    protected function cleanupCriteria(array $criteria = null)
+    {
+        // isset($criteria['groups']) => renvoie false si la valeur est null
+        // pourtant la clé existant bien, le critère group = null est utilisé dans la requête sql
+        // on s'assure donc ici de détruire ce critère
+        if (in_array('groups', array_keys($criteria)) && $criteria['groups'] === null) {
+            unset($criteria['groups']);
+        }
+
+        return $criteria;
     }
 
     /**
@@ -205,26 +219,5 @@ class GroupRepository extends NestedTreeRepository implements RepositoryInterfac
         }
         
         return $qb;
-    }
-
-    /**
-     * Retrieve all $groups and their children, if $retrieveAll is false
-     * Retrieve all groups in database, if $retrieveAll is true
-     */
-    public function getAccessibleGroups($groups = array(), $retrieveAll = false)
-    {
-        $accessibleGroups = array();
-                
-        if ($retrieveAll) {
-            return $this->getChildren(null, false, null, "asc", false);
-        }
-        
-        foreach ($groups AS $group) {
-            $children = $this->getChildren($group, false, null, "asc", true);
-            
-            $accessibleGroups = array_merge($accessibleGroups, $children);
-        }
-        
-        return array_unique($accessibleGroups);
     }
 }

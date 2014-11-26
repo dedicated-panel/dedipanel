@@ -58,7 +58,7 @@ class Group extends BaseGroup
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="DP\Core\UserBundle\Entity\User", mappedBy="groups")
+     * @ORM\OneToMany(targetEntity="DP\Core\UserBundle\Entity\User", mappedBy="group")
      */
     protected $users;
 

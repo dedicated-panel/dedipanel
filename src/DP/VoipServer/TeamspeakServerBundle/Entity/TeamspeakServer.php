@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
  * TeamspeakServer
  *
  * @ORM\Table(name="teamspeak_server")
- * @ORM\Entity(repositoryClass="DP\VoipServer\TeamspeakServerBundle\Entity\TeamspeakServerRepository")
+ * @ORM\Entity(repositoryClass="DP\Core\CoreBundle\Entity\MachineRelatedRepository")
  */
 class TeamspeakServer extends VoipServer
 {

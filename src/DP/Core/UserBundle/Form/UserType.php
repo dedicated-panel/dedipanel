@@ -25,7 +25,10 @@ class UserType extends AbstractType
                 'required' => true,
             ))
             ->add('enabled', null, array('label' => 'user.fields.enabled', 'required' => false))
-            ->add('groups', 'dedipanel_group_assignement', array('required' => false))
+            ->add('group', 'dedipanel_group_assignement', array(
+                'multiple' => false,
+                'label'    => 'user.fields.group',
+            ))
             ->add('admin', 'checkbox', array('label' => 'user.fields.admin', 'required' => false))
             ->add('superAdmin', 'checkbox', array('label' => 'user.fields.super_admin', 'required' => false))
         ;

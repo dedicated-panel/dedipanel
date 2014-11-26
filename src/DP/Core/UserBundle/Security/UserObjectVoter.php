@@ -1,0 +1,42 @@
+<?php
+
+namespace DP\Core\UserBundle\Security;
+
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
+
+/**
+ * Can vote against other user objects,
+ * based on the roles and group of current user
+ */
+class UserObjectVoter extends AbstractObjectVoter
+{
+    protected function getSupportedClasses()
+    {
+        return ['DP\Core\UserBundle\Entity\User'];
+    }
+
+    protected function voting(TokenInterface $token, $object, array $attributes)
+    {
+        // Deny access if the user try to edit/delete himself (except for super admin)
+        if ($object === $token->getUser()
+            && array_intersect(['ROLE_DP_ADMIN_USER_UPDATE', 'ROLE_DP_ADMIN_USER_DELETE'], $attributes) !== array()
+            && !$token->getUser()->isSuperAdmin()) {
+            return VoterInterface::ACCESS_DENIED;
+        }
+
+        /** @var \DP\Core\UserBundle\Entity\User $user */
+        $user  = $token->getUser();
+        $accessibleGroups = $this->getUserAccessibleGroups($user);
+
+        /** @var \DP\Core\UserBundle\Entity\Group|null $group Direct group of the user against which we are voting */
+        $group = $object->getGroup();
+
+        if (($group !== null && in_array($group, $accessibleGroups))
+            || $user->isSuperAdmin()) {
+            return VoterInterface::ACCESS_GRANTED;
+        }
+
+        return VoterInterface::ACCESS_DENIED;
+    }
+}

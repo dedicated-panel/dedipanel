@@ -64,7 +64,7 @@ class DefaultContext extends SyliusDefaultContext
 
             if ($group !== null) {
                 $group = $this->thereIsGroup($group);
-                $user->addGroup($group);
+                $user->setGroup($group);
             }
 
             $this->validate($user);

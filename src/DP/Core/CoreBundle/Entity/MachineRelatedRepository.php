@@ -2,7 +2,7 @@
 
 namespace DP\Core\CoreBundle\Entity;
 
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
+use DP\Core\CoreBundle\Entity\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
 class MachineRelatedRepository extends EntityRepository

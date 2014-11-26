@@ -5,6 +5,7 @@ namespace DP\Core\UserBundle\EventListener;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\SecurityContext;
 use Sylius\Bundle\ResourceBundle\Event\ResourceEvent;
+use DP\Core\UserBundle\Entity\User;
 
 class GroupAdminListener implements EventSubscriberInterface
 {
@@ -27,7 +28,7 @@ class GroupAdminListener implements EventSubscriberInterface
     {
         $group = $event->getSubject();
 
-        if ($group->getParent() == null && !$this->context->isGranted('ROLE_SUPER_ADMIN')) {
+        if ($group->getParent() == null && !$this->context->isGranted(User::ROLE_SUPER_ADMIN)) {
             $event->stop('dedipanel.group.need_parent');
         }
     }

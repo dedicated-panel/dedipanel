@@ -2,42 +2,63 @@
 
 namespace DP\Core\UserBundle\Service;
 
+use DP\Core\UserBundle\Entity\User;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use DP\Core\UserBundle\Entity\GroupRepository;
 
 class UserGroupResolver
 {
-    protected $repo;
+    /**
+     * @var GroupRepository
+     */
+    protected $groupRepo;
+
+    /**
+     * @var SecurityContextInterface
+     */
     protected $context;
     
-    public function __construct(GroupRepository $repo, SecurityContextInterface $context)
+    public function __construct(GroupRepository $groupRepo, SecurityContextInterface $context)
     {
-        $this->repo    = $repo;
-        $this->context = $context;
+        $this->groupRepo = $groupRepo;
+        $this->context   = $context;
     }
     
     public function getAccessibleGroups()
     {
-        $groups = iterator_to_array($this->context->getToken()->getUser()->getGroups());
+        $groups = [];
+        $user   = $this->context->getToken()->getUser();
 
-        if ($this->context->isGranted('ROLE_ADMIN')) {
-            $groups = $this->repo->getAccessibleGroups($groups, $this->context->isGranted('ROLE_SUPER_ADMIN'));
+        if ($this->context->isGranted(User::ROLE_SUPER_ADMIN)) {
+            $groups = $this->groupRepo
+                ->getChildren(null);
+        }
+        elseif ($user->getGroup() !== null) {
+            $groups = $this->groupRepo
+                ->getChildren($user->getGroup(), false, null, "asc", true);
         }
 
         return $groups;
     }
     
-    public function getAccessibleGroupsIdOrEmpty()
+    public function getAccessibleGroupsId()
     {
-        $ids = array();
-        
-        $groups = $this->context->getToken()->getUser()->getGroups();
-        $groups = $this->repo->getAccessibleGroups($groups);
+        $ids = [];
+        $groups = $this->getAccessibleGroups();
         
         foreach ($groups AS $group) {
             $ids[] = $group->getId();
         }
         
         return $ids;
+    }
+
+    public function getGroupsRoutingCriteria()
+    {
+        if ($this->context->isGranted(User::ROLE_SUPER_ADMIN)) {
+            return null;
+        }
+
+        return $this->getAccessibleGroupsId();
     }
 }

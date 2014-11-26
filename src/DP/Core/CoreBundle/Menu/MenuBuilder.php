@@ -7,6 +7,7 @@ use Knp\Menu\ItemInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContextInterface;
+use DP\Core\UserBundle\Entity\User;
 
 class MenuBuilder
 {
@@ -99,7 +100,7 @@ class MenuBuilder
                 'route' => 'dedipanel_core_config',
                 'extras' => array('icon' => 'icon-cogs'),
             ))
-            ->setDisplay($context->isGranted('ROLE_SUPER_ADMIN'))
+            ->setDisplay($context->isGranted(User::ROLE_SUPER_ADMIN))
         ;
         $admin
             ->addChild('menu.admin.user', array(

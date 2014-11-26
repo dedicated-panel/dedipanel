@@ -5,7 +5,7 @@ dedipanel_teamspeak_instance_index:
         _sylius:
             paginate: false
             criteria:
-                groups: @dedipanel.resolver.user_group:getAccessibleGroupsIdOrEmpty
+                groups: @dedipanel.resolver.user_group:getAccessibleGroupsId
 
 dedipanel_teamspeak_instance_show:
     pattern: /{id}/show

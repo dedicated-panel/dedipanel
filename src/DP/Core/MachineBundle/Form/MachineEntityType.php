@@ -7,6 +7,7 @@ use DP\Core\UserBundle\Service\UserGroupResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Security\Core\SecurityContext;
+use DP\Core\UserBundle\Entity\User;
 
 class MachineEntityType extends AbstractType
 {
@@ -25,13 +26,11 @@ class MachineEntityType extends AbstractType
     {
         $choices = array();
 
-        if ($this->context->isGranted('ROLE_SUPER_ADMIN')) {
+        if ($this->context->isGranted(User::ROLE_SUPER_ADMIN)) {
             $choices = $this->repository->findAll();
         }
         else {
-            $groups = array_map(function ($group) {
-                return $group->getId();
-            }, $this->groupResolver->getAccessibleGroups());
+            $groups  = $this->groupResolver->getAccessibleGroupsId();
             $choices = $this->repository->findByGroups($groups);
         }
 

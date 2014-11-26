@@ -9,7 +9,7 @@ user_admin:
             valid: Veuillez indiquer une adresse email valide.
         password:
             empty: Veuillez renseigner le mot de passe de l'utilisateur.
-        groups:
+        group:
             super_admin: Vous ne pouvez pas associer l'utilisateur "%user%" à un groupe et le déclarer Super-Admin.
             empty: Veuillez assigner l'utilisateur "%user%" à un groupe.
 

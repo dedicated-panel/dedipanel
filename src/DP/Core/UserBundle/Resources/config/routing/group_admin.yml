@@ -9,7 +9,7 @@ dedipanel_group_index:
         _controller: dedipanel.controller.group:indexAction
         _sylius:
             criteria:
-                id: @dedipanel.resolver.user_group:getAccessibleGroupsIdOrEmpty
+                id: @dedipanel.resolver.user_group:getAccessibleGroupsId
 
 dedipanel_group_show:
     pattern: /{id}/show

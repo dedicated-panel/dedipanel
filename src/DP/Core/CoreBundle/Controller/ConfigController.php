@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use DP\Core\UserBundle\Entity\User;
 
 class ConfigController extends Controller
 {
@@ -18,7 +19,7 @@ class ConfigController extends Controller
 
     public function configAction(Request $request)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_SUPER_ADMIN')) {
+        if (!$this->get('security.context')->isGranted(User::ROLE_SUPER_ADMIN)) {
             throw new AccessDeniedException();
         }
 

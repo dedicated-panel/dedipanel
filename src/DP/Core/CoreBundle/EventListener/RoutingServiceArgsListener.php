@@ -1,6 +1,6 @@
 <?php
 
-namespace DP\Core\UserBundle\EventListener;
+namespace DP\Core\CoreBundle\EventListener;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;

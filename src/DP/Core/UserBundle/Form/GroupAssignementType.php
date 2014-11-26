@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use DP\Core\UserBundle\Service\UserGroupResolver;
 use Symfony\Component\Security\Core\SecurityContext;
+use DP\Core\UserBundle\Entity\User;
 
 class GroupAssignementType extends AbstractType
 {
@@ -22,10 +23,10 @@ class GroupAssignementType extends AbstractType
     {
         $resolver
             ->setDefaults(array(
-                'label' => 'user.fields.groups', 
-                'class' => 'DPUserBundle:Group',
+                'label'    => 'machine.fields.groups',
+                'class'    => 'DPUserBundle:Group',
                 'multiple' => true,
-                'required' => !$this->context->isGranted('ROLE_SUPER_ADMIN'),
+                'required' => !$this->context->isGranted(User::ROLE_SUPER_ADMIN),
                 'choices'  => $this->groupResolver->getAccessibleGroups(),
             ))
         ;
