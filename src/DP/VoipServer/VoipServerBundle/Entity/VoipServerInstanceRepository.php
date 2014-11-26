@@ -20,8 +20,6 @@ abstract class VoipServerInstanceRepository extends MachineRelatedRepository
 
     protected function applyCriteria(QueryBuilder $queryBuilder, array $criteria = null)
     {
-        $criteria = $this->cleanupCriteria($criteria);
-
         if (isset($criteria['groups'])) {
             $queryBuilder
                 ->innerJoin($this->getAlias() . '.server', 's', 'WITH', $this->getAlias() . '.server = s.id')
