@@ -27,17 +27,6 @@ abstract class AbstractObjectVoter implements VoterInterface
     protected $groupRepo;
 
     /**
-     * Will vote against $object. Will return either ACCESS_GRANTED or ACCESS_DENIED
-     * Useful for testing purpose (see UserObjectVoterTest)
-     *
-     * @param TokenInterface $token
-     * @param $object
-     * @param array $attributes
-     * @return bool
-     */
-    abstract protected function voting(TokenInterface $token, $object, array $attributes);
-
-    /**
      * @return array
      */
     abstract protected function getSupportedClasses();

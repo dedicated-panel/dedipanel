@@ -26,24 +26,17 @@ class UserObjectVoterTest extends \PHPUnit_Framework_TestCase
     /** @var \DP\Core\UserBundle\Security\UserObjectVoter */
     private $voter;
 
-    /** @var \ReflectionMethod */
-    private $reflective;
+    /** @var Symfony\Component\Security\Core\Authentication\TokenInterface */
+    private $token;
 
     public function setUp()
     {
         $this->groupRepo = $this->getMockBuilder('DP\Core\UserBundle\Entity\GroupRepository')
             ->disableOriginalConstructor()
             ->getMock();
-
-        $this->token = $this->getMock('Symfony\Component\Security\Core\Authentication\TokenInterface');
-
         $this->voter = new UserObjectVoter($this->groupRepo);
 
-        // Enable the voting method used internally
-        // The method vote() pass get_class() result to supportsClass() method as argument,
-        // so we need to bypass this way.
-        $this->reflective = new \ReflectionMethod($this->voter, 'voting');
-        $this->reflective->setAccessible(true);
+        $this->token = $this->getMock('Symfony\Component\Security\Core\Authentication\TokenInterface');
     }
 
     public function testSupportsClass()
@@ -64,10 +57,10 @@ class UserObjectVoterTest extends \PHPUnit_Framework_TestCase
         $group = $this->getMock('DP\Core\UserBundle\Entity\Group');
         $token = $this->getMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
 
-        $user->expects($this->atLeastOnce()) // called 3 times per call to voting() method
+        $user->expects($this->atLeastOnce()) // called 3 times per call to vote() method
             ->method('isSuperAdmin')
             ->will($this->returnValue(false));
-        $user->expects($this->atLeastOnce()) // called 3 times per call to voting() method
+        $user->expects($this->atLeastOnce()) // called 3 times per call to vote() method
             ->method('getGroup')
             ->will($this->returnValue($group));
         $token->expects($this->atLeastOnce())
@@ -78,11 +71,11 @@ class UserObjectVoterTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue([$group]));
 
         // Can view is own profile
-        $this->assertSame(VoterInterface::ACCESS_GRANTED, $this->reflective->invoke($this->voter, $token, $user, ['ROLE_DP_ADMIN_USER_SHOW']));
+        $this->assertSame(VoterInterface::ACCESS_GRANTED, $this->voter->vote($token, $user, ['ROLE_DP_ADMIN_USER_SHOW']));
 
         // Can not update/delete himself if not super admin
-        $this->assertSame(VoterInterface::ACCESS_DENIED, $this->reflective->invoke($this->voter, $token, $user, ['ROLE_DP_ADMIN_USER_UPDATE']));
-        $this->assertSame(VoterInterface::ACCESS_DENIED, $this->reflective->invoke($this->voter, $token, $user, ['ROLE_DP_ADMIN_USER_DELETE']));
+        $this->assertSame(VoterInterface::ACCESS_DENIED, $this->voter->vote($token, $user, ['ROLE_DP_ADMIN_USER_UPDATE']));
+        $this->assertSame(VoterInterface::ACCESS_DENIED, $this->voter->vote($token, $user, ['ROLE_DP_ADMIN_USER_DELETE']));
     }
 
     public function testOnSameObjectWhenSuperAdmin()
@@ -91,10 +84,10 @@ class UserObjectVoterTest extends \PHPUnit_Framework_TestCase
         $group = $this->getMock('DP\Core\UserBundle\Entity\Group');
         $token = $this->getMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
 
-        $user->expects($this->atLeastOnce()) // called 3 times per call to voting() method
+        $user->expects($this->atLeastOnce()) // called 3 times per call to vote() method
             ->method('isSuperAdmin')
             ->will($this->returnValue(true));
-        $user->expects($this->atLeastOnce()) // called 3 times per call to voting() method
+        $user->expects($this->atLeastOnce()) // called 3 times per call to vote() method
             ->method('getGroup')
             ->will($this->returnValue($group));
         $token->expects($this->atLeastOnce())
@@ -105,8 +98,8 @@ class UserObjectVoterTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue([$group]));
 
         // Can update/delete himself if super admin
-        $this->assertSame(VoterInterface::ACCESS_GRANTED, $this->reflective->invoke($this->voter, $token, $user, ['ROLE_DP_ADMIN_USER_UPDATE']));
-        $this->assertSame(VoterInterface::ACCESS_GRANTED, $this->reflective->invoke($this->voter, $token, $user, ['ROLE_DP_ADMIN_USER_DELETE']));
+        $this->assertSame(VoterInterface::ACCESS_GRANTED, $this->voter->vote($token, $user, ['ROLE_DP_ADMIN_USER_UPDATE']));
+        $this->assertSame(VoterInterface::ACCESS_GRANTED, $this->voter->vote($token, $user, ['ROLE_DP_ADMIN_USER_DELETE']));
     }
 
     public function testOnOtherObject()
@@ -133,8 +126,8 @@ class UserObjectVoterTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue([$group]));
 
         // Can view, update, delete profile of other users
-        $this->assertSame(VoterInterface::ACCESS_GRANTED, $this->reflective->invoke($this->voter, $token, $other, ['ROLE_DP_ADMIN_USER_SHOW']));
-        $this->assertSame(VoterInterface::ACCESS_GRANTED, $this->reflective->invoke($this->voter, $token, $other, ['ROLE_DP_ADMIN_USER_UPDATE']));
-        $this->assertSame(VoterInterface::ACCESS_GRANTED, $this->reflective->invoke($this->voter, $token, $other, ['ROLE_DP_ADMIN_USER_DELETE']));
+        $this->assertSame(VoterInterface::ACCESS_GRANTED, $this->voter->vote($token, $other, ['ROLE_DP_ADMIN_USER_SHOW']));
+        $this->assertSame(VoterInterface::ACCESS_GRANTED, $this->voter->vote($token, $other, ['ROLE_DP_ADMIN_USER_UPDATE']));
+        $this->assertSame(VoterInterface::ACCESS_GRANTED, $this->voter->vote($token, $other, ['ROLE_DP_ADMIN_USER_DELETE']));
     }
 }

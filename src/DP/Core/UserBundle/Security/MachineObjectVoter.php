@@ -22,18 +22,25 @@ class MachineObjectVoter extends AbstractObjectVoter
         return ['DP\Core\MachineBundle\Entity\Machine'];
     }
 
-    public function voting(TokenInterface $token, $object, array $attributes)
+    /**
+     * {@inheritdoc}
+     */
+    public function vote(TokenInterface $token, $object, array $attributes)
     {
-        /** @var \DP\Core\UserBundle\Entity\User $user */
-        $user = $token->getUser();
-        $objectGroups     = iterator_to_array($object->getGroups());
-        $accessibleGroups = $this->getUserAccessibleGroups($user);
+        if ($this->supportsClass(get_class($object))) {
+            /** @var \DP\Core\UserBundle\Entity\User $user */
+            $user = $token->getUser();
+            $objectGroups     = iterator_to_array($object->getGroups());
+            $accessibleGroups = $this->getUserAccessibleGroups($user);
 
-        if (array_intersect($objectGroups, $accessibleGroups) !== array()
-        || $user->isSuperAdmin()) {
-            return VoterInterface::ACCESS_GRANTED;
+            if (array_intersect($objectGroups, $accessibleGroups) !== array()
+                || $user->isSuperAdmin()) {
+                return VoterInterface::ACCESS_GRANTED;
+            }
+
+            return VoterInterface::ACCESS_DENIED;
         }
 
-        return VoterInterface::ACCESS_DENIED;
+        return VoterInterface::ACCESS_ABSTAIN;
     }
 }

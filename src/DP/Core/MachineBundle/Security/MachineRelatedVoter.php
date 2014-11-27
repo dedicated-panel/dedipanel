@@ -38,18 +38,25 @@ class MachineRelatedVoter extends AbstractObjectVoter
         // Does not return anything as supportsClass() method is rewritten
         return [];
     }
-    
-    protected function voting(TokenInterface $token, $object, array $attributes)
-    {
-        $objectGroups     = iterator_to_array($object->getMachine()->getGroups());
-        $user             = $token->getUser();
-        $accessibleGroups = $this->getUserAccessibleGroups($user);
 
-        if (array_intersect($objectGroups, $accessibleGroups) !== array()
-        || $user->isSuperAdmin()) {
-            return VoterInterface::ACCESS_GRANTED;
+    /**
+     * {@inheritdoc}
+     */
+    public function vote(TokenInterface $token, $object, array $attributes)
+    {
+        if ($this->supportsClass(get_class($object))) {
+            $objectGroups     = iterator_to_array($object->getMachine()->getGroups());
+            $user             = $token->getUser();
+            $accessibleGroups = $this->getUserAccessibleGroups($user);
+
+            if (array_intersect($objectGroups, $accessibleGroups) !== array()
+                || $user->isSuperAdmin()) {
+                return VoterInterface::ACCESS_GRANTED;
+            }
+
+            return VoterInterface::ACCESS_DENIED;
         }
 
-        return VoterInterface::ACCESS_DENIED;
+        return VoterInterface::ACCESS_ABSTAIN;
     }
 }
