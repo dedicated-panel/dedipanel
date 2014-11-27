@@ -1,8 +1,5 @@
 imports:
     - { resource: parameters.yml }
-    - { resource: security.yml }
-    - { resource: dedipanel.yml }
-    - { resource: resources.yml }
 
 framework:
     #esi:             ~
