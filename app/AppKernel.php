@@ -16,9 +16,6 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             
-            // new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(), 
-            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
-            
             new FOS\UserBundle\FOSUserBundle(),
             new Sonata\jQueryBundle\SonatajQueryBundle(),
             new Sonata\BlockBundle\SonataBlockBundle(),
@@ -51,7 +48,9 @@ class AppKernel extends Kernel
             $bundles[] = new DP\Core\DistributionBundle\DPDistributionBundle();
         }
         
-        if ($this->getEnvironment() == 'installer') {
+        if (in_array($this->getEnvironment(), ['installer','dev'])) {
+            $bundles[] = new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle();
+            $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
             $bundles[] = new DP\Core\DistributionBundle\DPDistributionBundle();
         }
 
