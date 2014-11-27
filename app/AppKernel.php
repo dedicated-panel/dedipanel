@@ -46,7 +46,7 @@ class AppKernel extends Kernel
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
         }
         
-        if (in_array($this->getEnvironment(), ['installer','dev'])) {
+        if (in_array($this->getEnvironment(), ['installer','dev','test'])) {
             $bundles[] = new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle();
             $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
             $bundles[] = new DP\Core\DistributionBundle\DPDistributionBundle();
