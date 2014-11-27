@@ -36,14 +36,6 @@
         </a>
     {% endif %}
     
-    {# {% if is_granted('ROLE_DP_GAME_STEAM_HLTV') %}
-        {% if online == true and server.game.source == true %}
-            # <a href="{{ path('steam_hltv_show', {id: sid}) }}">
-                <span class="icon icon-camera" title="{{ 'steam.hltv.title'|trans }}"></span>
-            </a> #
-        {% endif %}
-    {% endif %} #}
-    
     {% if is_granted('ROLE_DP_GAME_STEAM_FTP', server) %}
         <a href="{{ path('dedipanel_steam_ftp_show', {id: sid}) }}" title="{{ 'game.ftp.title'|trans }}">
             <span class="icon icon-ftp"></span>

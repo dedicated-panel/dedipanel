@@ -60,13 +60,6 @@ class SteamServer extends GameServer
      * @ORM\Column(name="sv_passwd", type="string", length=16, nullable=true)
      */
     private $svPassword;
-
-    /**
-     * @var integer $hltvPort
-     *
-     * @ORM\Column(name="hltvPort", type="integer", nullable=true)
-     */
-    private $hltvPort;
     
     /**
      * @var string $mode
@@ -146,30 +139,6 @@ class SteamServer extends GameServer
     public function getSvPassword()
     {
         return $this->svPassword;
-    }
-
-    /**
-     * Set HLTV/SRCTV Port
-     *
-     * @param integer $hltvPort
-     * 
-     * @return SteamServer
-     */
-    public function setHltvPort($hltvPort)
-    {
-        $this->hltvPort = $hltvPort;
-        
-        return $this;
-    }
-
-    /**
-     * Get HLTV/SRCTV Port
-     *
-     * @return integer
-     */
-    public function getHltvPort()
-    {
-        return $this->hltvPort;
     }
     
     /**
@@ -336,9 +305,6 @@ class SteamServer extends GameServer
         // Upload du script de gestion du serveur de jeu
         $uploadHlds = $this->uploadHldsScript($twig);
 
-        // Upload du script de gestion de l'hltv
-        $uploadHltv = $this->uploadHltvScript($twig);
-
         // Création d'un ficier server.cfg vide (si celui-ci n'existe pas)
         $this->createDefaultServerCfgFile();
         
@@ -348,7 +314,7 @@ class SteamServer extends GameServer
 
         $this->installationStatus = 101;
 
-        return $uploadHlds && $uploadHltv;
+        return $uploadHlds;
     }
 
     public function uploadHldsScript(\Twig_Environment $twig)
@@ -396,29 +362,6 @@ class SteamServer extends GameServer
         ));
 
         return $conn->upload($scriptPath, $hldsScript, 0750);
-    }
-
-    public function uploadHltvScript(\Twig_Environment $twig)
-    {
-        $conn = $this->getMachine()->getConnection();
-        $scriptPath = $this->getAbsoluteDir() . 'hltv.sh';
-
-        // Supression du fichier (s'il exsite déjà)
-        $conn->exec('if [ -e ' . $scriptPath . ' ]; then rm ' . $scriptPath . '; fi');
-
-        // Création du fichier hltv.sh (uniquement si c'est un jeu GoldSrc)
-        if ($this->getGame()->getBin() == 'hlds_run') {
-            $hltvScript = $twig->render('DPSteamServerBundle:sh:hltv.sh.twig', array(
-                'binDir' => $this->getAbsoluteBinDir(),
-                'screenName' => $this->getHltvScreenName(),
-            ));
-            $uploadHltv = $conn->upload($scriptPath, $hltvScript, 0750);
-        }
-        else {
-            $uploadHltv = true;
-        }
-
-        return $uploadHltv;
     }
 
     public function createDefaultServerCfgFile()
@@ -570,64 +513,6 @@ class SteamServer extends GameServer
         $conn->exec($screenCmd);
     }
 
-    public function getHltvScreenName()
-    {
-        $screenName = 'hltv-' . $this->getMachine()->getUsername() . '-' . $this->getDir();
-
-        return $this->getScreenNameHash($screenName);
-    }
-
-    public function getHltvStatus()
-    {
-        $status = $this->getMachine()->getConnection()->exec($this->getAbsoluteBinDir() . 'hltv.sh status');
-
-        if (trim($status) == 'HLTV running.') {
-            return true;
-        }
-        
-        return false;
-    }
-
-    public function startHltv($servIp, $servPort, $password = null, $record = null, $reload = false)
-    {
-        if ($password == null) {
-            $password = '';
-        }
-
-        if ($this->game->isSource()) {
-            $rcon = $this->getRcon();
-
-            $exec = $rcon->sendCmd('exec hltv.cfg');
-
-            if ($exec !== false && $reload == true) {
-                return $rcon->sendCmd('reload');
-            }
-            else {
-                return $exec;
-            }
-        }
-        else {
-            $cmd = 'screen -dmS ' . $this->getHltvScreenName() . ' '
-                . $this->getAbsoluteBinDir() . 'hltv.sh start '
-                . $servIp . ':' . $servPort . ' ' . $this->hltvPort . ' "' . $password . '"';
-            if ($record != null) {
-                $cmd .= ' ' . $record;
-            }
-
-            return $this->getMachine()->getConnection()->exec($cmd);
-        }
-    }
-
-    public function stopHltv()
-    {
-        if ($this->getGame()->isSource()) {
-            return $this->getRcon()->sendCmd('tv_enable 0; tv_stop');
-        }
-        else {
-            return $this->getMachine()->getConnection()->exec($this->getAbsoluteBinDir() . 'hltv.sh stop');
-        }
-    }
-
     public function getAbsoluteGameContentDir()
     {
         return $this->getAbsoluteBinDir() . $this->game->getLaunchName() . '/';
@@ -720,7 +605,6 @@ class SteamServer extends GameServer
     public function regenerateScripts(\Twig_Environment $twig)
     {
         $this->uploadHldsScript($twig);
-        $this->uploadHltvScript($twig);
         
         if ($this->getGame()->getLaunchName() == 'csgo') {
             $this->modifyGameModesCfg();

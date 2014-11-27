@@ -45,7 +45,6 @@ class SteamServerType extends AbstractType
                 // 'required' => empty($options['data']),
             ))
             ->add('svPassword', 'text', array('label' => 'steam.svPassword', 'required' => false))
-            ->add('hltvPort', 'integer', array('label' => 'steam.hltv.port', 'required' => false))
             ->add('alreadyInstalled', 'choice', array(
                 'choices'  => array(1 => 'game.yes', 0 => 'game.no'),
                 'label'    => 'game.isAlreadyInstalled',

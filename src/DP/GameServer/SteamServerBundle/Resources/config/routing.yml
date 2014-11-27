@@ -119,8 +119,3 @@ DPSteamServerBundle_FTP:
     resource: "@DPSteamServerBundle/Resources/config/routing/ftp.yml"
     prefix: /{id}/ftp/
     requirements: {id: \d+}
-
-DPSteamServerBundle_Hltv:
-    resource: "@DPSteamServerBundle/Resources/config/routing/hltv.yml"
-    prefix: /{id}/hltv/
-    requirements: {id: \d+}

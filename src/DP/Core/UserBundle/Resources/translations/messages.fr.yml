@@ -36,7 +36,6 @@ roles:
     ROLE_DP_STEAM_FTP: Accès à l'explorateur FTP pour les serveurs steam
     ROLE_DP_STEAM_PLUGIN: Configuration des plugins des serveurs steam
     ROLE_DP_STEAM_RCON: Accès à la console RCON des serveurs steam
-    ROLE_DP_STEAM_HLTV: Contrôle des HLTV des serveurs steam
     ROLE_DP_STEAM_ADMIN: Administration des serveurs steam
     ROLE_DP_MINECRAFT_SHOW: Voir les serveurs minecraft
     ROLE_DP_MINECRAFT_ADD: Ajouter des serveurs minecraft
@@ -46,7 +45,6 @@ roles:
     ROLE_DP_MINECRAFT_FTP: Accès à l'explorateur FTP pour les serveurs minecraft
     ROLE_DP_MINECRAFT_PLUGIN: Configuration des plugins des serveurs minecraft
     ROLE_DP_MINECRAFT_RCON: Accès à la console RCON des serveurs minecraft
-    ROLE_DP_MINECRAFT_HLTV: Contrôle des HLTV des serveurs minecraft
     ROLE_DP_MINECRAFT_ADMIN: Administration des serveurs minecraft
 
 menu:

@@ -29,20 +29,6 @@ steam.autoReboot: Reboot automatique à
 steam.munin: Graphes munin activés ?
 steam.svPassword: Mot de passe du serveur
 
-steam.hltv.running: HLTV démarré
-steam.hltv.stopped: HLTV arrêté
-steam.hltv.hltvIP: Adresse IP de l'HLTV
-steam.hltv.password: Mot de passe du serveur
-steam.hltv.serverAddress: Adresse du serveur
-steam.hltv.recordName: Nom du record
-steam.hltv.connect: Connecter l'HLTV
-steam.hltv.reloadMap: Redémarrer la map ?
-steam.hltv.yes: Oui
-steam.hltv.no: Non
-steam.hltv.portAlreadyUsed: Le port indiqué pour l'hltv est déjà utilisé.
-steam.hltv.port: Port de l'HLTV
-steam.hltv.title: Zone HLTV
-
 steam.rebootAt: Reboot auto à (0-24h)
 dedipanel.game.missingCompatLib: Un système 64 bits a été détecté sur votre système. Vous devez installer les librairies de compatibilités 32-64 bits (<a href="http://www.dedicated-panel.net/faq#systeme-64b">voir notre F.A.Q.</a>) afin de lancer l'installation de votre serveur steam.
 steam.gameMode: Type de jeu
