@@ -20,3 +20,5 @@ app/config/dedipanel.yml
 behat.yml
 app/sessions/*
 !app/sessions/.gitkeep
+app/SymfonyRequirements.php
+app/check.php
