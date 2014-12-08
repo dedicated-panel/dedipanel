@@ -125,7 +125,7 @@ class User implements UserInterface
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="password_requested_at", type="string", nullable=true)
+     * @ORM\Column(name="password_requested_at", type="datetime", nullable=true)
      */
     protected $passwordRequestedAt;
 

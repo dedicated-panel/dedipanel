@@ -28,7 +28,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * DP\Core\GameServer\GameServerBundle\Entity\GameServer
- * @ORM\Table(name="gameserver")
+ * @ORM\Table(name="game_server")
  * @ORM\Entity()
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
