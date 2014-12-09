@@ -40,6 +40,7 @@ script:
   - phpunit
   - bin/behat -s installer
   - bin/behat -s users
+  - bin/behat -s account
   - bin/behat -s configs
   - bin/behat -s games_admin
   - bin/behat -s plugins_admin

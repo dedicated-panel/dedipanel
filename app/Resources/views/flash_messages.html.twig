@@ -1,4 +1,4 @@
-{% macro display_flashes(type, class, escape) %}
+{% macro display_flashes(type, class, escape, trans) %}
     {% if escape is not defined or escape is null %}
         {% set escape = true %}
     {% endif %}
@@ -8,8 +8,10 @@
     <div class="alert alert-block {{ class }}"><ul>
     {% for flash in flashes %}
         <li>
-            {% if escape %}
-                {{ flash }}
+            {% if escape and trans is defined and trans %}
+                {{ flash|trans }}
+            {% elseif escape %}
+               {{ flash }}
             {% else %}
                 {{ flash|raw }}
             {% endif %}

@@ -29,6 +29,12 @@ default:
                 - DP\Core\CoreBundle\Behat\DefaultContext
             filters:
                 tags: "@users"
+        account:
+            contexts:
+                - Behat\MinkExtension\Context\MinkContext
+                - DP\Core\CoreBundle\Behat\DefaultContext
+            filters:
+                tags: "@account"
         configs:
             contexts:
                 - Behat\MinkExtension\Context\MinkContext

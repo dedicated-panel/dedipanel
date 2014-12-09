@@ -1,0 +1,28 @@
+{#
+ # This file is part of Dedipanel project
+ #
+ # (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
+ #
+ # For the full copyright and license information, please view the LICENSE
+ # file that was distributed with this source code.
+ #}
+
+{% extends "::layout-online.html.twig" %}
+
+{% import '::flash_messages.html.twig' as dedipanel_flashes %}
+
+{% block body %}
+    <h2>{{ "title_user_account"|trans }}</h2>
+
+    {{ dedipanel_flashes.display_flashes('fos_user_success', 'alert-success', true, true) }}
+    {{ dedipanel_flashes.all() }}
+
+    {% block fos_user_content %}
+        {% include "FOSUserBundle:Profile:show_content.html.twig" %}
+    {% endblock fos_user_content %}
+
+    <div class="form-actions"><div class="pull-left">
+        <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary">{{ 'profile.edit_login'|trans }}</a>
+        <a href="{{ path('fos_user_change_password') }}" class="btn btn-primary">{{ 'profile.edit_password'|trans }}</a>
+    </div></div>
+{% endblock %}

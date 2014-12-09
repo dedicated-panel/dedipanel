@@ -9,7 +9,7 @@ user_admin:
     assert:
         username:
             empty: Veuillez renseigner le nom d'utilisateur.
-            unique: Ce nom d'utilisateur est déjà utilisé
+            unique: Ce nom d'utilisateur est déjà utilisé.
         email:
             empty: Veuillez renseigner l'adresse email de l'utilisateur.
             unique: Cette adresse email est déjà utilisé.

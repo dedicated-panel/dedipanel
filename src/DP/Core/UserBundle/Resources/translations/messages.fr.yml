@@ -99,3 +99,10 @@ group:
         roles: Rôles
         parent: Parent
         children: Enfants
+
+change_password.flash.success: Votre mot de passe a bien été mis à jour.
+profile.flash.updated: Vos identifiants ont bien été mis à jour.
+
+profile:
+    edit_login: Modifier mes identifiants
+    edit_password: Modifier mon mot de passe

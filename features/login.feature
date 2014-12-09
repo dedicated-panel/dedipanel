@@ -20,15 +20,15 @@ Feature: Sign in to the panel
 
   Scenario: Log in with bad credentials
     Given I am on "/login"
-    When I fill in the following:
+     When I fill in the following:
       | Nom d'utilisateur | foo |
       | Mot de passe      | aze |
-    And I press "Connexion"
-   Then I should be on "/login"
-    And I should see "Nom d'utilisateur et/ou mot de passe incorrect."
+      And I press "Connexion"
+     Then I should be on "/login"
+      And I should see "Nom d'utilisateur et/ou mot de passe incorrect."
 
   Scenario: Log in without credentials
     Given I am on "/login"
-    When I press "Connexion"
-    Then I should be on "/login"
-    And I should see "Nom d'utilisateur et/ou mot de passe incorrect."
+     When I press "Connexion"
+     Then I should be on "/login"
+      And I should see "Nom d'utilisateur et/ou mot de passe incorrect."
