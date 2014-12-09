@@ -101,7 +101,7 @@ class User implements UserInterface
      *
      * @var string
      *
-     * @Assert\NotBlank(message="user_admin.assert.password.empty", groups={"Adding","Profile"})
+     * @Assert\NotBlank(message="user_admin.assert.password.empty", groups={"Adding"})
      * @Assert\Length(min=2, minMessage="user_admin.assert.password.short", max=4096, groups={"Adding","Profile"})
      */
     protected $plainPassword;
