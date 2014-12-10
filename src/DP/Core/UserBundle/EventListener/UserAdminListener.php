@@ -31,6 +31,9 @@ class UserAdminListener
 
     /**
      * @param FilterControllerEvent $event
+     *
+     * Delete sylius criteria on dedipanel_user_index for super admin
+     * to ensure that they can view all users (including other super admin)
      */
     public function onKernelController(FilterControllerEvent $event)
     {
