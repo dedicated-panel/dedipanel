@@ -34,17 +34,10 @@ DirectoryIndex app.php
     RewriteCond %{ENV:REDIRECT_STATUS} ^$
     RewriteRule ^app\.php(/(.*)|$) %{ENV:BASE}/$2 [R=301,L]
 
-    # Redirect to URI without installer controller
-    RewriteCond %{ENV:REDIRECT_STATUS} ^$
-    RewriteRule ^app_installer\.php(/(.*)|$) %{ENV:BASE}/installer/$2 [R=301,L]
-
     # If the requested filename exists, simply serve it.
     # We only want to let Apache serve files and not directories.
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule .? - [L]
-
-    # Rewrite all /installer queries to the installer controller.
-    RewriteRule ^installer? %{ENV:BASE}/app_installer.php [L]
 
     # Rewrite all other queries to the front controller.
     RewriteRule .? %{ENV:BASE}/app.php [L]

@@ -1,5 +1,9 @@
-_main:
-    resource: routing.yml
+_welcome:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: dedipanel_installer
+        permanent: true
 
 installer:
     resource: "@DPDistributionBundle/Resources/config/routing.yml"
