@@ -15,7 +15,7 @@
     {{ dedipanel_buttons.back(path('dedipanel_minecraft_ftp_show', {'id': server.id, 'path': resource.relativePath}), 'minecraft.ftp.title'|trans) }}
 {% endblock %}
 
-{% block content %}
+{% block body %}
     <h2>{{ 'dedipanel.title.confirm_delete'|trans }}</h2>
 
     <form action="{{ app.request.requestUri }}" method="post" class="delete-action-form" novalidate>

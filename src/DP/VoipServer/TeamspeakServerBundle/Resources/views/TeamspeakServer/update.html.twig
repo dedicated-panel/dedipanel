@@ -16,7 +16,7 @@
     {{ dedipanel_buttons.back(path('dedipanel_teamspeak_index'), 'teamspeak.title.teamspeak'|trans) }}
 {% endblock %}
 
-{% block content %}
+{% block body %}
     <h2>{{ 'teamspeak.title.update'|trans }}</h2>
 
     <form action="{{ path('dedipanel_teamspeak_update', {id: teamspeak.id}) }}" method="post" {{ form_enctype(form) }} class="form-edit">

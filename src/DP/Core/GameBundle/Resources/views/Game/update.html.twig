@@ -16,7 +16,7 @@
     {{ dedipanel_buttons.back(path('dedipanel_game_show', {'id': game.id}), 'game.title.game'|trans) }}
 {% endblock %}
 
-{% block content %}
+{% block body %}
     <h2>{{ 'game.title.edit'|trans }}</h2>
 
     <form id="form-update" action="{{ path('dedipanel_game_update', { 'id': game.id }) }}" method="post" class="form-edit">    

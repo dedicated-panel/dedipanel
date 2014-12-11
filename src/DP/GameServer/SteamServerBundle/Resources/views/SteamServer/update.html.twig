@@ -16,7 +16,7 @@
     {{ dedipanel_buttons.back(path('dedipanel_steam_index'), 'steam.editTitle'|trans) }}
 {% endblock %}
 
-{% block content %}
+{% block body %}
     <h2>{{ 'steam.edit'|trans }}</h2>
         
     <form id="form-update" action="{{ path('dedipanel_steam_update', { 'id': steam.id }) }}" method="post" class="form-edit">

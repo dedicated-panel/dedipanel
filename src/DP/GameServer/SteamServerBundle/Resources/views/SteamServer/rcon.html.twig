@@ -23,7 +23,7 @@
     {{ dedipanel_buttons.back(path('dedipanel_steam_index'), 'steam.title.steam'|trans) }}
 {% endblock %}
 
-{% block content %}
+{% block body %}
     <h2>{{ 'steam.rcon.title'|trans }}</h2>
     
     {% set online = (steam.query.latency != false) %}

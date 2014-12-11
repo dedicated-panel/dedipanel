@@ -17,7 +17,7 @@
     {{ dedipanel_buttons.back(path('dedipanel_group_index'), 'group.title.group'|trans) }}
 {% endblock %}
 
-{% block content %}
+{% block body %}
     <h2>{{ 'group.title.add'|trans }}</h2>
 
     <form action="{{ path('dedipanel_group_create') }}" method="post" id="form-create">

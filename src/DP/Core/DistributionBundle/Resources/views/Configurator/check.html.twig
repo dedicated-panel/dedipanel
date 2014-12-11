@@ -9,7 +9,7 @@
 
 {% extends "::layout-installer.html.twig" %}
 
-{% block content %}
+{% block body %}
     <ul id="requirements">
         {% for label, state in requirements %}
             {% if state == true %}

@@ -16,7 +16,7 @@
     {{ dedipanel_buttons.back(path('dedipanel_group_show', {'id': group.id}), 'group.title.group'|trans) }}
 {% endblock %}
 
-{% block content %}
+{% block body %}
     <h2>{{ 'group.title.edit'|trans }}</h2>
 
     <form id="form-update" action="{{ path('dedipanel_group_update', { 'id': group.id }) }}" method="post" class="form-edit">    

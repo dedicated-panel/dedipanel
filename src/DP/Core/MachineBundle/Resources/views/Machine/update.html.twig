@@ -16,7 +16,7 @@
     {{ dedipanel_buttons.back(path('dedipanel_machine_show', {'id': machine.id}), 'machine.title.machine'|trans) }}
 {% endblock %}
 
-{% block content %}
+{% block body %}
     <h2>{{ 'machine.title.edit'|trans }}</h2>
 
     <form id="form-update" action="{{ path('dedipanel_machine_update', { 'id': machine.id }) }}" method="post" class="form-edit">    

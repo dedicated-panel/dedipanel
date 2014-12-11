@@ -18,7 +18,7 @@
     {{ dedipanel_buttons.back(path('dedipanel_teamspeak_instance_index', {serverId: serverId}), 'teamspeak.instance.title.teamspeak'|trans) }}
 {% endblock %}
 
-{% block content %}
+{% block body %}
     {{ dedipanel_flashes.all() }}
 
     Admin token : {{ instance.adminToken }}

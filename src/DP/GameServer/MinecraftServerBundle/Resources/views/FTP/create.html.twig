@@ -20,7 +20,7 @@
     {{ dedipanel_buttons.back(path('dedipanel_minecraft_ftp_show', {'id': server.id, 'path': resource.path}), 'game.ftp.title'|trans) }}
 {% endblock %}
 
-{% block content %}
+{% block body %}
     {% set type = resource is file ? 'file' : 'directory' %}
 
     <h2>{{ ('game.ftp.add' ~ type)|trans }}</h2>

@@ -55,7 +55,7 @@
     </ul>
 {% endblock %}
 
-{% block content %}    
+{% block body %}
     <h2>{{ 'game.ftp.editTitle'|trans }}</h2>
     
     <form id="form-update" action="{{ path('dedipanel_minecraft_ftp_update', {id: server.id, path: resource.relativePath}) }}" method="post" class="form-ftp">

@@ -16,7 +16,7 @@
     {{ dedipanel_buttons.back(path('dedipanel_plugin_show', {'id': plugin.id}), 'plugin.title.plugin'|trans) }}
 {% endblock %}
 
-{% block content %}
+{% block body %}
     <h2>{{ 'plugin.title.edit'|trans }}</h2>
 
     <form id="form-update" action="{{ path('dedipanel_plugin_update', { 'id': plugin.id }) }}" method="post" class="form-edit">    
