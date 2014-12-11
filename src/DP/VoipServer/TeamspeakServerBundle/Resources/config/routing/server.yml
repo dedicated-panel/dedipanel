@@ -13,6 +13,8 @@ dedipanel_teamspeak_index:
             paginate: false
             criteria:
                 groups: @dedipanel.resolver.user_group:getAccessibleGroupsId
+            paginate: false
+            limit: false
 
 dedipanel_teamspeak_create:
     pattern: /new

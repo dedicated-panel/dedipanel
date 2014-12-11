@@ -13,6 +13,7 @@ dedipanel_machine_index:
             criteria:
                 groups: @dedipanel.resolver.user_group:getAccessibleGroupsId
             paginate: false
+            limit: false
 
 dedipanel_machine_show:
     pattern:  /{id}/show

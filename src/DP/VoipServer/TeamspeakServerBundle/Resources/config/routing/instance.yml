@@ -13,6 +13,8 @@ dedipanel_teamspeak_instance_index:
             paginate: false
             criteria:
                 groups: @dedipanel.resolver.user_group:getAccessibleGroupsId
+            paginate: false
+            limit: false
 
 dedipanel_teamspeak_instance_show:
     pattern: /{id}/show

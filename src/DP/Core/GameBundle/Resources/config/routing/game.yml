@@ -9,6 +9,9 @@ dedipanel_game_index:
     pattern: /
     defaults:
         _controller: dedipanel.controller.game:indexAction
+        _sylius:
+            paginate: false
+            limit: false
 
 dedipanel_game_show:
     pattern: /{id}/show

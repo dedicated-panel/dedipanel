@@ -9,6 +9,9 @@ dedipanel_plugin_index:
     pattern: /
     defaults:
         _controller: dedipanel.controller.plugin:indexAction
+        _sylius:
+            paginate: false
+            limit: false
 
 dedipanel_plugin_show:
     pattern: /{id}/show

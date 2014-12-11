@@ -13,6 +13,8 @@ dedipanel_minecraft_index:
             paginate: false
             criteria:
                 groups: @dedipanel.resolver.user_group:getAccessibleGroupsId
+            paginate: false
+            limit: false
 
 dedipanel_minecraft_show:
     pattern: /{id}/show

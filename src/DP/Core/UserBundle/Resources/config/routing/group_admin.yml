@@ -12,6 +12,8 @@ dedipanel_group_index:
         _sylius:
             criteria:
                 id: @dedipanel.resolver.user_group:getAccessibleGroupsId
+            paginate: false
+            limit: false
 
 dedipanel_group_show:
     pattern: /{id}/show
