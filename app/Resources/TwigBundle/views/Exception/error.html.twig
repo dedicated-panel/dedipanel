@@ -1,4 +1,4 @@
-{% extends "::layout.html.twig" %}
+{% extends (app.user is not null and is_granted("IS_AUTHENTICATED_REMEMBERED")) ? "::layout-online.html.twig" : "::layout-offline.html.twig" %}
 
 {% block content %}
     {% if status_code == 403 %}
