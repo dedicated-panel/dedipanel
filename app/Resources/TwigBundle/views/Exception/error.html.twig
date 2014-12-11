@@ -1,6 +1,6 @@
 {% extends (app.user is not null and is_granted("IS_AUTHENTICATED_REMEMBERED")) ? "::layout-online.html.twig" : "::layout-offline.html.twig" %}
 
-{% block content %}
+{% block body %}
     {% if status_code == 403 %}
         <div class="alert alert-error"><ul><li>
             {{ 'dedipanel.error.forbidden'|trans }}
