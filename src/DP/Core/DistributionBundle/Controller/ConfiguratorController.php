@@ -19,30 +19,15 @@ class ConfiguratorController extends Controller
     public function indexAction()
     {
         $request = $this->get('request');
-        $form    = $this->getProcessTypeForm();
+        $form    = $this->getProcessTypeForm()->handleRequest($request);
 
-      
-        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
 
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
-                $data = $form->getData();
+            $route = $this->container->get('router')
+                ->generate('dedipanel_installer_check', ['type' => $data['type']]);
 
-                // Installation
-                if ($data['type'] == 'i') {
-                    
-                    $url = $this->container->get('router')->generate('dedipanel_installer_check');
-                    
-                    return $this->redirect($url);
-                }
-                // Mise à jour
-                elseif ($data['type'] == 'u') {
-
-                    $url = $this->container->get('router')->generate('dedipanel_installer_step', array('step' => 0, 'type' => 'update'));
-                    
-                    return $this->redirect($url);
-                }
-            }
+            return $this->redirect($route);
         }
 
         return $this->render('DPDistributionBundle:Configurator:index.html.twig', array(
@@ -56,21 +41,22 @@ class ConfiguratorController extends Controller
             ->createFormBuilder()
             ->add('type', 'choice', array(
                 'choices' => array(
-                    'i' => 'configurator.install',
-                    // 'u' => 'configurator.update'
+                    'install' => 'configurator.install',
+                    'update'  => 'configurator.update'
                 ),
                 'label' => 'configurator.choose_type'
             ))->getForm();
     }
 
-    public function checkAction()
+    public function checkAction($type)
     {
         $configurator = $this->container->get('dp.webinstaller');
         $config = $configurator->getRequirements();
 
         return $this->render('DPDistributionBundle:Configurator:check.html.twig', array(
             'requirements' => $config['requirements'],
-            'hasError' => $config['error']
+            'hasError'     => $config['error'],
+            'stepType'     => $type,
         ));
     }
 
@@ -139,15 +125,23 @@ class ConfiguratorController extends Controller
 
             file_put_contents($filepath, $content);
         }
-        
-        // Suppression "hard" du cache de prod (si présent) pour s'assurer qu'il contient bien les derniers paramètres
+
+        // Suppression "hard" du cache de prod (si présent)
+        // pour s'assurer qu'il contient bien les derniers paramètres
+        $this->deleteCache();
+
+        return $this->redirect($this->generateUrl('_welcome'));
+    }
+
+    private function deleteCache()
+    {
         $cacheDir = $this->container->getParameter('kernel.root_dir') . '/cache/prod';
         if (is_dir($cacheDir)) {
             $files = new \RecursiveIteratorIterator(
                 new \RecursiveDirectoryIterator($cacheDir, \RecursiveDirectoryIterator::SKIP_DOTS),
                 \RecursiveIteratorIterator::CHILD_FIRST
             );
-            
+
             foreach ($files AS $fileinfo) {
                 if ($fileinfo->isDir()) {
                     rmdir($fileinfo->getRealPath());
@@ -156,10 +150,8 @@ class ConfiguratorController extends Controller
                     unlink($fileinfo->getRealPath());
                 }
             }
-            
+
             rmdir($cacheDir);
         }
-
-        return $this->redirect($this->generateUrl('_welcome'));
     }
 }

@@ -6,17 +6,16 @@ Feature: Panel installer
   Scenario: Choosing installation type
     Given I am on the installer page
       And The database need to be empty
-      And The database should be empty
      When I select "Installation" from "Choisissez le type de configuration"
       And I press "Prochaine étape"
-     Then I should be on the installer check page
+     Then I should be on the installer check step
 
   Scenario: Checking requirements
-    Given I am on the installer check page
+    Given I am on the installer check step
      Then I should not see bad requirements
 
   Scenario: Starting the installation process
-    Given I am on the installer check page
+    Given I am on the installer check step
      When I follow "Prochaine étape"
      Then I should be on the installer step 1
 
@@ -36,23 +35,11 @@ Feature: Panel installer
       And I press "Prochaine étape"
      Then I should be on the installer step 2
 
-  Scenario: Creating database structure without preloading data
-    Given I am on the installer step 2
-      And The database should be empty
-     When I check "Création de la structure de la base de données ?"
-      And I uncheck "Chargement des données par défaut ?"
-      And I press "Prochaine étape"
-     Then I should be on the installer step 3
-     And The game table should be empty
-
   Scenario: Preloading data
     Given I am on the installer step 2
-      And The game table should be empty
-     When I uncheck "Création de la structure de la base de données ?"
-      And I check "Chargement des données par défaut ?"
-      And I press "Prochaine étape"
+     When I press "Prochaine étape"
      Then I should be on the installer step 3
-      And The game table should not be empty
+      And The database should be populated
 
   Scenario: Creating admin user with empty fields
     Given I am on the installer step 3

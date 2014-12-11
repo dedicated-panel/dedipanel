@@ -11,6 +11,10 @@
 
 namespace DP\Core\DistributionBundle\Configurator\Step;
 
+use Doctrine\DBAL\Migrations\Configuration\Configuration;
+use Doctrine\DBAL\Migrations\Migration;
+use Doctrine\DBAL\Migrations\MigrationException;
+use Doctrine\DBAL\Migrations\OutputWriter;
 use DP\Core\DistributionBundle\Configurator\Step\StepInterface;
 use DP\Core\DistributionBundle\Configurator\Form\AutoInstallStepType;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -23,15 +27,12 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 
 class AutoInstallStep implements StepInterface
 {
-    public $createDB      = true;
-    public $loadFixtures  = true;
-    public $installAssets = true;
-    private $secret;
+    /** @var \Symfony\Component\DependencyInjection\ContainerInterface $container */
     private $container;
+    /** @var DP\Core\DistributionBundle\Configurator\Configurator $installer */
     private $installer;
-    private $manager;
-    private $schemaTool;
-    private $metadatas;
+    /** @var string $secret */
+    private $secret;
 
     public function __construct(ContainerInterface $container)
     {
@@ -43,11 +44,6 @@ class AutoInstallStep implements StepInterface
         if (array_key_exists('secret', $parameters)) {
             $this->secret = $parameters['secret'];
         }
-
-        // Création du schemaTool et récupération des metadatas relatives aux entitées
-        $this->manager     = $this->container->get('doctrine')->getManager();
-        $this->schemaTool = new SchemaTool($this->manager);
-        $this->metadatas   = $this->manager->getMetadataFactory()->getAllMetadata();
     }
 
     /**
@@ -79,156 +75,88 @@ class AutoInstallStep implements StepInterface
      */
     public function run(StepInterface $data, $configType)
     {
-        $errors = [];
-        
-        // Installation/Maj des tables
-        if ($this->createDB == true) {
-            $errors = $this->createDatabase();
-
-            if (!empty($errors)) return $errors;
+        if ('install' === $configType && !$this->isDbEmpty()) {
+            return ['configurator.db.not_empty'];
         }
 
-        if ($this->isDBEmpty()) {
-            return array('configurator.db.empty');
-        }
+        $errors = $this->runMigrations();
 
-        // Chargement des fixtures
-        if ($this->loadFixtures == true) {
-            $errors = array_merge($errors, $this->loadFixtures(__DIR__ . '/../../Fixtures'));
-
-            if (!empty($errors)) return $errors;
-        }
-
-        // Installation automatique des assets
-        if ($this->installAssets == true) {
-            $errors = $this->installAssets();
-        }
-
-        $errors = array_merge($errors, $this->updateSecretToken());
-
-        return $errors;
-    }
-    
-    private function createDatabase()
-    {
-        $errors = array();
-
-        if (!$this->isDBEmpty()) {
-            return array('configurator.db.not_empty');
-        }
-
-        // Création de la bdd
-        try {
-            $this->schemaTool->createSchema($this->metadatas);
-        }
-        catch (ToolsException $e) {
-            $errors[] = $e->getMessage();
+        if (!isset($this->secret) || 'ThisTokenIsNotSoSecretChangeIt' == $this->secret) {
+            $errors += $this->updateSecretToken();
         }
 
         return $errors;
     }
 
-    /* Not yet implented
-    private function updateDatabase()
+    private function runMigrations()
     {
-        $errors = array();
+        $errors    = [];
+        $migration = new Migration($this->getMigrationConfig($errors));
 
-        // Mise à jour de la bdd
         try {
-            $this->schemaTool->updateSchema($this->metadatas, true);
+            $migration->migrate();
         }
-        catch (ToolsException $e) {
-            $errors[] = $e->getMessage();
-        }
+        catch (MigrationException $e) { }
 
         return $errors;
-    }*/
-    
+    }
+
     /**
-     * @param string $path
-     *
+     * @return Configuration
+     */
+    private function getMigrationConfig(array &$errors)
+    {
+        $connection = $this->container->get('doctrine.dbal.default_connection');
+        $config = new Configuration($connection, new OutputWriter(function ($message) use ($errors) {
+            $matches = [];
+
+            if (preg_match('#<error>(.*)</error>#', $message, $matches)) {
+                $errors += $matches;
+            }
+        }));
+
+        $config->setName($this->container->getParameter('doctrine_migrations.name'));
+        $config->setMigrationsTableName($this->container->getParameter('doctrine_migrations.table_name'));
+        $config->setMigrationsNamespace($this->container->getParameter('doctrine_migrations.namespace'));
+        $config->setMigrationsDirectory($this->container->getParameter('doctrine_migrations.dir_name'));
+
+        // Register Migrations as there are not registered by Configuration
+        $config->registerMigrationsFromDirectory($config->getMigrationsDirectory());
+
+        return $config;
+    }
+
+    /**
      * @return array
      */
-    private function loadFixtures($path)
-    {
-        $doctrine = $this->container->get('doctrine');
-        $em = $doctrine->getManager();
-
-        $loader = new DataFixturesLoader($this->container);
-        $loader->loadFromDirectory($path);
-        $fixtures = $loader->getFixtures();
-
-        if (!$fixtures) {
-            return array(sprintf('Could not find any fixtures to load in: %s', "\n\n- ".implode("\n- ", $path)));
-        }
-
-        $errors = array();
-
-        try {
-            $purger = new ORMPurger($em);
-            $purger->setPurgeMode(ORMPurger::PURGE_MODE_DELETE);
-            
-            $executor = new ORMExecutor($em, $purger);
-            $executor->execute($fixtures);
-        }
-        catch (\Exception $e) {
-            $errors[] = $e->getMessage();
-        }
-
-        return $errors;
-    }
-    
-    private function installAssets($targetArg = '.')
-    {
-        $filesystem = $this->container->get('filesystem');
-        
-        // Create the bundles directory otherwise symlink will fail.
-        $filesystem->mkdir($targetArg.'/bundles/', 0777);
-        
-        foreach ($this->container->get('kernel')->getBundles() as $bundle) {
-            if (is_dir($originDir = $bundle->getPath().'/Resources/public')) {
-                $bundlesDir = $targetArg.'/bundles/';
-                $targetDir  = $bundlesDir.preg_replace('/bundle$/', '', strtolower($bundle->getName()));
-
-                $filesystem->remove($targetDir);
-                $filesystem->symlink($originDir, $targetDir);
-            }
-        }
-        
-        return array();
-    }
-
     private function updateSecretToken()
     {
         $errors = [];
 
-        if (!isset($this->secret) ||
-            'ThisTokenIsNotSoSecretChangeIt' == $this->secret) {
-            $this->secret = $this->generateRandomSecret();
+        $this->secret = $this->generateRandomSecret();
 
-            if ($this->installer->isFileWritable()) {
-                $this->installer->mergeParameters(array('secret' => $this->secret));
+        if ($this->installer->isFileWritable()) {
+            $this->installer->mergeParameters(array('secret' => $this->secret));
 
-                if (!$this->installer->write()) {
-                    $errors[] = 'An error occured while writing the app/config/parameters.yml file.';
-                }
+            if (!$this->installer->write()) {
+                $errors[] = 'An error occured while writing the app/config/parameters.yml file.';
             }
-            else {
-                $errors[] = 'Your app/config/parameters.yml is not writable.';
-            }
+        }
+        else {
+            $errors[] = 'Your app/config/parameters.yml is not writable.';
         }
 
         return $errors;
-    }
-
-    private function isDBEmpty()
-    {
-        return count($this->manager->getConnection()->executeQuery('SHOW TABLES')->fetchAll()) == 0;
     }
 
     private function generateRandomSecret()
     {
         return hash('sha1', uniqid(mt_rand()));
+    }
+
+    private function isDbEmpty()
+    {
+        return count($this->container->get('doctrine.dbal.default_connection')->executeQuery('SHOW TABLES')->fetchAll()) == 0;
     }
     
     public function isInstallStep()

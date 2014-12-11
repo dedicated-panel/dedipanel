@@ -20,7 +20,7 @@ default:
         installer:
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
-                - DP\Core\DistributionBundle\Behat\InstallerContext
+                - DP\Core\CoreBundle\Behat\InstallerContext
             filters:
                 tags: "@installer"
         users:

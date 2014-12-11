@@ -10,15 +10,17 @@ dedipanel_installer:
     defaults: { _controller: DPDistributionBundle:Configurator:index }
 
 dedipanel_installer_check:
-    pattern: /install/check
+    pattern: /{type}/check
     defaults: { _controller: DPDistributionBundle:Configurator:check }
+    requirements:
+        type: install|update
 
 dedipanel_installer_step:
     pattern: /{type}/{step}
     defaults: { _controller: DPDistributionBundle:Configurator:step }
     requirements: 
-      step: \d
-      type: install|update
+        step: \d
+        type: install|update
 
 dedipanel_installer_final_step:
     pattern: /{type}/final

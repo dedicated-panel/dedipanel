@@ -18,20 +18,6 @@ class AutoInstallStepType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('createDB', 'checkbox', array(
-                'label' => 'configurator.auto_install.install_db',
-                'required' => false,
-            ))
-            ->add('loadFixtures', 'checkbox', array(
-                'label' => 'configurator.auto_install.load_fixtures',
-                'required' => false, 
-            ))
-            ->add('installAssets', 'checkbox', array(
-                'label' => 'configurator.auto_install.install_assets',
-                'required' => false,
-            ))
-        ;
     }
 
     public function getName()

@@ -34,7 +34,7 @@ configurator:
         description: Votre base de données sera créée ou mise à jour et les données par défaut seront chargées.
         install_db: Création de la structure de la base de données ?
         load_fixtures: Chargement des données par défaut ?
-        install_assets: Installer les resources du panel (css, images, ...) ?
+        install_assets: Installer les ressources du panel (css, images, ...) ?
     user_creation:
         title: Création d'un Super Admin
         description: Durant cette étape vous allez créer le super admin qui vous servira à administrer le panel.

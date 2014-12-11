@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace DP\Core\DistributionBundle\Behat;
+namespace DP\Core\CoreBundle\Behat;
 
 use DP\Core\CoreBundle\Behat\DefaultContext;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
@@ -55,6 +55,23 @@ class InstallerContext extends DefaultContext
     }
 
     /**
+     * @Given /^I am on the installer check step$/
+     */
+    public function iAmOnInstallerCheckPage()
+    {
+        $this->getSession()->visit($this->generatePageUrl('installer_check', array('type' => 'install')));
+    }
+
+    /**
+     * @Then /^I should be on the installer check step$/
+     */
+    public function iShouldBeOnInstallerCheckPage()
+    {
+        $this->assertSession()->addressEquals($this->generatePageUrl('installer_check', array('type' => 'install')));
+        $this->assertSession()->statusCodeEquals(200);
+    }
+
+    /**
      * @Given /^I should not see bad requirements$/
      */
     public function iShouldNotSeeBadRequirements()
@@ -73,41 +90,21 @@ class InstallerContext extends DefaultContext
             $schemaTool = new SchemaTool($em);
             $metadatas  = $em->getMetadataFactory()->getAllMetadata();
             $schemaTool->dropSchema($metadatas);
+
+            if ($this->countTables() != 0) {
+                throw new \RuntimeException('Old tables are still in database.');
+            }
         }
     }
 
     /**
-     * @Given /^The database should be empty$/
+     * @Then /^The database should be populated$/
      */
-    public function databaseShouldBeEmpty()
+    public function databaseShouldBePopulated()
     {
-        if ($this->countTables() != 0) {
-            throw new \RuntimeException('The database need to be flush.');
+        if (0 === $this->countTables()) {
+            throw new Exception('The database should not be empty.');
         }
-    }
-
-    /**
-     * @Given /^The (?P<table>.+) table should be empty$/
-     */
-    public function tableShouldBeEmpty($table)
-    {
-        return $this
-            ->getService('doctrine.orm.entity_manager')
-            ->getConnection()
-            ->executeQuery('SELECT COUNT(*) FROM ' . $table)
-            ->fetchColumn() == 0;
-    }
-
-    /**
-     * @Given /^The (?P<table>.+) table should (?P<neg>not) be empty$/
-     */
-    public function tableShouldNotBeEmpty($table, $neg = '')
-    {
-        return $this
-            ->getService('doctrine.orm.entity_manager')
-            ->getConnection()
-            ->executeQuery('SELECT COUNT(*) FROM ' . $table)
-            ->fetchColumn() != 0;
     }
 
     private function countTables()

@@ -38,7 +38,6 @@ DPVoipServerBundle:
     resource: "@DPVoipServerBundle/Resources/config/routing.yml"
     prefix:   /voip
 
-# FOSUserBundle
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
