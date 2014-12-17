@@ -25,6 +25,9 @@ class AppKernel extends Kernel
             new Sylius\Bundle\ResourceBundle\SyliusResourceBundle(),
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            new DP\Core\DistributionBundle\DPDistributionBundle(),
             
             new Dedipanel\PHPSeclibWrapperBundle\DedipanelPHPSeclibWrapperBundle(),
 
@@ -45,12 +48,6 @@ class AppKernel extends Kernel
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
         }
-        
-        if (in_array($this->getEnvironment(), ['installer','dev','test'])) {
-            $bundles[] = new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle();
-            $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
-            $bundles[] = new DP\Core\DistributionBundle\DPDistributionBundle();
-        }
 
         return $bundles;
     }
@@ -59,6 +56,7 @@ class AppKernel extends Kernel
     {
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
         $loader->load(__DIR__.'/config/security.yml');
+        $loader->load(__DIR__.'/config/roles.yml');
         $loader->load(__DIR__.'/config/dedipanel.yml');
         $loader->load(__DIR__.'/config/resources.yml');
     }
