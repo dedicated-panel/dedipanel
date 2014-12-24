@@ -41,7 +41,7 @@
         "sylius/resource-bundle": "dev-dedipanel",
         "sylius/resource": "0.11.*@dev",
         "dedipanel/phpseclib-wrapper-bundle": "dev-master",
-        "phpseclib/phpseclib": "dev-php5"
+        "phpseclib/phpseclib": "2.0.*@dev"
     },
     "require-dev": {
         "behat/behat":                       "~3.0",
