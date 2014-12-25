@@ -1,15 +1,10 @@
 #!/bin/bash
 
-if [ `id -u` -ne 0 ]; then
-	echo "Vous devez lancer ce script avec les droits root."
-	exit 1;
-fi
-
 # On récupère l'utilisateur et le groupe d'apache (s'ils sont déclarés), afin d'assigner le bon proprio lors du chown
 # On s'assure également que COMPOSER_HOME soit déclaré puisque HOME est écrasé par l'appel à /etc/apache2/envvars
 USER='www-data'
 GROUP='www-data'
-export COMPOSER_HOME=$HOME
+export COMPOSER_HOME=$HOME/.composer
 [ -f /etc/apache2/envvars ] && . /etc/apache2/envvars
 [ -n "${APACHE_RUN_USER}" ] && USER="${APACHE_RUN_USER}"
 [ -n "${APACHE_RUN_GROUP}" ] && GROUP="${APACHE_RUN_GROUP}"
@@ -64,11 +59,19 @@ configure_apache () {
         exit 1
     fi
 
-    if [ -f /etc/apache2/conf.d/dedipanel ]; then
+    if [ -d /etc/apache2/conf-available ]; then
+        DIR='/etc/apache2/conf-available/'
+    elif [ -d /etc/apache2/conf.d ]; then
+        DIR='/etc/apache2/conf.d'
+    else
+        exit 1
+    fi
+
+    if [ -f $DIR/dedipanel ]; then
         exit 0
     fi
 
-    cat <<EOF > /etc/apache2/conf.d/dedipanel
+    cat << EOF > $DIR/dedipanel
 <Directory /var/www/$2>
     AllowOverride All
 </Directory>
@@ -80,7 +83,7 @@ EOF
 case "$1" in
     install)
         DEBUG=0
-        
+
         # 0n vérifie qu'il n'y ai pas d'erreur sur la position du flag de debug
         # et que le nom du dossier d'installation est fourni
         if [ $# -eq 3 -a "$3" = "-v" ]; then
@@ -122,6 +125,12 @@ case "$1" in
     ;;
 
     update)
+        $0 verify 1>/dev/null 2>&1
+        if [ $? -ne 0 ]; then
+            echo "Merci d'effectuer les opérations préalablement nécessaire à la mise à jour du panel (utilisez la commande \"$0 verify\" pour vérifier la configuration de votre serveur)."
+            exit 1
+        fi
+
         cd $2
 
         # On dl les derniers commits (sans merger)
@@ -145,10 +154,6 @@ case "$1" in
 	verify)
 		# Tableau contenant la liste des erreurs
 		errors=()
-		
-		# Fais un apt-get update pour être sur que les éventuelles installations 
-		# de paquets consécutives à ce verify fonctionne correctement
-		apt-get update >/dev/null
 
 		# Vérifie que tous les packets nécessaires sont installés
 		packets=('git' 'mysql-server' 'apache2' 'php5' 'php5-mysql' 'curl' 'php5-intl' 'php-apc')
