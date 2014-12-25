@@ -5,26 +5,80 @@ if [ `id -u` -ne 0 ]; then
 	exit 1;
 fi
 
-# Cette fonction vérifie si le packet passé en argument est installé
+# On récupère l'utilisateur et le groupe d'apache (s'ils sont déclarés), afin d'assigner le bon proprio lors du chown
+# On s'assure également que COMPOSER_HOME soit déclaré puisque HOME est écrasé par l'appel à /etc/apache2/envvars
+USER='www-data'
+GROUP='www-data'
+export COMPOSER_HOME=$HOME
+[ -f /etc/apache2/envvars ] && . /etc/apache2/envvars
+[ -n "${APACHE_RUN_USER}" ] && USER="${APACHE_RUN_USER}"
+[ -n "${APACHE_RUN_GROUP}" ] && GROUP="${APACHE_RUN_GROUP}"
+
+# Vérifie si le packet passé en argument est installé
 verify_packet () {
-	# Vérifie que tous les packets nécessaires sont installés
-	if [ `dpkg-query -W --showformat='${Status}\n' $1 | grep 'install ok installed' | wc -l` -ge 1 ]; then
+	if [ `dpkg-query -W --showformat='${Status}\n' $1 2>/dev/null | grep 'install ok installed' | wc -l` -ge 1 ]; then
 		echo 1
 	else
 		echo 0
 	fi
 }
 
-# Cette fonction affiche le message d'utilisation du script bash
-# et quitte le script
+# Cette fonction affiche le message d'utilisation du script bash et quitte le script
 usage () {
     echo "Usage: $0 [install dir|update dir|verify] [-v]"
     exit 1
 }
 
+# Copie les fichiers de config .yml.dist et les fichiers .htaccess
+copy_dists_file () {
+    [ ! -f app/config/parameters.yml ] && cp app/config/parameters.yml.dist app/config/parameters.yml
+    [ ! -f app/config/dedipanel.yml ] && cp app/config/dedipanel.yml.dist app/config/dedipanel.yml
+    [ ! -f web/.htaccess ] && cp web/.htaccess.dist web/.htaccess
+    [ ! -f .htaccess ] && cp .htaccess.dist .htaccess
+}
+
+# Création du cache (suppression préalable du cache existant)
+clear_cache () {
+    [ -d app/cache/ ] && rm -rf app/cache/
+
+    php app/console cache:clear --env=prod
+    php app/console cache:clear --env=installer
+    php app/console assets:install --env=prod web
+}
+
+# Installation des dépendences externes
+install_vendor () {
+    [ ! -f composer.phar ] && curl -s https://getcomposer.org/installer | php
+
+    if [ -d vendor/ ]; then
+        php composer.phar update --optimize-autoloader --prefer-dist --no-dev
+    else
+        php composer.phar install --optimize-autoloader --prefer-dist --no-dev
+    fi
+}
+
+# Configuration d'apache2 (sauf si le fichier de config existe déjà ou si la config préexistante est buggué)
+configure_apache () {
+    if [ "`apache2ctl -t 2>/dev/null && echo $?`" = "1" ]; then
+        echo "Vous avez besoin de reparer votre configuration apache2 avant de continuer l'intallation. Pour en savoir plus, executez cette commande : apache2ctl -t"
+        exit 1
+    fi
+
+    if [ -f /etc/apache2/conf.d/dedipanel ]; then
+        exit 0
+    fi
+
+    cat <<EOF > /etc/apache2/conf.d/dedipanel
+<Directory /var/www/$2>
+    AllowOverride All
+</Directory>
+EOF
+
+    service apache2 reload
+}
+
 case "$1" in
     install)
-        # Par défaut le retour des commandes utilisées dans le script est ignoré
         DEBUG=0
         
         # 0n vérifie qu'il n'y ai pas d'erreur sur la position du flag de debug
@@ -52,65 +106,40 @@ case "$1" in
         # Dl de la dernière maj du panel
         git clone http://github.com/NiR-/dedipanel.git "$2"
         cd "$2"
-        git checkout tags/b4.02
+        git checkout b5
 
-        # Copie du fichier de config et des htaccess
-        cp app/config/parameters.yml.dist app/config/parameters.yml
-        cp web/.htaccess.dist web/.htaccess
-        cp .htaccess.dist .htaccess
-
-        # Ajout de la config apache du panel
-        echo -e "<Directory /var/www/$2>\n
-                AllowOverride All\n
-            </Directory>" > /etc/apache2/conf.d/dedipanel
-
-        service apache2 restart
-
-        # Téléchargement des dépendances
-        curl -s https://getcomposer.org/installer | php
-        php composer.phar install --optimize-autoloader --prefer-dist
-
-        # Vidage du cache et installation des assets
-        php app/console cache:clear --env=prod --no-warmup
-        php app/console cache:clear --env=installer --no-warmup
+        # Copie des fichiers de config et des htaccess
+        copy_dists_file
+        install_vendor
+        configure_apache
+        clear_cache
 
         # Modif des droits et du propriétaire
         chmod 775 ./
-        chown -R www-data:www-data ./
+        chown -R $USER:$GROUP ./
 
         echo "Il ne vous reste plus qu'à indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accéder à l'installateur en ligne (http://wiki.dedicated-panel.net/b4:install, section \"Finaliser l'installation\")." >&3
-
-        exit ${?}
     ;;
 
     update)
         cd $2
 
         # On dl les derniers commits (sans merger)
-        git fetch --all
         # Puis on remet automatiquement le depot local a jour
-        git reset --hard origin/master
+        git fetch --all
+        git reset --hard origin/b5
 
-		# Mise à jour de composer et mise à jour des dépendances
-		php composer.phar self-update
-		php composer.phar update --optimize-autoloader --prefer-dist
-
-		# Téléchargement des dépendances
-		curl -s https://getcomposer.org/installer | php
-		php composer.phar install --optimize-autoloader --prefer-dist
-
-		# Vidage du cache et installation des assets
-		php app/console cache:clear --env=prod --no-warmup
-		php app/console cache:clear --env=installer --no-warmup
-		php app/console assets:install --env=installer
+        # On s'assure que tous les fichiers .dist soient copiés
+        copy_dists_file
+        install_vendor
+        configure_apache
+		clear_cache
 
 		# Modif des droits et du propriétaire
         chmod 775 ./
-		chown -R www-data:www-data ./
+		chown -R $USER:$GROUP ./
 
 		echo "Il ne vous reste plus qu'à indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accéder à l'installateur en ligne."
-
-        exit ${?}
     ;;
 
 	verify)
@@ -122,7 +151,7 @@ case "$1" in
 		apt-get update >/dev/null
 
 		# Vérifie que tous les packets nécessaires sont installés
-		packets=('git' 'sqlite' 'mysql-server' 'php5-sqlite' 'apache2' 'php5' 'php5-mysql' 'curl' 'php5-intl' 'php-apc' 'phpmyadmin')
+		packets=('git' 'mysql-server' 'apache2' 'php5' 'php5-mysql' 'curl' 'php5-intl' 'php-apc')
 		failed=()
 
 		for packet in "${packets[@]}"; do
@@ -151,6 +180,12 @@ case "$1" in
 			errors=("${errors[@]}" "suhosin_phar")
 			echo "Vous devez ajouter la ligne suivante au fichier /etc/php5/cli/php.ini : suhosin.executor.include.whitelist = phar"
 		fi
+
+        # Vérifie que la config apache2 n'a pas de souci
+        if [ "`apache2ctl -t 2>/dev/null && echo $?`" = "1" ]; then
+            errors=("${errors[@]}" "bad_apache2_config")
+            echo "Vous avez besoin de reparer votre configuration apache2. Pour en savoir plus, executez cette commande : apache2ctl -t"
+        fi
 
 		# Vérifie s'il y a eu des erreurs d'enregistrées
 		if [ ${#errors[@]} -ge 1 ]; then
