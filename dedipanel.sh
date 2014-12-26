@@ -105,7 +105,9 @@ EOF
 
 fetch_git () {
     echo -en "Téléchargement de la $2 du panel\t\t\t\t" >&3
-    [ ! -d $1 ] && git clone http://github.com/dedicated-panel/dedipanel.git $1
+    if [[ ! -d $1 || $(ls -A $1 | wc -w) -eq 0 ]]; then
+        git clone http://github.com/dedicated-panel/dedipanel.git $1
+    fi
 
     cd $1
 
@@ -135,8 +137,8 @@ case "$1" in
 
         # On vérifie que le dossier n'existe pas, en cas d'installation
         # On vérifie que le dossier existe et qu'il contient le sous-dossier .git, en cas de mise à jour
-        if [[ "${1}" == "install" && -d "$2" ]]; then
-            echo "Le dossier d'installation indiqué existe déjà. Veuillez le supprimer."
+        if [[ "${1}" == "install" && -d "$2" && $(ls -A $2 | wc -w) -gt 0 ]]; then
+            echo "Le dossier d'installation indiqué existe déjà et contient des fichiers. Veuillez le vider ou le supprimer."
             exit 1
         elif [[ "${1}" == "update" ]] && [[ ! -d $2 || ! -d $2/.git ]]; then
             echo "Le dossier de mise à jour indiqué n'existe pas ou n'est pas valide."
