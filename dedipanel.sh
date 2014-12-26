@@ -104,15 +104,15 @@ EOF
 }
 
 fetch_git () {
-    echo -en "Téléchargement de la $1 du panel\t\t\t\t" >&3
-    [ `ls -la | wc -l` -eq 2 ] && git clone http://github.com/dedicated-panel/dedipanel.git $2
+    echo -en "Téléchargement de la $2 du panel\t\t\t\t" >&3
+    [ ! -d $1 ] && git clone http://github.com/dedicated-panel/dedipanel.git $1
 
-    cd $2
+    cd $1
 
     # On dl les derniers commits (sans merger)
     # Puis on remet automatiquement le depot local a jour
     git fetch --all
-    git reset --hard origin/$1
+    git reset --hard origin/$2
 
     echo "[OK]" >&3
 }
@@ -135,10 +135,10 @@ case "$1" in
 
         # On vérifie que le dossier n'existe pas, en cas d'installation
         # On vérifie que le dossier existe et qu'il contient le sous-dossier .git, en cas de mise à jour
-        if [[ "${1}" = "install" && -d "$2" ]]; then
+        if [[ "${1}" == "install" && -d "$2" ]]; then
             echo "Le dossier d'installation indiqué existe déjà. Veuillez le supprimer."
             exit 1
-        elif [[ "${1}" = "update" && ! -d $2 || ! -d $2/.git ]]; then
+        elif [[ "${1}" == "update" ]] && [[ ! -d $2 || ! -d $2/.git ]]; then
             echo "Le dossier de mise à jour indiqué n'existe pas ou n'est pas valide."
             exit 1
         fi
@@ -160,17 +160,17 @@ case "$1" in
             exit 1
         fi
 
-        fetch_git b5
+        fetch_git $2 b5
 
         cd $2
         copy_dists_file
         install_vendor
         configure_apache
-		clear_cache
-		update_owner
+        clear_cache
+        update_owner
 
         echo ""
-		echo "Il ne vous reste plus qu'à indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accéder à l'installateur en ligne." >&3
+        echo "Il ne vous reste plus qu'à indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accéder à l'installateur en ligne." >&3
     ;;
 
 	verify)
