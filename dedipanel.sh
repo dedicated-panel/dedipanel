@@ -20,70 +20,111 @@ verify_packet () {
 
 # Cette fonction affiche le message d'utilisation du script bash et quitte le script
 usage () {
-    echo "Usage: $0 [install dir|update dir|verify] [-v]"
+    echo "Usage: $0 {install dir|update dir|verify} [-v]"
     exit 1
 }
 
 # Copie les fichiers de config .yml.dist et les fichiers .htaccess
 copy_dists_file () {
+    echo -en "Copie des fichiers .dist\t\t\t\t\t" >&3
+
     [ ! -f app/config/parameters.yml ] && cp app/config/parameters.yml.dist app/config/parameters.yml
     [ ! -f app/config/dedipanel.yml ] && cp app/config/dedipanel.yml.dist app/config/dedipanel.yml
     [ ! -f web/.htaccess ] && cp web/.htaccess.dist web/.htaccess
     [ ! -f .htaccess ] && cp .htaccess.dist .htaccess
+
+    echo "[OK]" >&3
 }
 
 # Création du cache (suppression préalable du cache existant)
 clear_cache () {
+    echo -en "Vidage et préparation du cache et installation des assets\t" >&3
+
     [ -d app/cache/ ] && rm -rf app/cache/
 
     php app/console cache:clear --env=prod
     php app/console cache:clear --env=installer
     php app/console assets:install --env=prod web
+
+    echo "[OK]" >&3
 }
 
 # Installation des dépendences externes
 install_vendor () {
-    [ ! -f composer.phar ] && curl -s https://getcomposer.org/installer | php
+    if [ ! -f composer.phar ]; then
+        echo -en "Téléchargement de composer\t\t\t\t\t" >&3
+        curl -s https://getcomposer.org/installer | php
+        echo "[OK]" >&3
+    fi
 
     if [ -d vendor/ ]; then
+        echo -en "Mise à jour des dépendances\t\t\t\t\t" >&3
         php composer.phar update --optimize-autoloader --prefer-dist --no-dev
+        echo "[OK]" >&3
     else
+        echo -en "Installation des dépendances\t\t\t\t\t" >&3
         php composer.phar install --optimize-autoloader --prefer-dist --no-dev
+        echo "[OK]" >&3
     fi
 }
 
 # Configuration d'apache2 (sauf si le fichier de config existe déjà ou si la config préexistante est buggué)
 configure_apache () {
     if [ "`apache2ctl -t 2>/dev/null && echo $?`" = "1" ]; then
-        echo "Vous avez besoin de reparer votre configuration apache2 avant de continuer l'intallation. Pour en savoir plus, executez cette commande : apache2ctl -t"
+        echo "Vous avez besoin de reparer votre configuration apache2 avant de continuer l'intallation. Pour en savoir plus, executez cette commande : apache2ctl -t" >&3
         exit 1
     fi
 
     if [ -d /etc/apache2/conf-available ]; then
-        DIR='/etc/apache2/conf-available/'
+        DIR='/etc/apache2/conf-available'
     elif [ -d /etc/apache2/conf.d ]; then
         DIR='/etc/apache2/conf.d'
     else
-        exit 1
-    fi
+        return 0
+     fi
 
     if [ -f $DIR/dedipanel ]; then
-        exit 0
+        return 0
     fi
 
-    cat << EOF > $DIR/dedipanel
+    echo -en "Ajout du fichier ${DIR}/dedipanel\t\t\t\t" >&3
+
+    echo << EOF | sudo tee $DIR/dedipanel
 <Directory /var/www/$2>
     AllowOverride All
 </Directory>
 EOF
 
-    service apache2 reload
+    echo "[OK]" >&3
+    echo -en "Redémarrage d'apache2\t\t\t\t" >&3
+
+    sudo service apache2 reload
+
+    echo "[OK]" >&3
+}
+
+fetch_git () {
+    echo -en "Téléchargement de la $1 du panel\t\t\t\t" >&3
+    [ `ls -la | wc -l` -eq 2 ] && git clone http://github.com/dedicated-panel/dedipanel.git $2
+
+    cd $2
+
+    # On dl les derniers commits (sans merger)
+    # Puis on remet automatiquement le depot local a jour
+    git fetch --all
+    git reset --hard origin/$1
+
+    echo "[OK]" >&3
+}
+
+update_owner () {
+    chmod 775 ./
+    chown -R $USER:$GROUP ./
 }
 
 case "$1" in
-    install)
+    install|update)
         DEBUG=0
-
         # 0n vérifie qu'il n'y ai pas d'erreur sur la position du flag de debug
         # et que le nom du dossier d'installation est fourni
         if [ $# -eq 3 -a "$3" = "-v" ]; then
@@ -91,7 +132,17 @@ case "$1" in
         elif [ $# -eq 1 -o "$1" = "-v" -o "$2" = "-v" ]; then
             usage
         fi
-        
+
+        # On vérifie que le dossier n'existe pas, en cas d'installation
+        # On vérifie que le dossier existe et qu'il contient le sous-dossier .git, en cas de mise à jour
+        if [[ "${1}" = "install" && -d "$2" ]]; then
+            echo "Le dossier d'installation indiqué existe déjà. Veuillez le supprimer."
+            exit 1
+        elif [[ "${1}" = "update" && ! -d $2 || ! -d $2/.git ]]; then
+            echo "Le dossier de mise à jour indiqué n'existe pas ou n'est pas valide."
+            exit 1
+        fi
+
         # Désactive stdout et stderr si le mode debug n'est pas activé
         # et créer un file descriptor qui sera utilisé pour afficher les messages destinés à l'utilisateur
         if [ $DEBUG -eq 0 ]; then
@@ -99,56 +150,27 @@ case "$1" in
         else
             exec 3>&1
         fi
-        
+
         $0 verify 1>/dev/null 2>&1
         if [ $? -ne 0 ]; then
-            echo "Merci d'effectuer les opérations préalablement nécessaire à l'installation du panel (utilisez la commande \"$0 verify\" pour vérifier la configuration de votre serveur)." >&3
+            ACTION="l'installation"
+            [ "${2}" = "update" ] && ACTION="la mise à jour"
+
+            echo "Merci d'effectuer les opérations préalablement nécessaire à ${ACTION} du panel (utilisez la commande \"$0 verify\" pour vérifier la configuration de votre serveur)." >&3
             exit 1
         fi
-        
-        # Dl de la dernière maj du panel
-        git clone http://github.com/NiR-/dedipanel.git "$2"
-        cd "$2"
-        git checkout b5
 
-        # Copie des fichiers de config et des htaccess
-        copy_dists_file
-        install_vendor
-        configure_apache
-        clear_cache
-
-        # Modif des droits et du propriétaire
-        chmod 775 ./
-        chown -R $USER:$GROUP ./
-
-        echo "Il ne vous reste plus qu'à indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accéder à l'installateur en ligne (http://wiki.dedicated-panel.net/b4:install, section \"Finaliser l'installation\")." >&3
-    ;;
-
-    update)
-        $0 verify 1>/dev/null 2>&1
-        if [ $? -ne 0 ]; then
-            echo "Merci d'effectuer les opérations préalablement nécessaire à la mise à jour du panel (utilisez la commande \"$0 verify\" pour vérifier la configuration de votre serveur)."
-            exit 1
-        fi
+        fetch_git b5
 
         cd $2
-
-        # On dl les derniers commits (sans merger)
-        # Puis on remet automatiquement le depot local a jour
-        git fetch --all
-        git reset --hard origin/b5
-
-        # On s'assure que tous les fichiers .dist soient copiés
         copy_dists_file
         install_vendor
         configure_apache
 		clear_cache
+		update_owner
 
-		# Modif des droits et du propriétaire
-        chmod 775 ./
-		chown -R $USER:$GROUP ./
-
-		echo "Il ne vous reste plus qu'à indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accéder à l'installateur en ligne."
+        echo ""
+		echo "Il ne vous reste plus qu'à indiquer votre adresse IP personnelle dans le fichier $2/installer_whitelist.txt afin d'accéder à l'installateur en ligne." >&3
     ;;
 
 	verify)
@@ -156,7 +178,7 @@ case "$1" in
 		errors=()
 
 		# Vérifie que tous les packets nécessaires sont installés
-		packets=('git' 'mysql-server' 'apache2' 'php5' 'php5-mysql' 'curl' 'php5-intl' 'php-apc')
+		packets=('git' 'mysql-server' 'apache2' 'php5' 'php5-mysql' 'curl' 'php5-intl' 'php-apc' 'sudo')
 		failed=()
 
 		for packet in "${packets[@]}"; do
@@ -199,7 +221,6 @@ case "$1" in
             exit 1
 		else
 			echo "Votre serveur est correctement configuré. Vous pouvez y installer le panel."
-            exit 0
 		fi
 	;;
 
