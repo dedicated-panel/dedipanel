@@ -24,9 +24,3 @@ monolog:
             path:  %kernel.logs_dir%/%kernel.environment%.log
             level: debug
             channels: !phpseclib
-
-doctrine_migrations:
-    name: DediPanel Migrations
-    table_name: migration_versions
-    namespace: DP\Core\DistributionBundle\Migrations
-    dir_name: %kernel.root_dir%/../src/DP/Core/DistributionBundle/Migrations
