@@ -123,3 +123,6 @@ knp_menu:
         template: DPCoreBundle::knp_menu.html.twig
     templating: false # if true, enables the helper for PHP templates
     default_renderer: twig # The renderer to use, list is also available by default
+
+dp_core:
+    version: '0.5'

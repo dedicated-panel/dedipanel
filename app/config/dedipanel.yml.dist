@@ -1,3 +1,2 @@
 dp_core:
-    version: '0.5'
     debug: false
