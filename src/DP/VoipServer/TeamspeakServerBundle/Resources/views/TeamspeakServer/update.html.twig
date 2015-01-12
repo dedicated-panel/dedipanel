@@ -20,6 +20,8 @@
     <h2>{{ 'teamspeak.title.update'|trans }}</h2>
 
     <form action="{{ path('dedipanel_teamspeak_update', {id: teamspeak.id}) }}" method="post" {{ form_enctype(form) }} class="form-edit">
+        {{ form_errors(form) }}
+
         {{ form_row(form.machine) }}
         {{ form_row(form.dir) }}
         {{ form_row(form.voice_port) }}
@@ -31,7 +33,7 @@
             {{ form_row(form.core) }}
         {% endif %}
 
-        {{ form_widget(form) }}
+        {{ form_rest(form) }}
     </form>
 
     <div class="form-actions">

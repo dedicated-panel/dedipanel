@@ -20,6 +20,8 @@
     <h2>{{ 'steam.edit'|trans }}</h2>
         
     <form id="form-update" action="{{ path('dedipanel_steam_update', { 'id': steam.id }) }}" method="post" class="form-edit">
+        {{ form_errors(form) }}
+
         {{ form_row(form.name) }}
         {{ form_row(form.machine) }}
         {{ form_row(form.dir) }}

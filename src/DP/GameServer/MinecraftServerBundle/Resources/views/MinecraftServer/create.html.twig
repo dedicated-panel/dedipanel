@@ -24,6 +24,8 @@
     <h2>{{ 'minecraft.add'|trans }}</h2>
     
     <form action="{{ path('dedipanel_minecraft_create') }}" method="post" {{ form_enctype(form) }} id="form-create">
+        {{ form_errors(form) }}
+
         {{ form_row(form.name) }}
         {{ form_row(form.machine) }}
         {{ form_row(form.port) }}
@@ -37,7 +39,7 @@
         {{ form_row(form.maxHeap) }}
         {{ form_row(form.alreadyInstalled) }}
 
-        {{ form_widget(form) }}
+        {{ form_rest(form) }}
         {{ dedipanel_actions.create() }}
     </form>
 {% endblock %}
