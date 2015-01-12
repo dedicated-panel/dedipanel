@@ -33,6 +33,10 @@ class TeamspeakServerType extends AbstractType
                 'label'     => 'game.isAlreadyInstalled',
                 'expanded'  => true
             ))
+            ->add('query_password', 'password', array(
+                'label' => 'voip.query_password',
+                'required' => true,
+            ))
         ;
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
@@ -49,10 +53,6 @@ class TeamspeakServerType extends AbstractType
                 ->add('dir', 'text', array(
                     'label' => 'game.dir',
                     'disabled' => $isUpdateForm,
-                ))
-                ->add('query_password', 'password', array(
-                    'label' => 'voip.query_password',
-                    'required' => $isUpdateForm,
                 ))
             ;
 
