@@ -1033,12 +1033,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "be91cc9bb3c21d1a9fd81a9239ddcab02b5ace94"
+                "reference": "b9c0868f08666a61962f9581a415397118bf99fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/be91cc9bb3c21d1a9fd81a9239ddcab02b5ace94",
-                "reference": "be91cc9bb3c21d1a9fd81a9239ddcab02b5ace94",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/b9c0868f08666a61962f9581a415397118bf99fe",
+                "reference": "b9c0868f08666a61962f9581a415397118bf99fe",
                 "shasum": ""
             },
             "require": {
@@ -1100,7 +1100,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2015-01-09 22:07:50"
+            "time": "2015-01-12 21:05:12"
         },
         {
             "name": "friendsofsymfony/rest-bundle",
@@ -2083,12 +2083,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "04dad3ff8c22e93e5368e3760702d331aeb2c6cc"
+                "reference": "38e6196127d243d0ed25baf8cf69bc2b2a0b7b80"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/04dad3ff8c22e93e5368e3760702d331aeb2c6cc",
-                "reference": "04dad3ff8c22e93e5368e3760702d331aeb2c6cc",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/38e6196127d243d0ed25baf8cf69bc2b2a0b7b80",
+                "reference": "38e6196127d243d0ed25baf8cf69bc2b2a0b7b80",
                 "shasum": ""
             },
             "require": {
@@ -2172,7 +2172,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2015-01-09 12:09:21"
+            "time": "2015-01-11 15:09:50"
         },
         {
             "name": "planetteamspeak/ts3-php-framework",
@@ -3694,12 +3694,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/minkphp/Mink.git",
-                "reference": "5ca64b661115dbc46b7c8b21e1987999cb4c04a9"
+                "reference": "165d5a47d3505d450ef398340cff498d8a1ceac1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/minkphp/Mink/zipball/5ca64b661115dbc46b7c8b21e1987999cb4c04a9",
-                "reference": "5ca64b661115dbc46b7c8b21e1987999cb4c04a9",
+                "url": "https://api.github.com/repos/minkphp/Mink/zipball/165d5a47d3505d450ef398340cff498d8a1ceac1",
+                "reference": "165d5a47d3505d450ef398340cff498d8a1ceac1",
                 "shasum": ""
             },
             "require": {
@@ -3741,7 +3741,7 @@
                 "testing",
                 "web"
             ],
-            "time": "2015-01-09 00:17:27"
+            "time": "2015-01-12 11:50:12"
         },
         {
             "name": "behat/mink-browserkit-driver",
