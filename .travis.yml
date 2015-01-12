@@ -22,7 +22,6 @@ install:
     - composer self-update
     - composer install --prefer-source --no-interaction
     - app/console doctrine:database:create --env=test
-    - app/console doctrine:schema:create --env=test
     - app/console cache:warmup --env=test
 
 before_script:
