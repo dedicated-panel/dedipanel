@@ -90,7 +90,7 @@ configure_apache () {
     echo -en "Ajout du fichier ${DIR}/dedipanel\t\t\t\t" >&3
 
     echo << EOF | sudo tee $DIR/dedipanel
-<Directory /var/www/$2>
+<Directory $(pwd)/$2>
     AllowOverride All
 </Directory>
 EOF
