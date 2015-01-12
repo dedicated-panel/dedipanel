@@ -39,17 +39,15 @@ class AppKernel extends Kernel
 
             new DP\VoipServer\VoipServerBundle\DPVoipServerBundle(),
             new DP\VoipServer\TeamspeakServerBundle\DPTeamspeakServerBundle(),
+
+
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            new DP\Core\DistributionBundle\DPDistributionBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
-        }
-        
-        if (in_array($this->getEnvironment(), ['installer','dev','test'])) {
-            $bundles[] = new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle();
-            $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
-            $bundles[] = new DP\Core\DistributionBundle\DPDistributionBundle();
         }
 
         return $bundles;
