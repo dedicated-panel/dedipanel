@@ -81,7 +81,7 @@ configure_apache () {
         DIR='/etc/apache2/conf.d'
     else
         return 0
-     fi
+    fi
 
     if [ -f $DIR/dedipanel ]; then
         return 0
