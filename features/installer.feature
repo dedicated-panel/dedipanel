@@ -30,7 +30,7 @@ Feature: Panel installer
   Scenario: Configuring database
     Given I am on the installer step 1
      When I fill in "localhost" for "Hôte"
-      And I fill in "dedipanel" for "Nom de la BDD"
+      And I fill in "dedipanel_test" for "Nom de la BDD"
       And I fill in "root" for "Utilisateur"
       And I press "Prochaine étape"
      Then I should be on the installer step 2
