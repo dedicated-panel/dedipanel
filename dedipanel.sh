@@ -114,7 +114,7 @@ fetch_git () {
     # On dl les derniers commits (sans merger)
     # Puis on remet automatiquement le depot local a jour
     git fetch --all
-    git reset --hard origin/$2
+    git reset --hard $2
 
     echo "[OK]" >&3
 }
@@ -162,7 +162,7 @@ case "$1" in
             exit 1
         fi
 
-        fetch_git $2 b5
+        fetch_git $2 tags/v0.5.0 # origin/b5
 
         cd $2
         copy_dists_file
