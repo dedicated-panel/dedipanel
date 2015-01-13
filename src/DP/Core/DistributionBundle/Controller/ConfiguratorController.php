@@ -114,7 +114,7 @@ class ConfiguratorController extends Controller
         return $this->render('DPDistributionBundle:Configurator:final.html.twig');
     }
 
-    public function rewriteFrontScriptAction()
+        public function rewriteFrontScriptAction()
     {
         $rootDir = $this->get('kernel')->getRootDir();
         $filepath = $rootDir . '/../web/.htaccess';
@@ -129,6 +129,9 @@ class ConfiguratorController extends Controller
         // Suppression "hard" du cache de prod (si présent)
         // pour s'assurer qu'il contient bien les derniers paramètres
         $this->deleteCache();
+
+        // Supprime le contenu du fichier d'ip whitelist de l'installer
+        $this->resetInstallerWhitelist();
 
         return $this->redirect($this->generateUrl('_welcome'));
     }
@@ -153,5 +156,14 @@ class ConfiguratorController extends Controller
 
             rmdir($cacheDir);
         }
+    }
+
+    private function rewriteInstallerWhitelist()
+    {
+        if (is_writable($configurator->getWhitelistFilepath())) {
+            return file_put_contents($configurator->getWhitelistFilepath(), "127.0.0.1\n");
+        }
+
+        return false;
     }
 }
