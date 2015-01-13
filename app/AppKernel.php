@@ -25,9 +25,6 @@ class AppKernel extends Kernel
             new Sylius\Bundle\ResourceBundle\SyliusResourceBundle(),
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
-
-            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
-            new DP\Core\DistributionBundle\DPDistributionBundle(),
             
             new Dedipanel\PHPSeclibWrapperBundle\DedipanelPHPSeclibWrapperBundle(),
 
