@@ -50,8 +50,7 @@ class ConfiguratorController extends Controller
 
     public function checkAction($type)
     {
-        $configurator = $this->container->get('dp.webinstaller');
-        $config = $configurator->getRequirements();
+        $config = $this->getConfigurator()->getRequirements();
 
         return $this->render('DPDistributionBundle:Configurator:check.html.twig', array(
             'requirements' => $config['requirements'],
@@ -66,15 +65,13 @@ class ConfiguratorController extends Controller
      */
     public function stepAction($type, $step)
     {
-        $configurator = $this->container->get('dp.webinstaller');
-
         $index = $step;
-        $step  = $configurator->getInstallStep($index);
-        $stepCount = $configurator->getInstallStepCount();
+        $step  = $this->getConfigurator()->getInstallStep($index);
+        $stepCount = $this->getConfigurator()->getInstallStepCount();
 
         if ($type == 'update') {
-            $step = $configurator->getUpdateStep($index);
-            $stepCount = $configurator->getUpdateStepCount();
+            $step = $this->getConfigurator()->getUpdateStep($index);
+            $stepCount = $this->getConfigurator()->getUpdateStepCount();
         }
 
         $form = $this->createForm($step->getFormType(), $step);
@@ -158,12 +155,20 @@ class ConfiguratorController extends Controller
         }
     }
 
-    private function rewriteInstallerWhitelist()
+    private function resetInstallerWhitelist()
     {
-        if (is_writable($configurator->getWhitelistFilepath())) {
-            return file_put_contents($configurator->getWhitelistFilepath(), "127.0.0.1\n");
+        if (is_writable($this->getConfigurator()->getWhitelistFilepath())) {
+            return file_put_contents($this->getConfigurator()->getWhitelistFilepath(), "127.0.0.1\n");
         }
 
         return false;
+    }
+
+    /**
+     * @return DP\Core\DistributionBundle\Configurator\Configurator
+     */
+    private function getConfigurator()
+    {
+        return $this->container->get('dp.webinstaller');
     }
 }
