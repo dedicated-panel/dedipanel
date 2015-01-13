@@ -62,7 +62,7 @@ class ConfiguratorController extends Controller
     {
         $this->isGrantedOr403();
 
-        $config = $this->configurator->getRequirements();
+        $config = $this->getConfigurator()->getRequirements();
 
         return $this->render('DPDistributionBundle:Configurator:check.html.twig', array(
             'requirements' => $config['requirements'],
