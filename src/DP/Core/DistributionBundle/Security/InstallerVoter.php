@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class InstallerVoter implements VoterInterface
 {
-    const ATTR = 'ROLE_INSTALLER_USER';
+    const ATTR = 'IS_INSTALLER_USER';
 
     /** @var \Symfony\Component\HttpFoundation\Request $request */
     private $request;

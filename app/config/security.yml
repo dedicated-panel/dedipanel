@@ -38,6 +38,6 @@ security:
             logout: true
     
     access_control:
-        - { path: ^/installer, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/installer, roles: IS_INSTALLER_USER }
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, roles: IS_AUTHENTICATED_ANONYMOUSLY }

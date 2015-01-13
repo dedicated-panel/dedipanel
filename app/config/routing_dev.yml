@@ -12,7 +12,3 @@ _wdt:
 _profiler:
     resource: "@WebProfilerBundle/Resources/config/routing/profiler.xml"
     prefix:   /_profiler
-
-installer:
-    resource: "@DPDistributionBundle/Resources/config/routing.yml"
-    prefix:   /installer/
