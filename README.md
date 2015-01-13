@@ -1,7 +1,7 @@
 # DediPanel
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/dedicated-panel/dedipanel?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/dedicated-panel/dedipanel.svg?branch=b5)](https://travis-ci.org/dedicated-panel/dedipanel)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/dedicated-panel/dedipanel/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/dedicated-panel/dedipanel/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/dedicated-panel/dedipanel/badges/quality-score.png?b=b5)](https://scrutinizer-ci.com/g/dedicated-panel/dedipanel/?branch=b5)
 
 Panel d'administration de serveurs de jeux (Steam, Minecraft) et de serveurs vocaux (TeamSpeak3).
 
