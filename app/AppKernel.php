@@ -42,6 +42,10 @@ class AppKernel extends Kernel
 
             new DP\VoipServer\VoipServerBundle\DPVoipServerBundle(),
             new DP\VoipServer\TeamspeakServerBundle\DPTeamspeakServerBundle(),
+
+
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            new DP\Core\DistributionBundle\DPDistributionBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

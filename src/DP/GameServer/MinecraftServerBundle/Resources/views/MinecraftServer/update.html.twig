@@ -1,7 +1,7 @@
 {#
  # This file is part of Dedipanel project
  #
- # (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
+ # (c) 2010-2015 Dedipanel <http://www.dedicated-panel.net>
  #
  # For the full copyright and license information, please view the LICENSE
  # file that was distributed with this source code.
@@ -20,6 +20,8 @@
     <h2>{{ 'minecraft.edit'|trans }}</h2>
     
     <form id="form-update" action="{{ path('dedipanel_minecraft_update', { 'id': minecraft.id }) }}" method="post" {{ form_enctype(form) }} class="form-edit">
+        {{ form_errors(form) }}
+
         {{ form_row(form.name) }}
         {{ form_row(form.machine) }}
         {{ form_row(form.port) }}
@@ -35,7 +37,7 @@
             {{ form_row(form.core) }}
         {% endif %}
 
-        {{ form_widget(form) }}
+        {{ form_rest(form) }}
     </form>
     
     <div class="form-actions">

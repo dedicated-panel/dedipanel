@@ -1,8 +1,22 @@
 {
     "name": "dedipanel/dedipanel",
+    "type": "project",
+    "description": "Game server & VoIP server management tool",
+    "license": "GPLv3",
+    "version": "0.6.0",
+    "homepage": "http://www.dedicated-panel.net/",
+    "authors": [
+        {
+            "name": "Albin Kerouanton",
+            "homepage": "http://www.akerouanton.name/"
+        },
+        {
+            "name": "Jérome Smedts"
+        }
+    ],
     "autoload": {
-        "psr-0": { "DP": "src/" },
-        "classmap": ["vendor/planetteamspeak/ts3-php-framework/libraries/TeamSpeak3"]
+        "psr-0": { "DP\\": "src/" },
+        "classmap": [ "vendor/planetteamspeak/ts3-php-framework/libraries/TeamSpeak3" ]
     },
     "minimum-stability": "stable",
     "repositories": [
@@ -40,7 +54,7 @@
 
         "sylius/resource-bundle": "dev-dedipanel",
         "sylius/resource": "0.11.*@dev",
-        "dedipanel/phpseclib-wrapper-bundle": "dev-master",
+        "dedipanel/phpseclib-wrapper-bundle": "~1.0",
         "phpseclib/phpseclib": "2.0.*@dev"
     },
     "require-dev": {
@@ -56,12 +70,14 @@
     },
     "scripts": {
         "post-install-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
         ],
         "post-update-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
@@ -73,6 +89,9 @@
     },
     "extra": {
         "symfony-app-dir": "app",
-        "symfony-web-dir": "web"
+        "symfony-web-dir": "web",
+        "incenteev-parameters": {
+            "file": "app/config/parameters.yml"
+        }
     }
 }

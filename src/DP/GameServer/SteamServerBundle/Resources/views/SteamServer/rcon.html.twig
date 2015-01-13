@@ -1,7 +1,7 @@
 {#
  # This file is part of Dedipanel project
  #
- # (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
+ # (c) 2010-2015 Dedipanel <http://www.dedicated-panel.net>
  #
  # For the full copyright and license information, please view the LICENSE
  # file that was distributed with this source code.
@@ -31,10 +31,12 @@
     
     {% if online and not banned %}
         <form action="{{ path('dedipanel_steam_rcon', {id: steam.id}) }}" method="post" class="form-rcon" id="rcon-form">
+            {{ form_errors(form) }}
+
             <textarea disabled="disabled">{{ log }}</textarea>
             
             {{ form_row(form.cmd) }}
-            {{ form_widget(form) }}
+            {{ form_rest(form) }}
 
             <div class="form-actions">
                 <button class="btn btn-primary">

@@ -3,7 +3,7 @@
 /**
  * This file is part of Dedipanel project
  *
- * (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
+ * (c) 2010-2015 Dedipanel <http://www.dedicated-panel.net>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -62,8 +62,7 @@ class ConfiguratorController extends Controller
     {
         $this->isGrantedOr403();
 
-        $configurator = $this->container->get('dp.webinstaller');
-        $config = $configurator->getRequirements();
+        $config = $this->configurator->getRequirements();
 
         return $this->render('DPDistributionBundle:Configurator:check.html.twig', array(
             'requirements' => $config['requirements'],
@@ -80,15 +79,13 @@ class ConfiguratorController extends Controller
     {
         $this->isGrantedOr403();
 
-        $configurator = $this->container->get('dp.webinstaller');
-
         $index = $step;
-        $step  = $configurator->getInstallStep($index);
-        $stepCount = $configurator->getInstallStepCount();
+        $step  = $this->getConfigurator()->getInstallStep($index);
+        $stepCount = $this->getConfigurator()->getInstallStepCount();
 
         if ($type == 'update') {
-            $step = $configurator->getUpdateStep($index);
-            $stepCount = $configurator->getUpdateStepCount();
+            $step = $this->getConfigurator()->getUpdateStep($index);
+            $stepCount = $this->getConfigurator()->getUpdateStepCount();
         }
 
         $form = $this->createForm($step->getFormType(), $step);
@@ -127,7 +124,14 @@ class ConfiguratorController extends Controller
     {
         $this->isGrantedOr403();
 
-        return $this->render('DPDistributionBundle:Configurator:final.html.twig');
+        // Suppression "hard" du cache de prod (si présent)
+        // pour s'assurer qu'il contient bien les derniers paramètres
+        $this->deleteCache();
+
+        // Supprime le contenu du fichier d'ip whitelist de l'installer
+        $this->resetInstallerWhitelist();
+
+        return $this->redirect($this->generateUrl('_welcome'));
     }
 
     private function deleteCache()
@@ -150,5 +154,22 @@ class ConfiguratorController extends Controller
 
             rmdir($cacheDir);
         }
+    }
+
+    private function resetInstallerWhitelist()
+    {
+        if (is_writable($this->getConfigurator()->getWhitelistFilepath())) {
+            return file_put_contents($this->getConfigurator()->getWhitelistFilepath(), "127.0.0.1\n");
+        }
+
+        return false;
+    }
+
+    /**
+     * @return DP\Core\DistributionBundle\Configurator\Configurator
+     */
+    private function getConfigurator()
+    {
+        return $this->container->get('dp.webinstaller');
     }
 }

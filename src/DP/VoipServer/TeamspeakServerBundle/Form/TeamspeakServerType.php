@@ -3,7 +3,7 @@
 /**
  * This file is part of Dedipanel project
  *
- * (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
+ * (c) 2010-2015 Dedipanel <http://www.dedicated-panel.net>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -33,6 +33,10 @@ class TeamspeakServerType extends AbstractType
                 'label'     => 'game.isAlreadyInstalled',
                 'expanded'  => true
             ))
+            ->add('query_password', 'password', array(
+                'label' => 'voip.query_password',
+                'required' => true,
+            ))
         ;
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
@@ -49,10 +53,6 @@ class TeamspeakServerType extends AbstractType
                 ->add('dir', 'text', array(
                     'label' => 'game.dir',
                     'disabled' => $isUpdateForm,
-                ))
-                ->add('query_password', 'password', array(
-                    'label' => 'voip.query_password',
-                    'required' => $isUpdateForm,
                 ))
             ;
 

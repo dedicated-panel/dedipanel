@@ -1,7 +1,7 @@
 {#
  # This file is part of Dedipanel project
  #
- # (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
+ # (c) 2010-2015 Dedipanel <http://www.dedicated-panel.net>
  #
  # For the full copyright and license information, please view the LICENSE
  # file that was distributed with this source code.
@@ -23,6 +23,8 @@
     {{ dedipanel_flashes.all() }}
 
     <form action="{{ path('dedipanel_teamspeak_create') }}" method="post" {{ form_enctype(form) }} id="form-create">
+        {{ form_errors(form) }}
+
         {{ form_row(form.machine) }}
         {{ form_row(form.dir) }}
         {{ form_row(form.voice_port) }}
@@ -32,7 +34,7 @@
         {{ form_row(form.licence_file) }}
         {{ form_row(form.alreadyInstalled) }}
 
-        {{ form_widget(form) }}
+        {{ form_rest(form) }}
 
         {{ dedipanel_actions.create() }}
     </form>

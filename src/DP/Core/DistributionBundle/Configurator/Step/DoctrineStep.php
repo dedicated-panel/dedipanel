@@ -3,7 +3,7 @@
 /**
  * This file is part of Dedipanel project
  *
- * (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
+ * (c) 2010-2015 Dedipanel <http://www.dedicated-panel.net>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -130,8 +130,7 @@ class DoctrineStep implements StepInterface
             $errors[] =  'Your app/config/parameters.yml is not writable.';
         }
 
-        // Need to add the same suffix as from app/config/config_test.yml to the database name
-        if (!$this->testConnection($data->host, $data->user, $data->password, $data->port, $data->name . '_test')) {
+        if (!$this->testConnection($data->host, $data->user, $data->password, $data->port, $data->name)) {
             return array_merge($errors, array('configurator.db.connectionTest'));
         }
 

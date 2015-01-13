@@ -129,3 +129,6 @@ doctrine_migrations:
     table_name: migration_versions
     namespace: DP\Core\DistributionBundle\Migrations
     dir_name: %kernel.root_dir%/../src/DP/Core/DistributionBundle/Migrations
+
+dp_core:
+    version: '0.6'
