@@ -119,7 +119,7 @@ class ConfigController extends Controller
      * @param string $type
      * @param string $message
      */
-    private function addFlash($type, $message, $params = array())
+    protected function addFlash($type, $message, $params = array())
     {
         $message = $this->get('translator')->trans($message, $params, 'flashes');
 
