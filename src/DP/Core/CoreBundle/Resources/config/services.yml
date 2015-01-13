@@ -49,3 +49,8 @@ services:
             - [ setContainer, [ @service_container ] ]
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    dedipanel.kernel.listener.exception:
+        class: DP\Core\CoreBundle\EventListener\ExceptionListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 1000}
