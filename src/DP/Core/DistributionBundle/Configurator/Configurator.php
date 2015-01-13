@@ -217,7 +217,7 @@ class Configurator
     
     public function getWhitelistFilepath()
     {
-        return WHITELIST_FILEPATH;
+        return $this->kernelDir . '/../installer_whitelist.txt';
     }
     
     public function getKernelDir()
