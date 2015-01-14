@@ -122,8 +122,11 @@ class ConfiguratorController extends Controller
 
     public function finalAction()
     {
-        $this->isGrantedOr403();
+        return $this->render('DPDistributionBundle:Configurator:final.html.twig');
+    }
 
+    public function rewriteFrontScriptAction()
+    {
         // Suppression "hard" du cache de prod (si présent)
         // pour s'assurer qu'il contient bien les derniers paramètres
         $this->deleteCache();
