@@ -19,5 +19,7 @@ services:
 
     dedipanel.kernel.listener.exception:
         class: DP\Core\DistributionBundle\EventListener\ExceptionListener
+        arguments: [ @request ]
+        scope: request
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 1000}
