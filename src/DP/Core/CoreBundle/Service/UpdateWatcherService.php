@@ -51,10 +51,12 @@ class UpdateWatcherService
         }
 
         if (empty($version)) {
-            $version = file_get_contents($this->versionFile);
+            $version = @file_get_contents($this->versionFile);
         }
 
-        $this->processVersion($version);
+        if ($version !== false) {
+            $this->processVersion($version);
+        }
     }
     
     private function fetchData()
