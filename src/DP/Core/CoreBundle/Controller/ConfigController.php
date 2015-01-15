@@ -105,7 +105,6 @@ class ConfigController extends Controller
     {
         $config = array(
             'dp_core' => array(
-                'version' => $this->container->getParameter('dedipanel.version'),
                 'debug' => $debugMode,
             ),
         );
