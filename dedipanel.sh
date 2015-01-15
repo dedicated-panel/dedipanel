@@ -59,11 +59,11 @@ install_vendor () {
 
     if [ -d vendor/ ]; then
         echo -en "Mise à jour des dépendances\t\t\t\t\t" >&3
-        php composer.phar update --optimize-autoloader --prefer-dist --no-dev
+        php composer.phar update --optimize-autoloader --prefer-dist --no-dev >&3
         echo "[OK]" >&3
     else
         echo -en "Installation des dépendances\t\t\t\t\t" >&3
-        php composer.phar install --optimize-autoloader --prefer-dist --no-dev
+        php composer.phar install --optimize-autoloader --prefer-dist --no-dev >&3
         echo "[OK]" >&3
     fi
 }
