@@ -180,7 +180,7 @@ case "$1" in
 		errors=()
 
 		# Vérifie que tous les packets nécessaires sont installés
-		packets=('git' 'mysql-server' 'apache2' 'php5' 'php5-mysql' 'curl' 'php5-intl' 'php-apc' 'php5-curl' 'sudo')
+		packets=('git' 'mysql-server' 'apache2' 'php5' 'php5-mysql' 'curl' 'php5-intl' 'php-apc' 'php5-curl' 'sudo' 'ca-certificates')
 		failed=()
 
 		for packet in "${packets[@]}"; do
