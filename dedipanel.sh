@@ -28,7 +28,7 @@ usage () {
 copy_dists_file () {
     echo -en "Copie des fichiers .dist\t\t\t\t\t" >&3
 
-    [ ! -f app/config/parameters.yml ] && cp app/config/parameters.yml.dist app/config/parameters.yml
+    # [ ! -f app/config/parameters.yml ] && cp app/config/parameters.yml.dist app/config/parameters.yml
     [ ! -f app/config/dedipanel.yml ] && cp app/config/dedipanel.yml.dist app/config/dedipanel.yml
     [ ! -f web/.htaccess ] && cp web/.htaccess.dist web/.htaccess
     [ ! -f .htaccess ] && cp .htaccess.dist .htaccess
