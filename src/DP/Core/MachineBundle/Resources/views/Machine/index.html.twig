@@ -12,10 +12,6 @@
 {% import '::buttons.html.twig' as dedipanel_buttons %}
 {% import '::flash_messages.html.twig' as dedipanel_flashes %}
 
-{% block bundleStylesheets %}
-    <link rel="stylesheet" media="screen" href="{{ asset('bundles/dpmachine/css/machine.css') }}" />
-{% endblock %}
-
 {% block title %}
     {{ dedipanel_buttons.back(path('_welcome'), 'machine.title.machine'|trans) }}
 {% endblock %}

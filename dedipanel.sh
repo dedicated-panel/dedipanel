@@ -28,7 +28,7 @@ usage () {
 copy_dists_file () {
     echo -en "Copie des fichiers .dist\t\t\t\t\t" >&3
 
-    [ ! -f app/config/parameters.yml ] && cp app/config/parameters.yml.dist app/config/parameters.yml
+    # [ ! -f app/config/parameters.yml ] && cp app/config/parameters.yml.dist app/config/parameters.yml
     [ ! -f app/config/dedipanel.yml ] && cp app/config/dedipanel.yml.dist app/config/dedipanel.yml
     [ ! -f web/.htaccess ] && cp web/.htaccess.dist web/.htaccess
     [ ! -f .htaccess ] && cp .htaccess.dist .htaccess
@@ -59,11 +59,11 @@ install_vendor () {
 
     if [ -d vendor/ ]; then
         echo -en "Mise à jour des dépendances\t\t\t\t\t" >&3
-        php composer.phar update --optimize-autoloader --prefer-dist --no-dev
+        php composer.phar update --optimize-autoloader --prefer-dist --no-dev >&3
         echo "[OK]" >&3
     else
         echo -en "Installation des dépendances\t\t\t\t\t" >&3
-        php composer.phar install --optimize-autoloader --prefer-dist --no-dev
+        php composer.phar install --optimize-autoloader --prefer-dist --no-dev >&3
         echo "[OK]" >&3
     fi
 }
@@ -89,7 +89,7 @@ configure_apache () {
 
     echo -en "Ajout du fichier ${DIR}/dedipanel\t\t\t\t" >&3
 
-    echo << EOF | sudo tee $DIR/dedipanel
+    cat << EOF | sudo tee $DIR/dedipanel
 <Directory $(pwd)/$2>
     AllowOverride All
 </Directory>
@@ -180,7 +180,7 @@ case "$1" in
 		errors=()
 
 		# Vérifie que tous les packets nécessaires sont installés
-		packets=('git' 'mysql-server' 'apache2' 'php5' 'php5-mysql' 'curl' 'php5-intl' 'php-apc' 'sudo')
+		packets=('git' 'mysql-server' 'apache2' 'php5' 'php5-mysql' 'curl' 'php5-intl' 'php-apc' 'php5-curl' 'sudo' 'ca-certificates')
 		failed=()
 
 		for packet in "${packets[@]}"; do
