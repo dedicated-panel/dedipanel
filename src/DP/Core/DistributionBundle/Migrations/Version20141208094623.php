@@ -75,7 +75,18 @@ class Version20141208094623 extends AbstractMigration
         $this->addSql('ALTER TABLE teamspeak_server_instance ADD CONSTRAINT FK_4B1CC3D6BF396750 FOREIGN KEY (id) REFERENCES voip_server_instance (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE teamspeak_server ADD CONSTRAINT FK_ACCB911EBF396750 FOREIGN KEY (id) REFERENCES voip_server (id) ON DELETE CASCADE');
 
-        $this->updateDefaultData();
+        // Upgrade default data
+        $this->addSql(<<<EOF
+LOCK TABLES `group_table` WRITE;
+INSERT INTO `group_table` VALUES (1,NULL,'Default Group','a:35:{i:0;s:24:\"ROLE_DP_GAME_STEAM_ADMIN\";i:1;s:24:\"ROLE_DP_GAME_STEAM_INDEX\";i:2;s:23:\"ROLE_DP_GAME_STEAM_SHOW\";i:3;s:25:\"ROLE_DP_GAME_STEAM_CREATE\";i:4;s:25:\"ROLE_DP_GAME_STEAM_UPDATE\";i:5;s:25:\"ROLE_DP_GAME_STEAM_DELETE\";i:6;s:24:\"ROLE_DP_GAME_STEAM_STATE\";i:7;s:23:\"ROLE_DP_GAME_STEAM_RCON\";i:8;s:25:\"ROLE_DP_GAME_STEAM_PLUGIN\";i:9;s:22:\"ROLE_DP_GAME_STEAM_FTP\";i:10;s:9:\"ROLE_USER\";i:11;s:28:\"ROLE_DP_GAME_MINECRAFT_ADMIN\";i:12;s:28:\"ROLE_DP_GAME_MINECRAFT_INDEX\";i:13;s:27:\"ROLE_DP_GAME_MINECRAFT_SHOW\";i:14;s:29:\"ROLE_DP_GAME_MINECRAFT_CREATE\";i:15;s:29:\"ROLE_DP_GAME_MINECRAFT_UPDATE\";i:16;s:29:\"ROLE_DP_GAME_MINECRAFT_DELETE\";i:17;s:28:\"ROLE_DP_GAME_MINECRAFT_STATE\";i:18;s:27:\"ROLE_DP_GAME_MINECRAFT_RCON\";i:19;s:29:\"ROLE_DP_GAME_MINECRAFT_PLUGIN\";i:20;s:26:\"ROLE_DP_GAME_MINECRAFT_FTP\";i:21;s:28:\"ROLE_DP_VOIP_TEAMSPEAK_ADMIN\";i:22;s:37:\"ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_ADMIN\";i:23;s:28:\"ROLE_DP_VOIP_TEAMSPEAK_INDEX\";i:24;s:27:\"ROLE_DP_VOIP_TEAMSPEAK_SHOW\";i:25;s:29:\"ROLE_DP_VOIP_TEAMSPEAK_CREATE\";i:26;s:29:\"ROLE_DP_VOIP_TEAMSPEAK_UPDATE\";i:27;s:29:\"ROLE_DP_VOIP_TEAMSPEAK_DELETE\";i:28;s:28:\"ROLE_DP_VOIP_TEAMSPEAK_STATE\";i:29;s:37:\"ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_INDEX\";i:30;s:36:\"ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_SHOW\";i:31;s:38:\"ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_CREATE\";i:32;s:38:\"ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_UPDATE\";i:33;s:38:\"ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_DELETE\";i:34;s:37:\"ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_STATE\";}',1,0,1,2);
+UNLOCK TABLES;
+
+LOCK TABLES `plugin` WRITE;
+UPDATE `plugin` SET downloadUrl = 'http://sourcemod.gameconnect.net/files/mmsource-1.10.4-linux.tar.gz', version = '1.10.4' WHERE name = 'Metamod:Source';
+UPDATE `plugin` SET downloadUrl = 'http://www.sourcemod.net/dl.php?filename=sourcemod-1.6.3-linux.tar.gz', version = '1.6.3', name = 'SourceMod' WHERE name = 'Sourcemod';
+UNLOCK TABLES;
+EOF
+        );
     }
 
     public function down(Schema $schema)
@@ -128,20 +139,14 @@ class Version20141208094623 extends AbstractMigration
         $this->addSql('ALTER TABLE acl_object_identities ADD CONSTRAINT FK_9407E54977FA751A FOREIGN KEY (parent_object_identity_id) REFERENCES acl_object_identities (id)');
         $this->addSql('ALTER TABLE acl_object_identity_ancestors ADD CONSTRAINT FK_825DE2993D9AB4A6 FOREIGN KEY (object_identity_id) REFERENCES acl_object_identities (id) ON UPDATE CASCADE ON DELETE CASCADE');
         $this->addSql('ALTER TABLE acl_object_identity_ancestors ADD CONSTRAINT FK_825DE299C671CEA1 FOREIGN KEY (ancestor_id) REFERENCES acl_object_identities (id) ON UPDATE CASCADE ON DELETE CASCADE');
-    }
 
-    public function updateDefaultData()
-    {
-        $sql = <<<EOF
-LOCK TABLES `group_table` WRITE;
-INSERT INTO `group_table` VALUES (1,NULL,'Default Group','a:35:{i:0;s:24:\"ROLE_DP_GAME_STEAM_ADMIN\";i:1;s:24:\"ROLE_DP_GAME_STEAM_INDEX\";i:2;s:23:\"ROLE_DP_GAME_STEAM_SHOW\";i:3;s:25:\"ROLE_DP_GAME_STEAM_CREATE\";i:4;s:25:\"ROLE_DP_GAME_STEAM_UPDATE\";i:5;s:25:\"ROLE_DP_GAME_STEAM_DELETE\";i:6;s:24:\"ROLE_DP_GAME_STEAM_STATE\";i:7;s:23:\"ROLE_DP_GAME_STEAM_RCON\";i:8;s:25:\"ROLE_DP_GAME_STEAM_PLUGIN\";i:9;s:22:\"ROLE_DP_GAME_STEAM_FTP\";i:10;s:9:\"ROLE_USER\";i:11;s:28:\"ROLE_DP_GAME_MINECRAFT_ADMIN\";i:12;s:28:\"ROLE_DP_GAME_MINECRAFT_INDEX\";i:13;s:27:\"ROLE_DP_GAME_MINECRAFT_SHOW\";i:14;s:29:\"ROLE_DP_GAME_MINECRAFT_CREATE\";i:15;s:29:\"ROLE_DP_GAME_MINECRAFT_UPDATE\";i:16;s:29:\"ROLE_DP_GAME_MINECRAFT_DELETE\";i:17;s:28:\"ROLE_DP_GAME_MINECRAFT_STATE\";i:18;s:27:\"ROLE_DP_GAME_MINECRAFT_RCON\";i:19;s:29:\"ROLE_DP_GAME_MINECRAFT_PLUGIN\";i:20;s:26:\"ROLE_DP_GAME_MINECRAFT_FTP\";i:21;s:28:\"ROLE_DP_VOIP_TEAMSPEAK_ADMIN\";i:22;s:37:\"ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_ADMIN\";i:23;s:28:\"ROLE_DP_VOIP_TEAMSPEAK_INDEX\";i:24;s:27:\"ROLE_DP_VOIP_TEAMSPEAK_SHOW\";i:25;s:29:\"ROLE_DP_VOIP_TEAMSPEAK_CREATE\";i:26;s:29:\"ROLE_DP_VOIP_TEAMSPEAK_UPDATE\";i:27;s:29:\"ROLE_DP_VOIP_TEAMSPEAK_DELETE\";i:28;s:28:\"ROLE_DP_VOIP_TEAMSPEAK_STATE\";i:29;s:37:\"ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_INDEX\";i:30;s:36:\"ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_SHOW\";i:31;s:38:\"ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_CREATE\";i:32;s:38:\"ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_UPDATE\";i:33;s:38:\"ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_DELETE\";i:34;s:37:\"ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_STATE\";}',1,0,1,2);
-UNLOCK TABLES;
-
+        // Downgrade data
+        $this->addSql(<<<EOF
 LOCK TABLES `plugin` WRITE;
-UPDATE `plugin` SET downloadUrl = 'http://sourcemod.gameconnect.net/files/mmsource-1.10.4-linux.tar.gz', version = '1.10.4' WHERE name = 'Metamod:Source';
-UPDATE `plugin` SET downloadUrl = 'http://www.sourcemod.net/dl.php?filename=sourcemod-1.6.3-linux.tar.gz', version = '1.6.3', name = 'SourceMod' WHERE name = 'Sourcemod';
+UPDATE `plugin` SET downloadUrl = 'http://sourcemod.gameconnect.net/files/mmsource-1.10.0-linux.tar.gz', version = '1.10.0' WHERE name = 'Metamod:Source';
+UPDATE `plugin` SET downloadUrl = 'http://sourcemod.gameconnect.net/files/sourcemod-1.5.0-linux.tar.gz', version = '1.5.0', name = 'SourceMod' WHERE name = 'Sourcemod';
 UNLOCK TABLES;
-EOF;
-
+EOF
+        );
     }
 }
