@@ -28,11 +28,8 @@
 {% endblock %}
 
 {% macro game_image(entity) %}
-    <div class="game-image">
-        {% set gameImg = entity.game.installname %}
-        {% if gameImg == 'Counter-Strike Source' %}
-            {% set gameImg = 'css' %}
-        {% endif %}
+    <div class="game-image col-xs-2">
+        {% set gameImg = entity.game.launchName %}
 
         {% if is_granted('ROLE_DP_GAME_STEAM_SHOW', entity) %}
             <a href="{{ path('dedipanel_steam_show', {'id': entity.id }) }}">
@@ -55,12 +52,12 @@
     
     <div id="steam" class="server-list">
         {% for entity in steams %}
-            <div class="server-item clearfix">
+            <div class="server-item row">
                 {% if not entity.isInstallationEnded %}
                     <div class="principal clearfix">
                         {{ _self.game_image(entity) }}
 
-                        <div class="infos">
+                        <div class="infos col-xs-3">
                             <div class="titre">
                                 {% if is_granted('ROLE_DP_GAME_STEAM_SHOW', entity) %}
                                     <a href="{{ path('dedipanel_steam_show', {id: entity.id}) }}">{{ entity.name }}</a>
@@ -84,7 +81,7 @@
                         
                         {% if is_granted('ROLE_DP_GAME_STEAM_CREATE') or is_granted('ROLE_DP_GAME_STEAM_UPDATE', entity) %}
                             
-                            <div class="installation">
+                            <div class="installation  col-xs-8">
                                 <div class="update-status">
                                     <span class="icon-spam" alt="{{ 'game.update_status'|trans }}"></span>
                                     <a href="{{ path('dedipanel_steam_install', {id: entity.id }) }}">{{ 'game.update_status'|trans }}</a>
@@ -107,7 +104,7 @@
                     <div class="principal clearfix">
                         {{ _self.game_image(entity) }}
 
-                        <div class="infos">
+                        <div class="infos col-xs-3">
                             <div class="titre">
                                 {% if is_granted('ROLE_DP_GAME_STEAM_SHOW', entity) %}
                                     <a href="{{ path('dedipanel_steam_show', {id: entity.id}) }}">{{ entity.name }}</a>
@@ -138,13 +135,15 @@
                         </div>
                         
                         {% if entity.isInstallationEnded %}
-                            {% include 'DPSteamServerBundle:SteamServer:actionBar.html.twig' with {show: true, online: online, server: entity} %}
+                            <div class="col-xs-7">
+                                {% include 'DPSteamServerBundle:SteamServer:actionBar.html.twig' with {show: true, online: online, server: entity} %}
+                            </div>
                         {% endif %}
                     </div>
 
-                    <div class="details clearfix">
-                        {% if online %}
-                            <div class="map-image">
+                    {% if online %}
+                        <div class="details clearfix col-xs-12">
+                            <div class="map-image ">
                                 {% if entity.game.sourceImageMaps is defined %}
                                     <img src="{{ entity.game.sourceImagesMaps }}{{ entity.query.serverInfos['map'] }}.jpg" alt="{{ entity.query.serverInfos['map'] }}" />
                                 {% endif %}                            
@@ -171,8 +170,8 @@
                                     </tbody>
                                 </table>
                             </div>
-                        {% endif %}
-                    </div>
+                        </div>
+                    {% endif %}
                 {% endif %}
             </div>
         {% endfor %}

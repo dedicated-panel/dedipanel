@@ -23,7 +23,7 @@
 
 {% block body %}
     <div class="row-fluid">
-        <div class="span6">
+        <div class="col-xs-6">
             <div class="row-fluid">
                 {% if is_granted('ROLE_DP_GAME_STEAM_ADMIN') or is_granted('ROLE_DP_GAME_MINECRAFT_ADMIN') %}
                     <div class="widget-container">
@@ -57,7 +57,7 @@
                 {% endif %}               
             </div>
         </div>
-        <div class="span6">
+        <div class="col-xs-6">
             <div class="row-fluid">
                 {% if is_granted('ROLE_DP_ADMIN_MACHINE_ADMIN') %}
                     {{ dedipanel_widget._widgetHeader('machine.title.index', 'icon-uni53', 'paddle', 'dedipanel_machine_index') }}

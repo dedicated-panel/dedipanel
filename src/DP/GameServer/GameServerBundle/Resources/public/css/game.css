@@ -1,7 +1,7 @@
 /**
  * This file is part of Dedipanel project
  *
- * (c) 2010-2015 Dedipanel <http://www.dedicated-panel.net>
+ * (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -12,7 +12,7 @@
 }
 .server-item {
     background: #F3F3F3;
-    padding: 16px 10px 10px 15px;
+    padding: 5px 10px 5px 5px;
     border-bottom: 1px dotted #CFCFCF;
     border-top: 1px solid white;
 }
@@ -49,14 +49,15 @@
     margin-left: 10px;
 }
 .server-item .actions {
-    padding: 12px 0 0 0;
+    padding: 5px 0 0 0;
     float: right;
-    margin-right: 20px;
+    min-width: 400px;
+    margin-right: 6px;
 }
 .server-item .actions a {
     float: left;
     color: rgba(129, 129, 129, 0.9);
-    margin: 0 15px;
+    margin: 0 3px;
 }
 .server-item .actions a:hover { 
     color: rgba(0, 136, 204, 0.34);
@@ -99,7 +100,7 @@
     margin: -20px 0px 9px -10px;
 }
 .serveur-header-texture {
-    margin: 0px -30px 0 -10px;
+    margin: 0px -25px 0 -10px;
     background-repeat: no-repeat;
     background-color: #DDD;
     background-position: center;
@@ -165,7 +166,8 @@
 }
 .serveur-header .serveur-header-actionbar {
     font-size: 38px !important;
-    margin-top: 15px;
+    margin-top: -10px;
+    width: 430px;
 }
 .serveur-header .serveur-header-actionbar a {
     color: rgba(129, 129, 129, 0.9);
@@ -226,7 +228,6 @@
 .server-item .details .players tr:hover th.empty {
     background: none;
 }
-
 select, input[type="file"] {
     height: 32px !important;
     line-height: 28px;

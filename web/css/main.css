@@ -78,7 +78,7 @@ body {
 /* Profil */
 .user-profile {
     background-color: #16191F;
-    padding: 8px;
+    padding: 15px;
 }
 .user-profile:before,
 .user-profile:after {
@@ -92,7 +92,8 @@ body {
 .user-profile img {
     float: left;
     padding: 0;
-    height: 55px;
+    width: 45px;
+    height: 45px;
     margin-right: 10px;
     background-color: #2B2E33;
     -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
@@ -103,25 +104,13 @@ body {
     border-radius: 999999px;
 }
 .user-info {
-    float: left;
-    width: 60%;
-    margin: 3px 0 0;
+    font-size: 14px;
+    color: white;
 }
-.user-info a {
-    display: block;
-    font-size: 18px;
-    font-weight: bold;
-    text-shadow: 0 1px 1px #000000;
-}
-.user-info a:hover {
-    color: #999999;
-    text-decoration: none;
-}
-.user-info em {
-    display: block;
-    color: #999999;
-    font-size: 11.9px;
-    line-height: normal;
+
+.user-info small {
+display: block;
+color: #889097;
 }
 
 .user-profile-actions:before,
@@ -158,29 +147,31 @@ body {
     width: 250px;
     position: fixed;
     height: 100%;
-    background: #2B2E33;
+    background: #1E2128;
     float: left;
     z-index: 1;
 }
 #sidebar #logo {
-    max-width: 200px;
-    height: 63px;
-    margin: 10px 33px 0px;
+    height: 40px;
+    margin: 5px 0px 15px 26px;
+}
+#sidebar #logo a img {
+    height: 50px;
 }
 #sidebar nav {
-    margin-top: 10px;
+    margin-top: 2px;
 }
 #sidebar nav ul {
     margin: 0;
-    border-top: 1px solid #292929;
+    /* border-top: 1px solid #5A5A5A; */
 }
 #sidebar nav li {
     display: block;
     min-height: 40px;
     margin-bottom: 2px;
-    background: rgba(22, 25, 31, 0.28);
-    padding-left: 10px;
+    background: rgba(44, 44, 44, 0.25);
     overflow: hidden;
+    border-top: 1px solid #353535;
 }
 #sidebar nav li.current{
     background-color: #16191F;
@@ -203,6 +194,7 @@ body {
 }
 #sidebar nav li > span {
     cursor: pointer;
+    padding: 10px 0 0px 15px;
 }
 #sidebar nav li.current a, 
 #sidebar nav li a:hover, 
@@ -212,6 +204,7 @@ body {
 #sidebar nav li.current_ancestor.in > span:hover {
     border-right: 5px solid #4cb0ff;
     color: #4cb0ff;
+    background: none;
     transition: color 0.2s ease-out;
     -moz-transition: color 0.2s ease-out;
     -webkit-transition: color 0.2s ease-out;
@@ -225,23 +218,22 @@ body {
 #sidebar nav li a .icon, 
 #sidebar nav li > span .icon {
     float: left;
-    margin: 8px 20px 0 10px;
+    margin: 0px 10px 0 0px;
     font-size: 24px;
 }
 #sidebar nav li a .menu-label, 
 #sidebar nav li > span .menu-label {
     float: left;
-    margin: 11px 0 0 0;
 }
 #sidebar nav li > ul {
     border-bottom: 0;
-    display: none;
 }
 #sidebar nav li.current_ancestor > ul {
     display: block;
 }
-#sidebar nav li > ul li {
-    padding-left: 30px;
+#sidebar nav li > ul li a {
+    padding-left: 5px;
+    padding-top: 12px;
 }
 #sidebar nav li > ul li:last-child {
     border-bottom: 0;
@@ -255,10 +247,10 @@ body {
 
 #inner h1#title {
     margin: 0px 0 0 0;
-    padding: 0px 0px 0px 15px;
+    padding: 23px 0px 0px 15px;
 
-    height: 40px;
-    background-color: #2B2E33;
+    height: 60px;
+    background-color: #1E2128;
     color: #bebebe;
     font-size: 27px;
 
@@ -312,7 +304,7 @@ body {
 #inner #page-content #top-nav li a {
     padding-top: 0;
     padding-bottom: 0;
-    margin: 6px 0 0 2px;
+    margin: 8px 0 0 2px;
     border: none;
 }
 #inner #page-content #top-nav li form {
@@ -439,7 +431,7 @@ form.form-edit .form-actions.contain-delete button {
 form.form-edit .form-actions.contain-delete button:first-of-type {
     margin-left: 0;
 }
-label {	
+label { 
     font-family: 'Yanone Kaffeesatz', arial, sans-serif;
     font-size: 16px;
     color: #666; 
@@ -476,7 +468,7 @@ input[type="checkbox"] + label > .symfony-form-required/*,
 .form-group {
     padding: 20px 0 20px 20px;
     background: #DDD;
-    margin: -1px -19px -9px -19px;
+    margin: 20px -19px -9px -19px;
 }
 .form-group form {
     margin: 0;

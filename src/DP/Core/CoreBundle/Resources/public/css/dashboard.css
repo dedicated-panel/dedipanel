@@ -1,7 +1,7 @@
 /**
  * This file is part of Dedipanel project
  *
- * (c) 2010-2015 Dedipanel <http://www.dedicated-panel.net>
+ * (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,17 +14,15 @@
 }
 .widget-container .widget-heading {
     background: rgba(255, 255, 255, 0.94);
-    height: 35px;
-    padding: 15px 0px 0 0px;
+    height: 40px;
+    padding: 3px;
     color: #858585;
-    font-size: 18px;
+    font-size: 20px;
     width: 100%;
 }
 .widget-container .widget-heading span {
     font-size: 30px;
-    margin-left: 10px;
-    margin-top: -4px;
-    margin-right: 26px;
+    margin: 0 10px 0;
     font-weight: normal;
     color: rgba(68, 68, 68, 0.42);
 }
@@ -32,7 +30,7 @@
     padding: 3px;
 }
 .table-filters tbody tr td {
-    margin: 0;
+    margin: 0px;
     padding: 0;
 }
 .table-filters tbody tr td a.padding-left{
@@ -66,10 +64,10 @@
     border-bottom: 14px solid transparent;
     clear: both;
     position: absolute;
-    margin-left: 78px;
+    margin-left: 73px;
     margin-top: 6px;
 }
-.arrow-error {
+.arrow-danger {
     border-right: 12px solid #f2dede;
 }
 .arrow-success {

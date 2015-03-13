@@ -23,7 +23,7 @@
         {{ form_widget(form) }}
     </form>
     
-    <div class="form-actions">
+    <div class="form-actions clearfix">
         {{ dedipanel_actions.update(path('dedipanel_user_show', {'id': user.id})) }}    
         {{ dedipanel_buttons.delete(path('dedipanel_user_delete', {'id': user.id}), null, false, true, 'ROLE_DP_ADMIN_USER_DELETE', user) }}
     </div>

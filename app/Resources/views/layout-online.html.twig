@@ -36,13 +36,12 @@
                 </a> 
             </div>
             <div class="user-profile">
-                    <img alt="{{ app.user.username }}" src="{{ asset('images/icones/blue-user-icon.png') }}">
-                    <div class="user-info">
-                            <a href="{{ path('fos_user_profile_edit') }}">{{ app.user.username }}</a>
-                            <em>
-                            
-                            </em>
-                            <ul class="user-profile-actions">
+                    <img alt="{{ app.user.username }}" src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcR0JIep1h1CxO5fPpAfXymk9WQu52CD4LOhzw_FlYJT9nIz9LXcng">
+
+                        <div class="user-info">
+                            {{ app.user.username }}
+                            <small>Role ?</small>
+                            {#<ul class="user-profile-actions">
                                     <li>
                                         <a href="{{ path('fos_user_profile_show') }}" title="{{ 'profil.profil'|trans }}">
                                             <span class="icon-uni41"></span>
@@ -53,7 +52,7 @@
                                             <span class="icon-exit"></span>
                                         </a>
                                     </li>
-                            </ul>
+                            </ul>#}
                     </div>
             </div>
             <nav>

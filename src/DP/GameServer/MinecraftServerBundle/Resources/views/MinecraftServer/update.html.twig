@@ -40,7 +40,7 @@
         {{ form_rest(form) }}
     </form>
     
-    <div class="form-actions">
+    <div class="form-actions clearfix">
         {{ dedipanel_actions.update(path('dedipanel_minecraft_show', {'id': minecraft.id})) }}
         {{ dedipanel_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id}), null, false, true, 'ROLE_DP_GAME_MINECRAFT_DELETE', minecraft) }}
         {{ dedipanel_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id, 'fromMachine': true}), 'dedipanel.full_delete'|trans, false, true, 'ROLE_DP_GAME_MINECRAFT_DELETE', minecraft) }}

@@ -9,7 +9,7 @@
 
 <form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit">
     {{ form_widget(form) }}
-    <div class="form-actions">
+    <div class="form-actions clearfix">
         <input type="submit" value="{{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}" class="btn btn-primary btn-medium" />
     </div>
 </form>

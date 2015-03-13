@@ -24,12 +24,11 @@
     <table id="steam" class="server-list table table-filters">
         {% for steamServer in steamServers %}
             
-            {% set gameImg = steamServer.game.installname %}
-            {% if gameImg == 'Counter-Strike Source' %}{% set gameImg = 'css' %}{% endif %}
+            {% set gameImg = steamServer.game.launchName %}
             {% if steamServer.query.latency != false %}{% set color, isOnline = 'success', true %}
-            {% else %} {% set color, isOnline = 'error', false %}{% endif %}
+            {% else %} {% set color, isOnline = 'danger', false %}{% endif %}
 
-            <tr class="server-item {{ color }}">
+            <tr class="server-item alert-{{ color }}">
                 <td>
                     <div class="arrow-left arrow-{{ color }}"></div>
                     <img src="{{ asset('images/serveur/viewer/' ~ gameImg ~ '.png') }}"" alt="{{ gameImg }}">
@@ -48,7 +47,7 @@
     <table id="minecraft" class="server-list table table-filters">
         {% for minecraftServer in minecraftServers %}
             
-            {% set gameImg = minecraftServer.game.installname %}
+            {% set gameImg = minecraftServer.game.launchName %}
             {% if minecraftServer.query.online != false %}{% set color, isOnline = 'success', true %}
             {% else %} {% set color, isOnline = 'error', false %}{% endif %}
 
