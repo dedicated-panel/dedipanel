@@ -49,7 +49,7 @@ class ConfigModifier
     
     /**
      * Maj des scripts du serveur si la config du serveur (port, maxplayers, dir) a été modifié
-     * Ou si la config du jeu (bin, binDir, installName, launchName, map, orangebox, source) a été modifié
+     * Ou si la config du jeu (bin, binDir, launchName, map, orangebox, source) a été modifié
      * Ou si l'IP publique de la machine a été modifié
      * 
      * Réinstallation du serveur
