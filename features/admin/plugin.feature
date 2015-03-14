@@ -1,4 +1,4 @@
-@plugins_admin
+@admin
 Feature: Plugin settings
   In order to configure my panel
   As a panel admin

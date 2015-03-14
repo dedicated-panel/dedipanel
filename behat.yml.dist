@@ -17,87 +17,37 @@ default:
             debug: false
 
     suites:
+        default:
+            contexts:
+                - Behat\MinkExtension\Context\MinkContext
+                - DP\Core\CoreBundle\Behat\DefaultContext
         installer:
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
                 - DP\Core\CoreBundle\Behat\InstallerContext
             filters:
                 tags: "@installer"
-        users:
-            contexts:
-                - Behat\MinkExtension\Context\MinkContext
-                - DP\Core\CoreBundle\Behat\DefaultContext
-            filters:
-                tags: "@users"
-        account:
-            contexts:
-                - Behat\MinkExtension\Context\MinkContext
-                - DP\Core\CoreBundle\Behat\DefaultContext
-            filters:
-                tags: "@account"
-        configs:
+        admin:
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
                 - DP\Core\CoreBundle\Behat\AdminContext
+                - DP\Core\CoreBundle\Behat\ResourceContext
             filters:
-                tags: "@configs"
-        games_admin:
-            contexts:
-                - Behat\MinkExtension\Context\MinkContext
-                - DP\Core\CoreBundle\Behat\AdminContext
-            filters:
-                tags: "@games_admin"
-        plugins_admin:
-            contexts:
-                - Behat\MinkExtension\Context\MinkContext
-                - DP\Core\CoreBundle\Behat\AdminContext
-            filters:
-                tags: "@plugins_admin"
-        users_admin:
-            contexts:
-                - Behat\MinkExtension\Context\MinkContext
-                - DP\Core\CoreBundle\Behat\AdminContext
-            filters:
-                tags: "@users_admin"
-        groups_admin:
-            contexts:
-                - Behat\MinkExtension\Context\MinkContext
-                - DP\Core\CoreBundle\Behat\AdminContext
-            filters:
-                tags: "@groups_admin"
-        machines:
-            contexts:
-                - Behat\MinkExtension\Context\MinkContext
-                - DP\Core\CoreBundle\Behat\AdminContext
-            filters:
-                tags: "@machines"
-        minecraft:
+                tags: "@admin"
+        servers:
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
                 - DP\Core\CoreBundle\Behat\ServerContext
+                - DP\Core\CoreBundle\Behat\ResourceContext
             filters:
-                tags: "@minecraft"
-        steam:
-            contexts:
-                - Behat\MinkExtension\Context\MinkContext
-                - DP\Core\CoreBundle\Behat\ServerContext
+                tags: "@servers"
+        user:
             filters:
-                tags: "@steam"
-        teamspeak:
-            contexts:
-                - Behat\MinkExtension\Context\MinkContext
-                - DP\Core\CoreBundle\Behat\ServerContext
-            filters:
-                tags: "@teamspeak"
-        teamspeak_instance:
-            contexts:
-                - Behat\MinkExtension\Context\MinkContext
-                - DP\Core\CoreBundle\Behat\ServerContext
-            filters:
-                tags: "@teamspeak_instance"
+                tags: "@user"
         dashboard:
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
-                - DP\Core\CoreBundle\Behat\ServerContext
+                - DP\Core\CoreBundle\Behat\DefaultContext
+                - DP\Core\CoreBundle\Behat\ResourceContext
             filters:
                 tags: "@dashboard"

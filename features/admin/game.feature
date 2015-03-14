@@ -1,4 +1,4 @@
-@games_admin
+@admin
 Feature: Game settings
   In order to configure my panel
   As a panel admin

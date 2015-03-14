@@ -1,4 +1,4 @@
-@account
+@user
 Feature: User profile edition
   In order to manage my personal information
   As a logged user

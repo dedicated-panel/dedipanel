@@ -1,4 +1,4 @@
-@teamspeak
+@servers
 Feature: Teamspeak server management
   In order to manage teamspeak server
   As a panel user

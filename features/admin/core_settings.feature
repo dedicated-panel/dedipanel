@@ -1,4 +1,4 @@
-@configs
+@admin
 Feature: Core settings
   In order to configure my panel
   As a panel admin

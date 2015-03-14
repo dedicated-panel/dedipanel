@@ -1,4 +1,4 @@
-@machines
+@admin
 Feature: Machines management
   In order to manage machine
   As a panel user

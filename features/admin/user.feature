@@ -1,4 +1,4 @@
-@users_admin
+@admin
 Feature: Users management
   In order to manage users
   As a panel admin
