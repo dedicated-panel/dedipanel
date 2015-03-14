@@ -132,3 +132,6 @@ doctrine_migrations:
 
 dp_core:
     version: '0.6.0'
+
+dp_machine:
+    private_keys_path: '%kernel.root_dir%/../app/config/.ssh/'

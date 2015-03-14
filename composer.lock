@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ad29a699ab41ff233fa88bea5f7f3311",
+    "hash": "a461c3125e96c7b341d748d51eff70d9",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -48,17 +48,17 @@
         },
         {
             "name": "dedipanel/phpseclib-wrapper-bundle",
-            "version": "1.0.0",
+            "version": "dev-master",
             "target-dir": "Dedipanel/PHPSeclibWrapperBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dedicated-panel/PHPSeclibWrapperBundle.git",
-                "reference": "a747435e8eb2fed30ae719d8e1175ba2a39333e3"
+                "reference": "238298be01de9457ec31aab0471aed5d454f8c41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dedicated-panel/PHPSeclibWrapperBundle/zipball/a747435e8eb2fed30ae719d8e1175ba2a39333e3",
-                "reference": "a747435e8eb2fed30ae719d8e1175ba2a39333e3",
+                "url": "https://api.github.com/repos/dedicated-panel/PHPSeclibWrapperBundle/zipball/238298be01de9457ec31aab0471aed5d454f8c41",
+                "reference": "238298be01de9457ec31aab0471aed5d454f8c41",
                 "shasum": ""
             },
             "require": {
@@ -100,7 +100,7 @@
                 "sftp",
                 "ssh"
             ],
-            "time": "2014-12-26 21:40:40"
+            "time": "2015-03-14 21:33:22"
         },
         {
             "name": "doctrine/annotations",
@@ -4742,6 +4742,7 @@
         "gedmo/doctrine-extensions": 20,
         "sylius/resource-bundle": 20,
         "sylius/resource": 20,
+        "dedipanel/phpseclib-wrapper-bundle": 20,
         "phpseclib/phpseclib": 20,
         "behat/symfony2-extension": 20,
         "behat/mink-extension": 20,
