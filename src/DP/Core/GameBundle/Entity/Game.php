@@ -136,7 +136,7 @@ class Game
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection $gameServers
      *
-     * @ORM\OneToMany(targetEntity="DP\GameServer\GameServerBundle\Entity\GameServer", mappedBy="game")
+     * @ORM\OneToMany(targetEntity="DP\GameServer\GameServerBundle\Entity\GameServer", mappedBy="game", cascade={"remove"})
      */
     private $gameServers;
 

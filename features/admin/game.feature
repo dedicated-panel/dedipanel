@@ -13,6 +13,12 @@ Feature: Game settings
       | name           | installName | bin      | type  | available |
       | Counter-Strike | cstrike     | hlds_run | steam | yes       |
       | Day Of Defeat  | dod         | hlds_run | steam | yes       |
+    And there are following machines:
+      | privateIp | username | key     | group     |
+      | 127.0.0.1 | testing1 | id_rsa1 | Team 1    |
+    And there are following steam servers:
+      | name  | machine  | port  | rconPassword | game           | installDir | maxplayers | installed |
+      | Test1 | testing1 | 27025 | test1        | Counter-Strike | test1      | 2          | yes       |
 
   Scenario: Seeing index of all games
     Given I am logged in with foo account
