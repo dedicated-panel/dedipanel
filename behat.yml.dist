@@ -17,16 +17,19 @@ default:
             debug: false
 
     suites:
-        default:
-            contexts:
-                - Behat\MinkExtension\Context\MinkContext
-                - DP\Core\CoreBundle\Behat\DefaultContext
         installer:
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
                 - DP\Core\CoreBundle\Behat\InstallerContext
             filters:
                 tags: "@installer"
+        user:
+            contexts:
+                - Behat\MinkExtension\Context\MinkContext
+                - DP\Core\CoreBundle\Behat\DefaultContext
+                - DP\Core\CoreBundle\Behat\ResourceContext
+            filters:
+                tags: "@user"
         admin:
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
@@ -41,9 +44,6 @@ default:
                 - DP\Core\CoreBundle\Behat\ResourceContext
             filters:
                 tags: "@servers"
-        user:
-            filters:
-                tags: "@user"
         dashboard:
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
