@@ -48,4 +48,31 @@ class AdminContext extends DefaultContext
 
         $this->assertSession()->elementContains('css', $selector, $text);
     }
+
+    /**
+     * @Then /^I should see the dedipanel version "(?<version>[^"]+)"$/
+     */
+    public function iShouldSeeTheDedipanelVersion($version)
+    {
+        $this->assertSession()->elementContains('css', 'footer p', sprintf('DediPanel v%s', $version));
+    }
+
+    /**
+     * @Then /^I should see "(?<value>[^"]+)" selected in "(?<select>[^"]+)"$/
+     */
+    public function iShouldSeeSelectedIn($select, $value)
+    {
+        $locator = sprintf('//select[@name="%s"]/option[@selected]', $select, $value);
+
+        $all = $this
+            ->getMink()
+            ->getSession()
+            ->getPage()
+            ->findAll('xpath', $locator)
+        ;
+
+        var_dump(array_pop($all)->getValue());
+
+        $this->assertSession()->elementsCount('xpath', $locator, 1);
+    }
 }

@@ -40,6 +40,6 @@ dedipanel_machine_delete:
         template: DPMachineBundle:Machine:delete.html.twig
 
 dedipanel_machine_connection_test:
-    pattern:  /{id}/connectionTest
+    pattern:  /{id}/connection-test
     defaults:
         _controller: dedipanel.controller.machine:testConnectionAction

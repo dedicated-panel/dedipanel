@@ -12,6 +12,8 @@
 namespace DP\Core\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -51,7 +53,15 @@ class ConfigController extends Controller
                 $this->addFlash('error', 'dedipanel.core.config.update_failed');
             }
 
-            return $this->redirect($this->generateUrl('dedipanel_core_config'));
+            // The whole solution is a bit ugly, but that do the job for now
+            set_time_limit(0);
+
+            $this
+                ->get('dedipanel.core.cache_clear_command')
+                ->run(new ArgvInput(), new ConsoleOutput())
+            ;
+
+            return $this->redirectToRoute('dedipanel_core_config');
         }
 
         if ($this->container->getParameter('kernel.environment') == 'prod') {
@@ -66,7 +76,8 @@ class ConfigController extends Controller
     private function createConfigForm(array $default = array(), $disabled = false)
     {
         $form = $this
-            ->createFormBuilder($default)
+            ->get('form.factory')
+            ->createNamedBuilder('core_settings', 'form', $default)
             ->add('debug_mode', 'choice', array(
                 'choices' => array('Non', 'Oui'),
                 'disabled' => $disabled,
@@ -129,7 +140,7 @@ class ConfigController extends Controller
 
     private function verifyUpdate()
     {
-        /** @var DP\Core\CoreBundle\Service\UpdateWatcherService $watcher */
+        /** @var \DP\Core\CoreBundle\Service\UpdateWatcherService $watcher */
         $watcher = $this->get('dp_core.update_watcher.service');
 
         if ($watcher->isUpdateAvailable()) {
