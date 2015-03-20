@@ -19,9 +19,13 @@
 {% extends "::base.html.twig" %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" />
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('css/icomoon/style.css') }}" />
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('css/main.css') }}" />
+        {% stylesheets
+        '@DPCoreBundle/Resources/public/css/main.css'
+        '@DPCoreBundle/Resources/public/css/icomoon/style.css'
+        '@MopaBootstrapBundle/Resources/public/less/mopabootstrapbundle.less' 
+        %}
+            <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+        {% endstylesheets %}
 
     {% block bundleStylesheets %}{% endblock %}
 {% endblock %}
@@ -92,4 +96,17 @@
             </div>
         </section>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {% javascripts
+    '@MopaBootstrapBundle/Resources/public/bootstrap/js/tests/vendor/jquery.min.js'
+    '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-collection.js'
+    '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-subnav.js'
+    '@DPCoreBundle/Resources/public/js/main.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}        
+
 {% endblock %}

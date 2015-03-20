@@ -28,14 +28,10 @@
                 {% if is_granted('ROLE_DP_GAME_STEAM_ADMIN') or is_granted('ROLE_DP_GAME_MINECRAFT_ADMIN') %}
                     <div class="widget-container">
                         <div class="widget-heading">
-                            {% if steamServers %}
-                                <span class="icon-steam icon"></span>
-                                <a href="{{ path('dedipanel_steam_index') }}">{{ 'menu.steamServers'|trans }}</a>
-                            {% endif %}
-                            {% if minecraftServers %}
-                                <span class="icon-minecraft icon"></span>
-                                <a href="{{ path('dedipanel_minecraft_index') }}">{{ 'menu.minecraftServers'|trans }}</a>
-                            {% endif %}
+                            <span class="icon-steam icon"></span>
+                            <a href="{{ path('dedipanel_steam_index') }}">{{ 'menu.steam'|trans }}</a> /
+                            <span class="icon-minecraft icon"></span>
+                            <a href="{{ path('dedipanel_minecraft_index') }}">{{ 'menu.minecraft'|trans }}</a>
                         </div>
                         <div class="widget-content">
 

@@ -32,10 +32,13 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        []
+    #bundles:        [ ]
     # java: /usr/bin/java
     filters:
         cssrewrite: ~
+        lessphp:
+            file: %kernel.root_dir%/../vendor/oyejorge/less.php/lessc.inc.php
+            apply_to: "\.less$"
         # closure:
         #     jar: %kernel.root_dir%/java/compiler.jar
         # yui_css:

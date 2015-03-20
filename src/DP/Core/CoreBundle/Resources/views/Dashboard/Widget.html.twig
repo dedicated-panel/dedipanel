@@ -67,7 +67,8 @@
 {% endmacro %}
 
 {% macro _serverTeamspeak(teamspeakServers, sort) %}
-    <table id="teamspeak" class="server-list table table-{{ sort }}">
+    {% if teamspeakServers %}
+        <table id="teamspeak" class="server-list table table-{{ sort }}">
             {% for teamspeakServer in teamspeakServers %}
                 {% if teamspeakServer.query.isOnline %}{% set color = 'green' %}
                 {% else %}{% set color = 'red' %}{% endif %}
@@ -78,14 +79,15 @@
                     <td>{{ teamspeakServer.machine.publicIp }}:{{ teamspeakServer.queryPort }}</td>
                 </tr>
             {% endfor %}
-    </table>  
+        </table>  
+    {% endif %}
 {% endmacro %}
 
 {% macro _users(users, sort) %}
     
     {% import '::buttons.html.twig' as dedipanel_buttons %}
-    <table id="users" class="table table-{{ sort }}">
-        {% if users %}
+    {% if users %}
+        <table id="users" class="table table-{{ sort }}">
             <thead>
                 <tr>
                     <th>{{ 'user.fields.username'|trans }}</th>
@@ -104,13 +106,13 @@
                 </tr>
             {% endfor %}
             </tbody>
-        {% endif %}
-    </table>
+        </table>
+    {% endif %}
 {% endmacro %}
 
 {% macro _machines(machines, sort) %}
-    <table id="machines" class="table table-{{ sort }}">
-        {% if machines %}
+    {% if machines %}
+        <table id="machines" class="table table-{{ sort }}">
             <thead>
                 <tr>
                     <th>{{ 'machine.fields.id'|trans }}</th>
@@ -132,6 +134,6 @@
                 </tr>
             {% endfor %}
             </tbody>
-        {% endif %}
-    </table>
+        </table>
+    {% endif %}
 {% endmacro %}

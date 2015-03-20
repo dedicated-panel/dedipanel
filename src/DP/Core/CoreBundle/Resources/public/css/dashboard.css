@@ -15,14 +15,14 @@
 .widget-container .widget-heading {
     background: rgba(255, 255, 255, 0.94);
     height: 40px;
-    padding: 3px;
+    padding: 7px;
     color: #858585;
     font-size: 20px;
     width: 100%;
 }
 .widget-container .widget-heading span {
-    font-size: 30px;
-    margin: 0 10px 0;
+    font-size: 23px;
+    margin: 0px 5px 0px 10px;
     font-weight: normal;
     color: rgba(68, 68, 68, 0.42);
 }
