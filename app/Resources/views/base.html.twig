@@ -31,17 +31,6 @@
     <body>
         <div id="outer">{% block baseBody %}{% endblock %}</div>
 
-        {% javascripts
-        '@MopaBootstrapBundle/Resources/public/bootstrap/js/tests/vendor/jquery.min.js'
-        '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-collection.js'
-        '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-subnav.js'
-        'js/main.js'
-        %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}        
-
-        <script src="{{ asset('js/main.js') }}" type="text/javascript"></script>
-
         {% block javascripts %}{% endblock %}
     </body>
 </html>

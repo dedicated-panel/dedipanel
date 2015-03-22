@@ -27,8 +27,8 @@
     font-style: normal;
 }
 
-body	{
-    background: #2d2d2d !important;
+body    {
+    background: #CDCDCD !important;
     color: #393939;
     font-family: Arial;
     font-size: 0px;
@@ -37,80 +37,49 @@ body	{
     margin: 0;
     padding: 0;
 }
-
-
-/*** HEADER ***/
-aside{
-    display: none !important;
+.login{
+    margin: 250px 0;
+    background: #2d353c!important;
 }
-i{
-   opacity: 0.6; 
+
+.login .login-content {
+    padding: 30px 40px;
+    color: #999;
+    width: 450px;
+    margin: 0 auto;
 }
-header {
-    padding: 50px 0 20px 0;
+.login .login-header {
+    position: absolute;
+    top: 90px;
     text-align: center;
+    left: 50%;
+    right: 0;
+    width: 450px;
+    padding: 0 40px;
+    margin-left: -225px;
 }
 
-.logo {
-	width: 290px;
-	height: 80px;
-	margin: 0 auto;
-}
-#page {
-	width: 95%;
-	margin: auto;
-}
-#titre {	
-	font-family: 'Cuprum', Arial, sans-serif;
-	color: #55585D;
-	font-size: 24px;
-	display: block;
+#titre {    
+    font-family: 'Cuprum', Arial, sans-serif;
+    color: #55585D;
+    font-size: 24px;
+    display: block;
 
 }
-.actions {
-    font-size: 14px;
-    padding: 5px;
-}
-#logbox {
-    background: linear-gradient(to bottom, #F7F7F7 0%, #E9E9E9 100%) #F7F7F7;
-    width: 266px;
-    min-height: 310px;
-    margin: auto;
-    padding: 20px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-    border: 4px solid rgba(54, 54, 54, 0.9);
-}
-
-#logbox h1 {
-    margin: 0 0 20px 0;
-    padding: 0;
-    border-bottom: 1px solid #E5E5E5;
-    height: 40px;
-    font-weight: normal;
-}
-#logbox h1 .icone {
-    font-family: 'WebSymbolsRegular', cursive;
-	font-size: 25px;
-	margin-right: 6px;
-	color: #0077B5;
-}	
-
 
 /*** Footer ***/
 
 footer {
-	padding: 3px 0px;
+    padding: 3px 0px;
     text-align: center;
 }
 footer p {
     text-align: center;
-    color: #818181;	 
+    color: #4C4C4C;  
     font-size: 11px;
 }
 footer p img {
-	margin-bottom: -10px;
+    margin-bottom: -10px;
 }
 footer a:selected, footer a:hover{
     color: #000;
@@ -120,77 +89,10 @@ footer a:selected, footer a:hover{
 /* =============================================================== */
 
 a {
-	color: #818181;
-	text-decoration:none
+    color: #818181;
+    text-decoration:none
 }
 a:hover {
-	color: black;
-	text-decoration: none;
-}
-#logbox form {
-    margin: 20px 0 20px 0;
-}
-#logbox .alert-danger {
-    margin-bottom: 5px;
-}
-#logbox .input-prepend {
-    margin: 0 0 25px 0;
-}
-#logbox .input-prepend.last {
-    margin: 0 0 5px 0;
-}
-#logbox .input-prepend input { 		
-	padding: 4px 8px;
-	margin: 0;
-	background: #fff; 
-	width: 220px; 
-	font-size: 14px; 
-	color: #555; 
-	border: 1px #ccc solid;
-	cursor: pointer;
-	/*-webkit-box-shadow: 0px 0px 4px #aaa;*/
-	/*-moz-box-shadow: 0px 0px 4px #aaa;*/ 
-	/*box-shadow: 0px 0px 4px #aaa;*/	
-	/*-webkit-transition: background 0.3s linear;*/							
-}
-#logbox .input-prepend input:hover { 
-	background: #eee; 
-}
-#logbox label { 
-    font-size: 14px;
-    color: #666; 
-}
-#logbox input[type='checkbox'] {
-    width: 1px;
-    display: none;
-}
-#logbox input[type='checkbox'] + label {
-        margin: 0;
-        clear: none;
-        padding: 5px 0 4px 24px;
-        cursor: pointer;
-        background: url(../images/icones/form/off.png) left center no-repeat; 
-}
-#logbox input[type='checkbox']:checked + label {
-        background-image: url(../images/icones/form/check.png);
-}	
-#logbox input.submit { 	
-	width: 150px; 
-	color: #eee; 
-	text-transform: uppercase; 
-	margin-top: 10px;
-	background-color: #0077b5;
-	border: none;	
-	-webkit-transition: -webkit-box-shadow 0.3s linear;		
-	-moz-border-radius: 4px; 
-	-webkit-border-radius: 4px;
-	border-radius: 4px; 						
-	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#0077b5), to(#00507a)); 
-	background: -moz-linear-gradient(25% 75% 90deg,#00507a, #0077b5);		
-} 
-#logbox input.submit:hover { 		
-	-webkit-box-shadow: 0px 0px 20px #555;
-	-moz-box-shadow: 0px 0px 20px #aaa; 
-	box-shadow: 0px 0px 20px #555;	
-	cursor:  pointer; 
+    color: black;
+    text-decoration: none;
 }
