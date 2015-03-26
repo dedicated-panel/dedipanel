@@ -147,16 +147,16 @@ color: #889097;
     width: 250px;
     position: fixed;
     height: 100%;
-    background: #1E2128;
+    background: #242A2F!important;
     float: left;
     z-index: 1;
 }
 #sidebar #logo {
-    height: 40px;
-    margin: 5px 0px 15px 26px;
+    height: 30px;
+    margin: 5px 0px 15px 40px;
 }
 #sidebar #logo a img {
-    height: 50px;
+    height: 43px;
 }
 #sidebar nav {
     margin-top: 2px;
@@ -169,9 +169,8 @@ color: #889097;
     display: block;
     min-height: 40px;
     margin-bottom: 2px;
-    background: rgba(44, 44, 44, 0.25);
+    background: #1D2225!important;
     overflow: hidden;
-    border-top: 1px solid #353535;
 }
 #sidebar nav li.current{
     background-color: #16191F;
@@ -247,10 +246,10 @@ color: #889097;
 
 #inner h1#title {
     margin: 0px 0 0 0;
-    padding: 23px 0px 0px 15px;
+    padding: 15px 0px 0px 15px;
 
-    height: 60px;
-    background-color: #1E2128;
+    height: 50px;
+    background-color: #242A2F!important;
     color: #bebebe;
     font-size: 27px;
 
@@ -415,21 +414,9 @@ footer p a:hover {
     margin-bottom: 0;
 }
 
-/* Formulaires */
-.form-group, form {
-    margin: 15px 0 0 0;
-}
 .form-actions {
     padding: 20px 0 20px 20px; background: #DDD; 
     margin: 20px -19px -9px -19px;
-}
-form.form-edit .form-actions.contain-delete button {
-    display: block;
-    float: left;
-    margin-left: 15px;
-}
-form.form-edit .form-actions.contain-delete button:first-of-type {
-    margin-left: 0;
 }
 label { 
     font-family: 'Yanone Kaffeesatz', arial, sans-serif;
@@ -464,28 +451,6 @@ input[type="checkbox"] + label > .symfony-form-required/*,
  input[type="checkbox"] + label > span:last-of-type */ {
     display: none;
 } 
-
-.form-group {
-    padding: 20px 0 20px 20px;
-    background: #DDD;
-    margin: 20px -19px -9px -19px;
-}
-.form-group form {
-    margin: 0;
-}
-.form-group form.form-edit, 
-.form-group form.form-delete {
-    float: left;
-}
-.form-group form .form-actions {
-    padding: 0;
-    margin: 0;
-    border-top: 0;
-}
-.form-group form.form-edit + form.form-delete, 
-.form-group form.form-delete + form.form-delete {
-    margin-left: 10px;
-}
 
 .template-server-cfg {
     width: 350px;
@@ -530,35 +495,71 @@ table.table td {
 }
 .btn {
     padding: 0px 10px !important;
-    margin-bottom:10px;
-    border-width: 0 1px 2px 1px;
     font-size: 12px !important;
-    border: none;
+    border: none !important;
 }
 .btn:hover {
-    padding: 0px 10px 0px 10px !important;
-    margin-bottom:10px;
-    border-width: 0 1px 2px 1px;
+    padding: 0px 10px !important;
     font-size: 12px !important;
-    border: none;
+    border: none !important;
 }
 
-.btn-primary { color: #ffffff; background: #106D91 !important; border: none;}
-.btn-primary:hover, .btn-primary:focus, .btn-group.open .dropdown-toggle.btn-primary { background-color: #18799E !important; }
+.btn-primary { 
+    color: #ffffff; 
+    background: #1582AD !important;
+}
+.btn-primary:hover, 
+.btn-primary:focus, 
+.btn-group.open .dropdown-toggle.btn-primary { 
+    background-color: #146584 !important; 
+}
 
-.btn-danger { color: #ffffff; background: #E2534A !important; border: none; }
-.btn-danger:hover, .btn-danger:active, .btn-danger.active, .btn-danger.disabled, .btn-danger[disabled] { color: #fff; background: #D44B45; }
+.btn-danger { 
+    color: #ffffff; 
+}
+.btn-danger:hover, 
+.btn-danger:active, 
+.btn-danger.disabled { 
+    color: #ffffff; 
+}
 
-.btn-success { color: #ffffff; background: #18971C !important; border: none; }
-.btn-success:hover, .btn-success:focus, .btn-group.open .dropdown-toggle.btn-success { background: #25A329 !important; border: none; }
+.btn-success { 
+    color: #ffffff; 
+    background: #18971C !important;
+}
+.btn-success:hover, 
+.btn-success:focus,
+.btn-group.open .dropdown-toggle.btn-success {
+    background: #25A329 !important; 
+}
 
-.btn-default {color: #ffffff; background: #798d8f !important; border: none;text-shadow: none;}
-.btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open > .dropdown-toggle.btn-default { color: #ffffff; background: #95a5a6 !important; border: none; }
+.btn-default {
+    color: #ffffff !important; 
+    background: #798d8f !important;
+}
+.btn-default:hover, 
+.btn-default:focus, 
+.btn-default:active, 
+.btn-default.active, 
+.open > .dropdown-toggle.btn-default { 
+    color: #ffffff; 
+    background: #616E6F !important;
+}
 
-.btn-show {color: #252525; background: #F0F0F0 !important; border: none;text-shadow: none;}
-.btn-show:hover, .btn-show:focus, .btn-show:active, .btn-show.active, .open > .dropdown-toggle.btn-show {background: #F7F7F7 !important; border: none; }
+.btn-show {
+    color: #252525; 
+    background: #F0F0F0 !important;
+}
+.btn-show:hover, 
+.btn-show:focus, 
+.btn-show:active, 
+.btn-show.active, 
+.open > .dropdown-toggle.btn-show {
+    background: #F7F7F7 !important;
+}
 
 textarea {
     width: 600px;
     height: 250px;
+}
 }
