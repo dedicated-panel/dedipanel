@@ -28,7 +28,7 @@
 }
 
 body    {
-    background: #CDCDCD !important;
+    background: #B8B8B8 !important;
     color: #393939;
     font-family: Arial;
     font-size: 0px;
@@ -39,7 +39,7 @@ body    {
 }
 .login{
     margin: 250px 0;
-    background: #2d353c!important;
+    background: #242A2F!important;
 }
 
 .login .login-content {
@@ -61,7 +61,7 @@ body    {
 
 #titre {    
     font-family: 'Cuprum', Arial, sans-serif;
-    color: #55585D;
+    color: #696969;
     font-size: 24px;
     display: block;
 
