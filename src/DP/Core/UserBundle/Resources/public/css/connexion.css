@@ -27,36 +27,66 @@
     font-style: normal;
 }
 
-body    {
-    background: #B8B8B8 !important;
-    color: #393939;
-    font-family: Arial;
-    font-size: 0px;
-    font-size:13px;
-    line-height:19px;
-    margin: 0;
-    padding: 0;
+@media (max-width: 1199px) {
+    body    {
+        background: #242A2F!important;
+        color: #393939;
+        font-family: Arial;
+        font-size: 0px;
+        font-size:13px;
+        line-height:19px;
+        margin: 0;
+        padding: 0;
+    }
+    .login{
+        margin: 150px 0 0 0;
+        background: #242A2F!important;
+    }
+    .login .login-header {
+        position: absolute;
+        top: 0px;
+        text-align: center;
+        right: 0;
+        padding: 0 40px;
+        background: #B8B8B8 !important;
+    }
+    .login .login-content {
+        padding: 30px 40px;
+        color: #999;
+        margin: 0 auto;
+    }
 }
-.login{
-    margin: 250px 0;
-    background: #242A2F!important;
-}
-
-.login .login-content {
-    padding: 30px 40px;
-    color: #999;
-    width: 450px;
-    margin: 0 auto;
-}
-.login .login-header {
-    position: absolute;
-    top: 90px;
-    text-align: center;
-    left: 50%;
-    right: 0;
-    width: 450px;
-    padding: 0 40px;
-    margin-left: -225px;
+@media (min-width: 1199px) {
+    body{
+        background: #B8B8B8!important;
+        color: #393939;
+        font-family: Arial;
+        font-size: 0px;
+        font-size:13px;
+        line-height:19px;
+        margin: 0;
+        padding: 0;
+    }
+    .login{
+        margin: 250px 0;
+        background: #242A2F!important;
+    }
+    .login .login-header {
+        position: absolute;
+        top: 90px;
+        text-align: center;
+        left: 50%;
+        right: 0;
+        width: 450px;
+        padding: 0 40px;
+        margin-left: -225px;
+    }
+    .login .login-content {
+        padding: 30px 40px;
+        color: #999;
+        width: 450px;
+        margin: 0 auto;
+    }
 }
 
 #titre {    
@@ -64,18 +94,14 @@ body    {
     color: #696969;
     font-size: 24px;
     display: block;
-
 }
-
-/*** Footer ***/
-
 footer {
     padding: 3px 0px;
     text-align: center;
 }
 footer p {
     text-align: center;
-    color: #4C4C4C;  
+    color: #999;  
     font-size: 11px;
 }
 footer p img {
@@ -85,8 +111,6 @@ footer a:selected, footer a:hover{
     color: #000;
     text-decoration: none;
 }
-
-/* =============================================================== */
 
 a {
     color: #818181;
