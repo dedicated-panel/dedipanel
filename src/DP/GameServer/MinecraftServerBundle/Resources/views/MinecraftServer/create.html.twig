@@ -11,6 +11,7 @@
 
 {% import '::actions.html.twig' as dedipanel_actions %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
+{% form_theme form 'MopaBootstrapBundle:Form:fields.html.twig' %}
 
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('bundles/dpminecraftserver/js/add.js') }}"></script>
@@ -23,7 +24,7 @@
 {% block body %}
     <h2>{{ 'minecraft.add'|trans }}</h2>
     
-    <form action="{{ path('dedipanel_minecraft_create') }}" method="post" {{ form_enctype(form) }} id="form-create">
+    <form action="{{ path('dedipanel_minecraft_create') }}" method="post" {{ form_enctype(form) }} id="form-create" class="form-horizontal">
         {{ form_errors(form) }}
 
         {{ form_row(form.name) }}

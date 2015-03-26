@@ -11,6 +11,7 @@
 
 {% import '::actions.html.twig' as dedipanel_actions %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
+{% form_theme form 'MopaBootstrapBundle:Form:fields.html.twig' %}
 
 {% block title %}
     {{ dedipanel_buttons.back(path('dedipanel_plugin_show', {'id': plugin.id}), 'plugin.title.plugin'|trans) }}
@@ -19,7 +20,7 @@
 {% block body %}
     <h2>{{ 'plugin.title.edit'|trans }}</h2>
 
-    <form id="form-update" action="{{ path('dedipanel_plugin_update', { 'id': plugin.id }) }}" method="post" class="form-edit">    
+    <form method="post" action="{{ path('dedipanel_plugin_update', { 'id': plugin.id }) }}" id="form-update" class="form-horizontal">  
         {{ form_widget(form) }}
     </form>
         

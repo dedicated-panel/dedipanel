@@ -11,6 +11,7 @@
 
 {% import '::actions.html.twig' as dedipanel_actions %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
+{% form_theme form 'MopaBootstrapBundle:Form:fields.html.twig' %}
 
 {% block title %}
     {{ dedipanel_buttons.back(path('dedipanel_teamspeak_index'), 'teamspeak.title.teamspeak'|trans) }}
@@ -19,7 +20,7 @@
 {% block body %}
     <h2>{{ 'teamspeak.title.update'|trans }}</h2>
 
-    <form action="{{ path('dedipanel_teamspeak_update', {id: teamspeak.id}) }}" method="post" {{ form_enctype(form) }} class="form-edit">
+    <form action="{{ path('dedipanel_teamspeak_update', {id: teamspeak.id}) }}" method="post" {{ form_enctype(form) }} class="form-horizontal">
         {{ form_errors(form) }}
 
         {{ form_row(form.machine) }}
