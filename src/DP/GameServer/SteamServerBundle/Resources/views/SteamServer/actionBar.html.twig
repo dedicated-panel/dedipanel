@@ -12,7 +12,7 @@
 <div class="actions row">
     {% if is_granted('ROLE_DP_GAME_STEAM_STATE', server) %}
         {% if online %}
-            <div class="col-xs-4">
+            <div class="col-xs-3 col-md-3">
                 <a href="{{ path('dedipanel_steam_change_state', { 'id': sid, 'state': 'stop' }) }}" title="{{ 'game.stop'|trans }}">
                     <span class="icon icon-pause"></span>
                 </a>
@@ -22,7 +22,7 @@
                 </a>
             </div>
         {% else %}
-            <div class="col-xs-4">
+            <div class="col-xs-3 col-md-3">
                 <a href="{{ path('dedipanel_steam_change_state', { 'id': sid, 'state': 'start' }) }}" title="{{ 'game.start'|trans }}">
                     <span class="icon icon-uni22"></span>
                 </a>
@@ -30,7 +30,7 @@
         {% endif %}
     {% endif %}
    
-    <div class="col-xs-7">
+    <div class="col-xs-7 col-md-7">
         {% if is_granted('ROLE_DP_GAME_STEAM_UPDATE', server) %}
             <a href="{{ path('dedipanel_steam_update', {id: sid}) }}" title="{{ 'game.edit'|trans }}">
                 <span class="icon icon-uni25"></span>
@@ -57,7 +57,7 @@
     </div>
 
         {% if is_granted('ROLE_DP_GAME_STEAM_SHOW', server) and show and online %}
-            <div class="col-xs-1">
+            <div class="col-xs-1 col-md-1">
                 <a href="{{ path('dedipanel_steam_show', {id: sid}) }}" title="{{ 'steam.show'|trans }}" class="slide">
                     <span class="icon icon-option"></span>
                 </a>

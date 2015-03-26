@@ -14,8 +14,6 @@
 
 {% block bundleStylesheets %}
     <link rel="stylesheet" href="{{ asset('bundles/dpgameserver/css/game.css') }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/sonatajquery/themes/base/jquery.ui.theme.css') }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/sonatajquery/themes/base/jquery.ui.progressbar.css') }}" />
 {% endblock %}
 
 {% block javascripts %}
@@ -28,7 +26,7 @@
 {% endblock %}
 
 {% macro game_image(entity) %}
-    <div class="game-image col-xs-2">
+    <div class="game-image  col-xs-3 col-md-2">
         {% set gameImg = entity.game.launchName %}
 
         {% if is_granted('ROLE_DP_GAME_STEAM_SHOW', entity) %}
@@ -54,10 +52,10 @@
         {% for entity in steams %}
             <div class="server-item row">
                 {% if not entity.isInstallationEnded %}
-                    <div class="principal clearfix">
+                    <div class="principal">
                         {{ _self.game_image(entity) }}
 
-                        <div class="infos col-xs-3">
+                        <div class="infos col-xs-7 col-md-4">
                             <div class="titre">
                                 {% if is_granted('ROLE_DP_GAME_STEAM_SHOW', entity) %}
                                     <a href="{{ path('dedipanel_steam_show', {id: entity.id}) }}">{{ entity.name }}</a>
@@ -81,7 +79,7 @@
                         
                         {% if is_granted('ROLE_DP_GAME_STEAM_CREATE') or is_granted('ROLE_DP_GAME_STEAM_UPDATE', entity) %}
                             
-                            <div class="installation  col-xs-8">
+                            <div class="installation col-xs-12 col-md-6">
                                 <div class="update-status">
                                     <span class="icon-spam" alt="{{ 'game.update_status'|trans }}"></span>
                                     <a href="{{ path('dedipanel_steam_install', {id: entity.id }) }}">{{ 'game.update_status'|trans }}</a>
@@ -101,10 +99,10 @@
                     {% set banned = (entity.query.isBanned(true) == true) %}                    
                     {% set online = (entity.query.latency != false) %}
 
-                    <div class="principal clearfix">
+                    <div class="principal">
                         {{ _self.game_image(entity) }}
 
-                        <div class="infos col-xs-3">
+                        <div class="infos col-xs-7 col-md-4">
                             <div class="titre">
                                 {% if is_granted('ROLE_DP_GAME_STEAM_SHOW', entity) %}
                                     <a href="{{ path('dedipanel_steam_show', {id: entity.id}) }}">{{ entity.name }}</a>
@@ -127,22 +125,22 @@
                                         {{ entity.query.serverInfos['maxPlayers'] }}
                                     </span>
                                 {% elseif banned %}
-                                        <span class="banned">{{ 'game.banned'|trans }}</span>
+                                    <br /><span class="banned">{{ 'game.banned'|trans }}</span>
                                 {% else %}
-                                        <span class="offline">{{ 'game.offline'|trans }}</span>
+                                    <br /><span class="offline">{{ 'game.offline'|trans }}</span>
                                 {% endif %}
                             </div>
                         </div>
                         
                         {% if entity.isInstallationEnded %}
-                            <div class="col-xs-7">
+                            <div class="col-xs-12 col-md-6">
                                 {% include 'DPSteamServerBundle:SteamServer:actionBar.html.twig' with {show: true, online: online, server: entity} %}
                             </div>
                         {% endif %}
                     </div>
 
                     {% if online %}
-                        <div class="details clearfix col-xs-12">
+                        <div class="details col-xs-12">
                             <div class="map-image ">
                                 {% if entity.game.sourceImageMaps is defined %}
                                     <img src="{{ entity.game.sourceImagesMaps }}{{ entity.query.serverInfos['map'] }}.jpg" alt="{{ entity.query.serverInfos['map'] }}" />

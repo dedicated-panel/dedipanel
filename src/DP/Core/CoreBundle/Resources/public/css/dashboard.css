@@ -29,7 +29,7 @@
 .widget-container .paddle {
     padding: 3px;
 }
-.table-filters tbody tr td {
+.table-filters tbody tr td.pics {
     margin: 0px;
     padding: 0;
 }

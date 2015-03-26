@@ -85,8 +85,18 @@
         </section>
 
         <section id="inner">
-            <h1 id="title" class="clearfix">{% block title %}{% endblock %}</h1>
+            <div id="logo-mobile">
+                <a href="{{ path('_welcome') }}">
+                    <img src="{{ asset('images/header/logo.png') }}" title="DediPanel" />
+                </a>
+                <button type="button" class="navbar-toggle" id="sidebar-toggle">
+                    <span class="icon-uni31"></span>
+                </button>
+            </div>
+            <h1 id="title">{% block title %}{% endblock %}</h1>
+
             {% block widget %}{% endblock %}
+
             <div id="page-content" class="clearfix">
                 <div class="container-fluid">
                     <div class="inner-body">
@@ -95,18 +105,6 @@
                 </div>
             </div>
         </section>
+        
     </div>
-{% endblock %}
-
-{% block javascripts %}
-
-    {% javascripts
-    '@MopaBootstrapBundle/Resources/public/bootstrap/js/tests/vendor/jquery.min.js'
-    '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-collection.js'
-    '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-subnav.js'
-    '@DPCoreBundle/Resources/public/js/main.js'
-    %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}        
-
 {% endblock %}

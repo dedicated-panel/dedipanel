@@ -51,7 +51,6 @@ a:hover {
     text-decoration: none;
 }
 
-
 body {
     background-color: #dfe5e9 !important;
     width: 100%;
@@ -142,22 +141,110 @@ color: #889097;
     transition: color 0.35s ease;
 }
 
-/* Sidebar */
-#sidebar {
-    width: 250px;
-    position: fixed;
-    height: 100%;
-    background: #242A2F!important;
-    float: left;
-    z-index: 1;
+@media (max-width: 1199px) {
+
+    #sidebar {
+        width: 250px;
+        overflow: scroll;
+        margin-top: 60px;
+        position: fixed;
+        height: 100%;
+        background: #242A2F!important;
+        float: left;
+        z-index: 1;
+    }
+    #sidebar #logo {
+        display: none;
+    }
+    .navbar-toggle {
+        position: absolute !important;
+        padding: 0px !important;
+        color: #fff;
+        margin: 0 !important;
+        right: 15px;
+        top: 17px;
+        font-size: 24px;
+    }
+    .navbar-toggle.active {
+        color: rgb(1, 112, 170);
+    }
+    #logo-mobile{
+        background: #1C1F28 ;
+    }
+    #logo-mobile img{
+        height: 60px ;
+        padding: 3px;
+        margin-left: 10px;
+    }
+    #sidebar nav ul {
+        margin: 0;
+    }
+    #inner #page-content {
+        min-height: none !important;
+    }
+    #inner #page-content .container-fluid {
+        padding-left: 10px;
+        margin-bottom: 20px; 
+        margin-top: 20px;
+        background-color: #fff; 
+        border: 1px solid transparent; 
+        border-radius: 2px; 
+        border-color: #ddd; 
+        -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05); 
+        box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    }
+    #inner #page-content #top-nav {
+        margin: -107px -15px;
+        float: right;    
+    }
+    #inner #page-content #top-nav li a {
+        background: white !important;
+        color: rgb(76, 74, 74);
+        border: none;
+        z-index: ;
+    }
+
 }
-#sidebar #logo {
-    height: 30px;
-    margin: 5px 0px 15px 40px;
+@media (min-width: 1199px) {
+
+    #sidebar {
+        width: 250px;
+        position: fixed;
+        height: 100%;
+        background: #242A2F!important;
+        float: left;
+        z-index: 1;
+    }
+    #sidebar #logo {
+        height: 30px;
+        margin: 5px 0px 15px 40px;
+    }
+    #sidebar #logo a img {
+        height: 43px;
+    }
+    #logo-mobile{
+        display: none;
+    }
+    #inner {
+        position: relative;  
+        margin-left: 250px;
+    }
+    #inner #page-content .container-fluid {
+        padding-left: 10px;
+        margin-bottom: 20px; 
+        background-color: #fff; 
+        border: 1px solid transparent; 
+        border-radius: 2px; 
+        border-color: #ddd; 
+        -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05); 
+        box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    }
+    #inner #page-content #top-nav {
+        margin: -68px 0 0 0;
+        float: right;    
+    }
 }
-#sidebar #logo a img {
-    height: 43px;
-}
+
 #sidebar nav {
     margin-top: 2px;
 }
@@ -238,24 +325,15 @@ color: #889097;
     border-bottom: 0;
 }
 
-/* Inner */
-#inner {
-    position: relative;  
-    margin-left: 250px;
-}
-
-#inner h1#title {
+#inner h1#title{
     margin: 0px 0 0 0;
     padding: 15px 0px 0px 15px;
-
     height: 50px;
     background-color: #242A2F!important;
     color: #bebebe;
     font-size: 27px;
-
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-weight: normal;
-
 }
 #inner h1#title a {
     font-size: 23px;
@@ -275,12 +353,6 @@ color: #889097;
     min-height: 155px;
 }
 
-#inner #page-content .container-fluid {
-    padding-left: 10px;
-    margin-bottom: 20px; background-color: #fff; border: 1px solid transparent; border-radius: 2px; 
-    border-color: #ddd; -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05); box-shadow: 0 1px 1px rgba(0,0,0,.05);
-}
-
 #inner #page-content .container-fluid .breadcrumb {
     margin: 0 0 10px 0;
 }
@@ -296,10 +368,7 @@ color: #889097;
     margin: 0 0 30px 0;
     border-bottom: 1px solid #DFDFDF;
 }
-#inner #page-content #top-nav {
-    margin: -68px 0 0 0;
-    float: right;    
-}
+
 #inner #page-content #top-nav li a {
     padding-top: 0;
     padding-bottom: 0;

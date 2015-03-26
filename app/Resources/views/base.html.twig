@@ -19,7 +19,7 @@
 <html lang="fr">
     <head>
         <meta charset="utf-8" />
-
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>DediPanel</title>
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
         
@@ -32,5 +32,13 @@
         <div id="outer">{% block baseBody %}{% endblock %}</div>
 
         {% block javascripts %}{% endblock %}
+        {% javascripts
+            '@MopaBootstrapBundle/Resources/public/bootstrap/js/tests/vendor/jquery.min.js'
+            '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-collection.js'
+            '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-subnav.js'
+            '@DPCoreBundle/Resources/public/js/main.js'
+            %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}    
     </body>
 </html>
