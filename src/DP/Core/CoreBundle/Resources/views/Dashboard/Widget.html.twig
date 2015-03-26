@@ -7,10 +7,10 @@
  # file that was distributed with this source code.
  #}
 
-{% macro _widgetHeader(title, icone, paddle, route) %}
-    <div class="widget-container">
+{% macro _widgetHeader(title, icone, paddle, route, bg, color) %}
+    <div class="widget-container {{ bg }}">
         <div class="widget-heading">
-            <span class="{{ icone }}"></span><a href="{{ path(route) }}">{{ title|trans }}</a>
+            <span class="{{ icone }}  {{ color }}"></span><a href="{{ path(route) }}">{{ title|trans }}</a>
         </div>
         <div class="widget-content {{ paddle }}">
 {% endmacro %}
@@ -21,7 +21,6 @@
 {% endmacro %}
 
 {% macro _serverSteam(steamServers) %}
-<div class="table-responsive">
     <table id="steam" class="server-list table table-filters">
         {% for steamServer in steamServers %}
             
@@ -42,7 +41,6 @@
             </tr>
         {% endfor %}       
     </table>
-</div>
 {% endmacro %}
 
 {% macro _serverMinecraft(minecraftServers) %}
@@ -72,12 +70,12 @@
     {% if teamspeakServers %}
         <table id="teamspeak" class="server-list table table-{{ sort }}">
             {% for teamspeakServer in teamspeakServers %}
-                {% if teamspeakServer.query.isOnline %}{% set color = 'green' %}
-                {% else %}{% set color = 'red' %}{% endif %}
+                {% if teamspeakServer.query.isOnline %}{% set color = 'success' %}
+                {% else %}{% set color = 'danger' %}{% endif %}
 
-                <tr class="server-item">
-                    <td class="{{ color }} pics"><span class="icon-uni47"></span></td>
-                    <td><a class="padding-left" href="{{ path('dedipanel_teamspeak_instance_index', {serverId: teamspeakServer.id}) }}">{{ teamspeakServer.name }}</a></td>
+                <tr class="server-item alert-{{ color }}">
+                    <td class="pics teamspeak"><span class="icon-uni47"></span></td>
+                    <td ><a class="padding-left" href="{{ path('dedipanel_teamspeak_instance_index', {serverId: teamspeakServer.id}) }}">{{ teamspeakServer.name }}</a></td>
                 </tr>
             {% endfor %}
         </table>  
@@ -88,51 +86,47 @@
     
     {% import '::buttons.html.twig' as dedipanel_buttons %}
     {% if users %}
-        <div class="table-responsive">
-            <table id="users" class="table table-{{ sort }}">
-                <thead>
-                    <tr>
-                        <th>{{ 'user.fields.username'|trans }}</th>
-                        <th>{{ 'user.fields.lastLogin'|trans }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for user in users %}
-                    <tr>
-                        <td><a href="{{ path('dedipanel_user_show', {id: user.id}) }}">{{ user.username }}</a></td>
-                        <td>{{ user.lastlogin|date('h:m d/m/Y') }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+        <table id="users" class="table table-{{ sort }}">
+            <thead>
+                <tr>
+                    <th>{{ 'user.fields.username'|trans }}</th>
+                    <th>{{ 'user.fields.lastLogin'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td><a href="{{ path('dedipanel_user_show', {id: user.id}) }}">{{ user.username }}</a></td>
+                    <td>{{ user.lastlogin|date('h:m d/m/Y') }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     {% endif %}
 {% endmacro %}
 
 {% macro _machines(machines, sort) %}
     {% if machines %}
-        <div class="table-responsive">
-            <table id="machines" class="table table-{{ sort }}">
-                <thead>
-                    <tr>
-                        <th>{{ 'machine.fields.id'|trans }}</th>
-                        <th>{{ 'machine.fields.username'|trans }}</th>
-                        <th>{{ 'machine.fields.ip'|trans }}</th>
-                        <th>{{ 'machine.fields.port'|trans }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for machine in machines %}
-                    <tr>
-                        <td>{{ machine.id }}</td>
-                        <td><a href="{{ path('dedipanel_machine_show', {id: machine.id}) }}">{{ machine.username }}</a></td>
-                        <td>{{ machine.ip }}</td>
-                        <td>{{ machine.port }}</td>
+        <table id="machines" class="table table-{{ sort }}">
+            <thead>
+                <tr>
+                    <th>{{ 'machine.fields.id'|trans }}</th>
+                    <th>{{ 'machine.fields.username'|trans }}</th>
+                    <th>{{ 'machine.fields.ip'|trans }}</th>
+                    <th>{{ 'machine.fields.port'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for machine in machines %}
+                <tr>
+                    <td>{{ machine.id }}</td>
+                    <td><a href="{{ path('dedipanel_machine_show', {id: machine.id}) }}">{{ machine.username }}</a></td>
+                    <td>{{ machine.ip }}</td>
+                    <td>{{ machine.port }}</td>
 
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     {% endif %}
 {% endmacro %}
