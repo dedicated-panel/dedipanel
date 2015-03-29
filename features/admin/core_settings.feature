@@ -29,9 +29,9 @@ Feature: Core settings
   Scenario: Saving the configuration
     Given I am logged in with foo account
       And I am on the core config page
-     When I select "Oui" from "Debug mode"
+     When I select "Oui" from "Debug"
       And I press "Mettre à jour"
      Then I should be on the core config page
       And I should see 1 alert success message
       And I should see "Mise à jour du fichier de configuration réussie."
-      And I should see "Oui" selected in "core_settings[debug_mode]"
+      And I should see "Oui" selected in "core_settings[debug]"

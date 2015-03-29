@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a461c3125e96c7b341d748d51eff70d9",
+    "hash": "6c6c95cfe0aadd8e0ba121ec39d516cd",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -53,12 +53,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dedicated-panel/PHPSeclibWrapperBundle.git",
-                "reference": "238298be01de9457ec31aab0471aed5d454f8c41"
+                "reference": "567df872cf43826ae7e2d51196fac182c7ef7b3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dedicated-panel/PHPSeclibWrapperBundle/zipball/238298be01de9457ec31aab0471aed5d454f8c41",
-                "reference": "238298be01de9457ec31aab0471aed5d454f8c41",
+                "url": "https://api.github.com/repos/dedicated-panel/PHPSeclibWrapperBundle/zipball/567df872cf43826ae7e2d51196fac182c7ef7b3e",
+                "reference": "567df872cf43826ae7e2d51196fac182c7ef7b3e",
                 "shasum": ""
             },
             "require": {
@@ -100,7 +100,7 @@
                 "sftp",
                 "ssh"
             ],
-            "time": "2015-03-14 21:33:22"
+            "time": "2015-03-29 20:30:11"
         },
         {
             "name": "doctrine/annotations",
@@ -3134,16 +3134,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v2.6.3",
+            "version": "v2.6.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "c34ef418015793a4653f2670afb69dd167ebf578"
+                "reference": "80833da9d04b004fa59fd23102e6dfad80c98106"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/c34ef418015793a4653f2670afb69dd167ebf578",
-                "reference": "c34ef418015793a4653f2670afb69dd167ebf578",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/80833da9d04b004fa59fd23102e6dfad80c98106",
+                "reference": "80833da9d04b004fa59fd23102e6dfad80c98106",
                 "shasum": ""
             },
             "require": {
@@ -3207,7 +3207,8 @@
                 "ircmaxell/password-compat": "~1.0",
                 "monolog/monolog": "~1.11",
                 "ocramius/proxy-manager": "~0.4|~1.0",
-                "propel/propel1": "~1.6"
+                "propel/propel1": "~1.6",
+                "symfony/phpunit-bridge": "~2.7"
             },
             "type": "library",
             "extra": {
@@ -3246,7 +3247,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2015-01-07 14:47:29"
+            "time": "2015-03-17 14:58:46"
         },
         {
             "name": "twig/extensions",

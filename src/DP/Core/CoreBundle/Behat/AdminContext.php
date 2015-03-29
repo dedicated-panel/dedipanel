@@ -64,15 +64,6 @@ class AdminContext extends DefaultContext
     {
         $locator = sprintf('//select[@name="%s"]/option[@selected]', $select, $value);
 
-        $all = $this
-            ->getMink()
-            ->getSession()
-            ->getPage()
-            ->findAll('xpath', $locator)
-        ;
-
-        var_dump(array_pop($all)->getValue());
-
         $this->assertSession()->elementsCount('xpath', $locator, 1);
     }
 }
