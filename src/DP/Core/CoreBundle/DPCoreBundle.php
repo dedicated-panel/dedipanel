@@ -18,12 +18,4 @@ use Symfony\Component\Config\Resource\FileResource;
 
 class DPCoreBundle extends Bundle
 {
-    public function build(ContainerBuilder $container)
-    {
-        $container->addCompilerPass(new PhpseclibDebugCompilerPass);
-
-        $container
-            ->addResource(new FileResource(__DIR__.'/../../../../app/config/dedipanel.yml'))
-        ;
-    }
 }
