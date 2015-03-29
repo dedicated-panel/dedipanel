@@ -11,7 +11,11 @@
 
 namespace DP\Core\CoreBundle\Controller;
 
+use DP\Core\CoreBundle\Settings\Settings;
+use DP\Core\CoreBundle\Settings\SettingsReader;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -19,61 +23,39 @@ use DP\Core\UserBundle\Entity\User;
 
 class ConfigController extends Controller
 {
-    private $configFile;
-
-    public function __construct()
-    {
-        $this->configFile = __DIR__ . '/../../../../../app/config/dedipanel.yml';
-    }
-
     public function configAction(Request $request)
     {
         if (!$this->get('security.context')->isGranted(User::ROLE_SUPER_ADMIN)) {
             throw new AccessDeniedException();
         }
 
-        $debugMode = $this->container->getParameter('dedipanel.debug');
-        $usable = $this->verifyConfigFile();
+        /** @var Settings $settings */
+        $settings = $this->get('dedipanel.core_settings.settings');
+        $usable   = $this->verifyConfigFile();
 
-        $form = $this->createConfigForm(array(
-            'debug_mode' => $debugMode,
-        ), !$usable);
+        $form = $this->createForm('core_settings', $settings, ['disabled' => !$usable]);
 
-        if ($request->isMethod('POST') && $form->submit($request)->isValid()
-        && $usable) {
-            $data = $form->getData();
-            $debugMode = (bool) $data['debug_mode'];
+        if ($form->handleRequest($request) && $form->isValid() && $usable) {
+            $settings = $form->getData();
 
-            if ($this->updateConfigFile($debugMode)) {
-                $this->addFlash('success', 'dedipanel.core.config.update_succeeded');
-            }
-            else {
-                $this->addFlash('error', 'dedipanel.core.config.update_failed');
+            $flashMsg  = 'update_succeeded';
+            $flashType = 'success';
+
+            if (!$this->get('dedipanel.core_settings.writer')->write($settings)) {
+                $flashMsg  = 'update_failed';
+                $flashType = 'error';
             }
 
-            return $this->redirect($this->generateUrl('dedipanel_core_config'));
+            $this->addFlash($flashType, sprintf('dedipanel.core.config.%s', $flashMsg));
+
+            return $this->redirectToRoute('dedipanel_core_config');
         }
 
-        if ($this->container->getParameter('kernel.environment') == 'prod') {
-            $this->verifyUpdate();
-        }
+        $this->verifyUpdate();
 
         return $this->render('DPCoreBundle:Config:index.html.twig', array(
             'form' => $form->createView(),
         ));
-    }
-
-    private function createConfigForm(array $default = array(), $disabled = false)
-    {
-        $form = $this
-            ->createFormBuilder($default)
-            ->add('debug_mode', 'choice', array(
-                'choices' => array('Non', 'Oui'),
-                'disabled' => $disabled,
-            ))
-        ;
-
-        return $form->getForm();
     }
 
     /**
@@ -83,42 +65,28 @@ class ConfigController extends Controller
      */
     private function verifyConfigFile()
     {
-        if (!file_exists($this->configFile)) {
-            $this->addFlash('error', 'dedipanel.core.config.file_not_found');
+        /** @var SettingsReader $reader */
+        $error = '';
 
-            return false;
+        if (!$this->get('dedipanel.core_settings.reader')->fileExists()) {
+            $error = 'file_not_found';
+        } elseif (!$this->get('dedipanel.core_settings.writer')->isWritable()) {
+            $error = 'file_not_writable';
         }
 
-        if (!is_writable($this->configFile)) {
-            $this->addFlash('error', 'dedipanel.core.config.file_not_writable');
-
-            return false;
+        if (!empty($error)) {
+            $this->addFlash('error', sprintf('dedipanel.core.config.%s', $error));
         }
 
-        return true;
-    }
-
-    /**
-     * @param boolean $debugMode
-     */
-    private function updateConfigFile($debugMode)
-    {
-        $config = array(
-            'dp_core' => array(
-                'debug' => $debugMode,
-            ),
-        );
-
-        $yaml = Yaml::dump($config, 2);
-
-        return (bool) file_put_contents($this->configFile, $yaml);
+        return empty($error);
     }
 
     /**
      * @param string $type
      * @param string $message
+     * @param array $params
      */
-    protected function addFlash($type, $message, $params = array())
+    protected function addFlash($type, $message, array $params = array())
     {
         $message = $this->get('translator')->trans($message, $params, 'flashes');
 
@@ -127,9 +95,16 @@ class ConfigController extends Controller
         $flashBag->add($type, $message);
     }
 
+    /**
+     * Will check if a new update is available, and will display a flash message if it is the case
+     */
     private function verifyUpdate()
     {
-        /** @var DP\Core\CoreBundle\Service\UpdateWatcherService $watcher */
+        if ('prod' != $this->container->getParameter('kernel.environment')) {
+            return;
+        }
+
+        /** @var \DP\Core\CoreBundle\Service\UpdateWatcherService $watcher */
         $watcher = $this->get('dp_core.update_watcher.service');
 
         if ($watcher->isUpdateAvailable()) {
