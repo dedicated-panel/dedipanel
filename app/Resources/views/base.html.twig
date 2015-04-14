@@ -31,7 +31,6 @@
     <body>
         <div id="outer">{% block baseBody %}{% endblock %}</div>
 
-        {% block javascripts %}{% endblock %}
         {% javascripts
             '@MopaBootstrapBundle/Resources/public/bootstrap/js/tests/vendor/jquery.min.js'
             '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-collection.js'
@@ -40,5 +39,6 @@
             %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}    
+        {% block javascripts %}{% endblock %}
     </body>
 </html>
