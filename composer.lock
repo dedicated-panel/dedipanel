@@ -4,11 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
     "hash": "fe261351b4a4a68f9b7e91371d83ba31",
-=======
-    "hash": "6c6c95cfe0aadd8e0ba121ec39d516cd",
->>>>>>> 493530db02ee9c7948fb5425a2b81f394ab3852c
     "packages": [
         {
             "name": "behat/transliterator",
@@ -3385,7 +3381,6 @@
                 "framework"
             ],
             "time": "2015-03-17 14:58:46"
-<<<<<<< HEAD
         },
         {
             "name": "twbs/bootstrap",
@@ -3437,8 +3432,6 @@
                 "web"
             ],
             "time": "2015-03-16 15:44:41"
-=======
->>>>>>> 493530db02ee9c7948fb5425a2b81f394ab3852c
         },
         {
             "name": "twig/extensions",
