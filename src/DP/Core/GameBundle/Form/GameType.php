@@ -25,12 +25,13 @@ class GameType extends AbstractType
     {
         $builder
             ->add('name', null, array('label' => 'game.fields.name'))
+            ->add('installName', null, array('label' => 'game.fields.installName'))
             ->add('launchName', null, array('label' => 'game.fields.launchName'))
             ->add('bin', null, array('label' => 'game.fields.bin'))
             ->add('binDir', null, array('label' => 'game.fields.binDir'))
-            ->add('cfgPath', null, array('label' => 'game.fields.cfgPath', 'required' => false))
-            ->add('steamCmd', null, array('label' => 'game.fields.isSteamCmd', 'required' => false))
+            ->add('orangebox', null, array('label' => 'game.fields.isOrangebox', 'required' => false))
             ->add('source', null, array('label' => 'game.fields.isSource', 'required' => false))
+            ->add('steamCmd', null, array('label' => 'game.fields.isSteamCmd', 'required' => false))
             ->add('appId', null, array('label' => 'game.fields.appId'))
             ->add('appMod', null, array('label' => 'game.fields.appMod'))
             ->add('map', null, array('label' => 'game.fields.map'))
