@@ -9,50 +9,58 @@
 
 {% set sid = server.id %}
 
-<div class="actions clearfix">
+<div class="actions row">
     {% if is_granted('ROLE_DP_GAME_STEAM_STATE', server) %}
         {% if online %}
-            <a href="{{ path('dedipanel_steam_change_state', { 'id': sid, 'state': 'stop' }) }}" title="{{ 'game.stop'|trans }}">
-                <span class="icon icon-stop"></span>
-            </a>
-            
-            <a href="{{ path('dedipanel_steam_change_state', { 'id': sid, 'state': 'restart' }) }}" title="{{ 'game.restart'|trans }}">
-                <span class="icon icon-start"></span>
-            </a>
+            <div class="col-xs-3 col-md-3">
+                <a href="{{ path('dedipanel_steam_change_state', { 'id': sid, 'state': 'stop' }) }}" title="{{ 'game.stop'|trans }}">
+                    <span class="icon icon-pause"></span>
+                </a>
+                
+                <a href="{{ path('dedipanel_steam_change_state', { 'id': sid, 'state': 'restart' }) }}" title="{{ 'game.restart'|trans }}">
+                    <span class="icon icon-restart"></span>
+                </a>
+            </div>
         {% else %}
-            <a href="{{ path('dedipanel_steam_change_state', { 'id': sid, 'state': 'start' }) }}" title="{{ 'game.start'|trans }}">
-                <span class="icon icon-uni22"></span>
-            </a>
+            <div class="col-xs-3 col-md-3">
+                <a href="{{ path('dedipanel_steam_change_state', { 'id': sid, 'state': 'start' }) }}" title="{{ 'game.start'|trans }}">
+                    <span class="icon icon-uni22"></span>
+                </a>
+            </div>
         {% endif %}
     {% endif %}
-    
-    {% if is_granted('ROLE_DP_GAME_STEAM_UPDATE', server) %}
-        <a href="{{ path('dedipanel_steam_update', {id: sid}) }}" title="{{ 'game.edit'|trans }}">
-            <span class="icon icon-uni25"></span>
-        </a>
-    {% endif %}
-    
-    {% if is_granted('ROLE_DP_GAME_STEAM_PLUGIN', server) %}
-        <a href="{{ path('dedipanel_steam_plugin', {id: sid}) }}" title="{{ 'game.plugin.title'|trans }}">
-            <span class="icon icon-config"></span>
-        </a>
-    {% endif %}
-    
-    {% if is_granted('ROLE_DP_GAME_STEAM_FTP', server) %}
-        <a href="{{ path('dedipanel_steam_ftp_show', {id: sid}) }}" title="{{ 'game.ftp.title'|trans }}">
-            <span class="icon icon-ftp"></span>
-        </a>
-    {% endif %}
-    
-    {% if is_granted('ROLE_DP_GAME_STEAM_RCON', server) and online %}
-        <a href="{{ path('dedipanel_steam_rcon', {id: sid}) }}" title="{{ 'game.rcon.title'|trans }}">
-            <span class="icon icon-code"></span>
-        </a>
-    {% endif %}
-    
-    {% if is_granted('ROLE_DP_GAME_STEAM_SHOW', server) and show and online %}
-        <a href="{{ path('dedipanel_steam_show', {id: sid}) }}" title="{{ 'steam.show'|trans }}" class="slide">
-            <span class="icon icon-option"></span>
-        </a>
-    {% endif %}
+   
+    <div class="col-xs-7 col-md-7">
+        {% if is_granted('ROLE_DP_GAME_STEAM_UPDATE', server) %}
+            <a href="{{ path('dedipanel_steam_update', {id: sid}) }}" title="{{ 'game.edit'|trans }}">
+                <span class="icon icon-uni25"></span>
+            </a>
+        {% endif %}
+        
+        {% if is_granted('ROLE_DP_GAME_STEAM_PLUGIN', server) %}
+            <a href="{{ path('dedipanel_steam_plugin', {id: sid}) }}" title="{{ 'game.plugin.title'|trans }}">
+                <span class="icon icon-config"></span>
+            </a>
+        {% endif %}
+        
+        {% if is_granted('ROLE_DP_GAME_STEAM_FTP', server) %}
+            <a href="{{ path('dedipanel_steam_ftp_show', {id: sid}) }}" title="{{ 'game.ftp.title'|trans }}">
+                <span class="icon icon-ftp"></span>
+            </a>
+        {% endif %}
+        
+        {% if is_granted('ROLE_DP_GAME_STEAM_RCON', server) and online %}
+            <a href="{{ path('dedipanel_steam_rcon', {id: sid}) }}" title="{{ 'game.rcon.title'|trans }}">
+                <span class="icon icon-code"></span>
+            </a>
+        {% endif %}
+    </div>
+
+        {% if is_granted('ROLE_DP_GAME_STEAM_SHOW', server) and show and online %}
+            <div class="col-xs-1 col-md-1">
+                <a href="{{ path('dedipanel_steam_show', {id: sid}) }}" title="{{ 'steam.show'|trans }}" class="slide">
+                    <span class="icon icon-option"></span>
+                </a>
+            </div>
+        {% endif %}
 </div>

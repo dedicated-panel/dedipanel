@@ -32,10 +32,13 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        []
+    #bundles:        [ ]
     # java: /usr/bin/java
     filters:
         cssrewrite: ~
+        lessphp:
+            file: %kernel.root_dir%/../vendor/oyejorge/less.php/lessc.inc.php
+            apply_to: "\.less$"
         # closure:
         #     jar: %kernel.root_dir%/java/compiler.jar
         # yui_css:
@@ -117,7 +120,11 @@ sonata_block:
         sonata.block.service.text:
         sonata.block.service.action:
         sonata.block.service.rss:
-          
+
+mopa_bootstrap:
+    form: ~ 
+    menu: ~
+
 knp_menu:
     twig:  # use "twig: false" to disable the Twig extension and the TwigRenderer
         template: DPCoreBundle::knp_menu.html.twig

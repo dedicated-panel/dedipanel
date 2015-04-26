@@ -10,8 +10,8 @@
 {% set sid = instance.id  %}
 {% set id  = instance.server.id %}
 
-<div class="actions clearfix">
-    {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_STATE', server) %}
+<div class="actions">
+    {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_STATE', instance.server) %}
         {% if online %}
             <a href="{{ path('dedipanel_teamspeak_instance_change_state', { id: sid, serverId: serverId, state: 'stop' }) }}">
                 <span class="icon" data-icon="&#x24;" title="{{ 'game.stop'|trans }}"></span>
@@ -27,13 +27,13 @@
         {% endif %}
     {% endif %}
     
-    {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_UPDATE', server) %}
+    {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_UPDATE', instance.server) %}
         <a href="{{ path('dedipanel_teamspeak_instance_update', {id: sid, serverId: id}) }}">
             <span class="icon" data-icon="&#x25;" title="{{ 'game.edit'|trans }}"></span>
         </a>
     {% endif %}
     
-    {% if  is_granted('ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_INDEX', server)  and show and online %}
+    {% if  is_granted('ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_INDEX', instance.server)  and show and online %}
         <a href="{{ path('dedipanel_teamspeak_instance_index', {serverId: sid, serverId: id}) }}" class="slide">
             <span class="icon" data-icon="&#x21;" title="{{ 'steam.show'|trans }}"></span>
         </a>

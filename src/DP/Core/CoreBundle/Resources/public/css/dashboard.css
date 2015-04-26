@@ -1,7 +1,7 @@
 /**
  * This file is part of Dedipanel project
  *
- * (c) 2010-2015 Dedipanel <http://www.dedicated-panel.net>
+ * (c) 2010-2014 Dedipanel <http://www.dedicated-panel.net>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -9,30 +9,30 @@
 
 .widget-container{
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.34);
-    background: rgb(255, 255, 255);
     margin-bottom: 20px;
+    color: rgb(223, 223, 223) !important;
+    border-radius: 3px;
+}
+.widget-container a{
+    color: rgb(223, 223, 223) !important;
 }
 .widget-container .widget-heading {
-    background: rgba(255, 255, 255, 0.94);
-    height: 35px;
-    padding: 15px 0px 0 0px;
-    color: #858585;
-    font-size: 18px;
+    height: 50px;
+    padding: 7px;
+    font-size: 20px;
     width: 100%;
 }
 .widget-container .widget-heading span {
-    font-size: 30px;
-    margin-left: 10px;
-    margin-top: -4px;
-    margin-right: 26px;
+    font-size: 35px;
+    margin: 0px 10px 0px 10px;
     font-weight: normal;
-    color: rgba(68, 68, 68, 0.42);
+    color: rgba(44, 44, 44, 0.45);
 }
 .widget-container .paddle {
     padding: 3px;
 }
-.table-filters tbody tr td {
-    margin: 0;
+.table-filters tbody tr td.pics {
+    margin: 0px;
     padding: 0;
 }
 .table-filters tbody tr td a.padding-left{
@@ -49,7 +49,9 @@
     margin-left: 10px;
 }
 .table-filters .green{
-    background: rgb(123, 218, 123);
+    background: rgba(0, 255, 42, 0.14);
+}
+.table-filters .teamspeak{
     height: 45px;
     width: 50px;
     font-size: 30px;
@@ -66,11 +68,11 @@
     border-bottom: 14px solid transparent;
     clear: both;
     position: absolute;
-    margin-left: 78px;
+    margin-left: 73px;
     margin-top: 6px;
 }
-.arrow-error {
-    border-right: 12px solid #f2dede;
+.arrow-danger {
+    border-right: 12px solid #3C1111;
 }
 .arrow-success {
     border-right: 12px solid #dff0d8;
@@ -94,4 +96,28 @@
 }
 table#steam{
     margin-bottom: 0;
+}
+
+.bg-black{ background: #2d353c !important; }
+.bg-blue { background: #2566A1 !important; }
+.bg-cyan { background: #00acac !important; }
+
+.color-black{ color: rgba(139, 139, 139, 0.46) !important;}
+
+.alert-danger  { background-color: rgba(255, 0, 0, 0.14) !important; }
+.alert-success { background-color: rgba(74, 255, 0, 0.13) !important; color: #1A7C1C !important; }
+
+.table > thead > tr > th {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18) !important;
+}
+.table-hover > tbody > tr:hover {
+  background-color: rgba(31, 31, 31, 0.37) !important;
+}
+.table > thead > tr > th, 
+.table > tbody > tr > th, 
+.table > tfoot > tr > th, 
+.table > thead > tr > td, 
+.table > tbody > tr > td, 
+.table > tfoot > tr > td {
+  border-top: none !important;
 }

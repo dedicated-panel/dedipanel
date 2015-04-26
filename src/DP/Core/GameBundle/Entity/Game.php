@@ -46,19 +46,18 @@ class Game
     private $name = '';
 
     /**
-     * @var string $installName
-     *
-     * @ORM\Column(name="installName", type="string", length=24)
-     * @Assert\NotBlank(message="game.assert.installName")
-     */
-    private $installName;
-
-    /**
      * @var boolean $steamCmd
      *
      * @ORM\Column(name="steamCmd", type="boolean")
      */
     private $steamCmd = false; // default value
+
+    /**
+     * @var boolean $source
+     *
+     * @ORM\Column(name="source", type="boolean")
+     */
+    private $source = false; // default value
 
     /**
      * @var string $launchName
@@ -84,26 +83,11 @@ class Game
     protected $appId;
 
     /**
-     * @var integer $appMod
+     * @var string $appMod
      *
      * @ORM\Column(name="appMod", type="string", length=20, nullable=true)
      */
     protected $appMod;
-
-
-    /**
-     * @var boolean $orangebox
-     *
-     * @ORM\Column(name="orangebox", type="boolean")
-     */
-    private $orangebox = false; // default value
-
-    /**
-     * @var boolean $source
-     *
-     * @ORM\Column(name="source", type="boolean")
-     */
-    private $source = false; // default value, useful for source tv
 
     /**
      * @var string $map
@@ -126,6 +110,13 @@ class Game
      * @ORM\Column(name="binDir", type="string", length=20, nullable=true)
      */
     private $binDir;
+
+   /**
+     * @var string $cfgPath
+     *
+     * @ORM\Column(name="cfgPath", type="string", length=255, nullable=true)
+     */
+    protected $cfgPath;
 
     /**
      * @ORM\Column(name="sourceImagesMaps", type="string", length=255, nullable=true)
@@ -199,26 +190,6 @@ class Game
     }
 
     /**
-     * Set installName
-     *
-     * @param string $installName
-     */
-    public function setInstallName($installName)
-    {
-        $this->installName = $installName;
-    }
-
-    /**
-     * Get installName
-     *
-     * @return string
-     */
-    public function getInstallName()
-    {
-        return $this->installName;
-    }
-
-    /**
      * Set launchName
      *
      * @param string $launchName
@@ -256,46 +227,6 @@ class Game
     public function getBin()
     {
         return $this->bin;
-    }
-
-    /**
-     * Set orangebox
-     *
-     * @param boolean $orangebox
-     */
-    public function setOrangebox($orangebox)
-    {
-        $this->orangebox = $orangebox;
-    }
-
-    /**
-     * Get orangebox
-     *
-     * @return boolean
-     */
-    public function isOrangebox()
-    {
-        return $this->orangebox;
-    }
-
-    /**
-     * Set source
-     *
-     * @param boolean $source
-     */
-    public function setSource($source)
-    {
-        $this->source = $source;
-    }
-
-    /**
-     * Get source
-     *
-     * @return boolean
-     */
-    public function isSource()
-    {
-        return $this->source;
     }
 
     /**
@@ -360,16 +291,33 @@ class Game
      */
     public function getBinDir()
     {
-        if ($this->isOrangebox()) {
-            return 'orangebox/';
-        }
-        elseif (empty($this->binDir)) {
+        if (empty($this->binDir)) {
             return '';
         }
-        else {
-            return $this->binDir;
-        }
+        
+        return $this->binDir;
     }
+
+    /**
+     * Set cfg path
+     *
+     * @param string $cfgPath
+     */
+    public function setCfgPath($cfgPath)
+    {
+        $this->cfgPath = $cfgPath;
+    }
+
+    /**
+     * Get cfg path
+     *
+     * @return string
+     */
+    public function getCfgPath()
+    {
+        return $this->cfgPath;
+    }
+
 
     /**
      * Set source of images maps
@@ -450,7 +398,7 @@ class Game
 
     public function isBukkit()
     {
-        return $this->getInstallName() == 'bukkit';
+        return $this->getLaunchName() == 'bukkit';
     }
 
     /**
@@ -542,14 +490,25 @@ class Game
     }
 
     /**
-     * Get orangebox
+     * Set source
+     *
+     * @param boolean $source
+     */
+    public function setSource($source)
+    {
+        $this->source = $source;
+    }
+
+    /**
+     * Get source
      *
      * @return boolean
      */
-    public function getOrangebox()
+    public function isSource()
     {
-        return $this->orangebox;
+        return $this->source;
     }
+
 
     /**
      * Get source

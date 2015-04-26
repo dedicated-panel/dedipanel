@@ -21,7 +21,7 @@
         {% include "FOSUserBundle:Profile:show_content.html.twig" %}
     {% endblock fos_user_content %}
 
-    <div class="form-actions"><div class="pull-left">
+    <div class="form-actions clearfix"><div class="pull-left">
         <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary">{{ 'profile.edit_login'|trans }}</a>
         <a href="{{ path('fos_user_change_password') }}" class="btn btn-primary">{{ 'profile.edit_password'|trans }}</a>
     </div></div>

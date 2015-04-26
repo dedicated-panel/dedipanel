@@ -11,6 +11,7 @@
 
 {% import '::actions.html.twig' as dedipanel_actions %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
+{% form_theme form 'MopaBootstrapBundle:Form:fields.html.twig' %}
 
 {% block title %}
     {{ dedipanel_buttons.back(path('dedipanel_group_show', {'id': group.id}), 'group.title.group'|trans) }}
@@ -19,11 +20,11 @@
 {% block body %}
     <h2>{{ 'group.title.edit'|trans }}</h2>
 
-    <form id="form-update" action="{{ path('dedipanel_group_update', { 'id': group.id }) }}" method="post" class="form-edit">    
+    <form action="{{ path('dedipanel_group_update', { 'id': group.id }) }}" method="post" id="form-update" class="form-horizontal">   
         {{ form_widget(form) }}
     </form>
         
-    <div class="form-actions">
+    <div class="form-actions clearfix">
         {{ dedipanel_actions.update(path('dedipanel_group_show', {'id': group.id}), null, 'ROLE_DP_ADMIN_GROUP_SHOW', group) }}
         {{ dedipanel_buttons.delete(path('dedipanel_group_delete', {'id': group.id}), null, false, true, 'ROLE_DP_ADMIN_GROUP_DELETE', group) }}
     </div>
