@@ -156,7 +156,7 @@ class MinecraftServer extends GameServer
         $conn->mkdir($installDir);
 
         $dlUrl = 'https://s3.amazonaws.com/MinecraftDownload/launcher/minecraft_server.jar';
-        if ($this->game->getLaunchName() == 'bukkit') {
+        if ($this->game->getInstallName() == 'bukkit') {
             $dlUrl = 'http://dl.bukkit.org/latest-rb/craftbukkit.jar';
         }
 
