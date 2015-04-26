@@ -61,7 +61,7 @@
     
     <form id="form-update" action="{{ path('dedipanel_steam_ftp_update', {id: server.id, path: resource.relativePath}) }}" method="post" class="form-ftp">
         {{ form_widget(form) }}
-        <div class="form-actions clearfix">
+        <div class="form-actions">
         {{ dedipanel_actions.update(path('dedipanel_steam_ftp_show', {'id': server.id, 'path': resource.path})) }}
         </div
     </form>

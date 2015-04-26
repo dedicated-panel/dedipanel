@@ -10,9 +10,10 @@
 CSP_FILE='cspromod_b108.zip'
 CSP_DLURL="http://dl.redline-hosting.net/public/$CSP_FILE"
 
-if [ $# -eq 3 ]; then
-    JEU=$1
-    MOD=$2
+if [ $# -eq 2 ]; then
+    steamapp=$1
+    JEU=${steamapp%.*}
+    MOD=${steamapp#*.}
 
     if [ ! -e {{ installDir }}steamcmd/ ]; then
         echo "Download steamcmd" >> {{ installDir }}install.log
@@ -42,7 +43,7 @@ if [ $# -eq 3 ]; then
     fi
 
     # Vérifie que l'installation s'est bien déroulé
-    if [ -e "{{ installDir }}/$3" ]; then
+    if [ -e "{{ installDir }}/$2" ]; then
         echo "Install ended" >> {{ installDir }}install.log
     else
         echo "Install failed" >> {{ installDir }}install.log

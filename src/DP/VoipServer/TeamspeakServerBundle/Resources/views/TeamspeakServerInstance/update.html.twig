@@ -12,7 +12,6 @@
 {% import '::actions.html.twig' as dedipanel_actions %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
 {% import '::flash_messages.html.twig' as dedipanel_flashes %}
-{% form_theme form 'MopaBootstrapBundle:Form:fields.html.twig' %}
 
 {% set serverId = app.request.get('serverId') %}
 
@@ -25,11 +24,11 @@
 
     {{ dedipanel_flashes.error() }}
 
-    <form id="form-update" action="{{ path('dedipanel_teamspeak_instance_update', {id: instance.id, serverId: serverId}) }}" method="post" {{ form_enctype(form) }} class="form-horizontal">
+    <form id="form-update" action="{{ path('dedipanel_teamspeak_instance_update', {id: instance.id, serverId: serverId}) }}" method="post" {{ form_enctype(form) }} class="form-edit">
         {{ form_widget(form) }}
     </form>
 
-    <div class="form-actions clearfix">
+    <div class="form-actions">
         {{ dedipanel_actions.update(path('dedipanel_teamspeak_instance_index', {'serverId': instance.server.id})) }}
         {{ dedipanel_buttons.delete(path('dedipanel_teamspeak_instance_delete', {'id': instance.id, 'serverId': instance.server.id}), null, false, true, 'ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_DELETE', instance) }}
     </div>

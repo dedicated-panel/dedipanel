@@ -186,9 +186,13 @@ class SteamServer extends GameServer
         $scriptPath = $installDir . 'install.sh';
         $screenName = $this->getInstallScreenName();
         $steamCmd = $this->getGame()->getSteamCmd();
+        $installName = $this->getGame()->getInstallName();
         $bin = $this->getGame()->getBin();
-        $appId = $this->game->getappId();
-        $appMod =  $this->game->getappMod();
+
+        if($steamCmd != 0) {
+            $installName = '' . $this->game->getappId() . '.' . $this->game->getappMod() .'';
+        }
+
         $conn->mkdir($installDir);
 
         $installScript = $twig->render(
@@ -200,7 +204,7 @@ class SteamServer extends GameServer
         
         $pgrep = '`ps aux | grep SCREEN | grep "' . $screenName . ' " | grep -v grep | wc -l`';
         $screenCmd  = 'if [ ' . $pgrep . ' = "0" ]; then ';
-        $screenCmd .= 'screen -dmS "' . $screenName . '" ' . $scriptPath . ' "' . $appId . '" "' . $appMod . '"  "' . $bin . '"; ';
+        $screenCmd .= 'screen -dmS "' . $screenName . '" ' . $scriptPath . ' "' . $installName . '" "' . $bin . '"; ';
         $screenCmd .= 'else echo "Installation is already in progress."; fi; ';
         $result = $conn->exec($screenCmd);
 
@@ -308,11 +312,9 @@ class SteamServer extends GameServer
     {
         $conn = $this->getMachine()->getConnection();
         $game = $this->getGame();
-        $hostName = $this->getName();
 
         $scriptPath = $this->getAbsoluteHldsScriptPath();
         $isCsgo = $this->getGame()->getLaunchName() == 'csgo';
-        $isRust = $this->getGame()->getLaunchName() == 'rust';
         $gameType = '';
         $gameMode = '';
         $mapGroup = '';
@@ -543,7 +545,12 @@ class SteamServer extends GameServer
 
     public function getServerCfgPath()
     {
-        return $this->getAbsoluteBinDir() . $this->getGame()->getCfgPath();
+        $cfgPath = $this->getAbsoluteGameContentDir();
+        if ($this->getGame()->isSource() || $this->getGame()->isOrangebox()) {
+            $cfgPath .= 'cfg/';
+        }
+
+        return $cfgPath . 'server.cfg';
     }
 
     public function removeFromServer()

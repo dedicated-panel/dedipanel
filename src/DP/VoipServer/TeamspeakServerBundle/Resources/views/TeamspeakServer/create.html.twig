@@ -12,7 +12,6 @@
 {% import '::actions.html.twig' as dedipanel_actions %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
 {% import '::flash_messages.html.twig' as dedipanel_flashes %}
-{% form_theme form 'MopaBootstrapBundle:Form:fields.html.twig' %}
 
 {% block title %}
     {{ dedipanel_buttons.back(path('dedipanel_teamspeak_index'), 'teamspeak.title.teamspeak'|trans) }}
@@ -23,7 +22,7 @@
 
     {{ dedipanel_flashes.all() }}
 
-    <form action="{{ path('dedipanel_teamspeak_create') }}" method="post" {{ form_enctype(form) }} id="form-create" class="form-horizontal">
+    <form action="{{ path('dedipanel_teamspeak_create') }}" method="post" {{ form_enctype(form) }} id="form-create">
         {{ form_errors(form) }}
 
         {{ form_row(form.machine) }}

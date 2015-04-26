@@ -11,7 +11,6 @@
 
 {% import '::buttons.html.twig' as dedipanel_buttons %}
 {% import '::actions.html.twig' as dedipanel_actions %}
-{% form_theme form 'MopaBootstrapBundle:Form:fields.html.twig' %}
 
 {% block title %}
     {{ dedipanel_buttons.back(path('dedipanel_game_show', {'id': game.id}), 'game.title.game'|trans) }}
@@ -20,11 +19,11 @@
 {% block body %}
     <h2>{{ 'game.title.edit'|trans }}</h2>
 
-    <form method="post" action="{{ path('dedipanel_game_update', { 'id': game.id }) }}" id="form-update" class="form-horizontal">    
+    <form id="form-update" action="{{ path('dedipanel_game_update', { 'id': game.id }) }}" method="post" class="form-edit">    
         {{ form_widget(form) }}
     </form>
         
-    <div class="form-actions clearfix">
+    <div class="form-actions">
         {{ dedipanel_actions.update(path('dedipanel_game_show', {'id': game.id})) }}
         {{ dedipanel_buttons.delete(path('dedipanel_game_delete', {'id': game.id}), null, false, true, 'ROLE_DP_ADMIN_GAME_DELETE', game) }}
     </div>

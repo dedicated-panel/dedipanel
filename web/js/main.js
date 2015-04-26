@@ -3,8 +3,7 @@ $(function() {
         $('#sidebar ul li.tree').each(function (el, id) {
             var el = $(this);
             var submenu = el.children('ul.menu_level_1');
-                submenu.slideToggle();
-
+            
             el.children('span').bind('click', function () {
                 el.toggleClass('in');
                 submenu.slideToggle();
@@ -26,12 +25,3 @@ $(function() {
         });
     }
 });
-
-if ($(this).width() < 1199) {
-    $('#sidebar').toggleClass('collapse');
-
-    $('#sidebar-toggle').on('click', function () {
-        $('#sidebar').toggleClass('collapse');
-        $('#sidebar-toggle').toggleClass('active');
-    });
-}

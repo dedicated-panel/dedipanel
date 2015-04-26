@@ -31,9 +31,9 @@
 
     <div id="teamspeak" class="server-list">
     {% for entity in teamspeaks %}
-        <div class="server-item row">
+        <div class="server-item clearfix">
         {% if entity.isInstallationEnded %}
-            <div class="infos col-xs-6 col-md-5">
+            <div class="infos">
                 <div class="titre">
                 {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_INDEX', entity) %}
                     <a href="{{ path('dedipanel_teamspeak_instance_index', {serverId: entity.id}) }}">
@@ -52,13 +52,13 @@
                 {% endif %}
                 </div>
             </div>
-            <div class="col-xs-5 col-md-5">
+
             {% include 'DPTeamspeakServerBundle:TeamspeakServer:actionBar.html.twig' with {online: entity.query.isOnline, server: entity} %}
         {% else %}
-            <div class="infos row">
-                <div class="titre col-xs-5 col-md-5">{{ entity.machine }}</div>
+            <div class="infos">
+                <div class="titre">{{ entity.machine }}</div>
 
-                <div class="status col-xs-5 col-md-5">
+                <div class="status">
                     {{ 'voip.installation_in_progress'|trans }}
                 </div>
             </div>

@@ -15,6 +15,7 @@ game.back: Back to list
 
 game.id: ID
 game.name: Name
+game.installName: Name Installation
 game.launchName: Name of launch
 game.bin: Binary
 game.binDir: Folder containing binary

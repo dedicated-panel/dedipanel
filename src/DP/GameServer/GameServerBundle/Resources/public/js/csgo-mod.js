@@ -8,15 +8,15 @@
  */
 
 $(function() {
-	$("#dedipanel_steam_mode").parent().parent().hide();
+	$("#dedipanel_steam_mode").parent().hide();
     
     $("#dedipanel_steam_game").change(function () {
         game = $("#dedipanel_steam_game option:selected" ).text();
         if (game == 'Counter-Strike: Global Offensive') {
-            $('#dedipanel_steam_mode').parent().parent().show( 400 );
+            $('#dedipanel_steam_mode').parent().show( 400 );
         }
         else{
-            $('#dedipanel_steam_mode').parent().parent().hide( 300 );
+            $('#dedipanel_steam_mode').parent().hide( 300 );
         }
     });
 });

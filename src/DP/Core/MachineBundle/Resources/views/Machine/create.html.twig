@@ -11,7 +11,6 @@
 
 {% import '::actions.html.twig' as dedipanel_actions %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
-{% form_theme form 'MopaBootstrapBundle:Form:fields.html.twig' %}
 
 {% block title %}
     {{ dedipanel_buttons.back(path('dedipanel_machine_index'), 'machine.title.machine'|trans) }}
@@ -20,7 +19,7 @@
 {% block body %}
     <h2>{{ 'machine.title.add'|trans }}</h2>
 
-    <form action="{{ path('dedipanel_machine_create') }}" method="post" id="form-create"class="form-horizontal">
+    <form action="{{ path('dedipanel_machine_create') }}" method="post" id="form-create">
         {{ form_widget(form) }}
         {{ dedipanel_actions.create() }}
     </form>

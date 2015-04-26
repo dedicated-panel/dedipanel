@@ -40,11 +40,7 @@ class MenuBuilder
      */
     public function createMainMenu(Request $request)
     {
-        $menu = $this->factory->createItem('root', array(
-            'childrenAttributes'    => array(
-                'class'             => 'nav nav-stacked',
-            ),
-        ));
+        $menu = $this->factory->createItem('root');
 
         $this->addRootMenuItems($menu);
         

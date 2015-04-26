@@ -8,8 +8,6 @@
 dedipanel.core.config: Configuration
 dedipanel.core.config.title: Configuration du panel
 dedipanel.core.dashboard: Tableau de bord
-dedipanel.core.dashboard.teamspeak: Serveurs Teamspeak
-dedipanel.core.dashboard.steam: Steam
-dedipanel.core.dashboard.minecraft: Minecraft
 
-menu.teamspeak: Serveurs Teamspeak
+menu:
+    teamspeak: Serveurs Teamspeak

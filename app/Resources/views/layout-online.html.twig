@@ -19,13 +19,9 @@
 {% extends "::base.html.twig" %}
 
 {% block stylesheets %}
-        {% stylesheets
-        '@DPCoreBundle/Resources/public/css/main.css'
-        '@DPCoreBundle/Resources/public/css/icomoon/style.css'
-        '@MopaBootstrapBundle/Resources/public/less/mopabootstrapbundle.less' 
-        %}
-            <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
-        {% endstylesheets %}
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('css/icomoon/style.css') }}" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('css/main.css') }}" />
 
     {% block bundleStylesheets %}{% endblock %}
 {% endblock %}
@@ -40,12 +36,13 @@
                 </a> 
             </div>
             <div class="user-profile">
-                    <img alt="{{ app.user.username }}" src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcR0JIep1h1CxO5fPpAfXymk9WQu52CD4LOhzw_FlYJT9nIz9LXcng">
-
-                        <div class="user-info">
-                            {{ app.user.username }}
-                            <small>Role ?</small>
-                            {#<ul class="user-profile-actions">
+                    <img alt="{{ app.user.username }}" src="{{ asset('images/icones/blue-user-icon.png') }}">
+                    <div class="user-info">
+                            <a href="{{ path('fos_user_profile_edit') }}">{{ app.user.username }}</a>
+                            <em>
+                            
+                            </em>
+                            <ul class="user-profile-actions">
                                     <li>
                                         <a href="{{ path('fos_user_profile_show') }}" title="{{ 'profil.profil'|trans }}">
                                             <span class="icon-uni41"></span>
@@ -56,7 +53,7 @@
                                             <span class="icon-exit"></span>
                                         </a>
                                     </li>
-                            </ul>#}
+                            </ul>
                     </div>
             </div>
             <nav>
@@ -83,18 +80,8 @@
         </section>
 
         <section id="inner">
-            <div id="logo-mobile">
-                <a href="{{ path('_welcome') }}">
-                    <img src="{{ asset('images/header/logo.png') }}" title="DediPanel" />
-                </a>
-                <button type="button" class="navbar-toggle" id="sidebar-toggle">
-                    <span class="icon-uni31"></span>
-                </button>
-            </div>
-            <h1 id="title">{% block title %}{% endblock %}</h1>
-
+            <h1 id="title" class="clearfix">{% block title %}{% endblock %}</h1>
             {% block widget %}{% endblock %}
-
             <div id="page-content" class="clearfix">
                 <div class="container-fluid">
                     <div class="inner-body">
@@ -103,6 +90,5 @@
                 </div>
             </div>
         </section>
-        
     </div>
 {% endblock %}

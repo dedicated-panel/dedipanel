@@ -13,10 +13,10 @@
     {% if is_granted('ROLE_DP_GAME_MINECRAFT_STATE', server) %}
         {% if online %}
             <a href="{{ path('dedipanel_minecraft_change_state', { 'id': sid, 'state': 'stop' }) }}" title="{{ 'game.stop'|trans }}">
-                 <span class="icon icon-pause"></span>
+                 <span class="icon icon-stop"></span>
             </a>
             <a href="{{ path('dedipanel_minecraft_change_state', { 'id': sid, 'state': 'restart' }) }}" title="{{ 'game.restart'|trans }}">
-                <span class="icon icon-restart"></span>
+                <span class="icon icon-start"></span>
             </a>
         {% else %}
             <a href="{{ path('dedipanel_minecraft_change_state', { 'id': sid, 'state': 'start' }) }}" title="{{ 'game.start'|trans }}">
