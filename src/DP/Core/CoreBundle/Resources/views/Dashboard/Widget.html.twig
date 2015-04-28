@@ -7,10 +7,10 @@
  # file that was distributed with this source code.
  #}
 
-{% macro _widgetHeader(title, icone, paddle, route) %}
-    <div class="widget-container">
+{% macro _widgetHeader(title, icone, paddle, route, bg, color) %}
+    <div class="widget-container {{ bg }}">
         <div class="widget-heading">
-            <span class="{{ icone }}"></span><a href="{{ path(route) }}">{{ title|trans }}</a>
+            <span class="{{ icone }}  {{ color }}"></span><a href="{{ path(route) }}">{{ title|trans }}</a>
         </div>
         <div class="widget-content {{ paddle }}">
 {% endmacro %}
@@ -24,13 +24,12 @@
     <table id="steam" class="server-list table table-filters">
         {% for steamServer in steamServers %}
             
-            {% set gameImg = steamServer.game.installname %}
-            {% if gameImg == 'Counter-Strike Source' %}{% set gameImg = 'css' %}{% endif %}
+            {% set gameImg = steamServer.game.launchName %}
             {% if steamServer.query.latency != false %}{% set color, isOnline = 'success', true %}
-            {% else %} {% set color, isOnline = 'error', false %}{% endif %}
+            {% else %} {% set color, isOnline = 'danger', false %}{% endif %}
 
-            <tr class="server-item {{ color }}">
-                <td>
+            <tr class="server-item alert-{{ color }}">
+                <td class="pics">
                     <div class="arrow-left arrow-{{ color }}"></div>
                     <img src="{{ asset('images/serveur/viewer/' ~ gameImg ~ '.png') }}"" alt="{{ gameImg }}">
                 </td>
@@ -41,19 +40,19 @@
                 <td>{{ steamServer.machine.publicIp }}:{{ steamServer.port }}</td>
             </tr>
         {% endfor %}       
-    </table> 
+    </table>
 {% endmacro %}
 
 {% macro _serverMinecraft(minecraftServers) %}
     <table id="minecraft" class="server-list table table-filters">
         {% for minecraftServer in minecraftServers %}
             
-            {% set gameImg = minecraftServer.game.installname %}
+            {% set gameImg = minecraftServer.game.launchName %}
             {% if minecraftServer.query.online != false %}{% set color, isOnline = 'success', true %}
             {% else %} {% set color, isOnline = 'error', false %}{% endif %}
 
             <tr class="server-item  {{ color }}">
-                <td>
+                <td class="pics">
                     <div class="arrow-left arrow-{{ color }}"></div>
                     <img src="{{ asset('images/serveur/viewer/' ~ gameImg ~ '.png') }}"" alt="{{ gameImg }}">
                 </td>
@@ -68,30 +67,29 @@
 {% endmacro %}
 
 {% macro _serverTeamspeak(teamspeakServers, sort) %}
-    <table id="teamspeak" class="server-list table table-{{ sort }}">
+    {% if teamspeakServers %}
+        <table id="teamspeak" class="server-list table table-{{ sort }}">
             {% for teamspeakServer in teamspeakServers %}
-                {% if teamspeakServer.query.isOnline %}{% set color = 'green' %}
-                {% else %}{% set color = 'red' %}{% endif %}
+                {% if teamspeakServer.query.isOnline %}{% set color = 'success' %}
+                {% else %}{% set color = 'danger' %}{% endif %}
 
-                <tr class="server-item">
-                    <td class="{{ color }}"><span class="icon-uni47"></span></td>
-                    <td><a class="padding-left" href="{{ path('dedipanel_teamspeak_instance_index', {serverId: teamspeakServer.id}) }}">{{ teamspeakServer.name }}</a></td>
-                    <td>{{ teamspeakServer.machine.publicIp }}:{{ teamspeakServer.queryPort }}</td>
+                <tr class="server-item alert-{{ color }}">
+                    <td class="pics teamspeak"><span class="icon-uni47"></span></td>
+                    <td ><a class="padding-left" href="{{ path('dedipanel_teamspeak_instance_index', {serverId: teamspeakServer.id}) }}">{{ teamspeakServer.name }}</a></td>
                 </tr>
             {% endfor %}
-    </table>  
+        </table>  
+    {% endif %}
 {% endmacro %}
 
 {% macro _users(users, sort) %}
     
     {% import '::buttons.html.twig' as dedipanel_buttons %}
-    <table id="users" class="table table-{{ sort }}">
-        {% if users %}
+    {% if users %}
+        <table id="users" class="table table-{{ sort }}">
             <thead>
                 <tr>
                     <th>{{ 'user.fields.username'|trans }}</th>
-                    <th>{{ 'user.fields.email'|trans }}</th>
-                    <th>{{ 'user.fields.enabled'|trans }}</th>
                     <th>{{ 'user.fields.lastLogin'|trans }}</th>
                 </tr>
             </thead>
@@ -99,25 +97,22 @@
             {% for user in users %}
                 <tr>
                     <td><a href="{{ path('dedipanel_user_show', {id: user.id}) }}">{{ user.username }}</a></td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ dedipanel_buttons.yes_no(user.enabled) }}</td>
                     <td>{{ user.lastlogin|date('h:m d/m/Y') }}</td>
                 </tr>
             {% endfor %}
             </tbody>
-        {% endif %}
-    </table>
+        </table>
+    {% endif %}
 {% endmacro %}
 
 {% macro _machines(machines, sort) %}
-    <table id="machines" class="table table-{{ sort }}">
-        {% if machines %}
+    {% if machines %}
+        <table id="machines" class="table table-{{ sort }}">
             <thead>
                 <tr>
                     <th>{{ 'machine.fields.id'|trans }}</th>
                     <th>{{ 'machine.fields.username'|trans }}</th>
                     <th>{{ 'machine.fields.ip'|trans }}</th>
-                    <th>{{ 'machine.fields.public_ip'|trans }}</th>
                     <th>{{ 'machine.fields.port'|trans }}</th>
                 </tr>
             </thead>
@@ -127,12 +122,11 @@
                     <td>{{ machine.id }}</td>
                     <td><a href="{{ path('dedipanel_machine_show', {id: machine.id}) }}">{{ machine.username }}</a></td>
                     <td>{{ machine.ip }}</td>
-                    <td>{{ machine.publicIp }}</td>
                     <td>{{ machine.port }}</td>
 
                 </tr>
             {% endfor %}
             </tbody>
-        {% endif %}
-    </table>
+        </table>
+    {% endif %}
 {% endmacro %}

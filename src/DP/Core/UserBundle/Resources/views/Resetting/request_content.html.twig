@@ -14,13 +14,11 @@
 {% endif %}
 
 <form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
-    <div class="input-prepend">
-        <span class="add-on">
-            <i class="icon-envelope"></i>
-        </span>
-        <input type="text" id="username" name="username" placeholder="{{ 'resetting.request.username'|trans({}, 'FOSUserBundle') }}" required="required" />
+
+    <div class="form-group">
+        <input type="text" class="form-control" id="username" name="username" placeholder="{{ 'resetting.request.username'|trans({}, 'FOSUserBundle') }}" required="required" />
     </div>
-    <div class="actions">
-        <input type="submit" value="{{ 'resetting.request.submit'|trans({}, 'FOSUserBundle') }}" class="btn btn-primary btn-medium" />
-    </div>
+    <input type="submit" class="btn btn-primary btn-block" value="{{ 'resetting.reset.submit'|trans({}, 'FOSUserBundle') }}" />
+    <br />
+    <a href="{{ path("fos_user_security_login") }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
 </form>

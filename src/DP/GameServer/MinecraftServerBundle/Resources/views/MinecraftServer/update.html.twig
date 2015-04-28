@@ -11,6 +11,7 @@
 
 {% import '::actions.html.twig' as dedipanel_actions %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
+{% form_theme form 'MopaBootstrapBundle:Form:fields.html.twig' %}
 
 {% block title %}
     {{ dedipanel_buttons.back(path('dedipanel_minecraft_index'), 'minecraft.editTitle'|trans) }}
@@ -19,7 +20,7 @@
 {% block body %}
     <h2>{{ 'minecraft.edit'|trans }}</h2>
     
-    <form id="form-update" action="{{ path('dedipanel_minecraft_update', { 'id': minecraft.id }) }}" method="post" {{ form_enctype(form) }} class="form-edit">
+    <form id="form-update" action="{{ path('dedipanel_minecraft_update', { 'id': minecraft.id }) }}" method="post" {{ form_enctype(form) }} class="form-edit" class="form-horizontal">
         {{ form_errors(form) }}
 
         {{ form_row(form.name) }}
@@ -40,7 +41,7 @@
         {{ form_rest(form) }}
     </form>
     
-    <div class="form-actions">
+    <div class="form-actions clearfix">
         {{ dedipanel_actions.update(path('dedipanel_minecraft_show', {'id': minecraft.id})) }}
         {{ dedipanel_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id}), null, false, true, 'ROLE_DP_GAME_MINECRAFT_DELETE', minecraft) }}
         {{ dedipanel_buttons.delete(path('dedipanel_minecraft_delete', {'id': minecraft.id, 'fromMachine': true}), 'dedipanel.full_delete'|trans, false, true, 'ROLE_DP_GAME_MINECRAFT_DELETE', minecraft) }}

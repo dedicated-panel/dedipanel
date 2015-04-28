@@ -11,6 +11,7 @@
 
 {% import '::actions.html.twig' as dedipanel_actions %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
+{% form_theme form 'MopaBootstrapBundle:Form:fields.html.twig' %}
 
 {% block title %}
     {{ dedipanel_buttons.back(path('dedipanel_user_show', {'id': user.id}), 'user.title.user'|trans) }}
@@ -19,11 +20,11 @@
 {% block body %}
     <h2>{{ 'user.title.edit'|trans }}</h2>
 
-    <form id="form-update" action="{{ path('dedipanel_user_update', { 'id': user.id }) }}" method="post" class="form-edit">    
+    <form action="{{ path('dedipanel_user_update', { 'id': user.id }) }}" id="form-update" method="post" class="form-horizontal">
         {{ form_widget(form) }}
     </form>
     
-    <div class="form-actions">
+    <div class="form-actions clearfix">
         {{ dedipanel_actions.update(path('dedipanel_user_show', {'id': user.id})) }}    
         {{ dedipanel_buttons.delete(path('dedipanel_user_delete', {'id': user.id}), null, false, true, 'ROLE_DP_ADMIN_USER_DELETE', user) }}
     </div>
