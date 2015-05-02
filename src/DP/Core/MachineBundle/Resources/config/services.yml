@@ -44,3 +44,8 @@ services:
         arguments: [ @dedipanel.repository.machine, @dedipanel.resolver.user_group, @security.context ]
         tags:
             - { name: form.type, alias: dedipanel_machine_entity }
+
+    dedipanel.machine.core_assignment_type:
+        class: DP\Core\MachineBundle\Form\CoreAssignmentType
+        tags:
+            - { name: form.type, alias: dedipanel_core_assignment }

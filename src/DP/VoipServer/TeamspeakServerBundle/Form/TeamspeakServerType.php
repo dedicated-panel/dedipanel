@@ -15,67 +15,49 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class TeamspeakServerType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        /** @var \DP\VoipServer\TeamspeakServerBundle\Entity\TeamspeakServer $teamspeak */
+        $teamspeak = $builder->getData();
+
         $builder
-            ->add('voice_port', 'number', array('label' => 'voip.voice_port'))
-            ->add('query_port', 'number', array('label' => 'voip.query_port'))
-            ->add('filetransfer_port', 'number', array('label' => 'teamspeak.filetransfer_port'))
-            ->add('licence_file', 'file', array(
+            ->add('machine', 'dedipanel_machine_entity')
+            ->add('dir', 'text', ['label' => 'game.dir'])
+            ->add('voice_port', 'number', ['label' => 'voip.voice_port'])
+            ->add('query_port', 'number', ['label' => 'voip.query_port'])
+            ->add('query_password', 'password', ['label' => 'voip.query_password'])
+            ->add('filetransfer_port', 'number', ['label' => 'teamspeak.filetransfer_port'])
+            ->add('licence_file', 'file', [
                 'label'    => 'teamspeak.licence',
                 'required' => false,
-            ))
-            ->add('alreadyInstalled', 'choice', array(
-                'choices'   => array(1 => 'game.yes', 0 => 'game.no'),
+            ])
+            ->add('core', 'dedipanel_core_assignment', ['machine' => $teamspeak->getMachine()])
+            ->add('alreadyInstalled', 'choice', [
+                'choices'   => [1 => 'game.yes', 0 => 'game.no'], // @TODO: Use KnpDictionaryBundle
                 'label'     => 'game.isAlreadyInstalled',
                 'expanded'  => true
-            ))
-            ->add('query_password', 'password', array(
-                'label' => 'voip.query_password',
-                'required' => true,
-            ))
+            ])
         ;
-
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            $form      = $event->getForm();
-            /** @var DP\VoipServer\TeamspeakServerBundle\Entity\TeamspeakServer $teamspeak */
-            $teamspeak = $event->getData();
-
-            $isUpdateForm = ($teamspeak->getId() != null);
-
-            $form
-                ->add('machine', 'dedipanel_machine_entity', array(
-                    'disabled' => $isUpdateForm,
-                ))
-                ->add('dir', 'text', array(
-                    'label' => 'game.dir',
-                    'disabled' => $isUpdateForm,
-                ))
-            ;
-
-            if ($teamspeak->getId() !== null) {
-                $form->remove('alreadyInstalled');
-
-                if ($teamspeak->getMachine()->getNbCore() != null) {
-                    $choices = array_combine(
-                        range(0, $teamspeak->getMachine()->getNbCore()-1),
-                        range(1, $teamspeak->getMachine()->getNbCore())
-                    );
-
-                    $form->add('core', 'choice', array(
-                        'label'    => 'game.core',
-                        'choices'  => $choices,
-                        'multiple' => true,
-                        'required' => false,
-                    ));
-                }
-            }
-        });
     }
 
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver
+            ->setDefaults([
+                'remove_on_create'  => ['core'],
+                'remove_on_update'  => ['alreadyInstalled'],
+                'disable_on_update' => ['machine', 'dir'],
+            ])
+        ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'dedipanel_teamspeak';

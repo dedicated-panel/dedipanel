@@ -55,3 +55,9 @@ services:
             - [ setContainer, [ @service_container ] ]
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    dedipanel.form.dynamic_fields_type_extension:
+        class: DP\Core\CoreBundle\Form\Extension\DynamicFieldsTypeExtension
+        arguments: [@doctrine, @form.factory]
+        tags:
+          - { name: form.type_extension, alias: form }
