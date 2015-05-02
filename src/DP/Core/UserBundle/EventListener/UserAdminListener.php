@@ -38,10 +38,9 @@ class UserAdminListener
     public function onKernelController(FilterControllerEvent $event)
     {
         $request = $event->getRequest();
+        $_sylius = $request->attributes->get('_sylius');
 
-        if ($request->attributes->get('_route') == static::USER_INDEX
-        && $this->context->isGranted(User::ROLE_SUPER_ADMIN)) {
-            $_sylius = $request->attributes->get('_sylius');
+        if ($this->context->isGranted(User::ROLE_SUPER_ADMIN) && isset($_sylius['criteria']['groups'])) {
             unset($_sylius['criteria']['groups']);
 
             $request->attributes->set('_sylius', $_sylius);

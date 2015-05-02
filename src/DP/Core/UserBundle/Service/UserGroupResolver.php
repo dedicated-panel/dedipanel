@@ -38,16 +38,24 @@ class UserGroupResolver
         $groups = [];
         $user   = $this->context->getToken()->getUser();
 
-        if ($this->context->isGranted(User::ROLE_SUPER_ADMIN)) {
-            $groups = $this->groupRepo
-                ->getChildren(null);
+        if ($this->isGranted(User::ROLE_SUPER_ADMIN)) {
+            $groups = $this
+                ->groupRepo
+                ->getChildren(null)
+            ;
         }
-        elseif ($this->context->isGranted(User::ROLE_ADMIN)) {
-            $groups = $this->groupRepo
-                ->getChildren($user->getGroup(), false, null, "asc", true);
+        elseif ($this->isGranted(User::ROLE_ADMIN)) {
+            $groups = $this
+                ->groupRepo
+                ->getChildren($user->getGroup(), false, null, "asc", true)
+            ;
         }
         elseif ($user->getGroup() !== null) {
             $groups = [$user->getGroup()];
+        }
+
+        if (empty($groups) && !$this->isGranted(User::ROLE_ADMIN)) {
+            throw new \RuntimeException('Security error! This user should not have empty group access. This can lead to security breach.');
         }
 
         return $groups;
@@ -55,13 +63,13 @@ class UserGroupResolver
     
     public function getAccessibleGroupsId()
     {
-        $ids = [];
-        $groups = $this->getAccessibleGroups();
-        
-        foreach ($groups AS $group) {
-            $ids[] = $group->getId();
-        }
-        
-        return $ids;
+        return array_map(function ($group) {
+            return $group->getId();
+        }, $this->getAccessibleGroups());
+    }
+
+    private function isGranted($role)
+    {
+        return $this->context->isGranted($role);
     }
 }

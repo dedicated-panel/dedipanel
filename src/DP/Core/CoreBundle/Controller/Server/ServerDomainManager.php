@@ -240,6 +240,8 @@ class ServerDomainManager extends DomainManager
      * Finalize a server installation
      *
      * @param ServerInterface $server
+     *
+     * @return boolean
      */
     protected function finalizeInstall(ServerInterface $server)
     {
