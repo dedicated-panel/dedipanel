@@ -23,6 +23,7 @@ Feature: Minecraft server management
       | 127.0.0.1 | testing1 | id_rsa1 | Team 1    |
       | 127.0.0.1 | testing2 | id_rsa2 | SubTeam 1 |
       | 127.0.0.1 | testing3 | id_rsa3 | Team 2    |
+      | 127.0.0.1 | testing4 | id_rsa4 |           |
       | 127.0.0.1 | bugged   |         | SubTeam 1 |
     And there are following games:
       | name      | installName | launchName | bin                  | type      | available |
@@ -59,7 +60,7 @@ Feature: Minecraft server management
       And I am on the minecraft index page
      When I follow "Ajouter un serveur Minecraft"
      Then I should be on the minecraft creation page
-      And I should see 4 "machine" options in "dedipanel_minecraft" form
+      And I should see 5 "machine" options in "dedipanel_minecraft" form
 
   Scenario: Accessing the minecraft creation form as team admin
     Given I am logged in with baz account
@@ -109,6 +110,29 @@ Feature: Minecraft server management
       And I should see 2 success message
       And I should see "Le serveur minecraft a bien été ajouté."
       And I should see "L'installation de votre serveur est terminé."
+      And I should see "Test4"
+
+  Scenario: Adding a minecraft server with a super-admin account
+    Given I am logged in with foo account
+      And I am on the minecraft creation page
+     When I fill in dedipanel_minecraft form with:
+      | machine      | testing4         |
+      | name         | Test Super-Admin |
+      | port         | 25565            |
+      | queryPort    | 25565            |
+      | rconPort     | 25575            |
+      | rconPassword | test5            |
+      | game         | minecraft        |
+      | dir          | test5            |
+      | maxplayers   | 2                |
+      | minHeap      | 128              |
+      | maxHeap      | 256              |
+      And I press "Créer"
+     Then I should be on the minecraft index page
+      And I should see 2 success message
+      And I should see "Le serveur minecraft a bien été ajouté."
+      And I should see "L'installation de votre serveur est terminé."
+      And I should see "Test Super-Admin"
 
   Scenario: Adding an existing minecraft server
     Given I am logged in with boz account

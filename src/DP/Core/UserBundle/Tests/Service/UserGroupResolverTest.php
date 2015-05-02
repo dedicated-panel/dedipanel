@@ -114,9 +114,9 @@ class UserGroupResolverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($groups, $this->resolver->getAccessibleGroups());
     }
 
-    public function testGettingAccessibleGroupsWhenErroredUser()
+    public function testGettingAccessibleGroupsWhithErroredUser()
     {
-        $this->context->expects($this->exactly(2))
+        $this->context->expects($this->exactly(3))
             ->method('isGranted')
             ->will($this->returnValue(false));
         $this->groupRepo->expects($this->never())
@@ -124,6 +124,8 @@ class UserGroupResolverTest extends \PHPUnit_Framework_TestCase
         $this->user->expects($this->once())
             ->method('getGroup')
             ->will($this->returnValue(null));
+
+        $this->setExpectedException('\RuntimeException', 'Security error! This user should not have empty group access. This can lead to security breach.');
 
         $this->assertEmpty($this->resolver->getAccessibleGroups());
     }

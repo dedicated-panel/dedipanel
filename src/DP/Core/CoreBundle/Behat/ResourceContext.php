@@ -119,7 +119,12 @@ class ResourceContext extends SyliusDefaultContext
     {
         foreach ($table->getHash() as $data) {
             $groups = isset($data['groups']) ? $data['groups'] : $data['group'];
-            $groups = array_map('trim', explode(',', $groups));
+
+            if (!empty($groups)) {
+                $groups = array_map('trim', explode(',', $groups));
+            } else {
+                $groups = [];
+            }
 
             $this->thereIsMachine(
                 $data['username'],
