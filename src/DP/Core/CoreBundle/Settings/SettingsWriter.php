@@ -47,7 +47,7 @@ class SettingsWriter
     private function convertToArray(Settings $settings)
     {
         return [
-            'debug' => boolval($settings->getDebug()),
+            'debug' => (bool) $settings->getDebug(),
         ];
     }
 }
