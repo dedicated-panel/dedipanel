@@ -31,6 +31,10 @@ class DPMachineExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        if (isset($config['private_keys_path'])) {
+            $container->setParameter('dedipanel.key_store.file.path', $config['private_keys_path']);
+        }
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }

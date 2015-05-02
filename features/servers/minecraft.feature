@@ -1,4 +1,4 @@
-@minecraft
+@servers
 Feature: Minecraft server management
   In order to manage minecraft server
   As a panel user

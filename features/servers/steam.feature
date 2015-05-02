@@ -1,4 +1,4 @@
-@steam
+@servers
 Feature: Steam server management
   In order to manage steam server
   As a panel user

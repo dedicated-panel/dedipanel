@@ -5,6 +5,10 @@
 # For the full copyright and license information, please view the LICENSE
 # file that was distributed with this source code.
 
+imports:
+    - { resource: services/core_settings.yml }
+    - { resource: services/phpseclib.yml }
+
 services:
     monolog.processor.psr_log_message:
         class: Monolog\Processor\PsrLogMessageProcessor
@@ -34,7 +38,9 @@ services:
 
     dp_core.twig_extension:
         class: DP\Core\CoreBundle\Twig\CoreExtension
-        arguments: [ @dp_core.update_watcher.service, "%dedipanel.debug%" ]
+        arguments:
+          - @dp_core.update_watcher.service
+          - @=service('dedipanel.core_settings.settings').getDebug()
         tags:
             - { name: twig.extension }
 

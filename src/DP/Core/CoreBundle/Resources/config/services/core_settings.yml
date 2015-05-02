@@ -1,0 +1,32 @@
+# This file is part of Dedipanel project
+#
+# (c) 2010-2015 Dedipanel <http://www.dedicated-panel.net>
+#
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+
+parameters:
+    dedipanel.core_settings.file_path: "%kernel.root_dir%/config/dedipanel.yml"
+
+services:
+    dedipanel.core_settings.reader:
+        class: DP\Core\CoreBundle\Settings\SettingsReader
+        arguments: [%dedipanel.core_settings.file_path%, @logger]
+
+    dedipanel.core_settings.writer:
+        class: DP\Core\CoreBundle\Settings\SettingsWriter
+        arguments: [%dedipanel.core_settings.file_path%]
+
+    dedipanel.core_settings.factory:
+        class: DP\Core\CoreBundle\Settings\SettingsFactory
+        arguments: [@dedipanel.core_settings.reader]
+
+    dedipanel.core_settings.settings:
+        class: DP\Core\CoreBundle\Settings\Settings
+        factory_service: dedipanel.core_settings.factory
+        factory_method: create
+
+    dedipanel.core_settings.form:
+        class: DP\Core\CoreBundle\Form\SettingsType
+        tags:
+            - { name: form.type, alias: core_settings }

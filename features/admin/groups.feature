@@ -1,4 +1,4 @@
-@groups_admin
+@admin
 Feature: Groups management
   In order to manage groups
   As a panel owner

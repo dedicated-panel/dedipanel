@@ -1,4 +1,4 @@
-@teamspeak_instance
+@servers
 Feature: Teamspeak instances management
   In order to manage teamspeak instances
   As a panel user

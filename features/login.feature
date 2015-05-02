@@ -1,4 +1,4 @@
-@users
+@user
 Feature: Sign in to the panel
   In order to manage my servers
   As a visitor

@@ -13,6 +13,6 @@
     <h3>{{ 'configurator.final.title'|trans }}</h3>
     
     <p>
-        {% autoescape false %}{{ 'configurator.final.modify_app_file'|trans({ '%urlRewrite%': path('dedipanel_installer_rewrite_front_script'), '%urlConnect%': path('_welcome') }) }}{% endautoescape %}<br />
+        {% autoescape false %}{{ 'configurator.final.modify_app_file'|trans({ '%urlRewrite%': path('dedipanel_installer_rewrite_front_script') }) }}{% endautoescape %}<br />
     </p>
 {% endblock %}

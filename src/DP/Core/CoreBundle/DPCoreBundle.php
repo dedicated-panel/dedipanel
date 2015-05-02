@@ -14,11 +14,8 @@ namespace DP\Core\CoreBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use DP\Core\CoreBundle\DependencyInjection\Compiler\PhpseclibDebugCompilerPass;
+use Symfony\Component\Config\Resource\FileResource;
 
 class DPCoreBundle extends Bundle
 {
-    public function build(ContainerBuilder $container)
-    {
-        $container->addCompilerPass(new PhpseclibDebugCompilerPass);
-    }
 }

@@ -11,17 +11,12 @@
 
 namespace DP\Core\CoreBundle\Behat;
 
-use FOS\UserBundle\Doctrine\UserManager;
 use Sylius\Bundle\ResourceBundle\Behat\DefaultContext as SyliusDefaultContext;
 use Behat\Gherkin\Node\TableNode;
 
 class DefaultContext extends SyliusDefaultContext
 {
-    protected $users = [];
-
     /**
-     * Actions.
-     *
      * @var array
      */
     protected $actions = array(
@@ -52,64 +47,33 @@ class DefaultContext extends SyliusDefaultContext
         return $this->locatePath($this->generateUrl($route, $parameters));
     }
 
-    protected function getRepository($resource)
+    /**
+     * @param string $baseName
+     */
+    protected function getRepository($resource, $baseName = null)
     {
-        return $this->getService('dedipanel.repository.'.$resource);
-    }
+        $service = 'dedipanel.';
 
-    public function thereIsUser($username, $email, $password, $role = null, $enabled = true, $group = null, $flush = true)
-    {
-        if (null === $user = $this->getRepository('user')->findOneBy(array('username' => $username))) {
-            /* @var $user FOS\UserBundle\Model\UserInterface */
-            $user = $this->getRepository('user')->createNew();
-            $user->setUsername($username);
-            $user->setEmail($email);
-            $user->setEnabled($enabled);
-            $user->setPlainPassword($password);
-
-            if (null !== $role) {
-                $user->addRole($role);
-            }
-
-            if ($group !== null) {
-                $group = $this->thereIsGroup($group);
-                $user->setGroup($group);
-            }
-
-            $this->validate($user);
-            $this->getEntityManager()->persist($user);
-
-            if ($flush) {
-                $this->getEntityManager()->flush();
-            }
-
-            $this->users[$username] = $password;
+        if (!empty($baseName)) {
+            $service .= $baseName . '.';
         }
 
-        return $user;
+        return $this->getService($service . 'repository.'.$resource);
     }
 
-    public function thereIsGame($name, $installName = null, $launchName = null, $bin = null, $type = null, $available = true, $flush = true)
+    protected function findOneBy($type, array $criteria, $repoPrefix = '')
     {
-        if (null === $game = $this->getRepository('game')->findOneBy(array('name' => $name))) {
-            $game = $this->getRepository('game')->createNew();
-            $game->setName($name);
-            $game->setInstallName($installName);
-            $game->setLaunchName($launchName);
-            $game->setBin($bin);
-            $game->setType($type);
-            $game->setAvailable($available);
+        $resource = $this
+            ->getRepository($type, $repoPrefix)
+            ->findOneBy($criteria);
 
-            $this->validate($game);
-
-            $this->getEntityManager()->persist($game);
-
-            if ($flush) {
-                $this->getEntityManager()->flush();
-            }
+        if (null === $resource) {
+            throw new \InvalidArgumentException(
+                sprintf('%s for criteria "%s" was not found.', str_replace('_', ' ', ucfirst($type)), serialize($criteria))
+            );
         }
 
-        return $game;
+        return $resource;
     }
 
     /**
@@ -179,26 +143,6 @@ class DefaultContext extends SyliusDefaultContext
     }
 
     /**
-     * @Given /^there are following users:$/
-     */
-    public function thereAreFollowingUsers(TableNode $table)
-    {
-        foreach ($table->getHash() as $data) {
-            $this->thereIsUser(
-                $data['username'],
-                $data['email'],
-                $data['password'],
-                isset($data['role']) ? $data['role'] : 'ROLE_USER',
-                isset($data['enabled']) ? $data['enabled'] : true,
-                isset($data['group']) && !empty($data['group']) ? $data['group'] : null,
-                false
-            );
-        }
-
-        $this->getEntityManager()->flush();
-    }
-
-    /**
      * @Given /^I am logged in with (.*) account$/
      */
     public function iAmLoggedInWithAccount($username)
@@ -214,26 +158,6 @@ class DefaultContext extends SyliusDefaultContext
         $this->fillField("Nom d'utilisateur", $username);
         $this->fillField('Mot de passe', $password);
         $this->pressButton('Connexion');
-    }
-
-    /**
-     * @Given /^there are following games:$/
-     */
-    public function thereAreFollowingGames(TableNode $table)
-    {
-        foreach ($table->getHash() as $data) {
-            $this->thereIsGame(
-                $data['name'],
-                $data['installName'],
-                isset($data['launchName']) ? $data['launchName'] : $data['installName'],
-                $data['bin'],
-                $data['type'],
-                (isset($data['available']) && $data['available'] == 'yes'),
-                false
-            );
-        }
-
-        $this->getEntityManager()->flush();
     }
 
     /**
@@ -413,103 +337,11 @@ class DefaultContext extends SyliusDefaultContext
     }
 
     /**
-     * @Given /^there are following plugins:$/
-     */
-    public function thereAreFollowingPlugins(TableNode $table)
-    {
-        foreach ($table->getHash() as $data) {
-            $this->thereIsPlugin(
-                $data['name'],
-                $data['version'],
-                $data['scriptName'],
-                'http://' . $data['downloadUrl'],
-                false
-            );
-        }
-
-        $this->getEntityManager()->flush();
-    }
-
-    public function thereIsPlugin($name, $version, $scriptName, $downloadUrl, $flush = true)
-    {
-        if (null === $plugin = $this->getRepository('plugin')->findOneBy(array('name' => $name))) {
-            $plugin = $this->getRepository('plugin')->createNew();
-            $plugin->setName($name);
-            $plugin->setVersion($version);
-            $plugin->setScriptName($scriptName);
-            $plugin->setDownloadUrl($downloadUrl);
-
-            $this->validate($plugin);
-
-            $this->getEntityManager()->persist($plugin);
-
-            if ($flush) {
-                $this->getEntityManager()->flush();
-            }
-        }
-
-        return $plugin;
-    }
-
-    /**
      * @Then /^I should see (\d+) associated games?$/
      */
     public function iShouldSeeAssociatedGames($amount)
     {
         $this->assertSession()->elementsCount('css', 'ul.associated-games > li', $amount);
-    }
-
-    /**
-     * @Given /^there are following groups:$/
-     */
-    public function thereAreFollowingGroups(TableNode $table)
-    {
-        foreach ($table->getHash() as $data) {
-            $this->thereIsGroup(
-                $data['name'],
-                isset($data['roles']) ? array_map('trim', explode(',', $data['roles'])) : array(),
-                !empty($data['parent']) ? $data['parent'] : null
-            );
-        }
-
-        $this->getEntityManager()->flush();
-    }
-
-    public function thereIsGroup($name, array $roles = array(), $parent = null, $flush = true)
-    {
-        if (null === $group = $this->getRepository('group')->findOneBy(array('name' => $name))) {
-            /* @var $group UserInterface */
-            $group = $this->getRepository('group')->createNew();
-            $group->setName($name);
-            $group->setRoles($roles);
-
-            if ($parent !== null) {
-                $parent = $this->thereIsGroup($parent);
-                $group->setParent($parent);
-                $parent->addChildren($group);
-
-                $this->getEntityManager()->persist($parent);
-            }
-
-            $this->validate($group);
-
-            $this->getEntityManager()->persist($group);
-
-            if ($flush) {
-                $this->getEntityManager()->flush();
-            }
-        }
-
-        return $group;
-    }
-
-    protected function validate($data)
-    {
-        $violationList = $this->getService('validator')->validate($data);
-
-        if ($violationList->count() != 0) {
-            throw new \RuntimeException(sprintf('Data not valid (%s).', $violationList));
-        }
     }
 
     /**
@@ -563,53 +395,6 @@ class DefaultContext extends SyliusDefaultContext
         $locator = sprintf('//select[@name="%s" or @name="%s[]"]/option', $xpath, $xpath);
 
         $this->assertSession()->elementsCount('xpath', $locator, $count);
-    }
-
-    /**
-     * @Given /^there are following machines:$/
-     */
-    public function thereAreFollowingMachines(TableNode $table)
-    {
-        foreach ($table->getHash() as $data) {
-            $groups = isset($data['groups']) ? $data['groups'] : $data['group'];
-            $groups = array_map('trim', explode(',', $groups));
-
-            $this->thereIsMachine(
-                $data['username'],
-                $data['privateIp'],
-                $data['key'],
-                $groups,
-                (isset($data['is64Bit']) ? $data['is64Bit'] == 'yes' : false),
-                false
-            );
-        }
-
-        $this->getEntityManager()->flush();
-    }
-
-    public function thereIsMachine($username, $privateIp = null, $privateKey = null, $groups = array(), $is64Bit = false, $flush = true)
-    {
-        if (null === $machine = $this->getRepository('machine')->findOneBy(array('username' => $username))) {
-            $machine = $this->getRepository('machine')->createNew();
-            $machine->setIp($privateIp);
-            $machine->setUsername($username);
-            $machine->setPrivateKeyName($privateKey);
-            $machine->setHome('/home/' . $username);
-            $machine->setIs64Bit($is64Bit);
-
-            foreach ($groups AS $group) {
-                $group = $this->thereIsGroup($group);
-                $machine->addGroup($group);
-            }
-
-            $this->getEntityManager()->persist($machine);
-
-            if ($flush) {
-                $this->getEntityManager()->flush();
-            }
-        }
-
-        return $machine;
     }
 
     public function findField($form, $fieldName)

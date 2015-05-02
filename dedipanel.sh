@@ -122,6 +122,8 @@ fetch_git () {
 update_owner () {
     chmod 775 ./
     chown -R $USER:$GROUP ./
+    chmod 700 ./app/config/.ssh/
+    chown -R $USER:$GROUP ./app/config/.ssh/
 }
 
 case "$1" in

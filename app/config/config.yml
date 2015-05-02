@@ -131,4 +131,7 @@ doctrine_migrations:
     dir_name: %kernel.root_dir%/../src/DP/Core/DistributionBundle/Migrations
 
 dp_core:
-    version: '0.5.0'
+    version: '0.6.0'
+
+dp_machine:
+    private_keys_path: '%kernel.root_dir%/../app/config/.ssh/'

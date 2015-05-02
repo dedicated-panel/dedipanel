@@ -1,0 +1,14 @@
+services:
+    monolog.handler.phpseclib_wrapper.decorated_handler:
+        class: DP\Core\CoreBundle\Monolog\DebugOnlyHandler
+        decorates: monolog.handler.phpseclib_wrapper
+        arguments:
+            - @monolog.handler.phpseclib_wrapper.decorated_handler.inner
+            - @=service('dedipanel.core_settings.settings').getDebug()
+
+    monolog.handler.phpseclib_internal.decorated_handler:
+        class: DP\Core\CoreBundle\Monolog\DebugOnlyHandler
+        decorates: monolog.handler.phpseclib_internal
+        arguments:
+            - @monolog.handler.phpseclib_internal.decorated_handler.inner
+            - @=service('dedipanel.core_settings.settings').getDebug()

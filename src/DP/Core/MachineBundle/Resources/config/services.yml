@@ -6,7 +6,6 @@
 # file that was distributed with this source code.
 
 parameters:
-    dedipanel.key_store.file.path: '%kernel.root_dir%/../app/config/.ssh/%kernel.environment%'
     dedipanel.connection_manager.debug: true
 
 services:

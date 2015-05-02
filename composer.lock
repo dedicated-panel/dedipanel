@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7fe066c584e6e30d451b5df7127dec33",
+    "hash": "fe261351b4a4a68f9b7e91371d83ba31",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -48,17 +48,17 @@
         },
         {
             "name": "dedipanel/phpseclib-wrapper-bundle",
-            "version": "1.0.0",
+            "version": "dev-master",
             "target-dir": "Dedipanel/PHPSeclibWrapperBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dedicated-panel/PHPSeclibWrapperBundle.git",
-                "reference": "a747435e8eb2fed30ae719d8e1175ba2a39333e3"
+                "reference": "567df872cf43826ae7e2d51196fac182c7ef7b3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dedicated-panel/PHPSeclibWrapperBundle/zipball/a747435e8eb2fed30ae719d8e1175ba2a39333e3",
-                "reference": "a747435e8eb2fed30ae719d8e1175ba2a39333e3",
+                "url": "https://api.github.com/repos/dedicated-panel/PHPSeclibWrapperBundle/zipball/567df872cf43826ae7e2d51196fac182c7ef7b3e",
+                "reference": "567df872cf43826ae7e2d51196fac182c7ef7b3e",
                 "shasum": ""
             },
             "require": {
@@ -100,7 +100,7 @@
                 "sftp",
                 "ssh"
             ],
-            "time": "2014-12-26 21:40:40"
+            "time": "2015-03-29 20:30:11"
         },
         {
             "name": "doctrine/annotations",
@@ -443,24 +443,24 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "v2.5.0-RC2",
+            "version": "v2.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "f7dbc5dfdefa1a2b536ee4c0bc3e98dab37e8b53"
+                "reference": "628c2256b646ae2417d44e063bce8aec5199d48d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/f7dbc5dfdefa1a2b536ee4c0bc3e98dab37e8b53",
-                "reference": "f7dbc5dfdefa1a2b536ee4c0bc3e98dab37e8b53",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/628c2256b646ae2417d44e063bce8aec5199d48d",
+                "reference": "628c2256b646ae2417d44e063bce8aec5199d48d",
                 "shasum": ""
             },
             "require": {
-                "doctrine/common": "2.4.*",
+                "doctrine/common": ">=2.4,<2.6-dev",
                 "php": ">=5.3.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "4.0.*",
+                "phpunit/phpunit": "4.*",
                 "symfony/console": "2.*"
             },
             "suggest": {
@@ -510,7 +510,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2014-09-11 21:07:20"
+            "time": "2015-01-12 21:52:47"
         },
         {
             "name": "doctrine/doctrine-bundle",
@@ -1033,12 +1033,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "b9c0868f08666a61962f9581a415397118bf99fe"
+                "reference": "9c3cb579313ae01cdd3467b9f89fc15e9677b46c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/b9c0868f08666a61962f9581a415397118bf99fe",
-                "reference": "b9c0868f08666a61962f9581a415397118bf99fe",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/9c3cb579313ae01cdd3467b9f89fc15e9677b46c",
+                "reference": "9c3cb579313ae01cdd3467b9f89fc15e9677b46c",
                 "shasum": ""
             },
             "require": {
@@ -1100,7 +1100,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2015-01-12 21:05:12"
+            "time": "2015-01-13 14:05:45"
         },
         {
             "name": "friendsofsymfony/rest-bundle",
@@ -3134,16 +3134,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v2.5.9",
+            "version": "v2.6.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "e082a9f28edfd5a081b60e009889b30c04979924"
+                "reference": "80833da9d04b004fa59fd23102e6dfad80c98106"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/e082a9f28edfd5a081b60e009889b30c04979924",
-                "reference": "e082a9f28edfd5a081b60e009889b30c04979924",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/80833da9d04b004fa59fd23102e6dfad80c98106",
+                "reference": "80833da9d04b004fa59fd23102e6dfad80c98106",
                 "shasum": ""
             },
             "require": {
@@ -3159,6 +3159,7 @@
                 "symfony/console": "self.version",
                 "symfony/css-selector": "self.version",
                 "symfony/debug": "self.version",
+                "symfony/debug-bundle": "self.version",
                 "symfony/dependency-injection": "self.version",
                 "symfony/doctrine-bridge": "self.version",
                 "symfony/dom-crawler": "self.version",
@@ -3193,23 +3194,26 @@
                 "symfony/twig-bridge": "self.version",
                 "symfony/twig-bundle": "self.version",
                 "symfony/validator": "self.version",
+                "symfony/var-dumper": "self.version",
                 "symfony/web-profiler-bundle": "self.version",
                 "symfony/yaml": "self.version"
             },
             "require-dev": {
                 "doctrine/data-fixtures": "1.0.*",
                 "doctrine/dbal": "~2.2",
+                "doctrine/doctrine-bundle": "~1.2",
                 "doctrine/orm": "~2.2,>=2.2.3",
                 "egulias/email-validator": "~1.2",
                 "ircmaxell/password-compat": "~1.0",
-                "monolog/monolog": "~1.3",
+                "monolog/monolog": "~1.11",
                 "ocramius/proxy-manager": "~0.4|~1.0",
-                "propel/propel1": "~1.6"
+                "propel/propel1": "~1.6",
+                "symfony/phpunit-bridge": "~2.7"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -3243,7 +3247,58 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2015-01-07 12:32:08"
+            "time": "2015-03-17 14:58:46"
+        },
+        {
+            "name": "twbs/bootstrap",
+            "version": "v3.3.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twbs/bootstrap.git",
+                "reference": "a10eb60bc0b07b747fa0c4ebd8821eb7307bd07f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/a10eb60bc0b07b747fa0c4ebd8821eb7307bd07f",
+                "reference": "a10eb60bc0b07b747fa0c4ebd8821eb7307bd07f",
+                "shasum": ""
+            },
+            "replace": {
+                "twitter/bootstrap": "self.version"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jacob Thornton",
+                    "email": "jacobthornton@gmail.com"
+                },
+                {
+                    "name": "Mark Otto",
+                    "email": "markdotto@gmail.com"
+                }
+            ],
+            "description": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
+            "homepage": "http://getbootstrap.com",
+            "keywords": [
+                "JS",
+                "css",
+                "framework",
+                "front-end",
+                "less",
+                "mobile-first",
+                "responsive",
+                "web"
+            ],
+            "time": "2015-03-16 15:44:41"
         },
         {
             "name": "twig/extensions",
@@ -4735,11 +4790,11 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "doctrine/orm": 20,
-        "doctrine/dbal": 5,
         "doctrine/migrations": 20,
         "gedmo/doctrine-extensions": 20,
         "sylius/resource-bundle": 20,
         "sylius/resource": 20,
+        "dedipanel/phpseclib-wrapper-bundle": 20,
         "phpseclib/phpseclib": 20,
         "behat/symfony2-extension": 20,
         "behat/mink-extension": 20,

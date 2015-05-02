@@ -48,6 +48,7 @@ class AppKernel extends Kernel
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
+            $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
         }
 
         return $bundles;
@@ -57,7 +58,7 @@ class AppKernel extends Kernel
     {
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
         $loader->load(__DIR__.'/config/security.yml');
-        $loader->load(__DIR__.'/config/dedipanel.yml');
+        $loader->load(__DIR__.'/config/roles.yml');
         $loader->load(__DIR__.'/config/resources.yml');
     }
 }

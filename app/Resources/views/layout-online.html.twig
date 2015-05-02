@@ -62,11 +62,9 @@
                 
             <footer>
                 <p>
-                    DediPanel {% spaceless %}
+                    DediPanel v{{ dedipanel.current_version }} {% spaceless %}
                         {# L'UpdateWatcher n'est chargé que sur l'environnement de prod #}
                         {% if app.environment == 'prod' and is_granted('ROLE_SUPER_ADMIN') %}
-                            {{ dedipanel.current_version }}
-
                             {% if dedipanel.update_available %}
                                 (<a href="http://www.dedicated-panel.net" target="_blank">{{ 'updateAvailable'|trans({'%versionAvailable%': dedipanel.version_available}) }}</a>)
                             {% endif %}

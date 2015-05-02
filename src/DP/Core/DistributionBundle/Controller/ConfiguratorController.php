@@ -13,11 +13,21 @@ namespace DP\Core\DistributionBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ConfiguratorController extends Controller
 {
+    private function isGrantedOr403()
+    {
+        if (!$this->get('security.context')->isGranted('ROLE_INSTALLER_USER')) {
+            // throw new AccessDeniedException;
+        }
+    }
+
     public function indexAction()
     {
+        $this->isGrantedOr403();
+
         $request = $this->get('request');
         $form    = $this->getProcessTypeForm()->handleRequest($request);
 
@@ -50,6 +60,8 @@ class ConfiguratorController extends Controller
 
     public function checkAction($type)
     {
+        $this->isGrantedOr403();
+
         $config = $this->getConfigurator()->getRequirements();
 
         return $this->render('DPDistributionBundle:Configurator:check.html.twig', array(
@@ -65,6 +77,8 @@ class ConfiguratorController extends Controller
      */
     public function stepAction($type, $step)
     {
+        $this->isGrantedOr403();
+
         $index = $step;
         $step  = $this->getConfigurator()->getInstallStep($index);
         $stepCount = $this->getConfigurator()->getInstallStepCount();
@@ -111,18 +125,8 @@ class ConfiguratorController extends Controller
         return $this->render('DPDistributionBundle:Configurator:final.html.twig');
     }
 
-        public function rewriteFrontScriptAction()
+    public function rewriteFrontScriptAction()
     {
-        $rootDir = $this->get('kernel')->getRootDir();
-        $filepath = $rootDir . '/../web/.htaccess';
-        
-        if (is_writable($filepath)) {
-            $content = file_get_contents($filepath);
-            $content = str_replace('app_installer.php', 'app.php', $content);
-
-            file_put_contents($filepath, $content);
-        }
-
         // Suppression "hard" du cache de prod (si présent)
         // pour s'assurer qu'il contient bien les derniers paramètres
         $this->deleteCache();

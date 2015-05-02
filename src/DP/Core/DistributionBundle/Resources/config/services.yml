@@ -9,3 +9,17 @@ services:
     dp.webinstaller:
         class: "DP\Core\DistributionBundle\Configurator\Configurator"
         arguments: [ %kernel.root_dir% ]
+
+    dedipanel.installer.security_voter:
+        class: DP\Core\DistributionBundle\Security\InstallerVoter
+        arguments: [ @service_container, "%kernel.root_dir%/../installer_whitelist.txt" ]
+        public: false
+        tags:
+            - { name: security.voter }
+
+    dedipanel.kernel.listener.exception:
+        class: DP\Core\DistributionBundle\EventListener\ExceptionListener
+        arguments: [ @request ]
+        scope: request
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 1000}
