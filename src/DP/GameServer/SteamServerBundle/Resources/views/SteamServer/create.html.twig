@@ -24,22 +24,7 @@
     <h2>{{ 'steam.add'|trans }}</h2>
 
     <form action="{{ path('dedipanel_steam_create') }}" method="post" {{ form_enctype(form) }} id="form-create">
-        {{ form_errors(form) }}
-
-        {{ form_row(form.name) }}
-        {{ form_row(form.machine) }}
-        {{ form_row(form.dir) }}
-        {{ form_row(form.port) }}
-        {{ form_row(form.game) }}
-        {% if form.mode is defined %}
-            {{ form_row(form.mode) }}
-        {% endif %}
-        {{ form_row(form.maxplayers) }}
-        {{ form_row(form.svPassword) }}
-        {{ form_row(form.rconPassword) }}
-        {{ form_row(form.alreadyInstalled) }}
-
-        {{ form_rest(form) }}
+        {{ form_widget(form) }}
 
         {{ dedipanel_actions.create() }}
     </form>
