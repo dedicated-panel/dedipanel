@@ -312,7 +312,9 @@ class SteamServer extends GameServer
 
         $scriptPath = $this->getAbsoluteHldsScriptPath();
         $isCsgo = $this->getGame()->getLaunchName() == 'csgo';
-        $isRust = $this->getGame()->getLaunchName() == 'rust';
+        $isJustCause = $this->getGame()->getLaunchName() == 'justcause';
+        $isNs2 = $this->getGame()->getLaunchName() == 'ns2';
+        $isKF = $this->getGame()->getLaunchName() == 'KFmod.KFGameType';
         $gameType = '';
         $gameMode = '';
         $mapGroup = '';
@@ -341,13 +343,23 @@ class SteamServer extends GameServer
         }
 
         $hldsScript = $twig->render('DPSteamServerBundle:sh:hlds.sh.twig', array(
-            'screenName' => $this->getScreenName(), 'bin' => $game->getBin(),
-            'launchName' => $game->getLaunchName(), 'ip' => $this->getMachine()->getPublicIp(),
-            'port' => $this->getPort(), 'maxplayers' => $this->getMaxplayers(),
-            'startMap' => $game->getMap(), 'binDir' => $this->getAbsoluteBinDir(),
-            'core' => implode(',', $this->getCore()), 'isCsgo' => $isCsgo,
-            'gameType' => $gameType, 'gameMode' => $gameMode,
-            'mapGroup' => $mapGroup,
+            'screenName'        => $this->getScreenName(),
+            'bin'               => $game->getBin(),
+            'name'              => $this->getName(),
+            'launchName'        => $game->getLaunchName(),
+            'ip'                => $this->getMachine()->getPublicIp(),
+            'port'              => $this->getPort(),
+            'maxplayers'        => $this->getMaxplayers(),
+            'startMap'          => $game->getMap(),
+            'binDir'            => $this->getAbsoluteBinDir(),
+            'core'              => implode(',', $this->getCore()),
+            'isCsgo'            => $isCsgo,
+            'isJustCause'       => $isJustCause,
+            'isNs2'             => $isNs2,
+            'isKF'              => $isKF,
+            'gameType'          => $gameType,
+            'gameMode'          => $gameMode,
+            'mapGroup'          => $mapGroup,
         ));
 
         return $conn->upload($scriptPath, $hldsScript, 0750);
