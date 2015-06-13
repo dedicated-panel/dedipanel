@@ -12,6 +12,7 @@
 namespace DP\GameServer\GameServerBundle\Controller;
 
 use DP\Core\CoreBundle\Controller\ResourceController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -253,14 +254,15 @@ class FTPController extends ResourceController
 
     /**
      * @param GameServer $server
-     * @param string $path
-     * @return Dedipanel\PHPSeclibWrapperBundle\SFTP\AbstractItem
+     * @param string     $path
+     *
+     * @return \Dedipanel\PHPSeclibWrapperBundle\SFTP\AbstractItem
      */
     public function getResource(GameServer $server, $path)
     {
         $path = '~/' . $path;
 
-        /** @var Dedipanel\PHPSeclibWrapperBundle\SFTP\SFTPItemFactory $factory */
+        /** @var \Dedipanel\PHPSeclibWrapperBundle\SFTP\SFTPItemFactory $factory */
         $factory  = $this->get('dedipanel.sftp_factory');
 
         try {
