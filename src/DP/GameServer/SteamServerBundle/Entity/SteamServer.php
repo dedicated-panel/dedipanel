@@ -185,7 +185,6 @@ class SteamServer extends GameServer
         $installDir = $this->getAbsoluteDir();
         $scriptPath = $installDir . 'install.sh';
         $screenName = $this->getInstallScreenName();
-        $steamCmd = $this->getGame()->getSteamCmd();
         $bin = $this->getGame()->getBin();
         $appId = $this->game->getappId();
         $appMod =  $this->game->getappMod();

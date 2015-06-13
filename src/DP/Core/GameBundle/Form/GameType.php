@@ -29,7 +29,6 @@ class GameType extends AbstractType
             ->add('bin', null, array('label' => 'game.fields.bin'))
             ->add('binDir', null, array('label' => 'game.fields.binDir'))
             ->add('cfgPath', null, array('label' => 'game.fields.cfgPath', 'required' => false))
-            ->add('steamCmd', null, array('label' => 'game.fields.isSteamCmd', 'required' => false))
             ->add('source', null, array('label' => 'game.fields.isSource', 'required' => false))
             ->add('appId', null, array('label' => 'game.fields.appId'))
             ->add('appMod', null, array('label' => 'game.fields.appMod'))

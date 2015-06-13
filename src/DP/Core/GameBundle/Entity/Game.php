@@ -46,13 +46,6 @@ class Game
     private $name = '';
 
     /**
-     * @var boolean $steamCmd
-     *
-     * @ORM\Column(name="steamCmd", type="boolean")
-     */
-    private $steamCmd = false; // default value
-
-    /**
      * @var boolean $source
      *
      * @ORM\Column(name="source", type="boolean")
@@ -111,7 +104,7 @@ class Game
      */
     private $binDir;
 
-   /**
+    /**
      * @var string $cfgPath
      *
      * @ORM\Column(name="cfgPath", type="string", length=255, nullable=true)
@@ -421,29 +414,6 @@ class Game
     }
 
     /**
-     * Set steamCmd
-     *
-     * @param boolean $steamCmd
-     * @return Game
-     */
-    public function setSteamCmd($steamCmd)
-    {
-        $this->steamCmd = $steamCmd;
-
-        return $this;
-    }
-
-    /**
-     * Get steamCmd
-     *
-     * @return boolean
-     */
-    public function getSteamCmd()
-    {
-        return $this->steamCmd;
-    }
-
-    /**
      * Set appId
      *
      * @param integer $appId
@@ -552,17 +522,16 @@ class Game
     {
         return $this->gameServers;
     }
-    
+
     public function validateAppId(ExecutionContextInterface $context)
     {
         $appId = $this->getAppId();
         
-        if (true === $this->getSteamCmd() && empty($appId)) {
+        if ('steam' === $this->getType() && empty($appId)) {
             $context->buildViolation('game.assert.appId.needed')
                 ->atPath('appId')
                 ->addViolation();
-        }
-        elseif (false === $this->getSteamCmd() && !empty($appId)) {
+        } elseif ('steam' !== $this->getType() && !empty($appId)) {
             $context->buildViolation('game.assert.appId.not_needed')
                 ->atPath('appId')
                 ->addViolation();

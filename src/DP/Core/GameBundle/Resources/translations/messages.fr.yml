@@ -30,7 +30,6 @@ game:
         sourceImagesMaps: URL source pour les images de map
         configTemplate: Fichier de config par défaut (server.cfg)
         type: Type
-        isSteamCmd: Steam Application ?
         isSource: Serveur Source ?
         cfgPath: Répertoire du fichier de config
         plugins: Plugins
