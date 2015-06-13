@@ -29,11 +29,6 @@
             </tr>
             
             <tr>
-                <th>{{ 'game.fields.installName'|trans }}</th>
-                <td>{{ game.installName }}</td>
-            </tr>
-            
-            <tr>
                 <th>{{ 'game.fields.appId'|trans }}</th>
                 <td>{{ game.appId }}</td>
             </tr>
@@ -61,12 +56,10 @@
                     {{ dedipanel_buttons.yes_no(game.source) }}
                 </td>
             </tr>
-            
+
             <tr>
-                <th>{{ 'game.fields.isOrangebox'|trans }}</th>
-                <td>
-                    {{ dedipanel_buttons.yes_no(game.orangebox) }}
-                </td>
+                <th>{{ 'game.fields.cfgPath'|trans }}</th>
+                <td>{{ game.cfgPath }}</td>
             </tr>
             
             <tr>

@@ -22,7 +22,14 @@ case "$1" in
                 {% if isCsgo %}
                     {% set args = './' ~ bin ~ ' -game ' ~ launchName ~ ' +map ' ~ startMap %}
                     {% set args = args ~ ' -port ' ~ port ~ ' -ip ' ~ ip ~ ' -console -usercon +game_type ' ~ gameType %}
-                    {% set args = args ~ ' +game_mode ' ~ gameMode ~ ' +mapgroup ' ~ mapGroup ~ ' -maxplayers_override ' ~ maxplayers %} 
+                    {% set args = args ~ ' +game_mode ' ~ gameMode ~ ' +mapgroup ' ~ mapGroup ~ ' -maxplayers_override ' ~ maxplayers %}
+                {% elseif isJustCause %}
+                    {% set args = './' ~ bin %}
+                {% elseif isNs2 %}
+                    {% set args = './' ~ bin ~ ' -name \"' ~ name ~ '\" -map'  ~ startMap %}
+                    {% set args = args ~ ' -port ' ~ port ~ ' -ip ' ~ ip ~ ' -limit ' ~ maxplayers  ~ ' -password ' ~ password %}
+                {% elseif isKF %}
+                    {% set args = './' ~ bin ~ ' -server ' ~ startMap ~ '.rom?game=' ~ launchName  ~ '?VACSecured=true?MaxPlayers=' ~ maxplayers %}
                 {% else %}
                     {% set args = './' ~ bin ~ ' -game ' ~ launchName ~ ' +map ' ~ startMap %}
                     {% set args = args ~ ' -port ' ~ port ~ ' +ip ' ~ ip ~ ' +maxplayers ' ~ maxplayers %}

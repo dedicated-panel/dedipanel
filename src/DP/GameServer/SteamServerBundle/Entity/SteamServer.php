@@ -186,13 +186,9 @@ class SteamServer extends GameServer
         $scriptPath = $installDir . 'install.sh';
         $screenName = $this->getInstallScreenName();
         $steamCmd = $this->getGame()->getSteamCmd();
-        $installName = $this->getGame()->getInstallName();
         $bin = $this->getGame()->getBin();
-
-        if($steamCmd != 0) {
-            $installName = '' . $this->game->getappId() . '.' . $this->game->getappMod() .'';
-        }
-
+        $appId = $this->game->getappId();
+        $appMod =  $this->game->getappMod();
         $conn->mkdir($installDir);
 
         $installScript = $twig->render(
@@ -204,7 +200,7 @@ class SteamServer extends GameServer
         
         $pgrep = '`ps aux | grep SCREEN | grep "' . $screenName . ' " | grep -v grep | wc -l`';
         $screenCmd  = 'if [ ' . $pgrep . ' = "0" ]; then ';
-        $screenCmd .= 'screen -dmS "' . $screenName . '" ' . $scriptPath . ' "' . $installName . '" "' . $bin . '"; ';
+        $screenCmd .= 'screen -dmS "' . $screenName . '" ' . $scriptPath . ' "' . $appId . '" "' . $appMod . '"  "' . $bin . '"; ';
         $screenCmd .= 'else echo "Installation is already in progress."; fi; ';
         $result = $conn->exec($screenCmd);
 
@@ -312,9 +308,13 @@ class SteamServer extends GameServer
     {
         $conn = $this->getMachine()->getConnection();
         $game = $this->getGame();
+        $hostName = $this->getName();
 
         $scriptPath = $this->getAbsoluteHldsScriptPath();
         $isCsgo = $this->getGame()->getLaunchName() == 'csgo';
+        $isJustCause = $this->getGame()->getLaunchName() == 'justcause';
+        $isNs2 = $this->getGame()->getLaunchName() == 'ns2';
+        $isKF = $this->getGame()->getLaunchName() == 'KFmod.KFGameType';
         $gameType = '';
         $gameMode = '';
         $mapGroup = '';
@@ -343,13 +343,23 @@ class SteamServer extends GameServer
         }
 
         $hldsScript = $twig->render('DPSteamServerBundle:sh:hlds.sh.twig', array(
-            'screenName' => $this->getScreenName(), 'bin' => $game->getBin(),
-            'launchName' => $game->getLaunchName(), 'ip' => $this->getMachine()->getPublicIp(),
-            'port' => $this->getPort(), 'maxplayers' => $this->getMaxplayers(),
-            'startMap' => $game->getMap(), 'binDir' => $this->getAbsoluteBinDir(),
-            'core' => implode(',', $this->getCore()), 'isCsgo' => $isCsgo,
-            'gameType' => $gameType, 'gameMode' => $gameMode,
-            'mapGroup' => $mapGroup,
+            'screenName'        => $this->getScreenName(),
+            'bin'               => $game->getBin(),
+            'name'              => $this->getName(),
+            'launchName'        => $game->getLaunchName(),
+            'ip'                => $this->getMachine()->getPublicIp(),
+            'port'              => $this->getPort(),
+            'maxplayers'        => $this->getMaxplayers(),
+            'startMap'          => $game->getMap(),
+            'binDir'            => $this->getAbsoluteBinDir(),
+            'core'              => implode(',', $this->getCore()),
+            'isCsgo'            => $isCsgo,
+            'isJustCause'       => $isJustCause,
+            'isNs2'             => $isNs2,
+            'isKF'              => $isKF,
+            'gameType'          => $gameType,
+            'gameMode'          => $gameMode,
+            'mapGroup'          => $mapGroup,
         ));
 
         return $conn->upload($scriptPath, $hldsScript, 0750);
@@ -545,12 +555,7 @@ class SteamServer extends GameServer
 
     public function getServerCfgPath()
     {
-        $cfgPath = $this->getAbsoluteGameContentDir();
-        if ($this->getGame()->isSource() || $this->getGame()->isOrangebox()) {
-            $cfgPath .= 'cfg/';
-        }
-
-        return $cfgPath . 'server.cfg';
+        return $this->getAbsoluteBinDir() . $this->getGame()->getCfgPath();
     }
 
     public function removeFromServer()
