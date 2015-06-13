@@ -4,6 +4,10 @@ php:
   - 5.4
   - 5.5
 
+branches:
+    only:
+        - master
+
 before_install:
     - sudo apt-get update > /dev/null
     - sudo rm -rf /dev/shm && sudo ln -s /run/shm /dev/shm
