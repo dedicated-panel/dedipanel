@@ -26,9 +26,9 @@ Feature: Minecraft server management
       | 127.0.0.1 | testing4 | id_rsa4 |           |
       | 127.0.0.1 | bugged   |         | SubTeam 1 |
     And there are following games:
-      | name      | installName | launchName | bin                  | type      | available |
-      | Minecraft | minecraft   | minecraft  | minecraft_server.jar | minecraft | yes       |
-      | Bukkit    | bukkit      | minecraft  | craftbukkit.jar      | minecraft | yes       |
+      | name      | launchName | launchName | bin                  | type      | available |
+      | Minecraft | minecraft  | minecraft  | minecraft_server.jar | minecraft | yes       |
+      | Bukkit    | bukkit     | minecraft  | craftbukkit.jar      | minecraft | yes       |
     And there are following minecraft servers:
       | name  | machine  | port  | queryPort | rconPort | rconPassword | game      | installDir | maxplayers | minHeap | maxHeap | installed |
       | Test1 | testing1 | 25565 | 25565     | 25575    | test1        | Minecraft | test1      | 2          | 128     | 256     | yes       |

@@ -29,10 +29,10 @@ Feature: Panel dashboard
         | 127.0.0.1 | testing4 | id_rsa2 | Team 3 | yes     |
         | 127.0.0.1 | bugged   |         | Team 3 | yes     |
       And there are following games:
-        | name           | installName | launchName | bin                  | type      | available |
-        | Counter-Strike | cstrike     | hlds_run   | steam                | steam     | yes       |
-        | Minecraft      | minecraft   | minecraft  | minecraft_server.jar | minecraft | yes       |
-        | Bukkit         | bukkit      | minecraft  | craftbukkit.jar      | minecraft | yes       |
+        | name           | launchName | appId | appMod  | bin                  | type      | available |
+        | Counter-Strike | hlds_run   | 90    | cstrike | steam                | steam     | yes       |
+        | Minecraft      | minecraft  |       |         | minecraft_server.jar | minecraft | yes       |
+        | Bukkit         | minecraft  |       |         | craftbukkit.jar      | minecraft | yes       |
       And there are following steam servers:
         | name  | machine  | port  | rconPassword | game           | installDir | maxplayers | installed |
         | Test1 | testing1 | 27025 | test1        | Counter-Strike | test1      | 2          | yes       |

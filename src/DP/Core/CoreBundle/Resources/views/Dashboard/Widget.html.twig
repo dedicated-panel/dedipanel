@@ -24,7 +24,7 @@
     <table id="steam" class="server-list table table-filters">
         {% for steamServer in steamServers %}
             
-            {% set gameImg = steamServer.game.installname %}
+            {% set gameImg = steamServer.game.launchName %}
             {% if gameImg == 'Counter-Strike Source' %}{% set gameImg = 'css' %}{% endif %}
             {% if steamServer.query.latency != false %}{% set color, isOnline = 'success', true %}
             {% else %} {% set color, isOnline = 'error', false %}{% endif %}
@@ -48,7 +48,7 @@
     <table id="minecraft" class="server-list table table-filters">
         {% for minecraftServer in minecraftServers %}
             
-            {% set gameImg = minecraftServer.game.installname %}
+            {% set gameImg = minecraftServer.game.launchName %}
             {% if minecraftServer.query.online != false %}{% set color, isOnline = 'success', true %}
             {% else %} {% set color, isOnline = 'error', false %}{% endif %}
 

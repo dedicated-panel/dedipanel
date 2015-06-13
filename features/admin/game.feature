@@ -10,9 +10,9 @@ Feature: Game settings
       | foo      | foo@bar.net | test1234 |        | ROLE_SUPER_ADMIN | yes     |
       | baz      | baz@bar.net | test1234 | Team   |                  | yes     |
     And there are following games:
-      | name           | installName | bin      | type  | available |
-      | Counter-Strike | cstrike     | hlds_run | steam | yes       |
-      | Day Of Defeat  | dod         | hlds_run | steam | yes       |
+      | name           | launchName | appId | appMod  | bin      | type  | available |
+      | Counter-Strike | cstrike    | 90    | cstrike | hlds_run | steam | yes       |
+      | Day Of Defeat  | dod        | 90    | dod     | hlds_run | steam | yes       |
     And there are following machines:
       | privateIp | username | key     | group     |
       | 127.0.0.1 | testing1 | id_rsa1 | Team 1    |
@@ -45,8 +45,8 @@ Feature: Game settings
       And I am on the game creation page
      When I fill in dedipanel_game form with:
       | name        | Counter-Strike: Global Offensive |
-      | installName | csgo                             |
       | launchName  | csgo                             |
+      | appId       | 740                              |
       | bin         | srcds_run                        |
       | source      | yes                              |
       | type        | steam                            |

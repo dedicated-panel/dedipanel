@@ -10,9 +10,9 @@ Feature: Plugin settings
       | foo      | foo@bar.net | test1234 |       | ROLE_SUPER_ADMIN | yes     |
       | baz      | baz@bar.net | test1234 | Team  |                  | yes     |
     And there are following games:
-      | name           | installName | bin      | type  | available |
-      | Counter-Strike | cstrike     | hlds_run | steam | yes       |
-      | Day Of Defeat  | dod         | hlds_run | steam | yes       |
+      | name           | launchName | appId | appMod  | bin      | type  | available |
+      | Counter-Strike | cstrike    | 90    | cstrike | hlds_run | steam | yes       |
+      | Day Of Defeat  | dod        | 90    | dod     | hlds_run | steam | yes       |
     And there are following plugins:
       | name       | version | scriptName | downloadUrl                                |
       | Metamod    | 1.21-am | metamod    | www.dedicated-panel.net/metamod-1.21-am.tar.gz |

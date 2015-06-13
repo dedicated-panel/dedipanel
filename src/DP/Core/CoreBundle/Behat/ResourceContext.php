@@ -172,8 +172,9 @@ class ResourceContext extends SyliusDefaultContext
         foreach ($table->getHash() as $data) {
             $this->thereIsGame(
                 $data['name'],
-                $data['installName'],
-                isset($data['launchName']) ? $data['launchName'] : $data['installName'],
+                $data['launchName'],
+                !empty($data['appId']) ? $data['appId'] : null,
+                !empty($data['appMod']) ? $data['appMod'] : null,
                 $data['bin'],
                 $data['type'],
                 (isset($data['available']) && $data['available'] == 'yes'),
@@ -184,13 +185,25 @@ class ResourceContext extends SyliusDefaultContext
         $this->getEntityManager()->flush();
     }
 
-    public function thereIsGame($name, $installName = null, $launchName = null, $bin = null, $type = null, $available = true, $flush = true)
-    {
-        if (null === $game = $this->getRepository('game')->findOneBy(array('name' => $name))) {
+    public function thereIsGame(
+        $name,
+        $launchName = null,
+        $appId = null,
+        $appMod = null,
+        $bin = null,
+        $type = null,
+        $available = true,
+        $flush = true
+    ) {
+        /** @var \DP\Core\GameBundle\Entity\Game $game */
+        $game = $this->getRepository('game')->findOneBy(array('name' => $name));
+
+        if (null === $game) {
             $game = $this->getRepository('game')->createNew();
             $game->setName($name);
-            $game->setInstallName($installName);
             $game->setLaunchName($launchName);
+            $game->setAppId($appId);
+            $game->setAppMod($appMod);
             $game->setBin($bin);
             $game->setType($type);
             $game->setAvailable($available);

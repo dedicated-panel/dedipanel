@@ -24,6 +24,6 @@ class SettingsFactory
     {
         $settings = $this->reader->read();
 
-        return new Settings($settings['debug'] ?: false);
+        return new Settings(isset($settings['debug']) ? $settings['debug'] : false);
     }
 }

@@ -16,8 +16,8 @@ Feature: Machines management
       | 127.0.0.1 | testing2 | id_rsa2 | Team1 |
       | 127.0.0.1 | testing3 | id_rsa3 | Team2 |
     And there are following games:
-      | name           | installName | bin      | type  | available |
-      | Counter-Strike | cstrike     | hlds_run | steam | yes       |
+      | name           | launchName | appId | appMod  | bin      | type  | available |
+      | Counter-Strike | cstrike    | 90    | cstrike | hlds_run | steam | yes       |
     And there are following steam servers:
       | name  | machine  | port  | rconPassword | game           | installDir | maxplayers | installed |
       | Test1 | testing1 | 27025 | test1        | Counter-Strike | test1      | 2          | yes       |
