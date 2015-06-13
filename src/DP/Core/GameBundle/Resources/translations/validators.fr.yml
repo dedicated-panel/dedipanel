@@ -10,7 +10,6 @@ game:
         name:
             needed: Veuillez spécifier le nom du jeu.
             unique: Veuillez spécifier un nom de jeu unique.
-        installName: Veuillez spécifier le nom utilisé par l'installateur.
         launchName: Veuillez spécifier le nom utilisé par le lanceur automatique.
         bin: Veuillez indiquer le binaire de ce jeu.
         available: Veuillez indiquer si ce jeu est disponible ou non.

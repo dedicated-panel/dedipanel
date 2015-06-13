@@ -9,20 +9,19 @@ game:
     creation_succeed: Le jeu a été créé avec succès.
     update_succeed: Le jeu a été mis à jour avec succès.
     delete_succeed: Le jeu a été supprimé avec succès.
-    
+
     title:
         game: Jeux
         index: Liste des jeux
         show: Voir un jeu
         add: Ajouter un jeu
         edit: Modifier un jeu
-    
+
     actions:
         add: Ajouter un jeu
-    
+
     fields:
         name: Nom
-        installName: Nom utilisé par l'installateur
         launchName: Nom utilisé pour le lancement
         bin: Binaire
         available: Disponible ?
@@ -31,9 +30,9 @@ game:
         sourceImagesMaps: URL source pour les images de map
         configTemplate: Fichier de config par défaut (server.cfg)
         type: Type
-        isOrangebox: Jeu Orangebox ?
         isSteamCmd: Steam Application ?
-        isSource: Source
+        isSource: Serveur Source ?
+        cfgPath: Répertoire du fichier de config
         plugins: Plugins
         appId: Identifiant Steam Application
         appMod: Mod Steam Application
@@ -42,17 +41,17 @@ plugin:
     creation_succeed: Le plugin a été créé avec succès.
     update_succeed: Le plugin a été mis à jour avec succès.
     delete_succeed: Le plugin a été supprimé avec succès.
-    
+
     title:
         plugin: Plugin
         index: Liste des plugins
         show: Voir un plugin
         add: Ajouter un plugin
         edit: Modifier un plugin
-    
+
     actions:
         add: Ajouter un plugin
-    
+
     fields:
         name: Nom
         version: Version
