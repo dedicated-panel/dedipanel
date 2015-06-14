@@ -53,7 +53,7 @@ clear_cache () {
 install_vendor () {
     if [ ! -f composer.phar ]; then
         echo -en "Téléchargement de composer\t\t\t\t\t" >&3
-        curl -s https://getcomposer.org/installer | php
+        curl -sS https://getcomposer.org/installer | php
         echo "[OK]" >&3
     fi
 

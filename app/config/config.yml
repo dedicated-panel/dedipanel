@@ -28,19 +28,6 @@ twig:
     form:
         resources: ['::form.html.twig']
 
-# Assetic Configuration
-assetic:
-    debug:          %kernel.debug%
-    use_controller: false
-    bundles:        []
-    # java: /usr/bin/java
-    filters:
-        cssrewrite: ~
-        # closure:
-        #     jar: %kernel.root_dir%/java/compiler.jar
-        # yui_css:
-        #     jar: %kernel.root_dir%/java/yuicompressor-2.4.2.jar
-
 # Doctrine Configuration
 doctrine:
     dbal:
@@ -107,16 +94,6 @@ fos_user:
     group:
         group_class: DP\Core\UserBundle\Entity\Group
         group_manager: fos_user.group_manager.default
-
-sonata_block:
-    default_contexts: [cms]
-    blocks:
-        sonata.admin.block.admin_list:
-            contexts:   [admin]
-
-        sonata.block.service.text:
-        sonata.block.service.action:
-        sonata.block.service.rss:
           
 knp_menu:
     twig:  # use "twig: false" to disable the Twig extension and the TwigRenderer
