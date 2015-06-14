@@ -55,7 +55,8 @@
         "sylius/resource-bundle": "dev-dedipanel",
         "sylius/resource": "0.11.*@dev",
         "dedipanel/phpseclib-wrapper-bundle": "dev-master",
-        "phpseclib/phpseclib": "2.0.*@dev"
+        "phpseclib/phpseclib": "2.0.*@dev",
+        "knplabs/dictionary-bundle": "~1.3"
     },
     "require-dev": {
         "behat/behat":                       "~3.0",

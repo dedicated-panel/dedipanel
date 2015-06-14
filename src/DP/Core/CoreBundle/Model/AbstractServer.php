@@ -25,7 +25,9 @@ abstract class AbstractServer implements ServerInterface
      */
     protected $installationStatus;
 
-    /** @var boolean $alreadyInstalled Used by the creation process **/
+    /**
+     * @var boolean $alreadyInstalled Used by the creation process
+     */
     protected $alreadyInstalled;
 
     /**

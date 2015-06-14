@@ -12,9 +12,10 @@
 namespace DP\Core\GameBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DictionaryBundle\Validator\Constraints\Dictionary;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * DP\Core\GameBundle\Entity\Game
@@ -43,14 +44,14 @@ class Game
      * @ORM\Column(name="name", type="string", length=32)
      * @Assert\NotBlank(message="game.assert.name.needed")
      */
-    private $name = '';
+    private $name;
 
     /**
      * @var boolean $source
      *
      * @ORM\Column(name="source", type="boolean")
      */
-    private $source = false; // default value
+    private $source = false;
 
     /**
      * @var string $launchName
@@ -137,7 +138,7 @@ class Game
 
     /**
      * @ORM\Column(name="type", type="string", length=32)
-     * @Assert\Choice(choices={"steam", "minecraft"}, message="game.assert.type")
+     * @Dictionary(name="game_type", message="game.assert.type")
      */
     private $type;
 

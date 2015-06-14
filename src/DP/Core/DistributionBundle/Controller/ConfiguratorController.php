@@ -49,11 +49,8 @@ class ConfiguratorController extends Controller
     {
         return $this
             ->createFormBuilder()
-            ->add('type', 'choice', array(
-                'choices' => array(
-                    'install' => 'configurator.install',
-                    'update'  => 'configurator.update'
-                ),
+            ->add('type', 'dictionary', array(
+                'name' => 'configurator_process',
                 'label' => 'configurator.choose_type'
             ))->getForm();
     }

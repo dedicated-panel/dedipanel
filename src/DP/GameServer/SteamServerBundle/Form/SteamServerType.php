@@ -11,102 +11,80 @@
 
 namespace DP\GameServer\SteamServerBundle\Form;
 
+use DP\Core\GameBundle\Entity\GameRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use DP\GameServer\SteamServerBundle\Entity\SteamServer;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class SteamServerType extends AbstractType
-{    
+{
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $steam = $builder->getData();
+
         $builder
-            ->add('name', 'text', array('label' => 'game.name'))
-            ->add('port', 'integer', array('label' => 'game.port'))
-            ->add('mode', 'choice', array(
-                'choices'     => SteamServer::getModeList(),
+            ->add('name', 'text', ['label' => 'game.name'])
+            ->add('machine', 'dedipanel_machine_entity')
+            ->add('dir', 'text', ['label' => 'game.dir'])
+            ->add('port', 'integer', ['label' => 'game.port'])
+            ->add('game', 'entity', [
+                'label' => 'game.selectGame',
+                'class' => 'DPGameBundle:Game',
+                'query_builder' => function(GameRepository $repo) {
+                    return $repo->getQBAvailableSteamGames();
+                },
+            ])
+            ->add('mode', 'choice', [ // @TODO: Create a GameModeTypEextension
+                'choices'     => SteamServer::getModeList(), // @TODO: use KnpDictionaryBundle
                 'empty_value' => 'steam.chooseGameMode',
                 'label'       => 'steam.gameMode',
                 'required'    => false,
-            ))
-            ->add('maxplayers', 'integer', array('label' => 'game.maxplayers'))
-            ->add('rconPassword', 'text', array(
+            ])
+            ->add('maxplayers', 'integer', ['label' => 'game.maxplayers'])
+            ->add('rconPassword', 'text', [
                 'label'    => 'game.rcon.password',
-                // 'required' => empty($options['data']),
-            ))
-            ->add('svPassword', 'text', array('label' => 'steam.svPassword', 'required' => false))
-            ->add('alreadyInstalled', 'choice', array(
-                'choices'  => array(1 => 'game.yes', 0 => 'game.no'),
+            ])
+            ->add('svPassword', 'text', ['label' => 'steam.svPassword', 'required' => false])
+            ->add('core', 'dedipanel_core_assignment', ['machine' => $steam->getMachine()])
+            ->add('alreadyInstalled', 'dictionary', [
+                'name'     => 'yes_no',
                 'label'    => 'game.isAlreadyInstalled',
                 'expanded' => true,
-            ))
+            ])
         ;
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            /** @var Symfony\Component\Form\FormInterface $form */
+            /** @var \Symfony\Component\Form\FormInterface $form */
             $form  = $event->getForm();
-            /** @var DP\GameServer\SteamServerBundle\Entity\SteamServer $steam */
+            /** @var \DP\GameServer\SteamServerBundle\Entity\SteamServer $steam */
             $steam = $event->getData();
 
-            $isUpdateForm = ($steam->getId() != null);
-
-            $form
-                ->add('machine', 'dedipanel_machine_entity', array(
-                    'disabled' => $isUpdateForm,
-                ))
-                ->add('game', 'entity', array(
-                    'label' => 'game.selectGame',
-                    'class' => 'DPGameBundle:Game',
-                    'query_builder' => function($repo) {
-                        return $repo->getQBAvailableSteamGames();
-                    },
-                    'disabled' => $isUpdateForm,
-                ))
-                ->add('dir', 'text', array(
-                    'label' => 'game.dir',
-                    'disabled' => $isUpdateForm,
-                ))
-            ;
-
-            if ($steam->getId() != null) {
-                $form->remove('alreadyInstalled');
-
-                if ($steam->getInstallationStatus() > 100) {
-                    $form->add('rebootAt', 'time', array(
-                        'label' => 'steam.rebootAt',
-                        'required' => false
-                    ));
-                }
-                if ($steam->getMachine()->getNbCore() != null) {
-                    $choices = array_combine(
-                        range(0, $steam->getMachine()->getNbCore()-1),
-                        range(1, $steam->getMachine()->getNbCore())
-                    );
-
-                    $form->add('core', 'choice', array(
-                        'label'    => 'game.core',
-                        'choices'  => $choices,
-                        'multiple' => true,
-                        'required' => false,
-                        'expanded' => true,
-                    ));
-                };
+            if ($steam->getId() != null && $steam->getInstallationStatus() > 100) {
+                $form->add('rebootAt', 'time', [
+                    'label' => 'steam.rebootAt',
+                    'required' => false
+                ]);
             }
         });
 
         $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
-            /** @var Symfony\Component\Form\FormInterface $form */
+            /** @var \Symfony\Component\Form\FormInterface $form */
             $form  = $event->getForm();
-            /** @var DP\GameServer\SteamServerBundle\Entity\SteamServer $steam */
+            /** @var \DP\GameServer\SteamServerBundle\Entity\SteamServer $steam */
             $steam = $event->getData();
 
             if ($steam->getGame() !== null && $steam->getGame()->getAppId() == 740) { // == csgo
-                $form->add('mode', 'choice', array(
-                    'choices' => SteamServer::getModeList(),
+                $form->add('mode', 'choice', [
+                    'choices'     => SteamServer::getModeList(),
+                    'label'       => 'steam.gameMode',
                     'empty_value' => 'steam.chooseGameMode',
-                    'label' => 'steam.gameMode',
-                ));
+                ]);
             }
             elseif ($steam->getGame() !== null) {
                 $form->remove('mode');
@@ -114,6 +92,23 @@ class SteamServerType extends AbstractType
         });
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver
+            ->setDefaults([
+                'remove_on_create'  => ['core'],
+                'remove_on_update'  => ['alreadyInstalled'],
+                'disable_on_update' => ['machine', 'game', 'dir'],
+            ])
+        ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'dedipanel_steam';

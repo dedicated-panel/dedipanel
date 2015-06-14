@@ -2,9 +2,6 @@ default:
     formatters:
         pretty:
             verbose:  true
-            paths:    false
-            snippets: false
-
     extensions:
         Behat\MinkExtension:
             browser_name: firefox

@@ -14,17 +14,34 @@ namespace DP\Core\MachineBundle\Form;
 use DP\Core\MachineBundle\Entity\MachineRepository;
 use DP\Core\UserBundle\Service\UserGroupResolver;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Security\Core\SecurityContext;
 use DP\Core\UserBundle\Entity\User;
 
 class MachineEntityType extends AbstractType
 {
+    /**
+     * @var MachineRepository
+     */
     private $repository;
-    private $groupResolver;
-    private $context;
-    private $choices;
 
+    /**
+     * @var UserGroupResolver
+     */
+    private $groupResolver;
+
+    /**
+     * @var SecurityContext
+     */
+    private $context;
+
+    /**
+     * @param MachineRepository $repository
+     * @param UserGroupResolver $groupResolver
+     * @param SecurityContext   $context
+     */
     public function __construct(MachineRepository $repository, UserGroupResolver $groupResolver, SecurityContext $context)
     {
         $this->repository    = $repository;
@@ -32,9 +49,12 @@ class MachineEntityType extends AbstractType
         $this->context       = $context;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $choices = array();
+        $choices = [];
 
         if ($this->context->isGranted(User::ROLE_SUPER_ADMIN)) {
             $choices = $this->repository->findAll();
@@ -53,11 +73,17 @@ class MachineEntityType extends AbstractType
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getParent()
     {
         return 'entity';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'dedipanel_machine_entity';

@@ -20,26 +20,6 @@
     <h2>{{ 'steam.edit'|trans }}</h2>
         
     <form id="form-update" action="{{ path('dedipanel_steam_update', { 'id': steam.id }) }}" method="post" class="form-edit">
-        {{ form_errors(form) }}
-
-        {{ form_row(form.name) }}
-        {{ form_row(form.machine) }}
-        {{ form_row(form.dir) }}
-        {{ form_row(form.port) }}
-        {{ form_row(form.game) }}
-        {% if form.mode is defined %}
-            {{ form_row(form.mode) }}
-        {% endif %}
-        {{ form_row(form.maxplayers) }}
-        {{ form_row(form.svPassword) }}
-        {{ form_row(form.rconPassword) }}
-        {% if form.core is defined %}
-            {{ form_row(form.core) }}
-        {% endif %}
-        {% if form.rebootAt is defined %}
-            {{ form_row(form.rebootAt) }}
-        {% endif %}
-
         {{ form_widget(form) }}
     </form>
     

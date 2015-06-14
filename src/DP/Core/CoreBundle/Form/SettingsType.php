@@ -11,8 +11,8 @@ class SettingsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('debug', 'choice', array(
-                'choices' => array('Non', 'Oui'),
+            ->add('debug', 'dictionary', array(
+                'name' => 'yes_no',
             ))
         ;
     }

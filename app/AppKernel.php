@@ -25,6 +25,7 @@ class AppKernel extends Kernel
             new Sylius\Bundle\ResourceBundle\SyliusResourceBundle(),
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+            new Knp\DictionaryBundle\KnpDictionaryBundle(),
             
             new Dedipanel\PHPSeclibWrapperBundle\DedipanelPHPSeclibWrapperBundle(),
 
@@ -39,7 +40,6 @@ class AppKernel extends Kernel
 
             new DP\VoipServer\VoipServerBundle\DPVoipServerBundle(),
             new DP\VoipServer\TeamspeakServerBundle\DPTeamspeakServerBundle(),
-
 
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new DP\Core\DistributionBundle\DPDistributionBundle(),

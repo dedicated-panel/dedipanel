@@ -135,3 +135,21 @@ dp_core:
 
 dp_machine:
     private_keys_path: '%kernel.root_dir%/../app/config/.ssh/'
+
+knp_dictionary:
+    dictionaries:
+        yes_no:
+            type: key_value
+            content:
+                1: game.yes
+                0: game.no
+        game_type:
+            type: key_value
+            content:
+                steam: Steam
+                minecraft: Minecraft
+        configurator_process:
+            type: key_value
+            content:
+                install: configurator.install
+                update: configurator.update

@@ -14,74 +14,61 @@ namespace DP\GameServer\MinecraftServerBundle\Form;
 use DP\Core\GameBundle\Entity\GameRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class MinecraftServerType extends AbstractType
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $minecraft = $builder->getData();
+
         $builder
-            ->add('name', 'text', array('label' => 'game.name'))
-            ->add('port', 'integer', array('label' => 'game.port'))
-            ->add('queryPort', 'integer', array('label' => 'minecraft.queryPort'))
-            ->add('rconPort', 'integer', array('label' => 'minecraft.rcon.port'))
-            ->add('rconPassword', 'text', array('label' => 'game.rcon.password'))
-            ->add('maxplayers', 'integer', array('label' => 'game.maxplayers'))
-            ->add('minHeap', 'integer', array('label' => 'minecraft.minHeap'))
-            ->add('maxHeap', 'integer', array('label' => 'minecraft.maxHeap'))->add('alreadyInstalled', 'choice', array(
-                'choices'  => array(1 => 'game.yes', 0 => 'game.no'),
+            ->add('name', 'text', ['label' => 'game.name'])
+            ->add('machine', 'dedipanel_machine_entity')
+            ->add('port', 'integer', ['label' => 'game.port'])
+            ->add('game', 'entity', [
+                'label' => 'game.selectGame',
+                'class' => 'DPGameBundle:Game',
+                'query_builder' => function(GameRepository $repo) {
+                    return $repo->getQBAvailableMinecraftGames();
+                },
+            ])
+            ->add('dir', 'text', ['label' => 'game.dir'])
+            ->add('queryPort', 'integer', ['label' => 'minecraft.queryPort'])
+            ->add('rconPort', 'integer', ['label' => 'minecraft.rcon.port'])
+            ->add('rconPassword', 'text', ['label' => 'game.rcon.password'])
+            ->add('maxplayers', 'integer', ['label' => 'game.maxplayers'])
+            ->add('minHeap', 'integer', ['label' => 'minecraft.minHeap'])
+            ->add('maxHeap', 'integer', ['label' => 'minecraft.maxHeap'])
+            ->add('core', 'dedipanel_core_assignment', ['machine' => $minecraft->getMachine()])
+            ->add('alreadyInstalled', 'dictionary', [
+                'name'     => 'yes_no',
                 'label'    => 'game.isAlreadyInstalled',
                 'expanded' => true,
-            ))
+            ])
         ;
-
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            $form      = $event->getForm();
-            /** @var DP\GameServer\MinecraftServerBundle\Entity\MinecraftServer $minecraft */
-            $minecraft = $event->getData();
-
-            $isUpdateForm = ($minecraft->getId() != null);
-
-            $form
-                ->add('machine', 'dedipanel_machine_entity', array(
-                    'disabled' => $isUpdateForm,
-                ))
-                ->add('game', 'entity', array(
-                    'label' => 'game.selectGame',
-                    'class' => 'DPGameBundle:Game',
-                    'query_builder' => function(GameRepository $repo) {
-                            return $repo->getQBAvailableMinecraftGames();
-                        },
-                    'disabled' => $isUpdateForm,
-                ))
-                ->add('dir', 'text', array(
-                    'label' => 'game.dir',
-                    'disabled' => $isUpdateForm,
-                ))
-            ;
-
-            if ($minecraft->getId() !== null) {
-                $form->remove('alreadyInstalled');
-
-                if ($minecraft->getMachine()->getNbCore() != null) {
-                    $choices = array_combine(
-                        range(0, $minecraft->getMachine()->getNbCore()-1),
-                        range(1, $minecraft->getMachine()->getNbCore())
-                    );
-
-                    $form->add('core', 'choice', array(
-                        'label'    => 'game.core',
-                        'choices'  => $choices,
-                        'multiple' => true,
-                        'required' => false,
-                        'expanded' => true,
-                    ));
-                }
-            }
-        });
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver
+            ->setDefaults([
+                'remove_on_create'  => ['core'],
+                'remove_on_update'  => ['alreadyInstalled'],
+                'disable_on_update' => ['machine', 'game', 'dir'],
+            ])
+        ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'dedipanel_minecraft';
