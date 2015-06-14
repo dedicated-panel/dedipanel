@@ -11,6 +11,7 @@
 
 namespace DP\GameServer\SteamServerBundle\Form;
 
+use DP\Core\GameBundle\Entity\GameRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use DP\GameServer\SteamServerBundle\Entity\SteamServer;
@@ -35,7 +36,7 @@ class SteamServerType extends AbstractType
             ->add('game', 'entity', [
                 'label' => 'game.selectGame',
                 'class' => 'DPGameBundle:Game',
-                'query_builder' => function($repo) {
+                'query_builder' => function(GameRepository $repo) {
                     return $repo->getQBAvailableSteamGames();
                 },
             ])
@@ -51,8 +52,8 @@ class SteamServerType extends AbstractType
             ])
             ->add('svPassword', 'text', ['label' => 'steam.svPassword', 'required' => false])
             ->add('core', 'dedipanel_core_assignment', ['machine' => $steam->getMachine()])
-            ->add('alreadyInstalled', 'choice', [
-                'choices'  => [1 => 'game.yes', 0 => 'game.no'], // @TODO: use KnpDictionaryBundle
+            ->add('alreadyInstalled', 'dictionary', [
+                'name'     => 'yes_no',
                 'label'    => 'game.isAlreadyInstalled',
                 'expanded' => true,
             ])
@@ -80,9 +81,9 @@ class SteamServerType extends AbstractType
 
             if ($steam->getGame() !== null && $steam->getGame()->getAppId() == 740) { // == csgo
                 $form->add('mode', 'choice', [
-                    'choices' => SteamServer::getModeList(),
+                    'choices'     => SteamServer::getModeList(),
+                    'label'       => 'steam.gameMode',
                     'empty_value' => 'steam.chooseGameMode',
-                    'label' => 'steam.gameMode',
                 ]);
             }
             elseif ($steam->getGame() !== null) {

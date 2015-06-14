@@ -36,8 +36,8 @@ class GameType extends AbstractType
             ->add('configTemplate', null, array('label' => 'game.fields.configTemplate'))
             ->add('sourceImagesMaps', null, array('label' => 'game.fields.sourceImagesMaps'))
             ->add('plugins', null, array('label' => 'game.fields.plugins', 'required' => false))
-            ->add('type', 'choice', array(
-                'choices' => array('steam' => 'Steam', 'minecraft' => 'Minecraft'), 
+            ->add('type', 'dictionary', array(
+                'name'  => 'game_type',
                 'label' => 'game.fields.type', 
             ))
             ->add('available', null, array('label' => 'game.fields.available', 'required' => false))

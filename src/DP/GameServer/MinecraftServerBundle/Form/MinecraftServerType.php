@@ -14,8 +14,6 @@ namespace DP\GameServer\MinecraftServerBundle\Form;
 use DP\Core\GameBundle\Entity\GameRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class MinecraftServerType extends AbstractType
@@ -46,8 +44,8 @@ class MinecraftServerType extends AbstractType
             ->add('minHeap', 'integer', ['label' => 'minecraft.minHeap'])
             ->add('maxHeap', 'integer', ['label' => 'minecraft.maxHeap'])
             ->add('core', 'dedipanel_core_assignment', ['machine' => $minecraft->getMachine()])
-            ->add('alreadyInstalled', 'choice', [
-                'choices'  => [1 => 'game.yes', 0 => 'game.no'], // @TODO: use KnpDictionaryBundle
+            ->add('alreadyInstalled', 'dictionary', [
+                'name'     => 'yes_no',
                 'label'    => 'game.isAlreadyInstalled',
                 'expanded' => true,
             ])

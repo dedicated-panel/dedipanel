@@ -36,10 +36,10 @@ class TeamspeakServerType extends AbstractType
                 'required' => false,
             ])
             ->add('core', 'dedipanel_core_assignment', ['machine' => $teamspeak->getMachine()])
-            ->add('alreadyInstalled', 'choice', [
-                'choices'   => [1 => 'game.yes', 0 => 'game.no'], // @TODO: Use KnpDictionaryBundle
-                'label'     => 'game.isAlreadyInstalled',
-                'expanded'  => true
+            ->add('alreadyInstalled', 'dictionary', [
+                'name'     => 'yes_no',
+                'label'    => 'game.isAlreadyInstalled',
+                'expanded' => true
             ])
         ;
     }
