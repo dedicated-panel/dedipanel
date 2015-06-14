@@ -273,7 +273,7 @@ class FTPController extends ResourceController
             );
         }
         catch (InvalidPathException $e) {
-            throw new NotFoundHttpException($e->getMessage());
+            throw new NotFoundHttpException($e->getMessage(), $e);
         }
 
         return $resource;

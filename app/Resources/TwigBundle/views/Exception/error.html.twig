@@ -5,6 +5,10 @@
         <div class="alert alert-error"><ul><li>
             {{ 'dedipanel.error.forbidden'|trans }}
         </li></ul></div>
+    {% elseif status_code == 404 and exception.previous is ftp exception %}
+        <div class="alert alert-error"><ul><li>
+            {{ 'game.ftp.not_found'|trans }}
+        </li></ul></div>
     {% elseif status_code == 404 %}
         <div class="alert alert-error"><ul><li>
             {{ 'dedipanel.error.not_found'|trans }}
