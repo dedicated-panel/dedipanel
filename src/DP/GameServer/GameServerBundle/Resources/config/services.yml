@@ -32,3 +32,9 @@ services:
         class: DP\GameServer\GameServerBundle\Form\FTPDirectoryType
         tags:
             - { name: form.type, alias: dedipanel_game_ftp_directory }
+
+    dedipanel.game_server.twig.ftp_exception:
+        class: DP\GameServer\GameServerBundle\Twig\FtpExceptionExtension
+        public: false
+        tags:
+          - { name: twig.extension }

@@ -64,6 +64,7 @@ game.ftp.invalidPath: Répertoire invalide.
 game.ftp.name: Nom
 game.ftp.size: Taille
 game.ftp.mtime: Dernière modification
+game.ftp.not_found: Le chemin demandé est introuvable sur le serveur.
 
 game.plugin.title: Voir les plugins
 game.plugin.showTitle: Voir les plugins du serveur
