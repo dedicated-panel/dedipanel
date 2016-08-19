@@ -45,6 +45,7 @@ clear_cache () {
     php app/console cache:clear --env=prod
     php app/console cache:clear --env=installer
     php app/console assets:install --env=prod web
+    php app/console mopa:bootstrap:symlink:less --env=prod
 
     echo "[OK]" >&3
 }

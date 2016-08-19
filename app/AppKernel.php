@@ -16,7 +16,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             
             new FOS\UserBundle\FOSUserBundle(),
-            new Sonata\jQueryBundle\SonatajQueryBundle(),
+            new Sonata\BlockBundle\SonataBlockBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle($this),
@@ -24,6 +24,7 @@ class AppKernel extends Kernel
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Knp\DictionaryBundle\KnpDictionaryBundle(),
+            new Mopa\Bundle\BootstrapBundle\MopaBootstrapBundle(),
             
             new Dedipanel\PHPSeclibWrapperBundle\DedipanelPHPSeclibWrapperBundle(),
 

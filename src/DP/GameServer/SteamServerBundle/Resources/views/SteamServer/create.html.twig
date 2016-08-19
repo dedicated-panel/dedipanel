@@ -11,6 +11,7 @@
 
 {% import '::actions.html.twig' as dedipanel_actions %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
+{% form_theme form 'MopaBootstrapBundle:Form:fields.html.twig' %}
 
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('bundles/dpgameserver/js/csgo-mod.js') }}"></script>
@@ -23,8 +24,23 @@
 {% block body %}
     <h2>{{ 'steam.add'|trans }}</h2>
 
-    <form action="{{ path('dedipanel_steam_create') }}" method="post" {{ form_enctype(form) }} id="form-create">
-        {{ form_widget(form) }}
+    <form action="{{ path('dedipanel_steam_create') }}" method="post" {{ form_enctype(form) }} id="form-create" class="form-horizontal">
+        {{ form_errors(form) }}
+        
+        {{ form_row(form.name) }}
+        {{ form_row(form.machine) }}
+        {{ form_row(form.dir) }}
+        {{ form_row(form.port) }}
+        {{ form_row(form.game) }}
+        {% if form.mode is defined %}
+            {{ form_row(form.mode) }}
+        {% endif %}
+        {{ form_row(form.maxplayers) }}
+        {{ form_row(form.svPassword) }}
+        {{ form_row(form.rconPassword) }}
+        {{ form_row(form.alreadyInstalled) }}
+
+        {{ form_rest(form) }}
 
         {{ dedipanel_actions.create() }}
     </form>

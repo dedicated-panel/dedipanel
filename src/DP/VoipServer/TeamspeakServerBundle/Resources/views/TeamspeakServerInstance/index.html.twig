@@ -13,6 +13,10 @@
 {% import '::flash_messages.html.twig' as dedipanel_flashes %}
 
 {% set serverId = app.request.get('serverId') %}
+    
+{% block bundleStylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/dpgameserver/css/game.css') }}" />
+{% endblock %}
 
 {% block title %}
     {{ dedipanel_buttons.back(path('dedipanel_teamspeak_index'), 'teamspeak.instance.title.teamspeak'|trans) }}
@@ -30,7 +34,7 @@
 
     <div id="teamspeak" class="instance-list">
     {% for entity in instances %}
-        <div class="instance-item clearfix">
+        <div class="instance-item">
         {% set online = entity.query.isOnline and entity.query.isInstanceOnline(entity.instanceId) %}
 
         {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_INSTANCE_SHOW', entity) %}

@@ -10,21 +10,23 @@
 {% extends "::base.html.twig" %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" />    
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('css/connexion.css') }}" />
+    {% stylesheets
+    '@DPUserBundle/Resources/public/css/connexion.css'
+    '@MopaBootstrapBundle/Resources/public/less/mopabootstrapbundle.less' 
+    %}
+        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
 {% endblock %}
 
 {% block baseBody %}
-    <header id="log-title">   
-        <a href="{{ path('_welcome') }}">
-            <img src="{{ asset('images/header/logo.png') }}" title="DediPanel" />
-        </a>
-    </header>
-    
-    <div id="logbox">
-        <h1 id="titre">{% block title %}{% endblock %}</h1>
-        
-        {% block fos_user_content %}{% endblock %}
+    <div class="login">
+            <div class="login-header">
+                <img src="{{ asset('images/header/logo.png') }}" title="DediPanel" />
+                <h1 id="titre">{% block title %}{% endblock %}</h1>
+            </div>
+            <div class="login-content">
+                {% block fos_user_content %}{% endblock %}
+            </div>
     </div>
 
     <footer>

@@ -11,6 +11,7 @@
 
 {% import '::actions.html.twig' as dedipanel_actions %}
 {% import '::buttons.html.twig' as dedipanel_buttons %}
+{% form_theme form 'MopaBootstrapBundle:Form:fields.html.twig' %}
 
 {% block title %}
     {{ dedipanel_buttons.back(path('dedipanel_teamspeak_index'), 'teamspeak.title.teamspeak'|trans) }}
@@ -19,11 +20,24 @@
 {% block body %}
     <h2>{{ 'teamspeak.title.update'|trans }}</h2>
 
-    <form action="{{ path('dedipanel_teamspeak_update', {id: teamspeak.id}) }}" method="post" {{ form_enctype(form) }} class="form-edit">
-        {{ form_widget(form) }}
+    <form action="{{ path('dedipanel_teamspeak_update', {id: teamspeak.id}) }}" method="post" {{ form_enctype(form) }} class="form-horizontal">
+        {{ form_errors(form) }}
+
+        {{ form_row(form.machine) }}
+        {{ form_row(form.dir) }}
+        {{ form_row(form.voice_port) }}
+        {{ form_row(form.query_port) }}
+        {{ form_row(form.query_password) }}
+        {{ form_row(form.filetransfer_port) }}
+        {{ form_row(form.licence_file) }}
+        {% if form.core is defined %}
+            {{ form_row(form.core) }}
+        {% endif %}
+
+        {{ form_rest(form) }}
     </form>
 
-    <div class="form-actions">
+    <div class="form-actions clearfix">
         {{ dedipanel_actions.update(path('dedipanel_teamspeak_instance_index', {'serverId': teamspeak.id})) }}
         {{ dedipanel_buttons.delete(path('dedipanel_teamspeak_delete', {'id': teamspeak.id}), null, false, true, 'ROLE_DP_VOIP_TEAMSPEAK_DELETE', teamspeak) }}
         {{ dedipanel_buttons.delete(path('dedipanel_teamspeak_delete', {'id': teamspeak.id, 'fromMachine': true}), 'dedipanel.full_delete'|trans, false, true, 'ROLE_DP_VOIP_TEAMSPEAK_DELETE', teamspeak) }}

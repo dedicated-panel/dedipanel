@@ -47,6 +47,13 @@ class Game
     private $name;
 
     /**
+     * @var boolean $steamCmd
+     *
+     * @ORM\Column(name="steamCmd", type="boolean")
+     */
+    private $steamCmd = false; // default value
+
+    /**
      * @var boolean $source
      *
      * @ORM\Column(name="source", type="boolean")
@@ -104,6 +111,13 @@ class Game
      * @ORM\Column(name="binDir", type="string", length=20, nullable=true)
      */
     private $binDir;
+
+   /**
+     * @var string $cfgPath
+     *
+     * @ORM\Column(name="cfgPath", type="string", length=255, nullable=true)
+     */
+    protected $cfgPath;
 
     /**
      * @var string $cfgPath
@@ -303,6 +317,7 @@ class Game
     }
 
     /**
+
      * Get cfg path
      *
      * @return string

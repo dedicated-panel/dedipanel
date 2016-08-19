@@ -9,7 +9,7 @@
 
 {% set sid = server.id %}
 
-<div class="actions clearfix">
+<div class="actions ts">
     {% if is_granted('ROLE_DP_VOIP_TEAMSPEAK_STATE', server) %}
         {% if online %}
             <a href="{{ path('dedipanel_teamspeak_change_state', { 'id': sid, 'state': 'stop' }) }}" title="{{ 'game.stop'|trans }}">
